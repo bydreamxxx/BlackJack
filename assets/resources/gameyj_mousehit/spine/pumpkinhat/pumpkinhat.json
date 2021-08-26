@@ -1,0 +1,42 @@
+{
+"skeleton": { "hash": "mMsgxqyLj8iHqE+S9Bmj+Tl3He4", "spine": "3.4.02", "width": 174, "height": 180, "images": "./images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "pumpkinhat_01", "bone": "root", "attachment": "pumpkinhat_01" },
+	{ "name": "pumpkinhat_02", "bone": "root" },
+	{ "name": "pumpkinhat_03", "bone": "root" },
+	{ "name": "pumpkinhat_04", "bone": "root" }
+],
+"skins": {
+	"default": {
+		"pumpkinhat_01": {
+			"pumpkinhat_01": { "y": 13.99, "width": 174, "height": 180 },
+			"pumpkinhat_02": { "x": 1.99, "y": 13.5, "width": 190, "height": 182 },
+			"pumpkinhat_03": { "x": 11.07, "y": 14.85, "width": 251, "height": 201 },
+			"pumpkinhat_04": { "x": -4, "y": 15.3, "scaleX": 1.5, "scaleY": 1.5, "width": 304, "height": 219 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"pumpkinhat_01": {
+				"color": [
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.2, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "pumpkinhat_01" },
+					{ "time": 0.0666, "name": "pumpkinhat_02" },
+					{ "time": 0.1333, "name": "pumpkinhat_03" },
+					{ "time": 0.2, "name": "pumpkinhat_04" },
+					{ "time": 0.5, "name": "pumpkinhat_04" }
+				]
+			}
+		}
+	}
+}
+}

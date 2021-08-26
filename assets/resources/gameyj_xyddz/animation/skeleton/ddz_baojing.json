@@ -1,0 +1,53 @@
+{
+"skeleton": { "hash": "LYVdAGyVnT8ze6ZImTuHc/WgFys", "spine": "3.4.02", "width": 90, "height": 70, "images": "" },
+"bones": [
+	{ "name": "Layer1", "inheritScale": false }
+],
+"slots": [
+	{ "name": "Layer1", "bone": "Layer1", "attachment": "ddz_baojing (1)" }
+],
+"skins": {
+	"default": {
+		"Layer1": {
+			"ddz_baojing (1)": { "width": 90, "height": 70 },
+			"ddz_baojing (2)": { "width": 90, "height": 70 },
+			"ddz_baojing (3)": { "width": 90, "height": 70 },
+			"ddz_baojing (4)": { "width": 90, "height": 70 },
+			"ddz_baojing (5)": { "width": 90, "height": 70 }
+		}
+	}
+},
+"animations": {
+	"play": {
+		"slots": {
+			"Layer1": {
+				"attachment": [
+					{ "time": 0, "name": "ddz_baojing (1)" },
+					{ "time": 0.0666, "name": "ddz_baojing (5)" },
+					{ "time": 0.1333, "name": "ddz_baojing (4)" },
+					{ "time": 0.2, "name": "ddz_baojing (2)" },
+					{ "time": 0.3333, "name": "ddz_baojing (3)" },
+					{ "time": 0.4, "name": "ddz_baojing (4)" },
+					{ "time": 0.4666, "name": "ddz_baojing (5)" }
+				]
+			}
+		},
+		"bones": {
+			"Layer1": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.4666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.4666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.4666, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

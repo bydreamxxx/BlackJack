@@ -1,0 +1,284 @@
+{
+  "_rawFiles": null,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "63aaa353-f241-4998-9622-3eb570c9d5cd"
+            }
+          },
+          {
+            "frame": 0.09090909090909091,
+            "value": {
+              "__uuid__": "3bc687cc-899d-4fa4-84df-8f94cb999253"
+            }
+          },
+          {
+            "frame": 0.18181818181818182,
+            "value": {
+              "__uuid__": "3bc687cc-899d-4fa4-84df-8f94cb999253"
+            }
+          }
+        ]
+      }
+    },
+    "paths": {
+      "value": {
+        "comps": {
+          "cc.Sprite": {}
+        },
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 1
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0.5
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 1
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0.5
+            }
+          ],
+          "height": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 95
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 110
+            }
+          ],
+          "width": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 90
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 74
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 0
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0
+            }
+          ],
+          "skewX": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 0
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0
+            }
+          ],
+          "y": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": -5
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 10
+            }
+          ],
+          "x": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 0
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0,
+              "curve": "constant",
+              "value": 0
+            },
+            {
+              "frame": 0.09090909090909091,
+              "value": 0
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "scaleX": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 1
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 1
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 1
+        }
+      ],
+      "scaleY": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 1
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 1
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 1
+        }
+      ],
+      "height": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 138
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 79
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 79
+        }
+      ],
+      "width": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 97
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 56
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 56
+        }
+      ],
+      "skewY": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 0
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 0
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 0
+        }
+      ],
+      "skewX": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 0
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 0
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 0
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": -142
+        },
+        {
+          "frame": 0.09090909090909091,
+          "curve": "linear",
+          "value": -161.4
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": -72
+        }
+      ],
+      "x": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 0
+        },
+        {
+          "frame": 0.09090909090909091,
+          "curve": "linear",
+          "value": 2
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 371
+        }
+      ],
+      "angle": [
+        {
+          "frame": 0,
+          "curve": "constant",
+          "value": 0
+        },
+        {
+          "frame": 0.09090909090909091,
+          "value": 0
+        },
+        {
+          "frame": 0.18181818181818182,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "__type__": "cc.AnimationClip",
+  "_name": "jlmj_mid2dapai",
+  "sample": 55,
+  "wrapMode": 1,
+  "_objFlags": 0,
+  "speed": 1,
+  "events": [],
+  "_duration": 0.2
+}

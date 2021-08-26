@@ -1,0 +1,47 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "chat_in",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.1,
+  "sample": 60,
+  "speed": 0.5,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "panel": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 892
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": 387
+            },
+            {
+              "frame": 0.1,
+              "value": 400
+            }
+          ]
+        }
+      },
+      "mask": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.1,
+              "value": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

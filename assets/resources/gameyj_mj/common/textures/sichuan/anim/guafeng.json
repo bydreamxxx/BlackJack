@@ -1,0 +1,134 @@
+{
+"skeleton": { "hash": "E79y/iDQkQ7oqWR6TI9PWtn10kw", "spine": "3.4.02", "width": 192, "height": 114, "images": "" },
+"bones": [
+	{ "name": "guafengZT" },
+	{ "name": "guafeng", "parent": "guafengZT" },
+	{ "name": "zi", "parent": "guafengZT", "y": 49 }
+],
+"slots": [
+	{ "name": "1", "bone": "guafeng" },
+	{ "name": "sc_guafeng_zi", "bone": "zi", "attachment": "sc_guafeng_zi" }
+],
+"skins": {
+	"default": {
+		"1": {
+			"1": { "width": 229, "height": 199 },
+			"2": { "width": 229, "height": 199 },
+			"3": { "width": 229, "height": 199 },
+			"4": { "width": 229, "height": 199 },
+			"5": { "width": 229, "height": 199 },
+			"6": { "width": 229, "height": 199 },
+			"7": { "width": 229, "height": 199 },
+			"8": { "width": 229, "height": 199 },
+			"9": { "width": 229, "height": 199 },
+			"10": { "width": 229, "height": 199 },
+			"11": { "width": 229, "height": 199 },
+			"12": { "width": 229, "height": 199 },
+			"13": { "width": 229, "height": 199 },
+			"14": { "width": 229, "height": 199 },
+			"15": { "width": 229, "height": 199 },
+			"16": { "width": 229, "height": 199 }
+		},
+		"sc_guafeng_zi": {
+			"sc_guafeng_zi": { "width": 192, "height": 114 }
+		}
+	}
+},
+"animations": {
+	"guafeng": {
+		"slots": {
+			"1": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.9666, "color": "ffffffff" },
+					{ "time": 1.1, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.0333, "name": "1" },
+					{ "time": 0.1, "name": "2" },
+					{ "time": 0.1666, "name": "3" },
+					{ "time": 0.2333, "name": "4" },
+					{ "time": 0.3, "name": "5" },
+					{ "time": 0.3666, "name": "6" },
+					{ "time": 0.4333, "name": "7" },
+					{ "time": 0.5, "name": "8" },
+					{ "time": 0.5666, "name": "9" },
+					{ "time": 0.6333, "name": "10" },
+					{ "time": 0.7, "name": "11" },
+					{ "time": 0.7666, "name": "12" },
+					{ "time": 0.8333, "name": "13" },
+					{ "time": 0.9, "name": "14" },
+					{ "time": 0.9666, "name": "15" },
+					{ "time": 1.0333, "name": "16" },
+					{ "time": 1.1, "name": null },
+					{ "time": 1.6666, "name": null }
+				]
+			},
+			"sc_guafeng_zi": {
+				"color": [
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1, "color": "ffffffff" },
+					{ "time": 1.6, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "sc_guafeng_zi" },
+					{ "time": 1.6666, "name": "sc_guafeng_zi" }
+				]
+			}
+		},
+		"bones": {
+			"guafengZT": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			},
+			"guafeng": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -4.19, "y": 111.46, "curve": "stepped" },
+					{ "time": 1.6666, "x": -4.19, "y": 111.46 }
+				],
+				"scale": [
+					{ "time": 0, "x": 2, "y": 1.7, "curve": "stepped" },
+					{ "time": 1.6666, "x": 2, "y": 1.7 }
+				]
+			},
+			"zi": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": -38.99 },
+					{ "time": 0.2666, "x": 0, "y": -7.41 },
+					{ "time": 0.6666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.2, "y": 0.2 },
+					{ "time": 0.2666, "x": 0.9, "y": 0.9 },
+					{ "time": 0.6666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

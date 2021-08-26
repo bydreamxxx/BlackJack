@@ -1,0 +1,218 @@
+{
+"skeleton": { "hash": "bBI46YqSokUeyAmZBnQEQzJyRn4", "spine": "3.4.02", "width": 123.99, "height": 131.2, "images": "" },
+"bones": [
+	{ "name": "jiezhiZT" },
+	{ "name": "jiezhi", "parent": "jiezhiZT", "length": 61.03, "rotation": 113.59, "x": 10.54, "y": -28.07 },
+	{
+		"name": "shizixing",
+		"parent": "jiezhi",
+		"length": 60.88,
+		"rotation": -23.25,
+		"x": 61.56,
+		"y": -4.09,
+		"scaleX": 0.5,
+		"scaleY": 0.5
+	},
+	{
+		"name": "shizixing2",
+		"parent": "jiezhi",
+		"length": 60.88,
+		"rotation": -23.25,
+		"x": 51.37,
+		"y": 14.65,
+		"scaleX": 0.2,
+		"scaleY": 0.2
+	}
+],
+"slots": [
+	{ "name": "library/zuanjie", "bone": "jiezhi", "attachment": "library/zuanjie" },
+	{ "name": "library/zuanjie1", "bone": "jiezhi" },
+	{ "name": "library/zuanjiexulie0001", "bone": "jiezhi", "attachment": "library/zuanjiexulie0001" },
+	{ "name": "library/huangshiziguang", "bone": "shizixing", "attachment": "library/huangshiziguang" },
+	{ "name": "library/huangshiziguang2", "bone": "shizixing2", "attachment": "library/huangshiziguang" }
+],
+"skins": {
+	"default": {
+		"library/huangshiziguang": {
+			"library/huangshiziguang": { "x": -2.54, "y": -0.46, "rotation": -90.33, "width": 248, "height": 248 }
+		},
+		"library/huangshiziguang2": {
+			"library/huangshiziguang": { "x": -2.54, "y": -0.46, "rotation": -90.33, "width": 248, "height": 248 }
+		},
+		"library/zuanjie": {
+			"library/zuanjie": { "x": 29.95, "y": -1.57, "rotation": -113.59, "width": 81, "height": 81 }
+		},
+		"library/zuanjie1": {
+			"library/zuanjie1": { "x": 29.95, "y": -1.57, "rotation": -113.59, "width": 81, "height": 81 }
+		},
+		"library/zuanjiexulie0001": {
+			"library/zuanjiexulie0001": { "y": 0.27, "rotation": -113.59, "width": 14, "height": 14 },
+			"library/zuanjiexulie0002": { "x": 3.14, "y": -2.98, "rotation": -113.59, "width": 38, "height": 28 },
+			"library/zuanjiexulie0003": { "x": 7.08, "y": -3.83, "rotation": -113.59, "width": 49, "height": 35 },
+			"library/zuanjiexulie0004": { "x": 11.48, "y": -2.52, "rotation": -113.59, "width": 58, "height": 42 },
+			"library/zuanjiexulie0005": { "x": 17.4, "y": -0.55, "rotation": -113.59, "width": 66, "height": 50 },
+			"library/zuanjiexulie0006": { "x": 18.61, "y": -1.71, "rotation": -113.59, "width": 71, "height": 51 },
+			"library/zuanjiexulie0007": { "x": 28.41, "y": 0.31, "rotation": -113.59, "width": 77, "height": 51 },
+			"library/zuanjiexulie0008": { "x": 35.2, "y": -0.61, "rotation": -113.59, "width": 75, "height": 53 },
+			"library/zuanjiexulie0009": { "x": 41.61, "y": -1.58, "rotation": -113.59, "width": 71, "height": 48 },
+			"library/zuanjiexulie0010": { "x": 48.33, "y": -0.72, "rotation": -113.59, "width": 62, "height": 37 },
+			"library/zuanjiexulie0011": { "x": 51.06, "y": 0.62, "rotation": -113.59, "width": 54, "height": 34 },
+			"library/zuanjiexulie0012": { "x": 52.57, "y": 0.29, "rotation": -113.59, "width": 50, "height": 31 }
+		}
+	}
+},
+"animations": {
+	"jiezhi": {
+		"slots": {
+			"library/huangshiziguang": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffff00" },
+					{ "time": 1.2666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.4333, "color": "ffffffff" },
+					{ "time": 1.8333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 2.5, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 1.1666, "name": "library/huangshiziguang" },
+					{ "time": 2.5, "name": null }
+				]
+			},
+			"library/huangshiziguang2": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.5, "color": "ffffff00" },
+					{ "time": 1.7, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.9666, "color": "ffffffff" },
+					{ "time": 2.5, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "library/huangshiziguang" },
+					{ "time": 2.5, "name": "library/huangshiziguang" }
+				]
+			},
+			"library/zuanjie": {
+				"attachment": [
+					{ "time": 0, "name": "library/zuanjie" },
+					{ "time": 2.5, "name": "library/zuanjie" }
+				]
+			},
+			"library/zuanjie1": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.3666, "color": "ffffff00" },
+					{ "time": 1.6666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.9666, "color": "ffffffff" },
+					{ "time": 2.5, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "library/zuanjie1" },
+					{ "time": 2.5, "name": "library/zuanjie1" }
+				]
+			},
+			"library/zuanjiexulie0001": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.9666, "name": "library/zuanjiexulie0001" },
+					{ "time": 1, "name": "library/zuanjiexulie0001" },
+					{ "time": 1.0333, "name": "library/zuanjiexulie0002" },
+					{ "time": 1.0666, "name": "library/zuanjiexulie0003" },
+					{ "time": 1.1, "name": "library/zuanjiexulie0004" },
+					{ "time": 1.1333, "name": "library/zuanjiexulie0005" },
+					{ "time": 1.1666, "name": "library/zuanjiexulie0006" },
+					{ "time": 1.2, "name": "library/zuanjiexulie0007" },
+					{ "time": 1.2333, "name": "library/zuanjiexulie0008" },
+					{ "time": 1.2666, "name": "library/zuanjiexulie0009" },
+					{ "time": 1.3, "name": "library/zuanjiexulie0010" },
+					{ "time": 1.3333, "name": "library/zuanjiexulie0011" },
+					{ "time": 1.3666, "name": "library/zuanjiexulie0012" },
+					{ "time": 1.4, "name": null },
+					{ "time": 2.5, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"jiezhiZT": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 2.5, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.5, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 2.5, "x": 1, "y": 1 }
+				]
+			},
+			"jiezhi": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.2333, "angle": 6.85 },
+					{ "time": 0.5, "angle": -2.33 },
+					{ "time": 0.7666, "angle": 3.05 },
+					{ "time": 0.9333, "angle": 0, "curve": "stepped" },
+					{ "time": 2.5, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.2333, "x": -1.39, "y": 10.12 },
+					{ "time": 0.5, "x": -1.37, "y": 7.04 },
+					{ "time": 0.7666, "x": 0, "y": -1.83 },
+					{ "time": 0.9333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.5, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.5, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.7666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 2.5, "x": 1, "y": 1 }
+				]
+			},
+			"shizixing": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.1666, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2666, "angle": 0, "curve": "stepped" },
+					{ "time": 1.4333, "angle": 0, "curve": "stepped" },
+					{ "time": 1.8333, "angle": 0, "curve": "stepped" },
+					{ "time": 2.5, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.1666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.4333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.8333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.5, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 1.1666, "x": 1, "y": 0.76 },
+					{ "time": 1.2666, "x": 1, "y": 1 },
+					{ "time": 1.4333, "x": 1.736, "y": 1 },
+					{ "time": 1.8333, "x": 2.497, "y": 1, "curve": "stepped" },
+					{ "time": 2.5, "x": 2.497, "y": 1 }
+				]
+			},
+			"shizixing2": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 2.5, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.5, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 2.5, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

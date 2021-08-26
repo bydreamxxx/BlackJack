@@ -1,0 +1,258 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "exchange_nishizhen_replay",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.5,
+  "sample": 60,
+  "speed": 0.5,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "nishizhen": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
+      },
+      "nishizhen/fk_huanpai_bg/fk_liuguang_bg": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -164.5,
+                -67.4
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                211,
+                -67
+              ]
+            }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": false
+            }
+          ]
+        }
+      },
+      "card/down": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                320,
+                151
+              ]
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": [
+                320,
+                151
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                537,
+                164
+              ]
+            }
+          ],
+          "scaleX": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "card/right": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                320,
+                151
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                -320,
+                151
+              ]
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": [
+                -320,
+                151
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                -537,
+                164
+              ]
+            }
+          ],
+          "scaleX": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "card/left": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -320,
+                151
+              ]
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                0,
+                0
+              ]
+            }
+          ],
+          "scaleX": [
+            {
+              "frame": 0.4666666666666667,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0.4666666666666667,
+              "value": 1
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "card/left/card1": {
+        "props": {}
+      },
+      "card/left/card1/beimian": {
+        "props": {}
+      },
+      "card/left/card2": {
+        "props": {}
+      },
+      "card/left/card2/beimian": {
+        "props": {}
+      },
+      "card/left/card3": {
+        "props": {}
+      },
+      "card/left/card3/beimian": {
+        "props": {}
+      },
+      "nishizhen/fk_huanpai_bg": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": 255
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": 255
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "frame": 0.016666666666666666,
+      "func": "playAni",
+      "params": [
+        "nsz"
+      ]
+    },
+    {
+      "frame": 0.016666666666666666,
+      "func": "showPoker",
+      "params": [
+        "left"
+      ]
+    }
+  ]
+}

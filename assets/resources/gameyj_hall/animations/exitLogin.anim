@@ -1,0 +1,57 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "exitLogin",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.495,
+  "sample": 40,
+  "speed": 1,
+  "wrapMode": 0,
+  "curveData": {
+    "paths": {
+      "bg/icon": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 97
+            },
+            {
+              "frame": 0.5,
+              "value": 550
+            }
+          ]
+        }
+      },
+      "WXBtn": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": -206
+            },
+            {
+              "frame": 0.5,
+              "value": -550
+            }
+          ]
+        }
+      },
+      "agreeBox": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": -301
+            },
+            {
+              "frame": 0.5,
+              "value": -600
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

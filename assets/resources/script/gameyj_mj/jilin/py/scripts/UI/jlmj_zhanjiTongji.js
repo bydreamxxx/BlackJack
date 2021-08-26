@@ -1,0 +1,278 @@
+var jlmj_prefab = require('jlmj_prefab_cfg');
+var jlmj_audio_mgr = require('jlmj_audio_mgr').Instance();
+var DeskData = require('jlmj_desk_data').DeskData;
+var jlmj_str = require('jlmj_strConfig');
+var playerMgr = require('jlmj_player_mgr');
+var jlmj_util = require('jlmj_util');
+var Define = require("Define");
+var RoomMgr = require('jlmj_room_mgr').RoomMgr;
+var UIZorder = require("mj_ui_zorder");
+var Text = cc.dd.Text;
+
+cc.Class({
+    extends: cc.Component,
+
+    properties: {
+        userInfoNode:[cc.Node],//玩家列表信息
+        // roomNumTTF: cc.Label,//房间号码
+        fjinfo: cc.Label,//房间信息
+        gzinfo: cc.Label,//规则信息
+        gongzhonghao: cc.Node,//二维码
+        multiple: cc.Node,//几倍场,
+    },
+
+    // use this for initialization
+    onLoad: function () {
+        let canvas_node = cc.find('Canvas');
+        this.nodeScaleX = 1
+        this.nodeScaleY = 1
+        if(canvas_node.width / canvas_node.height >= this.node.width / this.node.height){
+            this.nodeScaleX = canvas_node.width/this.node.width
+            this.nodeScaleY = canvas_node.height/this.node.height
+        }
+        this.node.scaleX = this.nodeScaleX;
+        this.node.scaleY = this.nodeScaleY;
+
+        var juquan_txt = RoomMgr.Instance()._Rule.usercountlimit==2?Text.TEXT_PY_RULE_10:Text.TEXT_PY_RULE_11;
+        var guaguo = RoomMgr.Instance().getCoinByGuangGuo(RoomMgr.Instance()._Rule.guangguotype);
+
+        var fj_arr = [];
+        var gz_arr = [];
+
+        fj_arr.push(Text.TEXT_PY_RULE_1.format([RoomMgr.Instance()._Rule.usercountlimit]));
+        fj_arr.push(Text.TEXT_PY_RULE_12+RoomMgr.Instance()._Rule.roomId);
+        fj_arr.push(juquan_txt.format([RoomMgr.Instance()._Rule.boardscout]));
+        fj_arr.push(this.getSysTime());
+
+        gz_arr.push(guaguo?guaguo+Text.TEXT_PY_RULE_3:Text.TEXT_PY_RULE_2);//锅底
+        gz_arr.push(Text.TEXT_PY_RULE_4.format([RoomMgr.Instance()._Rule.fengding]));
+        gz_arr.push(RoomMgr.Instance()._Rule.isuseyaojiu?     Text.TEXT_PY_RULE_5:'');
+        gz_arr.push(RoomMgr.Instance()._Rule.isxiaojifeidan?  Text.TEXT_PY_RULE_6:'');
+        gz_arr.push(RoomMgr.Instance()._Rule.iskuaibao?       Text.TEXT_PY_RULE_7:'');
+        gz_arr.push(RoomMgr.Instance()._Rule.isxiaojiwanneng? Text.TEXT_PY_RULE_8:'');
+        gz_arr.push(RoomMgr.Instance()._Rule.isyaojiusanse?   Text.TEXT_PY_RULE_9:'');
+
+        this.fjinfo.string = fj_arr.join(' ');
+        this.gzinfo.string = Text.TEXT_PY_RULE_13+gz_arr.filter(function(txt){return txt!=''}).join(',');
+
+        if(RoomMgr.Instance().isClubRoom()){
+            this.multiple.active = false;
+            // this.multiple.getComponentInChildren(cc.Label).string = RoomMgr.Instance().multiple+'倍场';
+        }else{
+            this.multiple.active = false;
+        }
+    },
+
+    onEnable: function () {
+        this.updateUI();
+    },
+
+    /**
+     *刷新UI
+     */
+    updateUI:function () {
+        this.userInfoNode.forEach(function (node) {
+           node.active = false;
+        });
+        var data = DeskData.Instance().getTongjiData();
+
+        var userInfo = data.resultuserinfoList;
+        //找出最大赢值
+        var max=0;
+        var u_info = this.initPlayerInfo();//输出方位属性
+
+        for(var i in userInfo){
+            max = max<userInfo[i].totalscore?  userInfo[i].totalscore:max;
+        }
+
+        var user_idx = 0;
+        for(var i=0;  userInfo && i<userInfo.length; ++i){
+            userInfo[i].uinfo = u_info[userInfo[i].userid];
+            var isDayinjia = userInfo[i].totalscore > 0?max==userInfo[i].totalscore:false;
+            this.initUserInfo(userInfo[i], data.allgamenumber, user_idx, isDayinjia);
+            user_idx++;
+        }
+    },
+    /**
+     * 初始化玩家信息
+     */
+    initPlayerInfo:function (list) {
+        var fangwei_info = [];//输出方位属性
+        var zuowei_id = 0;//自己的方位
+        var u_info = [];
+
+        //寻找自己的方位并设置属性（自己）
+        var len = playerMgr.Instance().playerList.length;
+        var fangwei = jlmj_str.fangwei[len - 2];
+        playerMgr.Instance().playerList.forEach(function (player, idx) {
+            if(player)
+            {
+                var player_head = player.headUrl;
+                fangwei_info[idx] = {
+                    uid:player.userId,
+                    fangwei:null,
+                    zuowei:player.idx,
+                    ziji:player.userId == cc.dd.user.id,
+                    head:player_head,
+                    next:idx==len-1?0:idx+1,
+                    up:  idx==0?len-1:idx-1,
+                    sex: player.sex,
+                };
+                zuowei_id = player.userId == cc.dd.user.id?idx:zuowei_id;
+            }
+        });
+
+        var cur_info = fangwei_info[zuowei_id];
+        cur_info.fangwei = fangwei[0];
+        u_info[cur_info.uid] = cur_info;
+
+        for(var i = 1; i < fangwei.length; ++i){
+            cur_info = fangwei_info[cur_info.next];
+            cur_info.fangwei = fangwei[i];
+            u_info[cur_info.uid] = cur_info;
+        }
+
+        /*for(var i in list) {
+         if(i == 1)
+         {
+         u_info[list[i].userid] = {fangwei:jlmj_str.fangwei[0],zuowei:i,ziji:true,head:''};
+         zuowei_id = i;
+         }else{
+         u_info[list[i].userid] = {fangwei:null,zuowei:i,ziji:false,head:''};
+         }
+         }*/
+
+        return u_info;
+    },
+
+    /**
+     * 初始化玩家信息条
+     * @param userInfo 玩家信息
+     * @param allNum    总的对局数
+     * @param i         名次
+     * @param isDayinjia 大赢家
+     */
+    initUserInfo:function (userInfo, allNum, i, isDayinjia) {
+        var usernode = this.userInfoNode[i];
+        if(usernode){
+            usernode.active = true;
+            var nodeCom = usernode.getComponent('jlmj_zhanjiTongji_userInfo');
+            if(nodeCom){
+                nodeCom.setData(userInfo, isDayinjia);
+            }
+        }
+    },
+
+    /**
+     * 退出房间
+     */
+    exitBtnCallBack:function () {
+        cc.dd.UIMgr.closeUI(this.node);
+        if(!DeskData.Instance().isDajiesuan && DeskData.Instance().isFriend()){
+            jlmj_util.enterHall();
+        }
+        //jlmj_util.enterHall();
+    },
+
+    /**
+     * 分享
+     */
+    shardBtnCallBack:function () {
+        jlmj_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_SHARE, function(ui) {
+            ui.zIndex = UIZorder.MJ_LAYER_UI;
+        });
+    },
+
+    /**
+     * 分享到好友  群
+     */
+    shardFriendCallBack: function () {
+        //cc.dd.UIMgr.destroyUI(this.node);
+        //this.node.active = false;
+        setTimeout(function () {
+            if (cc.sys.isNative) {
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = true;
+                }
+                var canvasNode = cc.find('Canvas');
+                cc.dd.native_wx.SendScreenShot(canvasNode);
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = false;
+                }
+            }
+        }.bind(this), 500);
+    },
+    /**
+     * 分享到朋友圈
+     */
+    shardQuanCallBack: function () {
+        //cc.dd.UIMgr.destroyUI(this.node);
+        //this.node.active = false;
+        setTimeout(function () {
+            if (cc.sys.isNative) {
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = true;
+                }
+                var canvasNode = cc.find('Canvas');
+                cc.dd.native_wx.SendScreenShotTimeline(canvasNode);
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = false;
+                }
+            }
+        }.bind(this), 500);
+    },
+    /**
+     * 分享到闲聊
+     */
+    shardXianLiaoCallBack: function () {
+        setTimeout(function () {
+            if (cc.sys.isNative) {
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = true;
+                }
+                var canvasNode = cc.find('Canvas');
+                cc.dd.native_wx.sendXlScreenShot(canvasNode);
+                if(this.gongzhonghao){
+                    this.gongzhonghao.active = false;
+                }
+            }
+        }.bind(this), 500);
+    },
+    /**
+     * 获取系统时间
+     */
+    getSysTime:function () {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        var sec = date.getSeconds();
+
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 1 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        if( hour >= 0 && hour <= 9 ) {
+            hour = "0" + hour;
+        }
+        if( min >= 0 && min <= 9 ) {
+            min = "0" + min;
+        }
+        if( sec >= 0 && sec <= 9 ) {
+            sec = "0" + sec;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + hour + seperator2 + min
+            + seperator2 + sec;
+        return currentdate;
+    },
+    gobackHall: function() {
+        jlmj_util.enterHall();
+    },
+});

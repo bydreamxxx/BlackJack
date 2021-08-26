@@ -1,0 +1,103 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "menu_in",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.22,
+  "sample": 60,
+  "speed": 0.5,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "bg": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -435,
+                0
+              ]
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "setting": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": -340
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": -340
+            },
+            {
+              "frame": 0.15,
+              "value": -122
+            }
+          ]
+        }
+      },
+      "tuoguan": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": -340
+            },
+            {
+              "frame": 0.11666666666666667,
+              "value": -340
+            },
+            {
+              "frame": 0.18333333333333332,
+              "value": -122
+            }
+          ]
+        }
+      },
+      "exit": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": -340
+            },
+            {
+              "frame": 0.15,
+              "value": -340
+            },
+            {
+              "frame": 0.21666666666666667,
+              "value": -122
+            }
+          ]
+        }
+      },
+      "guize": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.11666666666666667,
+              "value": -340
+            },
+            {
+              "frame": 0.2,
+              "value": -122
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

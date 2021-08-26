@@ -1,0 +1,113 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "hongbaoback",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.31666666666666665,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "hong0": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -88.4,
+                -158
+              ]
+            },
+            {
+              "frame": 0.31666666666666665,
+              "value": [
+                0,
+                -80
+              ]
+            }
+          ]
+        }
+      },
+      "hong1": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                -158
+              ]
+            },
+            {
+              "frame": 0.31666666666666665,
+              "value": [
+                0,
+                -80
+              ]
+            }
+          ]
+        }
+      },
+      "hong2": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                88.4,
+                -158
+              ]
+            },
+            {
+              "frame": 0.31666666666666665,
+              "value": [
+                0,
+                -80
+              ]
+            }
+          ]
+        }
+      },
+      "choiceRed": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.08333333333333333,
+              "value": false
+            }
+          ]
+        }
+      },
+      "hong": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            }
+          ]
+        }
+      },
+      "hongend": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.31666666666666665,
+              "value": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,37 @@
+
+    var proto_id = {
+        cmd_msg_match_start :3700,
+        cmd_msg_match_round_info :3701,
+        cmd_msg_match_rank_info :3702,
+        cmd_msg_match_round_num_full :3703,
+        cmd_msg_match_round_end_line_req :3704,
+        cmd_msg_match_round_end_line_ret :3705,
+        cmd_msg_match_round_end_line :3706,
+        cmd_msg_match_reward_info :3707,
+        cmd_msg_match_end :3708,
+        cmd_match_wx_share_req:3709,
+        cmd_match_wx_share_ret:3710,
+        cmd_msg_room_update_score :3711,
+        cmd_msg_match_round_countdown :3712,
+        cmd_msg_is_match_shared :3713,
+        cmd_msg_h2g_room_update_score :3714,
+        cmd_msg_match_round_null :3715,
+        cmd_msg_get_match_reward_pool_req :3716,
+        cmd_msg_get_match_reward_pool_ret :3717,
+        cmd_msg_match_dead_ret :3718,
+        cmd_msg_match_reborn_req :3719,
+        cmd_msg_match_reborn_ret :3720,
+        cmd_msg_match_join_req :3721,
+        cmd_msg_match_join_ret :3722,
+        cmd_msg_user_match_rank_info :3723,
+        cmd_msg_get_match_rank_history_list_req :3724,
+        cmd_msg_get_match_rank_history_list_ret :3725,
+        cmd_msg_get_match_rank_history_detail_req :3726,
+        cmd_msg_user_match_detail :3727,
+        cmd_msg_get_match_rank_history_detail_ret :3728,
+        cmd_msg_match_win_result :3729,
+        cmd_msg_match_room_win_result :3730,
+
+    };
+
+    module.exports = proto_id;

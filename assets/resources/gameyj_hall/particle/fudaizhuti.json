@@ -1,0 +1,108 @@
+{
+"skeleton": { "hash": "uwVt68D9WkON6goHdbUhSxKAWXY", "spine": "3.4.02", "width": 244, "height": 244, "images": "" },
+"bones": [
+	{ "name": "fudai" },
+	{ "name": "faguang", "parent": "fudai" }
+],
+"slots": [
+	{ "name": "FDkuang", "bone": "faguang", "attachment": "FDkuang" },
+	{ "name": "FDKSG1", "bone": "fudai", "attachment": "FDKSG13" }
+],
+"skins": {
+	"default": {
+		"FDKSG1": {
+			"FDKSG1": { "width": 210, "height": 209 },
+			"FDKSG2": { "width": 210, "height": 209 },
+			"FDKSG3": { "width": 210, "height": 209 },
+			"FDKSG4": { "width": 210, "height": 209 },
+			"FDKSG5": { "width": 210, "height": 209 },
+			"FDKSG6": { "width": 210, "height": 209 },
+			"FDKSG7": { "width": 210, "height": 209 },
+			"FDKSG8": { "width": 210, "height": 209 },
+			"FDKSG9": { "width": 210, "height": 209 },
+			"FDKSG10": { "width": 210, "height": 209 },
+			"FDKSG11": { "width": 210, "height": 209 },
+			"FDKSG12": { "width": 210, "height": 209 },
+			"FDKSG13": { "width": 210, "height": 209 }
+		},
+		"FDkuang": {
+			"FDkuang": { "width": 244, "height": 244 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"FDKSG1": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.4333, "name": "FDKSG1" },
+					{ "time": 0.4666, "name": "FDKSG2" },
+					{ "time": 0.5, "name": "FDKSG3" },
+					{ "time": 0.5333, "name": "FDKSG4" },
+					{ "time": 0.5666, "name": "FDKSG5" },
+					{ "time": 0.6, "name": "FDKSG6" },
+					{ "time": 0.6333, "name": "FDKSG7" },
+					{ "time": 0.6666, "name": "FDKSG8" },
+					{ "time": 0.7, "name": "FDKSG9" },
+					{ "time": 0.7333, "name": "FDKSG10" },
+					{ "time": 0.7666, "name": "FDKSG11" },
+					{ "time": 0.8, "name": "FDKSG12" },
+					{ "time": 0.8333, "name": "FDKSG13" },
+					{ "time": 0.8666, "name": null },
+					{ "time": 2.6666, "name": null }
+				]
+			},
+			"FDkuang": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.6666, "color": "ffffff6b" },
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff6b" },
+					{ "time": 2.6666, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "FDkuang" },
+					{ "time": 2.6666, "name": "FDkuang" }
+				]
+			}
+		},
+		"bones": {
+			"fudai": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"faguang": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0, "curve": "stepped" },
+					{ "time": 1.3333, "angle": 0, "curve": "stepped" },
+					{ "time": 2, "angle": 0, "curve": "stepped" },
+					{ "time": 2.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.3333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.3333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 2, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 2.6666, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

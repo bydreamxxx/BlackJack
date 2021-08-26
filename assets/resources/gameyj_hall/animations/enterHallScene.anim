@@ -1,0 +1,211 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "enterHallScene",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 30,
+  "speed": 1,
+  "wrapMode": 0,
+  "curveData": {
+    "paths": {
+      "bg/upNode": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 500
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 315
+            }
+          ]
+        }
+      },
+      "upBtnNode": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 450
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 312.6
+            }
+          ]
+        }
+      },
+      "bg/name": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 500
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 360
+            }
+          ]
+        }
+      },
+      "bg/downNode": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": -500
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -360.1
+            }
+          ]
+        }
+      },
+      "downBtnNode": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": -450
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -301
+            }
+          ]
+        }
+      },
+      "datingLayer/jinbichang": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 1000
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -394
+            }
+          ]
+        }
+      },
+      "datingLayer/bishaichang": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 1200
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": 9
+            }
+          ]
+        }
+      },
+      "datingLayer/anNiuNode": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 1400
+            },
+            {
+              "frame": 1,
+              "value": 383
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_jinbichang_meishuzi_1": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 927
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -467
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_jinbichang_meishuzi_2": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 1007
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -387
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_jinbichang_meishuzi_3": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 1091
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -303
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_bisaichang_meishuzi_1": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 1128
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": -63
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_bisaichang_meishuzi_2": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 1208
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": 17
+            }
+          ]
+        }
+      },
+      "datingLayer/jlmj_hall_animation/dt_bisaichang_meishuzi_3": {
+        "props": {
+          "x": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 1291
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": 100
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

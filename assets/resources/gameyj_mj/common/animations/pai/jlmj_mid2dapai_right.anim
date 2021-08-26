@@ -1,0 +1,237 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "jlmj_mid2dapai_right",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.25,
+  "sample": 40,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "2c26c34a-61f3-4985-9ef2-f4230967a8bd"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "7e4f2bc4-7264-42c7-93bd-c3cc6f8fb94f"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 347,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.125,
+          "value": 375
+        },
+        {
+          "frame": 0.25,
+          "value": 375
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "value": 93,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.125,
+          "value": 44
+        },
+        {
+          "frame": 0.25,
+          "value": -103
+        }
+      ],
+      "scaleX": [
+        {
+          "frame": 0,
+          "value": 1
+        },
+        {
+          "frame": 0.125,
+          "value": 1
+        }
+      ],
+      "scaleY": [
+        {
+          "frame": 0,
+          "value": 1
+        },
+        {
+          "frame": 0.125,
+          "value": 1
+        }
+      ],
+      "width": [
+        {
+          "frame": 0,
+          "value": 96,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.125,
+          "value": 79
+        }
+      ],
+      "height": [
+        {
+          "frame": 0,
+          "value": 136,
+          "curve": "constant"
+        },
+        {
+          "frame": 0.125,
+          "value": 57
+        }
+      ],
+      "skewX": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.125,
+          "value": 0
+        }
+      ],
+      "skewY": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.125,
+          "value": 0
+        }
+      ],
+      "angle": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.125,
+          "value": 0
+        }
+      ]
+    },
+    "paths": {
+      "value": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 0,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 2.6
+            }
+          ],
+          "y": [
+            {
+              "frame": 0,
+              "value": -10,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 12
+            }
+          ],
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 1,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 0.41
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 0.62
+            }
+          ],
+          "width": [
+            {
+              "frame": 0,
+              "value": 74
+            },
+            {
+              "frame": 0.125,
+              "value": 74
+            }
+          ],
+          "height": [
+            {
+              "frame": 0,
+              "value": 93
+            },
+            {
+              "frame": 0.125,
+              "value": 93
+            }
+          ],
+          "skewX": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.125,
+              "value": 0
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0,
+              "value": 0,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 6
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0,
+              "curve": "constant"
+            },
+            {
+              "frame": 0.125,
+              "value": 90
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

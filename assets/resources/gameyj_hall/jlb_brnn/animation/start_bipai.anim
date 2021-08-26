@@ -1,0 +1,335 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "start_bipai",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1.3,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "fknn_bg_lan": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -1333,
+                10
+              ]
+            },
+            {
+              "frame": 0.15,
+              "value": [
+                -333,
+                10
+              ]
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": [
+                -333,
+                10
+              ]
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": [
+                -320,
+                42
+              ]
+            }
+          ]
+        }
+      },
+      "fknn_bg_cheng": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                1333,
+                -10
+              ]
+            },
+            {
+              "frame": 0.15,
+              "value": [
+                333,
+                -10
+              ]
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": [
+                333,
+                -10
+              ]
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": [
+                320,
+                -42
+              ]
+            }
+          ]
+        }
+      },
+      "fknn_kaishi_zi": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 0
+            },
+            {
+              "frame": 0.35,
+              "value": 255
+            }
+          ],
+          "position": [
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                -274,
+                -13
+              ]
+            },
+            {
+              "frame": 0.35,
+              "value": [
+                -125,
+                -13
+              ]
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": [
+                -125,
+                -13
+              ]
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": [
+                -65,
+                23
+              ]
+            }
+          ]
+        }
+      },
+      "fknn_bipai_zi": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0.16666666666666666,
+              "value": 0
+            },
+            {
+              "frame": 0.35,
+              "value": 255
+            }
+          ],
+          "position": [
+            {
+              "frame": 0.16666666666666666,
+              "value": [
+                274,
+                -30
+              ]
+            },
+            {
+              "frame": 0.35,
+              "value": [
+                125,
+                -30
+              ]
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": [
+                125,
+                -30
+              ]
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": [
+                62,
+                -56
+              ]
+            }
+          ]
+        }
+      },
+      "texiao": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ]
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "676d1060-9fc6-467e-8776-781d62f31254"
+                }
+              },
+              {
+                "frame": 0.3333333333333333,
+                "value": {
+                  "__uuid__": "676d1060-9fc6-467e-8776-781d62f31254"
+                }
+              },
+              {
+                "frame": 0.35,
+                "value": {
+                  "__uuid__": "62e59ec2-0c23-4681-92aa-8aa57cd7f4ef"
+                }
+              },
+              {
+                "frame": 0.36666666666666664,
+                "value": {
+                  "__uuid__": "8ec8c3aa-7f16-4732-bed4-5b1267a0ae2b"
+                }
+              },
+              {
+                "frame": 0.38333333333333336,
+                "value": {
+                  "__uuid__": "90d5105f-068e-4624-8f39-236923f3231e"
+                }
+              },
+              {
+                "frame": 0.4,
+                "value": {
+                  "__uuid__": "ef5b17c1-ef5a-4eca-8446-0909379c6593"
+                }
+              },
+              {
+                "frame": 0.4166666666666667,
+                "value": {
+                  "__uuid__": "01ff6c5b-12f2-435d-8b0a-734715597279"
+                }
+              },
+              {
+                "frame": 0.43333333333333335,
+                "value": {
+                  "__uuid__": "07e81a75-2c95-4c3a-aad0-7486ae9de49d"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "light1": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.5333333333333333,
+              "value": false
+            },
+            {
+              "frame": 0.55,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ]
+        }
+      },
+      "light2": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.55,
+              "value": false
+            },
+            {
+              "frame": 0.5666666666666667,
+              "value": true
+            },
+            {
+              "frame": 1.3,
+              "value": false
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

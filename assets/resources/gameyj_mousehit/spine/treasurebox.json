@@ -1,0 +1,61 @@
+{
+"skeleton": { "hash": "R6E+JYH7zKAxg6uuu0FISpf5FcA", "spine": "3.4.02", "width": 361, "height": 300, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root" },
+	{ "name": "treasurebox_01", "parent": "all" }
+],
+"slots": [
+	{ "name": "treasurebox_01", "bone": "treasurebox_01", "attachment": "treasurebox_17" }
+],
+"skins": {
+	"default": {
+		"treasurebox_01": {
+			"treasurebox_01": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_02": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_03": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_04": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_05": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_06": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_07": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_08": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_09": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_10": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_11": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_12": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_13": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_14": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_15": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_16": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 },
+			"treasurebox_17": { "x": 40.79, "y": 125.19, "width": 361, "height": 300 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"treasurebox_01": {
+				"attachment": [
+					{ "time": 0, "name": "treasurebox_01" },
+					{ "time": 0.0666, "name": "treasurebox_02" },
+					{ "time": 0.1333, "name": "treasurebox_03" },
+					{ "time": 0.2, "name": "treasurebox_04" },
+					{ "time": 0.2666, "name": "treasurebox_05" },
+					{ "time": 0.3333, "name": "treasurebox_06" },
+					{ "time": 0.4, "name": "treasurebox_07" },
+					{ "time": 0.4666, "name": "treasurebox_08" },
+					{ "time": 0.5333, "name": "treasurebox_09" },
+					{ "time": 0.6, "name": "treasurebox_10" },
+					{ "time": 0.6666, "name": "treasurebox_11" },
+					{ "time": 0.7333, "name": "treasurebox_12" },
+					{ "time": 0.8, "name": "treasurebox_13" },
+					{ "time": 0.8666, "name": "treasurebox_14" },
+					{ "time": 0.9333, "name": "treasurebox_15" },
+					{ "time": 1, "name": "treasurebox_16" },
+					{ "time": 1.0666, "name": "treasurebox_17" }
+				]
+			}
+		}
+	}
+}
+}

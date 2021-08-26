@@ -1,0 +1,138 @@
+{
+"skeleton": { "hash": "OUR3ijQtivKLk8vmmCJFNmWhDmA", "spine": "3.4.02", "width": 78, "height": 78, "images": "" },
+"bones": [
+	{ "name": "duihaozhuti" },
+	{ "name": "duihao", "parent": "duihaozhuti", "x": -1.78, "y": -1.19 },
+	{ "name": "quan", "parent": "duihaozhuti" },
+	{ "name": "quan2", "parent": "duihaozhuti" }
+],
+"slots": [
+	{ "name": "hd-qiandao-quan", "bone": "quan", "attachment": "hd-qiandao-quan" },
+	{ "name": "hd-qiandao-quan2", "bone": "quan2", "attachment": "hd-qiandao-quan" },
+	{ "name": "duihao0001", "bone": "duihao", "attachment": "duihao0007" }
+],
+"skins": {
+	"default": {
+		"duihao0001": {
+			"duihao0001": { "width": 50, "height": 49 },
+			"duihao0002": { "width": 50, "height": 49 },
+			"duihao0003": { "width": 50, "height": 49 },
+			"duihao0004": { "width": 50, "height": 49 },
+			"duihao0005": { "width": 50, "height": 49 },
+			"duihao0006": { "width": 50, "height": 49 },
+			"duihao0007": { "width": 50, "height": 49 }
+		},
+		"hd-qiandao-quan": {
+			"hd-qiandao-quan": { "width": 78, "height": 78 }
+		},
+		"hd-qiandao-quan2": {
+			"hd-qiandao-quan": { "width": 78, "height": 78 }
+		}
+	}
+},
+"animations": {
+	"duihao": {
+		"slots": {
+			"duihao0001": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.3333, "name": "duihao0001" },
+					{ "time": 0.3666, "name": "duihao0002" },
+					{ "time": 0.4, "name": "duihao0003" },
+					{ "time": 0.4333, "name": "duihao0004" },
+					{ "time": 0.4666, "name": "duihao0005" },
+					{ "time": 0.5, "name": "duihao0006" },
+					{ "time": 0.5333, "name": "duihao0007" },
+					{ "time": 1.6666, "name": "duihao0007" }
+				]
+			},
+			"hd-qiandao-quan": {
+				"color": [
+					{ "time": 0, "color": "ffffff3c" },
+					{ "time": 0.1333, "color": "ffffffdb" },
+					{ "time": 0.2333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "hd-qiandao-quan" },
+					{ "time": 0.3333, "name": "hd-qiandao-quan" },
+					{ "time": 1.6666, "name": "hd-qiandao-quan" }
+				]
+			},
+			"hd-qiandao-quan2": {
+				"color": [
+					{ "time": 0, "color": "ffffff83", "curve": "stepped" },
+					{ "time": 0.3333, "color": "ffffff83" },
+					{ "time": 0.7666, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.3333, "name": "hd-qiandao-quan" },
+					{ "time": 1.6666, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"duihaozhuti": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"duihao": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"quan": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.3333, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.3333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 3, "y": 3 },
+					{ "time": 0.1333, "x": 2.58, "y": 2.58 },
+					{ "time": 0.3333, "x": 0.9, "y": 0.9 },
+					{ "time": 0.4333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			},
+			"quan2": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.3333, "x": 1, "y": 1 },
+					{ "time": 0.5, "x": 1.8, "y": 1.8 },
+					{ "time": 0.7666, "x": 2, "y": 2, "curve": "stepped" },
+					{ "time": 1.6666, "x": 2, "y": 2 }
+				]
+			}
+		}
+	}
+}
+}

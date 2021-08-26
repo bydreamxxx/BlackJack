@@ -1,0 +1,102 @@
+{
+"skeleton": { "hash": "FX4GmuFnOJdZr9soeSRErgDK6Zg", "spine": "3.4.02", "width": 178, "height": 127.26, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root" }
+],
+"slots": [
+	{ "name": "automa_hammer_01", "bone": "all", "attachment": "automa_hammer_01" },
+	{ "name": "automa_hammer_02", "bone": "all", "attachment": "automa_hammer_02" },
+	{ "name": "automa_hammer_03", "bone": "all", "attachment": "automa_hammer_04" },
+	{ "name": "automa_hammer_05", "bone": "all", "attachment": "automa_hammer_05" },
+	{ "name": "automa_hammer_06", "bone": "all", "attachment": "automa_hammer_06" }
+],
+"skins": {
+	"default": {
+		"automa_hammer_01": {
+			"automa_hammer_01": { "width": 178, "height": 113 }
+		},
+		"automa_hammer_02": {
+			"automa_hammer_02": { "x": 33.74, "y": -3.62, "width": 92, "height": 91 }
+		},
+		"automa_hammer_03": {
+			"automa_hammer_03": { "x": -49.15, "y": -1.88, "width": 59, "height": 60 },
+			"automa_hammer_04": { "x": -49.14, "y": -1.88, "width": 59, "height": 60 }
+		},
+		"automa_hammer_05": {
+			"automa_hammer_05": { "x": 30.69, "y": 3.37, "width": 97, "height": 88 }
+		},
+		"automa_hammer_06": {
+			"automa_hammer_06": { "x": 36.86, "y": 51.76, "width": 92, "height": 38 }
+		}
+	}
+},
+"animations": {
+	"pause": {
+		"slots": {
+			"automa_hammer_01": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_01" }
+				]
+			},
+			"automa_hammer_02": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_02" }
+				]
+			},
+			"automa_hammer_03": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_04" }
+				]
+			},
+			"automa_hammer_05": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.6666, "color": "ffffffff" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_05" }
+				]
+			},
+			"automa_hammer_06": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_06" }
+				]
+			}
+		}
+	},
+	"start": {
+		"slots": {
+			"automa_hammer_01": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_01" }
+				]
+			},
+			"automa_hammer_02": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_02" }
+				]
+			},
+			"automa_hammer_03": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_03" }
+				]
+			},
+			"automa_hammer_05": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_05" }
+				]
+			},
+			"automa_hammer_06": {
+				"attachment": [
+					{ "time": 0, "name": "automa_hammer_06" }
+				]
+			}
+		}
+	}
+}
+}

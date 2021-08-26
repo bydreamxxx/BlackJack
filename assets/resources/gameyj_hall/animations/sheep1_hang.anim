@@ -1,0 +1,85 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "sheep1_hang",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 264.2,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "paths": {
+      "bg/grassland_ani/shepp1": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -118,
+                259
+              ]
+            },
+            {
+              "frame": 167.8,
+              "value": [
+                -615,
+                259
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            -118,
+            259
+          ]
+        },
+        {
+          "frame": 119.8,
+          "value": [
+            -663,
+            259
+          ]
+        },
+        {
+          "frame": 131.8,
+          "value": [
+            -663,
+            259
+          ]
+        },
+        {
+          "frame": 258,
+          "value": [
+            -121,
+            259
+          ]
+        }
+      ],
+      "scaleX": [
+        {
+          "frame": 125.8,
+          "value": 1
+        },
+        {
+          "frame": 138.2,
+          "value": -1
+        },
+        {
+          "frame": 258,
+          "value": -1
+        },
+        {
+          "frame": 264.2,
+          "value": 1
+        }
+      ]
+    }
+  },
+  "events": []
+}

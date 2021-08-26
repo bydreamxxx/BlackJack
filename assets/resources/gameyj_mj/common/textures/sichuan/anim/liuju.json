@@ -1,0 +1,112 @@
+{
+"skeleton": { "hash": "bAARLowSv17tEsFDIbeS2Z8p1UU", "spine": "3.4.02", "width": 189.28, "height": 105, "images": "" },
+"bones": [
+	{ "name": "liujuZT" },
+	{ "name": "ju", "parent": "liujuZT", "x": 47.2 },
+	{ "name": "liu", "parent": "liujuZT", "x": -46.58 }
+],
+"slots": [
+	{ "name": "ju", "bone": "ju", "attachment": "ju" },
+	{ "name": "liu", "bone": "liu", "attachment": "liu" }
+],
+"skins": {
+	"default": {
+		"ju": {
+			"ju": { "width": 96, "height": 105 }
+		},
+		"liu": {
+			"liu": { "width": 95, "height": 105 }
+		}
+	}
+},
+"animations": {
+	"liuju": {
+		"slots": {
+			"ju": {
+				"attachment": [
+					{ "time": 0, "name": "ju" },
+					{ "time": 0.2333, "name": "ju" },
+					{ "time": 0.4, "name": "ju" },
+					{ "time": 1, "name": "ju" }
+				]
+			},
+			"liu": {
+				"attachment": [
+					{ "time": 0, "name": "liu" },
+					{ "time": 0.2333, "name": "liu" },
+					{ "time": 0.4, "name": "liu" },
+					{ "time": 1, "name": "liu" }
+				]
+			}
+		},
+		"bones": {
+			"liujuZT": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.4, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.2333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			},
+			"liu": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.1666, "angle": 0, "curve": "stepped" },
+					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.4, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -646.47, "y": 0 },
+					{ "time": 0.1666, "x": -89.42, "y": 0 },
+					{ "time": 0.2333, "x": 3.42, "y": 0 },
+					{ "time": 0.4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.1666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			},
+			"ju": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.1666, "angle": 0, "curve": "stepped" },
+					{ "time": 0.2333, "angle": 0, "curve": "stepped" },
+					{ "time": 0.4, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 647.83, "y": 0 },
+					{ "time": 0.1666, "x": 89.61, "y": 0 },
+					{ "time": 0.2333, "x": -3.41, "y": 0 },
+					{ "time": 0.4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.1666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.2333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}
