@@ -4,8 +4,6 @@ let prefab_config = require('klb_friend_group_prefab_cfg');
 let GetGameRules = require('GetGameRules');
 var HallPropData = require('hall_prop_data').HallPropData.getInstance();
 var hallData = require('hall_common_data').HallCommonData;
-let SH_ED = require('sh_data').SH_ED;
-let SH_Event = require('sh_data').SH_Event;
 var hall_prefab = require('hall_prefab_cfg');
 
 const max_table_num = 20;
@@ -47,8 +45,6 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        SH_ED.addObserver(this);
-
         this.updateTimer = 0;
         this.updateInterval = 0.2;
         this.lastContentPosX = 0;
@@ -61,20 +57,12 @@ cc.Class({
     },
 
     onDestroy() {
-        SH_ED.removeObserver(this);
     },
 
 
     //事件处理
     onEventMessage(event, data) {
-        switch (event) {
-            case SH_Event.UPDATE_SEAT_ROOM:
-                this.onTablesMsg(data);
-                break;
-            case SH_Event.UPDATE_SEAT_INFO:
-                this.onDeskMsg(data);
-                break;
-        }
+
     },
 
     initBaseInfo(room) {

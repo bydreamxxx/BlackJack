@@ -1,5 +1,5 @@
 
-var AudioPath = require("jlmj_audio_path");
+// var AudioPath = require("jlmj_audio_path");
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var SlotCfg = require('SlotCfg');
 var gSlotMgr = require('SlotManger').SlotManger.Instance();

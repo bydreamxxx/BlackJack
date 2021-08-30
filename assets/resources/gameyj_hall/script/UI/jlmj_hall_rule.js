@@ -1,4 +1,3 @@
-const DeskData = require('jlmj_desk_data').DeskData;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
 cc.Class({

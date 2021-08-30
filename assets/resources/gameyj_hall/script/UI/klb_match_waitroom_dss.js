@@ -1,6 +1,5 @@
 const BSC_Data = require('bsc_data').BSC_Data;
 const HallCommonData = require('hall_common_data').HallCommonData;
-var playerMgr = require('ccmj_player_mgr');
 const Bsc_Event = require('bsc_data').BSC_Event;
 const Bsc_ED = require('bsc_data').BSC_ED;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();

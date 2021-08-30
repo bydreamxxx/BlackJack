@@ -1,9 +1,6 @@
 const BSC_Data = require('bsc_data').BSC_Data;
 const HallCommonData = require('hall_common_data').HallCommonData;
-var playerMgr = require('ccmj_player_mgr');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
-var DeskEvent = require('jlmj_desk_data').DeskEvent;
-var DeskED = require('jlmj_desk_data').DeskED;
 var hall_prefab = require('hall_prefab_cfg');
 
 const TITLE_STATE = {
@@ -61,13 +58,6 @@ cc.Class({
     },
 
     show(data, lastJiesuan) {
-        if (data.gameType == cc.dd.Define.GameType.CCMJ_MATCH || data.gameType == cc.dd.Define.GameType.AHMJ_MATCH) {
-            DeskEvent = require('jlmj_desk_data').DeskEvent;
-            DeskED = require('jlmj_desk_data').DeskED;
-        } else if (data.gameType == cc.dd.Define.GameType.WDMJ_MATCH) {
-            DeskEvent = require('base_mj_desk_data').DeskEvent;
-            DeskED = require('base_mj_desk_data').DeskED;
-        }
         this.lastJiesuan = lastJiesuan;
         this.lastJiesuanButton.active = lastJiesuan;
 
@@ -287,6 +277,5 @@ cc.Class({
 
     onClickLastJieSuan() {
         hall_audio_mgr.com_btn_click();
-        DeskED.notifyEvent(DeskEvent.JIESUAN, [this.lastJiesuan, true]);
     }
 });

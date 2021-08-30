@@ -261,20 +261,16 @@ var RoomMgr = cc.Class({
         switch (this.gameId) {
             case Define.GameType.JLMJ_FRIEND:
             case Define.GameType.JLMJ_GOLD:
-                this.player_mgr = require('jlmj_player_mgr').Instance();
                 break;
             case Define.GameType.TDK_FRIEND:
             case Define.GameType.TDK_COIN:
             case Define.GameType.TDK_FRIEND_LIU:
-                this.player_mgr = require('tdk_coin_player_data').TdkCPlayerMgrData.Instance();
                 break;
             case Define.GameType.CCMJ_FRIEND:
             case Define.GameType.CCMJ_GOLD:
             case Define.GameType.CCMJ_MATCH:
-                this.player_mgr = require('ccmj_player_mgr').Instance();
                 break;
             case Define.GameType.SDY_FRIEND:
-                this.player_mgr = require('sdy_player_mgr').PlayerMgr.Instance();
                 break;
             case Define.GameType.DDZ_FRIEND:
             case Define.GameType.DDZ_MATCH:
@@ -287,11 +283,9 @@ var RoomMgr = cc.Class({
                 break;
             case Define.GameType.PAOYAO_GOLD:
             case Define.GameType.PAOYAO_FRIEND:
-                this.player_mgr = require('paoyao_data').PaoYao_Data.getInstance();
                 break;
             case Define.GameType.GDY_GOLD:
             case Define.GameType.GDY_FRIEND:
-                this.player_mgr = require('gdy_game_data').GDY_Data.Instance();
                 break;
             case Define.GameType.NN_FRIEND:
             case Define.GameType.NN_GOLD:
@@ -303,15 +297,12 @@ var RoomMgr = cc.Class({
                 this.player_mgr = require('brnn_data').brnn_Data.Instance();
                 break;
             case Define.GameType.EBG_GOLD:
-                this.player_mgr = require('twoeight_data').twoeight_Data.Instance();
                 break;
             case Define.GameType.NAMJ_FRIEND:
             case Define.GameType.NAMJ_GOLD:
-                this.player_mgr = require('namj_player_mgr').Instance();
                 break;
             case Define.GameType.FXMJ_FRIEND:
             case Define.GameType.FXMJ_GOLD:
-                this.player_mgr = require('fxmj_player_mgr').Instance();
                 break;
             case Define.GameType.DSZ_FRIEND:
             case Define.GameType.DSZ_GOLD:
@@ -319,74 +310,57 @@ var RoomMgr = cc.Class({
                 break;
             case Define.GameType.SYMJ_FRIEND:
             case Define.GameType.SYMJ_GOLD:
-                this.player_mgr = require('symj_player_mgr').Instance();
                 break;
             case Define.GameType.JZMJ_FRIEND:
             case Define.GameType.JZMJ_GOLD:
-                this.player_mgr = require('jzmj_player_mgr').Instance();
                 break;
             case Define.GameType.HSMJ_FRIEND:
             case Define.GameType.HSMJ_GOLD:
-                this.player_mgr = require('hsmj_player_mgr').Instance();
                 break;
             case Define.GameType.SH_FRIEND:
             case Define.GameType.SH_GOLD:
             case Define.GameType.SH_MATCH:
-                this.player_mgr = require('sh_data').sh_Data.Instance();
                 break;
             case Define.GameType.XZMJ_FRIEND:
             case Define.GameType.XLMJ_FRIEND:
             case Define.GameType.XZMJ_GOLD:
             case Define.GameType.XLMJ_GOLD:
-                this.player_mgr = require('scmj_player_mgr').Instance();
                 break;
             case Define.GameType.SHMJ_FRIEND:
             case Define.GameType.SHMJ_GOLD:
-                this.player_mgr = require('shmj_player_mgr').Instance();
                 break;
             case Define.GameType.TDHMJ_FRIEND:
             case Define.GameType.TDHMJ_GOLD:
-                this.player_mgr = require('tdhmj_player_mgr').Instance();
                 break;
             case Define.GameType.CFMJ_FRIEND:
             case Define.GameType.CFMJ_GOLD:
-                this.player_mgr = require('cfmj_player_mgr').Instance();
                 break;
             case Define.GameType.AHMJ_FRIEND:
             case Define.GameType.AHMJ_GOLD:
-                this.player_mgr = require('ahmj_player_mgr').Instance();
                 break;
             case Define.GameType.FZMJ_FRIEND:
             case Define.GameType.FZMJ_GOLD:
-                this.player_mgr = require('fzmj_player_mgr').Instance();
                 break;
             case Define.GameType.WDMJ_FRIEND:
             case Define.GameType.WDMJ_GOLD:
             case Define.GameType.WDMJ_MATCH:
-                this.player_mgr = require('wdmj_player_mgr').Instance();
                 break;
             case Define.GameType.PZMJ_FRIEND:
             case Define.GameType.PZMJ_GOLD:
-                this.player_mgr = require('pzmj_player_mgr').Instance();
                 break;
             case Define.GameType.BCMJ_FRIEND:
             case Define.GameType.BCMJ_GOLD:
-                this.player_mgr = require('bcmj_player_mgr').Instance();
                 break;
             case Define.GameType.ACMJ_FRIEND:
             case Define.GameType.ACMJ_GOLD:
-                this.player_mgr = require('acmj_player_mgr').Instance();
                 break;
             case Define.GameType.HLMJ_FRIEND:
             case Define.GameType.HLMJ_GOLD:
-                this.player_mgr = require('hlmj_player_mgr').Instance();
                 break;
             case Define.GameType.JSMJ_GOLD:
-                this.player_mgr = require('jsmj_player_mgr').Instance();
                 break;
             case Define.GameType.HBSL_GOLD:
             case Define.GameType.HBSL_JBL:
-                this.player_mgr = require('hbslData').HBSL_Data.Instance();
                 break;
             case Define.GameType.DT_GOLD:
                 this.player_mgr = require('pk_data_mgr').PK_Data_Mgr.Instance();
@@ -417,7 +391,6 @@ var RoomMgr = cc.Class({
                 this.player_mgr = require('horse_racing_Data').Horse_Racing_Data.Instance();
                 break;
             case Define.GameType.MOUSE:
-                this.player_mgr = require('mouse_hit_Data').Mouse_Hit_Data.Instance();
                 break;
             default:
                 break;
@@ -535,172 +508,100 @@ var RoomMgr = cc.Class({
     setPYGameNetHandler: function (game_id) {
         switch (game_id) {
             case Define.GameType.CCMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_changchunmajiang_func", require('ccmj_net_handler_ccmj'));
                 break;
             case Define.GameType.CCMJ_MATCH:
             case Define.GameType.CCMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_changchunmajiang_func", require('ccmj_net_handler_ccmj_jbc'));
                 break;
             case Define.GameType.JLMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_jilinmajiang_func", require('jlmj_net_handler_jlmj'));
                 break;
             case Define.GameType.JLMJ_MATCH:
             case Define.GameType.JLMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_jilinmajiang_func", require('jlmj_net_handler_jlmj_jbc'));
                 break;
             case Define.GameType.NAMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_nonganmajiang_func", require('namj_net_handler_namj'));
                 break;
             case Define.GameType.NAMJ_MATCH:
             case Define.GameType.NAMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_nonganmajiang_func", require('namj_net_handler_namj_jbc'));
                 break;
             case Define.GameType.FXMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_fuxinmajiang_func", require('fxmj_net_handler_fxmj'));
                 break;
             case Define.GameType.FXMJ_MATCH:
             case Define.GameType.FXMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_fuxinmajiang_func", require('fxmj_net_handler_fxmj_jbc'));
                 break;
             case Define.GameType.TDK_FRIEND:
             case Define.GameType.TDK_COIN:
             case Define.GameType.TDK_FRIEND_LIU:
-                cc.gateNet.Instance().setHandler("c_msg_tiandakeng_func", require('jlmj_net_handler_tdk'));
                 break;
             case Define.GameType.SYMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_songyuanmajiang_func", require('symj_net_handler_symj'));
                 break;
             case Define.GameType.SYMJ_MATCH:
             case Define.GameType.SYMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_songyuanmajiang_func", require('symj_net_handler_symj_jbc'));
                 break;
             case Define.GameType.JZMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_jinzhoumj_func", require('jzmj_net_handler_jzmj'));
                 break;
             case Define.GameType.JZMJ_MATCH:
             case Define.GameType.JZMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_jinzhoumj_func", require('jzmj_net_handler_jzmj_jbc'));
                 break;
             case Define.GameType.HSMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_heishanmj_func", require('hsmj_net_handler_hsmj'));
                 break;
             case Define.GameType.HSMJ_MATCH:
             case Define.GameType.HSMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_heishanmj_func", require('hsmj_net_handler_hsmj_jbc'));
                 break;
             case Define.GameType.XZMJ_FRIEND:
             case Define.GameType.XLMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_xuezhanmj_func", require('scmj_net_handler_scmj'));
                 break;
             case Define.GameType.XZMJ_MATCH:
             case Define.GameType.XZMJ_GOLD:
             case Define.GameType.XLMJ_MATCH:
             case Define.GameType.XLMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_xuezhanmj_func", require('scmj_net_handler_scmj_jbc'));
                 break;
             case Define.GameType.SHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_suihuamj_func", require('shmj_net_handler_shmj'));
                 break;
             case Define.GameType.SHMJ_MATCH:
             case Define.GameType.SHMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_suihuamj_func", require('shmj_net_handler_shmj_jbc'));
                 break;
             case Define.GameType.TDHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_neimenggumj_func", require('tdhmj_net_handler_tdhmj'));
                 break;
             case Define.GameType.TDHMJ_MATCH:
             case Define.GameType.TDHMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_neimenggumj_func", require('tdhmj_net_handler_tdhmj_jbc'));
                 break;
             case Define.GameType.CFMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_chifengmj_func", require('cfmj_net_handler_cfmj'));
                 break;
             case Define.GameType.CFMJ_MATCH:
             case Define.GameType.CFMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_chifengmj_func", require('cfmj_net_handler_cfmj_jbc'));
                 break;
             case Define.GameType.AHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_aohanmj_func", require('ahmj_net_handler_ahmj'));
                 break;
             case Define.GameType.AHMJ_MATCH:
             case Define.GameType.AHMJ_GOLD:
-                cc.gateNet.Instance().setHandler("c_msg_aohanmj_func", require('ahmj_net_handler_ahmj_jbc'));
                 break;
             case Define.GameType.FZMJ_FRIEND:
             case Define.GameType.FZMJ_MATCH:
             case Define.GameType.FZMJ_GOLD:
-                let fzmj_handler = require('fzmj_net_handler_fzmj');
-                if (game_id == Define.GameType.FZMJ_FRIEND) {
-                    fzmj_handler.setHandlerTypeFriend();
-                } else {
-                    fzmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_fangzhengmj_func", fzmj_handler);
                 break;
             case Define.GameType.WDMJ_FRIEND:
             case Define.GameType.WDMJ_MATCH:
             case Define.GameType.WDMJ_GOLD:
-                let wdmj_handler = require('wdmj_net_handler_wdmj');
-                if (game_id == Define.GameType.WDMJ_FRIEND) {
-                    wdmj_handler.setHandlerTypeFriend();
-                } else {
-                    wdmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_wudanmj_func", wdmj_handler);
                 break;
             case Define.GameType.PZMJ_FRIEND:
             case Define.GameType.PZMJ_GOLD:
             case Define.GameType.PZMJ_MATCH:
-                let pzmj_handler = require('pzmj_net_handler_pzmj');
-                if (game_id == Define.GameType.PZMJ_FRIEND) {
-                    pzmj_handler.setHandlerTypeFriend();
-                } else {
-                    pzmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", pzmj_handler);
                 break;
             case Define.GameType.BCMJ_FRIEND:
             case Define.GameType.BCMJ_GOLD:
             case Define.GameType.BCMJ_MATCH:
-                let bcmj_handler = require('bcmj_net_handler_bcmj');
-                if (game_id == Define.GameType.BCMJ_FRIEND) {
-                    bcmj_handler.setHandlerTypeFriend();
-                } else {
-                    bcmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", bcmj_handler);
                 break;
             case Define.GameType.ACMJ_FRIEND:
             case Define.GameType.ACMJ_GOLD:
             case Define.GameType.ACMJ_MATCH:
-                let acmj_handler = require('acmj_net_handler_acmj');
-                if (game_id == Define.GameType.ACMJ_FRIEND) {
-                    acmj_handler.setHandlerTypeFriend();
-                } else {
-                    acmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", acmj_handler);
                 break;
             case Define.GameType.HLMJ_FRIEND:
             case Define.GameType.HLMJ_GOLD:
             case Define.GameType.HLMJ_MATCH:
-                let hlmj_handler = require('hlmj_net_handler_hlmj');
-                if (game_id == Define.GameType.HLMJ_FRIEND) {
-                    hlmj_handler.setHandlerTypeFriend();
-                } else {
-                    hlmj_handler.setHandlerTypeJBC();
-                }
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", hlmj_handler);
-                cc.gateNet.Instance().addRecvfunc("c_msg_mjcommon_func", 3330, { package_name: 'msg', msg_name: 'JiaoPaiInfo', name: 'JiaoPaiInfo', func: hlmj_handler.on_JiaoPaiInfo, func_name: 'on_JiaoPaiInfo', logtag: '[3330:JiaoPaiInfo ]' });
                 break;
             case Define.GameType.JSMJ_GOLD:
-                let jsmj_handler = require('jsmj_net_handler_jsmj');
-                jsmj_handler.setHandlerTypeJBC();
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", jsmj_handler);
                 break;
             case Define.GameType.HBSL_GOLD:
             case Define.GameType.HBSL_JBL:
-                cc.gateNet.Instance().setHandler("c_msg_hb_func", require('net_hadler_hbsl'));
                 break;
             default:
                 break;
@@ -714,79 +615,46 @@ var RoomMgr = cc.Class({
     setReplayGameNetHandler: function (game_id) {
         switch (game_id) {
             case Define.GameType.CCMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_changchunmajiang_func", require('ccmj_handler_ccmj_replay'));
                 break;
             case Define.GameType.JLMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_jilinmajiang_func", require('jlmj_handler_jlmj_replay'));
                 break;
             case Define.GameType.NAMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_nonganmajiang_func", require('namj_handler_namj_replay'));
                 break;
             case Define.GameType.FXMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_fuxinmajiang_func", require('fxmj_handler_fxmj_replay'));
                 break;
             case Define.GameType.SYMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_songyuanmajiang_func", require('symj_handler_symj_replay'));
                 break;
             case Define.GameType.JZMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_jinzhoumj_func", require('jzmj_handler_jzmj_replay'));
                 break;
             case Define.GameType.HSMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_heishanmj_func", require('hsmj_handler_hsmj_replay'));
                 break;
             case Define.GameType.TDK_FRIEND:
             case Define.GameType.TDK_FRIEND_LIU:
-                cc.gateNet.Instance().setHandler("c_msg_tiandakeng_func", require('tdk_handler_tdk_replay'));
                 break;
             case Define.GameType.XZMJ_FRIEND:
             case Define.GameType.XLMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_xuezhanmj_func", require('scmj_handler_scmj_replay'));
                 break;
             case Define.GameType.SHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_suihuamj_func", require('shmj_handler_shmj_replay'));
                 break;;
             case Define.GameType.TDHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_neimenggumj_func", require('tdhmj_handler_tdhmj_replay'));
                 break;
             case Define.GameType.CFMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_chifengmj_func", require('cfmj_handler_cfmj_replay'));
                 break;
             case Define.GameType.AHMJ_FRIEND:
-                cc.gateNet.Instance().setHandler("c_msg_aohanmj_func", require('ahmj_handler_ahmj_replay'));
                 break;
             case Define.GameType.FZMJ_FRIEND:
-                let fzmj_handler = require('fzmj_net_handler_fzmj');
-                fzmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_fangzhengmj_func", fzmj_handler);
                 break;
             case Define.GameType.WDMJ_FRIEND:
-                let wdmj_handler = require('wdmj_net_handler_wdmj');
-                wdmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_wudanmj_func", wdmj_handler);
                 break;
             case Define.GameType.PZMJ_FRIEND:
-                let pzmj_handler = require('pzmj_net_handler_pzmj');
-                pzmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", pzmj_handler);
                 break;
             case Define.GameType.BCMJ_FRIEND:
-                let bcmj_handler = require('bcmj_net_handler_bcmj');
-                bcmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", bcmj_handler);
                 break;
             case Define.GameType.ACMJ_FRIEND:
-                let acmj_handler = require('acmj_net_handler_acmj');
-                acmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", acmj_handler);
                 break;
             case Define.GameType.HLMJ_FRIEND:
-                let hlmj_handler = require('hlmj_net_handler_hlmj');
-                hlmj_handler.setHandlerTypeReplay();
-                cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", hlmj_handler);
-                cc.gateNet.Instance().addRecvfunc("c_msg_mjcommon_func", 3330, { package_name: 'msg', msg_name: 'JiaoPaiInfo', name: 'JiaoPaiInfo', func: hlmj_handler.on_JiaoPaiInfo, func_name: 'on_JiaoPaiInfo', logtag: '[3330:JiaoPaiInfo ]' });
                 break;
             case Define.GameType.HBSL_JBL:
-                cc.gateNet.Instance().setHandler("c_msg_hb_func", require('hbsl_handler_hbsl_replay'));
                 break;
             default:
                 break;

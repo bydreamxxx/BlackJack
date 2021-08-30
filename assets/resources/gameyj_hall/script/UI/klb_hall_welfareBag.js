@@ -1,4 +1,4 @@
-var jlmj_audio_mgr = require('jlmj_audio_mgr');
+var hall_audio_mgr = require('hall_audio_mgr');
 var data_welfareBag = require('welfareBag');
 const HallCommonData = require('hall_common_data').HallCommonData;
 var data_exp = require('playerExp');
@@ -54,12 +54,12 @@ cc.Class({
         this.initWelfareList();
     },
     onClickClose: function () {
-        jlmj_audio_mgr.Instance().com_btn_click();
+        hall_audio_mgr.Instance().com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
     },
 
     onClickVipItem: function (event, data) {
-        jlmj_audio_mgr.Instance().com_btn_click();
+        hall_audio_mgr.Instance().com_btn_click();
         this.descLabel.string = '荣誉Lv.' + (parseInt(data) + 1) + '奖励';
 
         for (var i = 0; i < this.vip_item_list.length; ++i) {
@@ -73,7 +73,7 @@ cc.Class({
     },
 
     onClickTips(event, data) {
-        jlmj_audio_mgr.Instance().com_btn_click();
+        hall_audio_mgr.Instance().com_btn_click();
         var config = require('playerHonor');
         var cfg = config.getItem(function (item) { return item.key == 1; });
         if (cfg) {

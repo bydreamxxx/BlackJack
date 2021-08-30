@@ -31,28 +31,10 @@ module.exports = {
                 this.deskData = require('ddz_data').DDZ_Data;
                 break;
             case GameType.CCMJ_MATCH:
-                this.deskData = require('ccmj_desk_data').DeskData;
-                this.deskData.Instance().isGameStart = true;
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = msg.gameType;
-                }
                 break;
             case GameType.WDMJ_MATCH:
-                this.deskData = require('wdmj_desk_data').DeskData;
-                this.deskData.Instance().isGameStart = true;
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = msg.gameType;
-                }
                 break;
             case GameType.AHMJ_MATCH:
-                this.deskData = require('ahmj_desk_data').DeskData;
-                this.deskData.Instance().isGameStart = true;
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = msg.gameType;
-                }
                 break;
         }
         cc.dd.AppCfg.GAME_ID = msg.gameType;
@@ -134,34 +116,10 @@ module.exports = {
                 }
                 break;
             case GameType.CCMJ_MATCH:
-                checkUpdate = GameType.CCMJ_GOLD;
-                if (cc.dd._.isNull(this.deskData)) {
-                    this.deskData = require('ccmj_desk_data').DeskData;
-                }
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = gameType;
-                }
                 break;
             case GameType.WDMJ_MATCH:
-                checkUpdate = GameType.WDMJ_GOLD;
-                if (cc.dd._.isNull(this.deskData)) {
-                    this.deskData = require('wdmj_desk_data').DeskData;
-                }
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = gameType;
-                }
                 break;
             case GameType.AHMJ_MATCH:
-                checkUpdate = GameType.AHMJ_GOLD;
-                if (cc.dd._.isNull(this.deskData)) {
-                    this.deskData = require('ahmj_desk_data').DeskData;
-                }
-                beforeLoadFunc = () => {
-                    let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-                    RoomMgr.Instance().gameId = gameType;
-                }
                 break;
         }
 

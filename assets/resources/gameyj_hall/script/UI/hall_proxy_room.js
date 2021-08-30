@@ -1,9 +1,6 @@
 //created by luke on 2019/3/28
 const gamelistcfg = require('klb_gameList');
 const Define = require("Define");
-var PY_EnumData = require("paoyao_type").EnumData.Instance();
-var PY_Enum = require("paoyao_type");
-var hbslData = require('hbslData').HBSL_Data;
 var Platform = require("Platform");
 const AppCfg = require('AppConfig');
 var Text = cc.dd.Text;

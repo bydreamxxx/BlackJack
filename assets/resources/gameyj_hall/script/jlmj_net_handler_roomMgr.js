@@ -472,13 +472,6 @@ var handler = {
                 });
                 break;
             case 41: //填大坑金币场
-                var mgr = require('tdk_coin_player_data').TdkCPlayerMgrData.Instance();
-                mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(element => {
-                    mgr.playerEnter(element);
-                });
-                mgr.playerCoinEnter();
-                RoomMgr.Instance().setPlayerMgr();
                 break;
             case 51://牛牛金币场
                 var mgr = require('nn_data').Instance();
@@ -497,11 +490,6 @@ var handler = {
                 cc.dd.SceneManager.enterGame(msg.gameInfo.gameType);
                 break;
             case 61: // 刨幺金币场
-                var mgr = require('paoyao_data').PaoYao_Data.getInstance();
-                mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(element => {
-                    mgr.playerEnter(element);
-                });
                 break;
             case 135: //斗三张
                 var mgr = require('dsz_player_mgr').DSZ_PlayerMgr.Instance();
@@ -528,28 +516,12 @@ var handler = {
                 RoomED.notifyEvent(RoomEvent.on_room_game_start, []);
                 break;
             case 163://梭哈
-                var mgr = require('sh_data').sh_Data.Instance();
-                mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(element => {
-                    mgr.playerEnter(element);
-                });
-                RoomMgr.Instance().setPlayerMgr();
-                RoomED.notifyEvent(RoomEvent.on_room_game_start, []);
                 break;
             case define.GameType.GDY_GOLD: // 干瞪眼金币场
-                var mgr = require('net_handler_gdy').GDY_Data.Instance();
-                mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(element => {
-                    mgr.playerEnter(element);
-                });
                 break;
             case define.GameType.HBSL_GOLD:
             case define.GameType.HBSL_JBL: //红包埋雷
-                var mgr = require('hbslData').HBSL_Data.Instance();
-                mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(element => {
-                    mgr.playerEnter(element);
-                });
+
                 break;
             case 136://新斗三张
                 RoomMgr.Instance().setPlayerMgr();
@@ -592,17 +564,6 @@ var handler = {
 
     //房间金币更新
     on_msg_room_coin_update: function (msg) {
-
-        switch (msg.gameType) {
-            case 23:
-                var playerMgr = require('jlmj_player_mgr');
-                playerMgr.Instance().setUserPlayerCoin(msg.userId, msg.coin);
-                break;
-            case 13:
-                var playerMgr = require('ccmj_player_mgr');
-                playerMgr.Instance().setUserPlayerCoin(msg.userId, msg.coin);
-                break;
-        }
         cc.log("msg_room_coin_update:", msg);
         /*optional int32  game_type      = 1;
         optional int32  room_id        = 2;
@@ -626,25 +587,20 @@ var handler = {
                 break;
             case define.GameType.TDK_FRIEND: //填大坑
             case define.GameType.TDK_FRIEND_LIU: //方正填大坑
-                handler = require('jlmj_net_handler_tdk');
                 break;
             case 50://牛牛
                 handler = require('net_handler_douniu');
                 break;
             case define.GameType.PAOYAO_FRIEND: //刨幺
-                handler = require('net_handler_paoyao');
                 break;
             case 35: //斗三张
                 handler = require('net_handler_dsz');
                 break;
             case 63:
-                handler = require('net_handler_suoha');
                 break;
             case define.GameType.GDY_FRIEND: //干瞪眼
-                handler = require('net_handler_gdy');
                 break;
             case define.GameType.HBSL_JBL: //红包埋雷
-                handler = require('net_hadler_hbsl');
                 break;
             case define.GameType.NEW_DSZ_FRIEND://新斗三张
                 handler = require('net_handler_new_dsz');
@@ -671,25 +627,20 @@ var handler = {
                 break;
             case define.GameType.TDK_FRIEND: //填大坑
             case define.GameType.TDK_FRIEND_LIU: //方正填大坑
-                handler = require('jlmj_net_handler_tdk');
                 break;
             case 50://牛牛
                 handler = require('net_handler_douniu');
                 break;
             case define.GameType.PAOYAO_FRIEND: //刨幺
-                handler = require('net_handler_paoyao');
                 break;
             case 35: //斗三张
                 handler = require('net_handler_dsz');
                 break;
             case 63:
-                handler = require('net_handler_suoha');
                 break;
             case define.GameType.GDY_FRIEND: //干瞪眼
-                handler = require('net_handler_gdy');
                 break;
             case define.GameType.HBSL_JBL: //红包埋雷
-                handler = require('net_hadler_hbsl');
                 break;
             case define.GameType.NEW_DSZ_FRIEND://新斗三张
                 handler = require('net_handler_new_dsz');
@@ -719,7 +670,6 @@ var handler = {
             case define.GameType.TDK_FRIEND: //填大坑
             case define.GameType.TDK_FRIEND_LIU: //方正填大坑
             case define.GameType.TDK_COIN: //填大坑
-                handler = require('jlmj_net_handler_tdk');
                 break;
             case 50://牛牛
             case 51:
@@ -727,7 +677,6 @@ var handler = {
                 break;
             case 60: //刨幺
             case 61:
-                handler = require('net_handler_paoyao');
                 break;
             case 35://斗三张
             case 135:
@@ -735,14 +684,12 @@ var handler = {
                 break;
             case 63:
             case 163://港式五张
-                handler = require('net_handler_suoha');
                 break;
             case 36://新斗三张
                 handler = require('net_handler_new_dsz');
                 break;
             case define.GameType.GDY_GOLD: //干瞪眼
             case define.GameType.GDY_FRIEND:
-                handler = require('net_handler_gdy');
                 break;
         }
         if (handler) {

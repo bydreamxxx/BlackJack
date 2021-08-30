@@ -10,7 +10,6 @@ var AppCfg = require('AppConfig');
 const Bsc = require('bsc_data');
 const YYL_GAMEID = 100000;
 const LONGHU_GAMEID = 100001;
-const DeskData = require('jlmj_desk_data').DeskData;
 /******************************************快乐吧独有的协议**********************************************/
 const hall_rooms_data = require('klb_hall_RoomData').HallRoomsData.instance();
 /******************************************快乐吧独有的协议end**********************************************/
@@ -130,10 +129,6 @@ var hanlder = {
      */
     onReconnectGame: function (msg) {
         if (this.headerHandle(msg)) {
-            if (DeskData.Instance().isGameEnd) {
-                cc.dd.NetWaitUtil.close();
-                return;
-            }
             if (cc.dd._.isUndefined(msg.gameId)) {
                 if (cc.director.getScene().name != AppCfg.HALL_NAME && cc.director.getScene().name != 'club') {
                     dd.DialogBoxUtil.show(1, "当前房间不存在,请返回大厅", "确定", null,

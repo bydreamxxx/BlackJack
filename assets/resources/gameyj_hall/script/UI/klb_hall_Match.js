@@ -1,4 +1,3 @@
-const bscCfg = require('bsc_ActCfg');
 const Bsc_Event = require('bsc_data').BSC_Event;
 const Bsc_ED = require('bsc_data').BSC_ED;
 const Bsc_sendMsg = require('bsc_sendMsg');

@@ -171,46 +171,21 @@ const GateNet = cc.Class({
         this.handle_recvfunc_list.push(require('c_msg_login_func'));
         this.handle_recvfunc_list.push(require('c_msg_hall_func'));
         this.handle_recvfunc_list.push(require('c_msg_room_mgr_func'));
-        this.handle_recvfunc_list.push(require('c_msg_club_func'));
         this.handle_recvfunc_list.push(require('c_msg_bisai_func'));
         this.handle_recvfunc_list.push(require('c_msg_doudizhu_func'));
         this.handle_recvfunc_list.push(require('c_msg_common_func'));
-        this.handle_recvfunc_list.push(require('c_msg_tiandakeng_func'));
         this.handle_recvfunc_list.push(require('c_msg_baoxianxiang_coin_func'));
         this.handle_recvfunc_list.push(require('c_msg_rank_func'));
-        this.handle_recvfunc_list.push(require('c_msg_zhajinhua_func'));
-        this.handle_recvfunc_list.push(require('c_msg_sdy_func'));
         this.handle_recvfunc_list.push(require('c_msg_douniu_func'));
         this.handle_recvfunc_list.push(require('c_msg_slot_func'));
         this.handle_recvfunc_list.push(require('c_msg_fkps_func'));
         this.handle_recvfunc_list.push(require('c_msg_activity_collect_func'));
-        this.handle_recvfunc_list.push(require('c_msg_paoyao_func'));
         this.handle_recvfunc_list.push(require('c_msg_match_func'));
         this.handle_recvfunc_list.push(require('c_msg_baoxianxiang_func'));
 
-
-        this.handle_recvfunc_list.push(require('c_msg_jilinmajiang_func'));
-        this.handle_recvfunc_list.push(require('c_msg_changchunmajiang_func'));
-        this.handle_recvfunc_list.push(require('c_msg_nonganmajiang_func'));
-        this.handle_recvfunc_list.push(require('c_msg_fuxinmajiang_func'));
-        this.handle_recvfunc_list.push(require('c_msg_songyuanmajiang_func'));
-        this.handle_recvfunc_list.push(require('c_msg_xuezhanmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_suihuamj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_jinzhoumj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_heishanmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_neimenggumj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_chifengmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_aohanmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_fangzhengmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_wudanmj_func'));
-        this.handle_recvfunc_list.push(require('c_msg_mjcommon_func'));
-
         this.handle_recvfunc_list.push(require('c_msg_pin3_func'));
-        this.handle_recvfunc_list.push(require('c_msg_suoha_func'));
-        this.handle_recvfunc_list.push(require('c_msg_hb_func'));
         this.handle_recvfunc_list.push(require('c_msg_pk_func'));
         this.handle_recvfunc_list.push(require('c_msg_yq_pin3_func'));
-        this.handle_recvfunc_list.push(require('c_msg_gandengyan_func'));
         this.handle_recvfunc_list.push(require('c_msg_fqzs_func'));
         this.handle_recvfunc_list.push(require('c_msg_fish_func'));
         this.handle_recvfunc_list.push(require('c_msg_qka_fish_master_func'));
@@ -218,9 +193,7 @@ const GateNet = cc.Class({
         this.handle_recvfunc_list.push(require('c_msg_paodekuai_func'));
         this.handle_recvfunc_list.push(require('c_msg_xiyou_func'));
         this.handle_recvfunc_list.push(require('c_msg_turn_func'));
-        this.handle_recvfunc_list.push(require('c_msg_br_tb_func'));
         this.handle_recvfunc_list.push(require('c_msg_horse_func'));
-        this.handle_recvfunc_list.push(require('c_msg_mouse_func'));
     },
 
     getHandlerFunc: function (id) {

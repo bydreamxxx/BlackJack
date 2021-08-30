@@ -1,9 +1,7 @@
 var game_room_list = require('game_room');
 var HallPropData = require('hall_prop_data').HallPropData.getInstance();
-var jlmj_desk_jbc_data = require("jlmj_desk_jbc_data");
 var HallCommonData = require("hall_common_data").HallCommonData;
 var Define = require("Define");
-var zjh_msg_send = require('jlmj_net_msg_sender_zjh');
 var hall_prefab = require('hall_prefab_cfg');
 var RoomMgr = require('jlmj_room_mgr').RoomMgr;
 var klb_game_list_config = require('klb_gameList');
@@ -408,67 +406,7 @@ cc.Class({
      * 切换吉林麻将 金币场
      */
     replaceRoomMgr: function (gameId) {
-        var scriptData = null;
-        switch (gameId) {
-            case Define.GameType.JLMJ_GOLD:
-                scriptData = require("jlmj_desk_jbc_data").getInstance();
-                break;
-            case Define.GameType.CCMJ_GOLD:
-                scriptData = require("ccmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.NAMJ_GOLD:
-                scriptData = require("namj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.FXMJ_GOLD:
-                scriptData = require("fxmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.SYMJ_GOLD:
-                scriptData = require("symj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.XZMJ_GOLD:
-            case Define.GameType.XLMJ_GOLD:
-                scriptData = require("scmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.SHMJ_GOLD:
-                scriptData = require("shmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.JZMJ_GOLD:
-                scriptData = require("jzmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.HSMJ_GOLD:
-                scriptData = require("hsmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.TDHMJ_GOLD:
-                scriptData = require("tdhmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.CFMJ_GOLD:
-                scriptData = require("cfmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.AHMJ_GOLD:
-                scriptData = require("ahmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.FZMJ_GOLD:
-                scriptData = require("fzmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.WDMJ_GOLD:
-                scriptData = require("wdmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.PZMJ_GOLD:
-                scriptData = require("pzmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.BCMJ_GOLD:
-                scriptData = require("bcmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.JSMJ_GOLD:
-                scriptData = require("jsmj_desk_data_jbc").getInstance();
-                break;
-            case Define.GameType.HLMJ_GOLD:
-                scriptData = require("hlmj_desk_data_jbc").getInstance();
-                break;
-        }
-        scriptData.setData(this.roomItem);
-        cc.dd.AppCfg.GAME_ID = gameId;
-        cc.dd.SceneManager.enterGame(gameId);
+
     },
 
 
@@ -569,7 +507,6 @@ cc.Class({
     },
 
     checkZJHCanEnter: function () {
-        zjh_msg_send.requestGameZJH(this.roomid);
     },
 
     sendDSZEnterMsg: function (gameid) {
