@@ -66,7 +66,7 @@ cc.Class({
             endPt.y += size.height / 2;
             this.node.setPosition(startPt);
 
-            var moveTo = cc.moveTo(this.moveToDuration, endPt);
+            // var moveTo = cc.moveTo(this.moveToDuration, endPt);
 
             var animFunc = function () {
                 var frames_list = [];
@@ -91,13 +91,20 @@ cc.Class({
 
             var audio = data.audio;
             this.playEffect('throw');
-            this.node.runAction(cc.sequence(
-                moveTo
-                , cc.callFunc(function () {
+            // this.node.runAction(cc.sequence(
+            //     moveTo
+            //     , cc.callFunc(function () {
+            //         this.playEffect(audio);
+            //         animFunc();
+            //     }.bind(this))
+            // ));
+            cc.tween(this.node)
+                .to(this.moveToDuration, { position: endPt })
+                .call(function () {
                     this.playEffect(audio);
                     animFunc();
                 }.bind(this))
-            ));
+                .start();
         }.bind(this));
     },
 

@@ -20,7 +20,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        
+
     },
 
     start() {
@@ -83,14 +83,14 @@ cc.Class({
                 if (AudioManager.getInstance()._getLocalMusicSwitch()) {//on  需要关闭
                     if (!this.switch_music) {
                         cc.find('label_kai', music_Node).active = false;
-                        var move = cc.moveTo(duration, cc.v2(-50, 0));
-                        var spFunc = cc.callFunc(function () {
-                            cc.find('tao/y', music_Node).active = false;
-                            cc.find('tao/b', music_Node).active = true;
-                            cc.find('label_guan', music_Node).active = true;
-                            AudioManager.getInstance().offMusic();
-                        }.bind(this));
-                        var action = cc.sequence(move, spFunc);
+                        // var move = cc.moveTo(duration, cc.v2(-50, 0));
+                        // var spFunc = cc.callFunc(function () {
+                        //     cc.find('tao/y', music_Node).active = false;
+                        //     cc.find('tao/b', music_Node).active = true;
+                        //     cc.find('label_guan', music_Node).active = true;
+                        //     AudioManager.getInstance().offMusic();
+                        // }.bind(this));
+                        // var action = cc.sequence(move, spFunc);
                         var width = cc.find('mask', music_Node).width;
                         var time = duration;
                         this.switch_music = true;
@@ -104,20 +104,29 @@ cc.Class({
                                 this.switch_music = false;
                             }
                         }.bind(this), step);
-                        cc.find('tao', music_Node).runAction(action);
+                        // cc.find('tao', music_Node).runAction(action);
+                        cc.tween(cc.find('tao', music_Node))
+                            .to(duration, { position: cc.v2(-50, 0) })
+                            .call(function () {
+                                cc.find('tao/y', music_Node).active = false;
+                                cc.find('tao/b', music_Node).active = true;
+                                cc.find('label_guan', music_Node).active = true;
+                                AudioManager.getInstance().offMusic();
+                            }.bind(this))
+                            .start();
                     }
                 }
                 else {
                     if (!this.switch_music) {
                         cc.find('label_guan', music_Node).active = false;
-                        var move = cc.moveTo(duration, cc.v2(46.6, 0));
-                        var spFunc = cc.callFunc(function () {
-                            cc.find('tao/y', music_Node).active = true;
-                            cc.find('tao/b', music_Node).active = false;
-                            cc.find('label_kai', music_Node).active = true;
-                            AudioManager.getInstance().onRawMusic(this.music_clip);
-                        }.bind(this));
-                        var action = cc.sequence(move, spFunc);
+                        // var move = cc.moveTo(duration, cc.v2(46.6, 0));
+                        // var spFunc = cc.callFunc(function () {
+                        //     cc.find('tao/y', music_Node).active = true;
+                        //     cc.find('tao/b', music_Node).active = false;
+                        //     cc.find('label_kai', music_Node).active = true;
+                        //     AudioManager.getInstance().onRawMusic(this.music_clip);
+                        // }.bind(this));
+                        // var action = cc.sequence(move, spFunc);
                         var width = 138;
                         var time1 = duration;
                         this.switch_music = true;
@@ -131,7 +140,16 @@ cc.Class({
                                 this.switch_music = false;
                             }
                         }.bind(this), step);
-                        cc.find('tao', music_Node).runAction(action);
+                        // cc.find('tao', music_Node).runAction(action);
+                        cc.tween(cc.find('tao', music_Node))
+                            .to(duration, { position: cc.v2(46.6, 0) })
+                            .call(function () {
+                                cc.find('tao/y', music_Node).active = true;
+                                cc.find('tao/b', music_Node).active = false;
+                                cc.find('label_kai', music_Node).active = true;
+                                AudioManager.getInstance().onRawMusic(this.music_clip);
+                            }.bind(this))
+                            .start();
                     }
                 }
                 break;
@@ -141,14 +159,14 @@ cc.Class({
                 if (AudioManager.getInstance()._getLocalSoundSwitch()) {//on  需要关闭
                     if (!this.switch_sound) {
                         cc.find('label_kai', sound_Node).active = false;
-                        var move = cc.moveTo(duration, cc.v2(-50, 0));
-                        var spFunc = cc.callFunc(function () {
-                            cc.find('tao/y', sound_Node).active = false;
-                            cc.find('tao/b', sound_Node).active = true;
-                            cc.find('label_guan', sound_Node).active = true;
-                            AudioManager.getInstance().offSound();
-                        }.bind(this));
-                        var action = cc.sequence(move, spFunc);
+                        // var move = cc.moveTo(duration, cc.v2(-50, 0));
+                        // var spFunc = cc.callFunc(function () {
+                        //     cc.find('tao/y', sound_Node).active = false;
+                        //     cc.find('tao/b', sound_Node).active = true;
+                        //     cc.find('label_guan', sound_Node).active = true;
+                        //     AudioManager.getInstance().offSound();
+                        // }.bind(this));
+                        // var action = cc.sequence(move, spFunc);
                         var width = cc.find('mask', sound_Node).width;
                         var time2 = duration;
                         this.switch_sound = true;
@@ -162,20 +180,29 @@ cc.Class({
                                 this.switch_sound = false;
                             }
                         }.bind(this), step);
-                        cc.find('tao', sound_Node).runAction(action);
+                        // cc.find('tao', sound_Node).runAction(action);
+                        cc.tween(cc.find('tao', sound_Node))
+                            .to(duration, { position: cc.v2(-50, 0) })
+                            .call(function () {
+                                cc.find('tao/y', sound_Node).active = false;
+                                cc.find('tao/b', sound_Node).active = true;
+                                cc.find('label_guan', sound_Node).active = true;
+                                AudioManager.getInstance().offSound();
+                            }.bind(this))
+                            .start();
                     }
                 }
                 else {
                     if (!this.switch_sound) {
                         cc.find('label_guan', sound_Node).active = false;
-                        var move = cc.moveTo(duration, cc.v2(43, 0));
-                        var spFunc = cc.callFunc(function () {
-                            cc.find('tao/y', sound_Node).active = true;
-                            cc.find('tao/b', sound_Node).active = false;
-                            cc.find('label_kai', sound_Node).active = true;
-                            AudioManager.getInstance().onSound();
-                        }.bind(this));
-                        var action = cc.sequence(move, spFunc);
+                        // var move = cc.moveTo(duration, cc.v2(43, 0));
+                        // var spFunc = cc.callFunc(function () {
+                        //     cc.find('tao/y', sound_Node).active = true;
+                        //     cc.find('tao/b', sound_Node).active = false;
+                        //     cc.find('label_kai', sound_Node).active = true;
+                        //     AudioManager.getInstance().onSound();
+                        // }.bind(this));
+                        // var action = cc.sequence(move, spFunc);
                         var width = 138;
                         var time3 = duration;
                         this.switch_sound = true;
@@ -189,7 +216,16 @@ cc.Class({
                                 this.switch_sound = false;
                             }
                         }.bind(this), step);
-                        cc.find('tao', sound_Node).runAction(action);
+                        // cc.find('tao', sound_Node).runAction(action);
+                        cc.tween(cc.find('tao', sound_Node))
+                            .to(duration, { position: cc.v2(43, 0) })
+                            .call(function () {
+                                cc.find('tao/y', sound_Node).active = true;
+                                cc.find('tao/b', sound_Node).active = false;
+                                cc.find('label_kai', sound_Node).active = true;
+                                AudioManager.getInstance().onSound();
+                            }.bind(this))
+                            .start();
                     }
                 }
                 break;
@@ -274,7 +310,7 @@ cc.Class({
                         this.nextBgBtn.interactable = false;
                         this.preBgBtn.interactable = false;
                         this.changingZhuobu = true;
-                        var move = cc.moveTo(1, cc.v2(-(++this.idxZm) * (this.zmSpacingX + this.zmWidth)));
+                        // var move = cc.moveTo(1, cc.v2(-(++this.idxZm) * (this.zmSpacingX + this.zmWidth)));
                         cc.sys.localStorage.setItem(this.game_id + '_zhuobu_' + cc.dd.user.id, this.zhuobu_splist[this.idxZm]._name);
                         this.bg_node.getComponent(cc.Sprite).spriteFrame = this.zhuobu_splist[this.idxZm];
                         var func = function () {
@@ -283,7 +319,11 @@ cc.Class({
                             this.changingZhuobu = false;
                             this.freshNextPreBtn();
                         }.bind(this);
-                        this.contentZm.runAction(cc.sequence(move.easing(cc.easeQuinticActionOut()), cc.callFunc(func)));
+                        // this.contentZm.runAction(cc.sequence(move.easing(cc.easeQuinticActionOut()), cc.callFunc(func)));
+                        cc.tween(this.contentZm)
+                            .to(1, { position: { value: cc.v2(-(++this.idxZm) * (this.zmSpacingX + this.zmWidth)), easing: "quintOut"}})
+                            .call(func)
+                            .start();
                     }
                 }
                 break;
@@ -293,7 +333,7 @@ cc.Class({
                         this.nextBgBtn.interactable = false;
                         this.preBgBtn.interactable = false;
                         this.changingZhuobu = true;
-                        var move = cc.moveTo(1, cc.v2(-(--this.idxZm) * (this.zmSpacingX + this.zmWidth)));
+                        // var move = cc.moveTo(1, cc.v2(-(--this.idxZm) * (this.zmSpacingX + this.zmWidth)));
                         cc.sys.localStorage.setItem(this.game_id + '_zhuobu_' + cc.dd.user.id, this.zhuobu_splist[this.idxZm]._name);
                         this.bg_node.getComponent(cc.Sprite).spriteFrame = this.zhuobu_splist[this.idxZm];
                         var func = function () {
@@ -302,7 +342,11 @@ cc.Class({
                             this.changingZhuobu = false;
                             this.freshNextPreBtn();
                         }.bind(this);
-                        this.contentZm.runAction(cc.sequence(move.easing(cc.easeQuinticActionOut()), cc.callFunc(func)));
+                        // this.contentZm.runAction(cc.sequence(move.easing(cc.easeQuinticActionOut()), cc.callFunc(func)));
+                        cc.tween(this.contentZm)
+                            .to(1, { position: { value: cc.v2(-(--this.idxZm) * (this.zmSpacingX + this.zmWidth)), easing: "quintOut"} })
+                            .call(func)
+                            .start();
                     }
                 }
                 break;

@@ -63,7 +63,7 @@ cc.Class({
         }
 
         let time = 0.001 * from_pos.sub(to_pos).mag();
-        let moveTo = cc.moveTo(time, to_pos);
+        // let moveTo = cc.moveTo(time, to_pos);
         let move_end_func = function () {
             magicIcon.active = false;
             magicIcon.destroy();
@@ -99,10 +99,14 @@ cc.Class({
             }*/
 
         }.bind(this);
-        magicIcon.runAction(cc.sequence(
-            moveTo
-            ,cc.callFunc(move_end_func)
-        ));
+        // magicIcon.runAction(cc.sequence(
+        //     moveTo
+        //     ,cc.callFunc(move_end_func)
+        // ));
+        cc.tween(magicIcon)
+            .to(time, { position: to_pos})
+            .call(move_end_func)
+            .start();
     },
 
     /**

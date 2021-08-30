@@ -59,7 +59,10 @@ cc.Class({
     changeMove: function (pos) {
         var quickTime = 0.1;
         if (!this.isMove) {
-            this.node.runAction(cc.moveTo(quickTime, pos));
+            // this.node.runAction(cc.moveTo(quickTime, pos));
+            cc.tween(this.node)
+                .to(quickTime, { position: pos})
+                .start();
         }
         else {
             this.target_pos = pos;

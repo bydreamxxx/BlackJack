@@ -141,12 +141,16 @@ cc.Class({
         cc._needShowDrop = false;
         const time = 1;
         let self = this;
-        let move = cc.moveTo(time, this.luckyBtn.position).easing(cc.easeExponentialOut());
-        let scale = cc.scaleTo(time, 0, 0);
-        let call = cc.callFunc(() => { self.hbSpine.clearTrack(0); self.bagNode.active = false; });
-        let spawn = cc.spawn(move, scale);
-        let action = cc.sequence(spawn, call);
-        this.moveNode.runAction(action);
+        // let move = cc.moveTo(time, this.luckyBtn.position).easing(cc.easeExponentialOut());
+        // let scale = cc.scaleTo(time, 0, 0);
+        // let call = cc.callFunc(() => { self.hbSpine.clearTrack(0); self.bagNode.active = false; });
+        // let spawn = cc.spawn(move, scale);
+        // let action = cc.sequence(spawn, call);
+        // this.moveNode.runAction(action);
+        cc.tween(this.moveNode)
+            .to(time, { position: { value: this.luckyBtn.position, easing: 'expoInOut' }, scale: cc.v2(0, 0)})
+            .call(() => { self.hbSpine.clearTrack(0); self.bagNode.active = false; })
+            .start();
     },
 
     // update (dt) {},

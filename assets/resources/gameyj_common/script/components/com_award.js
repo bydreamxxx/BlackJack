@@ -30,14 +30,16 @@ cc.Class({
             if (name == 'dangejiangliCX') {
                 self.spine_ani.setAnimation(0, 'dangejiangliXH', true);
                 AudioManager.getInstance().playSound(gold_sound, false);
-                self.layout_node.runAction(cc.fadeIn(0.5));
+                cc.tween(self.layout_node).set({ opacity: 0 }).to(0.5, { opacity: 255 }) start();
+                // self.layout_node.runAction(cc.fadeIn(0.5));
                 self.lizi1.resetSystem();
                 self.lizi2.resetSystem();
             }
             else if (name == 'duogejiangliCX') {
                 self.spine_ani.setAnimation(0, 'duogejiangliXH', true);
                 AudioManager.getInstance().playSound(gold_sound, false);
-                self.layout_node.runAction(cc.fadeIn(0.5));
+                cc.tween(self.layout_node).set({ opacity: 0 }).to(0.5, { opacity: 255 }) start();
+                // self.layout_node.runAction(cc.fadeIn(0.5));
             }
         });
     },
