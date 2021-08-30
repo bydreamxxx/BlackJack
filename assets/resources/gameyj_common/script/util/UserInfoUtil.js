@@ -387,9 +387,7 @@ var UserInfoUtil = cc.Class({
         cc.log('UserInfoUtil::showProp:rowData=', rowData);
         var audio = rowData.audio;
         var playSoundFunc = function (cpt) {
-            var soundId = AudioManager.playSound(PropAudioDir + audio);
-            AudioManager.registerStopCallback(soundId, function () {
-            }.bind(this));
+            AudioManager.playSound(PropAudioDir + audio);
         }.bind(this);
 
         var node = this.getPropNodeFromPool();

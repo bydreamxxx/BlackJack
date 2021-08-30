@@ -13,7 +13,7 @@ cc.Class({
         m_oStartNode: cc.Node,
         m_oEndNode: cc.Node,
         m_tBoxList: { default: [], type: cc.Node, tooltip: '宝箱' },
-        m_nMusicId: 0,
+        m_nMusicId: null,
         m_nSoundId: 0,
         m_oFlyStar: cc.Node,
         m_bPlayEnd: false,
@@ -246,7 +246,8 @@ cc.Class({
         var skeletonAct = menNode.getComponent(sp.Skeleton);
         if (skeletonAct) {
             if (AudioManager._getLocalMusicSwitch()) {
-                this.m_nMusicId = AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Bonus_Bgm');
+                this.m_nMusicId = SlotCfg.AudioMammonPath + 'CSD_Bonus_Bgm';
+                AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Bonus_Bgm');
             }
 
             var self = this;
@@ -307,7 +308,7 @@ cc.Class({
 
     onClickCloseTinyGame: function (event, data) {//关闭游戏
         if (this.m_nMusicId)
-            cc.audioEngine.stop(this.m_nMusicId);
+            cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         this.tinyGameManger = gSlotMgr.getTinyGameData();
         var slotMainUI = cc.dd.SceneManager.getCurrScene().getChildByName('Canvas').getComponent('mammon_slot_ui');

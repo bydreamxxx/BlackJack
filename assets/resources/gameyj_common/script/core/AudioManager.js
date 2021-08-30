@@ -17,6 +17,11 @@ var AudioManager = cc.Class({
     },
 
     properties: {
+        m_musicId: {
+            get: function () {
+                return this.getAudioID(this.m_music_path);
+            }
+        }
     },
 
     // 构造函数
@@ -37,7 +42,7 @@ var AudioManager = cc.Class({
         this.m_bSoundSwitch = true;
 
         // 背景音乐
-        this.m_musicId = -1;
+        // this.m_musicId = -1;
 
         //录音
         this.recording = false;
@@ -58,31 +63,18 @@ var AudioManager = cc.Class({
         this.m_bSoundSwitch = this._getLocalSoundSwitch();
     },
 
-    getPlayingIds: function () {
-        var ids = [];
-        if (!cc.sys.isNative || !cc.sys.isMobile) {
-            return ids;
-        }
-        var strIds = cc.audioEngine.getAudioIds();
-        strIds = strIds.split(",");
-        strIds.forEach(function (strId) {
-            if (strIds != "") {
-                ids.push(parseInt(strId));
-            }
-        });
-        return ids;
-    },
-
     stopAllLoopSound() {
-        var ids = this.getPlayingIds();
-        var musicid = this.m_musicId;
-        ids.forEach(element => {
-            if (element != musicid) {
-                if (cc.audioEngine.isLoop(element)) {
-                    cc.audioEngine.stop(element);
+        let musicid = this.m_music_path;
+
+        for (id in this.audioIDs) {
+            if (this.audioIDs.hasOwnProperty(id)) {
+                if (id != musicid) {
+                    if (cc.audioEngine.isLoop(this.audioIDs[id])) {
+                        cc.audioEngine.stop(this.audioIDs[id]);
+                    }
                 }
             }
-        });
+        }
     },
 
 
@@ -93,13 +85,12 @@ var AudioManager = cc.Class({
         return this.playRawMusic(path);
     },
 
-    playRawMusic(path) {
+    playRawMusic(path, callback) {
         this.stopMusic();
 
-        this.m_musicId = cc.audioEngine.play(path, true, this.m_nMusicVolume);
+        this.playAudio(path, true, this.m_nMusicVolume, callback);
         this.m_music_path = path;
         cc.sys.localStorage.setItem("MUSIC_BACKGROUND", path);
-        return this.m_musicId;
     },
 
     resumeBackGroundMusic: function () {
@@ -121,14 +112,13 @@ var AudioManager = cc.Class({
         this.canPlaySound = false;
     },
 
-    rePlayMusic: function () {
+    rePlayMusic: function (callbcak) {
         this.stopMusic();
         if (!this.m_bMusicSwitch) {
-            return -1;
+            return;
         }
         if (this.m_music_path != null) {
-            this.m_musicId = cc.audioEngine.play(this.m_music_path, true, this.m_nMusicVolume);
-            return this.m_musicId;
+            this.playAudio(this.m_music_path, true, this.m_nMusicVolume, callback);
         }
     },
 
@@ -168,23 +158,23 @@ var AudioManager = cc.Class({
         this._setLocalMusicVolume();
     },
 
-    playSound: function (path, isLoop) {
+    playSound: function (path, isLoop, callback) {
         if (!this.m_bSoundSwitch) {
-            return -1;
+            return;
         }
         if (this.recording) {
-            return -1;
+            return;
         }
         if (this.canPlaySound != undefined) {
             if (this.canPlaySound) {
                 var lp = isLoop ? true : false;
-                return cc.audioEngine.play(path, lp, this.m_nSoundVolume);
+                this.playAudio(path, lp, this.m_nSoundVolume, callback);
             } else {
-                return -1;
+                return;
             }
         }
         var lp = isLoop ? true : false;
-        return cc.audioEngine.play(path, lp, this.m_nSoundVolume);
+        this.playAudio(path, lp, this.m_nSoundVolume, callback);
     },
 
     stopSound: function (id) {
@@ -192,24 +182,28 @@ var AudioManager = cc.Class({
     },
 
     stopAllSound: function () {
-        var ids = this.getPlayingIds();
-        ids.forEach(function (id) {
-            if (id != this.m_musicId && !cc.dd._.isNaN(id)) {
-                this.stopSound(id);
+        for (id in this.audioIDs) {
+            if (this.audioIDs.hasOwnProperty(id)) {
+                if (id != this.m_music_path) {
+                    this.stopSound(this.audioIDs[id]);
+                }
             }
-        }, this);
+        }
     },
 
     setSoundVolume: function (soundVolume) {
         if (soundVolume >= 0 && soundVolume <= 1) {
             this.m_nSoundVolume = soundVolume * MAX_SOUND_VOLUME;
         }
-        var ids = this.getPlayingIds();
-        ids.forEach(function (id) {
-            if (id != this.m_musicId && !cc.dd._.isNaN(id)) {
-                cc.audioEngine.setVolume(id, this.m_nSoundVolume);
+
+        for (id in this.audioIDs) {
+            if (this.audioIDs.hasOwnProperty(id)) {
+                if (id != this.m_music_path) {
+                    cc.audioEngine.setVolume(this.audioIDs[id], this.m_nSoundVolume);
+                }
             }
-        }, this);
+        }
+
         this._setLocalSoundVolume();
     },
 
@@ -375,14 +369,13 @@ var AudioManager = cc.Class({
     },
 
 
-    playMusicNotControlledBySwitch: function (path, loop) {
+    playMusicNotControlledBySwitch: function (path, loop, callback) {
 
         this.stopMusic();
 
-        this.m_musicId = cc.audioEngine.play(path, loop, !this.m_bMusicSwitch ? 0 : this.m_nMusicVolume);
+        this.playAudio(path, loop, !this.m_bMusicSwitch ? 0 : this.m_nMusicVolume, callback);
         this.m_music_path = path;
         cc.sys.localStorage.setItem("MUSIC_BACKGROUND", path);
-        return this.m_musicId;
     },
 
     setMusicVolumeNotControlledBySwitch: function (on) {
@@ -393,17 +386,28 @@ var AudioManager = cc.Class({
         }
     },
 
-    async playAudio(path, loop, volume) {
-        let m_musicId = await new Promise(resolve => {
-            cc.dd.ResLoader.loadAudio(path, (clip) => {
-                let m_musicId = cc.audioEngine.play(clip, loop, volume);
-                resolve(m_musicId);
-            });
+    playAudio(path, loop, volume, callback) {
+        cc.dd.ResLoader.loadAudio(path, (clip) => {
+            let m_musicId = cc.audioEngine.play(clip, loop, volume);
+            this.audioIDs[path] = m_musicId;
+            cc.audioEngine.setFinishCallback(m_musicId, () => {
+                if (callback) {
+                    callback();
+                }
+
+                if (this.audioIDs.hasOwnProperty(path)) {
+                    delete this.audioIDs[path];
+                }
+            })
         });
+    },
 
-        return m_musicId;
+    getAudioID(path) {
+        if (this.audioIDs.hasOwnProperty(path))
+            return this.audioIDs[path];
+        else
+            return -1;
     }
-
 });
 
 module.exports = AudioManager;

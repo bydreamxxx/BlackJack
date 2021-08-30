@@ -93,8 +93,10 @@ cc.Class({
             this.m_tWaybillTxt[i].active = true;
         }
         this.m_oDrawUI = cc.dd.Utils.seekNodeByName(this.node, "drawNode");
-        if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(PK_Config.AuditoPath + 'PK_bg');
+        if (AudioManager._getLocalMusicSwitch()){
+            this.m_nMusicId = PK_Config.AuditoPath + 'PK_bg';
+            AudioManager.playMusic(PK_Config.AuditoPath + 'PK_bg');
+        }
         this.createChipPool();
 
         if (cc.find('Marquee')) {
@@ -118,7 +120,7 @@ cc.Class({
         SysED.removeObserver(this);
         Hall.HallED.removeObserver(this);
 
-        cc.audioEngine.stop(this.m_nMusicId);
+        cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         if (this._Marquee) {
             this._Marquee.getComponent('com_marquee').resetPosition();
@@ -807,7 +809,7 @@ cc.Class({
         }
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
 
                 var msg = new cc.pb.room_mgr.msg_leave_game_req();

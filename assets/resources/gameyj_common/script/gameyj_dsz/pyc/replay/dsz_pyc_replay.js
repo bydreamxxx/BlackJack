@@ -108,7 +108,8 @@ cc.Class({
 
         this.init();
 
-        this.m_nMusicId = AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
+        this.m_nMusicId = Prefix + 'zjh_gamebg';
+        AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
 
         this.slider_bar.on(cc.Node.EventType.TOUCH_END, this.touchEnd.bind(this));
         this.slider_bar.on(cc.Node.EventType.TOUCH_CANCEL, this.touchEnd.bind(this));
@@ -701,7 +702,7 @@ cc.Class({
 
     //返回大厅
     backToHall(event, data) {
-        cc.audioEngine.stop(this.m_nMusicId);
+        cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.getInstance().stopMusic();
         cc.dd.SceneManager.enterHall();
     },

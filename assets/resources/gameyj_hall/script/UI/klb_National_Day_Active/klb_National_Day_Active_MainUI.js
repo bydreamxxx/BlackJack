@@ -15,7 +15,7 @@ cc.Class({
 
 
     onLoad: function () {
-        //this.m_nBakcMusic = AudioManager.playMusic('gameyj_hall/audios/cj_bg');
+        //AudioManager.playMusic('gameyj_hall/audios/cj_bg');
         Hall.HallED.addObserver(this);
 
         //文字存储容器

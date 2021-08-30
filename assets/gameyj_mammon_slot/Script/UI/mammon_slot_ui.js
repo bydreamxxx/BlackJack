@@ -158,7 +158,7 @@ cc.Class({
         gSlotMgr.resetGameMusicAndAudio();
         Hall.HallED.notifyEvent(Hall.HallEvent.TurnOn_Marquee);
 
-        cc.audioEngine.stop(this.m_nMusicId);
+        cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         HallCommonEd.removeObserver(this);
     },
@@ -166,13 +166,16 @@ cc.Class({
     //播放背景音乐
     playBackGround: function () {
         if (this.m_nMusicId)
-            cc.audioEngine.stop(this.m_nMusicId);
+            cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         if (AudioManager._getLocalMusicSwitch()) {
-            if (gSlotMgr.getFreeTimes() <= 0 && !gSlotMgr.isEnterFree())
-                this.m_nMusicId = AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Bgm');
-            else
-                this.m_nMusicId = AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Freegame_Bgm');
+            if (gSlotMgr.getFreeTimes() <= 0 && !gSlotMgr.isEnterFree()){
+                this.m_nMusicId = SlotCfg.AudioMammonPath + 'CSD_Bgm';
+                AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Bgm');
+            }else{
+                this.m_nMusicId = SlotCfg.AudioMammonPath + 'CSD_Freegame_Bgm';
+                AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Freegame_Bgm');
+            }
         }
     },
 
@@ -1016,7 +1019,7 @@ cc.Class({
         if (ui) {
         } else {
             if (this.m_nMusicId)
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
             cc.dd.UIMgr.openUI("gameyj_mammon_slot/Prefab/mammon_slot_tiny_game_ui", function (prefab) {
                 AudioManager.stopMusic();
             }.bind(this));
@@ -1389,7 +1392,7 @@ cc.Class({
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
                 this.node.stopAllActions();
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
                 gSlotMgr.quitGame();
             }.bind(this), null

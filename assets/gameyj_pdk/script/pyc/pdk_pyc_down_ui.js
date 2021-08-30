@@ -298,7 +298,7 @@ cc.Class({
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).stop();
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).off('finished', null, this);
             if (this.soundid) {
-                AudioManager.getInstance().stopSound(this.soundid);
+                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundid));
                 this.soundid = null;
             }
             for (var i = 0; i < this._handCards.length; i++) {
@@ -367,7 +367,8 @@ cc.Class({
                 ani.play('sendcard_ani');
             // cc.find('Canvas/deal_card').active = true;
             // cc.find('Canvas/deal_card').getComponent(cc.Animation).on('finished', showFunc, this);
-            this.soundid = AudioManager.getInstance().playSound(pdk_audio_cfg.EFFECT.DEAL_CARD, true);
+            this.soundid = pdk_audio_cfg.EFFECT.DEAL_CARD;
+            AudioManager.getInstance().playSound(pdk_audio_cfg.EFFECT.DEAL_CARD, true);
             // cc.find('Canvas/deal_card').getComponent(cc.Animation).play();
         }
         else {

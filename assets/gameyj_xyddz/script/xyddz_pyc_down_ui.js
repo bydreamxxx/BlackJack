@@ -299,7 +299,7 @@ cc.Class({
         var showFunc = function () {
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).off('finished', null, this);
             if (this.soundid) {
-                AudioManager.getInstance().stopSound(this.soundid);
+                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundid));
                 this.soundid = null;
             }
             this.clearHandCards();
@@ -378,7 +378,8 @@ cc.Class({
             });
             xipai.enabled = true;
             xipai.setAnimation(0, 'play', false);
-            this.soundid = AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.DEAL_CARD, false);
+            this.soundid = ddz_audio_cfg.EFFECT.DEAL_CARD;
+            AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.DEAL_CARD, false);
         }
         else {
             showFunc();

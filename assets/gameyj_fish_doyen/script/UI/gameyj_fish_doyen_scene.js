@@ -2027,7 +2027,7 @@ cc.Class({
         }.bind(this));
 
         if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(FishType.fishAuidoPath + itemCfg.audio_name + '');
+            AudioManager.playMusic(FishType.fishAuidoPath + itemCfg.audio_name + '');
 
     }
 });

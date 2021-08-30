@@ -247,7 +247,7 @@ cc.Class({
         this.timer_node.getComponent(cc.Sprite).unscheduleAllCallbacks();
         this.timer_node.active = false;
         if (this._timerSound) {
-            AudioManager.getInstance().stopSound(this._timerSound);
+            AudioManager.getInstance().stopSound(AudioManager.getAudioID(this._timerSound));
             this._timerSound = null;
         }
     },
@@ -1720,7 +1720,8 @@ cc.Class({
         this.timer_node.getComponent(cc.Sprite).schedule(function () {
             this._time -= 1;
             if (RoomMgr.Instance()._Rule && RoomMgr.Instance()._Rule.tuoguan != 0 && this._time <= 5 && !this._timerSound) {
-                this._timerSound = AudioManager.getInstance().playSound(nn_audio_cfg.COMMON.TIMER, true);
+                this._timerSound = nn_audio_cfg.COMMON.TIMER;
+                AudioManager.getInstance().playSound(nn_audio_cfg.COMMON.TIMER, true);
             }
             if (this._time <= 0) {
                 this._time = 0;

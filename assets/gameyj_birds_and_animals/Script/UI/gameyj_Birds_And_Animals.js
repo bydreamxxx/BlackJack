@@ -137,8 +137,10 @@ cc.Class({
 
         var gameState = game_Data.getGameState();//游戏整体状态
         if (gameState == 2) {
-            if (AudioManager._getLocalMusicSwitch())
-                this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_WaitBGM');
+            if (AudioManager._getLocalMusicSwitch()){
+                this.m_nMusicId = gameAudioPath + 'begame_WaitBGM';
+                AudioManager.playMusic(gameAudioPath + 'begame_WaitBGM');
+            }
             gameState = gameType.GameSate.WaitGame;
         }
         if (gameState == 1) {
@@ -148,8 +150,10 @@ cc.Class({
                 this.m_oChipNode.getComponent('gameyj_Birds_And_Animals_Chip_Manager').showAreaTotalBet(data.id);
             }.bind(this))
 
-            if (AudioManager._getLocalMusicSwitch())
-                this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_background');
+            if (AudioManager._getLocalMusicSwitch()){
+                this.m_nMusicId = gameAudioPath + 'begame_background';
+                AudioManager.playMusic(gameAudioPath + 'begame_background');
+            }
         }
         this.switchGameState(gameState);
     },
@@ -190,8 +194,10 @@ cc.Class({
     showGameState: function () {//更新游戏状态
         var gameState = game_Data.getGameState();//游戏整体状态
         if (gameState == 1) {//游戏押注开始
-            if (AudioManager._getLocalMusicSwitch())
-                this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_background');
+            if (AudioManager._getLocalMusicSwitch()){
+                this.m_nMusicId = gameAudioPath + 'begame_background';
+                AudioManager.playMusic(gameAudioPath + 'begame_background');
+            }
 
             this.m_oChipNode.getComponent('gameyj_Birds_And_Animals_Chip_Manager').createChipPool();
             this.m_oOpNode.active = true;
@@ -1116,7 +1122,7 @@ cc.Class({
         }
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
 
                 var msg = new cc.pb.room_mgr.msg_leave_game_req();

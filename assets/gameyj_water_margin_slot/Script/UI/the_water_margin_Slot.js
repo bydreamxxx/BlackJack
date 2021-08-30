@@ -130,7 +130,7 @@ cc.Class({
         HallCommonEd.addObserver(this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 
-        this.m_nMusicId = this.playBackGround();
+        this.playBackGround();
         //主体转轮
         var oRunContent = cc.dd.Utils.seekNodeByName(this.node, "Panel_RunContent");
         var tRunLines = new arrayCtrl();
@@ -250,15 +250,17 @@ cc.Class({
         gSlotMgr.resetGameMusicAndAudio();
         Hall.HallED.notifyEvent(Hall.HallEvent.TurnOn_Marquee);
 
-        cc.audioEngine.stop(this.m_nMusicId);
+        cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         HallCommonEd.removeObserver(this);
     },
 
     //播放背景音乐
     playBackGround: function () {
-        if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(SlotCfg.AuditoPath + 'xiongdiwushu');
+        if (AudioManager._getLocalMusicSwitch()){
+            this.m_nMusicId = SlotCfg.AuditoPath + 'xiongdiwushu';
+            AudioManager.playMusic(SlotCfg.AuditoPath + 'xiongdiwushu');
+        }
     },
 
     //播放相应音效
@@ -1246,7 +1248,7 @@ cc.Class({
     showSmallGame: function () {
         gSlotMgr.showSmallGame();
         cc.dd.UIMgr.openUI("gameyj_water_margin_slot/Prefab/slot_TinyGame_UI", function (prefab) {
-            cc.audioEngine.stop(this.m_nMusicId);
+            cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
             AudioManager.stopMusic();
         }.bind(this));
 
@@ -1654,7 +1656,7 @@ cc.Class({
         stateSpBtnCpt.interactable = false;
 
         cc.dd.UIMgr.openUI("gameyj_water_margin_slot/Prefab/compare_Game_UI", function (prefab) {
-            cc.audioEngine.stop(this.m_nMusicId);
+            cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
             AudioManager.stopMusic();
             this.setDownBtnState(SlotType.DownBtnState.Stoping);
         }.bind(this));
@@ -1680,7 +1682,7 @@ cc.Class({
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
                 this.node.stopAllActions();
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
                 gSlotMgr.quitGame();
             }.bind(this), null

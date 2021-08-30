@@ -78,7 +78,7 @@ cc.Class({
             this.m_oMusicBtn.spriteFrame = this.m_tBtnSpirte[0];
             AudioManager._setLocalMusicSwitch(true);
             if (AudioManager._getLocalMusicSwitch())
-                this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'dhxy_bgm');
+                AudioManager.playMusic(gameAudioPath + 'dhxy_bgm');
         } else {
             this.m_oMusicBtn.spriteFrame = this.m_tBtnSpirte[1];
             AudioManager.offMusic();

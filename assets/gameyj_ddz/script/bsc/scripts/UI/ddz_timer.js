@@ -110,7 +110,8 @@ cc.Class({
     playSound: function () {
         if (this.headQuanSpr.node.parent.parent.name == 'head_down') {
             if (!this.soundId) {
-                this.soundId = AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.TIMER, true);
+                this.soundId = ddz_audio_cfg.EFFECT.TIMER;
+                AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.TIMER, true);
             }
         }
     },
@@ -119,7 +120,7 @@ cc.Class({
             return;
         if (this.headQuanSpr.node.parent.parent.name == 'head_down') {
             if (this.soundId) {
-                AudioManager.getInstance().stopSound(this.soundId);
+                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundId));
                 this.soundId = null;
             }
         }

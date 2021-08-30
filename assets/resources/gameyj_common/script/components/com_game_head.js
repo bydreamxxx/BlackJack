@@ -47,7 +47,7 @@ let com_game_head = cc.Class({
         duanyu_node: { default: null, type: cc.Node, tooltip: '短语节点', },  //短语节点
         duanyu_arrow: { default: null, type: cc.Node, tooltip: '短语箭头', },  //短语箭头
         duanyu_label: { default: null, type: cc.Label, tooltip: '短语文本', },  //短语文本
-        last_duanyu_audio_id: -1,
+        last_duanyu_audio_id: null,
 
         biaoqing: { default: null, type: cc.Animation, tooltip: '表情组件', }, //表情
         yuyin_laba: { default: null, type: require('jlmj_yuyin_laba'), tooltip: '语音组件', }, //语音
@@ -243,12 +243,13 @@ let com_game_head = cc.Class({
         this.duanyu_node.active = true;
         this.duanyu_arrow.active = true;
         this.duanyu_label.string = cfg.text;
-        if (this.last_duanyu_audio_id != -1) {
-            AudioManager.stopSound(this.last_duanyu_audio_id);
+        if (this.last_duanyu_audio_id != null) {
+            AudioManager.stopSound(AudioManager.getAudioID(this.last_duanyu_audio_id));
         }
         let sex = this.player.sex;
         let audio = QuickMusicPath + (sex == 1 ? cfg.boy_audio : cfg.girl_audio);
-        this.last_duanyu_audio_id = AudioManager.playSound(audio);
+        this.last_duanyu_audio_id = audio;
+        AudioManager.playSound(audio);
         setTimeout(function () {
             this.duanyu_node.active = false;
             this.duanyu_arrow.active = false;

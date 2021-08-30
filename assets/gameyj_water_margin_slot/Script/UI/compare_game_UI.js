@@ -83,7 +83,8 @@ cc.Class({
         var actionCallBack = function () {
             self.m_oRightAnimation.off('finished', actionCallBack);
             if (AudioManager._getLocalMusicSwitch()) {
-                self.m_nMusicId = AudioManager.playMusic(SlotCfg.AuditoPath + 'Bg_Bet');
+                self.m_nMusicId = SlotCfg.AuditoPath + 'Bg_Bet';
+                AudioManager.playMusic(SlotCfg.AuditoPath + 'Bg_Bet');
             }
 
             var seq = cc.sequence(cc.delayTime(0.05), cc.callFunc(function () {
@@ -354,7 +355,7 @@ cc.Class({
                 self.playAudio(101407);
                 var actionCallBack3 = function () {
                     self.m_oRoleAnim[4].off('finished', actionCallBack3);
-                    cc.audioEngine.stop(self.m_nMusicId);
+                    cc.audioEngine.stop(AudioManager.getAudioID(self.m_nMusicId));
                     AudioManager.stopMusic();
                     gSlotMgr.setResultFen(0);
                     var seq = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {

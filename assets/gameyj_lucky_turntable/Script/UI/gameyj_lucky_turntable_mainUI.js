@@ -159,8 +159,10 @@ cc.Class({
         this.showWayBill(); //显示路单
         this.initBetAreaInfo(); //初始化下注区域信息
         this.playerNumUpdate();
-        if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'audio_bgm_1');
+        if (AudioManager._getLocalMusicSwitch()){
+            this.m_nMusicId = gameAudioPath + 'audio_bgm_1';
+            AudioManager.playMusic(gameAudioPath + 'audio_bgm_1');
+        }
 
         var gameState = game_Data.getGameState();//游戏整体状态
         if (gameState == 2 || gameState == 3) { //结算中
@@ -410,9 +412,6 @@ cc.Class({
     showGameState: function () {//更新游戏状态
         var gameState = game_Data.getGameState();//游戏整体状态
         if (gameState == 1) {//游戏押注开始
-            // if(AudioManager._getLocalMusicSwitch())
-            //     this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_background');
-
             var animNode = this.m_tChipBtnVec[this.m_nSelectIndex].getChildByName('choumadonghua'); //上一次下注的扫光标记
             animNode.active = true;
             animNode.getComponent(cc.Animation).play('chouma');
@@ -1106,7 +1105,7 @@ cc.Class({
         }
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
-                cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
 
                 var msg = new cc.pb.room_mgr.msg_leave_game_req();

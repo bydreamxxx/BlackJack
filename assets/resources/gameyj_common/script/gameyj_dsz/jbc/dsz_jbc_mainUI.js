@@ -105,7 +105,7 @@ cc.Class({
         this.initPlayer();
         this.initChat();
         this.initZhuoBu();
-        //this.m_nMusicId = AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
+        //AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
     },
 
     onDestroy: function () {
@@ -341,7 +341,8 @@ cc.Class({
 
     //玩家火拼
     playerFire_Rsp: function (userId) {
-        this.m_nFireMusicId = AudioManager.getInstance().playMusic(Prefix + 'huopin_music');
+        this.m_nFireMusicId = Prefix + 'huopin_music';
+        AudioManager.getInstance().playMusic(Prefix + 'huopin_music');
         var player = playerMgr.findPlayerByUserId(userId);
         if (player) {
             this.m_nHuoPinCount += 1;
@@ -495,7 +496,7 @@ cc.Class({
         } else if (this.m_nHuoPinCount > 1 || (this.allCompare && !this.m_bPlayAct)) {
             this.m_bPlayAct = true
             if (this.m_nFireMusicId) {
-                cc.audioEngine.stop(this.m_nFireMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nFireMusicId));
                 AudioManager.getInstance().stopMusic();
             }
             this.m_oFireUI.active = false;

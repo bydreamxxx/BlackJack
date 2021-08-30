@@ -260,10 +260,9 @@ cc.Class({
             this.m_fTimer += dt;
 
             if (this.m_fTimer >= 5 && this.countDownState == 0) {
-                let id = AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_03_v01', false);
-                cc.audioEngine.setFinishCallback(id, () => {
+                AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_03_v01', false, () => {
                     AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_04_v02', false);
-                })
+                });
                 this.countDownState = 1;
             } else if (this.m_fTimer >= 6 && this.countDownState == 1) {
                 this.playAudio(12, false); //每秒倒计时
@@ -468,10 +467,9 @@ cc.Class({
         // var countdowTime = ()=>{
         //     this.m_nCountdownTime -= 1;
         //     if(this.m_nCountdownTime == 4){
-        //         let id = AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_03_v01', false);
-        //         cc.audioEngine.setFinishCallback(id, ()=>{
-        //             AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_04_v02', false);
-        //         })
+                // AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_03_v01', false, cc.audioEngine.setFinishCallback(id, () => {
+                //     AudioManager.playMusicNotControlledBySwitch(gameAudioPath + 'horse_background_04_v02', false);
+                // }));
         //     }else if(this.m_nCountdownTime <= 3 && this.m_nCountdownTime > 0){
         //         this.playAudio(12, false); //每秒倒计时
         //         // this.m_oCountDownTxt.spriteFrame = this.m_oFontAtals.getSpriteFrame('a' + this.m_nCountdownTime);

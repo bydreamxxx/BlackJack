@@ -135,7 +135,7 @@ cc.Class({
         this.initZhuoBu();
         this.initMusicAndSound();
         this.initPlayer();
-        //this.m_nMusicId = AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
+        //AudioManager.getInstance().playMusic(Prefix + 'zjh_gamebg');
     },
 
     onDestroy: function () {

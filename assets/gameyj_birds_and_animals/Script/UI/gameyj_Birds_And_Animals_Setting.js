@@ -60,10 +60,10 @@ cc.Class({
             var gameState = game_Data.getGameState();//游戏整体状态
             if (gameState == 2) {
                 if (AudioManager._getLocalMusicSwitch())
-                    this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_WaitBGM');
+                    AudioManager.playMusic(gameAudioPath + 'begame_WaitBGM');
             } else {
                 if (AudioManager._getLocalMusicSwitch())
-                    this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'begame_background');
+                    AudioManager.playMusic(gameAudioPath + 'begame_background');
 
             }
 

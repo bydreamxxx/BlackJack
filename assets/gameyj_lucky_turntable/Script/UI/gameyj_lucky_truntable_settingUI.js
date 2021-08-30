@@ -61,7 +61,7 @@ cc.Class({
             this.m_oMusicBtn.spriteFrame = this.m_tBtnSpirte[0];
             AudioManager._setLocalMusicSwitch(true);
             if (AudioManager._getLocalMusicSwitch())
-                this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'audio_bgm_1');
+                AudioManager.playMusic(gameAudioPath + 'audio_bgm_1');
 
         } else {
             this.m_oMusicBtn.spriteFrame = this.m_tBtnSpirte[1];

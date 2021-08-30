@@ -192,7 +192,7 @@ cc.Class({
         var showFunc = function () {
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).off('finished', showFunc, this);
             if (this.soundid) {
-                AudioManager.getInstance().stopSound(this.soundid);
+                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundid));
                 this.soundid = null;
             }
             this._handCards = ddz.sortShowCards(cards);
@@ -251,7 +251,8 @@ cc.Class({
             cc.find('Canvas/root/dipai_info').active = false;
             // cc.find('Canvas/deal_card').active = true;
             // cc.find('Canvas/deal_card').getComponent(cc.Animation).on('finished', showFunc, this);
-            this.soundid = AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.DEAL_CARD, true);
+            this.soundid = ddz_audio_cfg.EFFECT.DEAL_CARD;
+            AudioManager.getInstance().playSound(ddz_audio_cfg.EFFECT.DEAL_CARD, true);
             // cc.find('Canvas/deal_card').getComponent(cc.Animation).play();
         }
         else {

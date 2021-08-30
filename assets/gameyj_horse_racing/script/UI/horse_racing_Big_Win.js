@@ -44,6 +44,6 @@ cc.Class({
     closeUI: function () {
         AudioManager.stopMusic();
         if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'horse_background_01_v01');
+            AudioManager.playMusic(gameAudioPath + 'horse_background_01_v01');
     },
 });

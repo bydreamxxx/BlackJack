@@ -112,7 +112,7 @@ cc.Class({
         }
         this.m_oContinueBtn.interactable = false;
         if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(gameAudioPath + 'dhxy_bgm');
+            AudioManager.playMusic(gameAudioPath + 'dhxy_bgm');
 
         //筹码
         var json = cc.sys.localStorage.getItem('westward_journey_chip');
@@ -680,7 +680,7 @@ cc.Class({
         }
         cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
             function () {
-                // cc.audioEngine.stop(this.m_nMusicId);
+                cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
 
                 var msg = new cc.pb.room_mgr.msg_leave_game_req();

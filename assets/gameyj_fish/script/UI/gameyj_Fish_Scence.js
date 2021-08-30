@@ -145,7 +145,7 @@ cc.Class({
         //开启绘制区域
         cc.director.getCollisionManager().enabledDebugDraw = false;
         if (AudioManager._getLocalMusicSwitch())
-            this.m_nMusicId = AudioManager.playMusic(FishType.fishAuidoPath + '7001');
+            AudioManager.playMusic(FishType.fishAuidoPath + '7001');
 
         this.updateInit(); //游戏玩家初始化
     },
