@@ -46,13 +46,6 @@
         cmd_msg_cash_activity_open_tips :5443,
         cmd_msg_cash_activity_open_result_req :5444,
         cmd_msg_cash_activity_open_result_ret :5445,
-        cmd_activity_spread_user_info:5446,
-        cmd_activity_spread :5447,
-        cmd_get_activity_spread_notify :5448,
-        cmd_msg_activity_spread_notify :5449,
-        cmd_msg_activity_spread_swap_req :5450,
-        cmd_msg_activity_spread_swap_ret :5451,
-        cmd_msg_activity_spread_award_notify :5452,
 
     };
 

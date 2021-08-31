@@ -15,7 +15,6 @@ let qka_fish_master_user_info = cc.Class({
         content.bulletId = this.bulletId;
         content.effectType = this.effectType;
         content.effectRemainTime = this.effectRemainTime;
-        content.fishGiftLevel = this.fishGiftLevel;
 
         return content;
     },
@@ -54,9 +53,6 @@ let qka_fish_master_user_info = cc.Class({
     },
     setEffectRemainTime(effectRemainTime){
         this.effectRemainTime = effectRemainTime;
-    },
-    setFishGiftLevel(fishGiftLevel){
-        this.fishGiftLevel = fishGiftLevel;
     },
 
 });

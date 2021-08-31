@@ -1,10 +1,9 @@
 
 var netCmd = cc.netCmd = {};
 var pb = cc.pb = {};
-var proto_file = cc.proto_file = ['msg'];
+var proto_file = cc.proto_file = ['msg.proto'];
 cc.proto = {};
 cc.gateNet = require('GateNet');
-cc.talkNet = require('TalkNet');
 
 netCmd.yq_pin3 = require('c_msg_yq_pin3_cmd');
 netCmd.hall = require('c_msg_hall_cmd');
@@ -16,6 +15,7 @@ netCmd.pk = require('c_msg_pk_cmd');
 netCmd.baoxianxiang_coin = require('c_msg_baoxianxiang_coin_cmd');
 netCmd.pin3 = require('c_msg_pin3_cmd');
 netCmd.fish = require('c_msg_fish_cmd');
+netCmd.blackjack = require('c_msg_blackjack_cmd');
 netCmd.horse = require('c_msg_horse_cmd');
 netCmd.paodekuai = require('c_msg_paodekuai_cmd');
 netCmd.match = require('c_msg_match_cmd');
@@ -52,6 +52,7 @@ pb.fish = require('c_msg_fish_pb');
 pb.room_mgr = require('c_msg_room_mgr_pb');
 pb.yq_pin3 = require('c_msg_yq_pin3_pb');
 pb.turn = require('c_msg_turn_pb');
+pb.blackjack = require('c_msg_blackjack_pb');
 pb.paodekuai = require('c_msg_paodekuai_pb');
 pb.player_world_var = require('c_msg_player_world_var_pb');
 pb.fkps = require('c_msg_fkps_pb');

@@ -1720,9 +1720,6 @@ let hall_userData = cc.Class({
         content.inviterHeadurl = this.inviterHeadurl;
         content.code = this.code;
         content.modifiedNameTimes = this.modifiedNameTimes;
-        content.fishGiftNum = this.fishGiftNum;
-        content.fishGiftBetNum = this.fishGiftBetNum;
-        content.curUseFishGiftCnt = this.curUseFishGiftCnt;
 
         return content;
     },
@@ -1830,15 +1827,6 @@ let hall_userData = cc.Class({
     },
     setModifiedNameTimes(modifiedNameTimes){
         this.modifiedNameTimes = modifiedNameTimes;
-    },
-    setFishGiftNum(fishGiftNum){
-        this.fishGiftNum = fishGiftNum;
-    },
-    setFishGiftBetNum(fishGiftBetNum){
-        this.fishGiftBetNum = fishGiftBetNum;
-    },
-    setCurUseFishGiftCnt(curUseFishGiftCnt){
-        this.curUseFishGiftCnt = curUseFishGiftCnt;
     },
 
 });
@@ -3838,327 +3826,401 @@ let client_tree_ack = cc.Class({
 
 module.exports.client_tree_ack = client_tree_ack;
 
-let hall_fish_gift_notice = cc.Class({
+let friend_info = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
-        content.id = this.id;
-        content.num = this.num;
+        content.uid = this.uid;
+        content.name = this.name;
+        content.headUrl = this.headUrl;
+        content.state = this.state;
 
         return content;
     },
-    setId(id){
-        this.id = id;
+    setUid(uid){
+        this.uid = uid;
     },
-    setNum(num){
-        this.num = num;
+    setName(name){
+        this.name = name;
+    },
+    setHeadUrl(headUrl){
+        this.headUrl = headUrl;
+    },
+    setState(state){
+        this.state = state;
     },
 
 });
 
-module.exports.hall_fish_gift_notice = hall_fish_gift_notice;
+module.exports.friend_info = friend_info;
 
-let hall_req_fish_gift = cc.Class({
+let client_add_friend_req = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
-        content.id = this.id;
-        content.roomid = this.roomid;
-
-        return content;
-    },
-    setId(id){
-        this.id = id;
-    },
-    setRoomid(roomid){
-        this.roomid = roomid;
-    },
-
-});
-
-module.exports.hall_req_fish_gift = hall_req_fish_gift;
-
-let hall_ack_fish_gift = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.retCode = this.retCode;
-        content.id = this.id;
-        content.num = this.num;
-        content.giftNum = this.giftNum;
-        content.count = this.count;
-
-        return content;
-    },
-    setRetCode(retCode){
-        this.retCode = retCode;
-    },
-    setId(id){
-        this.id = id;
-    },
-    setNum(num){
-        this.num = num;
-    },
-    setGiftNum(giftNum){
-        this.giftNum = giftNum;
-    },
-    setCount(count){
-        this.count = count;
-    },
-
-});
-
-module.exports.hall_ack_fish_gift = hall_ack_fish_gift;
-
-let hall_req_fish_gift_exchange = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.id = this.id;
+        content.uid = this.uid;
         content.type = this.type;
-        content.zfbAccount = this.zfbAccount;
-        content.zfbUsername = this.zfbUsername;
-        content.jdkAddr = this.jdkAddr;
-        content.jdkPhone = this.jdkPhone;
-        content.jdkUsername = this.jdkUsername;
 
         return content;
     },
-    setId(id){
-        this.id = id;
+    setUid(uid){
+        this.uid = uid;
     },
     setType(type){
         this.type = type;
     },
-    setZfbAccount(zfbAccount){
-        this.zfbAccount = zfbAccount;
-    },
-    setZfbUsername(zfbUsername){
-        this.zfbUsername = zfbUsername;
-    },
-    setJdkAddr(jdkAddr){
-        this.jdkAddr = jdkAddr;
-    },
-    setJdkPhone(jdkPhone){
-        this.jdkPhone = jdkPhone;
-    },
-    setJdkUsername(jdkUsername){
-        this.jdkUsername = jdkUsername;
-    },
 
 });
 
-module.exports.hall_req_fish_gift_exchange = hall_req_fish_gift_exchange;
+module.exports.client_add_friend_req = client_add_friend_req;
 
-let hall_ack_fish_gift_exchange = cc.Class({
+let client_add_friend_ack = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
-        content.retCode = this.retCode;
+        content.result = this.result;
+        content.uid = this.uid;
         content.type = this.type;
-        content.num = this.num;
-        content.curUseCnt = this.curUseCnt;
-        content.count = this.count;
-        content.code = this.code;
 
         return content;
     },
-    setRetCode(retCode){
-        this.retCode = retCode;
+    setResult(result){
+        this.result = result;
+    },
+    setUid(uid){
+        this.uid = uid;
     },
     setType(type){
         this.type = type;
     },
-    setNum(num){
-        this.num = num;
-    },
-    setCurUseCnt(curUseCnt){
-        this.curUseCnt = curUseCnt;
-    },
-    setCount(count){
-        this.count = count;
-    },
-    setCode(code){
-        this.code = code;
-    },
 
 });
 
-module.exports.hall_ack_fish_gift_exchange = hall_ack_fish_gift_exchange;
+module.exports.client_add_friend_ack = client_add_friend_ack;
 
-let log_gift_exchange = cc.Class({
+let client_add_friend_bc = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
+        content.type = this.type;
+        content.info = this.info;
+
+        return content;
+    },
+    setType(type){
+        this.type = type;
+    },
+    setInfo(info){
+        this.info = info;
+    },
+
+});
+
+module.exports.client_add_friend_bc = client_add_friend_bc;
+
+let client_join_group_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.gid = this.gid;
+        content.type = this.type;
+
+        return content;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setType(type){
+        this.type = type;
+    },
+
+});
+
+module.exports.client_join_group_req = client_join_group_req;
+
+let client_join_group_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.result = this.result;
+        content.gid = this.gid;
+        content.type = this.type;
+
+        return content;
+    },
+    setResult(result){
+        this.result = result;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setType(type){
+        this.type = type;
+    },
+
+});
+
+module.exports.client_join_group_ack = client_join_group_ack;
+
+let invite_join_group_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.uid = this.uid;
+        content.gid = this.gid;
+        content.type = this.type;
+
+        return content;
+    },
+    setUid(uid){
+        this.uid = uid;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setType(type){
+        this.type = type;
+    },
+
+});
+
+module.exports.invite_join_group_req = invite_join_group_req;
+
+let invite_join_group_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.result = this.result;
+        content.uid = this.uid;
+        content.gid = this.gid;
+        content.type = this.type;
+
+        return content;
+    },
+    setResult(result){
+        this.result = result;
+    },
+    setUid(uid){
+        this.uid = uid;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setType(type){
+        this.type = type;
+    },
+
+});
+
+module.exports.invite_join_group_ack = invite_join_group_ack;
+
+let client_friend_info_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.client_friend_info_req = client_friend_info_req;
+
+let client_friend_info_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.infosList = this.infosList;
+
+        return content;
+    },
+    setInfosList(infosList){
+        this.infosList = infosList;
+    },
+
+});
+
+module.exports.client_friend_info_ack = client_friend_info_ack;
+
+let group_info = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.gid = this.gid;
+        content.name = this.name;
+        content.membersList = this.membersList;
+
+        return content;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setName(name){
+        this.name = name;
+    },
+    setMembersList(membersList){
+        this.membersList = membersList;
+    },
+
+});
+
+module.exports.group_info = group_info;
+
+let client_group_info_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.client_group_info_req = client_group_info_req;
+
+let client_group_info_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.gidsList = this.gidsList;
+
+        return content;
+    },
+    setGidsList(gidsList){
+        this.gidsList = gidsList;
+    },
+
+});
+
+module.exports.client_group_info_ack = client_group_info_ack;
+
+let client_group_detail_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.gid = this.gid;
+
+        return content;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+
+});
+
+module.exports.client_group_detail_req = client_group_detail_req;
+
+let client_group_detail_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.ginfo = this.ginfo;
+
+        return content;
+    },
+    setGinfo(ginfo){
+        this.ginfo = ginfo;
+    },
+
+});
+
+module.exports.client_group_detail_ack = client_group_detail_ack;
+
+let chat_msg = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.id = this.id;
+        content.from = this.from;
+        content.msg = this.msg;
         content.time = this.time;
-        content.shopId = this.shopId;
-        content.flag = this.flag;
-        content.orderid = this.orderid;
-        content.code = this.code;
-        content.sendCode = this.sendCode;
-        content.zfbAccount = this.zfbAccount;
-        content.zfbUsername = this.zfbUsername;
-        content.jdkAddr = this.jdkAddr;
-        content.jdkPhone = this.jdkPhone;
-        content.jdkUsername = this.jdkUsername;
+        content.uid = this.uid;
+        content.gid = this.gid;
 
         return content;
+    },
+    setId(id){
+        this.id = id;
+    },
+    setFrom(from){
+        this.from = from;
+    },
+    setMsg(msg){
+        this.msg = msg;
     },
     setTime(time){
         this.time = time;
     },
-    setShopId(shopId){
-        this.shopId = shopId;
+    setUid(uid){
+        this.uid = uid;
     },
-    setFlag(flag){
-        this.flag = flag;
-    },
-    setOrderid(orderid){
-        this.orderid = orderid;
-    },
-    setCode(code){
-        this.code = code;
-    },
-    setSendCode(sendCode){
-        this.sendCode = sendCode;
-    },
-    setZfbAccount(zfbAccount){
-        this.zfbAccount = zfbAccount;
-    },
-    setZfbUsername(zfbUsername){
-        this.zfbUsername = zfbUsername;
-    },
-    setJdkAddr(jdkAddr){
-        this.jdkAddr = jdkAddr;
-    },
-    setJdkPhone(jdkPhone){
-        this.jdkPhone = jdkPhone;
-    },
-    setJdkUsername(jdkUsername){
-        this.jdkUsername = jdkUsername;
+    setGid(gid){
+        this.gid = gid;
     },
 
 });
 
-module.exports.log_gift_exchange = log_gift_exchange;
+module.exports.chat_msg = chat_msg;
 
-let hall_req_log_gift_exchange = cc.Class({
+let client_chat_req = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
+        content.uid = this.uid;
+        content.gid = this.gid;
+        content.msg = this.msg;
 
         return content;
+    },
+    setUid(uid){
+        this.uid = uid;
+    },
+    setGid(gid){
+        this.gid = gid;
+    },
+    setMsg(msg){
+        this.msg = msg;
     },
 
 });
 
-module.exports.hall_req_log_gift_exchange = hall_req_log_gift_exchange;
+module.exports.client_chat_req = client_chat_req;
 
-let hall_ack_log_gift_exchange = cc.Class({
+let client_chat_ack = cc.Class({
     ctor(){
     },
     getContent(){
         let content = {};
-        content.listList = this.listList;
+        content.ret = this.ret;
+        content.msg = this.msg;
 
         return content;
     },
-    setListList(listList){
-        this.listList = listList;
+    setRet(ret){
+        this.ret = ret;
+    },
+    setMsg(msg){
+        this.msg = msg;
     },
 
 });
 
-module.exports.hall_ack_log_gift_exchange = hall_ack_log_gift_exchange;
-
-let activity_fish_gift = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.id = this.id;
-        content.beginTime = this.beginTime;
-        content.endTime = this.endTime;
-        content.state = this.state;
-
-        return content;
-    },
-    setId(id){
-        this.id = id;
-    },
-    setBeginTime(beginTime){
-        this.beginTime = beginTime;
-    },
-    setEndTime(endTime){
-        this.endTime = endTime;
-    },
-    setState(state){
-        this.state = state;
-    },
-
-});
-
-module.exports.activity_fish_gift = activity_fish_gift;
-
-let get_activity_fish_gift_notify = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.listList = this.listList;
-
-        return content;
-    },
-    setListList(listList){
-        this.listList = listList;
-    },
-
-});
-
-module.exports.get_activity_fish_gift_notify = get_activity_fish_gift_notify;
-
-let msg_activity_fish_gift_notify = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.activityId = this.activityId;
-        content.state = this.state;
-
-        return content;
-    },
-    setActivityId(activityId){
-        this.activityId = activityId;
-    },
-    setState(state){
-        this.state = state;
-    },
-
-});
-
-module.exports.msg_activity_fish_gift_notify = msg_activity_fish_gift_notify;
-
-let msg_fish_wx = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.wx = this.wx;
-
-        return content;
-    },
-    setWx(wx){
-        this.wx = wx;
-    },
-
-});
-
-module.exports.msg_fish_wx = msg_fish_wx;
+module.exports.client_chat_ack = client_chat_ack;
 

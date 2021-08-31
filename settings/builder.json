@@ -21,13 +21,48 @@
   "packageName": "com.yjhy.jlmj",
   "privateKey": "",
   "renderMode": "0",
-  "startScene": "8719247d-9a91-4249-a3d5-562cad802f11",
+  "startScene": "29839db8-8c4b-4b23-b983-54d4b5ed8575",
   "title": "gameyj",
-  "webOrientation": "portrait",
+  "webOrientation": "landscape",
   "wechatgame": {
     "appid": "wx6ac3f5090a6b99c5",
     "orientation": "portrait"
   },
   "xxteaKey": "edb0903f-9f09-4b",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "mainCompressionType": "default",
+  "mainIsRemote": false,
+  "nativeMd5Cache": true,
+  "fb-instant-games": {},
+  "android": {
+    "packageName": "org.cocos2d.demo",
+    "REMOTE_SERVER_ROOT": ""
+  },
+  "ios": {
+    "packageName": "org.cocos2d.demo",
+    "REMOTE_SERVER_ROOT": "",
+    "ios_enable_jit": true
+  },
+  "mac": {
+    "packageName": "org.cocos2d.demo",
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
+  },
+  "win32": {
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
+  },
+  "android-instant": {
+    "packageName": "org.cocos2d.demo",
+    "REMOTE_SERVER_ROOT": "",
+    "pathPattern": "",
+    "scheme": "https",
+    "host": "",
+    "skipRecord": false,
+    "recordPath": ""
+  },
+  "appBundle": false,
+  "agreements": {}
 }

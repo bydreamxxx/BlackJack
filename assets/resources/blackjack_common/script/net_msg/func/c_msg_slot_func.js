@@ -48,13 +48,6 @@
         [5443]:{ package_name:'msg', msg_name:'msg_cash_activity_open_tips', name:msg.msg_cash_activity_open_tips, func:handler.on_msg_cash_activity_open_tips, func_name:'on_msg_cash_activity_open_tips', logtag:'[5443:msg_cash_activity_open_tips ]' },
         [5444]:{ package_name:'msg', msg_name:'msg_cash_activity_open_result_req', name:msg.msg_cash_activity_open_result_req, func:handler.on_msg_cash_activity_open_result_req, func_name:'on_msg_cash_activity_open_result_req', logtag:'[5444:msg_cash_activity_open_result_req ]' },
         [5445]:{ package_name:'msg', msg_name:'msg_cash_activity_open_result_ret', name:msg.msg_cash_activity_open_result_ret, func:handler.on_msg_cash_activity_open_result_ret, func_name:'on_msg_cash_activity_open_result_ret', logtag:'[5445:msg_cash_activity_open_result_ret ]' },
-        [5446]:{ package_name:'msg', msg_name:'activity_spread_user_info', name:msg.activity_spread_user_info, func:handler.on_activity_spread_user_info, func_name:'on_activity_spread_user_info', logtag:'[5446:activity_spread_user_info]' },
-        [5447]:{ package_name:'msg', msg_name:'activity_spread', name:msg.activity_spread, func:handler.on_activity_spread, func_name:'on_activity_spread', logtag:'[5447:activity_spread ]' },
-        [5448]:{ package_name:'msg', msg_name:'get_activity_spread_notify', name:msg.get_activity_spread_notify, func:handler.on_get_activity_spread_notify, func_name:'on_get_activity_spread_notify', logtag:'[5448:get_activity_spread_notify ]' },
-        [5449]:{ package_name:'msg', msg_name:'msg_activity_spread_notify', name:msg.msg_activity_spread_notify, func:handler.on_msg_activity_spread_notify, func_name:'on_msg_activity_spread_notify', logtag:'[5449:msg_activity_spread_notify ]' },
-        [5450]:{ package_name:'msg', msg_name:'msg_activity_spread_swap_req', name:msg.msg_activity_spread_swap_req, func:handler.on_msg_activity_spread_swap_req, func_name:'on_msg_activity_spread_swap_req', logtag:'[5450:msg_activity_spread_swap_req ]' },
-        [5451]:{ package_name:'msg', msg_name:'msg_activity_spread_swap_ret', name:msg.msg_activity_spread_swap_ret, func:handler.on_msg_activity_spread_swap_ret, func_name:'on_msg_activity_spread_swap_ret', logtag:'[5451:msg_activity_spread_swap_ret ]' },
-        [5452]:{ package_name:'msg', msg_name:'msg_activity_spread_award_notify', name:msg.msg_activity_spread_award_notify, func:handler.on_msg_activity_spread_award_notify, func_name:'on_msg_activity_spread_award_notify', logtag:'[5452:msg_activity_spread_award_notify ]' },
 
     };
     module.exports = {
