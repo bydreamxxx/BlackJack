@@ -74,6 +74,8 @@ dd.UpdaterEvent = require('Updater').UpdaterEvent;
 //音效管理器
 window.AudioManager = require("AudioManager").getInstance();
 
+window.LanguageMgr = require("LanguageMgr").LanguageMgr.getInstance();
+
 //钉钉机器人
 dd.DingRobot = require('DingRobot');
 

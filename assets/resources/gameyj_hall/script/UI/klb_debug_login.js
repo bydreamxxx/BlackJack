@@ -392,4 +392,12 @@ cc.Class({
         Platform.RecordUrl[AppCfg.PID] = "http://{0}:{1}/".format(this.recordEditbox.string, pattern1.test(this.recordEditbox.string) || pattern2.test(this.recordEditbox.string) ? 3806 : 8881);
 
     },
+
+    onClickChangeLanguage(){
+        if (LanguageMgr.getKind() === "ZH"){
+            LanguageMgr.changeLanguage("EN");
+        }else{
+            LanguageMgr.changeLanguage("ZH");
+        }
+    }
 });

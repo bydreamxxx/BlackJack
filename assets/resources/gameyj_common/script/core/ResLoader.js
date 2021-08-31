@@ -388,7 +388,7 @@ var ResLoader = {
             }
         }
 
-        if (path.search("gameyj_common") == -1 && path.search("gameyj_hall") == -1 && path.search("gameyj_loading") == -1) {
+        if (path.search("gameyj_common") == -1 && path.search("gameyj_hall") == -1 && path.search("gameyj_loading") == -1 && path.search('i18n') == -1) {
             let str = path.split("/");
             cc.assetManager.loadBundle(str[0], (err, bundle) => {
                 if (err) {
