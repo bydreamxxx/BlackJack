@@ -79,7 +79,7 @@ cc.Class({
                     this.finished.active = true;
                     var spr = this.finished.getChildByName('finishSp');
                     spr.active = true;
-                    this.shineNode.stopAllActions();
+                    // this.shineNode.stopAllActions();
                 } else if ((taskInfo.progressList[0].curCnt >= taskInfo.progressList[0].targetCnt) && taskInfo.flag == 0) {
                     //任务完成未领取
                     this.tips.active = true;
@@ -124,10 +124,16 @@ cc.Class({
                 //首冲礼包
                 cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_FIRST_BUY, function (ui) {
                     var cpt = ui.getComponent('klb_hall_first_buy');
-                    var seq = cc.sequence(cc.delayTime(0.2), cc.callFunc(function () {
-                        cpt.initItemList();
-                    }));
-                    this.node.runAction(seq);
+                    // var seq = cc.sequence(cc.delayTime(0.2), cc.callFunc(function () {
+                    //     cpt.initItemList();
+                    // }));
+                    // this.node.runAction(seq);
+                    cc.tween(this.node)
+                        .delay(0.2)
+                        .call(function () {
+                            cpt.initItemList();
+                        })
+                        .start();
                 }.bind(this));
                 break;
             case 2:

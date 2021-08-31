@@ -33,7 +33,14 @@ cc.Class({
 
         var shineNode = this.m_tBtn[0].getChildByName('shine');
         if (shineNode) {
-            shineNode.runAction(cc.repeatForever(cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8))));
+            // shineNode.runAction(cc.repeatForever(cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8))));
+            cc.tween(shineNode)
+                .set({ opacity: 0 })
+                .to(0.8, { opacity: 255 })
+                .to(0.8, { opacity: 0 })
+                .union()
+                .repeatForever()
+                .start();
             shineNode.active = true;
         }
 
@@ -139,11 +146,18 @@ cc.Class({
                 anim.getComponent(cc.Animation).play('btnLight');
             }
             if (box == 0) {
-                this.m_tBtn[0].stopAllActions();
+                // this.m_tBtn[0].stopAllActions();
+                cc.Tween.stopAll();
                 var x = this.m_tBtn[box].x;
-                var moveRight = cc.moveTo(0.1, cc.v2(x + 2, this.m_tBtn[box].y));
-                var moveLeft = cc.moveTo(0.1, cc.v2(x - 2, this.m_tBtn[box].y));
-                this.m_tBtn[box].runAction(cc.repeatForever(cc.sequence(moveRight, moveLeft)));
+                // var moveRight = cc.moveTo(0.1, cc.v2(x + 2, this.m_tBtn[box].y));
+                // var moveLeft = cc.moveTo(0.1, cc.v2(x - 2, this.m_tBtn[box].y));
+                // this.m_tBtn[box].runAction(cc.repeatForever(cc.sequence(moveRight, moveLeft)));
+                cc.tween(this.m_tBtn[box])
+                    .to(0.1, { position: cc.v2(x + 2, this.m_tBtn[box].y) })
+                    .to(0.1, { position: cc.v2(x - 2, this.m_tBtn[box].y) })
+                    .union()
+                    .repeatForever()
+                    .start();
             } else if (box >= 1 && box < 4)
                 this.m_tBtn[box].getComponent(cc.Sprite).spriteFrame = this.m_tBtnSateSprite[4];
             else if (box >= 4 && box < 13)
@@ -155,7 +169,8 @@ cc.Class({
         opend_list.forEach(function (opend_box) {
             if (opend_box == 0) {
                 this.m_tBtn[opend_box].getChildByName('shine').active = false;
-                this.m_tBtn[opend_box].stopAllActions();
+                // this.m_tBtn[opend_box].stopAllActions();
+                cc.Tween.stopAll();
             } else if (opend_box >= 1 && opend_box < 4)
                 this.m_tBtn[opend_box].getComponent(cc.Sprite).spriteFrame = this.m_tBtnSateSprite[7];
             else if (opend_box >= 4 && opend_box < 13)

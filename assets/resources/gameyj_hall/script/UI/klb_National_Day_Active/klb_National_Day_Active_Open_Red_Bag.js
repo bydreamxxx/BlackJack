@@ -45,20 +45,38 @@ cc.Class({
         // this.m_tRedBag[this.m_nOpenIndx].runAction(seq);
         var endTag = false;
         for (var i = 0; i < 3; i++) {
-            var move = cc.moveTo(0.2, cc.v2(0, 0));
-            var scale = cc.scaleTo(0.2, 1.5);
-            if (i != this.m_nOpenIndx) {
-                scale = cc.scaleTo(0.2, 0.01);
-            }
+            // var move = cc.moveTo(0.2, cc.v2(0, 0));
+            // var scale = cc.scaleTo(0.2, 1.5);
+            // if (i != this.m_nOpenIndx) {
+            //     scale = cc.scaleTo(0.2, 0.01);
+            // }
             if (i == this.m_nOpenIndx)
                 endTag = true;
-            var seq = cc.sequence(cc.spawn(move, scale), cc.callFunc(function () {
-                if (endTag) {
-                    hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
-                    endTag = false;
-                }
-            }.bind(this)));
-            this.m_tRedBag[i].runAction(seq);
+            // var seq = cc.sequence(cc.spawn(move, scale), cc.callFunc(function () {
+            //     if (endTag) {
+            //         hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
+            //         endTag = false;
+            //     }
+            // }.bind(this)));
+            // this.m_tRedBag[i].runAction(seq);
+
+            let move = cc.tween().to(0.2, { position: cc.v2(0, 0) });
+            let scale = cc.tween().to(0.2, { scale: 1.5 })
+            if (i != this.m_nOpenIndx) {
+                scale = cc.tween().to(0.2, { scale: 0.01 })
+            }
+
+            cc.tween(this.m_tRedBag[i])
+                .parallel(
+                    move, scale
+                )
+                .call(function () {
+                    if (endTag) {
+                        hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
+                        endTag = false;
+                    }
+                }.bind(this))
+                .start();
         }
     },
 
@@ -78,11 +96,18 @@ cc.Class({
         var numTxt = cc.dd.Utils.seekNodeByName(this.m_tRedBag[3], 'num');
         numTxt.getComponent(cc.Label).string = (data[0].cnt / 100).toFixed(2) + '元';
 
-        var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
-            var resultNode = cc.dd.Utils.seekNodeByName(this.m_tRedBag[3], 'resultNode');
-            resultNode.active = true;
-        }.bind(this)));
-        this.node.runAction(seq);
+        // var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
+        //     var resultNode = cc.dd.Utils.seekNodeByName(this.m_tRedBag[3], 'resultNode');
+        //     resultNode.active = true;
+        // }.bind(this)));
+        // this.node.runAction(seq);
+        cc.tween(this.node)
+            .delay(1)
+            .call(function () {
+                var resultNode = cc.dd.Utils.seekNodeByName(this.m_tRedBag[3], 'resultNode');
+                resultNode.active = true;
+            }.bind(this))
+            .start();
         eggAnim.getComponent(sp.Skeleton).setCompleteListener(function () {
 
             eggAnim.getComponent(sp.Skeleton).enabled = true;

@@ -262,7 +262,7 @@ let com_marquee = cc.Class({
 
     turnOff() {
         this.isOff = true;
-        this.strTTF.node.stopAllActions();
+        // this.strTTF.node.stopAllActions();
         this.showNode.active = false;
     },
 

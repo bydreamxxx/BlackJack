@@ -157,21 +157,37 @@ cc.Class({
     onClickShowCheckBox: function (event, data) {
         var self = this;
         self.click_Tag = !self.click_Tag;
-        var rotate = cc.rotateBy(0.1, 180);
-        var seq = cc.sequence(rotate, cc.callFunc(function () {
-            if (self.click_Tag) {
-                self.actNode.active = true
-                //获取特效
-                var anim = self.actNode.getComponent(cc.Animation);
-                anim.play('view_show');
-            } else {
-                var anim = self.actNode.getComponent(cc.Animation);
-                anim.play('view_close');
-                anim.on('stop', self.closeAnimCallFunc, self);
-            }
+        // var rotate = cc.rotateBy(0.1, 180);
+        // var seq = cc.sequence(rotate, cc.callFunc(function () {
+        //     if (self.click_Tag) {
+        //         self.actNode.active = true
+        //         //获取特效
+        //         var anim = self.actNode.getComponent(cc.Animation);
+        //         anim.play('view_show');
+        //     } else {
+        //         var anim = self.actNode.getComponent(cc.Animation);
+        //         anim.play('view_close');
+        //         anim.on('stop', self.closeAnimCallFunc, self);
+        //     }
 
-        }));
-        self.clickArrow.runAction(seq);
+        // }));
+        // self.clickArrow.runAction(seq);
+        cc.tween(self.clickArrow)
+            .by(0.1, { rotation: 180 })
+            .call(function () {
+                if (self.click_Tag) {
+                    self.actNode.active = true
+                    //获取特效
+                    var anim = self.actNode.getComponent(cc.Animation);
+                    anim.play('view_show');
+                } else {
+                    var anim = self.actNode.getComponent(cc.Animation);
+                    anim.play('view_close');
+                    anim.on('stop', self.closeAnimCallFunc, self);
+                }
+
+            })
+            .start();
 
     },
 
@@ -180,15 +196,24 @@ cc.Class({
      */
     onClickCloseCheckBox: function (event, data) {
         var self = this;
-        var rotate = cc.rotateBy(0.1, 180);
+        // var rotate = cc.rotateBy(0.1, 180);
         self.click_Tag = !self.click_Tag;
-        var seq = cc.sequence(rotate, cc.callFunc(function () {
-            //获取特效
-            var anim = self.actNode.getComponent(cc.Animation);
-            anim.play('view_close');
-            anim.on('stop', self.closeAnimCallFunc, self);
-        }));
-        self.clickArrow.runAction(seq);
+        // var seq = cc.sequence(rotate, cc.callFunc(function () {
+        //     //获取特效
+        //     var anim = self.actNode.getComponent(cc.Animation);
+        //     anim.play('view_close');
+        //     anim.on('stop', self.closeAnimCallFunc, self);
+        // }));
+        // self.clickArrow.runAction(seq);
+        cc.tween(self.clickArrow)
+            .by(0.1, { rotation: 180 })
+            .call(function () {
+                //获取特效
+                var anim = self.actNode.getComponent(cc.Animation);
+                anim.play('view_close');
+                anim.on('stop', self.closeAnimCallFunc, self);
+            })
+            .start();
     },
 
     /**

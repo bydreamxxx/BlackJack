@@ -35,17 +35,28 @@ cc.Class({
         this.dragonBonesNode.setAnimation(0, 'VS', false);
         var self = this;
 
-        var moveto1 = cc.moveTo(0.3, cc.v2(this.m_nOrigX_1, this.m_nOrigY_1));
-        var moveto2 = cc.moveTo(0.3, cc.v2(this.m_nOrigX_2, this.m_nOrigY_2));
-        self.m_tPlayerNode[0].runAction(moveto1);
-        self.m_tPlayerNode[1].runAction(moveto2);
+        // var moveto1 = cc.moveTo(0.3, cc.v2(this.m_nOrigX_1, this.m_nOrigY_1));
+        // var moveto2 = cc.moveTo(0.3, cc.v2(this.m_nOrigX_2, this.m_nOrigY_2));
+        // self.m_tPlayerNode[0].runAction(moveto1);
+        // self.m_tPlayerNode[1].runAction(moveto2);
+        cc.tween(self.m_tPlayerNode[0])
+            .to(0.3, { position: cc.v2(this.m_nOrigX_1, this.m_nOrigY_1) })
+            .start();
+        cc.tween(self.m_tPlayerNode[1])
+            .to(0.3, { position: cc.v2(this.m_nOrigX_2, this.m_nOrigY_2) })
+            .start();
 
-
-        this.node.runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(function () {
-            self.node.runAction(cc.sequence(cc.delayTime(1.0), cc.callFunc(function () {
+        // this.node.runAction(cc.sequence(cc.delayTime(0.3), cc.callFunc(function () {
+        //     self.node.runAction(cc.sequence(cc.delayTime(1.0), cc.callFunc(function () {
+        //         self.playFailActive(userId, cmpId, winnerId, playerNode1, playerNode2);
+        //     })));
+        // })));
+        cc.tween(this.node)
+            .delay(1.3)
+            .call(function () {
                 self.playFailActive(userId, cmpId, winnerId, playerNode1, playerNode2);
-            })));
-        })));
+            })
+            .start();
 
     },
 
@@ -114,19 +125,35 @@ cc.Class({
         this.loseNode.getComponent(cc.Animation).off('finished', this.onClose, this);
         this.node.getChildByName('root').active = false;
 
-        this.m_tPlayerNode[0].runAction(cc.moveTo(0.3, this.endPos1));
-        this.m_tPlayerNode[1].runAction(cc.sequence(cc.moveTo(0.3, this.endPos2), cc.callFunc(function () {
-            this.playerNode1.getChildByName('headbg').active = true;
-            this.playerNode2.getChildByName('headbg').active = true;
-            this.m_tPlayerNode[0].setPosition(cc.v2(this.m_nOrigX_1, this.m_nOrigY_1));
-            this.m_tPlayerNode[1].setPosition(cc.v2(this.m_nOrigX_2, this.m_nOrigY_2));
-            this.node.getChildByName('root').active = true;
-            this.node.active = false;
-            if (this.callBack)
-                this.callBack();
-            cc._pauseLMAni = false;
-            cc.dd.UIMgr.destroyUI(this.node);
-        }.bind(this))));
+        // this.m_tPlayerNode[0].runAction(cc.moveTo(0.3, this.endPos1));
+        cc.tween(this.m_tPlayerNode[0]).to(0.3, { position: this.endPos1 }).start();
+        // this.m_tPlayerNode[1].runAction(cc.sequence(cc.moveTo(0.3, this.endPos2), cc.callFunc(function () {
+        //     this.playerNode1.getChildByName('headbg').active = true;
+        //     this.playerNode2.getChildByName('headbg').active = true;
+        //     this.m_tPlayerNode[0].setPosition(cc.v2(this.m_nOrigX_1, this.m_nOrigY_1));
+        //     this.m_tPlayerNode[1].setPosition(cc.v2(this.m_nOrigX_2, this.m_nOrigY_2));
+        //     this.node.getChildByName('root').active = true;
+        //     this.node.active = false;
+        //     if (this.callBack)
+        //         this.callBack();
+        //     cc._pauseLMAni = false;
+        //     cc.dd.UIMgr.destroyUI(this.node);
+        // }.bind(this))));
+        cc.tween(this.m_tPlayerNode[1])
+            .to(0.3, { position: this.endPos2 })
+            .call(function () {
+                this.playerNode1.getChildByName('headbg').active = true;
+                this.playerNode2.getChildByName('headbg').active = true;
+                this.m_tPlayerNode[0].setPosition(cc.v2(this.m_nOrigX_1, this.m_nOrigY_1));
+                this.m_tPlayerNode[1].setPosition(cc.v2(this.m_nOrigX_2, this.m_nOrigY_2));
+                this.node.getChildByName('root').active = true;
+                this.node.active = false;
+                if (this.callBack)
+                    this.callBack();
+                cc._pauseLMAni = false;
+                cc.dd.UIMgr.destroyUI(this.node);
+            }.bind(this))
+            .start();
         //cc.dd.UIMgr.destroyUI(this.node);
 
     },

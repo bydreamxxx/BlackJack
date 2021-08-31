@@ -121,8 +121,14 @@ cc.Class({
         if (this._currentRank != data.rank) {
             this._currentRank = data.rank;
             // this.rankView.scrollToPercentVertical((data.rank - 1)/data.leftPlayerNum, 0.5);
-            this.rankView.content.stopAllActions();
-            this.rankView.content.runAction(cc.moveTo(0.5, 0, (data.rank - 1) * this.currentRank.height));
+            // this.rankView.content.stopAllActions();
+            // this.rankView.content.runAction(cc.moveTo(0.5, 0, (data.rank - 1) * this.currentRank.height));
+            if (this.rankViewTween) {
+                this.rankViewTween.stop();
+            }
+            this.rankViewTween = cc.tween(this.rankView.content)
+                .to(0.5, { position: cc.v2(0, (data.rank - 1) * this.currentRank.height) })
+                .start();
         }
 
         if (!this.startTime) {
@@ -187,11 +193,16 @@ cc.Class({
                 }
 
                 if (!this.startTime) {
-                    this.node.runAction(cc.sequence(
-                        cc.callFunc(func1),
-                        cc.delayTime(0.1),
-                        cc.callFunc(func2)
-                    ))
+                    // this.node.runAction(cc.sequence(
+                    //     cc.callFunc(func1),
+                    //     cc.delayTime(0.1),
+                    //     cc.callFunc(func2)
+                    // ))
+                    cc.tween(this.node)
+                        .call(func1)
+                        .delay(0.1)
+                        .call(func2)
+                        .start();
 
                     this.startTime = true;
                     if (this.current_rounNum != 3 || data.rank <= 4) {

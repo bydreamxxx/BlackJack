@@ -35,11 +35,20 @@ cc.Class({
         this.dragonBonesNode.clearTracks();
         this.dragonBonesNode.setAnimation(0, 'VS', false);
         for (var i = 0; i < this.m_tOriginPos.length; i++) {
-            this.m_tPlayerNode[i].runAction(cc.moveTo(0.3, this.m_tOriginPos[i]));
+            // this.m_tPlayerNode[i].runAction(cc.moveTo(0.3, this.m_tOriginPos[i]));
+            cc.tween(this.m_tPlayerNode[i])
+                .to(0.3, { position: this.m_tOriginPos[i] })
+                .start();
         }
-        this.node.runAction(cc.sequence(cc.delayTime(1.3), cc.callFunc(function () {
-            this.playFailActive(userId, isWin, ownPlayerNode, tPlayerNode);
-        }.bind(this))));
+        // this.node.runAction(cc.sequence(cc.delayTime(1.3), cc.callFunc(function () {
+        //     this.playFailActive(userId, isWin, ownPlayerNode, tPlayerNode);
+        // }.bind(this))));
+        cc.tween(this.node)
+            .delay(1.3)
+            .call(function () {
+                this.playFailActive(userId, isWin, ownPlayerNode, tPlayerNode);
+            }.bind(this))
+            .start();
 
         // var self = this;
         // this.dragonBonesNode.setCompleteListener(function () {
@@ -151,25 +160,46 @@ cc.Class({
 
         var index = 0;
         for (var i = 0; i < this.m_tEndPos.length; i++) {
-            this.m_tPlayerNode[i].runAction(cc.sequence(cc.moveTo(0.3, this.m_tEndPos[i]), cc.callFunc(function () {
-                this.m_tPlayerNode[index].getChildByName('loseTag').active = false;
-                if (index == 0)
-                    this.m_oOwnPlayerNode.getChildByName('headbg').active = true;
-                else
-                    this.m_tPlayerPosNode[index - 1].getChildByName('headbg').active = true;
-                this.m_tPlayerNode[index].setPosition(this.m_tOriginPos[index]);
-                this.m_tPlayerNode[index].active = false;
-                if (index == this.m_tEndPos.length - 1) {
-                    this.node.getChildByName('root').active = true;
-                    this.node.active = false;
-                    if (this.callBack)
-                        this.callBack();
-                }
-                cc._pauseLMAni = false;
-                cc.dd.UIMgr.destroyUI(this.node);
-                index = index + 1;
-            }.bind(this))));
+            // this.m_tPlayerNode[i].runAction(cc.sequence(cc.moveTo(0.3, this.m_tEndPos[i]), cc.callFunc(function () {
+            //     this.m_tPlayerNode[index].getChildByName('loseTag').active = false;
+            //     if (index == 0)
+            //         this.m_oOwnPlayerNode.getChildByName('headbg').active = true;
+            //     else
+            //         this.m_tPlayerPosNode[index - 1].getChildByName('headbg').active = true;
+            //     this.m_tPlayerNode[index].setPosition(this.m_tOriginPos[index]);
+            //     this.m_tPlayerNode[index].active = false;
+            //     if (index == this.m_tEndPos.length - 1) {
+            //         this.node.getChildByName('root').active = true;
+            //         this.node.active = false;
+            //         if (this.callBack)
+            //             this.callBack();
+            //     }
+            //     cc._pauseLMAni = false;
+            //     cc.dd.UIMgr.destroyUI(this.node);
+            //     index = index + 1;
+            // }.bind(this))));
 
+            cc.tween(this.m_tPlayerNode[i])
+                .to(0.3, { position: this.m_tEndPos[i] })
+                .call(function () {
+                    this.m_tPlayerNode[index].getChildByName('loseTag').active = false;
+                    if (index == 0)
+                        this.m_oOwnPlayerNode.getChildByName('headbg').active = true;
+                    else
+                        this.m_tPlayerPosNode[index - 1].getChildByName('headbg').active = true;
+                    this.m_tPlayerNode[index].setPosition(this.m_tOriginPos[index]);
+                    this.m_tPlayerNode[index].active = false;
+                    if (index == this.m_tEndPos.length - 1) {
+                        this.node.getChildByName('root').active = true;
+                        this.node.active = false;
+                        if (this.callBack)
+                            this.callBack();
+                    }
+                    cc._pauseLMAni = false;
+                    cc.dd.UIMgr.destroyUI(this.node);
+                    index = index + 1;
+                }.bind(this))
+                .start();
         }
     },
 });

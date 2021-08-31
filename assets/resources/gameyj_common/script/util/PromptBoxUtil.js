@@ -87,7 +87,7 @@ var PromptBoxUtil = cc.Class({
         var cpt = node.getComponent('com_prompt_box');
         cpt.addViewCloseListener(function () {
             this.removePopItem(node);
-            node.stopAllActions();
+            // node.stopAllActions();
             this.promptBoxPool.put(node);
             cc.game.addPersistRootNode(node);
             node.active = false;

@@ -57,7 +57,7 @@ cc.Class({
         //     self.page_node.height = layout.paddingTop + layout.paddingBottom + (row - 1) * layout.spacingY + row * self.game_icon_prefab.data.height;
         // }
         this.data.game_list.forEach(function (game) {
-            if(game.game_id != cc.dd.Define.GameType.HLMJ_GOLD && game.game_id != cc.dd.Define.GameType.ACMJ_GOLD) {
+            if (game.game_id != cc.dd.Define.GameType.HLMJ_GOLD && game.game_id != cc.dd.Define.GameType.ACMJ_GOLD) {
                 let gameItemNode = cc.instantiate(self.game_icon_prefab);
                 let gameItemUI = gameItemNode.getComponent("klb_hall_GameItemUI");
                 gameItemUI.setData(game, null);
@@ -71,9 +71,9 @@ cc.Class({
      */
     onClick() {
         let self = this;
-        let action_scale = cc.scaleTo(0.1, 214/1008, 208/459);
-        let action_move = cc.moveTo(0.1, this.origin_pos);
-        let action = cc.spawn(action_scale, action_move);
+        // let action_scale = cc.scaleTo(0.1, 214 / 1008, 208 / 459);
+        // let action_move = cc.moveTo(0.1, this.origin_pos);
+        // let action = cc.spawn(action_scale, action_move);
         let end_func = function () {
             self.node.active = false;
             //
@@ -81,13 +81,17 @@ cc.Class({
             //     child.active = true;
             // });
         };
-        let seq = cc.sequence(action, cc.callFunc(end_func));
-        this.node.runAction(seq);
+        // let seq = cc.sequence(action, cc.callFunc(end_func));
+        // this.node.runAction(seq);
+        cc.tween(this.node)
+            .to(0.1, { position: this.origin_pos, scale: cc.v2(214 / 1008, 208 / 459) })
+            .call(end_func)
+            .start();
 
         cc.find('Canvas/gold/datingLayer/gameScrollView').active = true;
     },
 
-    updateAlignment(){
+    updateAlignment() {
         this.closeWidget.updateAlignment();
     }
 });

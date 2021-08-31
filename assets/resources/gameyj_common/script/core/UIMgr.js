@@ -38,9 +38,9 @@ var UIMgr = cc.Class({
         if (ui) {
             cc.log("打开UI:" + name);
             if (ui.tagname == TAG_CLOSE || ui.tagname == TAG_DESTROY) {
-                if (ui.getChildByName('actNode')) {
-                    ui.getChildByName('actNode').stopAllActions();
-                }
+                // if (ui.getChildByName('actNode')) {
+                //     ui.getChildByName('actNode').stopAllActions();
+                // }
                 ui.tagname = TAG_NONE;
             }
             ui.active = true;

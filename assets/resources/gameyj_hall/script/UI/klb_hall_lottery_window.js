@@ -161,7 +161,7 @@ cc.Class({
         // this.test();
         // this.m_arrow.rotation = 0;
         cc.log("this.m_resultIndex", this.m_resultIndex);
-        var rotate = cc.rotateBy(1, 360 + this.m_resultIndex * 40);
+        // var rotate = cc.rotateBy(1, 360 + this.m_resultIndex * 40);
         var delay = cc.delayTime(0.5)
         var callFunc = cc.callFunc(function (sender) {
             this.m_tail.active = false;
@@ -182,9 +182,16 @@ cc.Class({
 
         }.bind(this))
 
-        var seq = cc.sequence(rotate.easing(cc.easeSineOut(1)), callFunc)
-        this.m_arrow_new.runAction(seq);
-        this.m_tail.runAction(cc.rotateBy(1, 360 + this.m_resultIndex * 40).easing(cc.easeSineOut(1)));
+        // var seq = cc.sequence(rotate.easing(cc.easeSineOut(1)), callFunc)
+        // this.m_arrow_new.runAction(seq);
+        cc.tween(this.m_arrow_new)
+            .by(1, { rotation: 360 + this.m_resultIndex * 40 }, { easing: dt => cc.sineOut(1).easing(dt) })
+            .call(callFunc)
+            .start();
+        // this.m_tail.runAction(cc.rotateBy(1, 360 + this.m_resultIndex * 40).easing(cc.easeSineOut(1)));
+        cc.tween(this.m_tail)
+            .by(1, { rotation: 360 + this.m_resultIndex * 40 }, { easing: dt => cc.sineOut(1).easing(dt) })
+            .start();
     },
 
     onClickStart: function () {
@@ -237,7 +244,7 @@ cc.Class({
         AudioManager.playSound("gameyj_hall/audios/lottery");
         this.aniPlaying = true;
         var angel = this.m_arrow_new.rotation % 360;
-        var rotate = cc.rotateBy(6, 360 * 8 + this.m_resultIndex * 40 - angel);
+        // var rotate = cc.rotateBy(6, 360 * 8 + this.m_resultIndex * 40 - angel);
         var callFunc = cc.callFunc(function (sender) {
             this.aniPlaying = false;
             this.m_tail.active = false;
@@ -257,8 +264,12 @@ cc.Class({
             }
             this.updateItem();
         }.bind(this))
-        var seq = cc.sequence(rotate.easing(cc.easeQuinticActionOut()), callFunc)
-        this.m_arrow_new.runAction(seq);
+        // var seq = cc.sequence(rotate.easing(cc.easeQuinticActionOut()), callFunc)
+        // this.m_arrow_new.runAction(seq);
+        cc.tween(this.m_arrow_new)
+            .by(6, { rotation: 360 * 8 + this.m_resultIndex * 40 - angel }, { easing: 'quintOut' })
+            .call(callFunc)
+            .start();
         //this.m_tail.runAction(cc.rotateBy(4, 3600 + this.m_resultIndex * 40).easing(cc.easeCubicActionInOut()));
 
         this.m_timeOutId = setTimeout(function () {

@@ -18,19 +18,20 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         // var Anim = this.bgNode.getComponent(cc.Animation);
         // Anim.play();
         this.bgNode.getComponent(cc.Widget).right = -234;
-        this.bgNode.runAction(cc.moveBy(0.33, -234, 0));
+        // this.bgNode.runAction(cc.moveBy(0.33, -234, 0));
+        cc.tween(this.bgNode).by(0.33, { position: cc.v2(-234, 0) });
 
         var ani = this.btnNode.getComponent(cc.Animation);
         ani.play('btnFadeIn');
     },
 
-    InitCountyList: function(game_List, provinceId){
+    InitCountyList: function (game_List, provinceId) {
         this.scrollNode.active = true;
-        for(var i in this._itemList){
+        for (var i in this._itemList) {
             this._itemList[i].getComponent('klb_hall_Map_CountyTag').deleNode();
         }
 
@@ -39,18 +40,18 @@ cc.Class({
         this.initItem(game_List, this._itemList, this.contentNode);
     },
 
-        /**
-     * 初始化 列表
-     * @param data       列表数据
-     * @param itemList   数据保存容器
-     * @param parent     滑动列表，节点父节点
-     */
-    initItem:function (data, itemList, parent) {
+    /**
+ * 初始化 列表
+ * @param data       列表数据
+ * @param itemList   数据保存容器
+ * @param parent     滑动列表，节点父节点
+ */
+    initItem: function (data, itemList, parent) {
         var self = this;
         cc.dd.ResLoader.loadPrefab(hall_prefab.KLB_HALL_MAP_COUNTYTAG, function (prefab) {
-            for(var i=0; i<data.length; ++i){
+            for (var i = 0; i < data.length; ++i) {
                 var itemData = data[i];
-                if(itemData){
+                if (itemData) {
                     var item = cc.instantiate(prefab);
                     itemList.push(item);
                     item.parent = parent;
@@ -58,18 +59,17 @@ cc.Class({
                     cpt.toggleGroup = parent;
 
                     var cnt = itemList.length;
-                   var y = (cnt-0.5)*this.itemHeight + (cnt-1)*this.spaceY;
+                    var y = (cnt - 0.5) * this.itemHeight + (cnt - 1) * this.spaceY;
                     item.y = -y;
-                    parent.height = cnt*this.itemHeight+(cnt+1)*this.spaceY;
+                    parent.height = cnt * this.itemHeight + (cnt + 1) * this.spaceY;
                     item.getComponent('klb_hall_Map_CountyTag').setData(itemData, this.provinceId, this.checkBtnCallBack.bind(this));
                 }
             }
         }.bind(this));
     },
 
-    checkBtnCallBack:function(data)
-    {
-        this._itemList.forEach(function(prefab){
+    checkBtnCallBack: function (data) {
+        this._itemList.forEach(function (prefab) {
             var Component = prefab.getComponent('klb_hall_Map_CountyTag');
             prefab.getComponent(cc.Toggle).isChecked = Component.changeBtnSelectState(data.key);
         });
@@ -77,9 +77,9 @@ cc.Class({
         this.btnNode.getComponent(cc.Button).interactable = true;
     },
 
-    clickEnterGame: function(){
+    clickEnterGame: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_MAP_CONFIRM, function(ui){
+        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_MAP_CONFIRM, function (ui) {
             ui.zIndex = 45;
             var cpt = ui.getComponent('klb_hall_Map_Confirm');
             cpt.initUI(this._data, this.provinceId);
@@ -87,7 +87,7 @@ cc.Class({
     },
 
 
-    close: function(){
+    close: function () {
         cc.dd.UIMgr.destroyUI(this.node);
     }
 

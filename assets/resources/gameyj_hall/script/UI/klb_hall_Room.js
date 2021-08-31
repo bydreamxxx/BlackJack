@@ -322,10 +322,16 @@ cc.Class({
             case 'FIRST_BUY':
                 cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_FIRST_BUY, function (ui) {
                     var cpt = ui.getComponent('klb_hall_first_buy');
-                    var seq = cc.sequence(cc.delayTime(0.2), cc.callFunc(function () {
-                        cpt.initItemList();
-                    }));
-                    this.node.runAction(seq);
+                    // var seq = cc.sequence(cc.delayTime(0.2), cc.callFunc(function () {
+                    //     cpt.initItemList();
+                    // }));
+                    // this.node.runAction(seq);
+                    cc.tween(this.node)
+                        .delay(0.2)
+                        .call(function () {
+                            cpt.initItemList();
+                        })
+                        .start();
                 }.bind(this));
                 break;
             case 'VIP':

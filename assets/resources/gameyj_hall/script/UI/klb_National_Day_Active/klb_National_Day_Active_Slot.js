@@ -152,12 +152,18 @@ cc.Class({
         eggAnim.getComponent(sp.Skeleton).enabled = true;
         eggAnim.getComponent(sp.Skeleton).clearTracks();
         eggAnim.getComponent(sp.Skeleton).setAnimation(0, 'lagan', false);
-        var seq = cc.sequence(cc.delayTime(0.3), cc.callFunc(function () {
-            AudioManager.playSound("gameyj_hall/audios/slot");
-            hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
-        }.bind(this)));
-        this.node.runAction(seq);
-
+        // var seq = cc.sequence(cc.delayTime(0.3), cc.callFunc(function () {
+        //     AudioManager.playSound("gameyj_hall/audios/slot");
+        //     hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
+        // }.bind(this)));
+        // this.node.runAction(seq);
+        cc.tween(this.node)
+            .delay(0.3)
+            .call(function () {
+                AudioManager.playSound("gameyj_hall/audios/slot");
+                hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
+            }.bind(this))
+            .start();
         // eggAnim.getComponent(sp.Skeleton).setCompleteListener(function(){
         //     AudioManager.playSound( "gameyj_hall/audios/slot" );
         //     hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
@@ -245,23 +251,45 @@ cc.Class({
         var q1 = cc.v2(x, q1_y);
         var q2 = cc.v2(x, q2_y);
         var coin_endPos = cc.v2(x, - 360);
-        var bezier = [q1, q2, coin_endPos];
+        // var bezier = [q1, q2, coin_endPos];
         var time = 1;
-        var bezierAct = cc.bezierTo(time, bezier);
-        node.runAction(cc.sequence(cc.spawn(bezierAct, cc.sequence(cc.delayTime(0.01), cc.callFunc(function () {
-            self.playCoinAnim();
-            self.m_nIndex += 1;
-        }))), cc.callFunc(function () {
-            node.active = false;
-            node.removeFromParent();
-            if (self.m_nIndex >= 100) {
-                var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
-                    cc.dd.UIMgr.destroyUI(self.node);
-                    node.stopAllActions();
-                }));
-                self.node.runAction(seq);
-            }
-        })));
+        // var bezierAct = cc.bezierTo(time, bezier);
+        // node.runAction(cc.sequence(cc.spawn(bezierAct, cc.sequence(cc.delayTime(0.01), cc.callFunc(function () {
+        //     self.playCoinAnim();
+        //     self.m_nIndex += 1;
+        // }))), cc.callFunc(function () {
+        //     node.active = false;
+        //     node.removeFromParent();
+        //     if (self.m_nIndex >= 100) {
+        //         // var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
+        //         //     cc.dd.UIMgr.destroyUI(self.node);
+        //         //     node.stopAllActions();
+        //         // }));
+        //         // self.node.runAction(seq);
+        //     }
+        // })));
+        let t = cc.tween(node)
+            .parallel(
+                cc.tween().bezierTo(time, q1, q2, coin_endPos),
+                cc.tween().delay(0.01).call(function () {
+                    self.playCoinAnim();
+                    self.m_nIndex += 1;
+                })
+            )
+            .call(function () {
+                node.active = false;
+                node.removeFromParent();
+                if (self.m_nIndex >= 100) {
+                    cc.tween(self.node)
+                        .delay(1)
+                        .call(function () {
+                            cc.dd.UIMgr.destroyUI(self.node);
+                            t.stop();
+                        })
+                        .start();
+                }
+            })
+            .start();
         node.parent = this.m_oCoinAnim.parent;
     },
 

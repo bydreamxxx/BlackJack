@@ -705,154 +705,304 @@ let hall = cc.Class({
     },
 
     initAndOpenRoomUI: function (data) {
-        var seq = cc.sequence(cc.delayTime(0.1), cc.callFunc(function () {
-            var gameItem = klb_game_list_config.getItem(function (item) {
-                if (item.gameid == data.hallGameid)
-                    return item
-            })
-            if (gameItem.isxiaociji == 0) { //常规游戏
-                switch (data.hallGameid) {
-                    case 109://疯狂拼十
-                    case Define.GameType.HBSL_GOLD://红包扫雷
-                    case 103: //单挑
-                    case 104: //飞禽走兽
-                    case 105: //西游记
-                    case 106://幸运转盘
-                    case 201://二八杠
-                    case 107://黄金赛马
-                    case 110: //打地鼠
-                        var enterfunc = function () {
-                            if (data.roomlistList && data.roomlistList.length) {
-                                var entermin = 0;
-                                game_room_list.items.forEach(function (roomItem) {
-                                    if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
-                                        var scriptData = require('brnn_data').brnn_Data.Instance();
-                                        scriptData.setData(roomItem);
-                                        entermin = roomItem.entermin;
+        // var seq = cc.sequence(cc.delayTime(0.1), cc.callFunc(function () {
+        //     var gameItem = klb_game_list_config.getItem(function (item) {
+        //         if (item.gameid == data.hallGameid)
+        //             return item
+        //     })
+        //     if (gameItem.isxiaociji == 0) { //常规游戏
+        //         switch (data.hallGameid) {
+        //             case 109://疯狂拼十
+        //             case Define.GameType.HBSL_GOLD://红包扫雷
+        //             case 103: //单挑
+        //             case 104: //飞禽走兽
+        //             case 105: //西游记
+        //             case 106://幸运转盘
+        //             case 201://二八杠
+        //             case 107://黄金赛马
+        //             case 110: //打地鼠
+        //                 var enterfunc = function () {
+        //                     if (data.roomlistList && data.roomlistList.length) {
+        //                         var entermin = 0;
+        //                         game_room_list.items.forEach(function (roomItem) {
+        //                             if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
+        //                                 var scriptData = require('brnn_data').brnn_Data.Instance();
+        //                                 scriptData.setData(roomItem);
+        //                                 entermin = roomItem.entermin;
+        //                             }
+        //                         }.bind(this));
+        //                         if (hall_prop_data.getInstance().getCoin() < entermin) {
+        //                             var tipsText = '金币不足' + entermin + ',不能进入';
+        //                             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //                         }
+        //                         else {
+        //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        //                             msg.setGameType(data.hallGameid);
+        //                             msg.setRoomId(data.roomlistList[0].fangjianid);
+        //                             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        //                         }
+        //                     }
+        //                     else {
+        //                         cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
+        //                     }
+        //                 }
+        //                 if (hallData.getInstance().gameId > 0) {    //游戏恢复
+        //                     if (hallData.getInstance().gameId == data.hallGameid) {
+        //                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        //                         msg.setGameType(hallData.getInstance().gameId);
+        //                         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        //                     }
+        //                     else {
+        //                         var itemgame = klb_game_list_config.getItem(function (item) {
+        //                             if (item.gameid == hallData.getInstance().gameId)
+        //                                 return item;
+        //                         })
+        //                         var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
+        //                         cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+        //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        //                             msg.setGameType(hallData.getInstance().gameId);
+        //                             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        //                         }, null);
+        //                         cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
+        //                     }
+        //                 }
+        //                 else {
+        //                     // if (data.roomlistList && data.roomlistList.length) {
+        //                     //     var entermin = 0;
+        //                     //     game_room_list.items.forEach(function (roomItem) {
+        //                     //         if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
+        //                     //             var scriptData = require('brnn_data').brnn_Data.Instance();
+        //                     //             scriptData.setData(roomItem);
+        //                     //             entermin = roomItem.entermin;
+        //                     //         }
+        //                     //     }.bind(this));
+        //                     //     if (hall_prop_data.getInstance().getCoin() < entermin) {
+        //                     //         var tipsText = '金币不足' + entermin + ',不能进入';
+        //                     //         cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //                     //     }
+        //                     //     else {
+        //                     //         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        //                     //         msg.setGameType(data.hallGameid);
+        //                     //         msg.setRoomId(data.roomlistList[0].fangjianid);
+        //                     //         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        //                     //     }
+        //                     // }
+        //                     // else {
+        //                     //     cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
+        //                     // }
+        //                     enterfunc();
+        //                 }
+        //                 break;
+        //             case 136://新斗三张
+        //                 dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_hall_Room', function (prefab) {
+        //                     var Component = prefab.getComponent('new_dsz_hall_room');
+        //                     Component.initRoomUI(data);
+        //                 });
+        //                 break;
+        //             case 138://捕鱼
+        //                 dd.UIMgr.openUI('gameyj_fish/prefabs/fish_hall_Room', function (prefab) {
+        //                     var Component = prefab.getComponent('gameyj_Fish_Room');
+        //                     Component.initRoomUI(data);
+        //                 });
+        //                 break;
+        //             case 139://捕鱼
+        //                 dd.UIMgr.openUI('gameyj_fish_doyen/prefabs/fish_doyen_hall_room', function (prefab) {
+        //                     var Component = prefab.getComponent('gameyj_Fish_Doyen_Room');
+        //                     Component.initRoomUI(data);
+        //                 });
+        //                 break;
+        //             default:
+        //                 switch (AppConfig.GAME_PID) {
+        //                     case 2: //快乐吧麻将
+        //                     case 3: //快乐吧农安麻将
+        //                     case 4:  //快乐吧填大坑
+        //                     case 5:  //快乐吧牛牛 
+        //                         {
+        //                             dd.UIMgr.openUI(hall_prefab.KLB_DL_HALL_ROOM, function (prefab) {
+        //                                 var Component = prefab.getComponent('klb_hall_Room');
+        //                                 Component.initRomUI(data);
+        //                             });
+        //                             break;
+        //                         }
+        //                     default:
+        //                         dd.UIMgr.openUI(hall_prefab.KLB_HALL_ROOM, function (prefab) {
+        //                             var Component = prefab.getComponent('klb_hall_Room');
+        //                             Component.initRomUI(data);
+        //                         });
+        //                 }
+        //                 break;
+        //         }
+        //     } else {
+        //         var entermin = null;
+        //         game_room_list.items.forEach(function (roomItem) {
+        //             if (data.hallGameid == roomItem.gameid) {
+        //                 if (entermin == null)
+        //                     entermin = roomItem.entermin;
+        //                 else
+        //                     entermin = Math.min(entermin, roomItem.entermin);
+        //             }
+        //         }.bind(this));
+        //         if (hall_prop_data.getInstance().getCoin() < entermin) {
+        //             var tipsText = '金币不足' + entermin + ',不能进入';
+        //             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //         }
+        //         else {
+        //             var gSlotMgr = require('SlotManger').SlotManger.Instance();
+        //             gSlotMgr.enterGame(gameItem.gameid, 0);
+        //         }
+        //     }
+        // }));
+        // this.node.runAction(seq);
+        cc.tween(this.node)
+            .delay(0.1)
+            .call(function () {
+                var gameItem = klb_game_list_config.getItem(function (item) {
+                    if (item.gameid == data.hallGameid)
+                        return item
+                })
+                if (gameItem.isxiaociji == 0) { //常规游戏
+                    switch (data.hallGameid) {
+                        case 109://疯狂拼十
+                        case Define.GameType.HBSL_GOLD://红包扫雷
+                        case 103: //单挑
+                        case 104: //飞禽走兽
+                        case 105: //西游记
+                        case 106://幸运转盘
+                        case 201://二八杠
+                        case 107://黄金赛马
+                        case 110: //打地鼠
+                            var enterfunc = function () {
+                                if (data.roomlistList && data.roomlistList.length) {
+                                    var entermin = 0;
+                                    game_room_list.items.forEach(function (roomItem) {
+                                        if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
+                                            var scriptData = require('brnn_data').brnn_Data.Instance();
+                                            scriptData.setData(roomItem);
+                                            entermin = roomItem.entermin;
+                                        }
+                                    }.bind(this));
+                                    if (hall_prop_data.getInstance().getCoin() < entermin) {
+                                        var tipsText = '金币不足' + entermin + ',不能进入';
+                                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
                                     }
-                                }.bind(this));
-                                if (hall_prop_data.getInstance().getCoin() < entermin) {
-                                    var tipsText = '金币不足' + entermin + ',不能进入';
-                                    cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                    else {
+                                        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+                                        msg.setGameType(data.hallGameid);
+                                        msg.setRoomId(data.roomlistList[0].fangjianid);
+                                        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+                                    }
                                 }
                                 else {
-                                    var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-                                    msg.setGameType(data.hallGameid);
-                                    msg.setRoomId(data.roomlistList[0].fangjianid);
-                                    cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+                                    cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
                                 }
                             }
-                            else {
-                                cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
-                            }
-                        }
-                        if (hallData.getInstance().gameId > 0) {    //游戏恢复
-                            if (hallData.getInstance().gameId == data.hallGameid) {
-                                var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-                                msg.setGameType(hallData.getInstance().gameId);
-                                cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-                            }
-                            else {
-                                var itemgame = klb_game_list_config.getItem(function (item) {
-                                    if (item.gameid == hallData.getInstance().gameId)
-                                        return item;
-                                })
-                                var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
-                                cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+                            if (hallData.getInstance().gameId > 0) {    //游戏恢复
+                                if (hallData.getInstance().gameId == data.hallGameid) {
                                     var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                                     msg.setGameType(hallData.getInstance().gameId);
                                     cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-                                }, null);
-                                cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
+                                }
+                                else {
+                                    var itemgame = klb_game_list_config.getItem(function (item) {
+                                        if (item.gameid == hallData.getInstance().gameId)
+                                            return item;
+                                    })
+                                    var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
+                                    cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+                                        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+                                        msg.setGameType(hallData.getInstance().gameId);
+                                        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+                                    }, null);
+                                    cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
+                                }
                             }
-                        }
-                        else {
-                            // if (data.roomlistList && data.roomlistList.length) {
-                            //     var entermin = 0;
-                            //     game_room_list.items.forEach(function (roomItem) {
-                            //         if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
-                            //             var scriptData = require('brnn_data').brnn_Data.Instance();
-                            //             scriptData.setData(roomItem);
-                            //             entermin = roomItem.entermin;
-                            //         }
-                            //     }.bind(this));
-                            //     if (hall_prop_data.getInstance().getCoin() < entermin) {
-                            //         var tipsText = '金币不足' + entermin + ',不能进入';
-                            //         cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
-                            //     }
-                            //     else {
-                            //         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-                            //         msg.setGameType(data.hallGameid);
-                            //         msg.setRoomId(data.roomlistList[0].fangjianid);
-                            //         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-                            //     }
-                            // }
-                            // else {
-                            //     cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
-                            // }
-                            enterfunc();
-                        }
-                        break;
-                    case 136://新斗三张
-                        dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_hall_Room', function (prefab) {
-                            var Component = prefab.getComponent('new_dsz_hall_room');
-                            Component.initRoomUI(data);
-                        });
-                        break;
-                    case 138://捕鱼
-                        dd.UIMgr.openUI('gameyj_fish/prefabs/fish_hall_Room', function (prefab) {
-                            var Component = prefab.getComponent('gameyj_Fish_Room');
-                            Component.initRoomUI(data);
-                        });
-                        break;
-                    case 139://捕鱼
-                        dd.UIMgr.openUI('gameyj_fish_doyen/prefabs/fish_doyen_hall_room', function (prefab) {
-                            var Component = prefab.getComponent('gameyj_Fish_Doyen_Room');
-                            Component.initRoomUI(data);
-                        });
-                        break;
-                    default:
-                        switch (AppConfig.GAME_PID) {
-                            case 2: //快乐吧麻将
-                            case 3: //快乐吧农安麻将
-                            case 4:  //快乐吧填大坑
-                            case 5:  //快乐吧牛牛 
-                                {
-                                    dd.UIMgr.openUI(hall_prefab.KLB_DL_HALL_ROOM, function (prefab) {
+                            else {
+                                // if (data.roomlistList && data.roomlistList.length) {
+                                //     var entermin = 0;
+                                //     game_room_list.items.forEach(function (roomItem) {
+                                //         if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
+                                //             var scriptData = require('brnn_data').brnn_Data.Instance();
+                                //             scriptData.setData(roomItem);
+                                //             entermin = roomItem.entermin;
+                                //         }
+                                //     }.bind(this));
+                                //     if (hall_prop_data.getInstance().getCoin() < entermin) {
+                                //         var tipsText = '金币不足' + entermin + ',不能进入';
+                                //         cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                //     }
+                                //     else {
+                                //         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+                                //         msg.setGameType(data.hallGameid);
+                                //         msg.setRoomId(data.roomlistList[0].fangjianid);
+                                //         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+                                //     }
+                                // }
+                                // else {
+                                //     cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
+                                // }
+                                enterfunc();
+                            }
+                            break;
+                        case 136://新斗三张
+                            dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_hall_Room', function (prefab) {
+                                var Component = prefab.getComponent('new_dsz_hall_room');
+                                Component.initRoomUI(data);
+                            });
+                            break;
+                        case 138://捕鱼
+                            dd.UIMgr.openUI('gameyj_fish/prefabs/fish_hall_Room', function (prefab) {
+                                var Component = prefab.getComponent('gameyj_Fish_Room');
+                                Component.initRoomUI(data);
+                            });
+                            break;
+                        case 139://捕鱼
+                            dd.UIMgr.openUI('gameyj_fish_doyen/prefabs/fish_doyen_hall_room', function (prefab) {
+                                var Component = prefab.getComponent('gameyj_Fish_Doyen_Room');
+                                Component.initRoomUI(data);
+                            });
+                            break;
+                        default:
+                            switch (AppConfig.GAME_PID) {
+                                case 2: //快乐吧麻将
+                                case 3: //快乐吧农安麻将
+                                case 4:  //快乐吧填大坑
+                                case 5:  //快乐吧牛牛 
+                                    {
+                                        dd.UIMgr.openUI(hall_prefab.KLB_DL_HALL_ROOM, function (prefab) {
+                                            var Component = prefab.getComponent('klb_hall_Room');
+                                            Component.initRomUI(data);
+                                        });
+                                        break;
+                                    }
+                                default:
+                                    dd.UIMgr.openUI(hall_prefab.KLB_HALL_ROOM, function (prefab) {
                                         var Component = prefab.getComponent('klb_hall_Room');
                                         Component.initRomUI(data);
                                     });
-                                    break;
-                                }
-                            default:
-                                dd.UIMgr.openUI(hall_prefab.KLB_HALL_ROOM, function (prefab) {
-                                    var Component = prefab.getComponent('klb_hall_Room');
-                                    Component.initRomUI(data);
-                                });
-                        }
-                        break;
-                }
-            } else {
-                var entermin = null;
-                game_room_list.items.forEach(function (roomItem) {
-                    if (data.hallGameid == roomItem.gameid) {
-                        if (entermin == null)
-                            entermin = roomItem.entermin;
-                        else
-                            entermin = Math.min(entermin, roomItem.entermin);
+                            }
+                            break;
                     }
-                }.bind(this));
-                if (hall_prop_data.getInstance().getCoin() < entermin) {
-                    var tipsText = '金币不足' + entermin + ',不能进入';
-                    cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                } else {
+                    var entermin = null;
+                    game_room_list.items.forEach(function (roomItem) {
+                        if (data.hallGameid == roomItem.gameid) {
+                            if (entermin == null)
+                                entermin = roomItem.entermin;
+                            else
+                                entermin = Math.min(entermin, roomItem.entermin);
+                        }
+                    }.bind(this));
+                    if (hall_prop_data.getInstance().getCoin() < entermin) {
+                        var tipsText = '金币不足' + entermin + ',不能进入';
+                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                    }
+                    else {
+                        var gSlotMgr = require('SlotManger').SlotManger.Instance();
+                        gSlotMgr.enterGame(gameItem.gameid, 0);
+                    }
                 }
-                else {
-                    var gSlotMgr = require('SlotManger').SlotManger.Instance();
-                    gSlotMgr.enterGame(gameItem.gameid, 0);
-                }
-            }
-        }));
-        this.node.runAction(seq);
+            })
+            .start();
     },
 
     // showRank: function (msg) {
@@ -1483,24 +1633,44 @@ let hall = cc.Class({
                 this.updateUnreadMail();
                 var self = this;
 
-                var delay = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
-                    // if(Hall.HallData.Instance().getActiveTag() == 1){
-                    //     self.activeShineNode.stopAllActions();
-                    //     self.activeShineNode.parent.active = true;
-                    //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                    //     self.activeShineNode.runAction(cc.repeatForever(seq1));
-                    // }else{
-                    //     self.activeShineNode.parent.active = false;
-                    // }
+                // var delay = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
+                //     // if(Hall.HallData.Instance().getActiveTag() == 1){
+                //     //     self.activeShineNode.stopAllActions();
+                //     //     self.activeShineNode.parent.active = true;
+                //     //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+                //     //     self.activeShineNode.runAction(cc.repeatForever(seq1));
+                //     // }else{
+                //     //     self.activeShineNode.parent.active = false;
+                //     // }
 
-                    var msg = new cc.pb.rank.msg_activity_info_req();
-                    cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
-                    self.updateActiveTip();
-                    self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
-                    self.updateTaskFlag();
-                    self.showNAtionalDayActive();
-                }));
-                this.node.runAction(delay);
+                //     var msg = new cc.pb.rank.msg_activity_info_req();
+                //     cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
+                //     self.updateActiveTip();
+                //     self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
+                //     self.updateTaskFlag();
+                //     self.showNAtionalDayActive();
+                // }));
+                // this.node.runAction(delay);
+                cc.tween(this.node)
+                    .delay(0.5)
+                    .call(function () {
+                        // if(Hall.HallData.Instance().getActiveTag() == 1){
+                        //     self.activeShineNode.stopAllActions();
+                        //     self.activeShineNode.parent.active = true;
+                        //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+                        //     self.activeShineNode.runAction(cc.repeatForever(seq1));
+                        // }else{
+                        //     self.activeShineNode.parent.active = false;
+                        // }
+
+                        var msg = new cc.pb.rank.msg_activity_info_req();
+                        cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
+                        self.updateActiveTip();
+                        self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
+                        self.updateTaskFlag();
+                        self.showNAtionalDayActive();
+                    })
+                    .start();
             }
             this.needInitCard = false;
             this.game_gounp_opened.node.active = false;
@@ -1529,30 +1699,56 @@ let hall = cc.Class({
         if (this.needInitGold) {
             this.loadGame();
 
-            var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-            this.fudaiShineNode.runAction(cc.repeatForever(seq));
+            // var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+            // this.fudaiShineNode.runAction(cc.repeatForever(seq));
+            cc.tween(this.fudaiShineNode)
+                .set({ opacity: 0 })
+                .to(0.8, { opacity: 255 })
+                .to(0.8, { opacity: 0 })
+                .union()
+                .repeatForever()
+                .start();
 
             var self = this;
 
-            var delay = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
-                // if(Hall.HallData.Instance().getActiveTag() == 1){
-                //     self.activeShineNode.stopAllActions();
-                //     self.activeShineNode.parent.active = true;
-                //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                //     self.activeShineNode.runAction(cc.repeatForever(seq1));
-                // }else{
-                //     self.activeShineNode.parent.active = false;
-                // }
+            // var delay = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
+            //     // if(Hall.HallData.Instance().getActiveTag() == 1){
+            //     //     self.activeShineNode.stopAllActions();
+            //     //     self.activeShineNode.parent.active = true;
+            //     //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+            //     //     self.activeShineNode.runAction(cc.repeatForever(seq1));
+            //     // }else{
+            //     //     self.activeShineNode.parent.active = false;
+            //     // }
 
-                var msg = new cc.pb.rank.msg_activity_info_req();
-                cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
-                self.updateActiveTip();
-                self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
-                self.updateTaskFlag();
-                self.showNAtionalDayActive();
-            }));
-            this.node.runAction(delay);
+            //     var msg = new cc.pb.rank.msg_activity_info_req();
+            //     cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
+            //     self.updateActiveTip();
+            //     self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
+            //     self.updateTaskFlag();
+            //     self.showNAtionalDayActive();
+            // }));
+            // this.node.runAction(delay);
+            cc.tween(this.node)
+                .delay(0.5)
+                .call(function () {
+                    // if(Hall.HallData.Instance().getActiveTag() == 1){
+                    //     self.activeShineNode.stopAllActions();
+                    //     self.activeShineNode.parent.active = true;
+                    //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+                    //     self.activeShineNode.runAction(cc.repeatForever(seq1));
+                    // }else{
+                    //     self.activeShineNode.parent.active = false;
+                    // }
 
+                    var msg = new cc.pb.rank.msg_activity_info_req();
+                    cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
+                    self.updateActiveTip();
+                    self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
+                    self.updateTaskFlag();
+                    self.showNAtionalDayActive();
+                })
+                .start();
             // if(!cc.sys.isNative){
             //     return;
             // }

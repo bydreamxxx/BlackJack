@@ -34,9 +34,9 @@ let rule = cc.Class({
     },
 
     onLoad: function () {
-        if(cc._applyForPayment){
+        if (cc._applyForPayment) {
             let serviceButton = cc.find('contractBtn', this.node);
-            if(serviceButton){
+            if (serviceButton) {
                 serviceButton.active = false;
             }
         }
@@ -173,8 +173,8 @@ let rule = cc.Class({
 
         if (game.gameid == cc.dd.Define.GameType.SYMJ_FRIEND) {
             return func(cc.dd.Define.GameType.SYMJ_GOLD);
-        // } else if (game.gameid == cc.dd.Define.GameType.TDK_FRIEND_LIU) {
-        //     return func(cc.dd.Define.GameType.TDK_COIN);
+            // } else if (game.gameid == cc.dd.Define.GameType.TDK_FRIEND_LIU) {
+            //     return func(cc.dd.Define.GameType.TDK_COIN);
         } else {
             return false;
         }
@@ -273,13 +273,21 @@ let rule = cc.Class({
     clickBtn: function (event, data) {
         hall_audio_mgr.com_btn_click();
         var self = this;
-        var rotate = cc.rotateBy(0.1, 180);
-        var seq = cc.sequence(rotate, cc.callFunc(function () {
-            self.clickTag[parseInt(data)] = !self.clickTag[parseInt(data)]
-            //self.showRuleInfo(data);
-        }));
-        this.clickBtnNode[parseInt(data)].runAction(seq);
+        // var rotate = cc.rotateBy(0.1, 180);
+        // var seq = cc.sequence(rotate, cc.callFunc(function () {
+        //     self.clickTag[parseInt(data)] = !self.clickTag[parseInt(data)]
+        //     //self.showRuleInfo(data);
+        // }));
+        // this.clickBtnNode[parseInt(data)].runAction(seq);
+        cc.tween(this.clickBtnNode[parseInt(data)])
+            .by(0.1, { rotation: 180 })
+            .call(function () {
+                self.clickTag[parseInt(data)] = !self.clickTag[parseInt(data)]
+                //self.showRuleInfo(data);
+            })
+            .start();
     },
+
 
     /**
      * 显示规则具体信息
@@ -313,11 +321,11 @@ let rule = cc.Class({
         hall_audio_mgr.com_btn_click();
         if (cc._chifengGame) {
             cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_KEFU);
-        }else if(cc.game_pid == 2){
+        } else if (cc.game_pid == 2) {
             cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_KEFU, function (prefab) {
                 prefab.getComponent('klbj_hall_KeFu').getKefuDetailInfo();
             });
-        }else {
+        } else {
             // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_KEFU, function (prefab) {
             //     prefab.getComponent('klbj_hall_KeFu').getKefuDetailInfo();
             // });

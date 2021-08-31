@@ -112,14 +112,19 @@ cc.Class({
         game_group_opened.setOriginData(parentPos2, this.node.parent);
         game_group_opened.node.position = parentPos2;
 
-        let action_scale = cc.scaleTo(0.1, 1.0, 1.0);
-        let action_move = cc.moveTo(0.1, cc.v2(0, -9));
-        let action = cc.spawn(action_scale, action_move);
-        game_group_opened.node.runAction(cc.sequence(action,
-            cc.callFunc(() => {
+        // let action_scale = cc.scaleTo(0.1, 1.0, 1.0);
+        // let action_move = cc.moveTo(0.1, cc.v2(0, -9));
+        // let action = cc.spawn(action_scale, action_move);
+        // game_group_opened.node.runAction(cc.sequence(action,
+        //     cc.callFunc(() => {
+        //         game_group_opened.updateAlignment();
+        //     })));
+        cc.tween(game_group_opened.node)
+            .to(0.1, { position: cc.v2(0, -9), scale: 1.0 })
+            .call(() => {
                 game_group_opened.updateAlignment();
-            })));
-
+            })
+            .start();
         cc.find('Canvas/gold/datingLayer/gameScrollView').active = false;
 
         // this.node.parent.children.forEach(function (child) {

@@ -354,69 +354,116 @@ cc.Class({
 
     headNodeChecked(target, movePos, viewPos) {
         target.active = true;
-        target.stopAllActions();
+        // target.stopAllActions();
+        cc.Tween.stopAll();
         target.setPosition(viewPos);
-        target.runAction(
-            cc.sequence(
-                cc.callFunc(() => {
-                    let buttons = target.getComponentsInChildren(cc.Button);
-                    for (let i = 0; i < buttons.length; i++) {
-                        buttons.enabled = false;
-                    }
-                }),
-                cc.moveTo(0.1, movePos).easing(cc.easeSineIn()),
-                cc.callFunc(() => {
-                    let buttons = target.getComponentsInChildren(cc.Button);
-                    for (let i = 0; i < buttons.length; i++) {
-                        buttons.enabled = true;
-                    }
-                }),
-            ));
+        // target.runAction(
+        //     cc.sequence(
+        //         cc.callFunc(() => {
+        //             let buttons = target.getComponentsInChildren(cc.Button);
+        //             for (let i = 0; i < buttons.length; i++) {
+        //                 buttons.enabled = false;
+        //             }
+        //         }),
+        //         cc.moveTo(0.1, movePos).easing(cc.easeSineIn()),
+        //         cc.callFunc(() => {
+        //             let buttons = target.getComponentsInChildren(cc.Button);
+        //             for (let i = 0; i < buttons.length; i++) {
+        //                 buttons.enabled = true;
+        //             }
+        //         }),
+        //     ));
+
+        cc.tween(target)
+            .call(() => {
+                let buttons = target.getComponentsInChildren(cc.Button);
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons.enabled = false;
+                }
+            })
+            .to(0.1, { position: movePos }, { easing: 'sineIn' })
+            .call(() => {
+                let buttons = target.getComponentsInChildren(cc.Button);
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons.enabled = true;
+                }
+            })
+            .start();
     },
 
     headNodeUnChecked(target, movePos, viewPos) {
         target.active = true;
-        target.stopAllActions();
+        // target.stopAllActions();
+        cc.Tween.stopAll();
         target.setPosition(movePos);
-        target.runAction(
-            cc.sequence(
-                cc.callFunc(() => {
-                    let buttons = target.getComponentsInChildren(cc.Button);
-                    for (let i = 0; i < buttons.length; i++) {
-                        buttons.enabled = false;
-                    }
-                }),
-                cc.moveTo(0.1, viewPos).easing(cc.easeSineOut()),
-                cc.callFunc(() => {
-                    target.active = false;
-                }),
-            ));
+        // target.runAction(
+        //     cc.sequence(
+        //         cc.callFunc(() => {
+        //             let buttons = target.getComponentsInChildren(cc.Button);
+        //             for (let i = 0; i < buttons.length; i++) {
+        //                 buttons.enabled = false;
+        //             }
+        //         }),
+        //         cc.moveTo(0.1, viewPos).easing(cc.easeSineOut()),
+        //         cc.callFunc(() => {
+        //             target.active = false;
+        //         }),
+        //     ));
+        cc.tween(target)
+            .call(() => {
+                let buttons = target.getComponentsInChildren(cc.Button);
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons.enabled = false;
+                }
+            })
+            .to(0.1, { position: viewPos }, { easing: 'sineOut' })
+            .call(() => {
+                target.active = false;
+            })
+            .start();
     },
 
     tableChecked(target) {
         target.active = true;
-        target.stopAllActions();
+        // target.stopAllActions();
+        cc.Tween.stopAll();
         target.scaleX = 0;
-        target.runAction(cc.scaleTo(0.1, 1));
+        // target.runAction(cc.scaleTo(0.1, 1));
+        cc.tween(target)
+            .to(0.1, { scale: 1 })
+            .start();
     },
 
     tableUnChecked(target) {
         target.active = true;
-        target.stopAllActions();
+        // target.stopAllActions();
+        cc.Tween.stopAll();
         target.scaleX = 1;
-        target.runAction(
-            cc.sequence(
-                cc.callFunc(() => {
-                    let buttons = target.getComponentsInChildren(cc.Button);
-                    for (let i = 0; i < buttons.length; i++) {
-                        buttons.enabled = false;
-                    }
-                }),
-                cc.scaleTo(0.1, 0, 1),
-                cc.callFunc(() => {
-                    target.active = false;
-                })
-            ));
+        // target.runAction(
+        //     cc.sequence(
+        //         cc.callFunc(() => {
+        //             let buttons = target.getComponentsInChildren(cc.Button);
+        //             for (let i = 0; i < buttons.length; i++) {
+        //                 buttons.enabled = false;
+        //             }
+        //         }),
+        //         cc.scaleTo(0.1, 0, 1),
+        //         cc.callFunc(() => {
+        //             target.active = false;
+        //         })
+        //     ));
+        cc.tween(target)
+            .call(() => {
+                let buttons = target.getComponentsInChildren(cc.Button);
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons.enabled = false;
+                }
+            })
+            .to(0.1, { scale: cc.v2(0, 1) })
+            .call(() => {
+                target.active = false;
+            })
+            .start();
     },
 
     onClickCheckToggleBtn(toggle, movePos, viewPos, target) {

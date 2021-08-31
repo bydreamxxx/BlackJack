@@ -677,7 +677,7 @@ cc.Class({
         this.m_nIndex += 1;
         if (this.m_nIndex > playercount) {
             this.m_nIndex = 0;
-            this.node.stopAllActions();
+            // this.node.stopAllActions();
             this.m_oWaitNode.active = false;
             this.showCurOperateBtns();
             return;
@@ -1726,7 +1726,7 @@ cc.Class({
                 this.onChat(data);
                 break;
             case HallCommonEvent.HALL_NO_RECONNECT_GAME:
-                this.node.stopAllActions();
+                // this.node.stopAllActions();
                 this.clear();
                 this.backToHall();
                 break;
@@ -1735,14 +1735,14 @@ cc.Class({
                     if (data[0].userId == cc.dd.user.id) {
                         var str = '';
                         if (data[0].coinRetCode == null) {
-                            this.node.stopAllActions();
+                            // this.node.stopAllActions();
                             this.clear();
                             this.backToHall();
                             return;
                         }
                         switch (data[0].coinRetCode) {
                             case 0:
-                                this.node.stopAllActions();
+                                // this.node.stopAllActions();
                                 this.clear();
                                 this.backToHall();
                                 return;
@@ -1759,7 +1759,7 @@ cc.Class({
                         }
 
                         cc.dd.DialogBoxUtil.show(0, str, "确定", null, function () {
-                            this.node.stopAllActions();
+                            // this.node.stopAllActions();
                             this.clear();
                             this.backToHall();
                         }.bind(this), null);

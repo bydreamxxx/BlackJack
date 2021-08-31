@@ -47,27 +47,52 @@ cc.Class({
         var q1 = cc.v2(x, q1_y);
         var q2 = cc.v2(x, q2_y);
         var coin_endPos = cc.v2(x, - 360);
-        var bezier = [q1, q2, coin_endPos];
+        // var bezier = [q1, q2, coin_endPos];
         var time = 1;
-        var bezierAct = cc.bezierTo(time, bezier);
+        // var bezierAct = cc.bezierTo(time, bezier);
         node.scaleX = 0.6;
         node.scaleY = 0.6;
         var scale = parseInt(Math.random() * (14 - 11) + 11, 10) / 10;
-        var scaleAct = cc.scaleTo(0.5, scale);
-        node.runAction(cc.sequence(cc.spawn(bezierAct, scaleAct, cc.sequence(cc.delayTime(delayTimer), cc.callFunc(function () {
-            self.playCoinAnim(totalCount, delayTimer);
-            self.m_nIndex += 1;
-        }))), cc.callFunc(function () {
-            node.active = false;
-            node.removeFromParent();
-            if (self.m_nIndex >= totalCount) {
-                var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
-                    //self.quitWindow();
-                    node.stopAllActions();
-                }));
-                self.node.runAction(seq);
-            }
-        })));
+        // var scaleAct = cc.scaleTo(0.5, scale);
+        // node.runAction(cc.sequence(cc.spawn(bezierAct, scaleAct, cc.sequence(cc.delayTime(delayTimer), cc.callFunc(function () {
+        //     self.playCoinAnim(totalCount, delayTimer);
+        //     self.m_nIndex += 1;
+        // }))), cc.callFunc(function () {
+        //     node.active = false;
+        //     node.removeFromParent();
+        //     if (self.m_nIndex >= totalCount) {
+        //         var seq = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
+        //             //self.quitWindow();
+        //             node.stopAllActions();
+        //         }));
+        //         self.node.runAction(seq);
+        //     }
+        // })));
+
+        let t = cc.tween(node)
+            .parallel(
+                cc.tween().bezierTo(time, q1, q2, coin_endPos),
+                cc.tween().to(0.5, { scale: scale }),
+                cc.tween().delay(delayTimer).call(function () {
+                    self.playCoinAnim(totalCount, delayTimer);
+                    self.m_nIndex += 1;
+                })
+            )
+            .call(function () {
+                node.active = false;
+                node.removeFromParent();
+                if (self.m_nIndex >= totalCount) {
+                    cc.tween(self.node)
+                        .delay(1)
+                        .call(function () {
+                            //self.quitWindow();
+                            t.stop();
+                        })
+                        .start();
+                }
+            })
+            .start();
+
         node.parent = this.m_oCoinAnim.parent;
     },
 

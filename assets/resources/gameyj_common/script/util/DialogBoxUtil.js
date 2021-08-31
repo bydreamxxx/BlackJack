@@ -140,16 +140,23 @@ var DialogBoxUtil = cc.Class({
         this.dialogBox.node.active = true;
         if (this.dialogBox.node.tagname == 'close' || this.dialogBox.node.tagname == 'destroy') {
             if (this.dialogBox.node.getChildByName('actNode')) {
-                this.dialogBox.node.getChildByName('actNode').stopAllActions();
+                // this.dialogBox.node.getChildByName('actNode').stopAllActions();
+                if (this.actNodeTween) {
+                    this.actNodeTween.stop();
+                }
             }
             this.dialogBox.node.tagname = null;
         }
         var actNode = this.dialogBox.node.getChildByName('actNode');
         if (actNode) {
             actNode.setScale(0.0);
-            var scale = cc.scaleTo(0.15, 1.0);
-            var seq = cc.sequence(cc.delayTime(0.15), scale);
-            actNode.runAction(seq);
+            // var scale = cc.scaleTo(0.15, 1.0);
+            // var seq = cc.sequence(cc.delayTime(0.15), scale);
+            // actNode.runAction(seq);
+            this.actNodeTween = cc.tween(actNode)
+                .delay(0.15)
+                .to(0.15, { scale: 1.0 })
+                .start();
         }
 
         if (this._isValidStr(cancelStr)) {

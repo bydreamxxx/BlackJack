@@ -95,12 +95,23 @@ cc.Class({
         if (!this.scrolling) {
             this.scrolling = true;
             var tar_x = -(this.pic_pre.width + this.layout.spacingX) * idx;
-            var move = cc.moveTo(scrollTime, cc.v2(tar_x, 0));
-            var call_radio = cc.callFunc(this.selectRadio, this, idx);
-            var spawn = cc.spawn(move.easing(cc.easeQuinticActionOut()), call_radio);
-            var call = cc.callFunc(this.scrollEnd, this, idx);
-            var act = cc.sequence(spawn, call);
-            this.layout.node.runAction(act);
+            // var move = cc.moveTo(scrollTime, cc.v2(tar_x, 0));
+            // var call_radio = cc.callFunc(this.selectRadio, this, idx);
+            // var spawn = cc.spawn(move.easing(cc.easeQuinticActionOut()), call_radio);
+            // var call = cc.callFunc(this.scrollEnd, this, idx);
+            // var act = cc.sequence(spawn, call);
+            // this.layout.node.runAction(act);
+            cc.tween(this.layout.node)
+                .parallel(
+                    cc.tween().to(scrollTime, { position: cc.v2(tar_x, 0) }, { easing: 'quintOut' }),
+                    cc.tween().call(() => {
+                        this.selectRadio(idx);
+                    })
+                )
+                .call(() => {
+                    this.scrollEnd(idx);
+                })
+                .start();
         }
     },
 

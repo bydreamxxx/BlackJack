@@ -64,8 +64,15 @@ cc.Class({
                     this.lingqu_btn.interactable = true;
                     this.state_txt.string = "领取礼包";
                     this.shineNode.active =  true;
-                    var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                    this.shineNode.runAction(cc.repeatForever(seq));
+                    // var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+                    // this.shineNode.runAction(cc.repeatForever(seq));
+                    cc.tween(this.shineNode)
+                        .set({ opacity: 0 })
+                        .to(0.8, { opacity: 255 })
+                        .to(0.8, { opacity: 0 })
+                        .union()
+                        .repeatForever()
+                        .start();
                 }else{
                     this.lingqu_btn.interactable = false;
                     this.state_txt.string = "已领取";

@@ -12,7 +12,7 @@ cc.Class({
         closeNode: cc.Node,
     },
 
-    onLoad () {
+    onLoad() {
         this.closeNode.active = true;
         var Anim = this.cloudNode.getComponent(cc.Animation);
         Anim.play();
@@ -22,62 +22,69 @@ cc.Class({
 
     },
 
-    openMap: function(){
+    openMap: function () {
 
 
         var self = this;
-        province_config.items.forEach(function(data) {
+        province_config.items.forEach(function (data) {
             var str = 'location_Node_' + data.province_code;
             var node = self.mapNode.getChildByName(str);
-            if(node){
+            if (node) {
                 var xuanzhongNode = node.getChildByName('ditu_xuanzhesg');
                 var zuobiao = node.getChildByName('ditu_zuobiao');
                 var unopen = node.getChildByName('ditu_zuobiaoxzq');
                 var nametbl = node.getChildByName('province');
-                if(data.open == 1){
+                if (data.open == 1) {
                     zuobiao.active = true;
                     unopen.active = false;
                     var json = cc.sys.localStorage.getItem('provinceid');
-                    if(parseInt(json) == data.province_code)
+                    if (parseInt(json) == data.province_code)
                         xuanzhongNode.active = true;
                     else
                         xuanzhongNode.active = false;
                     var outline = nametbl.getComponent(cc.LabelOutline);
-                    outline.color = cc.color(132,66,0);
-                    var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                    xuanzhongNode.runAction(cc.repeatForever(seq));
-                }else{
+                    outline.color = cc.color(132, 66, 0);
+                    // var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+                    // xuanzhongNode.runAction(cc.repeatForever(seq));
+                    cc.tween(xuanzhongNode)
+                        .set({ opacity: 0 })
+                        .to(0.8, { opacity: 255 })
+                        .to(0.8, { opacity: 0 })
+                        .union()
+                        .repeatForever()
+                        .start();
+                } else {
                     zuobiao.active = false;
                     unopen.active = true;
                     xuanzhongNode.active = false;
                     var outline = nametbl.getComponent(cc.LabelOutline);
-                    outline.color = cc.color(9,83,39);
+                    outline.color = cc.color(9, 83, 39);
                 };
             }
         });
     },
 
-    onClickOpenCityMap: function(event , data){
+    onClickOpenCityMap: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        var cityData = province_config.getItem(function(info){
+        var cityData = province_config.getItem(function (info) {
             return info.province_code == parseInt(data);
         });
-        if(cityData.open == 0){
-            cc.dd.PromptBoxUtil.show( '该地区暂未开放，敬请期待' );
+        if (cityData.open == 0) {
+            cc.dd.PromptBoxUtil.show('该地区暂未开放，敬请期待');
             return;
         }
         var prefab = 'gameyj_hall/prefabs/klb_hall_map/' + data;
-        cc.dd.UIMgr.openUI(prefab, function(ui){
+        cc.dd.UIMgr.openUI(prefab, function (ui) {
             ui.zIndex = 41;
             var cpt = ui.getComponent('klb_hall_Map_City');
             cpt.setProvinceId(data);
         });
     },
-    hideQuit: function(){
+    hideQuit: function () {
         this.closeNode.active = false;
     },
 
-    onClose: function(){
+    onClose: function () {
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
     },

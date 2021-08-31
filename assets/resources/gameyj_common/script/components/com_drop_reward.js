@@ -148,7 +148,7 @@ cc.Class({
         // let action = cc.sequence(spawn, call);
         // this.moveNode.runAction(action);
         cc.tween(this.moveNode)
-            .to(time, { position: { value: this.luckyBtn.position, easing: 'expoInOut' }, scale: cc.v2(0, 0)})
+            .to(time, { position: { value: this.luckyBtn.position, easing: 'expoInOut' }, scale: 0})
             .call(() => { self.hbSpine.clearTrack(0); self.bagNode.active = false; })
             .start();
     },

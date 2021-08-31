@@ -18,16 +18,16 @@ let changeHead = cc.Class({
         cameraNode: cc.Node,
     },
 
-    ctor(){
+    ctor() {
         this.regNativeCallFunc();
     },
 
-    onLoad(){
-        if(cc._isHuaweiGame && cc._lianyunID == 'oppo')
+    onLoad() {
+        if (cc._isHuaweiGame && cc._lianyunID == 'oppo')
             this.photoNode.active = false;
         this.cameraNode.active = !cc._isHuaweiGame;
-        if(cc.game_pid == 2){
-            for(let i = 1; i < 7; i++){
+        if (cc.game_pid == 2) {
+            for (let i = 1; i < 7; i++) {
                 cc.find(`bg/content/Button${i}`, this.node).active = true;
             }
 
@@ -37,25 +37,33 @@ let changeHead = cc.Class({
         this.changeCard.string = `剩余改名卡：${changeCardInfo ? changeCardInfo.count : 0} 张`;
     },
 
-    start(){
-        if(this._waitAdminAnima){
+    start() {
+        if (this._waitAdminAnima) {
             return;
         }
         this._waitAdminAnima = true;
-        this.bgNode.stopAllActions();
-
+        // this.bgNode.stopAllActions();
+        if (this.bgNodeTween){
+            this.bgNodeTween.stop();
+        }
         this.bgNode.active = true;
         this.bgNode.scaleX = 0;
         this.bgNode.scaleY = 0;
-        this.bgNode.runAction(cc.sequence(
-            cc.scaleTo(0.2, 1),
-            cc.callFunc(()=>{
+        // this.bgNode.runAction(cc.sequence(
+        //     cc.scaleTo(0.2, 1),
+        //     cc.callFunc(() => {
+        //         this._waitAdminAnima = false;
+        //     })
+        // ));
+        this.bgNodeTween = cc.tween(this.bgNode)
+            .to(0.2, { scale: 1 })
+            .call(() => {
                 this._waitAdminAnima = false;
             })
-        ));
+            .start();
     },
 
-    getData(){
+    getData() {
         // let gameid = 10361;
         let data = {
             // gameid: gameid,
@@ -68,88 +76,88 @@ let changeHead = cc.Class({
             user_id: cc.dd.user.id.toString()
         }
         // return [cc.dd.SysTools.encode64(JSON.stringify(data)), Platform.accountUrl+"v1/user/headImage"];
-        return [JSON.stringify(data), Platform.newHeadUrl[AppCfg.PID]+"v1/headimg/upheadimg"];
+        return [JSON.stringify(data), Platform.newHeadUrl[AppCfg.PID] + "v1/headimg/upheadimg"];
     },
 
-    onClickOpenAlbum(){
+    onClickOpenAlbum() {
         hall_audio_mgr.com_btn_click();
-        if(!cc.sys.isNative){
+        if (!cc.sys.isNative) {
             cc.dd.PromptBoxUtil.show('网页暂不支持');
             return;
         }
 
-        if(login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST){
+        if (login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST) {
             cc.dd.PromptBoxUtil.show('游客账号暂不支持');
             return;
         }
 
-        if(!this.checkChangeCard()){
+        if (!this.checkChangeCard()) {
             return;
         }
 
-        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消',()=>{
-            let [data,uploadURL] = this.getData();
+        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', () => {
+            let [data, uploadURL] = this.getData();
 
             if (cc.sys.OS_ANDROID == cc.sys.os) {
                 jsb.reflection.callStaticMethod('game/PicturePick', 'openAlbum', '(Ljava/lang/String;Ljava/lang/String;)V', data, uploadURL);
-            }else if(cc.sys.OS_IOS == cc.sys.os){
+            } else if (cc.sys.OS_IOS == cc.sys.os) {
                 jsb.reflection.callStaticMethod('PicturePick', 'openAlbum:uploadURL:', data, uploadURL);
             }
 
             this.close();
-        }, function(){});
+        }, function () { });
     },
 
-    onClickTakePhoto(){
+    onClickTakePhoto() {
         hall_audio_mgr.com_btn_click();
-        if(!cc.sys.isNative){
+        if (!cc.sys.isNative) {
             cc.dd.PromptBoxUtil.show('网页暂不支持');
             return;
         }
 
-        if(login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST){
+        if (login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST) {
             cc.dd.PromptBoxUtil.show('游客账号暂不支持');
             return;
         }
 
-        if(!this.checkChangeCard()){
+        if (!this.checkChangeCard()) {
             return;
         }
 
-        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消',()=>{
-            let [data,uploadURL] = this.getData();
+        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', () => {
+            let [data, uploadURL] = this.getData();
 
             if (cc.sys.OS_ANDROID == cc.sys.os) {
                 jsb.reflection.callStaticMethod('game/PicturePick', 'takePhoto', '(Ljava/lang/String;Ljava/lang/String;)V', data, uploadURL);
-            }else if(cc.sys.OS_IOS == cc.sys.os){
+            } else if (cc.sys.OS_IOS == cc.sys.os) {
                 jsb.reflection.callStaticMethod('PicturePick', 'takePhoto:uploadURL:', data, uploadURL);
             }
 
             this.close();
-        }, function(){});
+        }, function () { });
     },
 
-    onClickClose(){
+    onClickClose() {
         hall_audio_mgr.com_btn_click();
         this.close();
     },
 
-    onClickSystemHead(event, data){
+    onClickSystemHead(event, data) {
         hall_audio_mgr.com_btn_click();
 
 
-        if(!cc.sys.isNative){
+        if (!cc.sys.isNative) {
             cc.dd.PromptBoxUtil.show('网页暂不支持');
             return;
         }
 
-        if(login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST){
+        if (login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.GUEST) {
             cc.dd.PromptBoxUtil.show('游客账号暂不支持');
             return;
         }
 
-        let func = ()=>{
-            data = "$#XLYX_"+data;
+        let func = () => {
+            data = "$#XLYX_" + data;
 
             // let gameid = 10361;
             let json_data = {
@@ -166,7 +174,7 @@ let changeHead = cc.Class({
 
             json_data = encodeURIComponent(JSON.stringify(json_data));
             // let url = Platform.accountUrl+"v1/user/headReset";
-            let url = Platform.newHeadUrl[AppCfg.PID]+"v1/headimg/upheadimg";
+            let url = Platform.newHeadUrl[AppCfg.PID] + "v1/headimg/upheadimg";
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
@@ -197,43 +205,43 @@ let changeHead = cc.Class({
             xhr.send("data=" + json_data);
         }
 
-        if(cc.game_pid == 2){
+        if (cc.game_pid == 2) {
             func();
-        }else{
-            if(!this.checkChangeCard()){
+        } else {
+            if (!this.checkChangeCard()) {
                 return;
             }
-            cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', func, function(){});
+            cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', func, function () { });
         }
 
         // this.close();
     },
 
-    close(){
+    close() {
         cc.dd.UIMgr.destroyUI(this.node);
     },
 
-    checkChangeCard(){
+    checkChangeCard() {
         let changeCardInfo = hall_prop_data.getItemInfoByDataId(1102);
-        if(changeCardInfo &&  changeCardInfo.count > 0){
+        if (changeCardInfo && changeCardInfo.count > 0) {
             return true;
-        }else{
+        } else {
             cc.dd.PromptBoxUtil.show('改名卡不足，无法修改');
             return false;
         }
     },
 
 
-    regNativeCallFunc(){
-        cc.onChangeHeadCallBack = function (code, msg){
-            if(Number(code) == 1){
-                if(cc.dd._.isUndefined(msg)){
+    regNativeCallFunc() {
+        cc.onChangeHeadCallBack = function (code, msg) {
+            if (Number(code) == 1) {
+                if (cc.dd._.isUndefined(msg)) {
                     cc.dd.PromptBoxUtil.show('更换头像失败，头像数据错误');
                     return;
                 }
                 var req = new cc.pb.hall.msg_modify_head_req();
                 req.setNewHead(msg);
-                cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_msg_modify_head_req,req,
+                cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_msg_modify_head_req, req,
                     '发送协议[id: ${cc.netCmd.hall.cmd_msg_modify_head_req}],msg_modify_head_req[修改头像]', true);
                 cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'changeHead');
 
@@ -244,8 +252,8 @@ let changeHead = cc.Class({
                 //     login_module.Instance().AccountLogin(true);
                 // });
 
-            }else{
-                cc.dd.PromptBoxUtil.show('更换头像失败code:'+code+msg);
+            } else {
+                cc.dd.PromptBoxUtil.show('更换头像失败code:' + code + msg);
             }
         }
     },

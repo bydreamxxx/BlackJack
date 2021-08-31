@@ -310,9 +310,15 @@ cc.Class({
         var self = this;
         if (this.m_bIsCompare) {
 
-            this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
-                self.roundResut_Rsp(data);
-            })));
+            // this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
+            //     self.roundResut_Rsp(data);
+            // })));
+            cc.tween(this.node)
+                .delay(2.5)
+                .call(function () {
+                    self.roundResut_Rsp(data);
+                })
+                .start();
             this.m_bIsCompare = false;
         } else if (this.allCompare && !this.m_bPlayAct) {
             this.m_bPlayAct = true;
@@ -322,9 +328,15 @@ cc.Class({
             allCompareAnim.getComponent(sp.Skeleton).setAnimation(0, 'quanchangbipai', false);
             allCompareAnim.getComponent(sp.Skeleton).loop = false;
 
-            this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
-                self.roundResut_Rsp(data);
-            })));
+            // this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
+            //     self.roundResut_Rsp(data);
+            // })));
+            cc.tween(this.node)
+                .delay(2.5)
+                .call(function () {
+                    self.roundResut_Rsp(data);
+                })
+                .start();
             this.m_bIsCompare = false;
         } else {
             this.m_oAllCompareNode.active = false;
@@ -350,10 +362,17 @@ cc.Class({
                 }
             }.bind(this));
 
-            this.node.runAction(cc.sequence(cc.delayTime(2), cc.callFunc(function () {
-                self.resetDeskData();
-                self.m_bCanTotalResult = true;
-            })));
+            // this.node.runAction(cc.sequence(cc.delayTime(2), cc.callFunc(function () {
+            //     self.resetDeskData();
+            //     self.m_bCanTotalResult = true;
+            // })));
+            cc.tween(this.node)
+                .delay(2)
+                .call(function () {
+                    self.resetDeskData();
+                    self.m_bCanTotalResult = true;
+                })
+                .start();
             this.m_bPlayAct = false;
             this.allCompare = false;
         }
@@ -366,9 +385,15 @@ cc.Class({
     showResultTotal_Rsp(msg) {
         var self = this;
         if (!self.m_bCanTotalResult) {
-            this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
-                self.showResultTotal_Rsp(msg);
-            })));
+            // this.node.runAction(cc.sequence(cc.delayTime(2.5), cc.callFunc(function () {
+            //     self.showResultTotal_Rsp(msg);
+            // })));
+            cc.tween(this.node)
+                .delay(2.5)
+                .call(function () {
+                    self.showResultTotal_Rsp(data);
+                })
+                .start();
             return;
         }
         deskData.isEnd = true;
@@ -613,10 +638,16 @@ cc.Class({
                 AudioManager.getInstance().playSound(Prefix + 'fapai', false);
             }
             var self = this;
-            var action = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
-                self.sendPoker();
-            }));
-            this.node.runAction(action);
+            // var action = cc.sequence(cc.delayTime(1), cc.callFunc(function () {
+            //     self.sendPoker();
+            // }));
+            // this.node.runAction(action);
+            cc.tween(this.node)
+                .delay(1)
+                .call(function () {
+                    self.sendPoker();
+                })
+                .start();
         } else {
             this.sendPoker();
         }
