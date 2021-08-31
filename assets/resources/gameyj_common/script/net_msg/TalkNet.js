@@ -1,6 +1,6 @@
 var Define = require("Define");
 const dd = cc.dd;
-if(!dd.Net) dd.Net = require("Net").Net;
+if (!dd.Net) dd.Net = require("Net").Net;
 const DISPATCH_CD = 20; //分发cd
 var DingRobot = require('DingRobot');
 
@@ -17,7 +17,7 @@ const No_Log_Msg = [
     'msg_horse_update',
 ]
 
-const GateNet = cc.Class({
+const TalkNet = cc.Class({
 
     extends: dd.Net,
 
@@ -25,7 +25,7 @@ const GateNet = cc.Class({
 
         Instance: function () {
             if (!this.s_net) {
-                this.s_net = new GateNet();
+                this.s_net = new TalkNet();
             }
             return this.s_net;
         },
@@ -39,7 +39,7 @@ const GateNet = cc.Class({
     },
 
     ctor: function () {
-        this.name = "gate_net"; //网络名称
+        this.name = "talk_net"; //网络名称
         this.msg_list = []; //消息列表
         this.dispatch_id = null; //消息分发定时器id
         this.enable_dispatch = true; //消息分发开关
@@ -152,7 +152,7 @@ const GateNet = cc.Class({
      * @param id
      * @param obj
      */
-    addRecvfunc: function(name, id, obj){
+    addRecvfunc: function (name, id, obj) {
         this.handle_recvfunc_list.forEach(function (recvFunc) {
             if (recvFunc.name == name) {
                 var recvfunc = recvFunc.recvFuncs;
@@ -199,7 +199,7 @@ const GateNet = cc.Class({
     getHandlerFunc: function (id) {
         var result = null;
         this.handle_recvfunc_list.forEach(function (handle_recvfunc) {
-            if(handle_recvfunc){
+            if (handle_recvfunc) {
                 var recvfunc = handle_recvfunc.recvFuncs;
                 if (!cc.dd._.isUndefined(recvfunc[id]) && !cc.dd._.isNull(recvfunc[id])) {
                     result = {};
@@ -207,7 +207,7 @@ const GateNet = cc.Class({
                     result.handler = handle_recvfunc.handler;
                     result.name = handle_recvfunc.name;
                 }
-            }else{
+            } else {
                 cc.log('==========erro=========');
             }
 
@@ -293,7 +293,7 @@ const GateNet = cc.Class({
         var msg = proto_msg.decode(data);
 
         if (No_Log_Msg.indexOf(recvfunc.msg_name) == -1) {
-            cc.log("【GateNet 网络-接收】" + recvfunc.logtag);
+            cc.log("【TalkNet 网络-接收】" + recvfunc.logtag);
             dd.dumper(msg);
             DingRobot.push_log("【网络-接收】" + recvfunc.logtag + '\n' + dd.obj2string(msg));
         }
@@ -302,4 +302,4 @@ const GateNet = cc.Class({
 
 });
 
-module.exports = GateNet;
+module.exports = TalkNet;

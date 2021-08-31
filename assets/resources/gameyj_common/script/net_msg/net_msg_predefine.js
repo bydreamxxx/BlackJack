@@ -4,6 +4,7 @@ var pb = cc.pb = {};
 var proto_file = cc.proto_file = ['msg'];
 cc.proto = {};
 cc.gateNet = require('GateNet');
+cc.talkNet = require('TalkNet');
 
 netCmd.yq_pin3 = require('c_msg_yq_pin3_cmd');
 netCmd.hall = require('c_msg_hall_cmd');
