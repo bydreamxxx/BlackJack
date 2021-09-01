@@ -176,6 +176,741 @@ message msg_test {
 	optional int32 user_id = 1;
 	optional int32 reason = 2;
 }
+
+/////////////////////////俱乐部///////////////////////
+//cmd_start_index=1400
+//cmd_name=club
+//创建
+message msg_create_club_req{
+	optional int32          type         = 1;
+    optional string         club_name    = 2;
+}
+
+message msg_create_club_ret{
+	optional int32          ret_code    = 1[default=0];//1 名字长度不符 2 创建超过上限 4 名字已存在 5 名字含有敏感词汇 6 名字不符 7 房卡不足 8 已加入其它俱乐部  12.非群主不能创建亲友圈
+	optional club_info      club        = 2;
+}
+
+//解散
+message msg_dissolve_club_req{
+    optional int32          club_id      = 1;
+}
+
+message msg_dissolve_club_ret{
+	optional int32          ret_code    = 1[default=0];//1 俱乐部不存在 2 权限不足 3 游戏进行中，不能解散
+    optional int32          club_id     = 2;
+}
+
+//离开
+message msg_leave_club_req{
+    optional int32          clubId      = 1;
+}
+
+message msg_leave_club_ret{
+	optional int32          ret_code      = 1[default=0];//1 群主不能退出
+    optional int32          leave_user_id = 2;
+    optional int32          club_id       = 3;
+}
+
+//踢走
+message msg_kick_club_role_req{
+    optional int32          club_id      = 1;
+    optional int32          kick_user_id = 2;
+}
+
+message msg_kick_club_role_ret{
+	optional int32          ret_code     = 1[default=0];//1 俱乐部不存在 2 群主不能踢自己 3 玩家不存在
+    optional int32          club_id      = 2;
+    optional int32          kick_user_id = 3;
+}
+
+//返回当前所有俱乐部
+message msg_get_all_club_req{
+
+}
+
+message club_info{
+    optional int32          clubId      = 1;
+    optional string         clubName    = 3;
+    optional int32          maxNum      = 4;
+    optional int32          curNum      = 5;
+    optional uint32         ownerUserId = 6;
+    optional string         ownerName   = 7;
+	optional string         headUrl     = 8;
+	optional string         openId      = 9;
+    optional bool           isJoin      = 10; //是否已加入
+	optional int32          cards       = 11;
+	repeated int32          game_rights = 12;
+	optional int64          club_score  = 13;
+ 	optional int64          user_score  = 14;
+	optional int32          type        = 15;
+	optional int32			desk_wait_sum	= 16;
+	optional int32			desk_work_sum	= 17;
+	optional int32			state			= 18; //1:开业  2:打烊
+	optional int32			battle_type		= 19; //1:关闭， 2:打开
+}
+
+message msg_get_all_club_ret{
+	optional int32          ret_code    = 1[default=0];
+    repeated club_info      clubs       = 2;
+	repeated club_room      rooms       = 3;
+	optional int32          club_id     = 4[default=0];
+	repeated club_info		apply_list	= 5;
+}
+
+//打开俱乐部
+message msg_open_club_req{
+    optional int32          clubId      = 1;
+}
+
+message club_member{
+    optional uint32         userId      = 1;
+    optional string         name        = 2;
+    optional int32          isOnline    = 3;
+    optional int32          job         = 4; //职位
+	optional string         headUrl     = 5;
+	optional string         openId      = 6;
+	repeated int32          game_rights = 7;//游戏权限
+	optional int32          join_time   = 8;
+	optional int32          state       = 9;//1 未准备 1 已准备 3 游戏中
+	optional int64          score       = 10;
+	optional int32			site		= 11;//座位号
+}
+
+message club_room{                               //当前已开的房间信息
+    optional int32          	game_type   		= 1;
+	optional int32          	room_id     		= 2;
+    optional int32          	ju_num      		= 3;
+	optional int32              cur_ju_num          = 4;
+    optional int32          	create_time 		= 5;
+    optional int32          	cur_user_num  		= 6;
+    optional int32          	max_user_num  		= 7;
+	optional int32          	create_user_id      = 8;
+	repeated club_member    	members     		= 9; //房间成员
+	optional int32              state               = 10;//0 未开始 1 开始
+	optional int32				deskNum				= 11;
+}
+
+message msg_open_club_ret{
+	optional int32          ret_code    = 1[default=0];
+    optional club_info      club_info   = 2;
+    repeated club_room      rooms    	= 3;
+	optional int32			reb_bag_sum = 4;
+}
+
+message msg_club_manger_req{
+	optional int32	club_id = 1;
+}
+
+message msg_club_manger_ack{
+	optional int32 club_id = 1;
+	optional int32 owner_id = 2;
+	repeated int32 managers = 3;
+	optional int32 online_sum = 4;
+	optional int32 all_sum = 5;
+}
+
+message msg_club_chatReq{
+	optional int32           club_id     = 1;
+	optional int32           talk_id     = 2; //0 广播 其他私聊
+	optional string          chat       = 3;
+}
+
+message msg_club_chatRet{
+	optional int32           ret_code   = 1; //0 成功， -1：不是该俱乐部成员， -2：禁言， -10：其他错误
+	optional int32           clubId     = 2;
+	optional string          chat       = 3;
+	optional int32           send_id    = 4;
+	optional string          send_name  = 5;
+	optional int32           send_job   = 6;
+	optional int32           time       = 7;
+}
+
+message msg_club_chat_desk_req{
+	optional int32           room_id     = 1;
+	optional string          chat       = 2;
+}
+
+message msg_club_chat_desk_ack{
+	optional int32           club_id     = 1;
+	optional int32			 room_id		= 2;
+	optional string          chat       = 3;
+	optional int32 			 time       = 4;
+}
+
+message msg_club_chat_player_sum_change_cast{
+	optional int32 club_id = 1;
+	optional int32 online_sum = 2;
+	optional int32 all_sum = 3;
+}
+
+message msg_club_chat_all_player_req{
+	optional int32 club_id = 1;
+}
+
+message club_chat_player{
+	optional int32 id = 1;
+	optional string name = 2;
+	optional int32 state = 3; //0:正常  1：禁言
+}
+
+message msg_club_chat_all_player_ack{
+	optional int32 result = 1;	//0:成功， -1：没有找到该俱乐部， -2：你不是该俱乐部成员  -3：操作频繁  -10：其他错误
+	optional int32 club_id = 2;
+	optional int32 all_page = 3;
+	optional int32 page = 4;
+	repeated club_chat_player players = 5;
+}
+
+message msg_club_chat_stop_talk_req{
+	optional int32 club_id = 1;
+	optional int32 type = 2; //0:普通禁言， 1：全体禁言
+	optional int32 player_id = 3;
+	optional int32 state = 4; //0:正常， 1：禁言
+}
+
+message msg_club_chat_stop_talk_ack{
+	optional int32 result = 1; //0:成功， -1：没有权限 -2：没有这个人，-3:操作太频繁 -4:不能给自己禁言 -10：其他错误
+	optional int32 player_id = 2;
+	optional int32 state = 3;
+}
+
+//该消息表示进入了那个俱乐部，只做统计。
+message msg_cur_club{
+	optional int32 club_id = 1; 
+	optional int32 state = 2;	// 1: 进入大厅， 2退出大厅， 3:进入房间， 4：退出房间	
+}
+
+message msg_club_share_red_bag_req{
+	optional int32	club_id	= 1;
+	optional int32	type = 2; //1:金币  2：红包
+	optional int64	coins = 3;
+	optional int32 	sum = 4;	//0  : 最大个数， 其他：具体个数
+	optional string msg = 5; //附带的一句话
+}
+
+message msg_club_share_red_bag_ack{
+	optional int32	result	= 1; //0:成功， -1:没有那么多钱， -2:每个人不够最小值(1分), -3:没有权限 -4:不是该俱乐部的成员，-5：钱不够，-6：过于频繁 -7：超过最大值，-10:其他错误
+}
+
+message rob_info{
+	optional int32 id = 1;
+	optional string name = 2;
+	optional int32 sum = 3;
+}
+
+message red_bag_base_info{
+	optional int32	id = 1;
+	optional string owner_name = 2;
+	optional string open_id = 3;
+	optional string head_url = 4;
+	optional string msg = 5;
+	optional int32 left_sum = 6;
+}
+
+//广播红包
+message red_bag_cast{
+	optional red_bag_base_info info = 1;
+}
+
+message msg_club_red_bag_list_req{
+	optional int32	club_id	= 1;
+	optional int32  page = 2; //页数
+}
+
+message msg_club_red_bag_list_ack{
+	optional int32 	result = 1; // -1:不属于该俱乐部，-2：没有那么多页 -10：其他错误
+	optional int32	page = 2;
+	optional int32 all_page = 3;
+	repeated red_bag_base_info bags = 4;
+}
+
+message msg_red_bag_detail_req{
+	optional int32 club_id = 1;
+	optional int32 id = 2;
+}
+
+message msg_red_bag_detail_ack{
+	optional int32 result = 1; //-1:不属于该俱乐部，-2：红包不存在 -10：其他错误
+	optional int32 id = 2;
+	optional int32 owner_id = 3;
+	optional string owner_name = 4;
+	optional string open_id = 5;
+	optional string head_url = 6;
+	optional int32 all_coin = 7;
+	optional int32 all_sum = 8;
+	optional int32 left_sum = 9;
+	repeated rob_info robs = 10;
+	optional int32	type = 11;//红包类型1:金币  2：红包
+}
+
+message msg_rob_bag_req{
+	optional int32 club_id = 1;
+	optional int32 id = 2;
+}
+
+message msg_rob_bag_ack{
+	optional int32 result = 1; // 0:成功， -1：已经被抢完了， -3:不属于该俱乐部，-2：红包不存在, -4:已经抢过了 -10：其他错误
+	optional int32 id = 2;
+	optional int32 sum = 3;
+	optional int32 left_sum = 4;
+	optional int32 type = 5;//红包类型1:金币  2：红包
+}
+
+
+//加入俱乐部
+message msg_join_club_req{
+	optional int32           clubId     = 1;
+}
+
+message msg_join_club_ret{
+	optional int32           ret_code   = 1[default=0];//1 人数已满 2 已经加入 3 俱乐部不存在 4 已申请 5 加入俱乐部已达上限 6 群主不能加入其他俱乐部
+	optional int32           clubId     = 2;
+	optional string          clubName   = 3;
+	optional int32           type       = 4;
+}
+
+//申请相关操作
+message msg_apply_club_op_req{
+	optional int32           op_type    = 1; //1 打开 2 拒绝
+	optional int32           club_id    = 2;
+	optional int32           op_userid  = 3;
+}
+
+message apply_member{
+	optional int32           user_id    = 1;
+	optional string          name       = 2;
+	optional string          url        = 3;
+	optional string          openId     = 4;
+	optional int32			 apply_time = 5;
+}
+
+message msg_apply_club_op_ret{
+	optional int32           op_type  	= 1;
+	optional int32           ret_code   = 2[default=0];// 1 俱乐部不存在 2 权限不足 3 不在申请列表中 4 已加入 5 玩家已拥有俱乐部，不能加入 6 玩家加入俱乐部已达上限
+	optional int32           club_id  	= 3;
+	optional int32           op_userid  = 4;
+	repeated apply_member    apply_list = 5;
+}
+
+//打开俱乐部管理
+message msg_open_club_manage_req{
+	optional int32           club_id    = 1;
+}
+
+message msg_open_club_manage_ret{
+	optional int32           ret_code = 1[default=0];// 1 权限不足
+	optional int32			 page = 2;
+	optional int32			 all_page = 3;
+	repeated club_member     members  = 4;
+}
+
+//设置权限
+message msg_club_manage_req{
+	optional int32           club_id    	= 1;
+    repeated int32       	 game_rights  	= 2;//1
+	optional int32           set_user_id    = 3;
+}
+
+//发给自己跟被设置玩家
+message msg_club_manage_ret{
+	optional int32           ret_code 		= 1[default=0];//2 玩家不存在 3 权限不足 4 设置错误 5:体验俱乐部不能设置权限
+	optional int32           user_id  		= 2;//
+	repeated int32       	 game_rights  	= 3;
+	optional int32           club_id    	= 4;
+}
+
+//俱乐部改名
+message msg_club_change_name_req{
+	optional int32           club_id    = 1;
+	optional string          name     	= 2;
+}
+
+message msg_club_change_name_ret{
+	optional int32           ret_code = 1[default=0];//1 名字长度不符 2 权限不足 4 名字已存在 5 名字含有敏感词汇 6 名字不符 
+	optional int32           club_id    = 2;
+	optional string          name     	= 3;
+}
+
+//刷新
+message msg_club_refresh_req{
+	optional int32           club_id    = 1;
+	optional int32			 baofang	= 2;
+}
+
+message msg_club_refresh_ret{
+	optional int32           ret_code   = 1[default=0]; 
+	optional int32           club_id    = 2;
+	optional int32			 baofang	= 3;
+	optional int32			 desk_wait_sum	= 4;
+	optional int32			 desk_work_sum	= 5;
+	repeated club_room       rooms      = 6;
+}
+
+//存房卡
+message msg_club_store_cards_req{
+	optional int32           cards      = 1;
+	optional int32           club_id    = 2;
+}
+
+message msg_club_store_cards_ret{
+	optional int32           ret_code   = 1[default=0];//1 权限不足 2 房卡不足 
+	optional int32           cards      = 2;
+	optional int32           club_id    = 3;
+}
+
+//解散房间
+message msg_club_dissolve_room_req{
+	optional int32           club_id    = 1;
+	optional int32           room_id    = 2;
+	optional int32           game_type  = 3;
+	optional int32			 wanfaNum	= 4;
+	optional int32			 deskNum	= 5;
+}
+
+message msg_club_dissolve_room_ret{
+	optional int32           ret_code   = 1[default=0];//1 房间不存在 2 游戏已开始，不能操作 3 权限不足 4 解散失败
+	optional int32           club_id    = 2;
+	optional int32           room_id    = 3;
+	optional int32			 wanfaNum	= 4;
+	optional int32			 deskNum	= 5;
+}
+
+//踢出房间
+message msg_club_room_kickout_req{
+	optional int32           club_id    = 1;
+	optional int32			 wanfanum 	= 2;
+	optional int32			 desk_id	= 3;
+	optional int32           room_id    = 4;
+	optional int32           kick_user_id = 5;
+	optional int32           game_type  = 6;
+}
+
+message msg_club_room_kickout_ret{
+	optional int32           ret_code   = 1[default=0];//1 房间不存在 2 游戏已开始，不能操作 3 权限不足
+	optional int32           club_id    = 2;
+	optional int32			 wanfanum 	= 3;
+	optional int32			 desk_id	= 4;
+	optional int32           room_id    = 5;
+	optional int32           kick_user_id = 6;
+}
+
+//房间更新
+message msg_club_room_update{
+	optional int32       room_id      = 1;
+}
+
+//俱乐部战绩
+message msg_club_battle_history_req {
+	optional int32 clubId = 1;					// 俱乐部id
+	optional int32 whichDay = 2;				// 哪天??
+}
+
+message club_battle_history_detail{
+	optional string history_id = 1;				//战绩id
+	optional string room_id = 2;				//房间号
+	optional int32 timestamp = 3;				//时间戳
+	optional int32 costRoomCard = 4;			//消耗房卡
+	optional int32 boardsCount = 5;				//局数
+	repeated user_battle_result result = 6;		//战绩详细
+	optional int32  create_user_id  = 7;
+	optional int32  game_type       = 8;
+	optional int32  room_type       = 9;//1 自建 2 代开
+	optional int32  dissolve_role_id = 10;//解散玩家id
+}
+
+message msg_club_battle_history_ack {
+	optional int32 clubId = 1;					// 俱乐部id
+	optional int32 whichDay = 2;
+	repeated club_battle_history_detail detail = 3;
+	optional int32  self_room   = 4;//自建
+	optional int32  self_room_cards = 5;
+	optional int32  match_room  = 6;//比赛，代开
+	optional int32  match_room_cards = 7;
+}
+
+//受邀奖励
+message msg_invited_task_reward {
+	optional	int32 	item_id = 1;
+	optional	int64 	item_num = 2;
+}
+
+//修改分数
+message msg_club_change_score_req {
+	optional    int32    club_id  = 1;
+	optional    int32    user_id  = 2;
+	optional    int64    score    = 3;
+}
+
+message msg_club_change_score_ret {
+	optional    int32    ret_code   = 1[default=0];
+	optional    int32    club_id  	= 2;
+	optional    int64    club_score = 3;
+	optional    int32    user_id    = 4;
+	optional    int64    user_score = 5;
+}
+
+//更新分数
+message msg_clue_update_score {
+	optional    int32    club_id  	= 1;
+	optional    int32    user_id    = 2;
+	optional    int64    user_score = 3;
+}
+
+//创建玩法包房
+message msg_club_create_baofang_req {
+	optional	int32 					club_id 	= 1;
+	optional 	msg_create_game_req 			rule		= 2;
+}
+
+
+//创建玩法包房返回
+message msg_club_create_baofang_ack {
+	optional	int32 	result 	= 1;	//0：成功， -1：超过最大个数的玩法， -2:没有权限， -10：未知失败
+	optional	int32	wanfaNum = 2;
+}
+
+//删除玩法包房
+message msg_club_del_baofang_req {
+	optional	int32 					club_id 	= 1;
+	optional	int32					wanfaNum	= 2;
+}
+
+//删除玩法包房返回
+message msg_club_del_baofang_ack {
+	optional	int32 	result 	= 1;	//0：成功， -1：没有权限， -2：当前还有玩家 ，-3:包房不存在， -10：未知失败
+	optional	int32 	club_id = 2;
+	optional	int32	wanfaNum = 3;
+}
+
+//请求包房列表
+message msg_club_baofang_list_req {
+	optional	int32 	club_id 	= 1;	
+}
+
+//请求包房列表返回
+message msg_club_baofang_list_ack {
+	optional	int32					result = 1;	// -10: 未知错误
+	repeated	int32					wanfaNum 	= 2;	//玩法编号
+	repeated	msg_create_game_req 			rule 	= 3;
+	repeated	string					baofang_name = 4;
+}
+
+//请求包房详细信息
+message msg_club_baofang_detail_req {
+	optional	int32	club_id 	= 1;
+	optional	int32	wanfaNum 	= 2;	//玩法编号
+}
+
+message msg_club_baofang_detail_ack {
+	optional int32 result = 1;			// -1:找不到该包房		-10:未知错误
+	optional int32 wanfaNum = 2;
+	optional int32 desk_wait_sum = 3;
+	optional int32 desk_work_sum = 4;
+	repeated club_room rooms = 5;
+}
+
+message msg_club_baofang_site{
+	optional	int32 	club_id 	= 1;
+	optional	int32	room_id		= 2;
+}
+
+message msg_club_baofang_site_cast{
+	optional	int32 	club_id 	= 1;
+	optional	int32	wanfaNum	= 2;
+	optional	int32 	desk_num	= 3;
+	optional	club_room room 		= 4;
+	optional	int32 	desk_wait_sum = 5;
+	optional	int32 	desk_work_sum = 6;
+}
+
+message msg_club_change_notice_req{
+	optional	int32 	club_id 	= 1;
+	optional	string 	notice		= 2;
+}
+
+message msg_club_change_notice_ack{
+	optional 	int32	result		= 1; // -1:没有权限 -10:其他错误
+	optional	int32 	club_id 	= 2;
+	optional	string 	notice		= 3;
+}
+
+message msg_club_notice_req{
+	optional	int32 	club_id 	= 1;
+}
+
+message msg_club_notice_ack{
+	optional 	int32	result		= 1;  // -1:没有权限 -10:其他错误
+	optional	int32 	club_id 	= 2;
+	optional	string 	notice		= 3;
+}
+
+message msg_club_rank_req{
+	optional 	int32	club_id		= 1;
+	optional	int32 	type		= 2; //1:今天表， 2:昨天表， 3:周表， 4:月表， 5:总表
+	optional	int32	game_type	= 3;
+}
+
+message club_rank_node{
+	optional	uint32	user_id		= 1;
+	optional	string	user_name	= 2;
+	optional	string	head_url	= 3;
+	optional	string	open_id		= 4;
+	optional 	int32	score		= 5;
+}
+
+message msg_club_rank_ack{
+	optional	int32	result		= 1; //0:成功
+	optional	int32	type		= 2; //1:今天表， 2:昨天表， 3:周表， 4:月表， 5:总表
+	optional	int32	game_type	= 3;
+	optional	int32	rank_type	= 4; //1:局数排行表， 2：大赢家排行表， 3：最佳炮手表
+	repeated 	club_rank_node	rank	= 5;
+}
+
+message msg_club_invite_req {
+	optional	int32	club_id		= 1;
+	optional	uint32	user_id		= 2;
+}
+
+message msg_club_invite_ack {
+	optional	int32	result		= 1; //0:成功，-1:已经是该俱乐部成员， -2:你没有权限， -3：邀请玩家不在线
+}
+
+message msg_club_invite {
+	optional	int32	club_id		= 1;
+	optional	string	club_name	= 2;
+	optional	uint32	who_req		= 3;
+	optional	string	user_name	= 4;
+}
+
+//代开战绩
+message msg_friend_create_battle_history_req {
+}
+
+message friend_create_battle_history_detail{
+	optional string history_id = 1;				//战绩id
+	optional string room_id = 2;				//房间号
+	optional int32 timestamp = 3;				//时间戳
+	optional int32 costRoomCard = 4;			//消耗房卡
+	optional int32 boardsCount = 5;				//局数
+	repeated user_battle_result result = 6;		//战绩详细
+	optional int32  is_room_open  = 7;			//是否开局
+	optional int32  game_type       = 8;
+	optional int32  dissolve_role_id = 9;       //解散玩家id
+}
+
+message msg_friend_create_battle_history_ret {
+	repeated friend_create_battle_history_detail detail = 1;
+}
+	
+//解散代开房间
+message msg_friend_create_dissolve_room_req{
+	optional int32           room_id    = 1;
+	optional int32           game_type  = 2;
+}	
+	
+message msg_friend_create_dissolve_room_ret{
+	optional int32           ret_code   = 1[default=0];//1 房间不存在 2 游戏已开始，不能操作 3 权限不足
+	optional int32 			 room_id 	= 2[default=0];
+}	
+
+message msg_club_open_req{
+	optional int32		club_id = 1;
+}
+
+message msg_club_open_ack{
+	optional int32		result = 1; // 0:正确， -1：没有权限， -10：其他错误
+}
+
+message msg_club_close_req{
+	optional int32		club_id = 1;
+}
+
+message msg_club_close_ack{
+	optional int32		result = 1; // 0:正确， -1：没有权限， -10：其他错误
+}
+
+message msg_club_state_cast{
+	optional int32		club_id = 1;
+	optional int32		state = 2; //1:开， 2：关
+}
+
+// 获取战绩每局详情
+message msg_get_battle_history_detail_req {
+	optional	string  history_id = 1;
+}
+
+message msg_battle_history_detail_user {
+	optional	uint32	user_id		= 1;
+	optional	string	user_name	= 2;
+}
+
+message msg_battle_history_detail_score {
+	optional	uint32 	user_id 	= 1;
+	optional	int32 	score		= 2;
+}
+
+message msg_battle_history_detail {
+	optional	int32 	round = 1;		//局数
+	optional 	int32 	timestamp = 2;	//
+	repeated	msg_battle_history_detail_score scores = 3; 	//分数
+}
+
+message msg_get_battle_history_detail_ret {
+	optional	string  				  history_id = 1;
+	optional	int32 					  game_type = 2;
+	repeated	msg_battle_history_detail details = 3;
+	repeated	msg_battle_history_detail_user users = 4; 	//玩家
+}
+
+message msg_club_personal_battle_record_req {
+	optional	int32   	clubId = 1;
+	optional 	int32 		date = 2;	//换算成秒
+}
+
+message club_personal_battle_record {
+	optional	uint32 		user_id = 1;
+	optional	string      user_name = 2;
+	optional	string 		open_id = 3;
+	optional	string 		head_url = 4;
+	optional 	int32 		day_score = 5;
+	optional	int32 		day_room_num = 6;
+	optional	int32 		day_big_winner_num = 7;
+}
+
+message msg_club_personal_battle_record_ret {
+	optional	int32 		ret_code = 1;	// 1.不在此俱乐部 2.当前日期不可查
+	optional 	int32 		date = 2;	//换算成秒
+	optional	int32 		join_num = 3;
+	optional	int32 		cost_card_num = 4;
+	optional	int32 		round_num = 5;
+	optional	int32 		big_winner_num = 6;
+	repeated	club_personal_battle_record detail = 7;
+}
+
+//更改包房名称
+message msg_club_change_baofang_name_req{
+	optional	int32				club_id = 1;
+	optional	int32				wanfaNum = 2;
+	optional	string				name = 3;
+}
+
+message msg_club_change_baofang_name_ack{
+	optional	int32				result = 1;		//0:成功， -1：没有权限， -2：包房不存在  -3：名字不符合规定
+	optional	int32				club_id = 2;
+	optional	int32				wanfaNum = 3;
+	optional	string				name = 4;
+}
+
+message msg_club_change_battle_history_type_req{
+	optional int32           club_id    = 1;
+	optional int32			 type     	= 2; // 1:关闭(标识默认值)， 2:打开
+}
+
+message msg_club_change_battle_history_type_ret{
+	optional int32           ret_code = 1[default=0];// 0：正确，-1:没有权限
+	optional int32			 type = 2;
+}
 	
 // ===================================================================================================================================
 // 大厅协议
@@ -1188,6 +1923,108 @@ message client_tree_ack {
 	optional int32 ret_code = 1;	
 }
 
+//-------------------朋友关系+ 聊天
+message friend_info {
+	optional uint32 uid = 1;
+	optional string name = 2;
+	optional string head_url = 3;
+	optional int32	state = 4;	//0:未上线， 1：大厅  其他：游戏id
+}
+
+message client_add_friend_req {
+	optional uint32 uid = 1;
+	optional int32	type = 2;	//0:增加  1：删除
+}
+
+message client_add_friend_ack {
+	optional int32	result = 1; //0:成功  1:该用户已经是你的好友， 2:该用户不存在  3: 该用户不是你的好友
+	optional uint32 uid = 2;
+	optional int32	type = 3;	//0:增加  1：删除
+}
+
+message client_add_friend_bc {
+	optional int32	type = 1;	//0:增加  1：删除
+	optional friend_info  info = 2;
+}
+
+message client_join_group_req {
+	optional int32  gid = 1;
+	optional int32	type = 2;	//0:增加  1：删除
+}
+
+message client_join_group_ack {
+	optional int32	result = 1; //0:成功  1:你已经在群里面， 2:该群不存在  3: 你不在群里面
+	optional int32 gid = 2;
+	optional int32	type = 3;	//0:增加  1：删除
+}
+
+//邀请好友入群
+message invite_join_group_req {
+	optional uint32  uid = 1;
+	optional int32 gid = 2;
+	optional int32	type = 3;	//0:增加  1：删除
+}
+
+message invite_join_group_ack {
+	optional int32	result = 1; //0:成功  1:你已经在群里面， 2:该群不存在, 3:该用户不存在， 4：你没有权限
+	optional uint32 uid = 2;
+	optional int32 	gid = 3;
+	optional int32	type = 4;	//0:增加  1：删除
+}
+
+
+//请求朋友信息
+message client_friend_info_req {
+}
+
+message client_friend_info_ack {
+	repeated friend_info infos = 1;
+}
+
+message group_info {
+	optional int32 	gid = 1;
+	optional string name = 2;
+	repeated friend_info members = 3;
+}
+
+//请求群信息
+message client_group_info_req {
+}
+
+message client_group_info_ack {
+	repeated	int32 	gids = 1;
+}
+
+//请求群详细信息
+message client_group_detail_req {
+	optional int32 	gid = 1;
+}
+
+message client_group_detail_ack {
+	optional group_info ginfo = 1;
+}
+
+message chat_msg {
+	optional int32 id = 1;
+	optional uint32 from = 2;
+	optional string msg = 3; //表情 使用 # + id 的办法， 比如说： #1 表示笑脸
+	optional int32 time = 4;
+	optional uint32	uid = 5;
+	optional int32	gid = 6;
+}
+
+message client_chat_req {
+	optional uint32	uid = 1;
+	optional int32	gid = 2;
+	optional string msg = 3;
+}
+
+message client_chat_ack {
+	optional int32	ret = 1; // 0:成功， 1：找不到用户， 2：找不到群  3: 消息不合规则
+	optional chat_msg msg = 2;
+}
+
+
 // ==================================================================================================================================================================
 // common_client
 // ==================================================================================================================================================================
@@ -1609,6 +2446,66 @@ message msg_match_info_ret {
 	optional hall_match_info match_info = 1;
 }
 
+//=======================================login=========================
+//cmd_start_index=2100
+//cmd_name=club_1
+//创建房间
+message club_room_rule {
+    optional int32 boardsCout = 1; //房间的局数
+    optional int32 guangguoType = 3;//逛锅类型
+	optional bool isDianPaoSanJia = 4; //是否点炮包三家
+    optional bool isUseYaoJiu = 5; // 是否有幺九蛋
+	optional bool isXiaoJiFeiDan = 6; // 是否小鸡飞蛋
+	optional bool isKuaiBao = 7; // 是否快宝
+	optional bool isXiaoJiWanNeng = 8; // 是否小鸡万能宝
+    optional bool isYaoJiuSanSe = 9; // 是否幺九蛋顶三色
+    optional int32 userCountLimit = 10; //玩家人数限制
+	optional bool isUnCheat	= 11;	//是否防作弊
+	optional int32 payType = 12; //房费支付模式
+	optional bool isKuaiGuo	= 13;	//是否快锅
+}
+
+message h2g_create_club_desk_req{
+	optional uint32 user_id = 1;
+	optional int32 club_id = 2;
+	optional int32 club_room_id = 3;
+	optional club_room_rule room_rule = 4;
+	optional uint32 owner_id = 5;
+}
+
+message g2h_create_club_desk_ack{
+	optional uint32 user_id = 1;
+	optional int32 club_id = 2;
+	optional int32 club_room_id = 3;		// 
+	optional string roomnum  = 4;
+	optional uint32 owner_id = 5;
+}
+
+message g2h_sync_room_member_num{
+	optional int32 club_id = 1;
+	optional string roomnum = 2;
+	optional int32 num = 3;
+}
+
+message g2h_sync_room_state{
+	optional int32 club_id = 1;
+	optional string roomnum = 2;
+	optional int32 room_state = 3;		// 1.准备中(默认) 2.游戏中 3.销毁
+}
+
+message sync_room_role_score_info{
+	optional	uint32 		role_id = 1;
+	optional	int32 		score 	= 2;
+}
+
+// 游戏同步房间分数
+message g2h_sync_room_score{
+	optional 	int32 	game_type 	= 1;
+	optional 	int32 	room_id  	= 2;
+	optional 	int32	round 		= 3;	//第几局
+	repeated 	sync_room_role_score_info scores = 4;	//分数情况
+}
+
 //房间管理通用协议
 //cmd_start_index=2200
 //cmd_name=room_mgr
@@ -1916,37 +2813,16 @@ message xl_game_rule{
 	optional 	sdy_rule_info 		sdy_rule = 1;
 	optional	ddz_rule_info 		ddz_rule = 2;
 	optional	ps_rule_info 		ps_rule = 3;
-	optional	p17_req_createdesk	mj_jilin_rule = 4;
-	optional	p16_req_createdesk 	mj_changchun_rule = 5;
-	optional	tdk_rule_info 		tdk_rule = 6;
-	optional	py_rule_info 		py_rule = 7;
-	optional	na_req_createdesk 	mj_nongan_rule = 8;
-	optional	fx_req_createdesk 	mj_fuxin_rule = 9;
-	optional    pin3_rule_info      pin3_rule     = 10;
-	optional    sy_req_createdesk   mj_songyuan_rule = 11;
-	optional    suoha_rule_info     suoha_rule = 12;
-	optional    xzmj_req_createdesk mj_xuezhan_rule = 13;
-	optional    jlb_ps_rule_info    jlb_ps_rule = 14;
-	optional	gdy_rule_info		gdy_rule = 15;
-	optional	xlch_req_createdesk	mj_xlch_rule = 16;
-	optional	suihua_req_createdesk	mj_suihua_rule = 17;
-	optional	hb_rule_info		hb_rule = 18;
-	optional    yq_pin3_rule_info   yq_pin3_rule = 19;
-	optional    jinzhou_req_createdesk mj_jinzhou_rule = 20; //加了字段，不能热更，所以这个协议作废
-	optional    heishan_req_createdesk mj_heishan_rule = 21;
-	optional    neimenggu_req_createdesk mj_neimenggu_rule = 22;
-	optional    chifeng_req_createdesk mj_chifeng_rule = 23;
-	optional    aohan_req_createdesk mj_aohan_rule = 24;
-	optional    jinzhou_req_createdesk_new mj_jinzhou_rule_new = 25;
-	optional    fangzheng_req_createdesk mj_fangzheng_rule = 26;
-	optional    wudan_req_createdesk mj_wudan_rule = 27;
-	optional	xy_ddz_rule_info	 xy_ddz_rule = 28;
-	optional    pingzhuang_req_createdesk mj_pingzhuang_rule = 29;
-	optional    baicheng_req_createdesk mj_baicheng_rule = 30;
-	optional	paodekuai_rule_info 	paodekuai_rule = 31;
-	optional    acheng_req_createdesk mj_acheng_rule = 32;
-	optional    helong_req_createdesk mj_helong_rule = 33;
-	optional    jisu_req_createdesk mj_jisu_rule = 34;
+	optional	tdk_rule_info 		tdk_rule = 4;
+	optional	py_rule_info 		py_rule = 5;
+	optional    pin3_rule_info      pin3_rule     = 6;
+	optional    suoha_rule_info     suoha_rule = 7;
+	optional    jlb_ps_rule_info    jlb_ps_rule = 8;
+	optional	gdy_rule_info		gdy_rule = 9;
+	optional	hb_rule_info		hb_rule = 10;
+	optional    yq_pin3_rule_info   yq_pin3_rule = 11;
+	optional	xy_ddz_rule_info	 xy_ddz_rule = 12;
+	optional	paodekuai_rule_info 	paodekuai_rule = 13;
 }
 
 //三打一朋友场创建
@@ -2626,6 +3502,147 @@ message bullfight_player_auto_ack {
 
 //--------------------------------斗牛 end----------------------------------
 
+
+//--------------------------------填大坑 begin----------------------------------
+//cmd_start_index=2600
+//cmd_name=tiandakeng
+
+
+message TdkCDeskUserData {
+    optional uint32 userid = 1;
+	optional int64 score = 2; //玩家剩余本金
+	optional bool already = 3; //玩家是否准备
+	optional bool fold = 4; //玩家是否弃牌
+	optional int32 pos = 5; // 玩家座号
+	optional uint32 bet = 6; //玩家下注金额
+	optional uint32 winnum = 7;
+	optional uint32 totalnum = 8;
+	repeated uint32 pokerlist = 9;
+	repeated uint32 hidelist = 10;
+	optional bool borrow = 11; //玩家是否有借牌
+	optional bool allin = 12; //是否allin
+	optional bool join = 13;//是否游戏中
+	optional	bool		is_auto		=14;//是否托管
+	optional	uint32		round_bet		=15;//当前下注
+	optional	uint32		op_type		=16;//当前操作
+	optional	uint32		fanti_times		=17;//反踢次数
+}
+
+message TdkJoinPlayingDeskRsp {
+	optional 	bool isLanGuo =1;
+	optional 	int32 deskstatus = 2;
+	optional 	uint32 actuserid = 3;
+	optional 	uint32 time = 4;
+	repeated 	TdkCDeskUserData userdata = 5; //牌桌其他用户数据
+	optional 	int32 roomType = 6; //牌桌配置
+	repeated 	uint32 betlist = 7;
+	optional 	int32 	room_state = 8;//0等待，1准备，2下注
+	optional	tdk_rule_info		rule		=9;//规则
+	optional	bool				is_reconnect	=10;//true重连
+	optional	uint32				cur_circle		=11;
+	optional	uint32				dissolve_timeout =12;
+	repeated 	room_dissolve_agree_ack dissolve_info = 13;	// 解散情况（为空则不是在解散状态）
+	optional	uint32 	roomnum = 14;
+	optional	uint32				config_room_id =15;
+	optional	int32				xifen=16;
+	optional	int32				lan_num=17;
+	optional	int32				max_bet=18;  //当前最大下注(不缩枪玩法)
+}
+
+message TdkTuoGuan {
+	optional	bool 		type = 1;//true托管false取消
+}
+
+message TdkTuoGuanRsp {
+	optional	bool 		type = 1;//true托管false取消
+	optional	uint32		user_id=2;
+}
+
+message TdkCBet {
+	required int32 type = 1;//1下注，2起脚，3反踢，4开牌，5allin，6不踢，7弃牌,8跟
+	optional int32 num = 2;//下注金额
+}
+
+message TdkCBetRsp{
+	required int32 type = 1;//1下注，2起脚，3反踢，4开牌，5allin，6不踢，7弃牌,8跟
+	optional int32 num = 2;//下注金额
+	optional uint32 userid = 3;
+	optional uint32 nextuserid = 4;
+	optional int32 deskstatus = 5;
+	optional uint32 time = 6;
+	optional uint32 fanti_times = 7;
+}
+
+
+message TdkCPoker {
+	required uint32 userid = 1;
+	required uint32 pokerid = 2; //牌ID
+	required bool borrow = 3;
+}
+
+message TdkCHidePoker {
+	required uint32 userid = 1;
+	repeated uint32 pokerid = 2; //牌ID
+}
+
+//发牌
+message TdkCSendPoker {
+	repeated TdkCPoker pokerlist = 1; //牌ID
+	repeated uint32 selflist = 2; //
+	optional int32 deskstatus =3;
+	optional uint32 nextuserid = 4;
+	optional uint32 time = 5;
+	optional	uint32 	roomnum = 6;
+	optional	uint32 	startid = 7;
+	optional	bool	is_first = 8;
+}
+
+//开牌
+message TdkCOpenPoker {
+	repeated  TdkCHidePoker poker =1;
+}
+
+message TdkCDeskState {
+	optional bool ready =1;
+}
+
+//单轮游戏结果
+message TdkCRoundEnd {
+	optional uint32 userid = 1; //赢家id
+	optional bool languo = 2; //false-有玩家胜利，true-烂锅
+	optional uint32 time = 3;
+	optional	int32				xifen=4;
+	optional	int32				lan_num=5;
+}
+
+
+message TdkPlayerFinalResult{//玩家大结算结构
+	optional 	uint32		id		=1;//玩家id
+	optional	int64		score		=2;//玩家积分
+	optional	uint32		win_times=3;
+	optional	uint32		lose_times=4;
+	optional    uint32       xifeng_num = 5; //喜分
+}
+
+message TdkFinalResult{//大结算
+	repeated	TdkPlayerFinalResult		list		=1;//输赢列表
+}
+
+message TdkKanPaiReq {
+	
+}
+
+message TdkKanPaiRsp {
+	optional	uint32		user_id=1;
+}
+
+message TdkWaitNotify {
+	
+}
+
+
+//--------------------------------填大坑 end----------------------------------
+
 //--------------------------------比赛场 begin----------------------------------
 //cmd_start_index=2700
 //cmd_name=match
@@ -3254,6 +4271,214 @@ message msg_yyl_notice_2c {
 	required double wingold = 5;
 	required bool is_rich = 6;
 }
+
+//------------------三打一begin------------------------
+//cmd_start_index=4100
+//cmd_name=sdy
+
+message sdy_user_info{
+	optional int32        user_id 	  		 = 1;
+	optional string       name    	  		 = 2;
+	optional string       head_url    		 = 3;
+	optional string       open_id     		 = 4;
+	optional int32        sex                = 5;
+	optional int64        coin        		 = 6;
+	optional int32        seat               = 7;//座位
+	optional int32        call_score  		 = 8;//叫分分数
+	optional bool         banker             = 9;//是否庄家
+	optional int32        pokers_num         = 10;
+	repeated int32        pokers             = 11;//手牌
+	optional int32        cur_send_poker     = 12;//当前出的牌
+	optional bool         is_auto            = 13;//是否托管
+	optional bool         is_robot           = 14;
+	optional bool         is_continue        = 15;//是否继续
+	optional int32        is_agree           = 16;//0 没选择 1 同意 2 不同意 3 申请者
+	optional int32        state              = 17[default=0];//0 游戏中 1 离开 2 离线
+	optional int32  	  win_times      	 = 18;//获胜次数
+	optional int32  	  total_times   	 = 19;//总次数
+}
+
+message sdy_room_info{
+	optional int32        game_type          = 1;//25 三打一金币场
+	optional int32        owner_id           = 2;
+	optional int32        room_id            = 3;
+	optional int32        room_config_id     = 4;
+	optional int32        max_num            = 5;
+	optional int32        cur_circle         = 6;
+	optional int32        max_circle         = 7;
+	optional int32        state              = 8;//1叫分 2 选择主牌 3 扣底牌 4 出牌 5 朋友场继续 6 朋友场解散
+	optional sdy_op_info  cur_op             = 9;
+	optional int32        call_score_timeout = 10;//叫分倒计时
+	optional int32        color_timeout      = 11;//花色倒计时
+	optional int32        base_timeout       = 12;//扣底牌倒计时
+	optional int32        timeout            = 13;//出牌倒计时
+	optional int32        circle_color       = 14;//第一张牌的花色
+	optional int32        circle_user_id     = 15;//第一个出牌玩家
+	optional int32        vote_timeout       = 16;//投票结束倒计时时间错
+}
+
+message sdy_op_info{
+	optional int32        user_id            = 1;
+	optional int32        op_type            = 2;//1叫分 2 选择主牌 3 扣底牌 4 出牌 
+	optional int32        timeout            = 3;//重连时候使用，时间戳
+	repeated int32        score_list         = 4;//可以叫分的列表
+}
+
+message sdy_base_pokers_info{
+	optional int32        call_score         = 1;//叫分
+	optional int32        key_poker          = 2;//主牌花色
+	repeated int32        pokers             = 3;//
+	repeated int32        score_pokers       = 4;//分牌
+	optional int32        type               = 5; //0 普通 1 上车 2 破牌 3 扣底
+}
+
+//房间初始
+message msg_sdy_room_init{
+	optional int32           type            			= 1;//1 进入初始化 2 重连初始化
+	optional sdy_room_info   room_info       			= 2;
+	repeated sdy_user_info   user_info       		    = 3;
+	optional sdy_base_pokers_info   base_pokers_info  	= 4;
+}
+
+//叫分
+message msg_sdy_call_score_req{
+	optional int32            score          = 1;
+}
+
+message msg_sdy_call_score_ret{
+	optional int32            ret_code                  = 1[default=0];//1 当前不该你操作 2 不能叫此分数
+	optional int32            user_id                   = 2;
+	optional int32            score                     = 3;//0 不叫
+	optional int32            state                     = 4;//1 叫分阶段 2 叫分结束出现庄家 3叫分结束无庄家
+	optional int32            next_user_id              = 5;// 下一个叫分
+	repeated int32            score_list                = 6;
+	optional int32            call_score_timeout        = 7;//叫分倒计时
+	optional int32            banker_id                 = 8;//庄家ID
+}
+
+//发底牌
+message msg_sdy_deal_bottom{
+	optional int32            user_id        = 1;
+	repeated int32            pokers         = 2;
+}
+
+//重新发手牌
+message msg_sdy_deal{
+	repeated int32            pokers                    = 1;
+	optional int32            call_score_user_id        = 2;//叫分用户id
+	repeated int32            score_list                = 3;
+	optional int32            cur_circle                = 4;//局数更新，只有朋友场使用
+}
+
+//选择主牌
+message msg_sdy_choice_color_req{
+	optional int32            color          = 1;
+}
+
+message msg_sdy_choice_color_ret{
+	optional int32            ret_code       = 1[default=0];//1 当前不该你操作 2 没有此花色
+	optional int32            color          = 2;
+}	
+
+//扣底牌
+message msg_sdy_kou_pokers_req{
+	repeated int32            pokers         = 1;
+}
+
+message msg_sdy_kou_pokers_ret{
+	optional int32            ret_code       = 1[default=0];//1 当前不该你操作 2 扣牌数量不对 3 没有此牌
+	optional int32            user_id        = 2;
+	repeated int32            pokers         = 3;
+}
+
+//出牌
+message msg_sdy_user_poker_req{
+	optional int32            poker          = 1;
+}
+
+message msg_sdy_user_poker_ret{
+	optional int32            ret_code       = 1[default=0];//1 当前不该你操作 2 没有此牌 3 出牌错误
+	optional int32            user_id        = 2;
+	optional int32            poker          = 3;
+	optional int32            next_user_id   = 4; //下一个应该操作的玩家ID
+	optional int32            color          = 5; // 此轮必出花色
+}
+
+//分牌结果
+message msg_sdy_score_pokers{
+	optional int32            type           = 1; //0 普通 1 光牌 2 上车 3 破牌 4 扣底
+	repeated int32            pokers         = 2;
+}
+
+//托管请求
+message msg_sdy_auto_req{
+	optional int32            type           = 1; //1托管 2取消托管
+}
+
+message msg_sdy_auto_ret{
+	optional int32            type           = 1;
+	optional int32            user_id        = 2;
+}
+
+message sdy_result_info{
+	optional int32            user_id        = 1;
+	optional int64            score          = 2;
+}
+
+message sdy_win_info{
+	optional int32            type           = 1;//0叫牌 1 光牌 2 上车 3 破牌 4 扣底 5 连扣带破 6 王扣
+	optional int64            value          = 2;
+}
+
+//结算结果
+message msg_sdy_result{
+	optional int32            win_type       = 1;//1 庄家赢 2 闲家赢
+	repeated sdy_win_info     win_info       = 2;
+	repeated sdy_result_info  result_info    = 3;
+}
+
+//朋友场继续
+message msg_sdy_continue_req{
+}
+
+message msg_sdy_continue_ret{
+	optional int32            user_id        = 1;
+}
+
+//发起解散
+message msg_sdy_dissolve_req{
+}
+
+message msg_sdy_dissolve_ret{
+	optional int32            user_id        = 1;
+}
+
+//是否同意解散
+message msg_sdy_vote_dissolve_req{
+	optional bool             agree          = 1;
+}
+
+message msg_sdy_vote_dissolve_ret{
+	optional int32            user_id        = 1;
+	optional bool             agree          = 2;
+}
+
+message sdy_friend_result_info{
+	optional int32            user_id        	= 1;
+	optional int32            zhuang_cheng_pai  = 2; //庄成牌
+	optional int32            zhuang_guang_pai  = 3; //庄光牌
+	optional int32            bei_po_pai        = 4; //被破牌
+	optional int32            bei_shang_che     = 5; //被上车
+	optional int64            score             = 6;
+}
+
+//朋友场大结算
+message msg_sdy_friend_result{
+	repeated sdy_friend_result_info          friend_result = 1;
+	optional int32                       time          = 2;
+}
+
+//------------------三打一end------------------------
 
 
 //--------------------------------炸金花 begin----------------------------------
@@ -3917,75 +5142,7 @@ message msg_vip_ext_open_2c {
 	optional	int32 			draw_num 		= 2;	// 可领取的礼包数
 }
 
-message get_cash_activity_ret {
-	repeated	cash_activity	list = 1;
-}
 
-message msg_cash_activity_state {
-	optional int32   activity_id  = 1;
-	optional int32   state        = 2; // 1 开始 2 结束
-}
-
-// 获取中奖码
-message msg_get_user_activity_cash_code_req {
-}
-
-// 获取中奖码
-message msg_get_user_activity_cash_code_ret {
-	optional	int32 			ret_code 	= 1;		// 0.成功 1.已有兑换码 2.活动未开  3.兑换码已领完 4.今日已开奖
-	optional	string 			cash_code 	= 2;
-}
-
-
-// 获取玩家中奖记录
-message msg_user_cash_activity_reward_history_req {
-	optional	int32 			activity_id 		 = 1;
-}
-
-message cash_activity_reward_history {
-	optional	int32 			reward_time 	= 1;
-	optional	string			reward_code		= 2;
-	optional	int32 			reward_rank 	= 3;
-}
-
-message msg_cash_activity_reward_history_ret {
-	repeated	cash_activity_reward_history	list = 1;
-}
-
-// 获取中奖榜单
-message msg_day_cash_activity_reward_history_req {
-	optional		int32 		timestamp 	= 1;
-}
-
-message day_cash_activity_reward_history {
-	optional	uint32			user_id			= 1;
-	optional	string			user_name 		= 2;
-	optional	string 			head			= 3;
-	optional	int32 			reward_time 	= 4;
-	optional	string			reward_code		= 5;
-	optional	int32 			reward_level 	= 6;
-}
-
-message msg_day_cash_activity_reward_history_ret {
-	optional	int32 							 	timestamp = 1;
-	repeated	day_cash_activity_reward_history	list = 2;
-	repeated	int32 							 	tslist = 3;
-}
-
-// 开奖提示
-message msg_cash_activity_open_tips {
-	optional	int32 			tip_time 		= 1; // 单位（s）
-}
-
-message msg_cash_activity_open_result_req {
-}
-
-// 开奖结果
-message msg_cash_activity_open_result_ret {
-	repeated		string		rank_code_list1		= 1; // 一等奖开奖号码列表
-	repeated		string		rank_code_list2		= 2; // 
-	repeated		string		rank_code_list3		= 3; // 
-}
 //=========slot game============
 //cmd_start_index=4400
 //cmd_name=slot
@@ -4182,6 +5339,277 @@ message cash_activity {
 	optional	int32 			rank_num2 		= 9;
 	optional	int32 			rank_num3 		= 10;
 }
+
+message get_cash_activity_ret {
+	repeated	cash_activity	list = 1;
+}
+
+message msg_cash_activity_state {
+	optional int32   activity_id  = 1;
+	optional int32   state        = 2; // 1 开始 2 结束
+}
+
+// 获取中奖码
+message msg_get_user_activity_cash_code_req {
+}
+
+// 获取中奖码
+message msg_get_user_activity_cash_code_ret {
+	optional	int32 			ret_code 	= 1;		// 0.成功 1.已有兑换码 2.活动未开  3.兑换码已领完 4.今日已开奖
+	optional	string 			cash_code 	= 2;
+}
+
+
+// 获取玩家中奖记录
+message msg_user_cash_activity_reward_history_req {
+	optional	int32 			activity_id 		 = 1;
+}
+
+message cash_activity_reward_history {
+	optional	int32 			reward_time 	= 1;
+	optional	string			reward_code		= 2;
+	optional	int32 			reward_rank 	= 3;
+}
+
+message msg_cash_activity_reward_history_ret {
+	repeated	cash_activity_reward_history	list = 1;
+}
+
+// 获取中奖榜单
+message msg_day_cash_activity_reward_history_req {
+	optional		int32 		timestamp 	= 1;
+}
+
+message day_cash_activity_reward_history {
+	optional	uint32			user_id			= 1;
+	optional	string			user_name 		= 2;
+	optional	string 			head			= 3;
+	optional	int32 			reward_time 	= 4;
+	optional	string			reward_code		= 5;
+	optional	int32 			reward_level 	= 6;
+}
+
+message msg_day_cash_activity_reward_history_ret {
+	optional	int32 							 	timestamp = 1;
+	repeated	day_cash_activity_reward_history	list = 2;
+	repeated	int32 							 	tslist = 3;
+}
+
+// 开奖提示
+message msg_cash_activity_open_tips {
+	optional	int32 			tip_time 		= 1; // 单位（s）
+}
+
+message msg_cash_activity_open_result_req {
+}
+
+// 开奖结果
+message msg_cash_activity_open_result_ret {
+	repeated		string		rank_code_list1		= 1; // 一等奖开奖号码列表
+	repeated		string		rank_code_list2		= 2; // 
+	repeated		string		rank_code_list3		= 3; // 
+}
+
+//--------------------------------刨幺begin-----------------------------------
+//cmd_start_index=4500
+//cmd_name=paoyao
+
+message py_team{//刨幺队伍
+	optional 	uint32		id		=1;//队伍id
+	optional	uint64		score	=2;//队伍积分
+}
+
+message py_role{//刨幺玩家结构
+	optional 	uint32		id		=1;//玩家id
+	optional	uint64		score	=2;//玩家积分
+	optional 	uint32		team_id		=3;//队伍id
+	repeated	uint32		poker		=4;//手牌
+	optional	uint32		a_num	=5;//A数量
+	optional	uint32		y_num	=6;//4数量
+	optional	uint32		out_index	=7;//出完牌的顺序
+	optional	bool		is_auto		=8;//是否托管
+	optional	bool		is_online	=9;//是否在线
+	optional	uint32		poker_num	=10;//手牌数量
+	optional	int64		total_score	=11;//总积分
+	optional	bool		ready	=12;//是否准备
+	optional	bool 		double 		=13;//是否加倍
+	optional    uint32		xue 		=14;//0没有操作，1雪，2不雪
+	optional	bool 		yao 		=15;//是否选幺
+	repeated	uint32		out_poker		=16;//不要时候值为【16#FF】
+	optional	uint32 		liu_num 		=17;//6的数量
+}
+
+message py_card_info{
+	optional   	uint32 	card5=1;//
+	optional   	uint32 	card10=2;//
+	optional   	uint32 	cardk=3;//
+}
+
+message py_desk{//刨幺桌子结构
+	optional	int32				id 		=1;
+	optional	int32				state 	=2;//0等待准备，1游戏中，2等待雪,3等待幺
+	optional	int32				next_time	=3;//下一次操作结束时间戳
+	optional	py_rule_info		rule		=4;//规则
+	optional	int64				score		=5;//桌子积分
+	repeated	py_team				team 		=6;//队伍列表
+	optional	int32				game_type 		=7;//游戏类型60朋友61金币
+	repeated	py_role				role_list		=8;//玩家列表
+	optional	uint32				op_id			=9;//当前操作玩家id
+	optional	bool				is_reconnect	=10;//true重连
+	optional	int32				tmp_win			=11;
+	optional	py_card_info		card_info		=12;
+	optional	uint32				cur_circle		=13;
+	optional	uint32				dissolve_timeout =14;
+	repeated 	room_dissolve_agree_ack dissolve_info = 15;	// 解散情况（为空则不是在解散状态）
+	optional	uint32				config_room_id =16;
+}
+
+message py_player_poker{//刨幺玩家手牌
+	optional 	uint32		id		=1;//玩家id
+	repeated	uint32		poker		=2;//手牌
+	optional	uint32		team_id		=3;//队伍id
+	optional	uint32 		liu_num 		=7;//6的数量
+}
+
+message msg_paoyao_send_poker{//发牌
+	repeated 	py_player_poker 		list=1;//玩家手牌列表
+	optional 	uint32 					state=2;//0等待准备，1游戏中，2等待雪,3等待幺
+	optional	uint32					next_id=3;//当前操作玩家id
+	optional 	uint32 					time=4;//下一次操作结束时间戳
+	repeated	uint32					change_list=5;//玩家交换列表
+	repeated	py_team					team 		=6;//队伍列表
+}
+
+message msg_paoyao_ready_req{//准备
+	optional 	bool 		is_double=1;//是否加倍
+
+}
+
+message msg_paoyao_ready_ack{//准备返回
+	optional 	uint32		id		=1;//玩家id
+	optional 	bool 		is_double=2;//是否加倍
+}
+
+message msg_paoyao_yao_req{//选幺
+	optional	uint32		a_num	=1;//A数量
+	optional	uint32		y_num	=2;//4数量
+}
+
+message msg_paoyao_yao_ack{//选幺返回
+	optional	uint32		id	=1;//玩家id
+}
+
+message paoyao_player_yao{//幺的结构
+	optional 	uint32		id		=1;//玩家id
+	optional	uint32		a_num	=2;//A数量
+	optional	uint32		y_num	=3;//4数量
+}
+
+message msg_paoyao_yao_notify{//选幺结束
+	repeated	paoyao_player_yao		list	=1;//玩家yao列表
+	optional	uint32 					next_id		=2;//当前操作玩家id
+	optional	int32					next_time	=3;
+}
+
+message msg_paoyao_yao_change{//玩家幺改变
+	optional	paoyao_player_yao		yao	=1;//玩家新的yao
+}
+
+message msg_paoyao_act_req{//玩家操作
+	optional	uint32	type 	=1;//1不出，2出牌
+	repeated	uint32	poker	=2;//出的牌
+}
+
+message msg_paoyao_act_ack{//操作返回
+	optional	uint32	type 	=1;//1不出，2出牌
+	repeated	uint32	poker	=2;//出的牌
+	optional	uint32	next_id	=3;//当前操作玩家id
+	optional	int32	next_time	=4;
+	optional	int32	op_id	=5;
+}
+
+message msg_paoyao_xue_notify{//通知雪
+	optional	uint32	team_id 	=1;//选择雪的队伍id
+}
+
+message msg_paoyao_xue_req{//玩家请求雪
+	optional	bool	type 	=1;//true雪，false不雪
+}
+
+message msg_paoyao_xue_ack{//请求雪返回
+	optional	bool	type 	=1;//true雪，false不雪
+	optional	uint32		id	=2;
+}
+
+message msg_state_change{//桌子状态改变
+	optional	uint32 		state =1;//0等待准备，1游戏中，2等待雪,3等待幺
+	optional	uint32		next_id	=2;//当前操作玩家id
+	optional	int32		next_time	=3;
+}
+
+message msg_paoyao_score_change{//队伍积分改变
+	optional	uint32 		id =1;//玩家id
+	optional	uint32		team_id	=2;//队伍id
+	optional	uint64		score	=3;//最新积分
+}
+
+message msg_paoyao_dscore_change{//桌子积分改变
+	optional	uint64		score	=1;//最新积分
+}
+
+
+message msg_paoyao_result{//小结算
+	optional	uint32		win_id		=1;//获胜队伍id
+	optional	uint32		win_type	=2;//获胜类型
+	optional	uint32		xue_type	=3;//雪类型
+	repeated	py_player_result		result	=4;//赢的积分
+	repeated	py_player_poker			poker	=5;//玩家手牌
+}
+
+message py_player_result{//玩家输赢结构
+	optional 	uint32		id		=1;//玩家id
+	optional	int64		score		=2;//玩家积分
+}
+
+message py_player_final_result{//玩家大结算结构
+	optional 	uint32		id		=1;//玩家id
+	optional	int64		score		=2;//玩家积分
+	optional	uint32		win_times=3;
+	optional	uint32		lose_times=4;
+	optional	uint32		big_xue=5;
+	optional	uint32		small_xue=6;
+}
+
+message msg_paoyao_final_result{//大结算
+	repeated	py_player_final_result		list		=1;//输赢列表
+}
+
+message msg_paoyao_other_poker{//通知其他人的牌
+	optional	py_player_poker		list		=1;//玩家手牌
+	optional	uint32 				id 			=2;//玩家id
+}
+
+message msg_paoyao_tuoguan_req{
+	optional   	bool 	is_tuoguan=1;//true托管false取消托管		
+}
+
+message msg_paoyao_tuoguan_change{
+	optional   	bool 	is_tuoguan=1;//true托管false取消托管
+	optional	uint32 	id			=2;
+}
+
+message msg_paoyao_chat_req{
+	optional   	uint32 	msg=1;//消息id
+}
+
+message msg_paoyao_chat_ack{
+	optional   	uint32 	msg=1;//消息id
+	optional	uint32 	id			=2;
+}
+
+
+//--------------------------------刨幺end-----------------------------------
+
 
 //--------------------------------国庆活动 begin----------------------------------
 //cmd_start_index=4700
@@ -4518,6 +5946,249 @@ message msg_pin3_result{
 	optional int32           time           = 3[default=0];
 }
 //-----------------------------------------------------
+
+
+//--------------------------------港式5张 begin----------------------------------
+//cmd_start_index=5300
+//cmd_name=suoha
+
+message msg_suoha_state_change_2c {
+	required int32 room_state = 1;//0等待,1:准备,2丢底,3第一轮下注,4第二轮下注,5第三轮下注，6第四轮下注，7结算
+	required int64 max_bet = 2; //最大封顶
+	required int32 cur_round = 3; //当前轮，对朋友场有效
+}
+
+//准备
+message msg_suoha_ready_2s {
+}
+
+message msg_suoha_ready_2c {
+	required uint32 user_id = 1;//
+	required int32	round = 2;	//第几局
+}
+
+
+//当前发言
+message msg_suoha_cur_say_2c {
+	required uint32 user_id = 1;
+}
+
+//下注
+message msg_suoha_bet_2s {
+	required int32 op = 1; // 0:加注，1:梭哈,2:弃牌,3:跟牌,4:开牌,5:过
+	required int64 bet = 2;//金币
+}
+
+//下注结果成功时候广播
+message msg_suoha_bet_2c {
+	required int32 ret_code = 1;//0成功，-1金钱不足
+	optional uint32 user_id = 2;
+	optional int64 cur_bet = 3;//当前轮金币
+	optional int64 all_bet = 4; //总金币
+	optional int32 op = 5; //操作
+}
+
+message nested_suoha_card_info {
+	required uint32 user_id = 1;
+	repeated int32 cards = 2;//牌信息
+}
+
+message nested_suoha_card_info_type {
+	required uint32 user_id = 1;
+	optional int32 type = 2; //类型   1:单牌，2:对子，3:两队，4:三条，5:顺子，6:金花， 7:葫芦, 8:四条， 9:同花顺
+	repeated int32 cards = 3;//牌信息
+}
+
+//发牌
+message msg_suoha_deal_card_2c {
+	repeated nested_suoha_card_info card_info_list = 1;//牌信息
+}
+
+//亮牌
+message msg_suoha_show_card_2c {
+	repeated nested_suoha_card_info_type card_info_list = 1;//牌信息
+}
+
+message nested_suoha_result {
+	required uint32 user_id = 1;
+	required int64 win_gold = 2;
+	optional int32 win_times = 3;
+	optional int32 lost_times = 4;
+}
+
+//单局结果
+message msg_suoha_result_2c {
+	repeated nested_suoha_result results = 1;
+}
+
+//战绩
+message msg_suoha_result_all_2c {
+	required int32 room_number = 1;//房号
+	required int32 game_times = 2;//局数
+	required uint32	room_master = 3;//房主ID
+	required int32	start_time = 4;//开始时间
+	repeated nested_suoha_result results = 5;
+}
+
+//当前玩家状态
+message user_suoha_cur_state {
+	required uint32 user_id = 1;
+	required int64 bet = 2;//已下注
+	required int64 cur_bet = 3;//已下注
+	required nested_suoha_card_info_type car_info = 4;//手牌信息
+	required int32 state = 5; //1:加入游戏， 0： 旁观
+	required int64 coin = 6; //当前金币
+	required bool is_allin = 7; //是否梭哈
+	required bool is_discard = 8; //是否弃牌
+}
+
+//主动恢复状态
+message msg_suoha_resume_state_2c {
+	required int32 room_state = 1;
+	required int32 left_time = 2;//倒计时
+	required int32 cur_round = 3; //当前第几局
+	required int32 config_id = 4; //金币场使用
+	required uint32 cur_say = 5;//谁是当前发言
+	required int32 max_bet = 6;//封顶
+	repeated user_suoha_cur_state user_state = 7;
+	repeated msg_suoha_dissolve_agree_ack agrees = 8; //房间解散相关消息
+}
+
+//房间解散 （同意/拒绝）
+message msg_suoha_dissolve_agree_req {
+	optional	bool		is_agree = 1;
+}
+
+message msg_suoha_dissolve_agree_ack {
+	optional	uint32 		user_id 	= 1;
+	optional	bool 		is_agree 	= 2;
+	optional	int32		time		=3; //倒计时， 恢复时候使用
+}
+
+//房间解散结果
+message msg_suoha_dissolve_agree_result {
+	optional	bool		is_dissolve = 1;		// 是否解散
+}
+
+message msg_suoha_look_req {
+	optional	uint32	user_id = 1;
+}
+
+message msg_suoha_look_ack {
+	optional	uint32	user_id = 1;
+}
+
+
+//--------------------------------港式5张 end----------------------------------
+
+//--------------------------------干瞪眼begin-----------------------------------
+//cmd_start_index=5500
+//cmd_name=gandengyan
+
+
+
+message gdy_role{//干瞪眼玩家结构
+	optional 	uint32		id			=1;//玩家id
+	optional	int32		score		=2;//玩家积分
+	repeated	uint32		poker		=3;//手牌
+	optional	bool		is_auto		=4;//是否托管
+	optional	bool		is_online	=5;//是否在线
+	optional	uint32		poker_num	=6;//手牌数量
+	optional	bool		ready		=7;//是否准备
+	repeated	uint32		out_poker	=8;//真实id
+	repeated	uint32		change_poker	=9;//变换后
+	optional	bool 		zhuang 		=10;//是否是庄
+	optional	bool 		guan 		=11;//是否被关，true，被关
+}
+
+
+message gdy_desk{//干瞪眼桌子结构
+	optional	int32				id 					=1;
+	optional	int32				next_time			=2;//下一次操作结束时间戳
+	optional	gdy_rule_info		rule				=3;//规则
+	optional	int32				rate				=4;//公共倍数
+	optional	int32				game_type 			=5;//游戏类型62朋友63金币
+	repeated	gdy_role			role_list			=6;//玩家列表
+	optional	uint32				op_id				=7;//当前操作玩家id
+	optional	uint32				last_card_num		=8;//剩余牌数量
+	optional	bool				is_reconnect		=9;//true重连
+	optional	uint32				cur_circle			=10;
+	optional	uint32				dissolve_timeout 	=11;
+	repeated 	room_dissolve_agree_ack dissolve_info 	=12;	// 解散情况（为空则不是在解散状态）
+	optional	uint32				config_room_id 		=13;
+	optional	int32 				state               =14;//0等待准备，1游戏中
+}
+
+message gdy_player_poker{//干瞪眼发牌结构
+	optional 	uint32		id		=1;//玩家id
+	repeated	uint32		poker		=2;//手牌
+}
+
+message msg_gdy_send_poker{//发牌
+	repeated 	uint32 					list=1;//玩家手牌列表
+	optional	uint32					next_id=2;//当前操作玩家id
+	optional 	uint32 					time=3;//下一次操作结束时间戳
+	optional	uint32					card_num		=4;//剩余牌数量
+}
+
+
+message msg_gdy_guan_change{//玩家关状态改变
+	optional	uint32		id	=1;//关状态改变的玩家id
+}
+
+message msg_gdy_act_req{//玩家操作
+	optional	uint32	type 	=1;//1不出，2出牌
+	repeated	uint32	poker	=2;//出的牌,
+	repeated	uint32	change_poker	=3;//变换后
+}
+
+message msg_gdy_act_ack{//操作返回
+	optional	uint32	type 	=1;//1不出，2出牌
+	repeated	uint32	poker	=2;//出的牌
+	optional	uint32	next_id	=3;//当前操作玩家id
+	optional	int32	next_time	=4;
+	optional	int32	op_id	=5;
+	repeated	uint32	change_poker	=6;//变换后
+}
+
+message gdy_player_result{//玩家输赢结构
+	optional 	uint32		id		=1;//玩家id
+	optional	int64		score		=2;//玩家积分
+}
+
+
+message msg_gdy_result{//小结算
+	repeated	gdy_player_result		result	=1;//输赢的积分
+	repeated	gdy_player_poker			poker	=2;//玩家手牌
+}
+
+message gdy_player_final_result{//玩家大结算结构
+	optional 	uint32		id		=1;//玩家id
+	optional	int64		score		=2;//玩家积分
+	optional	uint32		win_times=3;
+	optional	uint32		guan_times=4;
+}
+
+message msg_gdy_final_result{//大结算
+	repeated	gdy_player_final_result		list		=1;//输赢列表
+}
+
+
+message msg_gdy_tuoguan_req{
+	optional   	bool 	is_tuoguan=1;//true托管false取消托管
+}
+
+message msg_gdy_tuoguan_change{
+	optional   	bool 	is_tuoguan=1;//true托管false取消托管
+	optional	uint32 	id			=2;
+}
+
+message msg_gdy_rate_notify{
+	optional	uint32 	rate			=1;
+}
+
+
+//--------------------------------干瞪眼end-----------------------------------
 
 
 //-------------------------------pk begin----------------------------------
@@ -5050,6 +6721,808 @@ message msg_fish_room_quit_req {
 //----------------------end------------------------
 
 
+
+//--------------------------------麻将通用begin-----------------------------------
+//cmd_start_index=7000
+//cmd_name=mjcommon
+//房间信息
+
+message EndLotteryInfo {
+    optional uint32 userId = 1;
+    optional string nickName = 2; //玩家姓名
+    optional bool bigWin = 3; //是否为大赢家
+    optional bool isOwner = 4; //是否房主
+    optional int64 winCoin = 5; //总输赢筹码数
+    optional int32 countHu = 6; //胡牌次数(含自摸+接炮)
+    optional int32 countZiMo = 7; //自摸次数
+    optional int32 countDianPao = 8; //点炮次数
+    optional int32 countAnGang = 9; //暗杠次数
+    optional int32 countMingGang = 10; //明杠次数
+    optional int32 countDianGang = 11; //点杠次数
+    optional int32 countChaJiao = 12; //查叫次数
+    optional bool bestGunner = 13; //是否为最佳炮手
+}
+
+message PlayerCard {
+    repeated CardInfo handCard = 1; // 手牌数组（自己是明的，其他玩家服务器返回暗值，避免外挂获取别的玩家手牌）
+    repeated ComposeCard composeCard = 2; // 摆牌数组（碰、明杠、暗杠）
+    repeated CardInfo outCard = 3; // 已出牌数组
+    repeated CardInfo huCard = 4; // 胡的牌
+	optional CardInfo mopai  = 5; // 摸牌
+    optional uint32 UserId = 6; //
+    optional int32 handCardCount = 7; //手牌的长度,当不用显示手牌的时候，只显示长度就行了
+	repeated mj_hupai_type huCardType = 8; //胡牌类型(顺序对应字段huCard)
+}
+
+//手牌信息
+message HoldCardInfo {
+    optional int32 userId = 1;
+	optional CardInfo mopai = 2;
+    repeated CardInfo holdCard = 3;
+}
+
+//吃牌的结构
+message ChiOverTurn {
+    repeated CardInfo chiCard = 1; //可以吃的牌
+}
+
+// 小结算时玩家具体信息
+message PlayerCoinInfo {
+	optional uint32 userId	= 1;			//玩家ID
+    optional string nick = 2;       		//昵称
+    optional int32 gangFen = 3;     		//杠分
+    optional int32 huFen = 4;       		//胡分
+    optional int32 total = 5;       		//成绩
+	optional int64 nowScore = 6;			//当前总分
+    optional bool isDianPao = 7;    		//是否点炮
+	optional bool isTing = 8;           	//是否已经听牌
+	optional int32 xiaojiCount = 9;     	//小鸡次数
+	repeated CtrlCard paiList = 10;  	//牌列表
+	repeated int32  baoListSee = 11;//看过的宝牌列表
+    repeated int32   baoList = 12;//没看过的宝牌列表
+	optional int32 zhaFen = 13;       		//扎分
+	optional int32 genZYSFen = 14;          //跟庄有赏分
+	optional bool isXiaoSa = 15;            //是否
+	optional int32 yuPaiFen = 16;           //鱼牌点数(绥化麻将)
+	optional int32 xueHunFen = 17;          //血混分(锦州麻将)
+	optional int64 paoFen = 18;             //跑分
+}
+
+message user_coin_bean {
+    optional uint32 userId = 1; //玩家id
+    optional int64 coin = 2; //本场的积分
+}
+
+// 补杠基本信息
+message BuCardInfo {
+    optional int32 type = 1; //1:万,2:条,3:筒,4:风
+    optional int32 value = 2; //0:牌背 1~9：万；  10~18：条；  19~27：筒。//风牌 中发白东南西北 分别是1234567
+    optional int32 id = 3; //牌的id
+    optional int32 cnt = 4; //杠的次数
+}
+
+message ComposeCard {
+    optional int32 value = 1; // 麻将牌值: 0~27
+    optional int32 type = 2; // 1.明杠 2.暗杠 3.风杠 4.喜杠 5.幺杠 6.九杠 7.碰 8.吃牌的类型
+    repeated BuCardInfo cards = 3; //牌型
+	optional uint32 userIdOut = 4; //碰牌或杠牌时，表示碰的谁/杠的谁
+}
+
+message mj_hupai_type{
+    repeated int32 huCardType = 1;
+}
+
+message DeskGameInfo {
+    optional int32 gameStatus = 1;          // 游戏所处状态: 0.未开始 1.已开始
+    optional int32 playerNum = 2;           // 玩家数量
+    optional int32 remainCards = 3;        // 还剩几张麻将牌
+    optional uint32 banker = 4;            // 庄家
+    optional int32 unBaopai = 5;           // 宝牌(-2指没有宝牌-1宝牌盖着，其他为宝牌位置)
+	optional int32 lastOutNum = 6;			//尾巴上摸了多少张牌
+}
+
+message PlayerInfo {
+    optional bool isBanker = 1; // 是否庄家
+    optional PlayerCard playerCard = 2; // 玩家的手牌、摆牌（碰杠）、已打出的牌、胡牌信息。客户端需根据服务端的返回进行排序动画。
+    optional int64 coin = 3; // 玩家当前显示的自己的筹码数
+    optional string nickName = 4; // 昵称
+    optional int32 sex = 5; // 性别: 1=男  2=女
+    optional uint32 userId = 6; // 用户id
+    optional bool isOwner = 7; // 当前用户是否房主
+    optional int32 bReady = 8; // 是否已准备
+    optional int32 nHuPai = 9; // 0:未胡牌; >=1: 已胡牌(血流成河时,表示已胡次数)
+    optional WeixinInfo wxInfo = 10; // 微信用户信息( 进入房间时、广播新进用户时，才需返回WeixinInfo；其它广播不需要。)
+    optional int32 GameStatus = 11; //玩家的游戏状态
+    optional bool agentMode = 12; //托管状态
+    optional string ip = 13; //玩家的ip地址
+    optional bool isBaoTing = 14; //是否已报听
+    optional string address = 15; //ip解析出来的地址
+    optional int32 site = 16;   //座位号
+	optional bool isXiaoSa = 17; //是否潇洒
+	optional uint32 dingQueType = 18;//玩家定缺的花色
+	optional uint32 huOrder = 19;//血战麻将玩家胡牌顺序
+	optional int64  paoFen = 20;//推倒胡:跑分
+	repeated int32 huType = 21; // 胡牌类型
+}
+
+//玩家总结算数据
+message FinallyTotal {
+	optional uint32 userId	= 1;	//玩家ID
+	optional int64 totalScore = 2; //玩家总分
+	optional int32 winCount = 3;   // 玩家胜局
+    optional int32 mobaoCount = 4;        //摸宝次数
+    optional int32 dianpaoCount = 5;      //点炮次数
+    optional int32 lianzhuangCount = 6;   //连庄次数
+}
+
+message JiaoInfo {
+    optional CardInfo outCard = 1;
+    repeated JiaoPaiInfo paiInfos = 2;
+    optional bool anGang = 3; // 是否暗杠
+	optional int32 chiTingIndex = 4; //吃听时对应吃牌信息的索引
+	optional bool anyJiao = 5; //是否任何牌都能胡
+	repeated CardInfo tingGangCards = 6;
+}
+
+message JiaoPaiInfo {
+    optional CardInfo huCard = 1; //可以胡的牌
+    optional int32 fan = 2; //可以胡的牌的翻数
+    optional int32 count = 3; //可以胡的牌的剩余张数
+    optional bool anGangHu = 4; //听牌暗杠后是否还能胡这张牌
+	optional bool isCanDDSJ = 5; //是否能对倒算夹
+	optional bool isMustDDSJ = 6; //是否必须对倒算夹
+	repeated int32 huTypes = 7; //胡牌类型集合
+}
+
+//杠牌结构
+message GangOverTurn {
+    optional CardInfo centerCard = 1; //可以杠的牌
+	optional bool isNewDealStyle = 2;	//是否是新的处理杠牌方式
+    repeated CardInfo gangCard = 3; //杠牌列表
+}
+
+//补杠结构
+message BuGangOverTurn {
+    optional CardInfo centerCard = 1; //可以杠的牌
+    repeated CardInfo buGangCard = 2; //杠牌列表
+}
+
+// 操作牌
+message CtrlCard {
+    optional int32 cardType = 1; //吃1 碰2 杠3 补杠4 手牌列表5 胡哪张6 ...
+    optional CardArr cardInfo = 2; //牌信息 后期调整分开 普通杠牌 和 补杠
+}
+
+message CardArr{
+	optional int32 type			= 1;		// 默认0 普通吃牌1 中發白吃牌2 明杠3 暗杠4
+	repeated int32 cardIndex	= 2;		// 牌ID
+}
+
+// 麻将牌
+message CardInfo {
+    optional int32 type = 1; //1:万,2:条,3:筒,4:风
+    optional int32 value = 2; //0:牌背 1~9：万；  10~18：条；  19~27：筒。//风牌 中发白东南西北 分别是1234567
+    optional int32 id = 3; //牌的id
+}
+
+message mj_desk_info {
+    optional uint32 owner = 1;		//房主ID
+    optional int32 passwrod = 2; // 房间号
+    optional int32 currCircle = 3; // 当前房间的圈数
+	optional uint32 deskType = 4;
+	optional int32  configId = 5;
+	optional xl_game_rule rule = 6;	//创建房间的规则信息
+}
+
+message mj_game_ack_act_hu {
+    optional ProtoHeader header = 1;
+    repeated int32 huType = 2;                  // 胡牌类型
+    repeated HoldCardInfo holdCardInfo = 3;      // 手牌信息
+    optional int32 huCardId = 4;                 // 胡的那张牌ID
+    optional uint32 huPlayerId = 5;              // 胡牌玩家ID
+    optional uint32 dianPaoPlayerId = 6;         // 点炮玩家ID
+	optional bool	isRob	= 7;				 //是否是抢胡
+}
+
+// 本局结果(广播)
+message mj_ack_send_current_result {
+    optional ProtoHeader header = 1;
+    repeated int32 huType = 2;           //胡牌类型
+    repeated PlayerCoinInfo playerCoinInfo = 3; //本局玩家的输赢明细
+    repeated CardInfo baoPai = 4;         //宝牌
+	optional uint32	huUserID	= 5;	  //胡牌玩家ID
+	optional bool	isEnd		= 6;	  //是否是最后一局
+}
+
+// 开局（接收服务端消息）
+message mj_ack_game_opening {
+    optional ProtoHeader header = 1;
+    optional int32 CurrPlayCount = 2; //当前玩到第几局
+    optional uint32 bankerId = 3; //当前庄家ID
+	optional uint32 oldBankerId = 4; //上一次庄家ID
+    repeated user_coin_bean userCoinBeans = 5; //玩家的详细信息
+}
+
+//游戏信息
+message mj_ack_roomInit{
+    optional ProtoHeader header = 1;
+    optional mj_desk_info deskInfo = 2; //房间信息
+    repeated PlayerInfo players = 3; //玩家信息
+}
+
+//进入房间
+message mj_ack_createDesk {
+    optional ProtoHeader header = 1;
+}
+
+//进入房间
+message mj_req_enterDesk {
+    optional ProtoHeader header = 1;
+    optional int32 roomType = 2; //1表示朋友卓，2表示金币场
+    optional string password = 3; //房间号码
+    optional int32 roomLevel = 4; //1表示朋友卓，2表示金币场
+}
+
+message mj_ack_enterDesk {
+    optional ProtoHeader header = 1;
+}
+
+// 获取离开状态
+message mj_req_leave_status {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+}
+
+message mj_ack_leave_status {
+    optional ProtoHeader header = 1;
+    optional int32 status = 2; // 离开状态
+}
+
+// 发起解散房间（已开始游戏）
+message mj_req_sponsor_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 sponsorId = 2; // 发起解散用户Id
+}
+
+message mj_ack_sponsor_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 sponsorId = 2; // 申请解散用户Id
+    repeated uint32 userId = 3; // 桌内用户Id
+    optional int32 countDown = 4; // 倒计时
+}
+
+// 响应解散房间
+message mj_req_response_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 responseId = 2;
+    optional bool isAgree = 3; // 同意|拒绝
+}
+
+message mj_ack_response_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 responseId = 2;
+    optional bool isAgree = 3; // 同意|拒绝
+}
+
+// 直接解散房间（房主 未开始游戏）
+message mj_req_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 bankerId = 2; // 房主Id
+}
+
+message mj_ack_dissolve_room {
+    optional ProtoHeader header = 1;
+    optional uint32 bankerId = 2; // 房主Id
+}
+
+// 退出房间（非房主 未开始游戏）
+message mj_req_exit_room {
+    optional ProtoHeader header = 1;
+    optional uint32 exitId = 2; // 退出用户Id
+}
+
+message mj_ack_exit_room {
+    optional ProtoHeader header = 1;
+    optional uint32 exitId = 2; // 退出用户Id
+}
+
+//玩家进入
+message mj_ack_playerEnter {
+    optional ProtoHeader header = 1;
+    optional PlayerInfo player = 2;
+}
+
+//准备
+message mj_req_ready {
+    optional ProtoHeader header = 1;
+}
+
+message mj_ack_ready {
+    optional ProtoHeader header = 1;
+}
+
+//开始
+message mj_ack_opening {
+    optional ProtoHeader header = 1;
+}
+
+//动作广播
+message mj_bc_moPai {
+    optional ProtoHeader header = 1;
+    optional int32 actType = 2; //操作类型
+    optional uint32 actUser = 3; //操作的玩家
+    optional int32 pai = 4; //摸得麻将
+}
+
+// 轮到谁操作(摸牌、碰/杠/过/胡)
+message mj_ack_game_overturn {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2; // 当前谁正在操作
+    optional uint32 nextUserId = 3;
+    optional int32 actType = 4; // 1:正常摸牌 2:其它
+    optional int32 time = 5;
+    optional int32 paiCount = 6; //剩余多少牌还没有摸
+    
+    optional bool canPeng = 7;
+    optional bool canGang = 8;
+    optional bool canBuGang = 9;
+	optional int32 canHu = 10;  //
+    optional bool canChi = 11; //是否能够吃牌
+	optional bool canTing = 12;//是否可以听牌
+	optional bool canBuHua = 13;//是否可以补花
+	optional bool isMustHu = 14;//是否必胡
+	optional bool canChiTing = 15;//是否可以吃听
+	optional bool canPengTing = 16;//是否可以碰听
+	optional bool canGangTing = 17;//是否可以杠听
+	optional bool canGu = 18;//是否可以估牌
+	optional bool canLiangXi = 19; //是否能亮喜
+	optional bool canLiangZhang = 20;//是否可以亮掌
+    
+	//中间预留几个字段
+	
+    optional CardInfo actCard = 31; // 如果有出牌，表示出的是哪张牌，否则置为空 别人打牌的判断
+    repeated JiaoInfo jiaoInfos = 32; //可以胡牌的信息,只有在摸牌的时候才会有值
+    optional GangOverTurn gangCards = 33; // 手牌中可杠的牌(可能多张) 自己摸牌的时候
+    optional BuGangOverTurn buGangCards = 34; //可以补杠的列表
+    repeated ChiOverTurn chiInfo = 35; //吃牌的信息
+	optional uint32 handlerUserId = 36; //处理这条消息的玩家id 用于播放回放
+	repeated int32 canNotHuTips = 37; //为啥不能听牌的提示
+	optional bool canGangMoPai = 38; //是否能杠摸牌(补杠、暗杠、四风杠等杠牌后都需要摸牌)
+	repeated mj_chiting_jiaoInfos chiTingJiaoInfos = 39; //吃听牌的叫牌信息
+	repeated JiaoInfo gangTingJiaoInfos = 40; //杠听叫信息
+	repeated JiaoInfo pengTingJiaoInfos = 41; //碰听叫信息
+	repeated CardInfo liangZhangCards = 42; //亮掌牌
+}
+
+// 发牌
+message mj_ack_game_deal_cards {
+    optional ProtoHeader header = 1;
+    repeated PlayerCard playerCard = 2; //发给我的牌
+    optional uint32 dealerUserId = 3; //庄家的userId
+}
+
+message mj_ack_game_send_out_card {
+    optional ProtoHeader header = 1;
+    optional int32 result = 2; // 0:出牌成功 1:有人可碰/胡
+    optional uint32 userId = 3; //出牌的人(广播)
+    optional CardInfo card = 4; // 出的牌(广播)
+    optional bool isAuto = 5; // 是否是自动打牌
+	repeated mj_OthersOperateTips otherTips = 6; //打牌/补杠时 其它玩家能否对打的牌做进行操作(吃碰杠胡)的提示
+}
+
+// 牌局结束(广播)
+message mj_game_send_end_lottery {
+    optional ProtoHeader header = 1;
+    repeated EndLotteryInfo coinInfo = 2; //4人的汇总输赢明细
+}
+
+// 出牌
+message mj_req_game_send_out_card {
+    optional ProtoHeader header = 1;
+    optional int32 cardId = 2; //要出的牌id
+}
+
+//吃
+message mj_req_chi {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional CardInfo chiCard = 3; //被吃的牌
+    repeated CardInfo chooseCards = 4; //选择吃的牌
+}
+
+message mj_ack_chi {
+    optional ProtoHeader header = 1;
+    repeated CardInfo chiCard = 2; //广播碰的吃几张牌
+    optional uint32 userIdOut = 3; //出牌的人
+    optional uint32 userIdIn = 4; //碰牌的人
+}
+
+// 碰牌
+message mj_req_game_act_peng {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional CardInfo pengCard = 3; // 被碰的牌
+}
+
+//碰牌结果
+message mj_ack_game_act_peng {
+    optional ProtoHeader header = 1;
+    repeated CardInfo pengCard = 2; //广播碰的哪几张牌
+    optional uint32 userIdOut = 3; //出牌的人
+    optional uint32 userIdIn = 4; //碰牌的人
+	optional bool	isRob	= 5;	//是否是抢碰
+}
+
+// 杠牌
+message mj_req_game_act_gang {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+	optional bool isNewDealStyle = 3;	//是否是新的处理杠牌方式
+    optional CardInfo gangCard = 4;
+    repeated CardInfo chooseCards = 5; //选择杠的牌
+}
+
+// 杠牌结果
+message mj_ack_game_act_gang {
+    optional ProtoHeader header = 1;
+    optional int32 gangType = 2; //1:点杠  2:巴杠  3:暗杠, 4:三风杠和喜杠， 5：幺九杠
+    optional uint32 userIdOut = 3; //出牌的人
+    optional uint32 userIdIn = 4; //杠牌的人
+    repeated CardInfo GangCard = 5;
+    repeated user_coin_bean userCoinBeans = 6; //玩家的详细信息
+	optional bool	isRob	= 7;	//是否是抢杠
+	repeated mj_OthersOperateTips otherTips = 8; //打牌/补杠时 其它玩家能否对打的牌做进行操作(吃碰杠胡)的提示
+}
+
+//补杠
+message mj_req_game_act_bugang {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional CardInfo buGangCard = 3; //补杠的牌
+    repeated CardInfo chooseCards = 4; //选择杠的牌
+}
+
+//补杠回复消息
+message mj_ack_game_act_bugang {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2; //
+    optional CardInfo buGangCard = 3; //补杠的牌
+    repeated BuCardInfo buGangCards = 4; //广播补杠的几张牌
+	repeated mj_OthersOperateTips otherTips = 5; //打牌/补杠时 其它玩家能否对打的牌做进行操作(吃碰杠胡)的提示
+}
+
+// 过牌
+message mj_req_game_act_guo {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+	optional uint32 guoType = 3; //0所有 1吃过 2碰过 4杠过 8胡过 16听过... 吃听过 碰听过 杠听过 估牌过...
+}
+
+// 过牌结果
+message mj_ack_game_act_guo {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2; //操作人(广播时用)
+}
+
+// 胡牌
+message mj_req_game_act_hu {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional int32 huType = 3; //胡牌类型
+}
+
+// 听牌
+message mj_req_game_ting {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+}
+
+// 听牌广播
+message mj_ack_game_ting {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+	repeated CardInfo ddsjCards = 3; //对倒算夹的牌
+	repeated CardInfo lzbCards = 4; //亮掌宝的牌
+}
+
+// 打宝
+message mj_ack_game_dabao {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional int32 card = 3;
+	optional int32 baopaiIndex = 4;
+}
+
+// 换宝
+message mj_ack_game_changbao {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional int32 card = 3;
+	optional int32 newBaopaiIndex = 4;//新宝牌的位置
+	optional int32 num=5;
+}
+
+//请求剩余牌
+message mj_req_remain_majiang {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+}
+
+//请求剩余牌返回
+message mj_ack_remain_majiang {
+    optional ProtoHeader header = 1;
+    repeated CardInfo cards = 2;
+}
+
+// 换牌
+message mj_req_change_majiang {
+    optional ProtoHeader header = 1;
+    optional uint32 userId = 2;
+    optional CardInfo handPais = 3; //手中要替换的牌
+    optional CardInfo choosePais = 4; //想转换的牌
+}
+
+// 换牌结果
+message mj_ack_change_majiang {
+    optional ProtoHeader header = 1;
+    optional CardInfo handPais = 2; //手中要替换的牌
+    optional CardInfo choosePais = 3; //想转换的牌
+    repeated CardInfo shoupai = 4; //换牌后手上的牌
+    optional CardInfo mopai = 5; //摸的牌
+}
+
+// 发送听牌提示
+message mj_ask_show_tingpai_tips{
+    optional ProtoHeader header = 1;
+    optional bool isShowTingPaiTips = 2; //是否显示听牌提示
+}
+
+//玩家抢碰杠胡后,删除之前补杠或者巴杠牌
+message mj_ack_rob_remove_card{
+	optional ProtoHeader header = 1;
+	optional uint32 userId = 2;  //被抢牌的玩家ID
+    optional int32 cardId = 3; 	 //删除之前补杠玩家的补杠牌
+    optional int32 robType = 4;       //抢的类型
+}
+
+//更新玩家状态
+message mj_ack_update_user_status{
+	optional ProtoHeader header = 1;
+	optional uint32 userId 		= 2;  //玩家ID
+	optional int32 status = 3;  //玩家状态
+}
+
+//玩家连接游戏服校验
+message mj_req_reconnect{
+	optional ProtoHeader header = 1;
+}
+
+message mj_ack_reconnect {
+    optional ProtoHeader header = 1;
+    // 1. 首先是牌桌的玩家数据（玩家数据包括其id昵称筹码头像等基本信息，其手牌数据，以及自己打出的牌的数据，还有状态是否已经胡牌了，玩家在整局的总输赢）
+    repeated PlayerInfo playerInfo = 2;
+    // 2. 桌面信息（包括：游戏是否结束，当前轮到哪个玩家，倒计时剩余时间）
+    optional DeskGameInfo deskGameInfo = 3;
+    // 3. 桌子规则信息(包括创建房间的规则信息,地区麻将的特殊规则)
+    optional mj_desk_info  deskRules= 4;
+    optional uint32 senderUserId = 5; // 发起请求的人
+    optional int32 isReconnect = 6; // 1=正常连接（默认） 2=断线重连
+	repeated JiaoInfo jiaoInfos = 7; //可以胡牌的信息
+}
+
+message mj_ack_send_player_handinfo{
+	optional ProtoHeader header = 1;
+	repeated CardInfo shoupai = 2; //玩家当前的手牌
+    optional CardInfo mopai = 3;  //如果摸牌,则玩家当前摸的牌
+}
+
+//重连资源完成
+message mj_req_reloading_ok{
+	optional ProtoHeader header = 1;
+}
+
+//重连资源完成,服务器回执
+message mj_ack_reloading_ok{
+	optional ProtoHeader header = 1;
+}
+
+//总结算协议
+message mj_ack_finally_result{
+	optional ProtoHeader header 			= 1;
+	optional int32 allGameNumber			= 2;	//总局数
+	repeated FinallyTotal resultUserInfo 	= 3;	//玩家结算信息
+}
+
+//分张
+message mj_ack_fen_zhang {
+    optional ProtoHeader header             = 1;
+}
+
+//临时添加,方便吉林麻将开发
+message mj_ack_user_info {
+	optional ProtoHeader header				= 1;
+	optional uint32 userId					= 2;
+}
+
+//听牌出牌
+message mj_req_tingpai_out_card {
+	optional ProtoHeader header				= 1;
+	optional int32 cardId = 2; //要出的牌id
+	optional int32 tingType = 3;//用于扩展 目前1用于正常听牌出牌流程  2用于判定巴杠牌的听牌出牌流程 3暗杠听牌 4对倒算夹听牌(绥化) 5亮掌宝听牌(绥化) 6对倒算夹和亮掌宝听牌(绥化)
+	optional int32 ddsjCardId = 4; //对倒算夹的牌ID(绥化)
+	optional int32 lzbCardId = 5; //亮掌宝的牌ID(绥化)
+	repeated int32 tingGangPaiIds = 6; //暗杠听牌的杠牌id
+}
+
+//慌庄摊牌,玩家的牌列表
+message mj_game_ack_act_huangzhuangpais {
+    optional ProtoHeader header = 1;
+    repeated HoldCardInfo holdCardInfo = 2;      // 手牌信息
+	optional bool isShangJuHuangZhuang = 3;      //上一局是否荒庄
+}
+
+message mj_ack_operator{
+	optional ProtoHeader header 			= 1;
+	optional uint32 actCursorId				= 2; //该谁出牌玩家
+	optional uint32	lastActOutId			= 3; //最后出牌玩家（0:出的牌已经被其他玩家吃/碰/杠了）
+    optional uint32 remainingTime           = 4; //出牌剩余时间
+}
+
+//逛锅模式未听牌玩家总分为0时不能点炮
+message mj_ack_dont_win_zero{
+	optional ProtoHeader header 			= 1;
+	optional uint32 outCardUser				= 2;
+}
+
+//请求进入比赛服桌子
+message mj_req_enter_match{
+	optional uint32 userId	=	1;	//请求进入比赛服桌子
+}
+
+//请求进入比赛服桌子回执
+message mj_ack_enter_match{
+	optional uint32 userId	=	1;
+	optional bool   ret = 2;//true表示成功 false表示失败
+}
+
+message mj_req_update_deposit{
+	optional bool isDeposit  = 1;	//true 表示玩家进入托管 false表示玩家解除托管
+}
+
+message mj_ack_update_deposit{
+	optional bool isDeposit  = 1;	//true 表示玩家进入托管 false表示玩家解除托管
+}
+
+//通知玩家金币改变
+message mj_ack_update_coin{
+	optional uint32 userId  = 1;	//改变金币的玩家
+	optional int64  coin    = 2;	//改变后的金币数
+}
+
+//通知玩家宝牌改变
+message mj_ack_bao{
+	optional int32 card  = 1;	//宝牌
+}
+
+//请求跑分分数
+message mj_req_paofen{
+	optional int64  score   = 1;	//请求跑分的分数
+}
+
+message mj_ack_paofen{
+    optional uint32 userId  = 1;
+	optional int64  score   = 2;	//请求跑分的分数
+}
+
+//一个胡的数据
+message mj_one_hu_data {
+    optional uint32 huUserId = 1; //胡牌玩家
+	repeated uint32 loseUserId = 2; //被自摸玩家ID集合,如果是点炮，第一个值为点炮玩家ID
+	repeated int32  huType = 3; //胡牌的类型(清一色、中张、自摸等)
+	optional uint32 fan = 4; //番
+	optional int64 huFen = 5; //胡分
+	optional uint32 paiIndex = 6; //胡的牌的索引
+	optional int64 paoFen = 7; //跑分
+}
+
+message mj_PlayerCoinInfo {
+	optional uint32 userId	= 1;			//玩家ID
+    optional string nick = 2;       		//昵称
+    optional int32 gangFen = 3;     		//杠分
+    optional int32 huFen = 4;       		//胡分
+    optional int32 total = 5;       		//成绩
+	optional int64 nowScore = 6;			//当前总分
+    optional bool isDianPao = 7;    		//是否点炮
+	repeated CtrlCard paiList = 8;  	//牌列表
+	repeated int32  baoListSee = 9;     //看过的宝牌列表
+    repeated int32  baoList = 10;       //没看过的宝牌列表
+	optional int64 paoFen = 11;         //跑分
+}
+
+message mj_OthersOperateTips {
+    optional uint32 userId	= 1;
+	optional bool canChi = 2;
+	optional bool canPeng = 3;
+    optional bool canGang = 4;
+	optional bool canHu = 5;
+}
+
+//请求补花
+message mj_req_buhua{
+	optional CardInfo card = 1;
+}
+
+message mj_ack_buhua{
+    optional uint32 userId = 1;
+	optional CardInfo card = 2;
+}
+//吃牌听
+message mj_req_chiting {
+    optional ProtoHeader header = 1;
+    optional CardInfo chiCard = 2; //被吃的牌
+    repeated CardInfo chooseCards = 3; //选择吃的牌
+	optional CardInfo outCard = 4;//吃听后打的牌
+	optional int32 tingType = 5;//用于扩展 目前1用于正常听牌出牌流程  2用于判定巴杠牌的听牌出牌流程 3暗杠听牌 4对倒算夹听牌(绥化) 5亮掌宝听牌(绥化) 6对倒算夹和亮掌宝听牌(绥化)
+	optional int32 ddsjCardId = 6; //对倒算夹的牌ID(绥化)
+	optional int32 lzbCardId = 7; //亮掌宝的牌ID(绥化)
+}
+
+//吃牌听
+message mj_ack_chiting {
+    optional ProtoHeader header = 1;
+    repeated CardInfo chiCard = 2; //广播吃的几张牌
+    optional uint32 userIdOut = 3; //出牌的人
+    optional uint32 userIdIn = 4; //吃牌的人
+	repeated CardInfo ddsjCards = 5; //对倒算夹的牌
+	repeated CardInfo lzbCards = 6; //亮掌宝的牌
+}
+
+message mj_chiting_jiaoInfos {
+	repeated JiaoInfo jiaoInfos = 1;
+}
+
+//碰牌听
+message mj_req_pengting {
+    optional ProtoHeader header = 1;
+	optional CardInfo outCard = 2;//碰牌后打的牌
+	optional int32 tingType = 3;//用于扩展 目前1用于正常听牌出牌流程  2用于判定巴杠牌的听牌出牌流程 3暗杠听牌 4对倒算夹听牌(绥化) 5亮掌宝听牌(绥化) 6对倒算夹和亮掌宝听牌(绥化)
+	optional int32 ddsjCardId = 4; //对倒算夹的牌ID(绥化)
+	optional int32 lzbCardId = 5; //亮掌宝的牌ID(绥化)
+}
+
+//碰牌听
+message mj_ack_pengting {
+    optional ProtoHeader header = 1;
+    repeated CardInfo pengCard = 2; //广播碰的哪几张牌
+    optional uint32 userIdOut = 3; //出牌的人
+    optional uint32 userIdIn = 4; //碰牌的人
+	optional bool	isRob	= 5; //是否是抢碰
+	repeated CardInfo ddsjCards = 6; //对倒算夹的牌
+	repeated CardInfo lzbCards = 7; //亮掌宝的牌
+}
+
+//杠牌听
+message mj_req_gangting {
+    optional ProtoHeader header = 1;
+	repeated CardInfo chooseCards = 2; //选择杠的牌
+	optional int32 tingType = 3;//用于扩展 目前1用于正常听牌出牌流程  2用于判定巴杠牌的听牌出牌流程 3暗杠听牌 4对倒算夹听牌(绥化) 5亮掌宝听牌(绥化) 6对倒算夹和亮掌宝听牌(绥化)
+	optional int32 ddsjCardId = 4; //对倒算夹的牌ID(绥化)
+	optional int32 lzbCardId = 5; //亮掌宝的牌ID(绥化)
+}
+
+//杠牌听
+message mj_ack_gangting {
+    optional ProtoHeader header = 1;
+    optional uint32 userIdOut = 2; //出牌的人
+    optional uint32 userIdIn = 3; //杠牌的人
+    repeated CardInfo GangCard = 4;
+    repeated user_coin_bean userCoinBeans = 5; //玩家的详细信息
+	optional bool	isRob	= 6;	//是否是抢杠
+	repeated CardInfo ddsjCards = 7; //对倒算夹的牌
+	repeated CardInfo lzbCards = 8; //亮掌宝的牌
+}
+//--------------------------------麻将通用end-----------------------------------
+
 /////////////////////////////////////////////////////////////////////////////
 //cmd_start_index=8000
 //cmd_name=xiyou
@@ -5535,9 +8008,249 @@ message msg_turn_self_record_ack{
 
 //------------------------------转转------------------ end
 
-
-//
+//----------------------------------百人二八杠 begin------------------------------
 //cmd_start_index=8400
+//cmd_name=br_tb
+
+//房间状态
+message msg_br_tb_state_notify {
+	required int32 room_state = 1; //（0：等待， 1：下注， 2：结算  3：数据重置）
+}
+
+
+//战况信息
+message msg_br_tb_battle_record {
+	required int32 id = 1;
+	repeated int32 list = 2; //是否胜利(0,1)
+}
+
+//手牌
+message msg_br_tb_pokers {
+	required int32 id = 1;              // (0:庄, >0:闲家位置)
+	required int32 is_win_banker = 2;   // 是否能胜庄（1：胜  2：不胜）
+	required int32 poker_value = 3;     // 牌面值大小
+	repeated int32 pokers = 4;          // 牌
+}
+
+//已压注
+message msg_br_tb_bet_info {
+	required int32 id = 1;      //押注位置
+	required int64 sum = 2;     //押注数额
+}
+
+// 玩家进入/重连通报
+message msg_br_tb_player_enter_notify {
+	required int32 room_state = 1;      //（0：等待， 1：下注， 2： 比牌，3：结算）
+	required int32 left_time = 2;       // 倒计时
+	repeated br_tb_banker_info req_banker = 3;  // 申请上庄人数
+	required int32 banker_times = 4;    // 如果自己是庄的话，还剩余庄的次数
+	required int32 is_join = 5;         // 是否已经加入游戏
+	repeated msg_br_tb_bet_info other_bet = 6;//其他人已下注
+	repeated msg_br_tb_bet_info my_bet = 7; //自己的下注
+	repeated msg_br_tb_pokers pokers = 8; //手牌
+	repeated msg_br_tb_battle_record battle_recode = 9; //战况信息
+	repeated br_tb_banker_info bankers = 10; //庄家id列表
+	repeated msg_get_site_notify site_list = 11; //位置列表
+	required int32 cur_round = 12;  			 // 当前轮
+	required int64 gold = 13;  			 		// 钱
+	required int32 timestamp = 14; // 服务器时间
+}
+
+
+//押注请求
+message msg_br_tb_bet_req {
+	required int64 bet = 1;//金币
+	required int32 bet_id = 2; //压的是哪一门
+}
+
+//押注响应
+message msg_br_tb_bet_resp {
+	required int32 result = 1; //0：表示成功， -1：表示超过最大值 -2：表示时间已过  
+	required int32 bet_id = 2; //表示压到哪一门
+	required int64 bet_add = 3; //当前新增
+	required int64 bet_sum = 4;// (压注总数)
+	required int64 gold = 5;// 金币
+}
+
+
+
+//广播位置押注信息
+message msg_br_tb_seat_bet_info {
+	required int32 bet_id = 1; //(表示压到哪一门)
+	required int64 bet_sum = 2;// (压注总数)
+}
+
+
+//广播压注
+message msg_br_tb_bet_info_notify {
+	repeated msg_br_tb_seat_bet_info bet_info = 1; //各个位置投注信息
+}
+
+//申请上下庄
+message msg_br_tb_banker_req {
+	required int32 type = 1; //1:上庄， 2：下庄
+	required int64 gold = 2; //携带金币
+	
+}
+
+//申请上庄回复
+message msg_br_tb_banker_resp {
+	required int32 result = 1; //(0：正确 ； -1：钱不够  -2： 庄人数已满)
+	required int32 type = 2; //1 上庄， 2 下庄
+}
+
+
+
+//申请上庄通报
+message msg_br_tb_banker_req_notify {
+	required int32 user_id = 1; //用户ID
+	required int64 gold = 2; //携带金币
+	required int32 type = 3; //1 上庄， 2 下庄
+}
+
+
+
+// 当前庄列表
+message br_tb_banker_info{
+	required int32 user_id = 1;
+	required int64 gold = 2;
+}
+
+
+//广播当前庄列表
+message msg_br_tb_banker_list_notify {
+	repeated br_tb_banker_info bankers = 1;
+}
+
+
+//广播当前申请庄列表
+message msg_br_tb_req_banker_list_notify {
+	repeated br_tb_banker_info bankers = 1;
+}
+
+// 输赢列表
+message msg_br_tb_win {
+	required int32 id = 1;
+	required int64 sum = 2;
+}
+
+//广播战绩
+message msg_br_tb_battle_record_notify {
+	repeated msg_br_tb_battle_record info = 1;
+}
+
+//玩家输赢
+message msg_br_tb_result {
+	required int32 id = 1; // (表示那个位置)
+	required int64 sum = 2;
+}
+
+// 战绩结算通报
+message msg_br_tb_results_notify {
+	repeated msg_br_tb_result me = 1;
+	repeated msg_br_tb_win win = 2;
+	repeated msg_br_tb_pokers pokers = 3;
+	required int64 me_win = 4;		// 玩家真实输赢
+	repeated int32 dice = 5;				//色子点数
+}
+
+// 做位置请求
+message msg_get_site_req {
+	required int32 site_id = 1;//位置ID
+}
+
+//做位置响应
+message msg_get_site_resp {
+	required int32 result = 1; //0：表示成功， -1：位置错误 -2：表示钱不够
+	required int32 site_id = 2; //表示坐的哪个位置
+}
+
+//做位置通报
+message msg_get_site_notify {
+	required int32 site_id = 1; //表示坐的哪个位置
+	required int32 user_id = 2; //玩家ID
+}
+
+//玩家金币通报
+message msg_player_gold_notify {
+	required int64 gold = 1; //玩家金币
+	required int32 user_id = 2; //玩家ID
+}
+
+//自身金币同步
+message msg_self_gold_notify {
+	required int64 gold = 1; //玩家金币
+}
+
+//庄家奖池同步
+message msg_banker_gold_pool_notify {
+	required int64 gold = 1; //金币
+}
+
+//玩家奖池同步
+message msg_player_gold_pool_notify {
+	required int64 gold = 1; //金币
+}
+
+// 排行榜基本信息
+message br_tb_rank_base{
+	optional 	int32		id			=1;//玩家id
+	optional	int64		gold		=2;//金币
+	optional	string		head		=3;//头像
+	optional	string		name		=4;//名字
+}
+
+// 玩家排行榜 请求
+message msg_br_tb_rank_req{
+	required  int32 type = 1; // 排行榜  1  玩家输赢排行榜  2  庄家奖金榜   3  闲家奖金榜
+} 
+// 玩家排行榜 响应
+message msg_br_tb_rank_resp{
+	required int32 result = 1; //0：表示成功， -1：失败
+	required  int32 type = 2; // 排行榜
+	repeated  br_tb_rank_base rank = 3; // 排行榜	
+	required  int32 time = 4; //时间
+	required  int64 sum = 5; //总金额
+}
+
+//奖池奖金通报
+message msg_lottery_gold_notify {
+	required int64 gold = 1; //玩家金币
+	required int32 user_id = 2; //玩家ID
+}
+
+message br_tb_continue_win{
+	required int32 count = 1; //连胜次数
+	required int32 user_id = 2; //玩家ID
+}
+
+//连胜通报通报
+message msg_br_tb_continue_win_notify {
+	repeated br_tb_continue_win list = 1; // 连胜列表
+}
+
+//座位上玩家投注
+message msg_br_tb_site_player_bet_notify {
+	required int64 gold = 1; //投注额
+	required int32 user_id = 2; //玩家ID
+	required int32 site_id = 3; //位置ID
+	required int32 seat_id = 4; // 下注位置
+}
+
+//座位上玩家输赢
+message msg_br_tb_site_player_win_notify {
+	required int64 gold = 1; //输赢
+	required int32 user_id = 2; //玩家ID
+	repeated msg_br_tb_result result = 3; // 具体输赢
+	required int32 site_id = 4; //位置ID
+}
+
+
+//----------------------------------百人二八杠 end-------------------------------------
+
+
+//------------------------------马------------------ begin
+//cmd_start_index=8500
 //cmd_name=horse
 message horse_info{
 	optional int32  index = 1;
@@ -5628,10 +8341,10 @@ message msg_horse_result{
 	optional int64          coin = 6;
 }
 
-//=======================================================
+//------------------马------------------end
 
 //------------------21点------------------
-//cmd_start_index=8500
+//cmd_start_index=8600
 //cmd_name=blackjack
 message msg_bj_state_change_2c{
 	optional int32	room_state	= 1;	//当前房间状态
@@ -5700,8 +8413,9 @@ message msg_bj_result{
 
 //------------------------------21点------------------ end
 
+
 //----------------------------------德州扑克 begin------------------------------
-//cmd_start_index=8600
+//cmd_start_index=8700
 //cmd_name=texas
 
 // 庄 大小盲通报
@@ -5858,3 +8572,4 @@ message texas_player_list {
 }
 
 //----------------------------------德州扑克 end------------------------------
+
