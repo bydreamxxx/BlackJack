@@ -56,7 +56,7 @@ cc.Class({
         HallCommonEd.addObserver(this);
 
         this.leftNode.active = !cc._isBaiDuPingTaiGame;
-        if(this.contractBtn){
+        if (this.contractBtn) {
             this.contractBtn.active = !cc._isBaiDuPingTaiGame;
         }
 
@@ -108,7 +108,7 @@ cc.Class({
             this.shenfenTTF.string = HallCommonData.idNum;
             // this.idCardTTF.string = HallCommonData.idNum;
 
-            if(this._okFunc){
+            if (this._okFunc) {
                 this._okFunc();
                 cc.dd.UIMgr.destroyUI(this.node);
             }
@@ -179,7 +179,7 @@ cc.Class({
      */
     closeBtnCallBack: function () {
         hall_audio_mgr.com_btn_click();
-        if(this._cancelFunc){
+        if (this._cancelFunc) {
             this._cancelFunc()
         }
         cc.dd.UIMgr.destroyUI(this.node);
@@ -225,7 +225,7 @@ cc.Class({
     showReward(data) {
         this.rewardShowing = true;
         this.scheduleOnce(function () {
-            cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
                 var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
                 cp.setData(data.itemDataId, data.cnt);
                 this.rewardShowing = false;
@@ -234,7 +234,7 @@ cc.Class({
     },
 
     update(dt) {
-        if (this.real_name_authen && this.items.length && !this.rewardShowing && !cc.dd.UIMgr.getUI('gameyj_hall/prefabs/klb_hall_daily_lottery_get_award')) {
+        if (this.real_name_authen && this.items.length && !this.rewardShowing && !cc.dd.UIMgr.getUI('blackjack_hall/prefabs/klb_hall_daily_lottery_get_award')) {
             var data = this.items.shift();
             var content = data.split(",");
             var rewardData = { itemDataId: parseInt(content[0]), cnt: parseInt(content[1]) };
@@ -244,9 +244,9 @@ cc.Class({
 
     onClickKefu: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        if(cc._chifengGame){
+        if (cc._chifengGame) {
             cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_KEFU);
-        }else {
+        } else {
             // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_KEFU, function (prefab) {
             //     prefab.getComponent('klbj_hall_KeFu').getKefuDetailInfo();
             // });
@@ -256,7 +256,7 @@ cc.Class({
         }
     },
 
-    setBindFunc(okFunc, cancelFunc){
+    setBindFunc(okFunc, cancelFunc) {
         this._okFunc = okFunc;
         this._cancelFunc = cancelFunc;
     }

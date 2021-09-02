@@ -25,7 +25,7 @@ cc.Class({
         if (data == null) {
             return;
         }
-        // //const atlas = cc.resources.get("gameyj_hall/atals/itemIcon",cc.SpriteAtlas);
+        // //const atlas = cc.resources.get("blackjack_hall/atals/itemIcon",cc.SpriteAtlas);
         var changeData = item_config.getItem(function (itemdata) {
             return itemdata.key == data.itemid;
         });
@@ -47,7 +47,7 @@ cc.Class({
                         this.exchangeBtn.interactable = false;
                     }
                 }
-                else if(data.costItemid==1002){
+                else if (data.costItemid == 1002) {
                     if (num > HallPropData.getDiamond()) {
                         this.exchangeBtn.interactable = false;
                     }
@@ -100,7 +100,7 @@ cc.Class({
             cc.dd.PromptBoxUtil.show('请先完善实名认证信息再进行兑换');
             return;
         }
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_Shop_YuanBao_ExchangeIndo", function (prefb) {
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_Shop_YuanBao_ExchangeIndo", function (prefb) {
             var cpt = prefb.getComponent('klb_hall_Shop_YuanBao_ExchangeInfoUI');
             cpt.setDataId(this.propItem.id, this.type);
             cc.dd.UIMgr.destroyUI(this.node);

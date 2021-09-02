@@ -20,7 +20,7 @@ cc.Class({
         bg: cc.Sprite,
         bgSprites: { default: [], type: cc.SpriteFrame, tooltip: '背景图片' },
         baseScoreColor: { default: [], type: cc.Color, tooltip: '门槛颜色' },
-        baseScoreFont: {default: [], type: cc.Font, tooltip: '门槛字体'},
+        baseScoreFont: { default: [], type: cc.Font, tooltip: '门槛字体' },
         baseScoreTitleOutLine: cc.LabelOutline,
         baseScoreOutLine: cc.LabelOutline,
     },
@@ -96,7 +96,7 @@ cc.Class({
      * 点击房间发送消息
      */
     onClickRoom: function (isQuick) {
-        if (this.gameid == 51 || this.gameid == 135  || this.gameid == 41) {
+        if (this.gameid == 51 || this.gameid == 135 || this.gameid == 41) {
             if (this.roomid == 4) {
                 cc.dd.PromptBoxUtil.show('暂未开放');
                 return;
@@ -464,7 +464,7 @@ cc.Class({
         scriptData.setData(this.roomItem);
         cc.dd.AppCfg.GAME_ID = gameid;
 
-        
+
         // var func = function () {
         //     var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
         //     var gameType = scriptData.getGameId();
@@ -475,7 +475,7 @@ cc.Class({
         // }
         // cc.dd.SceneManager.enterGame(this.gameid, func);
 
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_Seat", function (node) {
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_Seat", function (node) {
             let ui = node.getComponent("klb_hall_Seat");
             if (ui) {
                 ui.initBaseInfo(roominfo);

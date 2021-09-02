@@ -351,7 +351,7 @@ let shop = cc.Class({
                     data.splice(i, 1);
             }
         }
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_ShopItem", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_ShopItem", function (prefab) {
             //获取客服微信列表
             for (var i = 0; i < data.length; i++) {
                 if (cc._isHuaweiGame || cc._isBaiDuPingTaiGame) {
@@ -398,7 +398,7 @@ let shop = cc.Class({
             this.descLabel.node.active = false;
         }
         this.itemList.splice(0, this.itemList.length);
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
             //设置商品列表
             for (var i = 0; i < data.length; i++) {
                 var item = cc.instantiate(prefab);
@@ -432,7 +432,7 @@ let shop = cc.Class({
             this.descLabel.node.active = false;
         }
         this.itemList.splice(0, this.itemList.length);
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
             //获取客服微信列表
             for (var i = 0; i < data.length; i++) {
                 var item = cc.instantiate(prefab);

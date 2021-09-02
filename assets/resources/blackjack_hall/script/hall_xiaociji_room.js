@@ -8,29 +8,29 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        sprite_frames:[cc.SpriteFrame],
+        sprite_frames: [cc.SpriteFrame],
     },
 
-    onLoad () {
+    onLoad() {
 
     },
 
     updateUI(data) {
-        cc.find("title",this.node).getComponent(cc.Label).string = "上梁山"; //todo 游戏名称
-        let item = cc.find("item",this.node);
-        let content = cc.find("game_list/view/content",this.node);
+        cc.find("title", this.node).getComponent(cc.Label).string = "上梁山"; //todo 游戏名称
+        let item = cc.find("item", this.node);
+        let content = cc.find("game_list/view/content", this.node);
         content.removeAllChildren(true);
         // todo 房间item刷新
         data.roomlistList.forEach(function (data_item) {
             let node_item = cc.instantiate(item);
             node_item.active = true;
             node_item.parent = content;
-            let icon = cc.find("icon",node_item).getComponent(cc.Sprite);
-            let desc = cc.find("desc",node_item).getComponent(cc.Label);
-            let name = cc.find("name",node_item).getComponent(cc.Label);
+            let icon = cc.find("icon", node_item).getComponent(cc.Sprite);
+            let desc = cc.find("desc", node_item).getComponent(cc.Label);
+            let name = cc.find("name", node_item).getComponent(cc.Label);
 
-            var game_item = game_room.getItem(function(itemdata){
-                if(itemdata.gameid == data.hallGameid && itemdata.roomid == data_item.fangjianid)
+            var game_item = game_room.getItem(function (itemdata) {
+                if (itemdata.gameid == data.hallGameid && itemdata.roomid == data_item.fangjianid)
                     return itemdata;
             });
             icon.spriteFrame = this.sprite_frames[game_item.roomid - 1];
@@ -40,9 +40,9 @@ cc.Class({
         }.bind(this));
     },
 
-    onClickRoom(event,custom){
+    onClickRoom(event, custom) {
         hall_audio_mgr.Instance().com_btn_click();
-        this.roomItem = game_room.getItem(function(itemdata){
+        this.roomItem = game_room.getItem(function (itemdata) {
             if (itemdata.key == event.target.tagname)
                 return itemdata;
         });
@@ -79,13 +79,13 @@ cc.Class({
     onClickBtnClose() {
         hall_audio_mgr.Instance().com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/hall_xiaociji");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/hall_xiaociji");
     },
 
     onClickBackHall() {
         hall_audio_mgr.Instance().com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
-        cc.dd.UIMgr.destroyUI("gameyj_hall/prefabs/hall_xiaociji");
+        cc.dd.UIMgr.destroyUI("blackjack_hall/prefabs/hall_xiaociji");
     },
 
 });

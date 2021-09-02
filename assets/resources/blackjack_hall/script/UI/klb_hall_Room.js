@@ -122,7 +122,7 @@ cc.Class({
             if (list && list.infoList && list.infoList.length) {
                 for (var i = 0; i < list.infoList.length; i++) {
                     if (list.infoList[i].gameType == gameId) {
-                        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_match_detail', function (ui) {
+                        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_match_detail', function (ui) {
                             ui.getComponent('klb_match_detail').showDetail(list.infoList[i]);
                         });
                         return;
@@ -202,7 +202,7 @@ cc.Class({
                 }.bind(this));
                 break;
             default:
-                cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_RoomItem", function (prefab) {
+                cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_RoomItem", function (prefab) {
                     //获取客服微信列表
                     for (var i = 0; i < data.roomlistList.length; i++) {
                         var dataInfo = data.roomlistList[i];
@@ -364,7 +364,7 @@ cc.Class({
                 }.bind(this));
                 break;
             case 'EARN':
-                cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_zq', function (ui) {
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_zq', function (ui) {
                     ui.getComponent('klb_hall_zuanqian').setData(0);
                 }.bind(this));
                 break;
@@ -485,7 +485,7 @@ cc.Class({
                 break;
             case Hall.HallEvent.UPDATE_UNREAD_MAIL_NUM:
                 if (data > 0) {
-                    AudioManager.playSound("gameyj_hall/audios/message");
+                    AudioManager.playSound("blackjack_hall/audios/message");
                     cc.dd.PromptBoxUtil.show("您有新邮件未阅读");
                 }
                 this.updateUnreadMail();
@@ -502,7 +502,7 @@ cc.Class({
         if (this.m_oNationalDayIcon)
             this.m_oNationalDayIcon.active = Hall.HallData.Instance().checkActivityIsOpen();
         // if(Hall.HallData.Instance().checkActivityIsOpen()){
-        //     cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_NDA', function (prefab) {
+        //     cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_NDA', function (prefab) {
         //         prefab.getComponent('klb_hall_daily_active_CopyBtn').showClsoeBtn(true);
         //     });
         // }

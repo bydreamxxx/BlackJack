@@ -141,7 +141,7 @@ let hall = cc.Class({
 
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 
-        //AudioManager.playMusic("gameyj_hall/audios/Hall_BGM");
+        //AudioManager.playMusic("blackjack_hall/audios/Hall_BGM");
 
         this.bindButtonEvent();
 
@@ -224,7 +224,7 @@ let hall = cc.Class({
                     //     //ui.getComponent('hall_login_tanchu').setFunc(this.showDailySign, this);
                     // }.bind(this));
                     if (!this.vip_activity) {
-                        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_vip_activity', (ui) => {
+                        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_vip_activity', (ui) => {
                             this.vip_activity = true;
                             let close = ui.getComponent('com_close');
                             close.setCloseFunc(this.showDailySign.bind(this));
@@ -265,7 +265,7 @@ let hall = cc.Class({
         //                     //     // ui.getComponent("hall_login_tanchu").setFunc(() => {
         //                     //     //     if (cc.dd.user.regChannel < 10000) {
         //                     //     //         if (cc._inviteTaskOpen) {
-        //                     //     //             cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_fxyl");
+        //                     //     //             cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_fxyl");
         //                     //     //         }
         //                     //     //     } else {
         //                     //     //         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_XINSHOUYOULI);
@@ -680,22 +680,10 @@ let hall = cc.Class({
             login_module.Instance().reconnectWG();
         } else {
             if (cc.find('Marquee') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/Marquee', cc.Prefab);
+                var pref = cc.resources.get('blackjack_common/prefab/Marquee', cc.Prefab);
                 var Marquee = cc.instantiate(pref);
                 cc.director.getScene().addChild(Marquee);
                 cc.game.addPersistRootNode(Marquee);
-            }
-            if (cc.find('klb_friend_group_redbag') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_redbag', cc.Prefab);
-                var fg_redBag = cc.instantiate(pref);
-                cc.director.getScene().addChild(fg_redBag);
-                cc.game.addPersistRootNode(fg_redBag);
-            }
-            if (cc.find('klb_friend_group_invite_answer') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
-                var fg_redBag = cc.instantiate(pref);
-                cc.director.getScene().addChild(fg_redBag);
-                cc.game.addPersistRootNode(fg_redBag);
             }
             // HallSendMsgCenter.getInstance().requestCheckReconnect();
             //HallSendMsgCenter.getInstance().sendBagItemList();
@@ -1022,7 +1010,7 @@ let hall = cc.Class({
 
     //打开活动接口
     onClickActive: function (event, data) {
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_Active", function (prefab) {
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_Active", function (prefab) {
             var comp = prefab.getComponent('klb_hall_Active');
             comp.onClickOpenExchange(5);
         });
@@ -1031,7 +1019,7 @@ let hall = cc.Class({
     //打开七天乐活动:
     onClick7day: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_sevenDay_Active/klb_hall_SevenDay_Active", function (prefab) {
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_sevenDay_Active/klb_hall_SevenDay_Active", function (prefab) {
             // var comp = prefab.getComponent('klb_hall_Seven_Day_Active');
             // comp.onClickOpenExchange(5);
         });
@@ -1049,7 +1037,7 @@ let hall = cc.Class({
     },
 
     showDailyAD: function () {
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_daily_active_AD', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_daily_active_AD', function (prefab) {
             prefab.getComponent('klb_hall_daily_active_AD').show(() => {
                 // if (!cc.dd.isLoginTanchu) {
                 //     this.showDailySign();
@@ -1089,7 +1077,7 @@ let hall = cc.Class({
             cc.dd._firstShowSign = true;
             Hall.HallData.Instance().showedSign = true;
             if (showsign) {
-                cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
                     prefab.getComponent('klb_hall_daily_sign').showClsoeBtn(true, this.showChongBangActivity.bind(this));
                 }.bind(this));
                 return;
@@ -1173,7 +1161,7 @@ let hall = cc.Class({
             return;
         this.m_oNationalDayIcon.active = Hall.HallData.Instance().checkActivityIsOpen();
         if (Hall.HallData.Instance().checkActivityIsOpen() && !Hall.HallData.Instance().showedNationalActive) {
-            cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_CJ', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_CJ', function (prefab) {
                 prefab.getComponent('klb_hall_daily_active_CopyBtn').showClsoeBtn(true);
             });
             Hall.HallData.Instance().showedNationalActive = true;
@@ -1278,7 +1266,7 @@ let hall = cc.Class({
                     this.newHall3CFAD.active = true;
                 }
                 Hall.HallED.notifyEvent(Hall.HallEvent.Get_PaoMoDeng_DL_Marquee, str);
-                AudioManager.playMusic('gameyj_hall/audios/bg_music10');
+                AudioManager.playMusic('blackjack_hall/audios/bg_music10');
                 if (cc.find('Marquee')) {
                     this._Marquee = cc.find('Marquee');
                     this._Marquee.getComponent('com_marquee').updatePosition(0.83);
@@ -1314,7 +1302,7 @@ let hall = cc.Class({
                 this.newHall3CF.active = true;
                 this.newHall3WD.active = false;
                 this.newHall3PZ.active = false;
-                AudioManager.playMusic('gameyj_hall/audios/hall_bg');
+                AudioManager.playMusic('blackjack_hall/audios/hall_bg');
                 break;
         }
     },
@@ -1416,7 +1404,7 @@ let hall = cc.Class({
                     return;
                 if (data > 0) {
                     if (!cc._useCardUI && !cc._useChifengUI) {
-                        AudioManager.playSound("gameyj_hall/audios/message");
+                        AudioManager.playSound("blackjack_hall/audios/message");
                         cc.dd.PromptBoxUtil.show("您有新邮件未阅读");
                     }
                 }
@@ -1499,7 +1487,7 @@ let hall = cc.Class({
                         }
                         // if (cc.dd.quickMatchType == 'sh_gold_match') {
                         //     if (list.infoList[i].gameType == cc.dd.Define.GameType.SH_MATCH) {
-                        //         cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_match_detail', function (ui) {
+                        //         cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_match_detail', function (ui) {
                         //             ui.getComponent('klb_match_detail').showDetail(list.infoList[i]);
                         //         });
                         //         cc.dd.quickMatchType = null;
@@ -1607,7 +1595,7 @@ let hall = cc.Class({
                         // cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_get_rank_activity_req, pbObj, 'get_rank_activity_req', true);
                         // cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickChongBang');
                         // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SPRING_FESTIVAL_ACTIVITY_AD);
-                        if (cc.dd.isLoginTanchu && !cc.dd.UIMgr.getUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_QD')) {
+                        if (cc.dd.isLoginTanchu && !cc.dd.UIMgr.getUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD')) {
                             this.showchongbang = true;
                             cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SPRING_FESTIVAL_ACTIVITY_AD);
                         }
@@ -1966,7 +1954,7 @@ let hall = cc.Class({
                         // 用户取消分享后执行的回调函数
                     }
                 });
-                cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_wx_share_tip_h5', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_wx_share_tip_h5', function (prefab) {
                     var Component = prefab.getComponent('klb_wx_share_h5');
                     Component.onInvite(info.roomid);
                 });

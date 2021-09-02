@@ -76,7 +76,7 @@ let activity = cc.Class({
                     continue;
                 if (data.key == 4 && cc.game_pid == 10004)
                     continue;
-                if(data.key == 3){
+                if (data.key == 3) {
                     continue;
                 }
                 if (data.content == '分享有礼') {
@@ -151,11 +151,11 @@ let activity = cc.Class({
                 }
 
                 var flag = cc.dd.Utils.seekNodeByName(prefab, 'tipflag');
-                if(flag){
+                if (flag) {
                     flag.active = false;
                 }
             }
-            else{
+            else {
                 prefab.getComponent(cc.Toggle).isChecked = false;
                 prefab.getChildByName('Background').active = true;
             }
@@ -204,7 +204,7 @@ let activity = cc.Class({
             }
             this.changeBtnState(key);
             this.uiParentNode.removeAllChildren(true);
-            var path = 'gameyj_hall/prefabs/daily_active/' + data.ui;
+            var path = 'blackjack_hall/prefabs/daily_active/' + data.ui;
             cc.dd.UIMgr.openUI(path, function (prefab) {
                 prefab.parent = this.uiParentNode;
 
@@ -293,7 +293,7 @@ let activity = cc.Class({
             return;
         }
         // this._noticeItemList.splice(0, this._noticeItemList.length);
-        for(let i = this.contentNode.children.length - 1; i >= 0; i--){
+        for (let i = this.contentNode.children.length - 1; i >= 0; i--) {
             if (this.contentNode.children[i].tagname >= 1000) {
                 this.contentNode.children[i].removeFromParent(true);
             }
@@ -377,7 +377,7 @@ let activity = cc.Class({
     showNoticeDetail: function (key) {
         this.changeBtnState(key);
 
-        var data = this.m_tNoticeList[key-1000];
+        var data = this.m_tNoticeList[key - 1000];
         var isRead = this._isRead(data.title + data.timestamp);
         if (!isRead) {
             this._readList.push(data.title + data.timestamp);

@@ -153,19 +153,19 @@ cc.Class({
         eggAnim.getComponent(sp.Skeleton).clearTracks();
         eggAnim.getComponent(sp.Skeleton).setAnimation(0, 'lagan', false);
         // var seq = cc.sequence(cc.delayTime(0.3), cc.callFunc(function () {
-        //     AudioManager.playSound("gameyj_hall/audios/slot");
+        //     AudioManager.playSound("blackjack_hall/audios/slot");
         //     hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
         // }.bind(this)));
         // this.node.runAction(seq);
         cc.tween(this.node)
             .delay(0.3)
             .call(function () {
-                AudioManager.playSound("gameyj_hall/audios/slot");
+                AudioManager.playSound("blackjack_hall/audios/slot");
                 hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
             }.bind(this))
             .start();
         // eggAnim.getComponent(sp.Skeleton).setCompleteListener(function(){
-        //     AudioManager.playSound( "gameyj_hall/audios/slot" );
+        //     AudioManager.playSound( "blackjack_hall/audios/slot" );
         //     hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);
         // }.bind(this));
 

@@ -580,7 +580,7 @@ var Native = cc.Class({
         var cmdUrl = url + '?data=' + encodeURIComponent(JSON.stringify(info)) + '&channel=' + (cc.dd.user.regChannel * 100 + login_module.Instance().loginType % 100);
         // cc.error(cmdUrl);
         if (cc.sys.platform == cc.sys.MOBILE_BROWSER) {
-            cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_wx_share_tip_h5', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_wx_share_tip_h5', function (prefab) {
                 var Component = prefab.getComponent('klb_wx_share_h5');
                 Component.onInvite(info.roomid);
             });
@@ -748,7 +748,7 @@ var Native = cc.Class({
         }
     },
 
-    xiaomiLogin(){
+    xiaomiLogin() {
         if (cc.sys.OS_ANDROID == cc.sys.os) {
             jsb.reflection.callStaticMethod('game/SystemTool', 'miLogin', '()V');
         }

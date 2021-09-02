@@ -42,12 +42,12 @@ cc.Class({
     onClickHead(event, custom) {
         // var tag = event.target.tag;
         // if (tag && tag.id) {
-        //     var nickidUI = cc.dd.UIMgr.getUI('gameyj_hall/prefabs/klb_rank_nick_id');
+        //     var nickidUI = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/klb_rank_nick_id');
         //     if (nickidUI) {
         //         nickidUI.getComponent('klb_rank_nick_id').setData(event.target, tag.nick, tag.id);
         //     }
         //     else {
-        //         cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_rank_nick_id', function (item) {
+        //         cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_rank_nick_id', function (item) {
         //             item.getComponent('klb_rank_nick_id').setData(event.target, tag.nick, tag.id);
         //         });
         //     }
@@ -95,16 +95,16 @@ cc.Class({
                 itemNode.getChildByName('rankbg').active = false;
                 itemNode.getChildByName('rankLabel').active = true;
             }
-            if(itemId != 1001){
+            if (itemId != 1001) {
                 itemNode.getChildByName('tagIcon').getComponent(cc.Sprite).spriteFrame = this.itemAtlas.getSpriteFrame(itemId.toString());
-            }else{
+            } else {
                 itemNode.getChildByName('tagIcon').getComponent(cc.Sprite).spriteFrame = this.coinSP;
             }
             var headsp = itemNode.getChildByName('head_mask').getChildByName('head').getComponent(cc.Sprite);
             headsp.spriteFrame = null;
             cc.dd.SysTools.loadWxheadH5(headsp, element.headUrl);
-            itemNode.getChildByName('nameTxt').getComponent(cc.Label).string = cc.dd.Utils.subChineseStr(element.name, 0 , 14);//cc.dd.Utils.substr(element.name, 0, 4);
-            itemNode.getChildByName('idTxt').getComponent(cc.Label).string = 'ID:'+element.userId;//cc.dd.Utils.substr(element.name, 0, 4);
+            itemNode.getChildByName('nameTxt').getComponent(cc.Label).string = cc.dd.Utils.subChineseStr(element.name, 0, 14);//cc.dd.Utils.substr(element.name, 0, 4);
+            itemNode.getChildByName('idTxt').getComponent(cc.Label).string = 'ID:' + element.userId;//cc.dd.Utils.substr(element.name, 0, 4);
             itemNode.getChildByName('descTxt').getComponent(cc.Label).string = this.getCoinStr(element.score, itemId);
             headsp.node.tagname = { nick: element.name, id: element.userId };
         }.bind(this));
@@ -132,17 +132,17 @@ cc.Class({
         var mine = this.mine_node;
         mine.getChildByName('rank').getComponent(cc.Label).string = msg.historyInfo.curRank == -1 ? '未上榜' : msg.historyInfo.curRank.toString();
         cc.dd.SysTools.loadWxheadH5(mine.getChildByName('head_mask').getChildByName('head').getComponent(cc.Sprite), HallCommonData.getInstance().headUrl);
-        mine.getChildByName('nameTxt').getComponent(cc.Label).string = cc.dd.Utils.subChineseStr(HallCommonData.getInstance().nick, 0 , 14);//cc.dd.Utils.substr(HallCommonData.getInstance().nick, 0, 4);
-        mine.getChildByName('idTxt').getComponent(cc.Label).string = 'ID:'+cc.dd.user.id;//cc.dd.Utils.substr(HallCommonData.getInstance().nick, 0, 4);
+        mine.getChildByName('nameTxt').getComponent(cc.Label).string = cc.dd.Utils.subChineseStr(HallCommonData.getInstance().nick, 0, 14);//cc.dd.Utils.substr(HallCommonData.getInstance().nick, 0, 4);
+        mine.getChildByName('idTxt').getComponent(cc.Label).string = 'ID:' + cc.dd.user.id;//cc.dd.Utils.substr(HallCommonData.getInstance().nick, 0, 4);
         if (msg.rankId == 1001) {
             mine.getChildByName('descTxt').getComponent(cc.Label).string = this.getCoinStr(HallCommonData.getInstance().coin, itemId);
         }
         else {
             mine.getChildByName('descTxt').getComponent(cc.Label).string = this.getCoinStr(msg.historyInfo.curScore, itemId);
         }
-        if(itemId !== 1001){
+        if (itemId !== 1001) {
             mine.getChildByName('tagIcon').getComponent(cc.Sprite).spriteFrame = this.itemAtlas.getSpriteFrame(itemId.toString());
-        }else{
+        } else {
             mine.getChildByName('tagIcon').getComponent(cc.Sprite).spriteFrame = this.coinSP;
         }
 

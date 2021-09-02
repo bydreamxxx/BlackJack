@@ -10,7 +10,7 @@
 var zq_cfg = require('zuanqian');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
-const texturePath = 'gameyj_hall/textures/zuanqian/';
+const texturePath = 'blackjack_hall/textures/zuanqian/';
 const scrollTime = 2;
 const defaultInterval = 5;
 cc.Class({

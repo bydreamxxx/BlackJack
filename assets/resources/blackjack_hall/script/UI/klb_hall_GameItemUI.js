@@ -24,7 +24,7 @@ var HallGameItemUI = cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        if(this.gameName){
+        if (this.gameName) {
             // let outLine = this.gameName.node.getComponent(cc.LabelOutline);
             // if(outLine){
             //     if(cc._themeStyle == 0){
@@ -35,7 +35,7 @@ var HallGameItemUI = cc.Class({
             // }
         }
 
-        if(this.spine){
+        if (this.spine) {
             this.spine.node.active = false;
         }
 
@@ -66,7 +66,7 @@ var HallGameItemUI = cc.Class({
         this.gameType = gameItem.type;
         this.roomType = gameItem.roomType;
         this.isOpen = gameItem.isOpen;
-        cc.dd.ResLoader.loadAtlas("gameyj_hall/atals/gameIcon", function (atlas) {
+        cc.dd.ResLoader.loadAtlas("blackjack_hall/atals/gameIcon", function (atlas) {
             this.icon.spriteFrame = atlas.getSpriteFrame(gameItem.frameName);
             this.updateMask.spriteFrame = atlas.getSpriteFrame(gameItem.frameName);
         }.bind(this));
@@ -193,21 +193,21 @@ var HallGameItemUI = cc.Class({
             '发送协议[id: ${cmd_hall_req_new_room_list}],cmd_hall_req_new_room_list,[房间列表]', true);
     },
 
-    loadSpineAni(){
+    loadSpineAni() {
         var gameItem = klb_game_list_config.getItem(function (item) {
             if (item.gameid == this.game_id)
                 return item
         }.bind(this));
 
-        if (this.gameType == GameType.RedBag_FUNCTION){
-            gameItem = {game_spine:'hongbaosai', spine_offset:'0,-186'}
+        if (this.gameType == GameType.RedBag_FUNCTION) {
+            gameItem = { game_spine: 'hongbaosai', spine_offset: '0,-186' }
         }
 
 
-        if(this.spine && gameItem && gameItem.game_spine != ''){
-            let offset = gameItem.spine_offset.replace('，',',').split(',');
+        if (this.spine && gameItem && gameItem.game_spine != '') {
+            let offset = gameItem.spine_offset.replace('，', ',').split(',');
 
-            cc.dd.ResLoader.loadSpine("gameyj_hall/spine/"+gameItem.game_spine, function (spine) {
+            cc.dd.ResLoader.loadSpine("blackjack_hall/spine/" + gameItem.game_spine, function (spine) {
                 this.spine.skeletonData = spine;
                 this.spine.node.x = Number(offset[0]);
                 this.spine.node.y = Number(offset[1]);
@@ -221,26 +221,26 @@ var HallGameItemUI = cc.Class({
         }
     },
 
-    setSpineAni(active){
+    setSpineAni(active) {
         this.showSpine = !active;
-        if(this.spine){
-            if(!active && !this.initSpine){
+        if (this.spine) {
+            if (!active && !this.initSpine) {
                 this.initSpine = true;
                 this.loadSpineAni();
-            }else{
+            } else {
                 var gameItem = klb_game_list_config.getItem(function (item) {
                     if (item.gameid == this.game_id)
                         return item
                 }.bind(this));
 
-                if (this.gameType == GameType.RedBag_FUNCTION){
-                    gameItem = {game_spine:'hongbaosai', spine_offset:'0,-186'}
+                if (this.gameType == GameType.RedBag_FUNCTION) {
+                    gameItem = { game_spine: 'hongbaosai', spine_offset: '0,-186' }
                 }
 
-                if(gameItem && gameItem.game_spine != ''){
+                if (gameItem && gameItem.game_spine != '') {
                     this.spine.node.active = this.showSpine;
                     this.icon.node.active = !this.showSpine;
-                }else{
+                } else {
                     this.spine.node.active = false;
                     this.icon.node.active = true;
                 }

@@ -24,14 +24,14 @@ cc.Class({
             this.nums[i].setRunEndCall(this.checkRunEnd.bind(this));
             this.nums[i].startRun();
         };
-        AudioManager.playSound('gameyj_hall/audios/drawlotteryrun', false);
+        AudioManager.playSound('blackjack_hall/audios/drawlotteryrun', false);
         this.nums[this.nums.length - 1].setRunEndNum(this.luckyScore[this.luckyScore.length - 1]);
     },
 
     //单次滚动结束
     checkRunEnd() {
         this.runEndNum++;
-        AudioManager.playSound('gameyj_hall/audios/drawlotteryend', false);
+        AudioManager.playSound('blackjack_hall/audios/drawlotteryend', false);
         if (this.runEndNum < this.nums.length) {
             this.nums[this.nums.length - this.runEndNum - 1].setRunEndNum(this.luckyScore[this.luckyScore.length - this.runEndNum - 1]);
         }

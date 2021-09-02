@@ -30,7 +30,7 @@ var handler = {
                 if (scp) {
                     scp.onCloseCreateRoomUI();
                 }
-                cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_proxy_room', function (node) {
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_proxy_room', function (node) {
                     node.getComponent('hall_proxy_room').setData(msg);
                 });
             }
@@ -130,19 +130,19 @@ var handler = {
         cc.dd.NetWaitUtil.net_wait_end('msg_enter_game_req');
 
         if (cc.find('Marquee') == null) {
-            var pref = cc.resources.get('gameyj_common/prefab/Marquee', cc.Prefab);
+            var pref = cc.resources.get('blackjack_common/prefab/Marquee', cc.Prefab);
             var Marquee = cc.instantiate(pref);
             cc.director.getScene().addChild(Marquee);
             cc.game.addPersistRootNode(Marquee);
         }
         if (cc.find('klb_friend_group_redbag') == null) {
-            var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_redbag', cc.Prefab);
+            var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_redbag', cc.Prefab);
             var fg_redBag = cc.instantiate(pref);
             cc.director.getScene().addChild(fg_redBag);
             cc.game.addPersistRootNode(fg_redBag);
         }
         if (cc.find('klb_friend_group_invite_answer') == null) {
-            var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
+            var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
             var fg_redBag = cc.instantiate(pref);
             cc.director.getScene().addChild(fg_redBag);
             cc.game.addPersistRootNode(fg_redBag);
@@ -703,9 +703,9 @@ var handler = {
         var rankId = msg.rankId;
         if (rankId == 16) {
             Hall.HallED.notifyEvent(Hall.HallEvent.Rank_Info, msg);
-        }else if(rankId == 19){
+        } else if (rankId == 19) {
             Hall.HallED.notifyEvent(Hall.HallEvent.Rank_Info_Game, msg);
-        }else if (rankId < 1000) {
+        } else if (rankId < 1000) {
             if (!cc.dd.rankData)
                 cc.dd.rankData = [];
             cc.dd.rankData[rankId] = msg;
@@ -713,7 +713,7 @@ var handler = {
             if (rankId == 17 || rankId == 18) {
                 prefabPath = 'gameyj_ebg/prefab/com_game_rank'
             } else {
-                prefabPath = 'gameyj_common/prefab/com_game_rank';
+                prefabPath = 'blackjack_common/prefab/com_game_rank';
             }
 
             var UI = cc.dd.UIMgr.getUI(prefabPath);

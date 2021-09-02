@@ -9,59 +9,59 @@ cc.Class({
         /**
          * 标题
          */
-        titleLbl:cc.Label,
+        titleLbl: cc.Label,
         /**
          * 时间
          */
-        timeLbl:cc.Label,
+        timeLbl: cc.Label,
         /**
          * day
          */
-        dayLabl:cc.Label,
+        dayLabl: cc.Label,
         /**
          * 底图
          */
-        bg:cc.Sprite,
+        bg: cc.Sprite,
         /**
          * 阅读标志
          */
-        readSp:cc.Sprite,
+        readSp: cc.Sprite,
 
-        weichakan:cc.SpriteFrame,
-        yichakan:cc.SpriteFrame,
+        weichakan: cc.SpriteFrame,
+        yichakan: cc.SpriteFrame,
 
         /**
          * 数据
          */
-        data:null,
-        _clickCallback:null,
+        data: null,
+        _clickCallback: null,
     },
 
     // use this for initialization
     onLoad: function () {
-        //this.uiAtals = cc.resources.get("gameyj_hall/atals/gonggao", cc.SpriteAtlas);
+        //this.uiAtals = cc.resources.get("blackjack_hall/atals/gonggao", cc.SpriteAtlas);
     },
 
 
-    init:function (data, cb) {
+    init: function (data, cb) {
         this._clickCallback = cb;
         this.data = data;
         this.titleLbl.string = cc.dd.Utils.subChineseStr(data.title, 0, 42);
         this.dayLabl.string = this.convertDay(data.timestamp);
         this.timeLbl.string = this.convertTime(data.timestamp);
-        if(data.read){
+        if (data.read) {
             //this.bg.spriteFrame = this.uiAtals.getSpriteFrame('yichakanxiban');
             this.readSp.spriteFrame = this.yichakan;//this.uiAtals.getSpriteFrame('yichakan');
-        }else{
+        } else {
             //this.bg.spriteFrame = this.uiAtals.getSpriteFrame('weichakandiban');
             this.readSp.spriteFrame = this.weichakan;//this.uiAtals.getSpriteFrame('xingfeng');
         }
     },
 
-    itemClick:function () {
+    itemClick: function () {
         hall_audio_mgr.com_btn_click();
 
-        if(this._clickCallback){
+        if (this._clickCallback) {
             this._clickCallback(this.data);
             //this.bg.spriteFrame = this.uiAtals.getSpriteFrame('yichakanxiban');
             this.readSp.spriteFrame = this.yichakan;//this.uiAtals.getSpriteFrame('yichakan');
@@ -70,8 +70,8 @@ cc.Class({
     /**
      * 转换年月日
      */
-    convertDay:function (t) {
-        var date = new Date(t*1000);
+    convertDay: function (t) {
+        var date = new Date(t * 1000);
         var seperator1 = "-";
         var month = date.getMonth() + 1;
         var strDate = date.getDate();
@@ -89,8 +89,8 @@ cc.Class({
     /**
      * 转换具体时间
      */
-    convertTime:function(t) {
-        var date = new Date(t*1000);
+    convertTime: function (t) {
+        var date = new Date(t * 1000);
         var seperator2 = ":";
         var hours = date.getHours();
         var min = date.getMinutes();
@@ -106,7 +106,7 @@ cc.Class({
             sec = "0" + sec;
         }
 
-        var currentdate =  hours + seperator2 + min
+        var currentdate = hours + seperator2 + min
             + seperator2 + sec;
         return currentdate;
     },

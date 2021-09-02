@@ -171,7 +171,7 @@ cc.Class({
             this.m_arrow.getComponent(cc.Button).interactable = true;
             clearTimeout(this.m_buttonTimeOutId);
             if (this.isOver) {
-                cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+                cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
                     var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
                     var arwad = this.rewardData[this.m_resultIndex].reward;
                     var list = arwad.split(',');
@@ -241,7 +241,7 @@ cc.Class({
         this.m_resultIndex = this.getIndexByID(configID);
         // this.m_arrowAnimation.play();
         // this.m_tailAnimation.play();
-        AudioManager.playSound("gameyj_hall/audios/lottery");
+        AudioManager.playSound("blackjack_hall/audios/lottery");
         this.aniPlaying = true;
         var angel = this.m_arrow_new.rotation % 360;
         // var rotate = cc.rotateBy(6, 360 * 8 + this.m_resultIndex * 40 - angel);
@@ -254,7 +254,7 @@ cc.Class({
             this.m_arrow.getComponent(cc.Button).interactable = true;
             clearTimeout(this.m_buttonTimeOutId);
             if (this.isOver) {
-                cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+                cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
                     var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
                     var arwad = this.rewardData[this.m_resultIndex].reward;
                     var list = arwad.split(',');

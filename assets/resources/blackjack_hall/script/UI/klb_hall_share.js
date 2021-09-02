@@ -96,7 +96,7 @@ let share = cc.Class({
         // this.share_type = 1;
         cc.WxShareType = 1;
         if (this.share_img) {
-            cc.dd.native_wx.ShareImageToFriend('gameyj_hall/textures/shareImages/' + this.share_img_name);
+            cc.dd.native_wx.ShareImageToFriend('blackjack_hall/textures/shareImages/' + this.share_img_name);
         } else {
             cc.dd.native_wx.SendAppContent('', this.share_title, this.share_content, Platform.shareGameUrl + '?channel=' + (cc.dd.user.regChannel * 100 + login_module.Instance().loginType % 100), this.firstShare ? 7 : null);
         }
@@ -118,7 +118,7 @@ let share = cc.Class({
         // this.share_type = 2;
         cc.WxShareType = 2;
         if (this.share_img) {
-            cc.dd.native_wx.ShareImageToTimeline('gameyj_hall/textures/shareImages/' + this.share_img_name);
+            cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + this.share_img_name);
         } else {
             cc.dd.native_wx.ShareLinkTimeline(Platform.shareGameUrl + '?channel=' + (cc.dd.user.regChannel * 100 + login_module.Instance().loginType % 100), this.share_title, this.share_content, this.firstShare ? 7 : null);
         }
@@ -134,7 +134,7 @@ let share = cc.Class({
         // this.share_type = 1;
         cc.WxShareType = 3;
         if (this.share_img) {
-            cc.dd.native_wx.ShareImageToFriend('gameyj_hall/textures/shareImages/' + this.share_img_name);
+            cc.dd.native_wx.ShareImageToFriend('blackjack_hall/textures/shareImages/' + this.share_img_name);
         } else {
             cc.dd.native_wx.SendAppContent('', this.share_title, this.share_content, Platform.shareGameUrl + '?channel=' + (cc.dd.user.regChannel * 100 + login_module.Instance().loginType % 100), this.firstShare ? 7 : null);
         }
@@ -151,7 +151,7 @@ let share = cc.Class({
         // this.share_type = 2;
         cc.WxShareType = 4;
         if (this.share_img) {
-            cc.dd.native_wx.ShareImageToTimeline('gameyj_hall/textures/shareImages/' + this.share_img_name);
+            cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + this.share_img_name);
         } else {
             cc.dd.native_wx.ShareLinkTimeline(Platform.shareGameUrl + '?channel=' + (cc.dd.user.regChannel * 100 + login_module.Instance().loginType % 100), this.share_title, this.share_content, this.firstShare ? 7 : null);
         }

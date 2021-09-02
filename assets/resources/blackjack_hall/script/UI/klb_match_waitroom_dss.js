@@ -263,7 +263,7 @@ cc.Class({
             this.jiaobiao.active = true;
 
             let func1 = () => {
-                AudioManager.playSound("gameyj_hall/audios/pk_rank");
+                AudioManager.playSound("blackjack_hall/audios/pk_rank");
             }
             if (this.target_roundType == 1) {
                 if (this.target_roundNum == 4) {
@@ -337,13 +337,13 @@ cc.Class({
                                 this.title.setAnimation(0, 'gongxijinjixunhuan', true);
                             })
                             func2 = () => {
-                                AudioManager.playSound("gameyj_hall/audios/pk_win");
+                                AudioManager.playSound("blackjack_hall/audios/pk_win");
                             }
                         } else {
                             this.title.node.active = true;
                             this.title.setAnimation(0, 'shibai', false);
                             func2 = () => {
-                                AudioManager.playSound("gameyj_hall/audios/pk_lose");
+                                AudioManager.playSound("blackjack_hall/audios/pk_lose");
                             }
                         }
                     }

@@ -53,7 +53,7 @@ cc.Class({
         this.soundBtn.node.on('click', this.onClickToggle.bind(this), this);
         this.musicBtn.node.on('click', this.onClickToggle.bind(this), this);
 
-        // this.uiAtals = cc.loader.getRes("gameyj_hall/atals/setting", cc.SpriteAtlas);
+        // this.uiAtals = cc.loader.getRes("blackjack_hall/atals/setting", cc.SpriteAtlas);
 
         //初始值
         //音效
@@ -138,7 +138,7 @@ cc.Class({
             if (this.init) {
                 this.init = false;
             } else {
-                AudioManager.playMusic('gameyj_hall/audios/hall_bg');
+                AudioManager.playMusic('blackjack_hall/audios/hall_bg');
             }
         } else {
             AudioManager.offMusic();
@@ -155,7 +155,7 @@ cc.Class({
         //     this.musicTagBtn.setPositionX(this.musicBtnOffPosx )
         //     this.musicOpenTagLable.string = '开'
         //     AudioManager._setLocalMusicSwitch(true);
-        //     AudioManager.playMusic('gameyj_hall/audios/hall_bg');
+        //     AudioManager.playMusic('blackjack_hall/audios/hall_bg');
         // }else
         // {
         //     this.settingMusicBg.spriteFrame = this.uiAtals.getSpriteFrame("shezhihui");

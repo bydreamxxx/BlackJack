@@ -624,7 +624,7 @@ let userInfo = cc.Class({
      */
     onClickXiaoCiJi: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/hall_xiaociji");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/hall_xiaociji");
     },
 
     /**
@@ -632,8 +632,8 @@ let userInfo = cc.Class({
      */
     onClickZhuanHongBao: function () {
         hall_audio_mgr.com_btn_click();
-        //cc.dd.UIMgr.openUI("gameyj_hall/prefabs/hall_zhuanhongbao");
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_fxyl");
+        //cc.dd.UIMgr.openUI("blackjack_hall/prefabs/hall_zhuanhongbao");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_fxyl");
     },
 
     /**
@@ -641,15 +641,15 @@ let userInfo = cc.Class({
      */
     onClickBindAggent: function () {
         hall_audio_mgr.com_btn_click();
-        //cc.dd.UIMgr.openUI("gameyj_hall/prefabs/hall_zhuanhongbao");
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_bind_aggent");
+        //cc.dd.UIMgr.openUI("blackjack_hall/prefabs/hall_zhuanhongbao");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_bind_aggent");
     },
     onClickTask() {
         /************************游戏统计 start************************/
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.TASK);
         /************************游戏统计   end************************/
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_tasknew");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
     },
 
     /**
@@ -689,7 +689,7 @@ let userInfo = cc.Class({
         // if (share_imgs.length > 1) {
         //     idx = Math.floor(Math.random() * share_imgs.length);
         // }
-        // cc.dd.native_wx.ShareImageToTimeline('gameyj_hall/textures/shareImages/' + share_imgs[idx]);
+        // cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + share_imgs[idx]);
 
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
@@ -712,7 +712,7 @@ let userInfo = cc.Class({
 
     onClickFangkadaili: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_daily_active_FK');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_daily_active_FK');
     },
 
     /**
@@ -720,12 +720,12 @@ let userInfo = cc.Class({
      */
     onClickNationalDayActive: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_MainUI');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_MainUI');
     },
 
     onClickspreadActive: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_TG');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_TG');
     },
 
     onEventMessage(event, data) {
@@ -806,7 +806,7 @@ let userInfo = cc.Class({
                 let spreadActive = cc.find('topNode/layout/tuiguanghaoli', this.node);
                 if (spreadActive) {
                     spreadActive.active = Hall.HallData.Instance().activitySpread.state == 1
-                    cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_TG');
+                    cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_TG');
                 }
                 break;
             // case Hall.HallEvent.DRAWLOTTERY_ACTIVITY_INFO:

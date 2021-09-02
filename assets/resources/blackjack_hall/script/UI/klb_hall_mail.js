@@ -172,7 +172,7 @@ let mail = cc.Class({
     showReward(data) {
         this.rewardShowing = true;
         this.scheduleOnce(function () {
-            cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
                 var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
                 cp.setData(data.itemDataId, data.cnt);
                 this.rewardShowing = false;
@@ -181,7 +181,7 @@ let mail = cc.Class({
     },
 
     update(dt) {
-        if (this._rewardList.length && !this.rewardShowing && !cc.dd.UIMgr.getUI('gameyj_hall/prefabs/klb_hall_daily_lottery_get_award')) {
+        if (this._rewardList.length && !this.rewardShowing && !cc.dd.UIMgr.getUI('blackjack_hall/prefabs/klb_hall_daily_lottery_get_award')) {
             this.showReward(this._rewardList.shift());
         }
     },
@@ -308,7 +308,7 @@ let mail = cc.Class({
         }.bind(this));
     },
 
-    setNoticeTip(){
+    setNoticeTip() {
         let notice_length = hallData.getInstance().getNoticeLength();
         this.noticeTipNum.string = notice_length[1].toString();
         if (notice_length[1] > 0) {

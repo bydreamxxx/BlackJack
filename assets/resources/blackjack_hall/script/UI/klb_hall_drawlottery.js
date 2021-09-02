@@ -23,7 +23,7 @@ cc.Class({
         Hall.HallED.addObserver(this);
 
         if (AudioManager.m_bMusicSwitch) {
-            let path = 'gameyj_hall/audios/drawlottery_bg';
+            let path = 'blackjack_hall/audios/drawlottery_bg';
             AudioManager.stopMusic();
             cc.dd.ResLoader.loadAudio(path, (clip) => {
                 this.m_musicId = cc.audioEngine.play(clip, true, AudioManager.m_nMusicVolume * 0.8);
@@ -112,7 +112,7 @@ cc.Class({
         }
 
         this.paomadeng.hide();
-        AudioManager.playSound('gameyj_hall/audios/drawlotteryrun', false);
+        AudioManager.playSound('blackjack_hall/audios/drawlotteryrun', false);
 
         const req = new cc.pb.rank.msg_lucky_activity_draw_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_lucky_activity_draw_req, req,
@@ -165,7 +165,7 @@ cc.Class({
 
     checkRunEnd() {
         this.runEndNum++;
-        AudioManager.playSound('gameyj_hall/audios/drawlotteryend', false);
+        AudioManager.playSound('blackjack_hall/audios/drawlotteryend', false);
 
         if (this.runEndNum < this.nums.length) {
             this.nums[this.nums.length - this.runEndNum - 1].setRunEndNum(this.luckyScore[this.luckyScore.length - this.runEndNum - 1]);

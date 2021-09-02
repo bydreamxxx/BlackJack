@@ -33,7 +33,7 @@ cc.Class({
         Hall.HallED.addObserver(this);
         HallCommonEd.addObserver(this);
         if (AudioManager.m_bMusicSwitch) {
-            let path = 'gameyj_hall/audios/drawlottery_bg';
+            let path = 'blackjack_hall/audios/drawlottery_bg';
             AudioManager.stopMusic();
             cc.dd.ResLoader.loadAudio(path, (clip) => {
                 this.m_musicId = cc.audioEngine.play(clip, true, AudioManager.m_nMusicVolume * 0.8);

@@ -46,7 +46,7 @@ cc.Class({
     onClickShare: function () {
         hall_audio_mgr.com_btn_click();
         if (cc._inviteTaskOpen)
-            cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_fxyl");
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_fxyl");
         cc.dd.UIMgr.destroyUI(this.node);
     },
 

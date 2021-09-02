@@ -65,7 +65,7 @@ cc.Class({
 
     gotoNationalDayActivity: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_MainUI');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_MainUI');
         cc.dd.UIMgr.destroyUI(cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_DAILY_ACTIVITY));
         cc.dd.UIMgr.destroyUI(this.node);
     },
@@ -81,7 +81,7 @@ cc.Class({
     onClickZhuangjin: function () {
         if (cc._inviteTaskOpen) {
             hall_audio_mgr.com_btn_click();
-            cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_fxyl");
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_fxyl");
             cc.dd.UIMgr.destroyUI(cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_DAILY_ACTIVITY));
             cc.dd.UIMgr.destroyUI(this.node);
         }

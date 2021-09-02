@@ -67,7 +67,7 @@ cc.Class({
         btnStr.getComponent(cc.Label).string = info.btnLbl || '0';
         if (info.icon) {
             // 使用图集后 不能这样用了
-            var path = 'gameyj_hall/textures/shangcheng/';
+            var path = 'blackjack_hall/textures/shangcheng/';
             path += info.icon + '.png';
             var sp = new cc.SpriteFrame(path);
             if (sp) {
@@ -77,9 +77,9 @@ cc.Class({
         }
         if (info.buyType) {
             if (info.buyType == EnumbuyType.Convert) {
-                var path = 'gameyj_hall/textures/shangcheng/sc_zuanshi_09.png';
+                var path = 'blackjack_hall/textures/shangcheng/sc_zuanshi_09.png';
             } else {
-                var path = 'gameyj_hall/textures/shangcheng/sc_renminbi.png';
+                var path = 'blackjack_hall/textures/shangcheng/sc_renminbi.png';
             }
             var sp = new cc.SpriteFrame(path);
             if (sp) {

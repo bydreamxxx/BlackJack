@@ -40,7 +40,7 @@ cc.Class({
     start: function () {
     },
 
-    moveToCenter(){
+    moveToCenter() {
         let actionnode = this.node.getChildByName('actionnode');
         let widget = actionnode.getComponent(cc.Widget);
         let bgNode = actionnode.getChildByName('bg');
@@ -148,8 +148,8 @@ cc.Class({
         this.cardRichTxt.node.active = false;
 
         let gameList = [
-            { gameid: 52, name: '拼十', gameruleui: 'gameyj_hall/prefabs/create_room/nn_create_room_jlb' },
-            //{ gameid: 108, name: '疯狂拼十', gameruleui: 'gameyj_hall/prefabs/create_room/brnn_create_room_jlb' },
+            { gameid: 52, name: '拼十', gameruleui: 'blackjack_hall/prefabs/create_room/nn_create_room_jlb' },
+            //{ gameid: 108, name: '疯狂拼十', gameruleui: 'blackjack_hall/prefabs/create_room/brnn_create_room_jlb' },
         ];
 
         cc.dd.ResLoader.loadPrefab(hall_prefab.KLB_HALL_GAMETAGE, function (prefab) {
@@ -258,8 +258,8 @@ cc.Class({
                             }
                         });
                     }
-                    if(itemData && itemData.isopen != 0){
-                        if((itemData.gameid == cc.dd.Define.GameType.HLMJ_GOLD || itemData.gameid == cc.dd.Define.GameType.HLMJ_FRIEND) && cc.game_pid == 0){
+                    if (itemData && itemData.isopen != 0) {
+                        if ((itemData.gameid == cc.dd.Define.GameType.HLMJ_GOLD || itemData.gameid == cc.dd.Define.GameType.HLMJ_FRIEND) && cc.game_pid == 0) {
                             continue;
                         }
                     }
@@ -395,9 +395,9 @@ cc.Class({
     onCloseCreateRoomUI: function () {
         clubMgr.setClubOpenCreateUITag(false);
         clubMgr.setClubCreateRoomType(0);
-        if(cc.game_pid == 10004){
+        if (cc.game_pid == 10004) {
             this.node.active = false;
-        }else{
+        } else {
             var ani = this.node.getChildByName('actionnode').getComponent(cc.Animation);
             ani.play('klb_hall_colseCreateRoom');
             ani.on('stop', this.onStop, this);
@@ -419,7 +419,7 @@ cc.Class({
      * 设置游戏规则界面
      */
     setCreateRoomRule: function (ui, gameid) {
-        let prefabName = ui.replace("gameyj_hall/prefabs/create_room/", "");
+        let prefabName = ui.replace("blackjack_hall/prefabs/create_room/", "");
         this.ruleParentNode.removeAllChildren(true);
         cc.dd.UIMgr.openUI(ui, function (node) {
             node.parent = this.ruleParentNode;

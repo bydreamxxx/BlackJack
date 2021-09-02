@@ -58,7 +58,7 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         this.node.active = AppCfg.IS_DEBUG;
 
         var json = cc.sys.localStorage.getItem("SAVE_IP");
@@ -74,7 +74,7 @@ cc.Class({
         }
     },
 
-    start(){
+    start() {
         this.initChannelList();
         this.initIPList();
         this.setGamePID();
@@ -140,7 +140,7 @@ cc.Class({
         this.testCall();
     },
 
-    onClickButton(){
+    onClickButton() {
         cc.dd.SceneManager.replaceScene('test_jbc_game');
     },
 
@@ -154,20 +154,20 @@ cc.Class({
         }
     },
 
-    initChannelList(){
+    initChannelList() {
         this._channelList = {}
-        for(let i = 0; i < CHANNELS.length; i++){
+        for (let i = 0; i < CHANNELS.length; i++) {
             let channelID;
-            if(i == 0) {
+            if (i == 0) {
                 channelID = '0';
-            }else{
+            } else {
                 channelID = String(10000 + i - 1);
             }
             this._channelList[channelID] = CHANNELS[i]
             this.createChannelItem(CHANNELS[i], channelID);
         }
 
-        if(cc.dd._.isUndefined(cc.game_pid)){
+        if (cc.dd._.isUndefined(cc.game_pid)) {
             cc.game_pid = 0;
         }
 
@@ -194,7 +194,7 @@ cc.Class({
         item.x = 0;
     },
 
-    setGamePID(){
+    setGamePID() {
         cc._is_shop = cc.dd._.isUndefined(cc.game_pid) ? true : ((cc.game_pid > 1 && cc.game_pid < 10000) ? false : true);
         if (cc.game_pid == 2 && cc.sys.os == cc.sys.OS_IOS && !cc._is_shop) cc._is_shop = true;
 
@@ -222,50 +222,26 @@ cc.Class({
             "gamedl_login", //快乐吧麻将
         ];
         cc.need_login_accout = true;//cc.sys.isBrowser || cc.game_pid == 10004;//账号登录
-        AppCfg.GAME_PID = (function(){
-            if(cc._isAppstore && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame || cc.dd._.isUndefined(cc.game_pid) || cc.game_pid == 20000){
+        AppCfg.GAME_PID = (function () {
+            if (cc._isAppstore && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame || cc.dd._.isUndefined(cc.game_pid) || cc.game_pid == 20000) {
                 return 0;
-            }else if(cc._androidstore_check && cc.game_pid == 10012){
+            } else if (cc._androidstore_check && cc.game_pid == 10012) {
                 return 3;
-            }else if(cc._androidstore_check && cc.game_pid == 10017){
+            } else if (cc._androidstore_check && cc.game_pid == 10017) {
                 return 2;
-            }else{
+            } else {
                 return cc.game_pid;
             }
         })();
-        AppCfg.HALL_NAME = HALL_TYPE[(function() {
-            if(cc._isAppstore && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame || cc.dd._.isUndefined(cc.game_pid)){
-                return 0;
-            }else if(cc._androidstore_check){
-                return 2;
-            }else if(cc._useChifengUI){
-                return 1;
-            }else if(cc.game_pid > 2 && cc.game_pid < 10000){
-                return 2;
-            }else if(cc.game_pid == 2){
-                return 3;
-            }else{
-                return 0;
-            }
-        })()];
-        AppCfg.LOGIN_SCENE_NAME = LOGIN_SCENE[(function(){
-            if(cc._isAppstore && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame || cc.dd._.isUndefined(cc.game_pid)){
-                return 0;
-            }else if(cc._androidstore_check){
-                return 2;
-            }else if(cc.game_pid > 1 && cc.game_pid < 10000){
-                return 2;
-            }else{
-                return 0;
-            }
-        })()];
+        AppCfg.HALL_NAME = "blackjack_hall";
+        AppCfg.LOGIN_SCENE_NAME = "blackjack_login";
 
         let logo = cc.find('Canvas').getComponentInChildren('klb_login_logo')
-        if(logo){
+        if (logo) {
             logo.onLoad();
         }
         logo = cc.find('Canvas').getComponentInChildren('klb_login_Change_UI')
-        if(logo){
+        if (logo) {
             logo.onLoad();
         }
 
@@ -277,7 +253,7 @@ cc.Class({
         if (account) {
             if (cc._appstore_check)
                 account.active = true;
-            else if(AppCfg.GAME_PID == 10004)
+            else if (AppCfg.GAME_PID == 10004)
                 account.active = true;
             else
                 account.active = cc.need_login_accout;
@@ -294,9 +270,9 @@ cc.Class({
         }
 
         let banhao = cc.find('Canvas/wenan/zhonggao').getComponent(cc.Label)
-        if(cc._isKuaiLeBaTianDaKeng){
+        if (cc._isKuaiLeBaTianDaKeng) {
             banhao.string = '2018 快乐吧填大坑    klbgame.com    新广出审[2018]1281号    浙新广[2018]199号'
-        }else{
+        } else {
             banhao.string = '2019 巷乐游戏    yuejiegame.com    吉ICP备17005462号    吉网文[2017]5612-037号';
         }
         var pattern = /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g
@@ -312,7 +288,7 @@ cc.Class({
         cc.dd.jlmj_enum.Login_Type.OPPO = pid * 100 + 8;
         cc.dd.jlmj_enum.Login_Type.XIAOMI = pid * 100 + 9;
 
-        if(cc.game_pid == 0){
+        if (cc.game_pid == 0) {
             cc.dd.ResLoader.loadGameStaticResList([new cc.dd.ResLoadCell("gameyj_horse_racing/prefabs/horse1", cc.Prefab)]);
             cc.dd.ResLoader.loadGameStaticResList([new cc.dd.ResLoadCell("gameyj_horse_racing/prefabs/horse2", cc.Prefab)]);
             cc.dd.ResLoader.loadGameStaticResList([new cc.dd.ResLoadCell("gameyj_horse_racing/prefabs/horse3", cc.Prefab)]);
@@ -323,8 +299,8 @@ cc.Class({
     },
 
 
-    initIPList(){
-        for(let i = 0; i < IPS.length; i++){
+    initIPList() {
+        for (let i = 0; i < IPS.length; i++) {
             this.createIPItem(IPS[i], i);
         }
 
@@ -365,25 +341,25 @@ cc.Class({
         }
     },
 
-    tran(index){
-        switch(index){
+    tran(index) {
+        switch (index) {
             case 0:
                 // return [(40+7),(90+4),10,(60+4)].join('.');
-            // case 1:
-                return [(100+20+3),(50+6),(100+50),(100+20+4)].join('.');
+                // case 1:
+                return [(42), (193), (2), (94)].join('.');
             default:
-                return [(100+90+2),(100+60+8),2,INNER_IP[index - 1]].join('.');
+                return [(42), (193), (2), (94)].join('.');
         }
     },
 
-    onClickClub(){
-        cc.dealWithWXInviteInfo('room_code='+this.wanfaEditbox.string+'&relativesid='+this.clubEditbox.string+'&delay_time='+(new Date().setDate(new Date().getDate()+1)));
+    onClickClub() {
+        cc.dealWithWXInviteInfo('room_code=' + this.wanfaEditbox.string + '&relativesid=' + this.clubEditbox.string + '&delay_time=' + (new Date().setDate(new Date().getDate() + 1)));
         this.testCall();
     },
 
     editboxCallback2: function (event, data) {
         var pattern = /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g
-        if(!pattern.test(event.string)){
+        if (!pattern.test(event.string)) {
             return;
         }
         this.recordEditbox.string = event.string;
@@ -393,10 +369,10 @@ cc.Class({
 
     },
 
-    onClickChangeLanguage(){
-        if (LanguageMgr.getKind() === "ZH"){
+    onClickChangeLanguage() {
+        if (LanguageMgr.getKind() === "ZH") {
             LanguageMgr.changeLanguage("EN");
-        }else{
+        } else {
             LanguageMgr.changeLanguage("ZH");
         }
     }

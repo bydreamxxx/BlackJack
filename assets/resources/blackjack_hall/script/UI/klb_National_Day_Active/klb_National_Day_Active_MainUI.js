@@ -15,7 +15,7 @@ cc.Class({
 
 
     onLoad: function () {
-        //AudioManager.playMusic('gameyj_hall/audios/cj_bg');
+        //AudioManager.playMusic('blackjack_hall/audios/cj_bg');
         Hall.HallED.addObserver(this);
 
         //文字存储容器
@@ -183,7 +183,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if (activityData.getNationalDayActivityTimes() <= 0) {
-            cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Message_Box');
+            cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Message_Box');
             return;
         }
 
@@ -194,7 +194,7 @@ cc.Class({
     onClickSmashGoldEggs: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Gold_Egg', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Gold_Egg', function (ui) {
             var cpt = ui.getComponent('klb_National_Day_Active_Smash_Gold_Eggs');
             cpt.onInit(parseInt(data));
         });
@@ -204,7 +204,7 @@ cc.Class({
     onClickOpenRedBag: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Red_Bag_Award', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Red_Bag_Award', function (ui) {
             var cpt = ui.getComponent('klb_National_Day_Active_Open_Red_Bag');
             cpt.onInit(parseInt(data));
         });
@@ -214,7 +214,7 @@ cc.Class({
     onClickOpenSlot: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Slot', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Slot', function (ui) {
             var cpt = ui.getComponent('klb_National_Day_Active_Slot');
             cpt.onInit(parseInt(data));
         });
@@ -224,14 +224,14 @@ cc.Class({
     onClickOpenRuleUI: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Rule');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Rule');
     },
 
     //点击打开分享界面
     onClickOpenShareUI: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Share', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_National_Day_Active/klb_National_Day_Active_Share', function (ui) {
             var share_ui = ui.getComponent('klb_hall_share');
             if (share_ui != null) {
                 share_ui.setShareImg('cj-fenxiang.jpg');
@@ -244,7 +244,7 @@ cc.Class({
         // cc.audioEngine.stop(this.m_nBakcMusic);
         // AudioManager.stopMusic();
         cc.dd.UIMgr.destroyUI(this.node);
-        //AudioManager.playMusic('gameyj_hall/audios/hall_bg');
+        //AudioManager.playMusic('blackjack_hall/audios/hall_bg');
     },
 
     onEventMessage: function (event, data) {

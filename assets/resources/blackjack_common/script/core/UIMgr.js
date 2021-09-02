@@ -51,7 +51,7 @@ var UIMgr = cc.Class({
             return ui;
         } else {
             let prefab = null;
-            if (path.search("blackjack_common") == -1 && path.search("gameyj_hall") == -1 && path.search("gameyj_loading") == -1) {
+            if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search("i18n") == -1) {
                 let str = path.split("/");
                 let bundle = cc.assetManager.getBundle(str);
                 if (bundle) {

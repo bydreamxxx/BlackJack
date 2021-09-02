@@ -22,7 +22,7 @@ cc.Class({
     setData: function (data) {
         this.data = data;
         this.title.string = data.title;
-        // var atlas = cc.loader.getRes("gameyj_hall/atals/fudai",cc.SpriteAtlas);
+        // var atlas = cc.loader.getRes("blackjack_hall/atals/fudai",cc.SpriteAtlas);
         var icon_frames = ['', 'fd-meihdtb', 'd2', 'fd-hongbaotb', 'fd-qdtb', 'fd-fenxiangtb', 'fd-jiujitb', 'fd-xyzp', 'fd-tztb', 'fd-ydtb', 'fd-yuanbao', 'fd-shoujibdtb', 'fd-hbjuan', 'fd-yuekalibao'];
         if (data.icon_type > 0) {
             var spriteFrame = this.atlas.getSpriteFrame(icon_frames[data.icon_type]);

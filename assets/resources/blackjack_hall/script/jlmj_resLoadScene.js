@@ -43,7 +43,7 @@ let resLoad = cc.Class({
             cc.log('热更新目录:' + update_path);
         }
         this.closeSplash();
-        cc.dd.native_wx.SetShareThumbImage("gameyj_hall/textures/shareImages/WxShare.png");
+        cc.dd.native_wx.SetShareThumbImage("blackjack_hall/textures/shareImages/WxShare.png");
         // cc.dd.SysTools.disableLog();
         AudioManager.stopMusic();
         cc.dd.native_systool.gameStart();
@@ -172,7 +172,7 @@ let resLoad = cc.Class({
         let count = 0;
         let self = this;
         cc.proto_file.forEach(function (item) {
-            cc.resources.load("gameyj_common/script/net_msg/proto/" + item, function (err, file_buffer) {
+            cc.resources.load("blackjack_common/script/net_msg/proto/" + item, function (err, file_buffer) {
                 if (err) {
                     cc.error("加载proto失败 ", item, err);
                     return;
@@ -235,18 +235,16 @@ let resLoad = cc.Class({
         }.bind(this);
 
         const loadCellList = [];
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/com_net_wait", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/Marquee", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/DialogBox", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/DialogBox_withFix", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/chifeng_dialog", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/chifeng_join_dialog", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/com_prompt_box", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/com_mask", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/com_smooth_mask", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/commonNode", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/klb_friend_group_redbag", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("gameyj_common/prefab/klb_friend_group_invite_answer", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_net_wait", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/Marquee", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/DialogBox", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/DialogBox_withFix", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/chifeng_dialog", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/chifeng_join_dialog", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_prompt_box", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_mask", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_smooth_mask", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/commonNode", cc.Prefab));
         cc.dd.ResLoader.loadGameStaticResList(loadCellList, this.onProgress.bind(this), loadResEnd);
     },
 
@@ -565,7 +563,7 @@ let resLoad = cc.Class({
                 var scName = cc.director.getScene().name;
                 cc.log("scName:", scName);
                 //if( login_module.Instance().login_type == emun.Login_Type.WXH5 && scName == "jlmj_loginLoad")
-                if (cc.sys.platform == cc.sys.MOBILE_BROWSER && scName == "jlmj_loginLoad") {
+                if (cc.sys.platform == cc.sys.MOBILE_BROWSER && scName == "blackjack_preLogin") {
                     cc.log("扫码进入房间失败，进入大厅中。。");
                     if (!HallCommonData.getInstance().isReconectGameExit()) {
                         cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);

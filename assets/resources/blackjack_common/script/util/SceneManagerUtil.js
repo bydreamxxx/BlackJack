@@ -517,7 +517,7 @@ var SceneManagerUtil = cc.Class({
             //     if (list && list.infoList && list.infoList.length) {
             //         for (var i = 0; i < list.infoList.length; i++) {
             //             if (list.infoList[i].gameType == gameId) {
-            //                 cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_match_detail', function (ui) {
+            //                 cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_match_detail', function (ui) {
             //                     ui.getComponent('klb_match_detail').showDetail(list.infoList[i]);
             //                 });
             //                 return;

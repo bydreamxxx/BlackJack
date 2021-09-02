@@ -107,7 +107,7 @@ cc.Class({
         //     if (share_imgs.length > 1) {
         //         idx = Math.floor(Math.random() * share_imgs.length);
         //     }
-        //     cc.dd.native_wx.ShareImageToTimeline('gameyj_hall/textures/shareImages/' + share_imgs[idx], shareType);
+        //     cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + share_imgs[idx], shareType);
         // }
         let shareItem = cc.dd.Utils.getRandomShare();
         if (!cc.dd._.isNull(shareItem)) {

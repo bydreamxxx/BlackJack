@@ -189,30 +189,30 @@ var SysTools = {
         }
     },
 
-    headIsLoading:{},
+    headIsLoading: {},
 
     loadWxheadH5: function (sprite, url, sex) {
         /*
         检查同一个sprite是否已经在加载队列里，不在的话直接开始加载头像，不然就按顺序加载，避免头像出错，主要解决麻将玩家坐下后和开局后因座位号改变后导致头像重复
          */
-        if(cc.isValid(sprite) && sprite instanceof cc.Sprite){
+        if (cc.isValid(sprite) && sprite instanceof cc.Sprite) {
             if (!cc.dd.SysTools.headIsLoading.hasOwnProperty(sprite.uuid)) {
                 cc.dd.SysTools.headIsLoading[sprite.uuid] = [];
                 this._loadWxheadH5(sprite, url, sex)
             } else {
-                cc.dd.SysTools.headIsLoading[sprite.uuid].push({url: url, sex: sex});
+                cc.dd.SysTools.headIsLoading[sprite.uuid].push({ url: url, sex: sex });
             }
         }
     },
 
     _loadWxheadH5: function (sprite, url, sex) {
-        let checkHeadLoadingList = (sprite)=>{
-            if (cc.isValid(sprite)){
+        let checkHeadLoadingList = (sprite) => {
+            if (cc.isValid(sprite)) {
                 if (cc.dd.SysTools.headIsLoading.hasOwnProperty(sprite.uuid)) {
-                    if(cc.dd.SysTools.headIsLoading[sprite.uuid].length > 0){
+                    if (cc.dd.SysTools.headIsLoading[sprite.uuid].length > 0) {
                         let obj = cc.dd.SysTools.headIsLoading[sprite.uuid].shift();
                         cc.dd.SysTools._loadWxheadH5(sprite, obj.url, obj.sex)
-                    }else{
+                    } else {
                         delete cc.dd.SysTools.headIsLoading[sprite.uuid];
                     }
                 }
@@ -233,7 +233,7 @@ var SysTools = {
                 pic = _sex == 1 ? '2' : '1';
             }
 
-            cc.resources.load("gameyj_hall/textures/changeHead/tx_moren_pic0" + pic, cc.SpriteFrame, function (err, spriteFrame) {
+            cc.resources.load("blackjack_hall/textures/changeHead/tx_moren_pic0" + pic, cc.SpriteFrame, function (err, spriteFrame) {
                 if (sprite instanceof cc.Sprite) {
                     sprite.spriteFrame = spriteFrame;
                 }
@@ -249,10 +249,10 @@ var SysTools = {
                 if (url.indexOf(accountUrl) == -1) {
                     url = accountUrl + url;
                 }
-            } 
+            }
             else if (url.indexOf('https://') != -1 || url.indexOf('http://') != -1) {
                 //华为头像
-            }else {
+            } else {
                 let robotUrl = require('Platform').GetRobotUrl();
                 if (url.indexOf(robotUrl) == -1) {
                     url = robotUrl + url;
@@ -341,7 +341,7 @@ var SysTools = {
                     else
                         cc.error("[头像] 头像url不匹配: " + self.sprite_list[idx]._headTag + "  &&  " + task.requestURL);
                 }
-                if(self.sprite_list[idx]){
+                if (self.sprite_list[idx]) {
                     checkHeadLoadingList(self.sprite_list[idx]);
                 }
             };
@@ -349,7 +349,7 @@ var SysTools = {
             var onError = function (task, errorCode, errorCodeInternal, errorStr) {
                 cc.error('[头像] 下载头像失败 (' + task.requestURL + '): ' + errorStr + '(' + errorCode + ')')
                 var idx = parseInt(task.identifier);
-                if(self.sprite_list[idx]){
+                if (self.sprite_list[idx]) {
                     checkHeadLoadingList(self.sprite_list[idx]);
                 }
             };
@@ -367,7 +367,7 @@ var SysTools = {
 
         //网页加载头像
         // var types = ['png', 'jpg', 'jpeg', 'bmp'];
-        var types = ['png','jpg'];
+        var types = ['png', 'jpg'];
         var loadUrlImg = function (idx) {
             cc.log('加载头像, url=' + url);
             //头像是否重新加载
@@ -694,14 +694,14 @@ var SysTools = {
         });
     },
 
-    captureCustomNode:function(fileName, node, callback){
+    captureCustomNode: function (fileName, node, callback) {
         if (!node) {
             cc.log("error node");
             return;
         }
 
-        let setNodeOffset = (children, parent)=>{
-            for(let i = 0; i < children.length; i++){
+        let setNodeOffset = (children, parent) => {
+            for (let i = 0; i < children.length; i++) {
                 let child = children[i]
                 child.anchorX_origin = child.anchorX;
                 child.anchorY_origin = child.anchorY;
@@ -712,20 +712,20 @@ var SysTools = {
                 child.x = child.x - child.width * child.anchorX_origin + parent.width * parent.anchorX_origin;
                 child.y = child.y - child.height * child.anchorY_origin + parent.height * parent.anchorY_origin;
 
-                if(child.children.length > 0){
+                if (child.children.length > 0) {
                     setNodeOffset(child.children, child);
                 }
             }
         };
 
-        let resetNodeOffset = (children, parent)=>{
-            for(let i = 0; i < children.length; i++){
+        let resetNodeOffset = (children, parent) => {
+            for (let i = 0; i < children.length; i++) {
                 let child = children[i]
                 child.anchorX = child.anchorX_origin;
                 child.anchorY = child.anchorY_origin;
                 child.x = child.x + child.width * child.anchorX_origin - parent.width * parent.anchorX_origin;
                 child.y = child.y + child.height * child.anchorY_origin - parent.height * parent.anchorY_origin;
-                if(child.children.length > 0){
+                if (child.children.length > 0) {
                     resetNodeOffset(child.children, child);
                 }
             }
@@ -746,7 +746,7 @@ var SysTools = {
 
         setNodeOffset(node.children, node);
 
-        renderTexture.clear(255,255,255,255);
+        renderTexture.clear(255, 255, 255, 255);
         renderTexture.begin();
         node._sgNode.visit();
         renderTexture.end();
@@ -918,7 +918,7 @@ var SysTools = {
             datas.push("\r\n")
             datas.push(`--${boundary}--`)
 
-            this.array2array(datas).then((ab)=>{
+            this.array2array(datas).then((ab) => {
                 try {
                     xhr.send(ab);
                 } catch (e) {
@@ -962,7 +962,7 @@ var SysTools = {
         return new Uint8Array(data).buffer;
     },
 
-    async array2array(datas){
+    async array2array(datas) {
         let bytes = []
         for (let v of datas) {
             if (typeof v == "string") {
@@ -975,19 +975,19 @@ var SysTools = {
                 let length = v.length;
                 let per = 32 * 1024;//按32K大小拆分，再大就会开始卡，比如64K，但如果以1K甚至直接对每个循环setTimeout则太耗时间，会长达1分钟以上
                 let count = Math.ceil(length / per);
-                for(let i = 0; i < count; i++){
+                for (let i = 0; i < count; i++) {
                     await new Promise(resolve => {//通过async和await实现setTimeout的顺序操作，避免阻塞
-                        setTimeout(()=>{//通过setTimeout来实现分帧操作，减少一帧里的计算量，避免界面卡顿
+                        setTimeout(() => {//通过setTimeout来实现分帧操作，减少一帧里的计算量，避免界面卡顿
                             let last = (i + 1) * per;
 
-                            if(last >= length){
+                            if (last >= length) {
                                 last = length
                             }
-                            for(let j = i * per; j < last; j++){
+                            for (let j = i * per; j < last; j++) {
                                 array.push(v[j])
                             }
                             resolve(i);
-                        },1)
+                        }, 1)
                     })
                 }
 

@@ -41,10 +41,10 @@ cc.Class({
      * 显示游戏列表
      */
     showGameList: function (gameId) {
-        if(cc._chifengGame){
+        if (cc._chifengGame) {
             let result = cc.sys.localStorage.getItem(cc.dd.user.id + '_last_enter_game');
             result = parseInt(result);
-            if(cc.dd._.isNumber(result)){
+            if (cc.dd._.isNumber(result)) {
                 gameId = result;
             }
         }
@@ -76,7 +76,7 @@ cc.Class({
                 var dataList = HallGameCfg.getGameList();
                 dataList.forEach(function (item) {
                     if (item._game_id != "") {
-                        if((cc._chifengGame && item._type == "majiang") || cc.game_pid == 10003 || cc.game_pid == 10004){
+                        if ((cc._chifengGame && item._type == "majiang") || cc.game_pid == 10003 || cc.game_pid == 10004) {
                             if (item.game_list) {
                                 for (var i = 0; i < item.game_list.length; ++i) {
                                     var listitem = item.game_list[i];
@@ -114,8 +114,8 @@ cc.Class({
         this.cardRichTxt.node.active = false;
 
         let gameList = [
-            { gameid: cc.dd.Define.GameType.NN_JLB, name: '拼十', gameruleui: 'gameyj_hall/prefabs/create_room/nn_create_room_jlb' },
-            //{ gameid: 108, name: '疯狂拼十', gameruleui: 'gameyj_hall/prefabs/create_room/brnn_create_room_jlb' },
+            { gameid: cc.dd.Define.GameType.NN_JLB, name: '拼十', gameruleui: 'blackjack_hall/prefabs/create_room/nn_create_room_jlb' },
+            //{ gameid: 108, name: '疯狂拼十', gameruleui: 'blackjack_hall/prefabs/create_room/brnn_create_room_jlb' },
         ];
 
         cc.dd.ResLoader.loadPrefab(prefab_config.KLB_FG_GAMETAGE, function (prefab) {
@@ -246,7 +246,7 @@ cc.Class({
         this.selectGameId = data.gameid;
         this.changeBtnState(data.gameid);
         // let url = data.gameruleui;
-        // url = url.replace("gameyj_hall/prefabs/create_room/", "gameyj_hall/prefabs/chifeng/create_room/");//gameyj_friend/prefab/create_room/
+        // url = url.replace("blackjack_hall/prefabs/create_room/", "blackjack_hall/prefabs/chifeng/create_room/");//gameyj_friend/prefab/create_room/
         this.setCreateRoomRule(data.gameruleui, data.gameid)
         // this.updateNode.setGameID(data.gameid);
 
@@ -288,7 +288,7 @@ cc.Class({
      * 设置游戏规则界面
      */
     setCreateRoomRule: function (ui, gameid) {
-        let prefabName = ui.replace("gameyj_hall/prefabs/create_room/", "");
+        let prefabName = ui.replace("blackjack_hall/prefabs/create_room/", "");
         this.ruleParentNode.removeAllChildren(true);
         this.commonNode.active = false;
         cc.dd.UIMgr.openUI(ui, function (node) {

@@ -188,7 +188,7 @@ var Native = cc.Class({
             if (!cc.director.getScene() || !cc.director.getScene().name) {
                 return;
             }
-            if (cc.director.getScene().name == "jlmj_loginLoad") {
+            if (cc.director.getScene().name == "blackjack_preLogin") {
                 return;
             }
             if (connect_type == 1) {
@@ -520,7 +520,7 @@ var Native = cc.Class({
             wanfaNum: wx_enter_room_id,
             rule: null,
             failedCall: ()=>{
-                if(cc.director.getScene().name == 'jlmj_login' || cc.director.getScene().name == 'jlmj_loginLoad'){
+                if (cc.director.getScene().name == 'blackjack_login' || cc.director.getScene().name == 'blackjack_preLogin'){
                     var AppCfg = require('AppConfig');
                     cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
                 }

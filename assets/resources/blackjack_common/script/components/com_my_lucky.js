@@ -51,7 +51,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         HallCommonEd.notifyEvent(HallCommonEvent.LUCKY_RESUME_TIMER, null);
         cc.dd.UIMgr.destroyUI(this.node);
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_fxyl');
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_fxyl');
     },
 
     exchangeCard() {

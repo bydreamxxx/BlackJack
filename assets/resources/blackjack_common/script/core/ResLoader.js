@@ -388,7 +388,7 @@ var ResLoader = {
             }
         }
 
-        if (path.search("blackjack_common") == -1 && path.search("blackjack__hall") == -1 && path.search('i18n') == -1) {
+        if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search('i18n') == -1) {
             let str = path.split("/");
             cc.assetManager.loadBundle(str[0], (err, bundle) => {
                 if (err) {

@@ -126,7 +126,7 @@ cc.Class({
 
         Hall.HallED.notifyEvent(Hall.HallEvent.Get_PaoMoDeng_DL_Marquee, str);
 
-        AudioManager.playMusic('gameyj_hall/audios/bg_music10');
+        AudioManager.playMusic('blackjack_hall/audios/bg_music10');
 
         if (cc.find('Marquee')) {
             this._Marquee = cc.find('Marquee');
@@ -495,19 +495,19 @@ cc.Class({
             login_module.Instance().reconnectWG();
         } else {
             if (cc.find('Marquee') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/Marquee', cc.Prefab);
+                var pref = cc.resources.get('blackjack_common/prefab/Marquee', cc.Prefab);
                 var Marquee = cc.instantiate(pref);
                 cc.director.getScene().addChild(Marquee);
                 cc.game.addPersistRootNode(Marquee);
             }
             if (cc.find('klb_friend_group_redbag') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_redbag', cc.Prefab);
+                var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_redbag', cc.Prefab);
                 var fg_redBag = cc.instantiate(pref);
                 cc.director.getScene().addChild(fg_redBag);
                 cc.game.addPersistRootNode(fg_redBag);
             }
             if (cc.find('klb_friend_group_invite_answer') == null) {
-                var pref = cc.resources.get('gameyj_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
+                var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
                 var fg_redBag = cc.instantiate(pref);
                 cc.director.getScene().addChild(fg_redBag);
                 cc.game.addPersistRootNode(fg_redBag);
@@ -950,7 +950,7 @@ cc.Class({
 
     loadGame() {
         this.gamePageView.removeAllPages();
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_GameListPage", function (Prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_GameListPage", function (Prefab) {
             var gameList = [];
             for (var i = 0; i < hallGameList.gameList.length; i++) {
                 if (hallGameList.gameList[i].game_id == cc.dd.Define.GameType.DDZ_XYJBC) {

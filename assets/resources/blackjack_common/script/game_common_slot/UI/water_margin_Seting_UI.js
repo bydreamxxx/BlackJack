@@ -38,7 +38,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
 
-        // this.uiAtals = cc.loader.getRes("gameyj_hall/atals/setting", cc.SpriteAtlas);
+        // this.uiAtals = cc.loader.getRes("blackjack_hall/atals/setting", cc.SpriteAtlas);
 
         //初始值
         //音效

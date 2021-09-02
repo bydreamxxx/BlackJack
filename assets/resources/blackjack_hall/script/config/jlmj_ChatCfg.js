@@ -44,7 +44,7 @@ var GirlQuickMsgCfg = [
 /**
  * 短语文件路径
  */
-const quickMusicPath = 'gameyj_common/res/audio/chat/';
+const quickMusicPath = 'blackjack_common/res/audio/chat/';
 
 /**
  * 查找短语配置
@@ -110,13 +110,13 @@ var EmoticonCfg = [
 ];
 
 var PropAudioCfg = [
-    'gameyj_common/res/audio/prop/flowers',
-    'gameyj_common/res/audio/prop/kiss',
-    'gameyj_common/res/audio/prop/jidan',
-    'gameyj_common/res/audio/prop/zhadan',
-    'gameyj_common/res/audio/prop/tomato',
-    'gameyj_common/res/audio/prop/jiubei',
-    'gameyj_common/res/audio/prop/xiaoji',
+    'blackjack_common/res/audio/prop/flowers',
+    'blackjack_common/res/audio/prop/kiss',
+    'blackjack_common/res/audio/prop/jidan',
+    'blackjack_common/res/audio/prop/zhadan',
+    'blackjack_common/res/audio/prop/tomato',
+    'blackjack_common/res/audio/prop/jiubei',
+    'blackjack_common/res/audio/prop/xiaoji',
 ];
 
 module.exports = {

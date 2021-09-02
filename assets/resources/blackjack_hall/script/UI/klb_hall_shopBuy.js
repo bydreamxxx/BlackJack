@@ -17,43 +17,43 @@ var hander = cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         this.node.zIndex = 5001;
     },
 
-    initUI (data) {
-        if(data == null){
+    initUI(data) {
+        if (data == null) {
             return;
         }
-        //const atlas = cc.resources.get("gameyj_hall/atals/itemIcon",cc.SpriteAtlas);
-        var changeData = item_config.getItem(function(itemdata){
+        //const atlas = cc.resources.get("blackjack_hall/atals/itemIcon",cc.SpriteAtlas);
+        var changeData = item_config.getItem(function (itemdata) {
             return itemdata.key == data.costItemid;
         });
-        if(changeData){
+        if (changeData) {
             var sprite = this.atlas.getSpriteFrame(changeData.key);
             this.changeSp.spriteFrame = sprite;
             var num = data.costDiscount > 0 ? data.costDiscount : data.costItemCount;
-            if(changeData.key != 1004){
-                this.descTxt.string = '您将用' + this.changeNumToCHN(num) + changeData.memo + '兑换';            
+            if (changeData.key != 1004) {
+                this.descTxt.string = '您将用' + this.changeNumToCHN(num) + changeData.memo + '兑换';
                 this.changeCountTxt.string = this.changeNumToCHN(num);
-            }else{
+            } else {
                 this.descTxt.string = '您将用' + this.changeNumToCHN(num / 100) + '元' + changeData.memo + '兑换';
                 this.changeCountTxt.string = this.changeNumToCHN(num / 100);
             }
         }
 
-        var itemInfo = item_config.getItem(function(itemdata){
+        var itemInfo = item_config.getItem(function (itemdata) {
             return itemdata.key == data.itemid;
         });
-        if(itemInfo){
+        if (itemInfo) {
             this.iconSp.spriteFrame = this.atlas.getSpriteFrame(data.itemid);
             this.countTxt.string = this.changeNumToCHN(data.itemCount);
-            if(itemInfo.key != 1001 && itemInfo.key != 1003)
+            if (itemInfo.key != 1001 && itemInfo.key != 1003)
                 this.descTxt.string = this.descTxt.string + this.changeNumToCHN(data.itemCount) + '个' + itemInfo.memo;
-            else if(itemInfo.key == 1003)
+            else if (itemInfo.key == 1003)
                 this.descTxt.string = this.descTxt.string + this.changeNumToCHN(data.itemCount) + '张' + itemInfo.memo;
             else
-                this.descTxt.string = this.descTxt.string + this.changeNumToCHN(data.itemCount) +  itemInfo.memo;
+                this.descTxt.string = this.descTxt.string + this.changeNumToCHN(data.itemCount) + itemInfo.memo;
         }
         this.propItem = data;
     },
@@ -61,16 +61,16 @@ var hander = cc.Class({
     /**
      * 筹码数字转换
      */
-    changeNumToCHN: function(num){
+    changeNumToCHN: function (num) {
         var str = '';
-        if(num>=100000000){
+        if (num >= 100000000) {
             str = (num / 100000000.00) + '亿';
         }
-        else if(num >= 10000){
+        else if (num >= 10000) {
             str = (num / 10000.00) + '万';
-        }else if(num >= 1000){
+        } else if (num >= 1000) {
             str = (num / 1000.0) + '千';
-        }else{
+        } else {
             str = num;
         }
         return str;
@@ -79,14 +79,14 @@ var hander = cc.Class({
     /**
      * 兑换按钮
      */
-    changeProp: function(){
+    changeProp: function () {
         var self = this;
-        var changeData = item_config.getItem(function(itemdata){
+        var changeData = item_config.getItem(function (itemdata) {
             return itemdata.key == self.propItem.costItemid;
         });
-        if(changeData && changeData.key == 1004){
+        if (changeData && changeData.key == 1004) {
             var num = self.propItem.costDiscount > 0 ? self.propItem.costDiscount : self.propItem.costItemCount;
-            if(prop_data.getInstance().getRedBag() < num){
+            if (prop_data.getInstance().getRedBag() < num) {
                 cc.dd.PromptBoxUtil.show('兑换失败,红包券不足');
                 return;
             }
@@ -98,7 +98,7 @@ var hander = cc.Class({
         this.close();
     },
 
-    close: function(){
+    close: function () {
         this.node.destroy();
     },
 

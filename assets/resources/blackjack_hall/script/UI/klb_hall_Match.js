@@ -493,7 +493,7 @@ cc.Class({
 
             this.duobaoToggle.getComponent(cc.Toggle).check();
 
-            // cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_zq', function (ui) {
+            // cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_zq', function (ui) {
             //     ui.getComponent('klb_hall_zuanqian').setData(1);
             // }.bind(this));
         }
@@ -660,7 +660,7 @@ cc.Class({
 
     showShenBan() {
         this.cleanScrollView();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_zq', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_zq', function (ui) {
             ui.getComponent('klb_hall_zuanqian').setData(1);
             ui.parent = this.contentNode;
         }.bind(this));
@@ -727,7 +727,7 @@ cc.Class({
                             // if (share_imgs.length > 1) {
                             //     idx = Math.floor(Math.random() * share_imgs.length);
                             // }
-                            // cc.dd.native_wx.ShareImageToTimeline('gameyj_hall/textures/shareImages/' + share_imgs[idx]);
+                            // cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + share_imgs[idx]);
                             let title = '', content = '';
 
                             if (cc._chifengGame) {
@@ -906,7 +906,7 @@ cc.Class({
     },
 
     clickShenban: function () {
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_zq', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_zq', function (ui) {
             ui.getComponent('klb_hall_zuanqian').setData(1);
         }.bind(this));
     },
@@ -990,7 +990,7 @@ cc.Class({
     showNAtionalDayActive: function () {
         this.m_oNationalDayIcon.active = Hall.HallData.Instance().checkActivityIsOpen();
         // if(Hall.HallData.Instance().checkActivityIsOpen()){
-        //     cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_NDA', function (prefab) {
+        //     cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_NDA', function (prefab) {
         //         prefab.getComponent('klb_hall_daily_active_CopyBtn').showClsoeBtn(true);
         //     });
         // }
@@ -1012,7 +1012,7 @@ cc.Class({
                 break;
 
             case 'EARN':
-                cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_zq', function (ui) {
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_zq', function (ui) {
                     ui.getComponent('klb_hall_zuanqian').setData(0);
                 }.bind(this));
                 break;

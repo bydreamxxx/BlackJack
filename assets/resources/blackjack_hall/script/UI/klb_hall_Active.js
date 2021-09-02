@@ -21,13 +21,13 @@ cc.Class({
     properties: {
         goldLabel: cc.Label,
 
-        itemList:[],
+        itemList: [],
         exchangeNode: cc.Node,//元宝兑换
-        yuanBaoContentNode:cc.Node, //元宝列表父节点
-        yuanBaospaceX:15,
-        yuanBaospaceY:10,
-        yuanBaoitemWidth:326,
-        yuanBaoitemHeight:256,
+        yuanBaoContentNode: cc.Node, //元宝列表父节点
+        yuanBaospaceX: 15,
+        yuanBaospaceY: 10,
+        yuanBaoitemWidth: 326,
+        yuanBaoitemHeight: 256,
 
         exchangeListNode: cc.Node,
         recordNode: cc.Node,
@@ -46,42 +46,42 @@ cc.Class({
         Hall.HallED.addObserver(this);
 
         //this.coinLabel.string = this.changeNumToCHN(hall_prop_data.getCoin());
-        var data = hall_prop_data.getItemInfoByDataId( 1015);
-        if(data)
-            this.goldLabel.string = hall_prop_data.getItemInfoByDataId( 1015).count || '0';
+        var data = hall_prop_data.getItemInfoByDataId(1015);
+        if (data)
+            this.goldLabel.string = hall_prop_data.getItemInfoByDataId(1015).count || '0';
     },
 
-    onDestroy:function () {
+    onDestroy: function () {
         shopEd.removeObserver(this);
         HallCommonEd.removeObserver(this);
         Hall.HallED.removeObserver(this);
     },
 
-    initExchangeItem: function(data){
+    initExchangeItem: function (data) {
         this.itemList.splice(0, this.itemList.length);
         this.yuanBaoContentNode.removeAllChildren(true);
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
             //设置商品列表
-            for (var i = 0; i < data.length; i++){
-                    var item = cc.instantiate(prefab);
-                    this.itemList.push(item);
-                    item.parent = this.yuanBaoContentNode;
-                    var cnt = this.itemList.length;
+            for (var i = 0; i < data.length; i++) {
+                var item = cc.instantiate(prefab);
+                this.itemList.push(item);
+                item.parent = this.yuanBaoContentNode;
+                var cnt = this.itemList.length;
 
-                    var y = (Math.ceil(cnt / 3 ) - 0.5)*this.yuanBaoitemHeight + (Math.ceil(cnt / 3) -0.5)*this.yuanBaospaceY;
-                    item.y = -y;
-                    var index = (cnt % 3);
-                    if(index == 0){index = 3;}
-                    var x = (index - 2) * this.yuanBaoitemWidth + (index - 2) * this.yuanBaospaceX;
-                    item.x = x;
-                    item.getComponent('klb_hall_Shop_Exchange_ItemUI').setData(data[i],2);
-                }
-                this.yuanBaoContentNode.height = (Math.ceil(data.length / 3)) *this.yuanBaoitemHeight+((Math.ceil(data.length / 3)) + 1)*this.yuanBaospaceX;
+                var y = (Math.ceil(cnt / 3) - 0.5) * this.yuanBaoitemHeight + (Math.ceil(cnt / 3) - 0.5) * this.yuanBaospaceY;
+                item.y = -y;
+                var index = (cnt % 3);
+                if (index == 0) { index = 3; }
+                var x = (index - 2) * this.yuanBaoitemWidth + (index - 2) * this.yuanBaospaceX;
+                item.x = x;
+                item.getComponent('klb_hall_Shop_Exchange_ItemUI').setData(data[i], 2);
+            }
+            this.yuanBaoContentNode.height = (Math.ceil(data.length / 3)) * this.yuanBaoitemHeight + ((Math.ceil(data.length / 3)) + 1) * this.yuanBaospaceX;
 
         }.bind(this));
     },
 
-    checkExchangeType: function(event, data){
+    checkExchangeType: function (event, data) {
         var type = parseInt(data);
         this.exchangeNode.active = true;
         this.rankNode.active = false;
@@ -91,7 +91,7 @@ cc.Class({
     /**
      *获取兑换记录 
      */
-    onClickExchangeRecord: function(event, data){
+    onClickExchangeRecord: function (event, data) {
         hall_audio_mgr.com_btn_click();
         this.exchangeListNode.active = false;
         this.recordNode.active = true;
@@ -104,7 +104,7 @@ cc.Class({
     /**
      * 打开兑换界面
      */
-    onClickOpenExchange: function(type){
+    onClickOpenExchange: function (type) {
         hall_audio_mgr.com_btn_click();
         this.exchangeListNode.active = true;
         this.recordNode.active = false;
@@ -117,7 +117,7 @@ cc.Class({
     /**
      * 打开排行榜
      */
-    onClickOpenActiveRank: function(){
+    onClickOpenActiveRank: function () {
         hall_audio_mgr.com_btn_click();
         this.exchangeNode.active = false;
         this.rankNode.active = true;
@@ -133,11 +133,11 @@ cc.Class({
      */
     initRankData: function (msg) {
         this.rankContentNode.removeAllChildren(true);
-        if(msg.myRank != 0)
-            this.myRankTxt.string = '我的排名：第' + msg.myRank +'名';
-        if(msg.ranksList.length == 0)
+        if (msg.myRank != 0)
+            this.myRankTxt.string = '我的排名：第' + msg.myRank + '名';
+        if (msg.ranksList.length == 0)
             this.descTxt.active = true;
-        cc.dd.ResLoader.loadPrefab("gameyj_hall/prefabs/klb_hall_Active_RankItem", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Active_RankItem", function (prefab) {
             for (var i = 0; i < msg.ranksList.length; i++) {
                 var node = cc.instantiate(prefab);
                 if (msg.ranksList[i].rank < 4) {
@@ -151,17 +151,17 @@ cc.Class({
                     cc.find('rankLabel', node).active = true;
                 }
                 //cc.find('tagIcon', node).getComponent(cc.Sprite).spriteFrame = this.coin_icon[1];
-                cc.find('nameTxt', node).getComponent(cc.Label).string = (msg.ranksList[i].playerName.length > 6 ? cc.dd.Utils.substr(msg.ranksList[i].playerName, 0, 4)  : msg.ranksList[i].playerName);
+                cc.find('nameTxt', node).getComponent(cc.Label).string = (msg.ranksList[i].playerName.length > 6 ? cc.dd.Utils.substr(msg.ranksList[i].playerName, 0, 4) : msg.ranksList[i].playerName);
                 cc.find('countTxt', node).getComponent(cc.Label).string = msg.ranksList[i].value.toString() + '局';
-                if(msg.ranksList[i].rewardNum != 0){
-                    var rosenode = cc.find('tagIcon',node);
+                if (msg.ranksList[i].rewardNum != 0) {
+                    var rosenode = cc.find('tagIcon', node);
                     rosenode.active = true;
                     cc.find('descTxt', rosenode).getComponent(cc.Label).string = msg.ranksList[i].rewardNum;
 
                 }
                 var headNode = cc.find('head_mask', node);
                 var cpt = headNode.getComponent('klb_hall_Player_Head');
-                cpt.initHead( msg.ranksList[i].openid, msg.ranksList[i].headurl, 'klb_hall_Active_Rank_Item')
+                cpt.initHead(msg.ranksList[i].openid, msg.ranksList[i].headurl, 'klb_hall_Active_Rank_Item')
                 this.rankContentNode.addChild(node);
             }
             cc.dd.NetWaitUtil.close();
@@ -171,30 +171,30 @@ cc.Class({
     /** 
      * 打开奖励说明
     */
-   onClickOpenRankAward: function(event, data){
+    onClickOpenRankAward: function (event, data) {
         var detailNode = cc.find('gailv_detail', this.node);
         detailNode.active = true;
         var parentNode = cc.find('scroll/view/content', detailNode);
         var activetyInfo = Hall.HallData.Instance().getActiveById(2);
-        if(activetyInfo){
+        if (activetyInfo) {
             var awardList = activetyInfo.rewardsInfoList;
-            for(var i = 0; i < awardList.length; i++){
+            for (var i = 0; i < awardList.length; i++) {
                 var node = parentNode.getChildByName('item' + i);
                 node.active = true;
                 var str = '第' + awardList[i].minRank + '名';
-                if(awardList[i].minRank != awardList[i].maxRank)
+                if (awardList[i].minRank != awardList[i].maxRank)
                     str += ' - 第' + awardList[i].maxRank + '名';
                 node.getChildByName('item').getComponent(cc.Label).string = str;
                 node.getChildByName('gailv').getComponent(cc.Label).string = awardList[i].num;
             }
         }
 
-   },
+    },
 
-   /**
-    * 关闭奖励说明
-    */
-   closeDetail(event, data) {
+    /**
+     * 关闭奖励说明
+     */
+    closeDetail(event, data) {
         cc.find('gailv_detail', this.node).active = false;
     },
 
@@ -219,7 +219,7 @@ cc.Class({
         }
     },
 
-    close: function(){
+    close: function () {
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
     },

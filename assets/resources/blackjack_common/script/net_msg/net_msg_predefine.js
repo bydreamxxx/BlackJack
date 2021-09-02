@@ -1,7 +1,7 @@
 
 var netCmd = cc.netCmd = {};
 var pb = cc.pb = {};
-var proto_file = cc.proto_file = ['msg.proto'];
+var proto_file = cc.proto_file = ['msg'];
 cc.proto = {};
 cc.gateNet = require('GateNet');
 

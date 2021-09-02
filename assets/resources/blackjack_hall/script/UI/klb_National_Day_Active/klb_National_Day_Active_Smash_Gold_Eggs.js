@@ -42,7 +42,7 @@ cc.Class({
         eggAnim.getComponent(sp.Skeleton).clearTracks();
         eggAnim.getComponent(sp.Skeleton).setAnimation(0, '2', false);
         eggAnim.getComponent(sp.Skeleton).loop = false;
-        AudioManager.playSound("gameyj_hall/audios/smash_Egg");
+        AudioManager.playSound("blackjack_hall/audios/smash_Egg");
 
         eggAnim.getComponent(sp.Skeleton).setCompleteListener(function () {
             hallSendMsgCenter.getInstance().sendNationalDayActiveOpenBox(this.m_nBoxId);

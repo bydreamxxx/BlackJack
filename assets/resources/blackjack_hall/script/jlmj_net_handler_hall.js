@@ -433,7 +433,7 @@ var hanlder = {
                 cc.dd.PromptBoxUtil.show('领取成功!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             } else {
-                var node = cc.dd.UIMgr.getUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_QD');
+                var node = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD');
                 node.getComponent('klb_hall_daily_sign').done(msg.index);
                 cc.dd.PromptBoxUtil.show('领取成功!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
@@ -719,7 +719,7 @@ var hanlder = {
             case 0:
                 cc.dd.PromptBoxUtil.show('发送成功');
                 cc._sendmail_cache = null;
-                cc.dd.UIMgr.destroyUI('gameyj_hall/prefabs/klb_hall_mail_send');
+                cc.dd.UIMgr.destroyUI('blackjack_hall/prefabs/klb_hall_mail_send');
                 break;
             case 1:
                 cc.dd.PromptBoxUtil.show('道具数量不足，请前往商城购买');
@@ -737,7 +737,7 @@ var hanlder = {
         switch (msg.retCode) {
             case 0:
                 cc.dd.PromptBoxUtil.show('绑定成功');
-                cc.dd.UIMgr.destroyUI('gameyj_hall/prefabs/klb_hall_bind_aggent');
+                cc.dd.UIMgr.destroyUI('blackjack_hall/prefabs/klb_hall_bind_aggent');
                 break;
             case 1:
                 cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_POPUP_33);

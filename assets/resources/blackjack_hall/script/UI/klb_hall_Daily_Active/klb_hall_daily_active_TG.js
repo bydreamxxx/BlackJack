@@ -134,7 +134,7 @@ cc.Class({
     showAward: function (data) {
         // this.rewardShowing = true;
         // this.scheduleOnce(function () {
-        //     cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+        //     cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
         //         var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
         //         cp.setData(data.itemDataId, data.num);
         //         this.rewardShowing = false;
@@ -144,7 +144,7 @@ cc.Class({
 
     update: function (dt) {
         // if (!this.rewardShowing && this.selectDayData && this.index < this.selectDayData.itemsList.length &&
-        //     !cc.dd.UIMgr.getUI('gameyj_hall/prefabs/klb_hall_daily_lottery_get_award')) {
+        //     !cc.dd.UIMgr.getUI('blackjack_hall/prefabs/klb_hall_daily_lottery_get_award')) {
         //     var data = this.selectDayData.itemsList[this.index];
         //     this.index++;
         //     this.showAward(data);

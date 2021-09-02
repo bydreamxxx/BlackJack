@@ -111,7 +111,7 @@ cc.Class({
         this.anim.play('drawlotteryBigwinOpen');
         this.anim.setCurrentTime(0, 'drawlotteryBigwinOpen');
 
-        AudioManager.playSound('gameyj_hall/audios/drawlotterybigwin', false);
+        AudioManager.playSound('blackjack_hall/audios/drawlotterybigwin', false);
 
         this.m_nIndex = 0;
         this.playCoinAnim(240, 0.02);

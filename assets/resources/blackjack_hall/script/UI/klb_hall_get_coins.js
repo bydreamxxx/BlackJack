@@ -15,14 +15,14 @@ let getCoin = cc.Class({
         itemRecived: [cc.Node],
     },
 
-    onLoad () {
-        for(let i = 0; i < this.itemRecived.length; i++){
+    onLoad() {
+        for (let i = 0; i < this.itemRecived.length; i++) {
             this.checkActive(i, this.itemRecived[i]);
         }
     },
 
-    checkActive(idx, node){
-        switch(idx){
+    checkActive(idx, node) {
+        switch (idx) {
             case 0:
                 //签到
                 node.active = Hall.HallData.Instance().isSigned;
@@ -58,30 +58,30 @@ let getCoin = cc.Class({
         }
     },
 
-    start () {
+    start() {
     },
 
-    close(){
+    close() {
         hall_audio_mgr.Instance().com_btn_click();
-        if(cc.director.getScene().name === AppConfig.HALL_NAME){
+        if (cc.director.getScene().name === AppConfig.HALL_NAME) {
             cc.dd.UIMgr.destroyUI(this.node);
         }
     },
 
     onClickClose: function () {
         hall_audio_mgr.Instance().com_btn_click();
-        if(cc.director.getScene().name !== AppConfig.HALL_NAME){
+        if (cc.director.getScene().name !== AppConfig.HALL_NAME) {
             var jiesuan = null, jiesuanNode = null;
             switch (HallCommonData.getInstance().gameId) {
                 case cc.dd.Define.GameType.CCMJ_GOLD:
                     jiesuanNode = cc.find('Canvas/desk_info');
-                    if(jiesuanNode != null){
+                    if (jiesuanNode != null) {
                         jiesuan = jiesuanNode.getComponent('ccmj_desk_info_jbc')._jiesuan
                     }
                     break;
                 case cc.dd.Define.GameType.DDZ_GOLD:
                     jiesuanNode = cc.find('Canvas/root/result_ani');
-                    if(jiesuanNode != null){
+                    if (jiesuanNode != null) {
                         jiesuan = jiesuanNode.getComponent('ddz_jiesuan_jbc');
                     }
                     break;
@@ -94,43 +94,41 @@ let getCoin = cc.Class({
         cc.dd.UIMgr.destroyUI(this.node);
     },
 
-    onClickSign:function(){
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
+    onClickSign: function () {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
             prefab.getComponent('klb_hall_daily_sign').showClsoeBtn(true);
         });
 
         this.close();
     },
 
-    onClickShare:function(){
+    onClickShare: function () {
 
-        if(cc.sys.isBrowser)
-        {
+        if (cc.sys.isBrowser) {
             cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHARE_H5, function (ui) {
-                
+
             }.bind(this));
-        }else
-        {
+        } else {
             cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHARE, function (ui) {
                 var share_ui = ui.getComponent('klb_hall_share');
                 if (share_ui != null) {
                     let shareItem = cc.dd.Utils.getRandomShare();
-                    if(!cc.dd._.isNull(shareItem)){
+                    if (!cc.dd._.isNull(shareItem)) {
                         var title = shareItem.title;
                         var content = shareItem.content;
                         share_ui.setShareData(title, content);
                         share_ui.setFirstShare();
                     }
-    
+
                 }
             }.bind(this));
         }
-       
+
         this.close();
 
     },
 
-    onClickRealName:function(){
+    onClickRealName: function () {
         // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_USERINFO, function (ui) {
         //     ui.getComponent('klb_hall_UserInfo').setData(hallData.getInstance());
         //     cc.find('topBtn/toggle1', ui).getComponent(cc.Toggle).isChecked = true;
@@ -142,7 +140,7 @@ let getCoin = cc.Class({
         this.close();
     },
 
-    onClickBindPhone:function(){
+    onClickBindPhone: function () {
         // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_USERINFO, function (ui) {
         //     ui.getComponent('klb_hall_UserInfo').openBindPhoneUI(2);
         // });
@@ -150,7 +148,7 @@ let getCoin = cc.Class({
         this.close();
     },
 
-    onClickCoin:function(){
+    onClickCoin: function () {
         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_JIUJI, function (ui) {
             var jiuji = ui.getComponent('klb_hall_jiuji');
             if (jiuji != null) {
@@ -160,15 +158,15 @@ let getCoin = cc.Class({
         this.close();
     },
 
-    onClickTask:function(){
+    onClickTask: function () {
         /************************游戏统计 start************************/
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.TASK);
         /************************游戏统计   end************************/
-        if(cc.director.getScene().name === AppConfig.HALL_NAME) {
-            cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_tasknew");
-        }else{
-            cc.dd.SceneManager.endcallEx = ()=>{
-                cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_tasknew");
+        if (cc.director.getScene().name === AppConfig.HALL_NAME) {
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
+        } else {
+            cc.dd.SceneManager.endcallEx = () => {
+                cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
             }
 
             switch (HallCommonData.getInstance().gameId) {
@@ -182,7 +180,7 @@ let getCoin = cc.Class({
                 case cc.dd.Define.GameType.DDZ_GOLD:
                     let DDZ_Data = require('ddz_data').DDZ_Data;
 
-                    let sendLeaveRoom = ()=>{
+                    let sendLeaveRoom = () => {
                         var msg = new cc.pb.room_mgr.msg_leave_game_req();
                         var gameType = DDZ_Data.Instance().getGameId();
                         var roomId = DDZ_Data.Instance().getRoomId();
@@ -210,15 +208,15 @@ let getCoin = cc.Class({
         this.close();
     },
 
-    onClickMatch:function(){
+    onClickMatch: function () {
         /************************游戏统计 start************************/
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.LUCKYMONEY);
         /************************游戏统计   end************************/
-        if(cc.director.getScene().name === AppConfig.HALL_NAME){
+        if (cc.director.getScene().name === AppConfig.HALL_NAME) {
             cc.dd.UIMgr.openUI(hall_prefab.KLB_Match, function (node) {
                 node.getComponent('klb_hall_Match').sendGetMatch(1);
             }.bind(this));
-        }else{
+        } else {
             switch (HallCommonData.getInstance().gameId) {
                 case cc.dd.Define.GameType.CCMJ_GOLD:
                     let DeskEvent = require('jlmj_desk_data').DeskEvent;
@@ -232,7 +230,7 @@ let getCoin = cc.Class({
 
                     cc.ddz_go_to_match = true;
 
-                    let sendLeaveRoom = ()=>{
+                    let sendLeaveRoom = () => {
                         var msg = new cc.pb.room_mgr.msg_leave_game_req();
                         var gameType = DDZ_Data.Instance().getGameId();
                         var roomId = DDZ_Data.Instance().getRoomId();
@@ -264,7 +262,7 @@ let getCoin = cc.Class({
     /**
      * 关注有礼点击事件
      */
-    onClikcFocus : function(){
+    onClikcFocus: function () {
         cc.dd.PromptBoxUtil.show('活动暂未开放');
         // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GUANZHU, function (ui) {
         // }.bind(this));

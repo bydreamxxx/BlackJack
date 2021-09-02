@@ -42,7 +42,7 @@ cc.Class({
         //     ui = cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_MAP_COUNTYLIST);
         //     if (ui)
         //         cc.dd.UIMgr.destroyUI(ui);
-        //     var prefab = 'gameyj_hall/prefabs/klb_hall_map/' + self.provinceId;
+        //     var prefab = 'blackjack_hall/prefabs/klb_hall_map/' + self.provinceId;
         //     ui = cc.dd.UIMgr.getUI(prefab);
         //     if (ui)
         //         cc.dd.UIMgr.destroyUI(ui);
@@ -62,7 +62,7 @@ cc.Class({
                 ui = cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_MAP_COUNTYLIST);
                 if (ui)
                     cc.dd.UIMgr.destroyUI(ui);
-                var prefab = 'gameyj_hall/prefabs/klb_hall_map/' + self.provinceId;
+                var prefab = 'blackjack_hall/prefabs/klb_hall_map/' + self.provinceId;
                 ui = cc.dd.UIMgr.getUI(prefab);
                 if (ui)
                     cc.dd.UIMgr.destroyUI(ui);
@@ -84,7 +84,7 @@ cc.Class({
         // }))
         // self.bgNode.runAction(seq);
         cc.tween(self.bgNode)
-            .to(0.1, { scale: 0.01})
+            .to(0.1, { scale: 0.01 })
             .call(function () {
                 cc.dd.UIMgr.destroyUI(self.node);
             })

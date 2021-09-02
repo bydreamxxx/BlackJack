@@ -72,7 +72,7 @@ cc.Class({
             this.timeLable.string = '剩余时间:' + str;
         }
 
-        cc.dd.ResLoader.loadAtlas("gameyj_hall/atals/itemIcon", function (atlas) {
+        cc.dd.ResLoader.loadAtlas("blackjack_hall/atals/itemIcon", function (atlas) {
             var sprite = atlas.getSpriteFrame(itemInfo.key);
             this.itemIcon.spriteFrame = sprite;
         }.bind(this));
@@ -222,7 +222,7 @@ cc.Class({
     },
 
 
-    onJdExchange(){
+    onJdExchange() {
         if (HallCommonData.idNum == '') {
             cc.dd.PromptBoxUtil.show('请先完善实名认证信息再进行兑换');
             return;
@@ -265,13 +265,13 @@ cc.Class({
     },
     onSendMail(event, data) {
         this.close();
-        cc.dd.UIMgr.openUI('gameyj_hall/prefabs/klb_hall_mail_send', function (UI) {
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_mail_send', function (UI) {
 
         }.bind(this));
     },
 
     onActiveExchange: function (event, data) {
-        cc.dd.UIMgr.openUI("gameyj_hall/prefabs/klb_hall_Active", function (prefab) {
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_Active", function (prefab) {
 
         });
     },

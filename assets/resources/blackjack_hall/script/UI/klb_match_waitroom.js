@@ -164,7 +164,7 @@ cc.Class({
                 // this.currentRank.string = data.rank;
 
                 let func1 = () => {
-                    AudioManager.playSound("gameyj_hall/audios/pk_rank");
+                    AudioManager.playSound("blackjack_hall/audios/pk_rank");
                 }
                 let func2 = () => { };
 
@@ -178,14 +178,14 @@ cc.Class({
                         this.title.setAnimation(0, 'gongxijinjixunhuan', true);
                     })
                     func2 = () => {
-                        AudioManager.playSound("gameyj_hall/audios/pk_win");
+                        AudioManager.playSound("blackjack_hall/audios/pk_win");
                     }
                 } else if (this.current_rounNum == 3) {
                     this.titleState = TITLE_STATE.LOSE;
                     this.title.node.active = true;
                     this.title.setAnimation(0, 'shibai', false);
                     func2 = () => {
-                        AudioManager.playSound("gameyj_hall/audios/pk_lose");
+                        AudioManager.playSound("blackjack_hall/audios/pk_lose");
                     }
                 } else {
                     this.titleState = TITLE_STATE.WAIT;

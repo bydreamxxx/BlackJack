@@ -17,9 +17,9 @@ var HallGameItemUI = cc.Class({
     //      * @param gameItem
     //      */
     //     create: function (gameItem,callFunc) {
-    //         var gameItemPrefab = cc.loader.getRes("gameyj_hall/prefabs/klb_hall_ShopItem", cc.Prefab);
+    //         var gameItemPrefab = cc.loader.getRes("blackjack_hall/prefabs/klb_hall_ShopItem", cc.Prefab);
     //         if (!gameItemPrefab) {
-    //             cc.error("缺少资源或资源未预加载 " + "gameyj_hall/Prefabs/klb_hall_ShopItem");
+    //             cc.error("缺少资源或资源未预加载 " + "blackjack_hall/Prefabs/klb_hall_ShopItem");
     //             return;
     //         }
     //         var gameItemNode = cc.instantiate(gameItemPrefab);
@@ -76,7 +76,7 @@ var HallGameItemUI = cc.Class({
             else
                 this.itemPrice.string = (itemInfo.costDiscount / 100 > 0 ? (itemInfo.costDiscount / 100) : (itemInfo.costItemCount / 100)) + '元' + changeData.memo;
         }
-        // const atlas = cc.loader.getRes("gameyj_hall/atals/shangcheng",cc.SpriteAtlas);
+        // const atlas = cc.loader.getRes("blackjack_hall/atals/shangcheng",cc.SpriteAtlas);
         // var sprite = atlas.getSpriteFrame(item.icon);
         let self = this;
         // if (item.type == 4) {
@@ -112,15 +112,15 @@ var HallGameItemUI = cc.Class({
         //     }
         // }
         // else {
-            cc.find('info1/desc_ex', this.node).active = false;
-            cc.dd.ResLoader.loadAtlas("gameyj_hall/atals/shangcheng", function (atlas) {
-                var sprite = atlas.getSpriteFrame(item.icon);
-                if (this.icon && sprite) {
-                    this.icon.node.width = sprite.getRect().width;
-                    this.icon.node.height = sprite.getRect().height;
-                    this.icon.spriteFrame = sprite;
-                }
-            }.bind(this));
+        cc.find('info1/desc_ex', this.node).active = false;
+        cc.dd.ResLoader.loadAtlas("blackjack_hall/atals/shangcheng", function (atlas) {
+            var sprite = atlas.getSpriteFrame(item.icon);
+            if (this.icon && sprite) {
+                this.icon.node.width = sprite.getRect().width;
+                this.icon.node.height = sprite.getRect().height;
+                this.icon.spriteFrame = sprite;
+            }
+        }.bind(this));
         // }
 
         this.itemData = itemInfo;

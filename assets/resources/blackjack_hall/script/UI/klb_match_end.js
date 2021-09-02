@@ -72,7 +72,7 @@ cc.Class({
             let rewardList = data.reward.rewardList;
             if (rewardList.length == 1) {
                 this.nextTimeWin.active = false;
-                AudioManager.playSound("gameyj_hall/audios/pk_reward");
+                AudioManager.playSound("blackjack_hall/audios/pk_reward");
 
                 let prize = cc.find('prize', this.item);
                 if (prize) {

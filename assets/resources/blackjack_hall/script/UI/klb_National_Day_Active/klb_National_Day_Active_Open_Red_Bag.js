@@ -84,7 +84,7 @@ cc.Class({
     showOpenRedBagResult: function (data) {
         this.setRedBagHide();
         this.m_tRedBag[3].active = true;
-        AudioManager.playSound("gameyj_hall/audios/open");
+        AudioManager.playSound("blackjack_hall/audios/open");
 
         var eggAnim = cc.dd.Utils.seekNodeByName(this.m_tRedBag[3], 'hongbao');
         eggAnim.active = true;

@@ -73,7 +73,7 @@ cc.Class({
             cc.dd.PromptBoxUtil.show('该地区暂未开放，敬请期待');
             return;
         }
-        var prefab = 'gameyj_hall/prefabs/klb_hall_map/' + data;
+        var prefab = 'blackjack_hall/prefabs/klb_hall_map/' + data;
         cc.dd.UIMgr.openUI(prefab, function (ui) {
             ui.zIndex = 41;
             var cpt = ui.getComponent('klb_hall_Map_City');
