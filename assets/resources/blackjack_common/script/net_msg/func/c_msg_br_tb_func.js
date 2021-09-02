@@ -1,0 +1,45 @@
+
+    const msg = {};
+    var handler = require('no_use');
+    var recvFuncs = {
+        [9400]:{ package_name:'msg', msg_name:'msg_br_tb_state_notify', name:msg.msg_br_tb_state_notify, func:handler.on_msg_br_tb_state_notify, func_name:'on_msg_br_tb_state_notify', logtag:'[9400:msg_br_tb_state_notify ]' },
+        [9401]:{ package_name:'msg', msg_name:'msg_br_tb_battle_record', name:msg.msg_br_tb_battle_record, func:handler.on_msg_br_tb_battle_record, func_name:'on_msg_br_tb_battle_record', logtag:'[9401:msg_br_tb_battle_record ]' },
+        [9402]:{ package_name:'msg', msg_name:'msg_br_tb_pokers', name:msg.msg_br_tb_pokers, func:handler.on_msg_br_tb_pokers, func_name:'on_msg_br_tb_pokers', logtag:'[9402:msg_br_tb_pokers ]' },
+        [9403]:{ package_name:'msg', msg_name:'msg_br_tb_bet_info', name:msg.msg_br_tb_bet_info, func:handler.on_msg_br_tb_bet_info, func_name:'on_msg_br_tb_bet_info', logtag:'[9403:msg_br_tb_bet_info ]' },
+        [9404]:{ package_name:'msg', msg_name:'msg_br_tb_player_enter_notify', name:msg.msg_br_tb_player_enter_notify, func:handler.on_msg_br_tb_player_enter_notify, func_name:'on_msg_br_tb_player_enter_notify', logtag:'[9404:msg_br_tb_player_enter_notify ]' },
+        [9405]:{ package_name:'msg', msg_name:'msg_br_tb_bet_req', name:msg.msg_br_tb_bet_req, func:handler.on_msg_br_tb_bet_req, func_name:'on_msg_br_tb_bet_req', logtag:'[9405:msg_br_tb_bet_req ]' },
+        [9406]:{ package_name:'msg', msg_name:'msg_br_tb_bet_resp', name:msg.msg_br_tb_bet_resp, func:handler.on_msg_br_tb_bet_resp, func_name:'on_msg_br_tb_bet_resp', logtag:'[9406:msg_br_tb_bet_resp ]' },
+        [9407]:{ package_name:'msg', msg_name:'msg_br_tb_seat_bet_info', name:msg.msg_br_tb_seat_bet_info, func:handler.on_msg_br_tb_seat_bet_info, func_name:'on_msg_br_tb_seat_bet_info', logtag:'[9407:msg_br_tb_seat_bet_info ]' },
+        [9408]:{ package_name:'msg', msg_name:'msg_br_tb_bet_info_notify', name:msg.msg_br_tb_bet_info_notify, func:handler.on_msg_br_tb_bet_info_notify, func_name:'on_msg_br_tb_bet_info_notify', logtag:'[9408:msg_br_tb_bet_info_notify ]' },
+        [9409]:{ package_name:'msg', msg_name:'msg_br_tb_banker_req', name:msg.msg_br_tb_banker_req, func:handler.on_msg_br_tb_banker_req, func_name:'on_msg_br_tb_banker_req', logtag:'[9409:msg_br_tb_banker_req ]' },
+        [9410]:{ package_name:'msg', msg_name:'msg_br_tb_banker_resp', name:msg.msg_br_tb_banker_resp, func:handler.on_msg_br_tb_banker_resp, func_name:'on_msg_br_tb_banker_resp', logtag:'[9410:msg_br_tb_banker_resp ]' },
+        [9411]:{ package_name:'msg', msg_name:'msg_br_tb_banker_req_notify', name:msg.msg_br_tb_banker_req_notify, func:handler.on_msg_br_tb_banker_req_notify, func_name:'on_msg_br_tb_banker_req_notify', logtag:'[9411:msg_br_tb_banker_req_notify ]' },
+        [9412]:{ package_name:'msg', msg_name:'br_tb_banker_info', name:msg.br_tb_banker_info, func:handler.on_br_tb_banker_info, func_name:'on_br_tb_banker_info', logtag:'[9412:br_tb_banker_info]' },
+        [9413]:{ package_name:'msg', msg_name:'msg_br_tb_banker_list_notify', name:msg.msg_br_tb_banker_list_notify, func:handler.on_msg_br_tb_banker_list_notify, func_name:'on_msg_br_tb_banker_list_notify', logtag:'[9413:msg_br_tb_banker_list_notify ]' },
+        [9414]:{ package_name:'msg', msg_name:'msg_br_tb_req_banker_list_notify', name:msg.msg_br_tb_req_banker_list_notify, func:handler.on_msg_br_tb_req_banker_list_notify, func_name:'on_msg_br_tb_req_banker_list_notify', logtag:'[9414:msg_br_tb_req_banker_list_notify ]' },
+        [9415]:{ package_name:'msg', msg_name:'msg_br_tb_win', name:msg.msg_br_tb_win, func:handler.on_msg_br_tb_win, func_name:'on_msg_br_tb_win', logtag:'[9415:msg_br_tb_win ]' },
+        [9416]:{ package_name:'msg', msg_name:'msg_br_tb_battle_record_notify', name:msg.msg_br_tb_battle_record_notify, func:handler.on_msg_br_tb_battle_record_notify, func_name:'on_msg_br_tb_battle_record_notify', logtag:'[9416:msg_br_tb_battle_record_notify ]' },
+        [9417]:{ package_name:'msg', msg_name:'msg_br_tb_result', name:msg.msg_br_tb_result, func:handler.on_msg_br_tb_result, func_name:'on_msg_br_tb_result', logtag:'[9417:msg_br_tb_result ]' },
+        [9418]:{ package_name:'msg', msg_name:'msg_br_tb_results_notify', name:msg.msg_br_tb_results_notify, func:handler.on_msg_br_tb_results_notify, func_name:'on_msg_br_tb_results_notify', logtag:'[9418:msg_br_tb_results_notify ]' },
+        [9419]:{ package_name:'msg', msg_name:'msg_get_site_req', name:msg.msg_get_site_req, func:handler.on_msg_get_site_req, func_name:'on_msg_get_site_req', logtag:'[9419:msg_get_site_req ]' },
+        [9420]:{ package_name:'msg', msg_name:'msg_get_site_resp', name:msg.msg_get_site_resp, func:handler.on_msg_get_site_resp, func_name:'on_msg_get_site_resp', logtag:'[9420:msg_get_site_resp ]' },
+        [9421]:{ package_name:'msg', msg_name:'msg_get_site_notify', name:msg.msg_get_site_notify, func:handler.on_msg_get_site_notify, func_name:'on_msg_get_site_notify', logtag:'[9421:msg_get_site_notify ]' },
+        [9422]:{ package_name:'msg', msg_name:'msg_player_gold_notify', name:msg.msg_player_gold_notify, func:handler.on_msg_player_gold_notify, func_name:'on_msg_player_gold_notify', logtag:'[9422:msg_player_gold_notify ]' },
+        [9423]:{ package_name:'msg', msg_name:'msg_self_gold_notify', name:msg.msg_self_gold_notify, func:handler.on_msg_self_gold_notify, func_name:'on_msg_self_gold_notify', logtag:'[9423:msg_self_gold_notify ]' },
+        [9424]:{ package_name:'msg', msg_name:'msg_banker_gold_pool_notify', name:msg.msg_banker_gold_pool_notify, func:handler.on_msg_banker_gold_pool_notify, func_name:'on_msg_banker_gold_pool_notify', logtag:'[9424:msg_banker_gold_pool_notify ]' },
+        [9425]:{ package_name:'msg', msg_name:'msg_player_gold_pool_notify', name:msg.msg_player_gold_pool_notify, func:handler.on_msg_player_gold_pool_notify, func_name:'on_msg_player_gold_pool_notify', logtag:'[9425:msg_player_gold_pool_notify ]' },
+        [9426]:{ package_name:'msg', msg_name:'br_tb_rank_base', name:msg.br_tb_rank_base, func:handler.on_br_tb_rank_base, func_name:'on_br_tb_rank_base', logtag:'[9426:br_tb_rank_base]' },
+        [9427]:{ package_name:'msg', msg_name:'msg_br_tb_rank_req', name:msg.msg_br_tb_rank_req, func:handler.on_msg_br_tb_rank_req, func_name:'on_msg_br_tb_rank_req', logtag:'[9427:msg_br_tb_rank_req]' },
+        [9428]:{ package_name:'msg', msg_name:'msg_br_tb_rank_resp', name:msg.msg_br_tb_rank_resp, func:handler.on_msg_br_tb_rank_resp, func_name:'on_msg_br_tb_rank_resp', logtag:'[9428:msg_br_tb_rank_resp]' },
+        [9429]:{ package_name:'msg', msg_name:'msg_lottery_gold_notify', name:msg.msg_lottery_gold_notify, func:handler.on_msg_lottery_gold_notify, func_name:'on_msg_lottery_gold_notify', logtag:'[9429:msg_lottery_gold_notify ]' },
+        [9430]:{ package_name:'msg', msg_name:'br_tb_continue_win', name:msg.br_tb_continue_win, func:handler.on_br_tb_continue_win, func_name:'on_br_tb_continue_win', logtag:'[9430:br_tb_continue_win]' },
+        [9431]:{ package_name:'msg', msg_name:'msg_br_tb_continue_win_notify', name:msg.msg_br_tb_continue_win_notify, func:handler.on_msg_br_tb_continue_win_notify, func_name:'on_msg_br_tb_continue_win_notify', logtag:'[9431:msg_br_tb_continue_win_notify ]' },
+        [9432]:{ package_name:'msg', msg_name:'msg_br_tb_site_player_bet_notify', name:msg.msg_br_tb_site_player_bet_notify, func:handler.on_msg_br_tb_site_player_bet_notify, func_name:'on_msg_br_tb_site_player_bet_notify', logtag:'[9432:msg_br_tb_site_player_bet_notify ]' },
+        [9433]:{ package_name:'msg', msg_name:'msg_br_tb_site_player_win_notify', name:msg.msg_br_tb_site_player_win_notify, func:handler.on_msg_br_tb_site_player_win_notify, func_name:'on_msg_br_tb_site_player_win_notify', logtag:'[9433:msg_br_tb_site_player_win_notify ]' },
+
+    };
+    module.exports = {
+        name:"c_msg_br_tb_func",
+        handler:handler,
+        recvFuncs:recvFuncs,
+    }

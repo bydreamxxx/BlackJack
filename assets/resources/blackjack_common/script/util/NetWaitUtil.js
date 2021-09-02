@@ -24,7 +24,7 @@ var NetWaitUtil = cc.Class({
     },
 
     ctor: function () {
-        this.prefabPath = 'gameyj_common/prefab/com_net_wait';
+        this.prefabPath = 'blackjack_common/prefab/com_net_wait';
     },
 
     statics: {
@@ -68,7 +68,7 @@ var NetWaitUtil = cc.Class({
      */
     show: function (text) {
         //网络等待时,直接返回
-        UIMgr.openUI("gameyj_common/prefab/com_mask");
+        UIMgr.openUI("blackjack_common/prefab/com_mask");
         this.smooth_close();
         var node = this.getNode();
         var cpt = node.getComponent('com_net_wait');
@@ -95,7 +95,7 @@ var NetWaitUtil = cc.Class({
      * @param text
      */
     smooth_show: function (text) {
-        // UIMgr.openUI("gameyj_common/prefab/com_smooth_mask");
+        // UIMgr.openUI("blackjack_common/prefab/com_smooth_mask");
         // if(cc.sys.isNative){
         //     this.close();
         //     cc.dd.native_systool.StartLoadingAni(text);

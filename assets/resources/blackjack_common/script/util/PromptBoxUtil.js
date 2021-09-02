@@ -16,7 +16,7 @@ var PromptBoxUtil = cc.Class({
     },
 
     ctor: function () {
-        this.prefabPath = 'gameyj_common/prefab/com_prompt_box';
+        this.prefabPath = 'blackjack_common/prefab/com_prompt_box';
         this.popList = [];
     },
 

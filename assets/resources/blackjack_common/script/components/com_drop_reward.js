@@ -2,8 +2,8 @@ const Bsc_Event = require('bsc_data').BSC_Event;
 const Bsc_ED = require('bsc_data').BSC_ED;
 let hall_audio_mgr = require('hall_audio_mgr').Instance();
 let AudioManager = require('AudioManager');
-const gold_sound = 'gameyj_common/audio/money';
-const money_sound = 'gameyj_common/audio/money';
+const gold_sound = 'blackjack_common/audio/money';
+const money_sound = 'blackjack_common/audio/money';
 cc.Class({
     extends: cc.Component,
 
@@ -148,7 +148,7 @@ cc.Class({
         // let action = cc.sequence(spawn, call);
         // this.moveNode.runAction(action);
         cc.tween(this.moveNode)
-            .to(time, { position: { value: this.luckyBtn.position, easing: 'expoInOut' }, scale: 0})
+            .to(time, { position: { value: this.luckyBtn.position, easing: 'expoInOut' }, scale: 0 })
             .call(() => { self.hbSpine.clearTrack(0); self.bagNode.active = false; })
             .start();
     },

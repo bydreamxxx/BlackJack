@@ -1205,37 +1205,16 @@ let xl_game_rule = cc.Class({
         content.sdyRule = this.sdyRule;
         content.ddzRule = this.ddzRule;
         content.psRule = this.psRule;
-        content.mjJilinRule = this.mjJilinRule;
-        content.mjChangchunRule = this.mjChangchunRule;
         content.tdkRule = this.tdkRule;
         content.pyRule = this.pyRule;
-        content.mjNonganRule = this.mjNonganRule;
-        content.mjFuxinRule = this.mjFuxinRule;
         content.pin3Rule = this.pin3Rule;
-        content.mjSongyuanRule = this.mjSongyuanRule;
         content.suohaRule = this.suohaRule;
-        content.mjXuezhanRule = this.mjXuezhanRule;
         content.jlbPsRule = this.jlbPsRule;
         content.gdyRule = this.gdyRule;
-        content.mjXlchRule = this.mjXlchRule;
-        content.mjSuihuaRule = this.mjSuihuaRule;
         content.hbRule = this.hbRule;
         content.yqPin3Rule = this.yqPin3Rule;
-        content.mjJinzhouRule = this.mjJinzhouRule;
-        content.mjHeishanRule = this.mjHeishanRule;
-        content.mjNeimengguRule = this.mjNeimengguRule;
-        content.mjChifengRule = this.mjChifengRule;
-        content.mjAohanRule = this.mjAohanRule;
-        content.mjJinzhouRuleNew = this.mjJinzhouRuleNew;
-        content.mjFangzhengRule = this.mjFangzhengRule;
-        content.mjWudanRule = this.mjWudanRule;
         content.xyDdzRule = this.xyDdzRule;
-        content.mjPingzhuangRule = this.mjPingzhuangRule;
-        content.mjBaichengRule = this.mjBaichengRule;
         content.paodekuaiRule = this.paodekuaiRule;
-        content.mjAchengRule = this.mjAchengRule;
-        content.mjHelongRule = this.mjHelongRule;
-        content.mjJisuRule = this.mjJisuRule;
 
         return content;
     },
@@ -1248,35 +1227,17 @@ let xl_game_rule = cc.Class({
     setPsRule(psRule){
         this.psRule = psRule;
     },
-    setMjJilinRule(mjJilinRule){
-        this.mjJilinRule = mjJilinRule;
-    },
-    setMjChangchunRule(mjChangchunRule){
-        this.mjChangchunRule = mjChangchunRule;
-    },
     setTdkRule(tdkRule){
         this.tdkRule = tdkRule;
     },
     setPyRule(pyRule){
         this.pyRule = pyRule;
     },
-    setMjNonganRule(mjNonganRule){
-        this.mjNonganRule = mjNonganRule;
-    },
-    setMjFuxinRule(mjFuxinRule){
-        this.mjFuxinRule = mjFuxinRule;
-    },
     setPin3Rule(pin3Rule){
         this.pin3Rule = pin3Rule;
     },
-    setMjSongyuanRule(mjSongyuanRule){
-        this.mjSongyuanRule = mjSongyuanRule;
-    },
     setSuohaRule(suohaRule){
         this.suohaRule = suohaRule;
-    },
-    setMjXuezhanRule(mjXuezhanRule){
-        this.mjXuezhanRule = mjXuezhanRule;
     },
     setJlbPsRule(jlbPsRule){
         this.jlbPsRule = jlbPsRule;
@@ -1284,62 +1245,17 @@ let xl_game_rule = cc.Class({
     setGdyRule(gdyRule){
         this.gdyRule = gdyRule;
     },
-    setMjXlchRule(mjXlchRule){
-        this.mjXlchRule = mjXlchRule;
-    },
-    setMjSuihuaRule(mjSuihuaRule){
-        this.mjSuihuaRule = mjSuihuaRule;
-    },
     setHbRule(hbRule){
         this.hbRule = hbRule;
     },
     setYqPin3Rule(yqPin3Rule){
         this.yqPin3Rule = yqPin3Rule;
     },
-    setMjJinzhouRule(mjJinzhouRule){
-        this.mjJinzhouRule = mjJinzhouRule;
-    },
-    setMjHeishanRule(mjHeishanRule){
-        this.mjHeishanRule = mjHeishanRule;
-    },
-    setMjNeimengguRule(mjNeimengguRule){
-        this.mjNeimengguRule = mjNeimengguRule;
-    },
-    setMjChifengRule(mjChifengRule){
-        this.mjChifengRule = mjChifengRule;
-    },
-    setMjAohanRule(mjAohanRule){
-        this.mjAohanRule = mjAohanRule;
-    },
-    setMjJinzhouRuleNew(mjJinzhouRuleNew){
-        this.mjJinzhouRuleNew = mjJinzhouRuleNew;
-    },
-    setMjFangzhengRule(mjFangzhengRule){
-        this.mjFangzhengRule = mjFangzhengRule;
-    },
-    setMjWudanRule(mjWudanRule){
-        this.mjWudanRule = mjWudanRule;
-    },
     setXyDdzRule(xyDdzRule){
         this.xyDdzRule = xyDdzRule;
     },
-    setMjPingzhuangRule(mjPingzhuangRule){
-        this.mjPingzhuangRule = mjPingzhuangRule;
-    },
-    setMjBaichengRule(mjBaichengRule){
-        this.mjBaichengRule = mjBaichengRule;
-    },
     setPaodekuaiRule(paodekuaiRule){
         this.paodekuaiRule = paodekuaiRule;
-    },
-    setMjAchengRule(mjAchengRule){
-        this.mjAchengRule = mjAchengRule;
-    },
-    setMjHelongRule(mjHelongRule){
-        this.mjHelongRule = mjHelongRule;
-    },
-    setMjJisuRule(mjJisuRule){
-        this.mjJisuRule = mjJisuRule;
     },
 
 });

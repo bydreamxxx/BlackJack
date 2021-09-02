@@ -41,23 +41,23 @@ var DialogBoxUtil = cc.Class({
     setDialogType: function (type) {
         switch (type) {
             case 0:
-                this.prefabPath = 'gameyj_common/prefab/DialogBox';
+                this.prefabPath = 'blackjack_common/prefab/DialogBox';
                 this.prefabScript = 'com_dialog_box';
                 break;
             case 1:
-                this.prefabPath = 'gameyj_common/prefab/DialogBox_withFix';
+                this.prefabPath = 'blackjack_common/prefab/DialogBox_withFix';
                 this.prefabScript = 'com_dialog_box_withfix';
                 break;
             case 2:
-                this.prefabPath = 'gameyj_common/prefab/chifeng_dialog';
+                this.prefabPath = 'blackjack_common/prefab/chifeng_dialog';
                 this.prefabScript = 'com_dialog_box';
                 break;
             case 3:
-                this.prefabPath = 'gameyj_common/prefab/chifeng_join_dialog';
+                this.prefabPath = 'blackjack_common/prefab/chifeng_join_dialog';
                 this.prefabScript = 'chifeng_join_dialog';
                 break;
             default:
-                this.prefabPath = 'gameyj_common/prefab/DialogBox';
+                this.prefabPath = 'blackjack_common/prefab/DialogBox';
                 this.prefabScript = 'com_dialog_box';
                 break;
         }

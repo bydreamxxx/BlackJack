@@ -32,7 +32,7 @@ var RewardWndUtil = cc.Class({
     show(items, isShare) {
         let self = this;
         if (!this._awardWnd) {
-            cc.dd.UIMgr.openUI('gameyj_common/prefab/com_award',(ui)=>{
+            cc.dd.UIMgr.openUI('blackjack_common/prefab/com_award', (ui) => {
                 self._awardWnd = ui.getComponent('com_award');
                 self._awardWnd.initItem(items, isShare);
             });

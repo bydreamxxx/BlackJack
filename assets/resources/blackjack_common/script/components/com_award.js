@@ -3,7 +3,7 @@ let hall_audio_mgr = require('hall_audio_mgr');
 let Platform = require("Platform");
 let AppCfg = require('AppConfig');
 let AudioManager = require('AudioManager');
-const gold_sound = 'gameyj_common/audio/gold';
+const gold_sound = 'blackjack_common/audio/gold';
 var login_module = require('LoginModule');
 var hall_prefab = require('hall_prefab_cfg');
 
