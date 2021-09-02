@@ -159,6 +159,7 @@ var GameType = {
     HJSM: 107,
     MOUSE: 110,
 
+    BLACKJACK: 203,
 };
 
 /**
@@ -391,6 +392,8 @@ var GameId = {
     107: 'gameyj_horse_racing_scene',
     //------------打地鼠--------------
     110: 'play_mouse',
+
+    203: 'blackjack'
 };
 
 /**

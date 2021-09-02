@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('net_handler_horse_racing');
+    var handler = require('net_handler_blackjack');
     var recvFuncs = {
         [9600]:{ package_name:'msg', msg_name:'msg_bj_state_change_2c', name:msg.msg_bj_state_change_2c, func:handler.on_msg_bj_state_change_2c, func_name:'on_msg_bj_state_change_2c', logtag:'[9600:msg_bj_state_change_2c]' },
         [9601]:{ package_name:'msg', msg_name:'msg_bj_info', name:msg.msg_bj_info, func:handler.on_msg_bj_info, func_name:'on_msg_bj_info', logtag:'[9601:msg_bj_info]' },
