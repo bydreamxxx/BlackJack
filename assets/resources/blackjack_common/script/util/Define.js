@@ -470,6 +470,18 @@ var GamePID = {
     CFMJ: 10006
 }
 
+GetBundleNameByScene = {
+    'blackjack_hall': 'resources',
+    'blackjack_login': 'resources',
+    'blackjack_preLogin': 'resources',
+    'blackjack': 'blackjack_blackjack',
+
+    'nn_game_jbc': 'gameyj_nn',
+    'ddz_game_jbc': 'gameyj_ddz',
+
+    'loading': 'gameyj_loading',
+}
+
 module.exports = {
     MahjongMode: MahjongMode,
     GameType: GameType,
@@ -479,4 +491,5 @@ module.exports = {
     HuType: HuType,
     ComposeCardType: ComposeCardType,
     GamePID: GamePID,
+    GetBundleNameByScene: GetBundleNameByScene,
 };
