@@ -75,7 +75,7 @@ var hanlder = {
         Hall.HallED.notifyEvent(Hall.HallEvent.GET_USERINFO);
 
         let GVoice_acc = require("AppConfig").GVOICE_ACC;
-        cc.dd.native_gvoice.login(GVoice_acc.game_id, GVoice_acc.key, GVoice_acc.server_info, cc.dd.user.id);
+        cc.dd.native_gvoice.login(GVoice_acc.game_id, GVoice_acc.KEY, GVoice_acc.server_info, cc.dd.user.id);
         if (cc._isHuaweiGame)
             cc.dd.native_wx.checkHwIapOrder();
     },

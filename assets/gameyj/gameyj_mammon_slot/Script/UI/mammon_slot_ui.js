@@ -70,7 +70,7 @@ cc.Class({
      */
     onKeyDown: function (event) {
         switch (event.keyCode) {
-            case cc.KEY.back: {
+            case cc.macro.KEY.back: {
                 if (!this.__showbox) {
                     this.__showbox = true;
                     cc.dd.NetWaitUtil.close();
@@ -169,10 +169,10 @@ cc.Class({
             cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
         AudioManager.stopMusic();
         if (AudioManager._getLocalMusicSwitch()) {
-            if (gSlotMgr.getFreeTimes() <= 0 && !gSlotMgr.isEnterFree()){
+            if (gSlotMgr.getFreeTimes() <= 0 && !gSlotMgr.isEnterFree()) {
                 this.m_nMusicId = SlotCfg.AudioMammonPath + 'CSD_Bgm';
                 AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Bgm');
-            }else{
+            } else {
                 this.m_nMusicId = SlotCfg.AudioMammonPath + 'CSD_Freegame_Bgm';
                 AudioManager.playMusic(SlotCfg.AudioMammonPath + 'CSD_Freegame_Bgm');
             }

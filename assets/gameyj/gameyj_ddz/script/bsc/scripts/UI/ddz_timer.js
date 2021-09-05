@@ -43,7 +43,7 @@ cc.Class({
         this.lbl_red.string = this.remain > 9 ? this.remain.toString() : ('0' + this.remain.toString());
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
-        this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+        this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
         var p = this.getPos(ratio);
         // this.headAni.x = p.x;
         // this.headAni.y = p.y;
@@ -71,7 +71,7 @@ cc.Class({
                 this.lbl_red.string = Math.ceil(this.remain) > 9 ? Math.ceil(this.remain).toString() : ('0' + Math.ceil(this.remain).toString());
                 var ratio = this.remain / this.time;
                 this.headQuanSpr.fillRange = ratio;
-                this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+                this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
                 var pos = this.getPos(ratio);
                 // this.headAni.x = pos.x;
                 // this.headAni.y = pos.y;
@@ -120,7 +120,7 @@ cc.Class({
             return;
         if (this.headQuanSpr.node.parent.parent.name == 'head_down') {
             if (this.soundId) {
-                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundId));
+                AudioManager.getInstance().stopSound(AudioManager.getInstance().getAudioID(this.soundId));
                 this.soundId = null;
             }
         }

@@ -298,7 +298,7 @@ cc.Class({
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).stop();
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).off('finished', null, this);
             if (this.soundid) {
-                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundid));
+                AudioManager.getInstance().stopSound(AudioManager.getInstance().getAudioID(this.soundid));
                 this.soundid = null;
             }
             for (var i = 0; i < this._handCards.length; i++) {

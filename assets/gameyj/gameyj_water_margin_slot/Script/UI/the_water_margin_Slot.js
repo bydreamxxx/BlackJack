@@ -111,7 +111,7 @@ cc.Class({
      */
     onKeyDown: function (event) {
         switch (event.keyCode) {
-            case cc.KEY.back: {
+            case cc.macro.KEY.back: {
                 if (!this.__showbox) {
                     this.__showbox = true;
                     cc.dd.NetWaitUtil.close();
@@ -257,7 +257,7 @@ cc.Class({
 
     //播放背景音乐
     playBackGround: function () {
-        if (AudioManager._getLocalMusicSwitch()){
+        if (AudioManager._getLocalMusicSwitch()) {
             this.m_nMusicId = SlotCfg.AuditoPath + 'xiongdiwushu';
             AudioManager.playMusic(SlotCfg.AuditoPath + 'xiongdiwushu');
         }

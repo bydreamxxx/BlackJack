@@ -247,7 +247,7 @@ cc.Class({
         this.timer_node.getComponent(cc.Sprite).unscheduleAllCallbacks();
         this.timer_node.active = false;
         if (this._timerSound) {
-            AudioManager.getInstance().stopSound(AudioManager.getAudioID(this._timerSound));
+            AudioManager.getInstance().stopSound(AudioManager.getInstance().getAudioID(this._timerSound));
             this._timerSound = null;
         }
     },

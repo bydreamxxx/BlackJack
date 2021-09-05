@@ -8,8 +8,8 @@ const Theta = Math.atan(Width / Height);
 cc.Class({
     extends: cc.Component,
 
-    probar : null,
-    count : 0,
+    probar: null,
+    count: 0,
 
     properties: {
 
@@ -46,7 +46,7 @@ cc.Class({
         this.callback = callback;
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
-        //this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+        //this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
         this.schedule(function () {
             this.remain -= stepTime;
             if (this.remain <= 0) {
@@ -69,8 +69,8 @@ cc.Class({
         this.remain = duration;
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
-       /// this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
-       this.schedule(function () {
+        /// this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
+        this.schedule(function () {
             this.remain -= stepTime;
             if (this.remain < 0) {
                 this.remain = this.time;
@@ -130,7 +130,7 @@ cc.Class({
         }
         return cc.v2(x, y);
     },
-    
+
     // update : function (dt) {
     //     var progress = this.probar.progress;
     //     if (progress > 0) {

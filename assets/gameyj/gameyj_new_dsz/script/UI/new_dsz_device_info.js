@@ -11,7 +11,7 @@ cc.Class({
         battery_prc: { default: [], type: cc.Node, tooltip: '电池' },
     },
 
-    onLoad () {
+    onLoad() {
         if (cc.sys.isNative) {
             this.progress = cc.dd.native_systool.getBatteryLevel();
             this.schedule(function () {
@@ -30,14 +30,14 @@ cc.Class({
     _updateStatus: function () {
         var date = new Date();
         this.time_lbl.string = this.pad(date.getHours(), 2) + ':' + this.pad(date.getMinutes(), 2);
-        var progress = cc.clamp01(this.progress);
+        var progress = cc.misc.clamp01(this.progress);
         var num = Math.ceil(progress / 0.2);
-        for(var i = 0;i < 5; i++){
-            this.battery_prc[i].active = i < num ? true: false;
+        for (var i = 0; i < 5; i++) {
+            this.battery_prc[i].active = i < num ? true : false;
             if (progress > 0.2 && progress <= 0.4) {
                 this.battery_prc[i].color = low_color;
             }
-            else if(progress <= 0.2){
+            else if (progress <= 0.2) {
                 this.battery_prc[i].color = warn_color;
             }
         }

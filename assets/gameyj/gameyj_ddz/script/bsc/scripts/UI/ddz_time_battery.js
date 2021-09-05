@@ -29,7 +29,7 @@ cc.Class({
     _updateStatus: function () {
         var date = new Date();
         this.time_lbl.string = this.pad(date.getHours(), 2) + ':' + this.pad(date.getMinutes(), 2);
-        var progress = cc.clamp01(this.progress);
+        var progress = cc.misc.clamp01(this.progress);
         if (progress > 0.4) {
             this.battery_prc.node.color = this.originColor;
         }

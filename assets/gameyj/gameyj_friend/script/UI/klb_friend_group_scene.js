@@ -63,7 +63,7 @@ cc.Class({
     },
 
     onKeyDown: function (event) {
-        if (event.keyCode == cc.KEY.back || event.keyCode == cc.KEY.escape) {
+        if (event.keyCode == cc.macro.KEY.back || event.keyCode == cc.macro.KEY.escape) {
             if (!cc.dd.UIMgr.getUI(prefab_config.KLB_FG_NOTICE)) {
                 cc.dd.UIMgr.openUI(prefab_config.KLB_FG_NOTICE, function (ui) {
                     ui.getComponent('klb_friend_group_notice').show('是否要返回大厅', () => {

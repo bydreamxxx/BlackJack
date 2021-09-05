@@ -8,8 +8,8 @@ const Theta = Math.atan(Width / Height);
 cc.Class({
     extends: cc.Component,
 
-    probar : null,
-    count : 0,
+    probar: null,
+    count: 0,
 
     properties: {
 
@@ -47,7 +47,7 @@ cc.Class({
         this.callback = callback;
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
-        this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+        this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
         var p = this.getPos(ratio);
         this.headAni.x = p.x;
         this.headAni.y = p.y;
@@ -66,7 +66,7 @@ cc.Class({
             else {
                 var ratio = this.remain / this.time;
                 this.headQuanSpr.fillRange = ratio;
-                this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+                this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
                 var pos = this.getPos(ratio);
                 this.headAni.x = pos.x;
                 this.headAni.y = pos.y;
@@ -81,7 +81,7 @@ cc.Class({
         this.remain = duration;
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
-        this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+        this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
         var p = this.getPos(ratio);
         this.headAni.x = p.x;
         this.headAni.y = p.y;
@@ -94,7 +94,7 @@ cc.Class({
             }
             var ratio = this.remain / this.time;
             this.headQuanSpr.fillRange = ratio;
-            this.headQuanSpr.node.color = cc.color(cc.lerp(EndColor.r, StartColor.r, ratio), cc.lerp(EndColor.g, StartColor.g, ratio), cc.lerp(EndColor.b, StartColor.b, ratio));
+            this.headQuanSpr.node.color = cc.color(cc.misc.lerp(EndColor.r, StartColor.r, ratio), cc.misc.lerp(EndColor.g, StartColor.g, ratio), cc.misc.lerp(EndColor.b, StartColor.b, ratio));
             var pos = this.getPos(ratio);
             this.headAni.x = pos.x;
             this.headAni.y = pos.y;
@@ -153,7 +153,7 @@ cc.Class({
         }
         return cc.v2(x, y);
     },
-    
+
     // update : function (dt) {
     //     var progress = this.probar.progress;
     //     if (progress > 0) {

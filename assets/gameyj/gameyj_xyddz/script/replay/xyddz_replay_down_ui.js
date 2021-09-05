@@ -192,7 +192,7 @@ cc.Class({
         var showFunc = function () {
             cc.find('Canvas/root/sendcard_ani').getComponent(cc.Animation).off('finished', showFunc, this);
             if (this.soundid) {
-                AudioManager.getInstance().stopSound(AudioManager.getAudioID(this.soundid));
+                AudioManager.getInstance().stopSound(AudioManager.getInstance().getAudioID(this.soundid));
                 this.soundid = null;
             }
             this._handCards = ddz.sortShowCards(cards);

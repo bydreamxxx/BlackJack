@@ -9,10 +9,10 @@ cc.Class({
         m_bProgress: false,
         start_node: cc.Node,
         end_node: cc.Node,
-        loading_anim : cc.Node,
+        loading_anim: cc.Node,
     },
 
-    onLoad (){
+    onLoad() {
         cc.dd.SysTools.setLandscape();
         this.progress_bar.progress = 0;
         this.m_bProgress = true;
@@ -97,22 +97,22 @@ cc.Class({
         cc.dd.ResLoader.loadGameStaticResList(loadCellList, this.onProgress.bind(this), null);
     },
 
-    start () {
+    start() {
         this.speed = 0.2;
     },
 
     update(dt) {
-        if(!this.m_bProgress)
+        if (!this.m_bProgress)
             return;
-        if(this.progress_bar.progress <= 1.0){
-            let cur_progress = this.progress_bar.progress + this.speed*dt;
+        if (this.progress_bar.progress <= 1.0) {
+            let cur_progress = this.progress_bar.progress + this.speed * dt;
             this.progress_bar.progress = Math.min(1.0, cur_progress);
-            this.loading_anim.x = cc.lerp(this.start_node.x, this.end_node.x, Math.min(1.0, cur_progress));
+            this.loading_anim.x = cc.misc.lerp(this.start_node.x, this.end_node.x, Math.min(1.0, cur_progress));
 
         }
-        if(this.progress_bar.progress >= 1.0){
+        if (this.progress_bar.progress >= 1.0) {
             this.m_bProgress = false;
-            cc.dd.TimeTake.start("加载场景:fish_scene" );
+            cc.dd.TimeTake.start("加载场景:fish_scene");
             cc.director.loadScene('fish_scene', function () {
                 //切换场景完成,启动网络消息分发
                 cc.gateNet.Instance().startDispatch();
@@ -126,10 +126,10 @@ cc.Class({
         }
     },
 
-    onProgress: function(value){
-        if(value >= 1.0){
+    onProgress: function (value) {
+        if (value >= 1.0) {
             this.m_bProgress = true;
-        }            
+        }
     },
 
 });

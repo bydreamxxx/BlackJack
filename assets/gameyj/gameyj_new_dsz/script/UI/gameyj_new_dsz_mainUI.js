@@ -173,7 +173,7 @@ cc.Class({
      */
     onKeyDown: function (event) {
         switch (event.keyCode) {
-            case cc.KEY.back: {
+            case cc.macro.KEY.back: {
                 if (!this.__showbox) {
                     this.__showbox = true;
                     this.keyDownTextShow();

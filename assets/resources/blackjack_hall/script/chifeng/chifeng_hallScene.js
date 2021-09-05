@@ -166,7 +166,7 @@ cc.Class({
 
     onKeyDown(event) {
         switch (event.keyCode) {
-            case cc.KEY.back:
+            case cc.macro.KEY.back:
                 if (cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_ROOM)) {
                     cc.dd.UIMgr.destroyUI(hall_prefab.KLB_HALL_ROOM);
                 }

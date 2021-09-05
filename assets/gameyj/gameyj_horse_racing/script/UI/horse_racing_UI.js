@@ -720,7 +720,7 @@ cc.Class({
     },
 
     onKeyDown: function (event) {
-        if (event.keyCode == cc.KEY.back || event.keyCode == cc.KEY.escape) {
+        if (event.keyCode == cc.macro.KEY.back || event.keyCode == cc.macro.KEY.escape) {
             this.onClickQuit();
         }
     },

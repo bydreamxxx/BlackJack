@@ -17,7 +17,7 @@ cc.Class({
 
     onKeyDown(event) {
         switch (event.keyCode) {
-            case cc.KEY.back:
+            case cc.macro.KEY.back:
                 var cEs = this.node.getComponent(cc.Button).clickEvents;
                 // for (var i = 0; i < cEs.length; i++) {
                 //     var target = cEs[i].target;
