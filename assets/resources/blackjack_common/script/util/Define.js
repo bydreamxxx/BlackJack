@@ -160,6 +160,7 @@ var GameType = {
     MOUSE: 110,
 
     BLACKJACK: 203,
+    TEXAS: 202, //德州
 };
 
 /**
@@ -393,7 +394,8 @@ var GameId = {
     //------------打地鼠--------------
     110: 'play_mouse',
 
-    203: 'blackjack'
+    203: 'blackjack',
+    202:'texas_jbc',
 };
 
 /**
@@ -480,6 +482,7 @@ GetBundleNameByScene = {
     'ddz_game_jbc': 'gameyj_ddz',
 
     'loading': 'gameyj_loading',
+    'texas_jbc':"gameyj_texas",
 }
 
 module.exports = {

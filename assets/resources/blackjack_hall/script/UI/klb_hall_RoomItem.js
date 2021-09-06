@@ -190,6 +190,9 @@ cc.Class({
                 case 163:
                     this.checkIsEnterCommon(this.gameid, this.sendSuohaEnterMsg.bind(this));
                     break;
+                case 202:
+                    this.checkIsEnterCommon(this.gameid, this.sendTexasEnter.bind(this))
+                    break;
                 case Define.GameType.XZMJ_GOLD:
                 case Define.GameType.XLMJ_GOLD:
                     cc.gateNet.Instance().setHandler("c_msg_xuezhanmj_func", require('scmj_net_handler_scmj_jbc'));//'ccmj_net_handler_ccmj_jbc'));
@@ -504,6 +507,20 @@ cc.Class({
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
         cc.dd.SceneManager.enterGame(gameid, func);
+    },
+
+    sendTexasEnter:function(gameid){
+        var scriptData = require('texas_data').texas_Data.Instance();
+        scriptData.setData(this.roomItem);
+        let data = this.roomItem;
+        cc.dd.AppCfg.GAME_ID = gameid;
+        var func = function () {
+            var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+            msg.setGameType(data.gameid);
+            msg.setRoomId(data.roomid);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        }
+        cc.dd.SceneManager.enterGame(gameid, func, null);
     },
 
     checkZJHCanEnter: function () {

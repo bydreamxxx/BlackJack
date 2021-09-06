@@ -390,6 +390,9 @@ var RoomMgr = cc.Class({
             case Define.GameType.HJSM:
                 this.player_mgr = require('horse_racing_Data').Horse_Racing_Data.Instance();
                 break;
+            case Define.GameType.TEXAS:
+                this.player_mgr = require('texas_data').texas_Data.Instance();
+                break;
             case Define.GameType.MOUSE:
                 break;
             default:
