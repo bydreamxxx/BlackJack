@@ -495,8 +495,8 @@ cc.Class({
             cc.find('lord', this.hand_node.children[this.hand_node.childrenCount - 1]).active = true;
         }.bind(this);
         var self = this;
-        var playFinished = function (event) {
-            event.target.off('finished', playFinished);
+        var playFinished = (event) => {
+            cc.find('top/dipai_info/bottomcard_ani', this.node.parent).getComponent(cc.Animation).off('finished', playFinished);
             self.scheduleOnce(function () {
                 cc.find('top/dipai_info', self.node.parent).getComponent(cc.Animation).on('finished', downCard, self);
                 cc.find('top/dipai_info', self.node.parent).getComponent(cc.Animation).play('dipai_ani_jbc_0');

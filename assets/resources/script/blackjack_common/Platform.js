@@ -117,12 +117,12 @@ serFileUrl[3] = '';
 
 //机器人头像地址
 var robotUrl = new Array(4);
-// robotUrl[1] = 'http://game.yuejiegame.net/robot_icon/';
-// robotUrl[2] = 'http://game.yuejiegame.net/robot_icon/';
-// robotUrl[3] = 'http://game.yuejiegame.net/robot_icon/';
-robotUrl[1] = '';
-robotUrl[2] = '';
-robotUrl[3] = '';
+robotUrl[1] = 'http://game.yuejiegame.net/robot_icon/';
+robotUrl[2] = 'http://game.yuejiegame.net/robot_icon/';
+robotUrl[3] = 'http://game.yuejiegame.net/robot_icon/';
+// robotUrl[1] = '';
+// robotUrl[2] = '';
+// robotUrl[3] = '';
 
 var getRobotUrl = function () {
     var AppCfg = require('AppConfig');

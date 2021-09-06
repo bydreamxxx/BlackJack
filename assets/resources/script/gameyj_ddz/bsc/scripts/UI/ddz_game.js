@@ -149,7 +149,7 @@ cc.Class({
         this.scheduleOnce(function () {
             cc.find('game_share', this.node).active = false;
         }.bind(this), 0.5)
-        //cc.director.setDisplayStats(true);
+        //cc.debug.setDisplayStats(true);
         let size = cc.view.getVisibleSize();
         if (size.width / size.height > 1.9) {
             cc.find('player_down/op_jiaofen', this.node).y -= 20;

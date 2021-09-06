@@ -140,8 +140,8 @@ cc.Class({
         for (var i = 0; i < cards.length; i++) {
             this.setPoker(cc.find('top/dipai_info/bottomcard_ani/dipai_' + (i + 1).toString(), this.node.parent), cards[i]);
         }
-        var playFinished = function (event) {
-            event.target.off('finished', playFinished);
+        var playFinished = (event) => {
+            cc.find('top/dipai_info/bottomcard_ani', this.node.parent).getComponent(cc.Animation).off('finished', playFinished);
             self.scheduleOnce(function () {
                 cc.find('top/dipai_info', self.node.parent).getComponent(cc.Animation).play('dipai_ani_jbc_2');
                 self.calSpecialBottom(cardlist);

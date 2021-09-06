@@ -46,7 +46,7 @@ cc.Class({
 
 
     onLoad() {
-        // cc.director.setDisplayStats(true);
+        // cc.debug.setDisplayStats(true);
         cc.game.setFrameRate(60);
 
         horse_racing_Ed.addObserver(this);

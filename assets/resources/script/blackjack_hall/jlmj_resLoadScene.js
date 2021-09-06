@@ -172,7 +172,7 @@ let resLoad = cc.Class({
         let count = 0;
         let self = this;
         cc.proto_file.forEach(function (item) {
-            cc.resources.load("blackjack_common/script/net_msg/proto/" + item, function (err, file_buffer) {
+            cc.resources.load("script/blackjack_common/net_msg/proto/" + item, function (err, file_buffer) {
                 if (err) {
                     cc.error("加载proto失败 ", item, err);
                     return;

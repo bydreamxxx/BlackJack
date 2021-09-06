@@ -110,7 +110,7 @@ var SysTools = {
     * 获取机器人头像  url格式 ’xx.jpg‘
     */
     getRobotIcon: function (url, callback) {
-        const REMOTE_PATH = 'http://47.92.48.105:8888/robot_icon/';
+        const REMOTE_PATH = '';//'http://47.92.48.105:8888/robot_icon/';
         if (url == null || typeof (url) == 'undefined') {
             cc.error('url is null');
             return;
@@ -367,7 +367,7 @@ var SysTools = {
 
         //网页加载头像
         // var types = ['png', 'jpg', 'jpeg', 'bmp'];
-        var types = ['png', 'jpg'];
+        var types = ['.png', '.jpg'];
         var loadUrlImg = function (idx) {
             cc.log('加载头像, url=' + url);
             //头像是否重新加载
@@ -394,7 +394,7 @@ var SysTools = {
                     }
                 });
             } else {
-                cc.assetManager.loadRemote({ url: url, type: types[idx] }, function (err, tex) {
+                cc.assetManager.loadRemote(url, { ext: types[idx] }, function (err, tex) {
                     if (err != null) {
                         idx++;
                         if (idx >= types.length) {

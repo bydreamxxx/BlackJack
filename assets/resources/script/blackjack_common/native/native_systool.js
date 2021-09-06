@@ -47,7 +47,7 @@ var Native = cc.Class({
                     cc.log("切换前台", event);
                     cc.isWebBackGround = false;
                     login_module.Instance().reconnectWG();
-                    cc.director.setDisplayStats(false);
+                    cc.debug.setDisplayStats(false);
                 }
             });
         }

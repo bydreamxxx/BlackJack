@@ -1,4 +1,4 @@
-const keyFilePath = 'blackjack_common/script/util/key';
+const keyFilePath = 'script/blackjack_common/util/key';
 var StringFilter = cc.Class({
 
     _instance: null,
