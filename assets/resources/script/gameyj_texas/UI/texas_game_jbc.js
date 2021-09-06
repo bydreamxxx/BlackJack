@@ -45,11 +45,11 @@ const OP_TYPE = {
 
 const OP_TIME = 12;
 const MIDDLE_EFFECT_NAME = [
-    'px_hl','dzpk_px_st','px_ths','px_hjths_begin'
+    'px_hl', 'dzpk_px_st', 'px_ths', 'px_hjths_begin'
 ];
 
 const MIDDLE_EFFECT_XH_NAME = [
-    'px_hl_xh','dzpk_px_st_xh','px_ths_xh','px_hjths_xh'
+    'px_hl_xh', 'dzpk_px_st_xh', 'px_ths_xh', 'px_hjths_xh'
 ];
 
 cc.Class({
@@ -64,23 +64,23 @@ cc.Class({
         result_bg: [cc.SpriteFrame],               //结算背景
         type_splist: [cc.SpriteFrame],      //牌类型
         type_splist_gray: [cc.SpriteFrame], //牌类型(灰色)
-        tpye_ani_prefab:[cc.Prefab],        //赢家牌类型动画
-        win_ani_prefab:cc.Prefab,        //赢家动画(不亮牌)
+        tpye_ani_prefab: [cc.Prefab],        //赢家牌类型动画
+        win_ani_prefab: cc.Prefab,        //赢家动画(不亮牌)
 
-        middle_effect:[cc.Node],        //中间大动画特效0:你赢了 1:葫芦 2四条 3同花顺 4皇家同花顺
+        middle_effect: [cc.Node],        //中间大动画特效0:你赢了 1:葫芦 2四条 3同花顺 4皇家同花顺
 
-        heguanSk:sp.Skeleton,
+        heguanSk: sp.Skeleton,
 
         player_state_type: [cc.SpriteFrame], //玩家表态显示（0:思考中 1:跟  2:过  3:弃牌(无)  4:加注  5:全压）
 
         pokerAtlas: cc.SpriteAtlas,         //牌图集
-        menu_funcs:cc.Node,                 //菜单
-        common_cards:cc.Node,               //公共牌
-        emojiNode:cc.Node,
-        title:cc.Label,                     //底分xxx
-        roomIdLb:cc.Label,                  //房间id
-        roomMangLb:cc.Label,                 //盲注
-        addBtnLabel:cc.Label,               //加注按钮的字
+        menu_funcs: cc.Node,                 //菜单
+        common_cards: cc.Node,               //公共牌
+        emojiNode: cc.Node,
+        title: cc.Label,                     //底分xxx
+        roomIdLb: cc.Label,                  //房间id
+        roomMangLb: cc.Label,                 //盲注
+        addBtnLabel: cc.Label,               //加注按钮的字
         anim_match: { default: null, type: dragonBones.ArmatureDisplay, tooltip: "匹配中动画" },
 
         emojiItem: { default: null, type: cc.Prefab, tooltip: "表情(弹幕)" },
@@ -95,14 +95,14 @@ cc.Class({
         TEXAS_ED.addObserver(this);
         ChatEd.addObserver(this);
         RoomED.addObserver(this);
-        
+
         HallCommonEd.addObserver(this);
         RoomMgr.Instance().roomType = 2;
         //************************ 筹码对象池 ****************************/
         this.msgToggle = cc.find("emoticon/bg/btnGroup/toggle3", this.node)
 
         this.initCardPosition();
-        
+
         this.initTitle();
         this.updateDeskScore();
         // cc.gateNet.Instance().startDispatch();
@@ -111,83 +111,76 @@ cc.Class({
     onDestroy() {
         TEXAS_ED.removeObserver(this);
         RoomED.removeObserver(this);
-        
+
         ChatEd.removeObserver(this);
         HallCommonEd.removeObserver(this);
         texas_Data.Destroy();
     },
 
 
-    test(){
+    test() {
         var mycards = [73, 94];
-        var common = [142, 102, 82,84,92];
-        var tp = texas_Data.Instance().getCardType(mycards,common)[0];
-        cc.log("tp:",tp);
+        var common = [142, 102, 82, 84, 92];
+        var tp = texas_Data.Instance().getCardType(mycards, common)[0];
+        cc.log("tp:", tp);
         this.head_list[0].showMyCardType(tp)
     },
 
-    initTitle()
-    {
+    initTitle() {
         var configId = texas_Data.Instance().getConfigId();
         if (configId) {
             var texasJbcCfgItem = game_room.getItem(function (item) {
                 return item.key === configId;
             });
             texas_Data.Instance().setData(texasJbcCfgItem);
-            
-        }else
-        {
+
+        } else {
             cc.log("configid is  null");
             return;
         }
-        
+
         this.updateTitle();
     },
 
-    updateTitle()
-    {
+    updateTitle() {
         this.roomIdLb.string = RoomMgr.Instance().roomId;
-        this.roomMangLb.string = parseInt(texas_Data.Instance().m_nBaseScore/2) +'/'+(texas_Data.Instance().m_nBaseScore);
+        this.roomMangLb.string = parseInt(texas_Data.Instance().m_nBaseScore / 2) + '/' + (texas_Data.Instance().m_nBaseScore);
     },
 
-    initCardPosition(){
+    initCardPosition() {
         this.cardPosition = [];
         this.cardRotation = [];
         this.commonCardPosition = [];
-        for(var i=0;i<this.head_list.length;i++)
-        {
+        for (var i = 0; i < this.head_list.length; i++) {
             var cardParent = null;
-            if(i==0)
-            {
-                cardParent = cc.find('card',this.head_list[i].node)
-            }else
-            {
-                cardParent = cc.find('card_display',this.head_list[i].node)
+            if (i == 0) {
+                cardParent = cc.find('card', this.head_list[i].node)
+            } else {
+                cardParent = cc.find('card_display', this.head_list[i].node)
             }
 
 
-            var card = cc.find('card0',cardParent)
+            var card = cc.find('card0', cardParent)
 
-            
+
             this.cardPosition[i] = [];
             this.cardPosition[i][0] = card.position;
 
             this.cardRotation[i] = [];
             this.cardRotation[i][0] = card.rotation;
 
-            card = cc.find('card1',cardParent)
+            card = cc.find('card1', cardParent)
             this.cardPosition[i][1] = card.position;
 
             this.cardRotation[i][1] = card.rotation;
 
-            if(i<5)
-            {
+            if (i < 5) {
                 this.commonCardPosition[i] = this.common_cards.children[i].position
             }
 
         }
 
-        
+
     },
 
     //初始化音乐音效设置
@@ -208,7 +201,7 @@ cc.Class({
         // AudioManager.getInstance().onMusic(tw_audio_cfg.GAME_MUSIC);
     },
     //最新声音更改
-    onOpenSettingMusic: function (event,data) {
+    onOpenSettingMusic: function (event, data) {
         var scp = event.target.getComponent('com_game_menu')
         scp.setOpenMusicCallBack(this.playBackGround)
     },
@@ -222,20 +215,19 @@ cc.Class({
     //客服按钮
     onClickKefuBtn(event, custom) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.native_systool.OpenUrl(Platform.kefuUrl[AppConfig.PID]+'?user_id='+cc.dd.user.id);
+        cc.dd.native_systool.OpenUrl(Platform.kefuUrl[AppConfig.PID] + '?user_id=' + cc.dd.user.id);
     },
 
     //聊天表情符号
-    showEmoticon(event,data) {
-        this.emojiNode.active = data!=null;
+    showEmoticon(event, data) {
+        this.emojiNode.active = data != null;
     },
 
 
-    onMenu:function(event,data)
-    {
-        this.menu_funcs.active = data!=null;
+    onMenu: function (event, data) {
+        this.menu_funcs.active = data != null;
     },
-    
+
 
     start() {
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
@@ -290,7 +282,7 @@ cc.Class({
                 this.updateDeskScore();
                 break;
             case Texas_Event.BET_BOTTOM://底注
-                this.onBetCall(data,true);
+                this.onBetCall(data, true);
                 this.updateDeskScore();
                 break;
             // case Texas_Event.BET_OPENCARD://开牌
@@ -319,7 +311,7 @@ cc.Class({
                 this.onResult(data);
                 break;
             case Texas_Event.NO_CARDS_RESULT://结算
-                this.onResult(data,true);
+                this.onResult(data, true);
                 break;
             case Texas_Event.RECONNECT://重连
                 this.onReconnect(data);
@@ -365,27 +357,24 @@ cc.Class({
             case Texas_Event.SHOW_TEST_RATE:
                 this.showOtherWinRate(data);
                 break;
-            
+
         }
     },
-    
-    updatePlayerGold(data){
-        if(data)
-        {
+
+    updatePlayerGold(data) {
+        if (data) {
             let view = texas_Data.Instance().getViewById(data.playerid);
             let player = texas_Data.Instance().getPlayerById(data.playerid);
-            if(player)
+            if (player)
                 this.head_list[view].updateUI();
             else
                 cc.log("null player");
             //当前说话玩家是自己，更新金币的时候可能是取钱，需要重置操作按钮
-            if(texas_Data.Instance().curPlayer == cc.dd.user.id && view == 0 && player.joinGame)
-            {
-                this.onOverTurn(null,true)
+            if (texas_Data.Instance().curPlayer == cc.dd.user.id && view == 0 && player.joinGame) {
+                this.onOverTurn(null, true)
                 cc.log('重置操作按钮');
             }
-        }else
-        {
+        } else {
             this.head_list[0].updateUI();
         }
 
@@ -399,9 +388,8 @@ cc.Class({
             let isChecked = this.msgToggle.getComponent(cc.Toggle).isChecked
             if (isChecked) {
                 let name = texas_Data.Instance().getPlayerById(data.sendUserId).name
-                var canvs= cc.find('Canvas');
-                if(canvs)
-                {
+                var canvs = cc.find('Canvas');
+                if (canvs) {
                     if (data.msgtype == 1) {
                         let message = cc.instantiate(this.messagePrefab)
                         message.parent = canvs
@@ -413,7 +401,7 @@ cc.Class({
                         emoji.getComponent('BulletScreen').spawnEmoji(name, data.id);
                     }
                 }
-                
+
             }
         }
     },
@@ -431,18 +419,18 @@ cc.Class({
         if (view == 0) this.texas_op.hideOp();
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
         let player = texas_Data.Instance().getPlayerById(userId);
-        if(player)
+        if (player)
             this.head_list[view].setTurnBet(player.turnBet);
         else
             cc.log("null player");
         this.playChips(view, data.bet);
         // if (texas_Data.Instance().getMaxCurBetWithout(userId) > 0) {
-            this.allStopSay();
-            this.head_list[view].say(this.player_state_type[4]);
-            if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-                AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Raise, false);
-            else
-                AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Raise, false);
+        this.allStopSay();
+        this.head_list[view].say(this.player_state_type[4]);
+        if (texas_Data.Instance().getPlayerById(userId).sex == 1)
+            AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Raise, false);
+        else
+            AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Raise, false);
         // }
         // else {
         //     this.allStopSay();
@@ -459,11 +447,11 @@ cc.Class({
     onShowHand(data) {
         let userId = data.userId;
         let view = texas_Data.Instance().getViewById(userId);
-        if (view == 0) 
+        if (view == 0)
             this.texas_op.hideOp();
         let player = texas_Data.Instance().getPlayerById(userId);
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
-        if(player)
+        if (player)
             this.head_list[view].setTurnBet(player.turnBet);
         else
             cc.log('null player');
@@ -472,11 +460,10 @@ cc.Class({
         this.head_list[view].say(this.player_state_type[5]);
         var allin = cc.find('allin', this.head_list[view].node);
         allin.active = true;
-        var ani = allin.getComponentInChildren(cc.Animation) ;
-        if(ani)
-        {
+        var ani = allin.getComponentInChildren(cc.Animation);
+        if (ani) {
             ani.play();
-        }  
+        }
 
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
             AudioManager.getInstance().playSound(texas_audio_cfg.MAN.ShowHand, false);
@@ -490,29 +477,26 @@ cc.Class({
         let userId = data.userId;
         cc.find('add', this.node).active = false;
         let view = texas_Data.Instance().getViewById(userId);
-        if (view == 0) 
+        if (view == 0)
             this.texas_op.showOp(OP_TYPE.EXCHANGE);
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
         cc.find('bet', this.head_list[view].node).active = false;
-        if(view==0)
-        {
+        if (view == 0) {
 
-        }else
-        {
-            var card_display =cc.find('card_display', this.head_list[view].node)
-            var endP = this.heguanSk.node.parent.convertToWorldSpaceAR(cc.p(0,0));
+        } else {
+            var card_display = cc.find('card_display', this.head_list[view].node)
+            var endP = this.heguanSk.node.parent.convertToWorldSpaceAR(cc.v2(0, 0));
             endP = card_display.convertToNodeSpaceAR(endP)
-            for(var i=0;i<card_display.childrenCount;i++)
-            {
+            for (var i = 0; i < card_display.childrenCount; i++) {
                 card_display.children[i].getComponent('texas_card').disAppearTo(endP);
             }
         }
-        
+
         // for (var i = 0; i < 2; i++) {
         //     var node = cc.find('card/card' + i, this.head_list[view].node);
         //     node.getComponent('texas_card').updateMoveCard();
         // }
-        this.head_list[view].showDiscard(true,view==0);
+        this.head_list[view].showDiscard(true, view == 0);
         this.allStopSay();
         // this.head_list[view].say('弃牌');
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
@@ -524,25 +508,24 @@ cc.Class({
     },
 
     //跟注
-    onBetCall(data,isBottom) {
+    onBetCall(data, isBottom) {
         let userId = data.userId;
         let view = texas_Data.Instance().getViewById(userId);
         let player = texas_Data.Instance().getPlayerById(userId);
 
         if (view == 0) this.texas_op.hideOp();
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
-        
-        if(player)
+
+        if (player)
             this.head_list[view].setTurnBet(player.turnBet);
         else
             cc.log('null player')
         this.playChips(view, data.bet);
         this.allStopSay();
-        if(isBottom)
-        {
+        if (isBottom) {
 
         }
-        else{
+        else {
             this.head_list[view].say(this.player_state_type[1]);
             if (texas_Data.Instance().getPlayerById(userId).sex == 1)
                 AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Call, false);
@@ -566,18 +549,16 @@ cc.Class({
         else
             AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Pass, false);
     },
-    onBanker(msg,isReconnect){
-        if(isReconnect)
-        {
+    onBanker(msg, isReconnect) {
+        if (isReconnect) {
 
-        }else
-        {
+        } else {
             this.resetCommonCards();
         }
 
         let view = texas_Data.Instance().getViewById(texas_Data.Instance().bankerId);
         for (var i = 0; i < this.head_list.length; i++) {
-            this.head_list[i].setBanker(msg,view == i);
+            this.head_list[i].setBanker(msg, view == i);
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player) {
                 cc.find('bet', this.head_list[i].node).active = player.joinGame;
@@ -591,16 +572,14 @@ cc.Class({
         const durTime = 0.5;
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
         var cardInfoList = [];
-        if(selfPlayer.joinGame)
-        {
+        if (selfPlayer.joinGame) {
             cardInfoList = msg.cardsList;
             this.head_list[0].node.opacity = 255;
-        }else
-        {
+        } else {
             this.head_list[0].node.opacity = 180;
             this.head_list[0].showWait();
         }
-        
+
         var bankerView = texas_Data.Instance().getViewById(texas_Data.Instance().bankerId);
         bankerView -= 1;//从庄家下一家发牌
         var delay = 0;
@@ -609,13 +588,12 @@ cc.Class({
         this.heguanSk.clearTracks();
         this.heguanSk.setAnimation(0, 'dz_hg_deal', true);
         var playerNum = this.head_list.length;
-        for (var j = bankerView; j > bankerView-playerNum; j--) {
-            var i =j<0?(j+playerNum):j;
+        for (var j = bankerView; j > bankerView - playerNum; j--) {
+            var i = j < 0 ? (j + playerNum) : j;
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player && player.joinGame) {
                 delay += stepTime
-            }else
-            {
+            } else {
                 continue;
             }
             var card = this._fapaiqi.getCard();
@@ -623,19 +601,17 @@ cc.Class({
             // var view = texas_Data.Instance().getViewById(cardInfoList[i].userId);
             var toScale = cc.v2(0.22, 0.22);
             var cardnode = null;
-            if (i == 0) 
-            {
+            if (i == 0) {
                 toScale = cc.v2(0.67, 0.67);
                 cardnode = cc.find('card', this.head_list[i].node);
-            }else
-            {
+            } else {
                 cardnode = cc.find('card_display', this.head_list[i].node);
             }
             cardnode.active = true;
-            
+
             var toPosition0 = this.cardPosition[i][0]; //cardnode.children[0].position;
             var toRotation0 = this.cardRotation[i][0];
-           
+
             var node0 = cc.find('card0', cardnode);
             node0.scaleX = card.scaleX;
             node0.scaleY = card.scaleY;
@@ -644,18 +620,17 @@ cc.Class({
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node0.x += (cardpos0.x - nodepos0.x);
             node0.y += (cardpos0.y - nodepos0.y);
-            if(i==0 && selfPlayer.joinGame)
+            if (i == 0 && selfPlayer.joinGame)
                 this.setPokerBack(node0, cardInfoList[0]);
-            node0.getComponent('texas_card').sendCard(card, delay, durTime, toPosition0, toScale,toRotation0, i==0);//明牌 后面改回来
+            node0.getComponent('texas_card').sendCard(card, delay, durTime, toPosition0, toScale, toRotation0, i == 0);//明牌 后面改回来
         }
 
         for (var j = bankerView; j > bankerView - playerNum; j--) {
-            var i =j<0?(j+playerNum):j;
+            var i = j < 0 ? (j + playerNum) : j;
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player && player.joinGame) {
                 delay += stepTime
-            }else
-            {
+            } else {
                 continue;
             }
             var card = this._fapaiqi.getCard();
@@ -663,12 +638,10 @@ cc.Class({
             // var view = texas_Data.Instance().getViewById(cardInfoList[i].userId);
             var toScale = cc.v2(0.22, 0.22);
             var cardnode = null;
-            if (i == 0) 
-            {
+            if (i == 0) {
                 toScale = cc.v2(0.67, 0.67);
                 cardnode = cc.find('card', this.head_list[i].node);
-            }else
-            {
+            } else {
                 cardnode = cc.find('card_display', this.head_list[i].node);
             }
             cardnode.active = true;
@@ -682,24 +655,24 @@ cc.Class({
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node1.x += (cardpos0.x - nodepos0.x);
             node1.y += (cardpos0.y - nodepos0.y);
-            if(i==0 && selfPlayer.joinGame)
+            if (i == 0 && selfPlayer.joinGame)
                 this.setPokerBack(node1, cardInfoList[1]);
-            node1.getComponent('texas_card').sendCard(card, delay, durTime, toPosition1, toScale, toRotation1,i==0);//明牌 后面改回来
+            node1.getComponent('texas_card').sendCard(card, delay, durTime, toPosition1, toScale, toRotation1, i == 0);//明牌 后面改回来
         }
-        var myWinRate = msg?msg.winRate:0
+        var myWinRate = msg ? msg.winRate : 0
         this.node.runAction(cc.sequence(
             cc.delayTime(delay + durTime),
             cc.callFunc(function () {
                 this.heguanSk.clearTracks();
                 this.heguanSk.setAnimation(0, 'dz_hg_standby', true);
-                
-                if(selfPlayer.joinGame){
+
+                if (selfPlayer.joinGame) {
                     this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(cardInfoList)[0]);
                     this.head_list[0].showMyWinRate(myWinRate);
-                    
+
                 }
             }.bind(this)),
-            ));
+        ));
 
 
         // this.updateRoundScore(); 
@@ -722,12 +695,12 @@ cc.Class({
             cc.callFunc(function () {
                 let cardInfoListList = msg.resultList;
                 for (var i = 0; i < cardInfoListList.length; i++) {
-                    if(cardInfoListList[i].pokerList.length<=0)
+                    if (cardInfoListList[i].pokerList.length <= 0)
                         continue;
 
                     var isWin = cardInfoListList[i].win > 0;
-                    var player = texas_Data.Instance().getPlayerById(cardInfoListList[i].playerId);         
-                    if (player && (player.state!=3)) {
+                    var player = texas_Data.Instance().getPlayerById(cardInfoListList[i].playerId);
+                    if (player && (player.state != 3)) {
                         var view = texas_Data.Instance().getViewById(cardInfoListList[i].playerId);
                         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
                         var cardnode = cc.find('card', this.head_list[view].node);
@@ -738,34 +711,32 @@ cc.Class({
 
                         for (var j = 0; j < player.cardsList.length; j++) {
                             cardnode.children[j].active = true;
-                            this.setPokerBack(cardnode.children[j], player.cardsList[j],true);
+                            this.setPokerBack(cardnode.children[j], player.cardsList[j], true);
                         }
                         if (isWin) {
-                            if(view == 0)
-                            {
+                            if (view == 0) {
                                 this.showMiddleWinEffect(player.cardtype);
-                            }else
-                            {
-                                this.head_list[view].showCardType(this.tpye_ani_prefab[player.cardtype - 1],this.type_splist[player.cardtype - 1],false,player.cardtype);
+                            } else {
+                                this.head_list[view].showCardType(this.tpye_ani_prefab[player.cardtype - 1], this.type_splist[player.cardtype - 1], false, player.cardtype);
                             }
                         }
                         else
-                            this.head_list[view].showCardType(null,this.type_splist[player.cardtype - 1],true,player.cardtype);
+                            this.head_list[view].showCardType(null, this.type_splist[player.cardtype - 1], true, player.cardtype);
                     }
                 }
 
             }.bind(this)),
-            cc.delayTime(1), 
+            cc.delayTime(1),
             cc.callFunc(function () {
                 TEXAS_ED.notifyEvent(Texas_Event.RESULT, msg);
             }.bind(this))));
-        
+
     },
     showOtherWinRate(msg) {
         for (var i = 0; i < msg.listList.length; i++) {
             var player = texas_Data.Instance().getPlayerById(msg.listList[i].playerid);
             var view = texas_Data.Instance().getViewById(msg.listList[i].playerid);
-            if (view!=0 && player && (player.state!=3)) {
+            if (view != 0 && player && (player.state != 3)) {
                 this.head_list[view].showMyWinRate(msg.listList[i].winRate);
             }
             cc.log();
@@ -776,103 +747,99 @@ cc.Class({
         this.node.runAction(cc.sequence(
             cc.delayTime(3),
             cc.callFunc(function () {
-        let cardInfoListList = msg.listList;
-        for (var i = 0; i < cardInfoListList.length; i++) {
-            var player = texas_Data.Instance().getPlayerById(cardInfoListList[i].playerid);
-            var view = texas_Data.Instance().getViewById(cardInfoListList[i].playerid);
-            if (player && (player.state!=3)) {
-                
-                // var cardnode = cc.find('card', this.head_list[view].node);
-                // cardnode.active = true;
-                // for (var j = 0; j < cardInfoListList[i].cardsList.length; j++) {
-                //     this.setPokerBack(cardnode.children[j], cardInfoListList[i].cardsList[j]);
-                //     cc.find('dipai_1/beimian', cardnode.children[j]).active = false;
-                // }
-                var cardnode = cc.find('card', this.head_list[view].node);
-                cardnode.active = true;
-                cc.find('card_display', this.head_list[view].node).active = false;
-                cc.find('allin', this.head_list[view].node).active = false;
-                for (var j = 0; j < cardInfoListList[i].cardsList.length; j++) {
-                    cardnode.children[j].active = true;
-                    this.setPokerBack(cardnode.children[j], cardInfoListList[i].cardsList[j],true);
+                let cardInfoListList = msg.listList;
+                for (var i = 0; i < cardInfoListList.length; i++) {
+                    var player = texas_Data.Instance().getPlayerById(cardInfoListList[i].playerid);
+                    var view = texas_Data.Instance().getViewById(cardInfoListList[i].playerid);
+                    if (player && (player.state != 3)) {
+
+                        // var cardnode = cc.find('card', this.head_list[view].node);
+                        // cardnode.active = true;
+                        // for (var j = 0; j < cardInfoListList[i].cardsList.length; j++) {
+                        //     this.setPokerBack(cardnode.children[j], cardInfoListList[i].cardsList[j]);
+                        //     cc.find('dipai_1/beimian', cardnode.children[j]).active = false;
+                        // }
+                        var cardnode = cc.find('card', this.head_list[view].node);
+                        cardnode.active = true;
+                        cc.find('card_display', this.head_list[view].node).active = false;
+                        cc.find('allin', this.head_list[view].node).active = false;
+                        for (var j = 0; j < cardInfoListList[i].cardsList.length; j++) {
+                            cardnode.children[j].active = true;
+                            this.setPokerBack(cardnode.children[j], cardInfoListList[i].cardsList[j], true);
+                        }
+
+                    }
                 }
-                        
-            }
-        }
-        }.bind(this)
-        )));
+            }.bind(this)
+            )));
     },
 
     //结算
-    onResult(msg,noCards) {
+    onResult(msg, noCards) {
         //客户端做一个延迟，等待公共牌发完再结算
         this.node.runAction(cc.sequence(cc.delayTime(1), cc.callFunc(function () {
-            this.onResultFinish(msg,noCards);
+            this.onResultFinish(msg, noCards);
         }.bind(this))));
-        
+
     },
 
-    showNYL()
-    {
-        var effectNode = cc.find('effectNode',this.node)
+    showNYL() {
+        var effectNode = cc.find('effectNode', this.node)
         effectNode.active = true;
 
         this.middle_effect[0].active = true;
         var ani = this.middle_effect[0].getComponent(cc.Animation);
-        if(ani)
-        {
+        if (ani) {
             var xhCallBack = function () {
                 ani.off('finished', xhCallBack);
-                ani.play('dzpk_js_nyl_xh',0);
+                ani.play('dzpk_js_nyl_xh', 0);
             }
             ani.on('finished', xhCallBack, this);
-            ani.play('dzpk_js_nyl',0);
+            ani.play('dzpk_js_nyl', 0);
 
             this.node.runAction(cc.sequence(cc.delayTime(5), cc.callFunc(function () {
                 this.clearEffectNode();
             }.bind(this))));
-        }  
+        }
         AudioManager.getInstance().playSound(texas_audio_cfg.Win, false);
     },
-    onResultFinish(msg,noCards) {
-         // cc.find('add', this.node).active = false;
-         this._resultMSG = msg;
-         var winView = [];//赢家view
-         
-         for (var i = 0; i < msg.resultList.length; i++) {
-             
-             var view = texas_Data.Instance().getViewById(msg.resultList[i].playerId);
-             
-             if (view != null) {
+    onResultFinish(msg, noCards) {
+        // cc.find('add', this.node).active = false;
+        this._resultMSG = msg;
+        var winView = [];//赢家view
+
+        for (var i = 0; i < msg.resultList.length; i++) {
+
+            var view = texas_Data.Instance().getViewById(msg.resultList[i].playerId);
+
+            if (view != null) {
                 cc.find('allin', this.head_list[view].node).active = false;
                 this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
-                 var score = cc.find('score/txt', this.head_list[view].node);
-                 var scoreBg = cc.find('score', this.head_list[view].node);
-                 if (msg.resultList[i].win <= 0){
-                     score.getComponent(cc.Label).font = this.result_fonts[1];
-                     scoreBg.getComponent(cc.Sprite).spriteFrame= this.result_bg[1];
-                 }else {
-                     score.getComponent(cc.Label).font = this.result_fonts[0];
-                     scoreBg.getComponent(cc.Sprite).spriteFrame= this.result_bg[0];
-                     winView.push(view);
-                     if(noCards && view == 0)
-                     {
+                var score = cc.find('score/txt', this.head_list[view].node);
+                var scoreBg = cc.find('score', this.head_list[view].node);
+                if (msg.resultList[i].win <= 0) {
+                    score.getComponent(cc.Label).font = this.result_fonts[1];
+                    scoreBg.getComponent(cc.Sprite).spriteFrame = this.result_bg[1];
+                } else {
+                    score.getComponent(cc.Label).font = this.result_fonts[0];
+                    scoreBg.getComponent(cc.Sprite).spriteFrame = this.result_bg[0];
+                    winView.push(view);
+                    if (noCards && view == 0) {
                         this.showNYL();
-                     }
-                 }
-                 
-                 score.getComponent(cc.Label).string = ':' + Math.abs(msg.resultList[i].win);
-                 
-             }
-         }
+                    }
+                }
 
-         if(winView.length>0){
+                score.getComponent(cc.Label).string = ':' + Math.abs(msg.resultList[i].win);
+
+            }
+        }
+
+        if (winView.length > 0) {
             this.showCoinFly(winView)
 
-            for(var i=0;i<winView.length;i++)
-            {
+            for (var i = 0; i < winView.length; i++) {
                 var winnode = cc.find('win', this.head_list[winView[i]].node)
-                if(winnode.childrenCount>0)//有牌型的特效
+                if (winnode.childrenCount > 0)//有牌型的特效
                     continue;
 
                 var effct = cc.instantiate(this.win_ani_prefab);
@@ -880,16 +847,15 @@ cc.Class({
                 winnode.active = true;
                 winnode.addChild(effct);
                 var animation = winnode.getComponent(cc.Animation);
-                if(animation)
-                {
+                if (animation) {
                     animation.play();
                 }
             }
-           
-         }else
+
+        } else
             cc.log("winview  null");
 
-         
+
         RoomED.notifyEvent(RoomEvent.on_room_game_start, []);
         if (this._resultMSG) {
             var msg = this._resultMSG;
@@ -898,8 +864,8 @@ cc.Class({
                 if (view != null) {
                     var score = cc.find('score', this.head_list[view].node);
                     score.active = true;
-                    score.y=-44.3;
-                    var move = cc.moveBy(0.3, cc.p(0, 60));
+                    score.y = -44.3;
+                    var move = cc.moveBy(0.3, cc.v2(0, 60));
                     score.runAction(move);
                     cc.log();
                 }
@@ -909,29 +875,25 @@ cc.Class({
             this.texas_op.showOp(OP_TYPE.EXCHANGE);//RESULT);
     },
 
-    showMiddleWinEffect(cardType)
-    {
-        
+    showMiddleWinEffect(cardType) {
 
-        var effectNode = cc.find('effectNode',this.node)
+
+        var effectNode = cc.find('effectNode', this.node)
         effectNode.active = true;
         //葫芦以下
-        if(cardType<7)
-        {
+        if (cardType < 7) {
             this.showNYL();
-        }else
-        {
-            this.middle_effect[cardType-6].active = true;
-            var sk = this.middle_effect[cardType-6].getComponent(sp.Skeleton) ;
-            if(sk)
-            {
+        } else {
+            this.middle_effect[cardType - 6].active = true;
+            var sk = this.middle_effect[cardType - 6].getComponent(sp.Skeleton);
+            if (sk) {
                 sk.clearTracks();
                 sk.loop = false;
-                sk.setAnimation(0, MIDDLE_EFFECT_NAME[cardType-7],false);
-                
+                sk.setAnimation(0, MIDDLE_EFFECT_NAME[cardType - 7], false);
+
                 sk.setCompleteListener(function () {
                     // sk.clearTracks();
-                    sk.setAnimation(0, MIDDLE_EFFECT_XH_NAME[cardType-7],true);
+                    sk.setAnimation(0, MIDDLE_EFFECT_XH_NAME[cardType - 7], true);
                     sk.loop = true;
                     sk.setCompleteListener(null);
                 }.bind(this));
@@ -939,8 +901,8 @@ cc.Class({
             AudioManager.getInstance().playSound(texas_audio_cfg.Win, false);
         }
 
-        
-        
+
+
     },
 
     showCoinFly(winList) {
@@ -951,7 +913,7 @@ cc.Class({
         const posOffset = 5;
         const timeOffset = 0.04;
         var betChip = cc.find('info/betChip/icon', this.node);
-        if (winList.length ) {
+        if (winList.length) {
             for (var i = 0; i < winList.length; i++) {
                 var tv = winList[i];
                 var posStart = betChip.parent.convertToWorldSpaceAR(betChip.position);
@@ -960,7 +922,7 @@ cc.Class({
                 var posTo = cc.find('head/gold', this.head_list[tv].node).position;
                 for (var j = 0; j < coinCount; j++) {
                     var offsetT = Math.random() * timeOffset * 2 - timeOffset;
-                    var offsetP = cc.p(Math.random() * posOffset * 2 - posOffset, Math.random() * posOffset * 2 - posOffset);
+                    var offsetP = cc.v2(Math.random() * posOffset * 2 - posOffset, Math.random() * posOffset * 2 - posOffset);
                     var node = this.getChipNode();
                     node.position = posStart;
                     var delay = (totalTime - flyTime) / coinCount * j + offsetT;
@@ -985,7 +947,7 @@ cc.Class({
         // this.showReadys(false);
         this.resetGameUI();
         this.stopMatchAnim();
-        if(this.title.string == '')
+        if (this.title.string == '')
             this.initTitle();
         this.updateRoundScore();
         this.updateDeskScore();
@@ -996,79 +958,70 @@ cc.Class({
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player) {
                 var cardnode = cc.find('card', this.head_list[i].node);
-                var noCards = ( player.cardsList.length <=0)
-                if(noCards)
-                {
+                var noCards = (player.cardsList.length <= 0)
+                if (noCards) {
                     cardnode = cc.find('card_display', this.head_list[i].node);
                 }
 
-                if(i==0 && player.joinGame==1)
-                {
-                    this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(player.cardsList,msg.commonCardsList)[0]);
-                    if(texas_Data.Instance().haveWinRateCard())
-                    {
-                        if(msg.commonCardsList.length>0)
-                        {
-                            var winRate = texas_Data.Instance().calWinRate(player.cardsList,msg.commonCardsList)
-                            this.head_list[0].showMyWinRate(parseInt(winRate*10000) );
-                        }else
-                        {
+                if (i == 0 && player.joinGame == 1) {
+                    this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(player.cardsList, msg.commonCardsList)[0]);
+                    if (texas_Data.Instance().haveWinRateCard()) {
+                        if (msg.commonCardsList.length > 0) {
+                            var winRate = texas_Data.Instance().calWinRate(player.cardsList, msg.commonCardsList)
+                            this.head_list[0].showMyWinRate(parseInt(winRate * 10000));
+                        } else {
                             this.head_list[0].showMyWinRate(player.winRate);
                         }
                     }
-                    
-                    
+
+
                 }
 
                 // totalCardNum += player.cardsList.length;
-                var showCards = (i==0?true:player.state!=3)
+                var showCards = (i == 0 ? true : player.state != 3)
                 for (var j = 0; j < 2; j++) {
-                    if(player.joinGame==1 && showCards){
+                    if (player.joinGame == 1 && showCards) {
                         cardnode.active = true;
-                        if(cardnode.children[j]){
+                        if (cardnode.children[j]) {
                             cardnode.children[j].position = this.cardPosition[i][j]
                             cardnode.children[j].active = true;
                             // cc.log('显示玩家牌:'+player.userId);
                         }
-                        if(noCards){
+                        if (noCards) {
                             continue;
                         }
                         this.setPokerBack(cardnode.children[j], player.cardsList[j]);
-                        if(i==0)
-                        {
+                        if (i == 0) {
                             cc.find('dipai_1/beimian', cardnode.children[j]).active = false;
                         }
                     }
                     else {
-                        if(cardnode.children[j])
+                        if (cardnode.children[j])
                             cardnode.children[j].active = false;
                     }
                 }
                 //是否弃牌
-                this.head_list[i].showDiscard(player.state==3,i==0);
-                if (player.joinGame==0)
-                {
+                this.head_list[i].showDiscard(player.state == 3, i == 0);
+                if (player.joinGame == 0) {
                     this.head_list[i].showWait();
-                }else if(player.state==5)
-                {
+                } else if (player.state == 5) {
                     //是否allin
                     var allin = cc.find('allin', this.head_list[i].node);
                     allin.active = true;
-                    var ani = allin.getComponentInChildren(cc.Animation) ;
-                    if(ani)
-                    {
+                    var ani = allin.getComponentInChildren(cc.Animation);
+                    if (ani) {
                         ani.play();
-                    } 
+                    }
                 }
-                 
-                cc.find('bet', this.head_list[i].node).active = player.joinGame!=0;
+
+                cc.find('bet', this.head_list[i].node).active = player.joinGame != 0;
                 this.head_list[i].setTurnBet(player.turnBet);
-                
+
             }
         }
         // this._fapaiqi.resumeCard(totalCardNum);//发牌器重置
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if (selfPlayer && (selfPlayer.joinGame!=1|| selfPlayer.state == 3 || selfPlayer.state == 5)) {
+        if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)) {
             this.texas_op.showOp(OP_TYPE.EXCHANGE);
         }
         switch (texas_Data.Instance().roomStatus) {
@@ -1079,7 +1032,7 @@ cc.Class({
                 this.resetGameUI();
                 break;
             case 1:
-                this.onBanker(msg,true);
+                this.onBanker(msg, true);
                 TEXAS_ED.notifyEvent(Texas_Event.OVER_TURN);
                 break;
         }
@@ -1095,17 +1048,17 @@ cc.Class({
         }
     },
 
-    clearRoundBet(){
+    clearRoundBet() {
         for (var i = 0; i < this.head_list.length; i++) {
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
-            if (player  && player.joinGame) {
+            if (player && player.joinGame) {
                 this.head_list[i].setTurnBet(player.turnBet);
             }
         }
     },
 
     updateRoundBet(data) {
-        
+
         for (var i = 0; i < this.head_list.length; i++) {
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player && player.joinGame) {
@@ -1119,7 +1072,7 @@ cc.Class({
                 endpos = chipIcon.parent.convertToNodeSpaceAR(endpos);
                 let node = this.getChipNode();
 
-                node.getComponent('texas_chip').fly(chipIcon.position, endpos, chipIcon.parent,null,true,true);
+                node.getComponent('texas_chip').fly(chipIcon.position, endpos, chipIcon.parent, null, true, true);
             }
         }
 
@@ -1132,11 +1085,10 @@ cc.Class({
     //实时更新
     updateDeskScore(data) {
         let total = texas_Data.Instance().convertNumToStr(texas_Data.Instance().m_totalBet);
-        this.title.string = '底池：'+total;
+        this.title.string = '底池：' + total;
     },
     //每轮更新一次
-    updateRoundScore(data)
-    {
+    updateRoundScore(data) {
         let total = data || texas_Data.Instance().m_totalBet;
         cc.find('info/betChip/bet', this.node).getComponent(cc.Label).string = total.toString();
     },
@@ -1145,8 +1097,7 @@ cc.Class({
         this.stopMatchAnim();
     },
 
-    showCommonCards:function(msg)
-    {
+    showCommonCards: function (msg) {
         const durTime = 0.5;
         const stepTime = 0.2;
         var cards = [];
@@ -1156,11 +1107,10 @@ cc.Class({
         // else
         cards = msg.pokerList;
         var idx = this.getNeedShowCommonCards();
-        if(idx == -1)
+        if (idx == -1)
             idx = 0;
         for (var j = idx; j < idx + cards.length; j++) {
-            if(j > 4)
-            {
+            if (j > 4) {
                 cc.error("error common Cards");
                 return;
             }
@@ -1168,11 +1118,11 @@ cc.Class({
             // var idx = msg.round == 1?j:(msg.round + 1)
             cNode.active = true;
             // cc.find('dipai_1/beimian', this.common_cards.children[j]).active = false;
-            this.setPokerBack(cNode, cards[j-idx]);
+            this.setPokerBack(cNode, cards[j - idx]);
             var card = this._fapaiqi.getCard();
             card.active = true;
             var toScale = cc.v2(1.05, 1.05);
-            
+
             var toPosition0 = this.commonCardPosition[j];//this.common_cards.children[j].position;
 
             cNode.scaleX = card.scaleX;
@@ -1182,34 +1132,32 @@ cc.Class({
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             cNode.x += (cardpos0.x - nodepos0.x);
             cNode.y += (cardpos0.y - nodepos0.y);
-            cNode.getComponent('texas_card').sendCard(card, (j-idx) * stepTime, durTime, toPosition0, toScale,0, true);
+            cNode.getComponent('texas_card').sendCard(card, (j - idx) * stepTime, durTime, toPosition0, toScale, 0, true);
         }
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if(selfPlayer.joinGame && selfPlayer.state != 3){
-            if(msg.cardType!=null)//服务器发了牌类型
+        if (selfPlayer.joinGame && selfPlayer.state != 3) {
+            if (msg.cardType != null)//服务器发了牌类型
             {
                 this.head_list[0].showMyCardType(msg.pokerType);
-            }else//客户端算
+            } else//客户端算
             {
-                this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(selfPlayer.cardsList,texas_Data.Instance().t_commonCards)[0]);
+                this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(selfPlayer.cardsList, texas_Data.Instance().t_commonCards)[0]);
             }
-            if(texas_Data.Instance().haveWinRateCard())
-            {
-                var winRate = texas_Data.Instance().calWinRate(selfPlayer.cardsList,texas_Data.Instance().t_commonCards)
-                this.head_list[0].showMyWinRate(parseInt(winRate*10000))
+            if (texas_Data.Instance().haveWinRateCard()) {
+                var winRate = texas_Data.Instance().calWinRate(selfPlayer.cardsList, texas_Data.Instance().t_commonCards)
+                this.head_list[0].showMyWinRate(parseInt(winRate * 10000))
             }
             // this.head_list[0].showMyWinRate(msg.winRate);
             // cc.log('客户端计算胜率是:'+texas_Data.Instance().calWinRate(selfPlayer.cardsList,texas_Data.Instance().t_commonCards));
-            
+
         }
         AudioManager.getInstance().playSound(texas_audio_cfg.Sound_See_Card, false);
     },
 
-    getNeedShowCommonCards:function()
-    {
+    getNeedShowCommonCards: function () {
         var idx = -1;
         for (var j = 0; j < 5; j++) {
-            if(!this.common_cards.children[j].active){
+            if (!this.common_cards.children[j].active) {
                 idx = j;
                 break;
             }
@@ -1219,8 +1167,7 @@ cc.Class({
     },
 
 
-    resetCommonCards:function()
-    {
+    resetCommonCards: function () {
         for (var j = 0; j < this.common_cards.children.length; j++) {
             this.common_cards.children[j].active = false;
             cc.find('dipai_1/beimian', this.common_cards.children[j]).active = true;
@@ -1243,7 +1190,7 @@ cc.Class({
                     this.onDealCard();
                 }
                 break;
-            
+
         }
     },
 
@@ -1259,12 +1206,10 @@ cc.Class({
         this.updateDeskScore();
     },
 
-    clearEffectNode()
-    {
-        var effectNode = cc.find('effectNode',this.node);
+    clearEffectNode() {
+        var effectNode = cc.find('effectNode', this.node);
         effectNode.active = false;
-        for(var i=0;i<effectNode.childrenCount;i++)
-        {
+        for (var i = 0; i < effectNode.childrenCount; i++) {
             effectNode.children[i].active = false;
         }
     },
@@ -1277,20 +1222,19 @@ cc.Class({
         let curBet = texas_Data.Instance().getMaxCurBet();
         let turnBet = texas_Data.Instance().getMaxTurnBet();
         if (view == 0) {//自己
-            
+
             let optype = 0;
             // let max = texas_Data.Instance().getMaxAllBet();
             //texas_Data.Instance().maxBet;
-            
-            cc.log('玩家金币:' + playGold + '   当前最大下注' + curBet+"   当前轮最大下注:"+turnBet);
+
+            cc.log('玩家金币:' + playGold + '   当前最大下注' + curBet + "   当前轮最大下注:" + turnBet);
             optype |= OP_TYPE.discard;
 
-            var canFollow = playGold>=curBet
+            var canFollow = playGold >= curBet
             var isPick = false;
             //玩家all in后服务器不会让此玩家表态
-            if(canFollow)
-            {
-                if(selfPlayer.turnBet==turnBet){
+            if (canFollow) {
+                if (selfPlayer.turnBet == turnBet) {
                     optype |= OP_TYPE.pass;
                     // if(texas_Data.Instance().m_round == 0 && texas_Data.Instance().bigBlindId == selfPlayer.userId)
                     // {
@@ -1302,41 +1246,38 @@ cc.Class({
                     //         optype |= OP_TYPE.follow;
                     //     }
                     // }
-                }else {
-                    if(curBet!=0){
+                } else {
+                    if (curBet != 0) {
                         optype |= OP_TYPE.follow;
-                    } else if(texas_Data.Instance().bigBlindId != selfPlayer.userId){
+                    } else if (texas_Data.Instance().bigBlindId != selfPlayer.userId) {
                         optype |= OP_TYPE.follow;
                     }
                 }
                 optype |= OP_TYPE.add;
-                var minbet = Math.max(0,2*texas_Data.Instance().m_lastBet);
-                var percent = (playGold<minbet?100:0)
-                this.node.getComponentInChildren('texas_bet_slider').setData(minbet , playGold, texas_Data.Instance().getBaseScore(), percent,texas_Data.Instance().m_totalBet,this.addBtnLabel);
-            }else if(texas_Data.Instance().m_bAutoPickMoney)
-            {
+                var minbet = Math.max(0, 2 * texas_Data.Instance().m_lastBet);
+                var percent = (playGold < minbet ? 100 : 0)
+                this.node.getComponentInChildren('texas_bet_slider').setData(minbet, playGold, texas_Data.Instance().getBaseScore(), percent, texas_Data.Instance().m_totalBet, this.addBtnLabel);
+            } else if (texas_Data.Instance().m_bAutoPickMoney) {
                 texas_Data.Instance().checkAutoPickMoney();
                 isPick = true;
                 optype |= OP_TYPE.showhand;
             }
-            else
-            {
+            else {
                 optype |= OP_TYPE.showhand;
             }
 
-            if(texas_Data.Instance().m_opflag == -1 && turnBet == texas_Data.Instance().m_followBet)//客户端判断自动跟特定注
+            if (texas_Data.Instance().m_opflag == -1 && turnBet == texas_Data.Instance().m_followBet)//客户端判断自动跟特定注
             {
-                if(canFollow)//钱够自动跟
+                if (canFollow)//钱够自动跟
                 {
-                    if(playGold==curBet)
+                    if (playGold == curBet)
                         sender.allIn();
                     else
                         sender.Call();
-                }else if(texas_Data.Instance().m_bAutoPickMoney)
-                {
-                    if(!isPick)
+                } else if (texas_Data.Instance().m_bAutoPickMoney) {
+                    if (!isPick)
                         texas_Data.Instance().checkAutoPickMoney();
-                    this.texas_op.showOp(OP_TYPE.MY_TURN, optype,turnBet);
+                    this.texas_op.showOp(OP_TYPE.MY_TURN, optype, turnBet);
                 }
                 else//不够allin
                 {
@@ -1344,45 +1285,40 @@ cc.Class({
                 }
                 texas_Data.Instance().m_opflag = 0;//取消自动跟特定注
 
-            }else
-            {
-                var minbet = Math.max(0,2*texas_Data.Instance().m_lastBet);
-                this.texas_op.setCanAdd(playGold>=minbet,minbet);
-                this.texas_op.showOp(OP_TYPE.MY_TURN, optype,turnBet);
+            } else {
+                var minbet = Math.max(0, 2 * texas_Data.Instance().m_lastBet);
+                this.texas_op.setCanAdd(playGold >= minbet, minbet);
+                this.texas_op.showOp(OP_TYPE.MY_TURN, optype, turnBet);
             }
 
             AudioManager.getInstance().playSound(texas_audio_cfg.Talk_own, false);
-        }else if(selfPlayer.joinGame!=1 || selfPlayer.state == 3 || selfPlayer.state == 5)//旁观
+        } else if (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)//旁观
         {
             this.texas_op.showOp(OP_TYPE.WATCH);
         }
         else {//其他人
             let optype = 0;
             optype |= OP_TYPE.discard;
-            var canFollow = playGold>=curBet
+            var canFollow = playGold >= curBet
             //玩家all in后服务器不会让此玩家表态
-            if(canFollow)
-            {
+            if (canFollow) {
                 optype |= OP_TYPE.follow;
-                if(selfPlayer.curBet==curBet)
+                if (selfPlayer.curBet == curBet)
                     optype |= OP_TYPE.pass;
             }
-            this.texas_op.showOp(OP_TYPE.NOT_MY_TURN, optype,turnBet,null,selfPlayer.turnBet);
+            this.texas_op.showOp(OP_TYPE.NOT_MY_TURN, optype, turnBet, null, selfPlayer.turnBet);
         }
         this.head_list[view].say(this.player_state_type[0]);
-        if(noTime)
-        {
+        if (noTime) {
 
-        }else{
-            if(texas_Data.Instance().curPlayerTime>0)
-            {
+        } else {
+            if (texas_Data.Instance().curPlayerTime > 0) {
                 this.head_list[view].node.getComponentInChildren('texas_timer').play(texas_Data.Instance().curPlayerTime, null, null);
                 texas_Data.Instance().curPlayerTime = 0;
-            }else
-            {
+            } else {
                 this.head_list[view].node.getComponentInChildren('texas_timer').play(OP_TIME, null, null);
             }
-            
+
         }
     },
 
@@ -1408,13 +1344,13 @@ cc.Class({
         //     }
         // }
         // for (var i = chips.length - 1; i > -1; i--) {
-            this.singleBet(view,add);
+        this.singleBet(view, add);
         // }
         // if (chips.length > 0) {
         //     if (chips.length > 5)
         //         AudioManager.getInstance().playSound(texas_audio_cfg.Chip_HE, false);
         //     else
-                AudioManager.getInstance().playSound(texas_audio_cfg.Chip, false);
+        AudioManager.getInstance().playSound(texas_audio_cfg.Chip, false);
         // }
     },
 
@@ -1436,18 +1372,18 @@ cc.Class({
         // {
         //     cc.find('bank',node).active = texas_Data.Instance().bankerId == player.userId
         // }
-        node.getComponent('texas_chip').fly(startpos, endpos, this.head_list[view].node,null,true);
+        node.getComponent('texas_chip').fly(startpos, endpos, this.head_list[view].node, null, true);
     },
 
 
     //背面牌
-    setPokerBack(node, cardValue,isShow) {
+    setPokerBack(node, cardValue, isShow) {
         let paiAtlas = this.pokerAtlas;
         var value = Math.floor(cardValue / 10);
         var flower = cardValue % 10;
-        var hua_xiao = cc.find("dipai_1/hua_xiao",node);//node.getChildByName('hua_xiao');
-        var hua_da = cc.find("dipai_1/hua_da",node);//node.getChildByName('hua_da');
-        var num = cc.find("dipai_1/num",node);//node.getChildByName('num');
+        var hua_xiao = cc.find("dipai_1/hua_xiao", node);//node.getChildByName('hua_xiao');
+        var hua_da = cc.find("dipai_1/hua_da", node);//node.getChildByName('hua_da');
+        var num = cc.find("dipai_1/num", node);//node.getChildByName('num');
         if (value == 2) value = 16;
         if (value == 1) value = 14;
         if (value < 17) {
@@ -1489,8 +1425,8 @@ cc.Class({
                 else {
                     num.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_b' + value.toString());
                 }
-                var isJQK = (value>=11&&value<=13);
-                hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('hs_' + flower.toString()+(isJQK?('_'+value):''));
+                var isJQK = (value >= 11 && value <= 13);
+                hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('hs_' + flower.toString() + (isJQK ? ('_' + value) : ''));
 
                 hua_xiao.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('hs_' + flower.toString());
                 hua_xiao.active = true;
@@ -1508,8 +1444,7 @@ cc.Class({
                 break;
         }
 
-        if(isShow)
-        {
+        if (isShow) {
             node.getComponent('texas_card').updateCard(true);
         }
 
@@ -1534,8 +1469,8 @@ cc.Class({
         // //     this.sendLeaveRoom();
         // // }
         // else {
-            this.sendLeaveRoom();
-            this.backToHall();
+        this.sendLeaveRoom();
+        this.backToHall();
         // }
         //}
     },

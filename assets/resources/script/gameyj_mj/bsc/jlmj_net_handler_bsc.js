@@ -7,6 +7,7 @@
 const Bsc_Event = require('bsc_data').BSC_Event;
 const Bsc_ED = require('bsc_data').BSC_ED;
 const Bsc_data = require('bsc_data').BSC_Data;
+// var DeskData = require('jlmj_desk_data').DeskData;
 
 
 module.exports = {
@@ -118,11 +119,11 @@ module.exports = {
         Bsc_data.Instance().updateMatchState(msg.matchId, msg.matchState);
     },
 
-    on_msg_coin_room_drop_reward(msg) {
+    on_msg_coin_room_drop_reward(msg){
         Bsc_ED.notifyEvent(Bsc_Event.Drop_Reward, msg);
     },
 
-    on_msg_match_info_ret(msg) {
+    on_msg_match_info_ret(msg){
         Bsc_ED.notifyEvent(Bsc_Event.BSC_UPDATE_DETAIL, msg);
     },
 };

@@ -4,7 +4,7 @@ const Width = 62;
 const Height = 88;
 const Theta = Math.atan(Width / Height);
 
-const TOTAL_TIME=12;
+const TOTAL_TIME = 12;
 //系统的暂停和恢复
 let SysED = require("com_sys_data").SysED;
 let SysEvent = require("com_sys_data").SysEvent;
@@ -29,7 +29,7 @@ cc.Class({
         this.stopSound();
     },
 
-    
+
     //事件处理
     onEventMessage(event, data) {
         switch (event) {
@@ -61,9 +61,9 @@ cc.Class({
         // this.time = duration;
         this.remain = curtime == null ? duration : curtime;
         var ratio = this.remain / TOTAL_TIME;
-        var pro=this.headQuanSpr.node.getComponent(cc.ProgressBar);
+        var pro = this.headQuanSpr.node.getComponent(cc.ProgressBar);
         // var pro2=this.headQuanLightSpr.node.getComponent(cc.ProgressBar);
-        pro.progress=ratio;
+        pro.progress = ratio;
         // pro2.progress=ratio;//1-ratio;
         this.callback = callback;
 
@@ -93,9 +93,9 @@ cc.Class({
                     this.stopSound();
                 }
                 var ratio = this.remain / TOTAL_TIME;
-                var pro=this.headQuanSpr.node.getComponent(cc.ProgressBar);
+                var pro = this.headQuanSpr.node.getComponent(cc.ProgressBar);
                 // var pro2=this.headQuanLightSpr.node.getComponent(cc.ProgressBar);
-                pro.progress=ratio;//1-ratio;
+                pro.progress = ratio;//1-ratio;
                 // pro2.progress=ratio;
                 var pos = this.getPos(ratio);
                 this.headAni.x = pos.x;
@@ -184,7 +184,7 @@ cc.Class({
         else {
             x = -Height * Math.tan(Math.PI * 2 - ang);
         }
-        return cc.p(x, y);
+        return cc.v2(x, y);
     },
 
 });

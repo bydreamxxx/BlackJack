@@ -1,4 +1,5 @@
 var dd = cc.dd;
+const strconfig = require('jlmj_strConfig');
 
 /**
  * 事件类型
