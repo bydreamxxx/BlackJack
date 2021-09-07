@@ -1,7 +1,7 @@
 const BlackJackPlayerED = require("BlackJackPlayerData").BlackJackPlayerED;
 const BlackJackPlayerEvent = require("BlackJackPlayerData").BlackJackPlayerEvent;
 
-cc.Class({
+let blackjack_player_ui = cc.Class({
     extends: cc.Component,
 
     properties: {
@@ -79,3 +79,5 @@ cc.Class({
         }
     },
 });
+
+module.exports = blackjack_player_ui;
