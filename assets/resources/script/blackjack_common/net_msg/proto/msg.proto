@@ -8346,20 +8346,49 @@ message msg_horse_result{
 //------------------21点------------------
 //cmd_start_index=8600
 //cmd_name=blackjack
+
+//朋友场可能会用
+message msg_bj_ready_req{
+}
+
+message msg_bj_ready_ack{
+	optional int32 result = 1; //0:成功，其他：错误
+}
+
+
+//行动位改变， 比如你的上家不要了， 服务器则会发送该消息，改变行动位到下一个
+message msg_bj_action_change{
+	optional int32			user_id	= 1; //当前行动位
+	optional int32			index	= 2; //那一铺(有双倍下注的情况，可能有两铺)
+}
+
 message msg_bj_state_change_2c{
-	optional int32	room_state	= 1;	//当前房间状态
+	optional int32	room_state	= 1;	////1:等待玩家状态2:初次下注阶段 3:买保险阶段  4:牌局进行状态 5:显示结果状态  
 	optional int32	cur_round	= 2;	//当前第几轮
-	optional int32	max_bet		= 3;	//当前最大下注
-	optional int32	min_bet		= 4;	//当前最小下注
+}
+
+//房间解散 （同意/拒绝）
+message msg_bj_dissolve_agree_req {
+	optional	bool		is_agree = 1;
+}
+
+message msg_bj_dissolve_agree_ack {
+	optional	uint32 		user_id 	= 1;
+	optional	bool 		is_agree 	= 2;
+	optional	int32		time		=3; //倒计时， 恢复时候使用
+}
+
+//房间解散结果
+message msg_bj_dissolve_agree_result {
+	optional	bool		is_dissolve = 1;		// 是否解散
 }
 
 message msg_bj_info{
-	optional int32      			bj_state			= 1;//1:等待状态2:牌局进行阶段 3:显示结果阶段
-	optional int32      			last_time			= 2;//剩余时间 秒数
-	repeated bj_user_info          	users_info          = 3;
-	optional int32                  room_config_id      = 4;
-	optional uint32					turn				= 5; //当前该谁操作， 1:所有玩家 100:庄家 userid:具体玩家
-	optional int32					bet_index			= 6;
+	optional int32      							bj_state			= 1;//1:等待玩家状态2:初次下注阶段 3:买保险阶段  4:牌局进行状态 5:显示结果状态  
+	optional int32      							last_time			= 2;//剩余时间 秒数
+	repeated bj_user_info          					users_info          = 3;
+	optional int32                  				room_config_id      = 4;
+	optional msg_bj_action_change					turn				= 5; //当前该谁操作， 1:所有玩家 100:庄家 userid:具体玩家
 }
 
 message bj_bet_info{
@@ -8381,11 +8410,6 @@ message msg_bj_deal_poker{
 	optional int32			point		= 4;
 }
 
-message msg_bj_action_change{
-	optional int32			user_id	= 1; //当前行动位
-	optional int32			index	= 2; //那一铺
-}
-
 message msg_bj_bet_req{
 	optional int32			type  = 1; //1:下注 2：双倍下注 3:保险 4：要牌， 5:分牌 6:停牌
 	optional int32			index = 2; //对应一人拆分牌的时候的情况
@@ -8395,7 +8419,7 @@ message msg_bj_bet_req{
 message msg_bj_bet_ret{
 	optional int32      		ret_code    = 1[default=0];   //1:当前不该自己说话， 2:没有这个用户  3：金币不够， 4：超过下注次数,5:错误的参数
 	optional uint32      		user_id     = 2;
-	repeated bj_bet_info   		bet     	= 3;
+	repeated bj_bet_info   		bet     	= 3; //这里有可能有分牌的情况，所以可能是两个
 }
 
 message bj_result_info{
@@ -8409,6 +8433,15 @@ message bj_result_info{
 
 message msg_bj_result{
 	repeated bj_result_info 	results		= 1;
+}
+
+//战绩
+message msg_bj_result_all_2c {
+	required int32 room_number = 1;//房号
+	required int32 game_times = 2;//局数
+	required uint32	room_master = 3;//房主ID
+	required int32	start_time = 4;//开始时间
+	repeated bj_result_info results = 5;
 }
 
 //------------------------------21点------------------ end

@@ -10,6 +10,11 @@ cc.Class({
         banker: cc.Node,
         playerList: [cc.Node],
         bottomButton: cc.Node,
+
+        minBet: cc.Label,
+        maxBet: cc.Label,
+
+        cardPrefab: cc.Prefab,
     },
 
     // LIFE-CYCLE CALLBACKS:
