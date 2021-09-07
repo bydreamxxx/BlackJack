@@ -12,9 +12,13 @@ let blackjack_player_ui = cc.Class({
         point: cc.Label,
 
         chipLabel: cc.Label,
+        timerProgress: cc.ProgressBar,
+        timerLabel: cc.Label,
 
         chipZone: cc.Node,
         cardZone: cc.Node,
+
+        cardNode: cc.Node,
 
         giftBtn: cc.Node,
 
@@ -41,6 +45,11 @@ let blackjack_player_ui = cc.Class({
             this.score.string = '';
         if (this.coin)
             this.coin.string = '';
+
+        if (this.timerProgress)
+            this.timerProgress.node.active = false;
+        if (this.timerLabel)
+            this.timerLabel.string = "";
 
         this.point.string = '0';
         this.chipLabel.string = '0';
