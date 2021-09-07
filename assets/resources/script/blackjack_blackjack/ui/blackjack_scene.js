@@ -7,8 +7,8 @@ cc.Class({
 
     properties: {
         remindCardLabel: cc.Label,
-        banker: cc.Node,
-        playerList: [cc.Node],
+        banker: require("blackjack_player_ui"),
+        playerList: [require("blackjack_player_ui")],
         bottomButton: cc.Node,
 
         minBet: cc.Label,
@@ -21,15 +21,19 @@ cc.Class({
 
     onLoad() {
         this.remindCardLabel.string = "";
-        this.playerList.forEach(player => {
-            player.active = false;
-        });
         this.bottomButton.active = false;
+
+        BlackJackED.addObserver(this);
     },
 
-    start() {
-
+    onDestroy() {
+        BlackJackED.removeObserver(this);
     },
 
-    // update (dt) {},
+    onEventMessage: function (event, data) {
+        switch (event) {
+            default:
+                break;
+        }
+    },
 });
