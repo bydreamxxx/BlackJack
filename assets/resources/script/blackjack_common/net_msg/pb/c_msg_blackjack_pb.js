@@ -1,3 +1,54 @@
+let msg_bj_ready_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.msg_bj_ready_req = msg_bj_ready_req;
+
+let msg_bj_ready_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.result = this.result;
+
+        return content;
+    },
+    setResult(result){
+        this.result = result;
+    },
+
+});
+
+module.exports.msg_bj_ready_ack = msg_bj_ready_ack;
+
+let msg_bj_action_change = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.index = this.index;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setIndex(index){
+        this.index = index;
+    },
+
+});
+
+module.exports.msg_bj_action_change = msg_bj_action_change;
+
 let msg_bj_state_change_2c = cc.Class({
     ctor(){
     },
@@ -5,8 +56,6 @@ let msg_bj_state_change_2c = cc.Class({
         let content = {};
         content.roomState = this.roomState;
         content.curRound = this.curRound;
-        content.maxBet = this.maxBet;
-        content.minBet = this.minBet;
 
         return content;
     },
@@ -16,16 +65,69 @@ let msg_bj_state_change_2c = cc.Class({
     setCurRound(curRound){
         this.curRound = curRound;
     },
-    setMaxBet(maxBet){
-        this.maxBet = maxBet;
-    },
-    setMinBet(minBet){
-        this.minBet = minBet;
-    },
 
 });
 
 module.exports.msg_bj_state_change_2c = msg_bj_state_change_2c;
+
+let msg_bj_dissolve_agree_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.isAgree = this.isAgree;
+
+        return content;
+    },
+    setIsAgree(isAgree){
+        this.isAgree = isAgree;
+    },
+
+});
+
+module.exports.msg_bj_dissolve_agree_req = msg_bj_dissolve_agree_req;
+
+let msg_bj_dissolve_agree_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.isAgree = this.isAgree;
+        content.time = this.time;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setIsAgree(isAgree){
+        this.isAgree = isAgree;
+    },
+    setTime(time){
+        this.time = time;
+    },
+
+});
+
+module.exports.msg_bj_dissolve_agree_ack = msg_bj_dissolve_agree_ack;
+
+let msg_bj_dissolve_agree_result = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.isDissolve = this.isDissolve;
+
+        return content;
+    },
+    setIsDissolve(isDissolve){
+        this.isDissolve = isDissolve;
+    },
+
+});
+
+module.exports.msg_bj_dissolve_agree_result = msg_bj_dissolve_agree_result;
 
 let msg_bj_info = cc.Class({
     ctor(){
@@ -37,7 +139,6 @@ let msg_bj_info = cc.Class({
         content.usersInfoList = this.usersInfoList;
         content.roomConfigId = this.roomConfigId;
         content.turn = this.turn;
-        content.betIndex = this.betIndex;
 
         return content;
     },
@@ -55,9 +156,6 @@ let msg_bj_info = cc.Class({
     },
     setTurn(turn){
         this.turn = turn;
-    },
-    setBetIndex(betIndex){
-        this.betIndex = betIndex;
     },
 
 });
@@ -142,27 +240,6 @@ let msg_bj_deal_poker = cc.Class({
 });
 
 module.exports.msg_bj_deal_poker = msg_bj_deal_poker;
-
-let msg_bj_action_change = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.userId = this.userId;
-        content.index = this.index;
-
-        return content;
-    },
-    setUserId(userId){
-        this.userId = userId;
-    },
-    setIndex(index){
-        this.index = index;
-    },
-
-});
-
-module.exports.msg_bj_action_change = msg_bj_action_change;
 
 let msg_bj_bet_req = cc.Class({
     ctor(){
@@ -263,4 +340,37 @@ let msg_bj_result = cc.Class({
 });
 
 module.exports.msg_bj_result = msg_bj_result;
+
+let msg_bj_result_all_2c = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.roomNumber = this.roomNumber;
+        content.gameTimes = this.gameTimes;
+        content.roomMaster = this.roomMaster;
+        content.startTime = this.startTime;
+        content.resultsList = this.resultsList;
+
+        return content;
+    },
+    setRoomNumber(roomNumber){
+        this.roomNumber = roomNumber;
+    },
+    setGameTimes(gameTimes){
+        this.gameTimes = gameTimes;
+    },
+    setRoomMaster(roomMaster){
+        this.roomMaster = roomMaster;
+    },
+    setStartTime(startTime){
+        this.startTime = startTime;
+    },
+    setResultsList(resultsList){
+        this.resultsList = resultsList;
+    },
+
+});
+
+module.exports.msg_bj_result_all_2c = msg_bj_result_all_2c;
 
