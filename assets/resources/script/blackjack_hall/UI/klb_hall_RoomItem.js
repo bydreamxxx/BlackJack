@@ -265,6 +265,9 @@ cc.Class({
                     cc.gateNet.Instance().setHandler("c_msg_mjcommon_func", jsmj_handler);//'ccmj_net_handler_ccmj_jbc'));
                     this.checkIsEnter(this.gameid);
                     break;
+                case Define.GameType.BLACKJACK_GOLD:
+                    this.checkIsEnter(this.gameid, this.sendBlackJack.bind(this));
+                    break;
                 default:
                     break;
             }
@@ -537,6 +540,21 @@ cc.Class({
             msg.setGameType(data.gameid);
             msg.setRoomId(data.roomid);
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+        }
+        cc.dd.SceneManager.enterGame(gameid, func);
+    },
+
+    sendBlackJack(gameid){
+        // var scriptData = require('dsz_desk_data').DSZ_Desk_Data.Instance();
+        // scriptData.initCoin(this.roomItem.roomid);
+
+        cc.dd.AppCfg.GAME_ID = gameid;
+        let data = this.roomItem;
+        var func = function () {
+            // var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+            // msg.setGameType(data.gameid);
+            // msg.setRoomId(data.roomid);
+            // cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
         cc.dd.SceneManager.enterGame(gameid, func);
     },

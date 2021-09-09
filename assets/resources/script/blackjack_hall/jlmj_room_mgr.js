@@ -395,6 +395,10 @@ var RoomMgr = cc.Class({
                 break;
             case Define.GameType.MOUSE:
                 break;
+            case Define.GameType.BLACKJACK_GOLD:
+            case Define.GameType.BLACKJACK_FRIEND:
+                this.player_mgr = require('BlackJackData').BlackJackData.Instance();
+                break;
             default:
                 break;
         }

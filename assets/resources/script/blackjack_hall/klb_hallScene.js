@@ -520,12 +520,17 @@ let hall = cc.Class({
                 /************************游戏统计 start************************/
                 cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.SETTING);
                 /************************游戏统计   end************************/
-                hall_audio_mgr.com_btn_click();
-                if (cc._useChifengUI) {
-                    cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_SETTING);
-                } else {
-                    cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI);
-                }
+                // hall_audio_mgr.com_btn_click();
+                // if (cc._useChifengUI) {
+                //     cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_SETTING);
+                // } else {
+                //     cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI);
+                // }
+
+
+                
+
+
                 break;
             case 'BAG':
                 hall_audio_mgr.com_btn_click();
