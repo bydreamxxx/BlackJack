@@ -545,16 +545,16 @@ cc.Class({
     },
 
     sendBlackJack(gameid){
-        // var scriptData = require('dsz_desk_data').DSZ_Desk_Data.Instance();
-        // scriptData.initCoin(this.roomItem.roomid);
+        let BlackJackData = require('BlackJackData').BlackJackData.Instance();
+        BlackJackData.setRoomInfo(data);
 
         cc.dd.AppCfg.GAME_ID = gameid;
         let data = this.roomItem;
         var func = function () {
-            // var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-            // msg.setGameType(data.gameid);
-            // msg.setRoomId(data.roomid);
-            // cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+            var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+            msg.setGameType(data.gameid);
+            msg.setRoomId(data.roomid);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
         cc.dd.SceneManager.enterGame(gameid, func);
     },

@@ -1,3 +1,7 @@
+const BlackJackData = require("BlackJackData").BlackJackData.Instance();
+const BlackJackED = require("BlackJackData").BlackJackED;
+const BlackJackEvent = require("BlackJackData").BlackJackEvent;
+
 var handler = {
     on_msg_bj_ready_ack(msg) {
 
@@ -15,7 +19,8 @@ var handler = {
 
     },
     on_msg_bj_info(msg) {
-
+        BlackJackData.setGameInfo(msg);
+        BlackJackED.notifyEvent(BlackJackEvent.UPDATE_UI)
     },
     on_msg_bj_deal_poker(msg) {
 

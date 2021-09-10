@@ -1,5 +1,5 @@
 let BlackJackEvent = cc.Enum({
-
+    UPDATE_UI: "UPDATE_UI",
 });
 
 let BlackJackED = new cc.dd.EventDispatcher();
@@ -24,6 +24,18 @@ let BlackJackData = cc.Class({
 
     ctor() {
 
+    },
+
+    setRoomInfo(info){
+      this.roomInfo = info;
+    },
+
+    setGameInfo(msg){
+        this.state = msg.bjState;
+        this.lastTime = msg.lastTime;
+        this.playerInfo = msg.usersInfoList;
+        this.roomConfigId = msg.roomConfigId;
+        this.turn = msg.turn;
     },
 });
 

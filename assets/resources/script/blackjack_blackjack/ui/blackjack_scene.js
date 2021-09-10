@@ -23,6 +23,8 @@ cc.Class({
 
     onLoad() {
         this.remindCardLabel.string = "";
+        this.minBet.string = "";
+        this.maxBet.string = "";
         this.bottomButton.active = false;
 
         RoomED.addObserver(this);
@@ -38,8 +40,15 @@ cc.Class({
         switch (event) {
             case RoomEvent.on_coin_room_enter:
                 break;
+            case BlackJackEvent.UPDATE_UI:
+                this.updateUI();
+                break;
             default:
                 break;
         }
     },
+
+    updateUI(){
+
+    }
 });

@@ -186,11 +186,13 @@ var HallGameItemUI = cc.Class({
      * 获取房间列表
      */
     getRoomList: function () {
-        dd.NetWaitUtil.show('正在请求数据');
-        var protoNewRoomList = new cc.pb.hall.hall_req_new_room_list();
-        protoNewRoomList.setHallGameid(this.game_id);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_hall_req_new_room_list, protoNewRoomList,
-            '发送协议[id: ${cmd_hall_req_new_room_list}],cmd_hall_req_new_room_list,[房间列表]', true);
+        // dd.NetWaitUtil.show('正在请求数据');
+        // var protoNewRoomList = new cc.pb.hall.hall_req_new_room_list();
+        // protoNewRoomList.setHallGameid(this.game_id);
+        // cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_hall_req_new_room_list, protoNewRoomList,
+        //     '发送协议[id: ${cmd_hall_req_new_room_list}],cmd_hall_req_new_room_list,[房间列表]', true);
+
+        cc.dd.SceneManager.enterGame(cc.dd.Define.GameType.BLACKJACK_GOLD);
     },
 
     loadSpineAni() {
