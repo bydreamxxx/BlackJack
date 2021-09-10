@@ -1,6 +1,8 @@
 const BlackJackData = require("BlackJackData").BlackJackData.Instance();
 const BlackJackED = require("BlackJackData").BlackJackED;
 const BlackJackEvent = require("BlackJackData").BlackJackEvent;
+var RoomED = require("jlmj_room_mgr").RoomED;
+var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 
 cc.Class({
     extends: cc.Component,
@@ -23,15 +25,19 @@ cc.Class({
         this.remindCardLabel.string = "";
         this.bottomButton.active = false;
 
+        RoomED.addObserver(this);
         BlackJackED.addObserver(this);
     },
 
     onDestroy() {
+        RoomED.addObserver(this);
         BlackJackED.removeObserver(this);
     },
 
     onEventMessage: function (event, data) {
         switch (event) {
+            case RoomEvent.on_coin_room_enter:
+                break;
             default:
                 break;
         }

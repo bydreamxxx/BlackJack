@@ -10,11 +10,11 @@ var data_fenxiangyouli =
       { key:6,channel:10002,title:"充值返利：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
       { key:7,channel:10002,title:"游戏返利：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 },
       { key:8,channel:10003,title:"充值返利：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
-      { key:9,channel:10003,title:"游戏奖励：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 },
-      { key:10,channel:10004,title:"充值奖励：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
-      { key:11,channel:10004,title:"游戏奖励：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 },
-      { key:12,channel:10005,title:"充值奖励：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
-      { key:13,channel:10005,title:"游戏奖励：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 }
+      { key:9,channel:10003,title:"游戏返利：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 },
+      { key:10,channel:10004,title:"充值返利：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
+      { key:11,channel:10004,title:"游戏返利：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 },
+      { key:12,channel:10005,title:"充值返利：",content:"邀请的好友在游戏中成功充值后，充值者获得金币的<color=#D30005>10%</c>以返利的形式奖励给您。",index:1 },
+      { key:13,channel:10005,title:"游戏返利：",content:"根据邀请好友在游戏中积累的活跃度，每日奖励您一定比例金币。",index:2 }
     ],
 
     /**

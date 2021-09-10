@@ -1,29 +1,29 @@
 var data_fish_audio =
 {
     items:
-        [
-            { key: 1, desc: "背景音乐", audio_name: "7001" },
-            { key: 2, desc: "普通点击", audio_name: "7002" },
-            { key: 3, desc: "开炮", audio_name: "7006" },
-            { key: 4, desc: "金币不足", audio_name: "7007" },
-            { key: 5, desc: "头像圆盘", audio_name: "7008" },
-            { key: 6, desc: "渔网音效", audio_name: "7009" },
-            { key: 7, desc: "获得金币", audio_name: "7010" },
-            { key: 8, desc: "鱼潮背景", audio_name: "7016" },
-            { key: 9, desc: "鱼潮来了", audio_name: "7017" },
-            { key: 10, desc: "加号", audio_name: "7037" },
-            { key: 11, desc: "减号", audio_name: "7038" }
-        ],
+    [
+      { key:1,desc:"背景音乐",audio_name:"7001.mp3" },
+      { key:2,desc:"普通点击",audio_name:"7002.mp3" },
+      { key:3,desc:"开炮",audio_name:"7006.mp3" },
+      { key:4,desc:"金币不足",audio_name:"7007.mp3" },
+      { key:5,desc:"头像圆盘",audio_name:"7008.mp3" },
+      { key:6,desc:"渔网音效",audio_name:"7009.mp3" },
+      { key:7,desc:"获得金币",audio_name:"7010.mp3" },
+      { key:8,desc:"鱼潮背景",audio_name:"7016.mp3" },
+      { key:9,desc:"鱼潮来了",audio_name:"7017.mp3" },
+      { key:10,desc:"加号",audio_name:"7037.mp3" },
+      { key:11,desc:"减号",audio_name:"7038.mp3" }
+    ],
 
     /**
      * 查找第一个符合filter的item
      * @param filter
      * @returns {*}
      */
-    getItem: function (filter) {
+    getItem: function(filter){
         var result = null;
-        for (var i = 0; i < this.items.length; ++i) {
-            if (filter(this.items[i])) {
+        for(var i=0; i<this.items.length; ++i){
+            if(filter(this.items[i])){
                 result = this.items[i];
                 return result;
             }
@@ -36,10 +36,10 @@ var data_fish_audio =
      * @param filter
      * @returns {*}
      */
-    getItemList: function (filter) {
+    getItemList: function(filter){
         var list = [];
         this.items.forEach(function (item) {
-            if (filter(item)) {
+            if(filter(item)){
                 list.push(item);
             }
         });
@@ -47,4 +47,4 @@ var data_fish_audio =
     },
 };
 
-module.exports = data_fish_audio;
+module.exports=data_fish_audio;

@@ -5,7 +5,7 @@ var hall_audio_mgr = require('hall_audio_mgr').Instance();
 const Hall = require('jlmj_halldata');
 var Platform = require('Platform');
 var AppCfg = require('AppConfig');
-var activity_spread_awards = require('activity_spread_awards');
+// var activity_spread_awards = require('activity_spread_awards');
 var game_room = require('game_room');
 var klb_gameList = require('klb_gameList');
 
@@ -115,11 +115,11 @@ cc.Class({
 
     //设置奖励领取数据
     propItem: function () {
-        activity_spread_awards.items.forEach((item, idx) => {
-            let nodeItem = cc.find('VIP/tk-bg/scroll/view/content/' + item.key, this.node)
-            cc.find('gold', nodeItem).getComponent(cc.Label).string = this.changeNumToCHN(item.gold)
-            cc.find('level', nodeItem).getComponent(cc.Label).string = `VIP等级达到${item.key}级`
-        });
+        // activity_spread_awards.items.forEach((item, idx) => {
+        //     let nodeItem = cc.find('VIP/tk-bg/scroll/view/content/' + item.key, this.node)
+        //     cc.find('gold', nodeItem).getComponent(cc.Label).string = this.changeNumToCHN(item.gold)
+        //     cc.find('level', nodeItem).getComponent(cc.Label).string = `VIP等级达到${item.key}级`
+        // });
         let userInfoList = Hall.HallData.Instance().activitySpread.userInfoList
         let count = 0
         userInfoList.forEach(item => {

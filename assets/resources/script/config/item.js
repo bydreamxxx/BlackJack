@@ -49,7 +49,6 @@ var data_item =
       { key:10019,memo:"魔法道具B",type:0,p1:0,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"",effect:"",text1:"",text2:"",isshow:0 },
       { key:10020,memo:"50元京东卡",type:9,p1:0,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"sc-jingdongka",effect:"",text1:"50元京东卡",text2:"可通过【商城】获得",isshow:0 },
       { key:10021,memo:"200元京东卡",type:9,p1:0,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"sc-jingdongka",effect:"",text1:"200元京东卡",text2:"可通过【商城】获得",isshow:0 },
-      { key:10022,memo:"100元京东卡",type:9,p1:0,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"sc-jingdongka",effect:"",text1:"100元京东卡",text2:"可通过【商城】获得",isshow:0 },
       { key:10055,memo:"经典核能炮",type:15,p1:1,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"bydr_game_pao_dg",effect:"bydr_bullet01",text1:"最普通的炮台，发炮频率每秒4发，炮弹飞行速度较慢，适用于捕鱼达人",text2:"",isshow:1 },
       { key:10056,memo:"经典双核炮",type:15,p1:3,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"bydr_game_pao_shuangg",effect:"bydr_bullet02",text1:"最普通的炮台，发炮频率每秒4发，炮弹飞行速度较慢，适用于捕鱼达人",text2:"",isshow:1 },
       { key:10057,memo:"经典三核炮",type:15,p1:5,p2:0,p3:0,p4:0,expire:0,max_expire:0,button:"",icon:"bydr_game_pao_sg",effect:"bydr_bullet03",text1:"最普通的炮台，发炮频率每秒4发，炮弹飞行速度较慢，适用于捕鱼达人",text2:"",isshow:1 },

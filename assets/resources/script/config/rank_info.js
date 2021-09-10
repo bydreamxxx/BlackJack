@@ -24,8 +24,7 @@ var data_rank_info =
       { key:15,rank_name:"转盘 月榜",game_type:106,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:3,is_save_yesterday_info:0,last_rank_num:0,is_open:1 },
       { key:16,rank_name:"奖金大派送",game_type:0,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:0,is_save_yesterday_info:0,last_rank_num:0,is_open:0 },
       { key:17,rank_name:"二八杠 日榜",game_type:201,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:1,is_save_yesterday_info:1,last_rank_num:1000,is_open:1 },
-      { key:18,rank_name:"二八杠 月榜",game_type:201,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:3,is_save_yesterday_info:0,last_rank_num:0,is_open:1 },
-      { key:19,rank_name:"打地鼠 日榜",game_type:110,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:1,is_save_yesterday_info:1,last_rank_num:1000,is_open:1 }
+      { key:18,rank_name:"二八杠 月榜",game_type:201,rank_score_type:1001,min_rank_score:0,rank_num:50,refresh_type:3,is_save_yesterday_info:0,last_rank_num:0,is_open:1 }
     ],
 
     /**

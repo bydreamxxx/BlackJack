@@ -5,9 +5,9 @@
 var gFishMgr = require('FishDoyenManager').FishManager.Instance();
 
 
-const master_shop = require('qka_fish_master_shop')
-const master_gift = require('qka_fish_master_gift')
-const master_vip = require('qka_fish_master_vip')
+// const master_shop = require('qka_fish_master_shop')
+// const master_gift = require('qka_fish_master_gift')
+// const master_vip = require('qka_fish_master_vip')
 const doyen_sender = require('gameyj_fish_doyen_sender')
 const HallCommonData = require('hall_common_data').HallCommonData;
 var hall_prefab = require('hall_prefab_cfg');
