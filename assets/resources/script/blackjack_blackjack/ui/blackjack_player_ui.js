@@ -9,19 +9,17 @@ let blackjack_player_ui = cc.Class({
         nameLabel: cc.Label,
         score: cc.Label,
         coin: cc.Label,
-        point: cc.Label,
 
-        chipLabel: cc.Label,
         timerProgress: cc.ProgressBar,
         timerLabel: cc.Label,
-
-        chipZone: cc.Node,
-        cardZone: cc.Node,
 
         cardNode: cc.Node,
 
         giftBtn: cc.Node,
 
+        viewIdx: 0,
+
+        cardPrefab: cc.Prefab,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -51,38 +49,54 @@ let blackjack_player_ui = cc.Class({
         if (this.timerLabel)
             this.timerLabel.string = "";
 
-        this.point.string = '0';
-        this.chipLabel.string = '0';
+        this.cardNode.removeAllChildren();
 
-        if (this.chipZone)
-            this.chipZone.removeAllChildren();
-
-        this.cardZone.removeAllChildren();
+        this.cardNodeList = [];
 
         if (this.giftBtn)
             this.giftBtn.active = false;
     },
 
-    init(data, isbanker) {
+    playerEnter(data, isbanker) {
         this.playerData = data;
         if (!isbanker) {
-            this.nameLabel.string = cc.dd.Utils.subChineseStr(data.name, 0, 14);
-            this.coin.string = data.coin;
-            this.chipLabel.string = data.chip;
+            this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 14);
+            this.coin.string = data.score;
+            this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
 
             this.giftBtn.active = false;
 
             this.chipZone.removeAllChildren();
         }
 
-        this.point.string = data.point;
-        this.cardZone.removeAllChildren();
+        this.cardNode.removeAllChildren();
 
         this.node.active = true;
     },
 
+    updateCard(data){
+        this.cardNodeList = [];
+
+        data.forEach(betInfo=>{
+           let node = cc.instantiate(this.cardPrefab);
+           this.cardNode.addChild(node);
+           node.getComponent("blackjack_cardNode").init(betInfo);
+
+           this.cardNodeList.push(node);
+        });
+    },
+
     onEventMessage: function (event, data) {
+        if(data && data.viewIdx !== this.viewIdx){
+            return;
+        }
         switch (event) {
+            case BlackJackPlayerEvent.PLAYER_ENTER:
+                this.playerEnter(data, false);
+                break;
+            case BlackJackPlayerEvent.PLAYER_GAME_INFO:
+                this.updateCard(data)
+                break;
             default:
                 break;
         }

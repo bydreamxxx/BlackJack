@@ -36,7 +36,15 @@ cc.Class({
     //显示弃牌
     showDiscard(show) {
         if (show) {
-            cc.dd.ShaderUtil.setGrayShader(this._cardnode);
+            for(var i =0; i <= 1; i++){
+                var str = "card" + i
+                var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
+                if(card){
+                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
+                    var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+                    pic.setMaterial(0,gray)
+                }
+            }
             var startNode = cc.find('card0', this._cardnode);
             var endNode = null;
             for (var i = 0; i < this._cardnode.children.length; i++) {
@@ -59,7 +67,16 @@ cc.Class({
         }
         else {
             cc.find('discard', this.node).active = false;
-            cc.dd.ShaderUtil.setNormalShader(this._cardnode);
+            for(var i =0; i <= 1; i++){
+                var str = "card" + i
+                var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
+                if(card){
+                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
+                    var gray = cc.Material.getBuiltinMaterial('2d-sprite')
+                    pic.setMaterial(0,gray)
+                }
+            }
+
         }
     },
 

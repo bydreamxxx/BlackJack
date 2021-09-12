@@ -33,17 +33,17 @@ var DingRobot = {
      * @param content
      */
     push_log: function (content) {
-        if (!cc.sys.isNative) {
-            return;
-        }
-        if (ding_log.length >= max_length) {
-            ding_log.shift();
-        }
-        ding_log.push(content);
-        //if(cc.pid == 3)
-            content = this.aesEncrypt(content);
-        cc.dd.writelog(content);
-        //cc.dd.writelog(content);
+        // // if (!cc.sys.isNative) {
+        // //     return;
+        // // }
+        // // if (ding_log.length >= max_length) {
+        // //     ding_log.shift();
+        // // }
+        // // ding_log.push(content);
+        // // //if(cc.pid == 3)
+        // //     content = this.aesEncrypt(content);
+        // // cc.dd.writelog(content);
+        // // //cc.dd.writelog(content);
     },
 
     //日志加密
@@ -60,15 +60,15 @@ var DingRobot = {
     },
 
     aesDecrypt(code) {
-        var lines = code.split('\n');
-        var decode = '';
-        for (var i = 0; i < lines.length; i++) {
-            if (i == lines.length - 1)
-                decode += AES.Decrypt(lines[i]);
-            else
-                decode += AES.Decrypt(lines[i]) + '\n';
-        }
-        return decode;
+        // var lines = code.split('\n');
+        // var decode = '';
+        // for (var i = 0; i < lines.length; i++) {
+        //     if (i == lines.length - 1)
+        //         decode += AES.Decrypt(lines[i]);
+        //     else
+        //         decode += AES.Decrypt(lines[i]) + '\n';
+        // }
+        // return decode;
     },
 
     /**
@@ -76,12 +76,12 @@ var DingRobot = {
      * @returns {string}
      */
     get_log: function () {
-        var log = '钉钉日志:\n';
-        ding_log.forEach(function (content) {
-            log += content;
-            log += '\n';
-        });
-        return log;
+        // var log = '钉钉日志:\n';
+        // ding_log.forEach(function (content) {
+        //     log += content;
+        //     log += '\n';
+        // });
+        // return log;
     },
 
     /**
@@ -117,91 +117,91 @@ var DingRobot = {
      * 上报日志
      */
     reportDebugInfo: function () {
-        var log = '【玩家反馈】';
-        this.report(log);
+        // var log = '【玩家反馈】';
+        // this.report(log);
     },
 };
 
 window.__errorHandler = function (filename, lineno, message) {
-    var isExclude = false;
-    exclude_errors.forEach(function (item) {
-        if (message == item) {
-            isExclude = true;
-        }
-    });
-    if (isExclude) {
-        return;
-    }
-    if (lineno == 0) {
-        return;
-    }
-    var str = 'line:' + lineno + '  msg' + message;
-    cc.error('错误', str);
-    DingRobot.report(str);
+    // var isExclude = false;
+    // exclude_errors.forEach(function (item) {
+    //     if (message == item) {
+    //         isExclude = true;
+    //     }
+    // });
+    // if (isExclude) {
+    //     return;
+    // }
+    // if (lineno == 0) {
+    //     return;
+    // }
+    // var str = 'line:' + lineno + '  msg' + message;
+    // cc.error('错误', str);
+    // DingRobot.report(str);
 };
 
 cc.log = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【LOG】' + time + ' ' + str;
-    console.log(str);
-    DingRobot.push_log(str);
+    // var len = arguments.length;
+    // var str = '';
+    // for (var i = 0; i < len; i++) {
+    //     var tmp = arguments[i];
+    //     if (typeof tmp == 'object') {
+    //         tmp = cc.dd.obj2string(tmp);
+    //     }
+    //     str += tmp;
+    // }
+    // var time = '[' + new Date().toLocaleString() + ']';
+    // str = '【LOG】' + time + ' ' + str;
+    // console.log(str);
+    // DingRobot.push_log(str);
 };
 
 cc.warn = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【WARN】' + time + ' ' + str;
-    console.warn(str);
-    DingRobot.push_log(str);
+    // var len = arguments.length;
+    // var str = '';
+    // for (var i = 0; i < len; i++) {
+    //     var tmp = arguments[i];
+    //     if (typeof tmp == 'object') {
+    //         tmp = cc.dd.obj2string(tmp);
+    //     }
+    //     str += tmp;
+    // }
+    // var time = '[' + new Date().toLocaleString() + ']';
+    // str = '【WARN】' + time + ' ' + str;
+    // console.warn(str);
+    // DingRobot.push_log(str);
 };
 
 cc.error = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【ERROR】:' + time + ' ' + str;
-    console.error(str);
-    DingRobot.push_log(str);
+    // var len = arguments.length;
+    // var str = '';
+    // for (var i = 0; i < len; i++) {
+    //     var tmp = arguments[i];
+    //     if (typeof tmp == 'object') {
+    //         tmp = cc.dd.obj2string(tmp);
+    //     }
+    //     str += tmp;
+    // }
+    // var time = '[' + new Date().toLocaleString() + ']';
+    // str = '【ERROR】:' + time + ' ' + str;
+    // console.error(str);
+    // DingRobot.push_log(str);
 };
 
 cc.info = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【INFO】:' + time + ' ' + str;
-    console.info(str);
-    DingRobot.push_log(str);
+    // var len = arguments.length;
+    // var str = '';
+    // for (var i = 0; i < len; i++) {
+    //     var tmp = arguments[i];
+    //     if (typeof tmp == 'object') {
+    //         tmp = cc.dd.obj2string(tmp);
+    //     }
+    //     str += tmp;
+    // }
+    // var time = '[' + new Date().toLocaleString() + ']';
+    // str = '【INFO】:' + time + ' ' + str;
+    // console.info(str);
+    // DingRobot.push_log(str);
 };
 
 module.exports = DingRobot;

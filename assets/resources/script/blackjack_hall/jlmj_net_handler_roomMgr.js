@@ -499,6 +499,14 @@ var handler = {
                     mgr.playerEnter(element);
                 });
                 break;
+            case 202: //德州
+                var mgr = require('texas_data').texas_Data.Instance();
+                RoomMgr.Instance().setPlayerMgr();
+                mgr.updatePlayerNum();
+                msg.roleInfosList.forEach(element => {
+                    mgr.playerEnter(element);
+                });
+                break;
             case 108://俱乐部百牛
                 var mgr = require('brnn_data').brnn_Data.Instance();
                 msg.roleInfosList.forEach(element => {
@@ -551,6 +559,14 @@ var handler = {
                 msg.roleInfosList.forEach(element => {
                     RoomMgr.Instance().player_mgr.playerEnter(element);
                 });
+                break;
+            case cc.dd.Define.GameType.BLACKJACK_GOLD:
+                RoomMgr.Instance().setPlayerMgr();
+                RoomMgr.Instance().player_mgr.updatePlayerNum();
+                msg.roleInfosList.forEach(player=>{
+                    RoomMgr.Instance().player_mgr.playerEnter(player);
+                });
+                RoomMgr.Instance().player_mgr.playerEnterGame();
                 break;
         }
     },

@@ -70,22 +70,31 @@ cc.Class({
     //显示弃牌
     showDiscard(show,isSelf) {
         if (show) {
-            cc.dd.ShaderUtil.setDarkShader(this._cardnode);//setGrayShader(this._cardnode);
-            var startNode = cc.find('card0', this._cardnode);
-            var endNode = null;
-            for (var i = 0; i < this._cardnode.children.length; i++) {
-                if (!this._cardnode.children[i].active)
-                    break;
-                if(isSelf)
-                {
-
-                }else{
-                    // cc.find('dipai_1/beimian',this._cardnode.children[i]).active = true;
+            for(var i =0; i <= 1; i++){
+                var str = "card" + i
+                var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
+                if(card){
+                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
+                    var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+                    pic.setMaterial(0,gray)
                 }
-                
-                //暂时不盖上弃牌
-                endNode = this._cardnode.children[i];
             }
+            // cc.dd.ShaderUtil.setDarkShader(this._cardnode);//setGrayShader(this._cardnode);
+            // var startNode = cc.find('card0', this._cardnode);
+            // var endNode = null;
+            // for (var i = 0; i < this._cardnode.children.length; i++) {
+            //     if (!this._cardnode.children[i].active)
+            //         break;
+            //     if(isSelf)
+            //     {
+
+            //     }else{
+            //         // cc.find('dipai_1/beimian',this._cardnode.children[i]).active = true;
+            //     }
+                
+            //     //暂时不盖上弃牌
+            //     endNode = this._cardnode.children[i];
+            // }
             // if (!endNode) {
             //     cc.error('手牌为空,无法显示弃牌');
             //     return;
@@ -101,7 +110,17 @@ cc.Class({
         }
         else {
             this._des.node.active = false;
-            cc.dd.ShaderUtil.setNormalShader(this._cardnode);
+            for(var i =0; i <= 1; i++){
+                var str = "card" + i
+                var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
+                if(card){
+                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
+                    var gray = cc.Material.getBuiltinMaterial('2d-sprite')
+                    pic.setMaterial(0,gray)
+                }
+            }
+
+            //cc.dd.ShaderUtil.setNormalShader(this._cardnode);
             this.tryShowPlayerName();
         }
     },
@@ -165,8 +184,11 @@ cc.Class({
             var bg = cc.find('type', this.node)
             bg.getComponent(cc.Sprite).spriteFrame = sp;
             bg.active = true;
+            var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+            bg.getComponent(cc.Sprite).setMaterial(0,gray)
+
             // cc.dd.ShaderUtil.setDarkShader(tp);//setGrayShader(tp);
-            cc.dd.ShaderUtil.setDarkShader(bg);//setGrayShader(bg);
+            //cc.dd.ShaderUtil.setDarkShader(bg);//setGrayShader(bg);
         }else//win
         {
             var effct = cc.instantiate(pref);

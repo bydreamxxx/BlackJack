@@ -194,6 +194,7 @@ const TalkNet = cc.Class({
         this.handle_recvfunc_list.push(require('c_msg_xiyou_func'));
         this.handle_recvfunc_list.push(require('c_msg_turn_func'));
         this.handle_recvfunc_list.push(require('c_msg_horse_func'));
+        this.handle_recvfunc_list.push(require('c_msg_texas_func'))
     },
 
     getHandlerFunc: function (id) {

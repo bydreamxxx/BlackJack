@@ -634,6 +634,21 @@ var Utils = {
         }
         return ret;
     },
+
+    translate21(card){
+        if(card === 171 || card === 172){
+            cc.error('21点不包含大小王');
+            return null;
+        }
+
+        let str = card.tostring;
+        str = str.slice(0,str.length-1);
+        let num = parseInt(str);
+        if(num >= 10){
+            num = 10;
+        }
+        return num;
+    }
 };
 
 Date.prototype.format = function (fmt) {

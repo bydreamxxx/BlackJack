@@ -22,6 +22,8 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        cc.dd.ResLoader.loadAtlas("blackjack_blackjack/atlas/cards", ()=>{});
+
         this.remindCardLabel.string = "";
         this.minBet.string = "";
         this.maxBet.string = "";
