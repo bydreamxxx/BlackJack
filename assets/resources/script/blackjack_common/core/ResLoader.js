@@ -402,6 +402,14 @@ var ResLoader = {
         } else {
             cc.resources.load(path, type, onProgress, onComplete);
         }
+    },
+
+    releaseBundle(bundleName){
+        let bundle = cc.assetManager.getBundle(bundleName);
+        if(bundle){
+            bundle.releaseAll();
+            cc.assetManager.removeBundle(bundle);
+        }
     }
 
 };

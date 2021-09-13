@@ -1,5 +1,6 @@
 let BlackJackEvent = cc.Enum({
     UPDATE_UI: "UPDATE_UI",
+    UPDATE_STATE: "UPDATE_STATE",
 });
 
 let BlackJackED = new cc.dd.EventDispatcher();
@@ -26,6 +27,11 @@ let BlackJackData = cc.Class({
 
     ctor() {
         this.playerList = [];
+    },
+
+    changeState(msg){
+        this.state = msg.roomState;
+        BlackJackED.notifyEvent(BlackJackEvent.UPDATE_STATE);
     },
 
     setRoomInfo(info){

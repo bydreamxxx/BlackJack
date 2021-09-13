@@ -4,13 +4,17 @@ const BlackJackEvent = require("BlackJackData").BlackJackEvent;
 
 var handler = {
     on_msg_bj_ready_ack(msg) {
+        if(msg.result == 0){
 
+        }else{
+
+        }
     },
     on_msg_bj_action_change(msg) {
 
     },
     on_msg_bj_state_change_2c(msg) {
-
+        BlackJackData.changeState(msg);
     },
     on_msg_bj_dissolve_agree_ack(msg) {
 

@@ -410,7 +410,7 @@ var SceneManagerUtil = cc.Class({
     /**
      * 进入大厅
      */
-    enterHall: function () {
+    enterHall: function (resList, audioList, endCall) {
         //AudioManager.stopMusic();
         AudioManager.clearBackGroundMusicKey();
         //AudioManager.offMusic();
@@ -469,7 +469,7 @@ var SceneManagerUtil = cc.Class({
             }
         }
 
-        cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
+        cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME, resList, audioList, endCall);
     },
 
     enterNewHall: function (node) {

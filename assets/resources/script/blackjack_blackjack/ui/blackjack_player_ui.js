@@ -12,6 +12,8 @@ let blackjack_player_ui = cc.Class({
 
         timerProgress: cc.ProgressBar,
         timerLabel: cc.Label,
+        endTime:0,
+        CDTime: 10,
 
         cardNode: cc.Node,
 
@@ -20,7 +22,13 @@ let blackjack_player_ui = cc.Class({
         viewIdx: 0,
 
         cardPrefab: cc.Prefab,
+
+        isbanker: false,
     },
+
+
+    _fixedTimeStep: 1/30,
+    _lastTime: 0,
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -36,6 +44,28 @@ let blackjack_player_ui = cc.Class({
         BlackJackPlayerED.removeObserver(this);
     },
 
+    update(dt){
+        this._lastTime += dt;
+        let fixedTime = this._lastTime / this._fixedTimeStep;
+        for (let i = 0; i < fixedTime; i++) {
+            this.fixedUpdate();
+        }
+        this._lastTime = this._lastTime % this._fixedTimeStep;
+    },
+
+    fixedUpdate(){
+        if(this.timerProgress.node.active){
+            let tempTime = (this.endTime - new Date().getTime()) / 1000;
+            if(tempTime < 0){
+                this.timerProgress.node.active = false;
+                this.timerLabel.string = "";
+                return;
+            }
+            this.timerProgress.progress = tempTime / this.CDTime;
+            this.timerLabel.string = Math.floor(tempTime).toString();
+        }
+    },
+
     clear() {
         if (this.nameLabel)
             this.nameLabel.string = '';
@@ -44,10 +74,7 @@ let blackjack_player_ui = cc.Class({
         if (this.coin)
             this.coin.string = '';
 
-        if (this.timerProgress)
-            this.timerProgress.node.active = false;
-        if (this.timerLabel)
-            this.timerLabel.string = "";
+        this.cleanProgress();
 
         this.cardNode.removeAllChildren();
 
@@ -57,9 +84,17 @@ let blackjack_player_ui = cc.Class({
             this.giftBtn.active = false;
     },
 
-    playerEnter(data, isbanker) {
+    cleanProgress(){
+        if (this.timerProgress)
+            this.timerProgress.node.active = false;
+        if (this.timerLabel)
+            this.timerLabel.string = "";
+        this.endTime = 0;
+    },
+
+    playerEnter(data) {
         this.playerData = data;
-        if (!isbanker) {
+        if (!this.isbanker) {
             this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 14);
             this.coin.string = data.score;
             this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
@@ -72,6 +107,14 @@ let blackjack_player_ui = cc.Class({
         this.cardNode.removeAllChildren();
 
         this.node.active = true;
+    },
+
+    setProgress(targetTime){
+        this.endTime = new Date(new Date().getTime() + targetTime * 1000).getTime();
+        this.timerProgress.progress = targetTime / this.CDTime;
+        this.timerLabel.string = targetTime.toString();
+
+        this.timerProgress.node.active = true;
     },
 
     updateCard(data){
@@ -92,7 +135,7 @@ let blackjack_player_ui = cc.Class({
         }
         switch (event) {
             case BlackJackPlayerEvent.PLAYER_ENTER:
-                this.playerEnter(data, false);
+                this.playerEnter(data);
                 break;
             case BlackJackPlayerEvent.PLAYER_GAME_INFO:
                 this.updateCard(data)
