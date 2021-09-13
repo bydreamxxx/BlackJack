@@ -19,12 +19,16 @@ cc.Class({
         remindCardLabel: cc.Label,
         banker: require("blackjack_player_ui"),
         playerList: [require("blackjack_player_ui")],
-        bottomButton: cc.Node,
+        betButtonNode: cc.Node,
+        sliderNode: cc.Node,
+        actionButtonNode: cc.Node,
 
         minBet: cc.Label,
         maxBet: cc.Label,
 
         cardPrefab: cc.Prefab,
+
+        tipsNode: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -33,7 +37,9 @@ cc.Class({
         this.remindCardLabel.string = "";
         this.minBet.string = "";
         this.maxBet.string = "";
-        this.bottomButton.active = false;
+        this.betButtonNode.active = false;
+        this.actionButtonNode.active = false;
+        this.tipsNode.active = false;
 
         RoomED.addObserver(this);
         BlackJackED.addObserver(this);
@@ -58,6 +64,70 @@ cc.Class({
             default:
                 break;
         }
+    },
+
+    onClickMinBet(event, data){
+
+    },
+
+    onClickMaxBet(event, data){
+
+    },
+
+    onClickBet(event, data){
+        this.sliderNode.active = true;
+    },
+
+    onClickCloseSlider(){
+        this.sliderNode.active = true;
+    },
+
+    onClickRepeatBet(event, data){
+
+    },
+
+    onSliderRoll(event, data){
+
+    },
+
+    onClickSplit(event, data){
+
+    },
+
+    onClickDouble(event, data){
+
+    },
+
+    onClickHit(event, data){
+
+    },
+
+    onClickStand(event, data){
+
+    },
+
+    onClickMore(event, data){
+
+    },
+
+    onClickRule(event, data){
+
+    },
+
+    onClickSetting(event, data){
+
+    },
+
+    onClickExit(event, data){
+
+    },
+
+    onClickChat(event, data){
+
+    },
+
+    onClickEmoj(event, data){
+
     },
 
     updateUI(){

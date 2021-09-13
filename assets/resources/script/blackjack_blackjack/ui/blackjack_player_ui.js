@@ -44,6 +44,10 @@ let blackjack_player_ui = cc.Class({
         BlackJackPlayerED.removeObserver(this);
     },
 
+    onClickHead(){
+
+    },
+
     update(dt){
         this._lastTime += dt;
         let fixedTime = this._lastTime / this._fixedTimeStep;
