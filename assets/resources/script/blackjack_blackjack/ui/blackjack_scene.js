@@ -67,14 +67,30 @@ cc.Class({
     },
 
     onClickMinBet(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(1);
+        msg.setBet(BlackJackData.minBet);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickMaxBet(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(1);
+        msg.setBet(BlackJackData.maxBet);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickBet(event, data){
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(1);
+        msg.setBet(this.bet);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
+    },
+
+    onClickShowSlider(){
         this.sliderNode.active = true;
     },
 
@@ -83,27 +99,50 @@ cc.Class({
     },
 
     onClickRepeatBet(event, data){
-
+        if(BlackJackData.lastBet){
+            let msg = cc.pb.blackjack.msg_bj_bet_req();
+            msg.setType(1);
+            msg.setBet(BlackJackData.lastBet);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
+        }
     },
 
     onSliderRoll(event, data){
-
+        this.bet = Math.round(event.progress * 100) * BlackJackData.minBet;
+        if(this.bet > BlackJackData.maxBet){
+            this.bet = BlackJackData.maxBet;
+        }else if(this.bet < BlackJackData.minBet){
+            this.bet = BlackJackData.minBet;
+        }
     },
 
     onClickSplit(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(5);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickDouble(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(2);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickHit(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(4);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickStand(event, data){
-
+        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        msg.setType(6);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickMore(event, data){

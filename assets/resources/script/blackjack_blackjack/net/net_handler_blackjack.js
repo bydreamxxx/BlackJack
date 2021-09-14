@@ -30,7 +30,10 @@ var handler = {
 
     },
     on_msg_bj_bet_ret(msg) {
+        if(msg.retCode == 0){
 
+        }
+        cc.dd.NetWaitUtil.net_wait_end('onClickBet');
     },
     on_msg_bj_result(msg) {
 
