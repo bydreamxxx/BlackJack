@@ -159,7 +159,7 @@ var GameType = {
     HJSM: 107,
     MOUSE: 110,
 
-    BLACKJACK_GOLD: 185,
+    BLACKJACK_GOLD: 203,
     BLACKJACK_FRIEND: 85,
     TEXAS: 202, //德州
 };
@@ -395,7 +395,7 @@ var GameId = {
     //------------打地鼠--------------
     110: 'play_mouse',
 
-    185: 'blackjack',
+    203: 'blackjack',
     85: 'blackjack',
     202:'texas_jbc',
 };

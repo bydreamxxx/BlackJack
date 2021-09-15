@@ -117,7 +117,23 @@ let BlackJackData = cc.Class({
             }
         }
         return player;
-    }
+    },
+
+    /**
+     * 注册房间内语音玩家
+     */
+    requesYuYinUserData: function () {
+        cc.dd.AudioChat.clearUsers();
+        if (this.playerList) {
+            this.playerList.forEach(function (player) {
+                if (player) {
+                    if (player.userId != cc.dd.user.id) { // && player.isOnLine
+                        cc.dd.AudioChat.addUser(player.userId);
+                    }
+                }
+            }, this);
+        }
+    },
 });
 
 module.exports = {

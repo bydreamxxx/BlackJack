@@ -266,7 +266,7 @@ cc.Class({
                     this.checkIsEnter(this.gameid);
                     break;
                 case Define.GameType.BLACKJACK_GOLD:
-                    this.checkIsEnter(this.gameid, this.sendBlackJack.bind(this));
+                    this.checkIsEnterCommon(this.gameid, this.sendBlackJack.bind(this));
                     break;
                 default:
                     break;

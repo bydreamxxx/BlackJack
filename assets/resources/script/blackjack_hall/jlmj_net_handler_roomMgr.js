@@ -135,18 +135,18 @@ var handler = {
             cc.director.getScene().addChild(Marquee);
             cc.game.addPersistRootNode(Marquee);
         }
-        if (cc.find('klb_friend_group_redbag') == null) {
-            var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_redbag', cc.Prefab);
-            var fg_redBag = cc.instantiate(pref);
-            cc.director.getScene().addChild(fg_redBag);
-            cc.game.addPersistRootNode(fg_redBag);
-        }
-        if (cc.find('klb_friend_group_invite_answer') == null) {
-            var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
-            var fg_redBag = cc.instantiate(pref);
-            cc.director.getScene().addChild(fg_redBag);
-            cc.game.addPersistRootNode(fg_redBag);
-        }
+        // if (cc.find('klb_friend_group_redbag') == null) {
+        //     var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_redbag', cc.Prefab);
+        //     var fg_redBag = cc.instantiate(pref);
+        //     cc.director.getScene().addChild(fg_redBag);
+        //     cc.game.addPersistRootNode(fg_redBag);
+        // }
+        // if (cc.find('klb_friend_group_invite_answer') == null) {
+        //     var pref = cc.resources.get('blackjack_common/prefab/klb_friend_group_invite_answer', cc.Prefab);
+        //     var fg_redBag = cc.instantiate(pref);
+        //     cc.director.getScene().addChild(fg_redBag);
+        //     cc.game.addPersistRootNode(fg_redBag);
+        // }
 
         if (msg.retCode == 0) {
             if (!this.checkDLGame(msg))
