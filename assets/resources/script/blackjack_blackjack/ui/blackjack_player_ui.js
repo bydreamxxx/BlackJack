@@ -24,11 +24,10 @@ let blackjack_player_ui = cc.Class({
         cardPrefab: cc.Prefab,
 
         isbanker: false,
+
+        _fixedTimeStep: 1/30,
+        _lastTime: 0,
     },
-
-
-    _fixedTimeStep: 1/30,
-    _lastTime: 0,
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -58,7 +57,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     fixedUpdate(){
-        if(this.timerProgress.node.active){
+        if(!this.isbanker && this.timerProgress.node.active){
             let tempTime = (this.endTime - new Date().getTime()) / 1000;
             if(tempTime < 0){
                 this.timerProgress.node.active = false;
@@ -104,8 +103,6 @@ let blackjack_player_ui = cc.Class({
             this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
 
             this.giftBtn.active = false;
-
-            this.chipZone.removeAllChildren();
         }
 
         this.cardNode.removeAllChildren();

@@ -3,6 +3,7 @@ const BlackJackED = require("BlackJackData").BlackJackED;
 const BlackJackEvent = require("BlackJackData").BlackJackEvent;
 var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
+let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 
 GAME_STATE = cc.Enum({
     WAITING:1,//等待玩家状态
@@ -158,7 +159,12 @@ cc.Class({
     },
 
     onClickExit(event, data){
-
+        var msg = new cc.pb.room_mgr.msg_leave_game_req();
+        var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+        gameInfoPB.setGameType(RoomMgr.Instance().gameId);
+        gameInfoPB.setRoomId(BlackJackData.roomConfigId);
+        msg.setGameInfo(gameInfoPB);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
     },
 
     onClickChat(event, data){

@@ -7,26 +7,28 @@ let BlackJackPlayerEvent = cc.Enum({
 let BlackJackPlayerED = new cc.dd.EventDispatcher();
 
 let BlackJackPlayerData = cc.Class({
-    userId :0,
-    playerName :'',
-    sex :0,
-    headUrl :'',
-    openId :0,
+    ctor(){
+        this.userId =0;
+        this.playerName ='';
+        this.sex =0;
+        this.headUrl ='';
+        this.openId =0;
 
-    seat :0,
-    state :'',
-    coin :0,
+        this.seat =0;
+        this.state ='';
+        this.coin =0;
 
-    netState :0,
-    score :0,
+        this.netState =0;
+        this.score =0;
 
-    level :0,
-    exp :0,
-    vipLevel :0,
+        this.level =0;
+        this.exp =0;
+        this.vipLevel =0;
 
-    viewIdx :0,
+        this.viewIdx =0;
 
-    betInfosList: [],
+        this.betInfosList= [];
+    },
 
     init(data){
         this.userId = data.userId;
