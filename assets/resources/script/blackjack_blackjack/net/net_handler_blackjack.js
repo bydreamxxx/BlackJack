@@ -1,6 +1,7 @@
 const BlackJackData = require("BlackJackData").BlackJackData.Instance();
 const BlackJackED = require("BlackJackData").BlackJackED;
 const BlackJackEvent = require("BlackJackData").BlackJackEvent;
+var RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 var handler = {
     on_msg_bj_ready_ack(msg) {
@@ -23,6 +24,7 @@ var handler = {
 
     },
     on_msg_bj_info(msg) {
+        RoomMgr.Instance().player_mgr.playerEnterGame();
         BlackJackData.setGameInfo(msg);
         BlackJackED.notifyEvent(BlackJackEvent.UPDATE_UI)
     },

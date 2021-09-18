@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('net_handler_texas');
+    var handler = require('net_handler_horse_racing');
     var recvFuncs = {
         [9700]:{ package_name:'msg', msg_name:'msg_texas_banker_notify', name:msg.msg_texas_banker_notify, func:handler.on_msg_texas_banker_notify, func_name:'on_msg_texas_banker_notify', logtag:'[9700:msg_texas_banker_notify]' },
         [9701]:{ package_name:'msg', msg_name:'msg_texas_player_poker_notify', name:msg.msg_texas_player_poker_notify, func:handler.on_msg_texas_player_poker_notify, func_name:'on_msg_texas_player_poker_notify', logtag:'[9701:msg_texas_player_poker_notify]' },

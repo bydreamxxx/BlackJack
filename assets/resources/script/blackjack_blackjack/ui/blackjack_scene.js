@@ -47,8 +47,6 @@ cc.Class({
     },
 
     onDestroy() {
-        cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
-
         RoomED.addObserver(this);
         BlackJackED.removeObserver(this);
     },
@@ -56,6 +54,9 @@ cc.Class({
     onEventMessage: function (event, data) {
         switch (event) {
             case RoomEvent.on_coin_room_enter:
+                break;
+            case RoomEvent.on_room_leave:
+                this.playerLeave(data[0]);
                 break;
             case BlackJackEvent.UPDATE_UI:
                 this.updateUI();
@@ -173,6 +174,14 @@ cc.Class({
 
     onClickEmoj(event, data){
 
+    },
+
+    playerLeave(data){
+        if(data.userId == cc.dd.user.id){
+            cc.dd.SceneManager.enterHall([],[],()=>{
+                cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
+            });
+        }
     },
 
     updateUI(){

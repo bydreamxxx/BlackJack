@@ -566,7 +566,6 @@ var handler = {
                 msg.roleInfosList.forEach(player=>{
                     RoomMgr.Instance().player_mgr.playerEnter(player);
                 });
-                RoomMgr.Instance().player_mgr.playerEnterGame();
                 break;
         }
     },
@@ -1063,10 +1062,6 @@ var handler = {
 
             });
 
-            if(msg.gameInfo.gameType == cc.dd.Define.GameType.BLACKJACK_GOLD){
-                RoomMgr.Instance().player_mgr.playerEnterGame();
-            }
-
             if (msg.isGetOthers) {
                 var get_users_msg = new cc.pb.room_mgr.msg_get_room_user_info_req();
                 get_users_msg.setGameType(msg.gameInfo.gameType);
@@ -1113,11 +1108,7 @@ var handler = {
                 cc.dd.SceneManager.enterGameWithLoading(msg.gameInfo.gameType);
             } else
                 if (msg.gameInfo.gameType != define.LKFISH_GOLD)//捕鱼需要特殊加载处理
-                    cc.dd.SceneManager.enterGame(msg.gameInfo.gameType,()=>{
-                        if(msg.gameInfo.gameType == cc.dd.Define.GameType.BLACKJACK_GOLD){
-                            RoomMgr.Instance().player_mgr.playerEnterGame();
-                        }
-                    });
+                    cc.dd.SceneManager.enterGame(msg.gameInfo.gameType);
         }
 
         if (RoomMgr.Instance().isClubRoom()) {

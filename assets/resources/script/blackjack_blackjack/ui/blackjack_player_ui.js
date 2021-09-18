@@ -70,6 +70,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     clear() {
+        cc.error(`座位号${this.viewIdx} clear`);
         if (this.nameLabel)
             this.nameLabel.string = '';
         if (this.score)
@@ -96,6 +97,8 @@ let blackjack_player_ui = cc.Class({
     },
 
     playerEnter(data) {
+        this.clear();
+
         this.playerData = data;
         if (!this.isbanker) {
             this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 14);
