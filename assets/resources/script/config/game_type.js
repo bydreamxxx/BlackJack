@@ -42,7 +42,7 @@ var data_game_type =
       { key:563,room_type:5,name:"梭哈金币赛",drop_id:0,is_record:1,game_server_type:1,base_score:1,out_score:-1,min_room_num:5,max_room_num:5,all_room_num:5,room_num_type:0,banker_min_score:-1,club_auto_type:0 },
       { key:201,room_type:1,name:"百人二八杠金币场",drop_id:0,is_record:0,game_server_type:1,base_score:1,out_score:-1,min_room_num:1,max_room_num:200,all_room_num:200,room_num_type:2,banker_min_score:10000000,club_auto_type:0 },
       { key:107,room_type:1,name:"飞禽走兽",drop_id:0,is_record:0,game_server_type:1,base_score:1,out_score:-1,min_room_num:1,max_room_num:200,all_room_num:200,room_num_type:0,banker_min_score:-1,club_auto_type:0 },
-      { key:203,room_type:1,name:"21点金币场",drop_id:0,is_record:0,game_server_type:1,base_score:1,out_score:-1,min_room_num:1,max_room_num:3,all_room_num:3,room_num_type:1,banker_min_score:-1,club_auto_type:0 },
+      { key:203,room_type:1,name:"21点金币场",drop_id:0,is_record:0,game_server_type:1,base_score:1,out_score:-1,min_room_num:1,max_room_num:5,all_room_num:5,room_num_type:1,banker_min_score:-1,club_auto_type:0 },
       { key:202,room_type:1,name:"德州扑克金币场",drop_id:0,is_record:0,game_server_type:1,base_score:1,out_score:-1,min_room_num:2,max_room_num:9,all_room_num:5,room_num_type:1,banker_min_score:-1,club_auto_type:0 }
     ],
 

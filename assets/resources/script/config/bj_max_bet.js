@@ -2,14 +2,11 @@ var data_bj_max_bet =
 {
     items:
     [
-      { key:101,maxbet:"1000;2000" },
-      { key:102,maxbet:"1000;2000" },
-      { key:103,maxbet:"1000;2000" },
-      { key:104,maxbet:"1000;2000" },
-      { key:201,maxbet:"1000;2000" },
-      { key:202,maxbet:"1000;2000" },
-      { key:203,maxbet:"1000;2000" },
-      { key:204,maxbet:"1000;2000" }
+      { key:101,maxbet:"1000;3000" },
+      { key:102,maxbet:"10000;30000" },
+      { key:103,maxbet:"100000;300000" },
+      { key:104,maxbet:"1000000;3000000" },
+      { key:105,maxbet:"10000000;30000000" }
     ],
 
     /**
