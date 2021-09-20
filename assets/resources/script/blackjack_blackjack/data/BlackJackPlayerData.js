@@ -58,7 +58,11 @@ let BlackJackPlayerData = cc.Class({
     updateGameInfo(betInfosList){
         this.betInfosList = betInfosList;
         BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.PLAYER_GAME_INFO, this);
-    }
+    },
+
+    setReady(ready){
+
+    },
 });
 
 module.exports = {

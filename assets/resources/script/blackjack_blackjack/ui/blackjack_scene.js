@@ -24,8 +24,10 @@ cc.Class({
         sliderNode: cc.Node,
         actionButtonNode: cc.Node,
 
-        minBet: cc.Label,
-        maxBet: cc.Label,
+        minBetLabel: cc.Label,
+        maxBetLabel: cc.Label,
+        minBetButtonLabel: cc.Label,
+        maxBetButtonLabel: cc.Label,
 
         cardPrefab: cc.Prefab,
 
@@ -36,11 +38,14 @@ cc.Class({
 
     onLoad() {
         this.remindCardLabel.string = "";
-        this.minBet.string = "";
-        this.maxBet.string = "";
+        this.minBetLabel.string = "";
+        this.maxBetLabel.string = "";
+        this.minBetButtonLabel.string = "MinBet";
+        this.maxBetButtonLabel.string = "MaxBet";
         this.betButtonNode.active = false;
         this.actionButtonNode.active = false;
         this.tipsNode.active = false;
+        this.sliderNode.active = false;
 
         RoomED.addObserver(this);
         BlackJackED.addObserver(this);
@@ -69,24 +74,27 @@ cc.Class({
     },
 
     onClickMinBet(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
+        msg.setIndex(1);
         msg.setBet(BlackJackData.minBet);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickMaxBet(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
+        msg.setIndex(1);
         msg.setBet(BlackJackData.maxBet);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickBet(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
+        msg.setIndex(1);
         msg.setBet(this.bet);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
@@ -102,8 +110,9 @@ cc.Class({
 
     onClickRepeatBet(event, data){
         if(BlackJackData.lastBet){
-            let msg = cc.pb.blackjack.msg_bj_bet_req();
+            let msg = new cc.pb.blackjack.msg_bj_bet_req();
             msg.setType(1);
+            msg.setIndex(1);
             msg.setBet(BlackJackData.lastBet);
             cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
             cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
@@ -111,38 +120,45 @@ cc.Class({
     },
 
     onSliderRoll(event, data){
-        this.bet = Math.round(event.progress * 100) * BlackJackData.minBet;
-        if(this.bet > BlackJackData.maxBet){
-            this.bet = BlackJackData.maxBet;
-        }else if(this.bet < BlackJackData.minBet){
-            this.bet = BlackJackData.minBet;
+        if(typeof event.progress === "number"){
+            this.bet = Math.round(event.progress * 100) * BlackJackData.minBet;
+            this.sliderNode.getComponentInChildren(cc.ProgressBar).progress = event.progress;
+            if(this.bet > BlackJackData.maxBet){
+                this.bet = BlackJackData.maxBet;
+            }else if(this.bet < BlackJackData.minBet){
+                this.bet = BlackJackData.minBet;
+            }
         }
     },
 
     onClickSplit(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(5);
+        msg.setIndex(1);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickDouble(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(2);
+        msg.setIndex(1);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickHit(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(4);
+        msg.setIndex(1);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
 
     onClickStand(event, data){
-        let msg = cc.pb.blackjack.msg_bj_bet_req();
+        let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(6);
+        msg.setIndex(1);
         cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
     },
@@ -185,29 +201,59 @@ cc.Class({
     },
 
     updateUI(){
+        this.minBetLabel.string = BlackJackData.minBet;
+        this.maxBetLabel.string = BlackJackData.maxBet;
+        this.minBetButtonLabel.string = `MinBet: ${BlackJackData.minBet}`;
+        this.maxBetButtonLabel.string = `MaxBet: ${BlackJackData.maxBet}`;
+
+        this.bet = BlackJackData.minBet;
+        this.sliderNode.getComponentInChildren(cc.Slider).progress = 0;
+        this.sliderNode.getComponentInChildren(cc.ProgressBar).progress = 0;
+
         this.playerList.forEach(player=>{
-            player.cleanProgress();
+            player.stop_chupai_ani();
         })
 
-        if(BlackJackData.turn == 100){
+        if(BlackJackData.turn && BlackJackData.turn.userId == 100){
             // this.banker
-        }else if(BlackJackData.turn > 100){
-            let player = BlackJackData.getPlayerById(BlackJackData.turn);
-            this.playerList[player.viewIdx].setProgress(BlackJackData.lastTime);
+        }else if(BlackJackData.turn && BlackJackData.turn.userId > 100){
+            let player = BlackJackData.getPlayerById(BlackJackData.turn.userId);
+            this.playerList[player.viewIdx].play_chupai_ani(BlackJackData.lastTime);
         }
+
+        if(BlackJackData.state == 2){
+            this.playerList[0].play_chupai_ani(BlackJackData.lastTime);
+        }
+
+        this.updateState();
     },
 
     updateState(){
         switch(BlackJackData.state){
             case GAME_STATE.WAITING:
+                this.betButtonNode.active = false;
+                this.actionButtonNode.active = false;
+                this.sliderNode.active = false;
                 break;
             case GAME_STATE.BETTING:
+                this.betButtonNode.active = true;
+                this.actionButtonNode.active = false;
+                this.sliderNode.active = false;
                 break;
             case GAME_STATE.PROTECTING:
+                this.betButtonNode.active = false;
+                this.actionButtonNode.active = false;
+                this.sliderNode.active = false;
                 break;
             case GAME_STATE.PLAYING:
+                this.betButtonNode.active = false;
+                this.actionButtonNode.active = false;
+                this.sliderNode.active = false;
                 break;
             case GAME_STATE.RESULTING:
+                this.betButtonNode.active = false;
+                this.actionButtonNode.active = false;
+                this.sliderNode.active = false;
                 break;
         }
     },

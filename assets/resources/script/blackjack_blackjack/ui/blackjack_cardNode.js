@@ -14,13 +14,26 @@ cc.Class({
         chipLabel: cc.Label,
         point: cc.Label,
 
-        isRight:false,
-        isBanker: false,
-
         cardPrefab: cc.Prefab,
     },
 
-    init(betInfo){
+    init(betInfo, isRight, isBanker, isSelf){
+        this.isRight = isRight;
+        this.isBanker = isBanker;
+        this.isSelf = isSelf;
+
+        if(this.isRight){
+            this.cardZone.anchorX = 1;
+            this.cardZone.x = 73.507;
+        }else{
+            this.cardZone.anchorX = 0;
+            this.cardZone.x = -18.904;
+        }
+
+        if(isSelf){
+
+        }
+
         this.cardList = [];
 
         this.betInfo = betInfo;

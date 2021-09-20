@@ -8407,7 +8407,7 @@ message msg_bj_deal_poker{
 	optional uint32			user_id 	= 1;
 	optional int32			index		= 2;
 	repeated int32			cards		= 3;
-	optional int32			point		= 4;
+	repeated int32			point		= 4;
 }
 
 message msg_bj_bet_req{

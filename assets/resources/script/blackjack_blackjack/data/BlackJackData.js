@@ -26,7 +26,7 @@ let BlackJackData = cc.Class({
     },
 
     ctor() {
-        this.playerList = [];
+        this.playerList = new Array(5);
     },
 
     changeState(msg){
@@ -44,6 +44,9 @@ let BlackJackData = cc.Class({
         // this.playerInfo = msg.usersInfoList;
         this.roomConfigId = msg.roomConfigId;
         this.turn = msg.turn;
+
+        this.maxBet = 10000;
+        this.minBet = 10;
 
         msg.usersInfoList.forEach(player=>{
             let _player = this.getPlayerById(player.userId);
@@ -108,10 +111,14 @@ let BlackJackData = cc.Class({
         // this.playerNumChanged();
     },
 
+    getPlayer(id){
+        return this.getPlayerById(id);
+    },
+
     getPlayerById(id){
         let player = null;
         for(let i = 0; i < this.playerList.length; i++){
-            if(this.playerList[i].userId == id){
+            if(this.playerList[i] && this.playerList[i].userId == id){
                 player = this.playerList[i];
                 break;
             }
