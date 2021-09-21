@@ -8419,7 +8419,8 @@ message msg_bj_bet_req{
 message msg_bj_bet_ret{
 	optional int32      		ret_code    = 1[default=0];   //1:当前不该自己说话， 2:没有这个用户  3：金币不够， 4：超过下注次数,5:错误的参数
 	optional uint32      		user_id     = 2;
-	repeated bj_bet_info   		bet     	= 3; //这里有可能有分牌的情况，所以可能是两个
+	optional int32				type		= 3;
+	repeated bj_bet_info   		bet     	= 4; //这里有可能有分牌的情况，所以可能是两个
 }
 
 message bj_result_info{

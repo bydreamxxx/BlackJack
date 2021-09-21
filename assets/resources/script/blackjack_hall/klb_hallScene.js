@@ -39,78 +39,23 @@ let hall = cc.Class({
 
     properties: {
         gameScrollView: { default: null, type: cc.Node, tooltip: "游戏列表pageview" },
-        gameItemMatch: { default: null, type: cc.Node, tooltip: "比赛场按钮，特殊处理下" },
-        creatRoomNode: cc.Node,
-        joinRoomNode: cc.Node,
-        chooseSeatNode: cc.Node,
-        fudaiShineNode: cc.Node,
-        // activeNodeList: { default: [], type: cc.Node, tooltip: "游戏活动iconlist" },
-        // activeShineNode: cc.Node,
+
         prefab: cc.Prefab,
-        positionLabel: cc.Label,
         taskTip: cc.Node,
-        // hallIcon: cc.Sprite,
-        // logoIcon: cc.Sprite,
-        // hallAtlasIcon: {
-        //     default: null,
-        //     type: cc.SpriteAtlas,
-        // },
-        // logoAtlasIcon: {
-        //     default: null,
-        //     type: cc.SpriteAtlas,
-        // },
+
         activeTip: cc.Node,
-        m_oNationalDayIcon: cc.Node,
-        m_HuodongsaiIcon: cc.Node,
-        game_group_closed_prefab: cc.Prefab,
-        game_gounp_opened: require('game_group_opened'),
         hallNode: cc.Node,
         xinxiNode: cc.Node,
 
-        cardNode: cc.Node,
-        goldNode: cc.Node,
-
-        newHall2: cc.Node,
-        newHall3: cc.Node,
-
-        newHall3CF: cc.Node,
-        newHall3WD: cc.Node,
-        newHall3PZ: cc.Node,
-
-        changeToFangKaNode: { default: null, type: cc.Node, tooltip: '切换房卡' },
-        changeToJinBiNode: { default: null, type: cc.Node, tooltip: '切换金币' },
-
         userCardNode: cc.Node,
         userGoldNode: cc.Node,
-
-        m_phoneLabel: { default: null, type: cc.Label, tooltip: '电话' },
-
-        adStitle: cc.Label,
-
-        newHall2Match: { default: null, type: cc.Node, tooltip: "比赛按钮" },
-        newHall2Join: { default: null, type: cc.Node, tooltip: "加入" },
-        newHall2Create: { default: null, type: cc.Node, tooltip: "创建" },
-        newHall2Friend: { default: null, type: cc.Node, tooltip: "亲友圈" },
-
-        newHall3Friend: { default: null, type: cc.Node, tooltip: "亲友圈" },
-
-        newHall3CFGOLD: { default: null, type: cc.Node, tooltip: "金币场" },
-        newHall3CFAD: { default: null, type: cc.Node, tooltip: "广告招商" },
-        newHall3CFJoin: { default: null, type: cc.Node, tooltip: "加入" },
-        newHall3CFCreate: { default: null, type: cc.Node, tooltip: "创建" },
-
-        newHall3WDMatch: { default: null, type: cc.Node, tooltip: "比赛按钮" },
-        newHall3WDJoin: { default: null, type: cc.Node, tooltip: "加入" },
-        newHall3WDCreate: { default: null, type: cc.Node, tooltip: "创建" },
-
-        newHall3PZJoin: { default: null, type: cc.Node, tooltip: "加入" },
-        newHall3PZCreate: { default: null, type: cc.Node, tooltip: "创建" },
 
         luckyBtn: cc.Node,
         fkdlBtn: cc.Node,
 
         adspriteFrames: [cc.SpriteFrame],
     },
+
 
     // use this for initialization
     onLoad: function () {
@@ -126,15 +71,6 @@ let hall = cc.Class({
 
         cc.dd.SysTools.setLandscape();
         this.onCompleted();
-        // var loadCellList = [];
-        // //大厅预加载资源
-        // reslist.LoadCellList.forEach(function (cell) {
-        //     loadCellList.push(cell);
-        // });
-
-        // cc.dd.ResLoader.loadSceneStaticResList(loadCellList,this.onProgress.bind(this),this.onCompleted.bind(this));
-
-        //dd.SysTools.setPortrait();
         dd.AudioChat.clearUsers();
         hallRoomEventDispatcher.addObserver(this);
         TaskED.addObserver(this);
@@ -143,22 +79,10 @@ let hall = cc.Class({
 
         //AudioManager.playMusic("blackjack_hall/audios/Hall_BGM");
 
-        this.bindButtonEvent();
-
         this.initHall();
 
         this.showHall();
 
-        this.scheduleOnce(this.queryDuijiangActive, 1);
-    },
-
-    queryDuijiangActive() {
-        if (!cc.dd._duijiangQuery && AppConfig.GAME_PID == 0) {
-            //获取兑奖活动
-            var pbObj = new cc.pb.slot.get_cash_activity_req();
-            cc.gateNet.Instance().sendMsg(cc.netCmd.slot.cmd_get_cash_activity_req, pbObj, 'get_cash_activity_req', true);
-            cc.dd._duijiangQuery = true;
-        }
     },
 
     /**
@@ -182,117 +106,7 @@ let hall = cc.Class({
                     }
                 }
                 break;
-            case 3: //快乐吧农安麻
-            case 4:  //快乐吧填大坑
-            case 5:  //快乐吧牛牛
-            case 10000:
-            case 10001:
-            case 10002:
-            case 10003:
-            case 10004: //巷乐天天踢
-            case 10005:
-            case 10006:
-            case 10007:
-            case 10008:
-            case 10009:
-            case 10010:
-            case 10011:
-            case 10013:
-            case 10014:
-                break;
-            case 10012:
-                if (!cc._showDailyAD) {
-                    cc._showDailyAD = true;
-                    this.showDailyAD();
-                }
-                break;
-            default:
-                if (cc.dd.isshowActive) {
-                    this.showJiuji();
-                    return;
-                }
-                cc.dd.isshowActive = true;
-
-                if (!cc.dd.isLoginTanchu) {
-                    cc.dd.isLoginTanchu = true;
-                    // if (Hall.HallData.Instance().rankActiveOpen) {
-                    //     var pbObj = new cc.pb.rank.get_rank_activity_req();
-                    //     cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_get_rank_activity_req, pbObj, 'get_rank_activity_req', true);
-                    // }
-                    this.queryDuijiangActive();//查询兑奖活动
-                    // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_LOGIN_TANCHU, function (ui) {
-                    //     //ui.getComponent('hall_login_tanchu').setFunc(this.showDailySign, this);
-                    // }.bind(this));
-                    if (!this.vip_activity) {
-                        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/klb_hall_vip_activity', (ui) => {
-                            this.vip_activity = true;
-                            let close = ui.getComponent('com_close');
-                            close.setCloseFunc(this.showDailySign.bind(this));
-                        });
-                    } else {
-                        this.showDailySign();
-                    }
-
-                    // let time = new Date(2020, 10, 6, 0, 0, 0, 0).getTime() - new Date().getTime();
-                    // let days = Math.floor(time / (24 * 3600 * 1000)) + 1;
-                    // if (days > 0 && days <= 5) {
-                    //     cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_IPHONE_AD, (ui) => {
-                    //         ui.getComponent('klb_hall_iphone_ad').show(days);
-                    //     })
-                    // }
-                } else {
-                    this.showJiuji();
-                }
-
-
         }
-
-        // this.showDailySign(() => {
-        //     if (!cc.dd.xinshou && !hallData.getInstance().isGetMoney) {
-        //         switch (AppConfig.GAME_PID) {
-        //             case 2: //快乐吧麻将
-        //             case 3: //快乐吧农安麻将
-        //             case 4:  //快乐吧填大坑
-        //             case 5:  //快乐吧牛牛
-        //                 {
-        //                     cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_XINSHOUYOULI);
-        //                 }
-        //                 break;
-
-        //             default:
-        //                 if (!cc.dd.isLoginTanchu && !cc._inviteTaskOpen) {
-        //                     // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_LOGIN_TANCHU, function (ui) {
-        //                     //     // ui.getComponent("hall_login_tanchu").setFunc(() => {
-        //                     //     //     if (cc.dd.user.regChannel < 10000) {
-        //                     //     //         if (cc._inviteTaskOpen) {
-        //                     //     //             cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_fxyl");
-        //                     //     //         }
-        //                     //     //     } else {
-        //                     //     //         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_XINSHOUYOULI);
-        //                     //     //     }
-        //                     //     // })
-        //                     // }.bind(this));
-        //                     //cc.dd.isLoginTanchu = true;
-        //                 }
-        //                 break;
-        //         }
-        //         cc.dd.xinshou = true;
-        //     }
-        //     else {
-        //         switch (AppConfig.GAME_PID) {
-        //             case 2: //快乐吧麻将
-        //             case 3: //快乐吧农安麻将
-        //             case 4:  //快乐吧填大坑
-        //             case 5:  //快乐吧牛牛
-        //                 break;
-        //             default:
-        //                 if (!cc.dd.isLoginTanchu && !cc._inviteTaskOpen) {
-        //                     //cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_LOGIN_TANCHU);
-        //                     //cc.dd.isLoginTanchu = true;
-        //                 }
-        //         }
-        //     }
-        // })
     },
 
     start: function () {//因为需要 获取玩家是不是游戏中，，， 为啥不在登录时带回  而需要重新发 而且是每次都发
@@ -393,32 +207,10 @@ let hall = cc.Class({
     },
 
     initGameList: function () {
-        switch (AppConfig.GAME_PID) {
-            case 2: //快乐吧麻将
-            case 3: //快乐吧农安麻将
-            case 4:  //快乐吧填大坑
-            case 5:  //快乐吧牛牛
-                return;
-        }
         hallGameList.InitHallGameList();
     },
 
     initGameLogo: function () {
-        // var json = cc.sys.localStorage.getItem('provinceid');
-        // var key = cc.sys.localStorage.getItem('locationid');
-        // if (json) {
-        //     var str = 'province_' + json;
-        //     var config = require(str);
-
-        //     var countyData = config.getItem(function (data) {
-        //         return data.key == parseInt(key);
-        //     });
-
-        //     if (countyData) {
-        //         this.logoIcon.spriteFrame = this.logoAtlasIcon.getSpriteFrame(countyData.game_icon);
-        //         this.hallIcon.spriteFrame = this.hallAtlasIcon.getSpriteFrame(countyData.hall_icon);
-        //     }
-        // }
 
     },
 
@@ -463,15 +255,6 @@ let hall = cc.Class({
                 userinfo.setData(userData, true);
             }
         }
-
-        let user2 = cc.find('Canvas/card/newHall3/klb_hall_mainui_userInfo');
-        if (user2) {
-            let userinfo = user2.getComponent('klb_hall_UserInfo');
-            if (userinfo) {
-                userinfo.setData(userData);
-            }
-        }
-
         cc.dd.native_systool.getNativeScheme();
     },
 
@@ -585,22 +368,22 @@ let hall = cc.Class({
                 // cc.log("详细地址：longitude+++++++++++++++++++++++++++" + longitude);
                 // cc.log("详细地址：distance+++++++++++++++++++++++++++" + distance);
 
-                hall_audio_mgr.com_btn_click();
-                this.creatRoomNode.active = true;
-                var Component = this.creatRoomNode.getComponent("klb_hall_CreateRoom");
-                Component.showGameList(0)
-                if (cc.game_pid == 10004) {
-                    Component.moveToCenter();
-                } else {
-                    var ani = this.creatRoomNode.getChildByName('actionnode').getComponent(cc.Animation);
-                    ani.play('klb_hall_createRoom');
-                }
+                // hall_audio_mgr.com_btn_click();
+                // this.creatRoomNode.active = true;
+                // var Component = this.creatRoomNode.getComponent("klb_hall_CreateRoom");
+                // Component.showGameList(0)
+                // if (cc.game_pid == 10004) {
+                //     Component.moveToCenter();
+                // } else {
+                //     var ani = this.creatRoomNode.getChildByName('actionnode').getComponent(cc.Animation);
+                //     ani.play('klb_hall_createRoom');
+                // }
                 break;
             case 'J_ROOM'://进入房间
-                hall_audio_mgr.com_btn_click();
-                this.joinRoomNode.active = true
-                var ani = this.joinRoomNode.getChildByName('action_node').getComponent(cc.Animation);
-                ani.play('klb_hall_JoinRoom');
+                // hall_audio_mgr.com_btn_click();
+                // this.joinRoomNode.active = true
+                // var ani = this.joinRoomNode.getChildByName('action_node').getComponent(cc.Animation);
+                // ani.play('klb_hall_JoinRoom');
                 break;
             case 'C_CLUB'://进入房间
                 hall_audio_mgr.com_btn_click();
@@ -698,154 +481,6 @@ let hall = cc.Class({
     },
 
     initAndOpenRoomUI: function (data) {
-        // var seq = cc.sequence(cc.delayTime(0.1), cc.callFunc(function () {
-        //     var gameItem = klb_game_list_config.getItem(function (item) {
-        //         if (item.gameid == data.hallGameid)
-        //             return item
-        //     })
-        //     if (gameItem.isxiaociji == 0) { //常规游戏
-        //         switch (data.hallGameid) {
-        //             case 109://疯狂拼十
-        //             case Define.GameType.HBSL_GOLD://红包扫雷
-        //             case 103: //单挑
-        //             case 104: //飞禽走兽
-        //             case 105: //西游记
-        //             case 106://幸运转盘
-        //             case 201://二八杠
-        //             case 107://黄金赛马
-        //             case 110: //打地鼠
-        //                 var enterfunc = function () {
-        //                     if (data.roomlistList && data.roomlistList.length) {
-        //                         var entermin = 0;
-        //                         game_room_list.items.forEach(function (roomItem) {
-        //                             if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
-        //                                 var scriptData = require('brnn_data').brnn_Data.Instance();
-        //                                 scriptData.setData(roomItem);
-        //                                 entermin = roomItem.entermin;
-        //                             }
-        //                         }.bind(this));
-        //                         if (hall_prop_data.getInstance().getCoin() < entermin) {
-        //                             var tipsText = '金币不足' + entermin + ',不能进入';
-        //                             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
-        //                         }
-        //                         else {
-        //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        //                             msg.setGameType(data.hallGameid);
-        //                             msg.setRoomId(data.roomlistList[0].fangjianid);
-        //                             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-        //                         }
-        //                     }
-        //                     else {
-        //                         cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
-        //                     }
-        //                 }
-        //                 if (hallData.getInstance().gameId > 0) {    //游戏恢复
-        //                     if (hallData.getInstance().gameId == data.hallGameid) {
-        //                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        //                         msg.setGameType(hallData.getInstance().gameId);
-        //                         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-        //                     }
-        //                     else {
-        //                         var itemgame = klb_game_list_config.getItem(function (item) {
-        //                             if (item.gameid == hallData.getInstance().gameId)
-        //                                 return item;
-        //                         })
-        //                         var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
-        //                         cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
-        //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        //                             msg.setGameType(hallData.getInstance().gameId);
-        //                             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-        //                         }, null);
-        //                         cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
-        //                     }
-        //                 }
-        //                 else {
-        //                     // if (data.roomlistList && data.roomlistList.length) {
-        //                     //     var entermin = 0;
-        //                     //     game_room_list.items.forEach(function (roomItem) {
-        //                     //         if (data.hallGameid == roomItem.gameid && roomItem.roomid == data.roomlistList[0].fangjianid) {
-        //                     //             var scriptData = require('brnn_data').brnn_Data.Instance();
-        //                     //             scriptData.setData(roomItem);
-        //                     //             entermin = roomItem.entermin;
-        //                     //         }
-        //                     //     }.bind(this));
-        //                     //     if (hall_prop_data.getInstance().getCoin() < entermin) {
-        //                     //         var tipsText = '金币不足' + entermin + ',不能进入';
-        //                     //         cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
-        //                     //     }
-        //                     //     else {
-        //                     //         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        //                     //         msg.setGameType(data.hallGameid);
-        //                     //         msg.setRoomId(data.roomlistList[0].fangjianid);
-        //                     //         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-        //                     //     }
-        //                     // }
-        //                     // else {
-        //                     //     cc.dd.PromptBoxUtil.show('当前禁止该游戏，请联系管理员');
-        //                     // }
-        //                     enterfunc();
-        //                 }
-        //                 break;
-        //             case 136://新斗三张
-        //                 dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_hall_Room', function (prefab) {
-        //                     var Component = prefab.getComponent('new_dsz_hall_room');
-        //                     Component.initRoomUI(data);
-        //                 });
-        //                 break;
-        //             case 138://捕鱼
-        //                 dd.UIMgr.openUI('gameyj_fish/prefabs/fish_hall_Room', function (prefab) {
-        //                     var Component = prefab.getComponent('gameyj_Fish_Room');
-        //                     Component.initRoomUI(data);
-        //                 });
-        //                 break;
-        //             case 139://捕鱼
-        //                 dd.UIMgr.openUI('gameyj_fish_doyen/prefabs/fish_doyen_hall_room', function (prefab) {
-        //                     var Component = prefab.getComponent('gameyj_Fish_Doyen_Room');
-        //                     Component.initRoomUI(data);
-        //                 });
-        //                 break;
-        //             default:
-        //                 switch (AppConfig.GAME_PID) {
-        //                     case 2: //快乐吧麻将
-        //                     case 3: //快乐吧农安麻将
-        //                     case 4:  //快乐吧填大坑
-        //                     case 5:  //快乐吧牛牛 
-        //                         {
-        //                             dd.UIMgr.openUI(hall_prefab.KLB_DL_HALL_ROOM, function (prefab) {
-        //                                 var Component = prefab.getComponent('klb_hall_Room');
-        //                                 Component.initRomUI(data);
-        //                             });
-        //                             break;
-        //                         }
-        //                     default:
-        //                         dd.UIMgr.openUI(hall_prefab.KLB_HALL_ROOM, function (prefab) {
-        //                             var Component = prefab.getComponent('klb_hall_Room');
-        //                             Component.initRomUI(data);
-        //                         });
-        //                 }
-        //                 break;
-        //         }
-        //     } else {
-        //         var entermin = null;
-        //         game_room_list.items.forEach(function (roomItem) {
-        //             if (data.hallGameid == roomItem.gameid) {
-        //                 if (entermin == null)
-        //                     entermin = roomItem.entermin;
-        //                 else
-        //                     entermin = Math.min(entermin, roomItem.entermin);
-        //             }
-        //         }.bind(this));
-        //         if (hall_prop_data.getInstance().getCoin() < entermin) {
-        //             var tipsText = '金币不足' + entermin + ',不能进入';
-        //             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
-        //         }
-        //         else {
-        //             var gSlotMgr = require('SlotManger').SlotManger.Instance();
-        //             gSlotMgr.enterGame(gameItem.gameid, 0);
-        //         }
-        //     }
-        // }));
-        // this.node.runAction(seq);
         cc.tween(this.node)
             .delay(0.1)
             .call(function () {
@@ -961,15 +596,15 @@ let hall = cc.Class({
                                 case 4:  //快乐吧填大坑
                                 case 5:  //快乐吧牛牛 
                                     {
-                                        dd.UIMgr.openUI(hall_prefab.KLB_DL_HALL_ROOM, function (prefab) {
-                                            var Component = prefab.getComponent('klb_hall_Room');
+                                        dd.UIMgr.openUI(hall_prefab.BJ_HALL_ROOM, function (prefab) {
+                                            var Component = prefab.getComponent('BlackJack_Hall_Room');
                                             Component.initRomUI(data);
                                         });
                                         break;
                                     }
                                 default:
-                                    dd.UIMgr.openUI(hall_prefab.KLB_HALL_ROOM, function (prefab) {
-                                        var Component = prefab.getComponent('klb_hall_Room');
+                                    dd.UIMgr.openUI(hall_prefab.BJ_HALL_ROOM, function (prefab) {
+                                        var Component = prefab.getComponent('BlackJack_Hall_Room');
                                         Component.initRomUI(data);
                                     });
                             }
@@ -1161,17 +796,6 @@ let hall = cc.Class({
         }
     },
 
-    showNAtionalDayActive: function () {
-        if (cc._appstore_check || cc._androidstore_check)
-            return;
-        this.m_oNationalDayIcon.active = Hall.HallData.Instance().checkActivityIsOpen();
-        if (Hall.HallData.Instance().checkActivityIsOpen() && !Hall.HallData.Instance().showedNationalActive) {
-            cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_CJ', function (prefab) {
-                prefab.getComponent('klb_hall_daily_active_CopyBtn').showClsoeBtn(true);
-            });
-            Hall.HallData.Instance().showedNationalActive = true;
-        }
-    },
 
     updateTaskFlag() {
         this.taskTip.active = this.getTaskFinished();
@@ -1205,9 +829,6 @@ let hall = cc.Class({
     initHall() {
         Bsc_sendMsg.getActByType(1);
 
-        if (this.newHall3CFAD)
-            this.newHall3CFAD.getComponent(cc.Sprite).spriteFrame = this.adspriteFrames[0];
-
         switch (AppConfig.GAME_PID) {
             case 2: //快乐吧麻将
             case 3: //快乐吧农安麻将
@@ -1218,96 +839,6 @@ let hall = cc.Class({
                     return;
                 var str = '领取更多游戏福利，添加官方微信客服 klbgame8888，文明游戏，禁止赌博!';
                 Hall.HallED.notifyEvent(Hall.HallEvent.Get_PaoMoDeng_DL_Marquee, str);
-                break;
-            case 10003: //逊克游戏
-            case 10004: //巷乐天天踢
-            case 10006:
-            case 10008:
-            case 10010:
-            case 10013:
-                if (cc.game_pid == 10008) {
-                    str = '欢迎使用赤峰乌丹麻将，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活，文明娱乐，禁止赌博。';
-
-                    this.newHall3CF.active = false;
-                    this.newHall3WD.active = true;
-                    this.newHall3PZ.active = false;
-                    this.luckyBtn.active = cc._chifengLucky === true;
-                } else if (cc.game_pid == 10010) {
-                    str = '欢迎使用赤峰平庄麻将，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活，文明娱乐，禁止赌博。';
-                    this.newHall3CF.active = false;
-                    this.newHall3WD.active = false;
-                    this.newHall3PZ.active = true;
-                } else if (cc.game_pid == 10003) {
-                    str = '本游戏仅供娱乐，严禁赌博，一经发现，立即封停账号并上报公安机关。';
-                    this.newHall3CF.active = true;
-                    this.newHall3WD.active = false;
-                    this.newHall3PZ.active = false;
-
-                    this.newHall3CFGOLD.active = false;
-                    this.newHall3CFAD.active = true;
-                } else if (cc.game_pid == 10004) {
-                    str = '本游戏仅供娱乐，严禁赌博，一经发现，立即封停账号并上报公安机关。';
-                    this.newHall3CF.active = true;
-                    this.newHall3WD.active = false;
-                    this.newHall3PZ.active = false;
-
-                    this.newHall3CFGOLD.active = false;
-                    this.newHall3CFAD.active = true;
-                } else if (cc.game_pid == 10013) {
-                    str = '欢迎使用巷乐阿城麻将，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活，文明娱乐，禁止赌博。';
-                    this.newHall3CF.active = true;
-                    this.newHall3WD.active = false;
-                    this.newHall3PZ.active = false;
-
-                    this.newHall3CFGOLD.active = false;
-                    this.newHall3CFAD.active = true;
-                } else {
-                    str = '欢迎使用祥云赤峰麻将，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活，文明娱乐，禁止赌博。';
-                    this.newHall3CF.active = true;
-                    this.newHall3WD.active = false;
-                    this.newHall3PZ.active = false;
-
-                    this.newHall3CFGOLD.active = false;
-                    this.newHall3CFAD.active = true;
-                }
-                Hall.HallED.notifyEvent(Hall.HallEvent.Get_PaoMoDeng_DL_Marquee, str);
-                AudioManager.playMusic('blackjack_hall/audios/bg_music10');
-                if (cc.find('Marquee')) {
-                    this._Marquee = cc.find('Marquee');
-                    this._Marquee.getComponent('com_marquee').updatePosition(0.83);
-                }
-                break;
-            default:
-                if (cc._useCardUI) {
-                    this.newHall3CFGOLD.active = false;
-                    this.newHall3CFAD.active = true;
-
-                    if (cc.game_pid == 10014) {
-                        this.newHall3CFAD.getComponent(cc.Sprite).spriteFrame = this.adspriteFrames[1];
-                    }
-                } else {
-                    this.newHall3CFGOLD.active = true;
-                    this.newHall3CFAD.active = false;
-
-                    if (cc._isKuaiLeBaTianDaKeng) {
-                        cc.find('Canvas/card/newHall3/klb_hall_mainui_userInfo/topNode/changeToJinBiButton').active = true;
-                        cc.find('Canvas/card/newHall3/klb_hall_mainui_userInfo/topNode/exit_btn').active = false;
-                        this.newHall3CFGOLD.active = false;
-                        this.newHall3CFAD.active = true;
-
-                        if (cc.game_pid == 10012) {
-                            cc.dd.ButtonUtil.setButtonEvent(this.newHall3CFAD, () => {
-                                hall_audio_mgr.com_btn_click();
-                                this.showDailyAD();
-                            });
-                        }
-                    }
-                }
-
-                this.newHall3CF.active = true;
-                this.newHall3WD.active = false;
-                this.newHall3PZ.active = false;
-                AudioManager.playMusic('blackjack_hall/audios/hall_bg');
                 break;
         }
     },
@@ -1330,50 +861,8 @@ let hall = cc.Class({
         let config = game_channel_cfg.getItem((itemdata) => {
             return itemdata.channel == cc.game_pid;
         });
-        if (config && this.adStitle) {
-            this.adStitle.string = config.guanggao;
-        }
-        // if (!this.duliNodeNew)
-        //     return;
-        // let db = this.duliNodeNew.getComponent('klb_hall_db_new');
-        // if (db) {
-        //     db.close();
-        // }
-        // if (this.checkNewHall() == 3) {
-        //     if (db) {
-        //         db.showNode();
-        //     }
-        // } else if (this.checkNewHall() == 2) {
-        //     //显示新大厅
-        //     cc.find('leftBack', this.hallNode).active = false;
-        //     cc.find('game_group_layer', this.hallNode).active = false;
-        //     this.xinxiNode.active = false;
-        //     this.neweHallNode.active = true;
-        //     this.returnNode.active = false;
-        //     var pb = this.neweHallNode.getComponent('klb_hall_db');
-        //     if (pb)
-        //         pb.showNode(true);
-        // }
-        if (this.fkdlBtn) {
-            this.fkdlBtn.active = !cc._useChifengUI && !cc._isKuaiLeBaTianDaKeng && cc.game_pid >= 10000;
-        }
 
-        let checkResult = this.checkNewHall();
-
-        if (!cc.dd._.isUndefined(isCard)) {
-            if (isCard) {
-                this.goToCard();
-            } else {
-                this.goToGold();
-            }
-        } else {
-            if (checkResult == 0 || checkResult == 1) {
-                this.goToGold();
-            } else {
-                this.goToCard();
-            }
-        }
-
+        this.goToGold();
     },
 
     onClickHall: function () {
@@ -1463,24 +952,21 @@ let hall = cc.Class({
                 //this.initGameList();
                 //this.initGameLogo();
                 break;
-            case Hall.HallEvent.NATIONAL_ACTIVE_IS_OPEN:
-                this.showNAtionalDayActive();
-                break;
             case Hall.HallEvent.TASK_INFO:
             case Hall.HallEvent.TASK_UPDATE:
                 this.updateTaskFlag();
                 break;
             case RoomEvent.on_choose_seat:
-                var hallRoom = cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_ROOM);
-                if (hallRoom) {
-                    var choose = cc.find('klb_hall_Choose', hallRoom).getComponent('klb_hall_Choose');
-                    if (choose)
-                        choose.showChooseUI(data);
-                } else {
-                    var choose = this.chooseSeatNode.getComponent('klb_hall_Choose');
-                    if (choose)
-                        choose.showChooseUI(data);
-                }
+                // var hallRoom = cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_ROOM);
+                // if (hallRoom) {
+                //     var choose = cc.find('klb_hall_Choose', hallRoom).getComponent('klb_hall_Choose');
+                //     if (choose)
+                //         choose.showChooseUI(data);
+                // } else {
+                //     var choose = this.chooseSeatNode.getComponent('klb_hall_Choose');
+                //     if (choose)
+                //         choose.showChooseUI(data);
+                // }
                 break;
             case Bsc_Event.BSC_FLUSH_INFO:
                 var list = data[0];
@@ -1500,8 +986,6 @@ let hall = cc.Class({
                         // }
                     }
                 }
-                if (this.m_HuodongsaiIcon)
-                    this.m_HuodongsaiIcon.active = active;
                 break;
             case Hall.HallEvent.GET_Battle_History_LIST:
                 var hallHistory = cc.dd.UIMgr.getUI(hall_prefab.CHIFENG_HISTORY);
@@ -1661,7 +1145,6 @@ let hall = cc.Class({
                         self.updateActiveTip();
                         self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
                         self.updateTaskFlag();
-                        self.showNAtionalDayActive();
                     })
                     .start();
             }
@@ -1704,102 +1187,47 @@ let hall = cc.Class({
 
             var self = this;
 
-            // var delay = cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
-            //     // if(Hall.HallData.Instance().getActiveTag() == 1){
-            //     //     self.activeShineNode.stopAllActions();
-            //     //     self.activeShineNode.parent.active = true;
-            //     //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-            //     //     self.activeShineNode.runAction(cc.repeatForever(seq1));
-            //     // }else{
-            //     //     self.activeShineNode.parent.active = false;
-            //     // }
-
-            //     var msg = new cc.pb.rank.msg_activity_info_req();
-            //     cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
-            //     self.updateActiveTip();
-            //     self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
-            //     self.updateTaskFlag();
-            //     self.showNAtionalDayActive();
-            // }));
-            // this.node.runAction(delay);
+           
             cc.tween(this.node)
                 .delay(0.5)
                 .call(function () {
-                    // if(Hall.HallData.Instance().getActiveTag() == 1){
-                    //     self.activeShineNode.stopAllActions();
-                    //     self.activeShineNode.parent.active = true;
-                    //     var seq1 = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                    //     self.activeShineNode.runAction(cc.repeatForever(seq1));
-                    // }else{
-                    //     self.activeShineNode.parent.active = false;
-                    // }
+                    
 
                     var msg = new cc.pb.rank.msg_activity_info_req();
                     cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_activity_info_req, msg, 'msg_activity_info_req', true);
                     self.updateActiveTip();
                     self.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
                     self.updateTaskFlag();
-                    self.showNAtionalDayActive();
                 })
                 .start();
-            // if(!cc.sys.isNative){
-            //     return;
-            // }
-            // if (cc.sys.OS_ANDROID == cc.sys.os) {
-            //安卓是默认的定位打开了，所以不需要start，直接调用以下接口
-            //     var adress = jsb.reflection.callStaticMethod('SystemTool', 'getAdress',"()Ljava/lang/String;");
-            //     var Latitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
-            //     var longitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
-            //     var distance = jsb.reflection.callStaticMethod("game/SystemTool", "getDistanceBetwwen", "(FFFF)F", Latitude, Latitude+1, longitude, longitude+1);
-            //     cc.log("详细地址：Latitude+++++++++++++++++++++++++++" + Latitude);
-            //     cc.log("详细地址：longitude+++++++++++++++++++++++++++" + longitude);
-            //     cc.log("详细地址：distance+++++++++++++++++++++++++++" + distance);
-            // }else if(cc.sys.OS_IOS == cc.sys.os){
-            //打开ios的定位设置
-            //     jsb.reflection.callStaticMethod('SystemTool', 'startGpsLocation');
-            // }
+           
 
             this.updateUnreadMail();
-            // if (!cc.sys.isNative)
-            //     this.showActive();
-
-            this.game_gounp_opened.node.active = false;
+           
         }
         this.needInitGold = false;
 
-        this.cardNode.active = false;
-        this.goldNode.active = true;
-        this.hallNode.active = true;
+        // this.cardNode.active = false;
+        // this.goldNode.active = true;
+        // this.hallNode.active = true;
 
-        this.changeToFangKaNode.active = !cc._applyForPayment;
-        this.changeToJinBiNode.active = false;
-
-        this.userGoldNode.active = true;
-        this.userCardNode.active = false;
+        // this.userGoldNode.active = true;
+        // this.userCardNode.active = false;
     },
 
     loadGame() {
         this.gameScrollView.removeAllChildren(true);
-        this.gameItemMatch.active = false;
 
         var gameList = [];
         for (var i = 0; i < hallGameList.gameList.length; i++) {
-            if (cc._useChifengUI) {
-                if (hallGameList.gameList[i].game_id == cc.dd.Define.GameType.DDZ_XYJBC) {
-                    continue;
-                }
-                if (cc.game_pid == 10006 && hallGameList.gameList[i]._type == 'add_game') {
-                    continue;
-                }
-            }
 
-            if (cc._applyForPayment) {
-                let id = hallGameList.gameList[i].game_id;
-                let gameType = cc.dd.Define.GameType;
-                if (id == gameType.DSZ_GOLD || id == gameType.NEW_DSZ_GOLD || id == gameType.PAOYAO_GOLD || id == gameType.TDK_COIN || id == gameType.SH_GOLD || id == gameType.NN_GOLD || id == gameType.BRNN_GOLD || hallGameList.gameList[i].name == '小刺激' || hallGameList.gameList[i].name == '捕鱼合集' || hallGameList.gameList[i].name == '打地鼠' || hallGameList.gameList[i].type == GAME_ITME_TYPE.RedBag_FUNCTION) {
-                    continue;
-                }
-            }
+            // if (cc._applyForPayment) {
+            //     let id = hallGameList.gameList[i].game_id;
+            //     let gameType = cc.dd.Define.GameType;
+            //     if (id == gameType.DSZ_GOLD || id == gameType.NEW_DSZ_GOLD || id == gameType.PAOYAO_GOLD || id == gameType.TDK_COIN || id == gameType.SH_GOLD || id == gameType.NN_GOLD || id == gameType.BRNN_GOLD || hallGameList.gameList[i].name == '小刺激' || hallGameList.gameList[i].name == '捕鱼合集' || hallGameList.gameList[i].name == '打地鼠' || hallGameList.gameList[i].type == GAME_ITME_TYPE.RedBag_FUNCTION) {
+            //         continue;
+            //     }
+            // }
 
             if (hallGameList.gameList[i].game_id != 129) {
                 gameList.push(hallGameList.gameList[i]);
@@ -1807,22 +1235,11 @@ let hall = cc.Class({
         }
 
         for (let index = 0; index < gameList.length; index++) {
-            if (gameList[index].game_list) { //合集
-                let game_group_closed = cc.instantiate(this.game_group_closed_prefab).getComponent("game_group_closed");
-                this.gameScrollView.addChild(game_group_closed.node);
-                game_group_closed.setData(gameList[index]);
-            } else {
-                if (gameList[index].type == GAME_ITME_TYPE.RedBag_FUNCTION) {
-                    this.gameItemMatch.active = true;
-                    let gameItemUI = this.gameItemMatch.getComponent("klb_hall_GameItemUI");
-                    gameItemUI.setData(gameList[index], null);
-                } else {
-                    var gameItemNode = cc.instantiate(this.prefab);
-                    var gameItemUI = gameItemNode.getComponent("klb_hall_GameItemUI");
-                    gameItemUI.setData(gameList[index], null);
-                    this.gameScrollView.addChild(gameItemUI.node);
-                }
-            }
+
+                var gameItemNode = cc.instantiate(this.prefab);
+                var gameItemUI = gameItemNode.getComponent("klb_hall_GameItemUI");
+                gameItemUI.setData(gameList[index], null);
+                this.gameScrollView.addChild(gameItemUI.node);
         }
     },
 
@@ -1869,27 +1286,6 @@ let hall = cc.Class({
             cc.dd.PromptBoxUtil.show("复制成功");
         }
     },
-
-    bindButtonEvent() {
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall2Match, this.onClickBiSai.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall2Join, this.onClickJiaru.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall2Create, this.onCallCreate.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall2Friend, this.onClickQinyou.bind(this));
-
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3CFGOLD, this.onClickGotoGold.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3CFJoin, this.onClickJiaru.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3CFCreate, this.onCallCreate.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3Friend, this.onClickQinyou.bind(this));
-
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3WDMatch, this.onClickBiSai.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3WDJoin, this.onClickJiaru.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3WDCreate, this.onCallCreate.bind(this));
-
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3PZJoin, this.onClickJiaru.bind(this));
-        cc.dd.ButtonUtil.setButtonEvent(this.newHall3PZCreate, this.onCallCreate.bind(this));
-    },
-
-    ////////////////赤峰界面/////////////
 
 
     //打开公告

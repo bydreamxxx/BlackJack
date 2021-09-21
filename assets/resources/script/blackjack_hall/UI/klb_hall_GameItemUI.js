@@ -199,9 +199,9 @@ var HallGameItemUI = cc.Class({
                 return item
         }.bind(this));
 
-        if (this.gameType == GameType.RedBag_FUNCTION) {
-            gameItem = { game_spine: 'hongbaosai', spine_offset: '0,-186' }
-        }
+        // if (this.gameType == GameType.RedBag_FUNCTION) {
+        //     gameItem = { game_spine: 'hongbaosai', spine_offset: '0,-186' }
+        // }
 
 
         if (this.spine && gameItem && gameItem.game_spine != '') {
@@ -224,18 +224,14 @@ var HallGameItemUI = cc.Class({
     setSpineAni(active) {
         this.showSpine = !active;
         if (this.spine) {
-            if (!active && !this.initSpine) {
-                this.initSpine = true;
-                this.loadSpineAni();
-            } else {
+            // if (!active && !this.initSpine) {
+            //     this.initSpine = true;
+            //     this.loadSpineAni();
+            // } else {
                 var gameItem = klb_game_list_config.getItem(function (item) {
                     if (item.gameid == this.game_id)
                         return item
                 }.bind(this));
-
-                if (this.gameType == GameType.RedBag_FUNCTION) {
-                    gameItem = { game_spine: 'hongbaosai', spine_offset: '0,-186' }
-                }
 
                 if (gameItem && gameItem.game_spine != '') {
                     this.spine.node.active = this.showSpine;
@@ -245,7 +241,7 @@ var HallGameItemUI = cc.Class({
                     this.icon.node.active = true;
                 }
 
-            }
+            //}
         }
     }
 });

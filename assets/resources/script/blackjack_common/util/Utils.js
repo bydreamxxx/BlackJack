@@ -641,11 +641,18 @@ var Utils = {
             return null;
         }
 
-        let str = card.tostring;
+        if(card === 0){
+            return 0;
+        }
+
+        let str = card.toString();
         str = str.slice(0,str.length-1);
         let num = parseInt(str);
         if(num >= 10){
             num = 10;
+        }
+        if(num === 1){
+            num = 11;
         }
         return num;
     }

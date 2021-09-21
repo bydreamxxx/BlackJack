@@ -203,4 +203,6 @@ module.exports = {
     //兑奖活动
     KLB_HALL_ACTIVE_TG: 'blackjack_hall/prefabs/daily_active/klb_hall_daily_active_TG',
 
+    BJ_HALL_ROOM: "blackjack_hall/prefabs/blackjack/BlackJack_Common_Room",
+
 };

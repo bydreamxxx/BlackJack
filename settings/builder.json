@@ -2,13 +2,17 @@
   "appKey": "",
   "appSecret": "",
   "encryptJs": true,
-  "excludeScenes": [],
+  "excludeScenes": [
+    "204e61e3-b8a8-496e-8a48-80dd373bb674",
+    "517b39a9-965e-4418-a645-8ae74265465c",
+    "e9fc0df4-e6c8-496f-9830-d2c486361b9a"
+  ],
   "includeAnySDK": false,
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "jailbreakPlatform": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "mergeStartScene": false,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
@@ -21,7 +25,7 @@
   "packageName": "com.yjhy.jlmj",
   "privateKey": "",
   "renderMode": "0",
-  "startScene": "f6ca0b15-7257-4ebf-be1b-f7a44efcf082",
+  "startScene": "8719247d-9a91-4249-a3d5-562cad802f11",
   "title": "gameyj",
   "webOrientation": "landscape",
   "wechatgame": {

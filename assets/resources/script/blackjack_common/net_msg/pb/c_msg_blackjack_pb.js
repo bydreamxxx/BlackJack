@@ -273,6 +273,7 @@ let msg_bj_bet_ret = cc.Class({
         let content = {};
         content.retCode = this.retCode;
         content.userId = this.userId;
+        content.type = this.type;
         content.betList = this.betList;
 
         return content;
@@ -282,6 +283,9 @@ let msg_bj_bet_ret = cc.Class({
     },
     setUserId(userId){
         this.userId = userId;
+    },
+    setType(type){
+        this.type = type;
     },
     setBetList(betList){
         this.betList = betList;

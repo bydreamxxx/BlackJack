@@ -40,45 +40,15 @@ var HallGameList = cc.Class({
     //初始化默认游戏
     initDefaultGame: function () {
         this.defalutSelectList = [];
-        var channel_games = game_channel_cfg.getItem(function (item) {
-            if (item.channel == AppConfig.GAME_PID)
-                return true;
-        })
-        if (channel_games && cc.game_pid != 10015) {
-            var games = channel_games.gameid.split(';');
-            for (var i = 0; i < games.length; i++) {
-                games[i] = parseInt(games[i]);
-            }
-            if(!cc._chifengGame){
-                for (var i = 0; i < klb_game_Confg.items.length; i++) {
-                    var data = klb_game_Confg.items[i];
-                    if (data.gameid != 0 && data.isfriend == 0 && data.isopen != 0 && this.checkGameId(data.gameid) && games.indexOf(data.gameid) != -1) {
-                        this.defalutSelectList.push(data.gameid);
-                    }
-                }
-            }else{
-                for (var i = 0; i < klb_game_Confg.items.length; i++) {
-                    var data = klb_game_Confg.items[i];
-                    if (data.gameid != 0 && data.isfriend == 0 && data.isopen != 0 && this.checkGameId(data.gameid) && games.indexOf(data.gameid) != -1) {
-                        this.defalutSelectList[games.indexOf(data.gameid)] = data.gameid;
-                    }
-                }
-                this.defalutSelectList = this.defalutSelectList.filter((item)=>{
-                    return cc.dd._.isNumber(item);
-                })
-            }
 
-        }
-        else {
-            let _gameType = cc.dd.Define.GameType;
-            for (var i = 0; i < klb_game_Confg.items.length; i++) {
-                var data = klb_game_Confg.items[i];
-                if (!cc._chifengGame && (data.gameid == _gameType.DDZ_XYPYC || data.gameid == _gameType.DDZ_XYJBC || data.gameid == _gameType.CFMJ_GOLD || data.gameid == _gameType.CFMJ_FRIEND || data.gameid == _gameType.AHMJ_GOLD || data.gameid == _gameType.AHMJ_FRIEND || data.gameid == _gameType.WDMJ_GOLD || data.gameid == _gameType.WDMJ_FRIEND || data.gameid == _gameType.PZMJ_GOLD || data.gameid == _gameType.PZMJ_FRIEND)) {
-                    continue;
-                }
-                if (data.gameid != 0 && data.isfriend == 0 && data.isopen != 0 && data.isdefault != 0 && this.checkGameId(data.gameid)) {
-                    this.defalutSelectList.push(data.gameid);
-                }
+        let _gameType = cc.dd.Define.GameType;
+        for (var i = 0; i < klb_game_Confg.items.length; i++) {
+            var data = klb_game_Confg.items[i];
+            if (!cc._chifengGame && (data.gameid == _gameType.DDZ_XYPYC || data.gameid == _gameType.DDZ_XYJBC || data.gameid == _gameType.CFMJ_GOLD || data.gameid == _gameType.CFMJ_FRIEND || data.gameid == _gameType.AHMJ_GOLD || data.gameid == _gameType.AHMJ_FRIEND || data.gameid == _gameType.WDMJ_GOLD || data.gameid == _gameType.WDMJ_FRIEND || data.gameid == _gameType.PZMJ_GOLD || data.gameid == _gameType.PZMJ_FRIEND)) {
+                continue;
+            }
+            if (data.gameid != 0 && data.isfriend == 0 && data.isopen != 0 && data.isdefault != 0 && this.checkGameId(data.gameid)) {
+                this.defalutSelectList.push(data.gameid);
             }
         }
         var compare = function (a, b) {
@@ -138,7 +108,7 @@ var HallGameList = cc.Class({
         //     var gameList = defalut_select.split(';');
         //     this.createGameItem(gameList);
         // }
-        this.initDefaultGame();
+        this.initDefaultGame()
         if (game_select) {
             var gameList = game_select.split(';');
             this.createGameItem(gameList);

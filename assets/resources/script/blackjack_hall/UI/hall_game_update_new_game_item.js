@@ -41,9 +41,9 @@ cc.Class({
             this.progress_bar.progress = progress_bar_value > 0.001 ? progress_bar_value : 0.001;
         }
 
-        if(this.gameItem){
-            this.gameItem.setSpineAni(active);
-        }
+        // if(this.gameItem){
+        //     this.gameItem.setSpineAni(active);
+        // }
     },
 
     // update (dt) {},

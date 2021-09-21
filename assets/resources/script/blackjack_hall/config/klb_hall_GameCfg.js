@@ -14,16 +14,16 @@ var Hall_Game_List = {
         //     游戏类型,
         //     icon Frame Name
         // ),
-        new GameItem(
-            -100,
-            "抢红包",
-            GameType.RedBag_FUNCTION,
-            "dt-qinghongbao",
-            "",
-            "",
-            true,
-            1,
-        ),
+        // new GameItem(
+        //     -100,
+        //     "抢红包",
+        //     GameType.RedBag_FUNCTION,
+        //     "dt-qinghongbao",
+        //     "",
+        //     "",
+        //     true,
+        //     1,
+        // ),
 
         // new GameItem(
         //     6,

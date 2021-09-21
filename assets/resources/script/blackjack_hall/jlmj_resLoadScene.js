@@ -95,17 +95,17 @@ let resLoad = cc.Class({
      */
     initDlUI: function () {
         var bgNode = cc.find('bg', this.node).getComponent(cc.Sprite);
-        var logNode = cc.find('bg/dl_logo', this.node).getComponent(cc.Sprite);
+        //var logNode = cc.find('bg/dl_logo', this.node).getComponent(cc.Sprite);
         var gamepid = cc._isAppstore ? cc.game_pid : AppCfg.GAME_PID;
         var cofnig = game_duli.getItem(function (cfg) {
             if (cfg.pID == gamepid && gamepid != 2 && gamepid != 5)
                 return cfg;
         }.bind(this));
         if (!cofnig) return;
-        if (bgNode)
-            bgNode.spriteFrame = new cc.SpriteFrame('' + cofnig.loadScene_Bg);
-        if (logNode)
-            logNode.spriteFrame = new cc.SpriteFrame('' + cofnig.loadScene_Log);
+        // if (bgNode)
+        //     bgNode.spriteFrame = new cc.SpriteFrame('' + cofnig.loadScene_Bg);
+        // if (logNode)
+        //     logNode.spriteFrame = new cc.SpriteFrame('' + cofnig.loadScene_Log);
     },
 
     closeSplash: function () {

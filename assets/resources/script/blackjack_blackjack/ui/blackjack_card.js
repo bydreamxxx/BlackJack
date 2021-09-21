@@ -1,9 +1,4 @@
-// Learn cc.Class:
-//  - https://docs.cocos.com/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+var AppCfg = require('AppConfig');
 
 cc.Class({
     extends: cc.Component,
@@ -13,6 +8,7 @@ cc.Class({
     },
 
     init(card){
+        this.card = card;
        let bundle = cc.assetManager.getBundle("blackjack_blackjack");
        if(bundle){
            let atlas = bundle.get("atlas/cards", cc.SpriteAtlas);
@@ -20,5 +16,15 @@ cc.Class({
                this.frame.spriteFrame = atlas.getSpriteFrame(card);
            }
        }
+       if(AppCfg.IS_DEBUG)
+       cc.find("Label", this.node).getComponent(cc.Label).string = card;
+    },
+
+    getCard(){
+        return this.card || -1;
+    },
+
+    change(card){
+        this.init(card);
     }
 });
