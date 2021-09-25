@@ -433,8 +433,8 @@ var hanlder = {
                 cc.dd.PromptBoxUtil.show('领取成功!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             } else {
-                var node = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD');
-                node.getComponent('klb_hall_daily_sign').done(msg.index);
+                var node = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_DailySign');
+                node.getComponent('BlackJack_Hall_Daily_Sign').done(msg.index);
                 cc.dd.PromptBoxUtil.show('领取成功!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             }

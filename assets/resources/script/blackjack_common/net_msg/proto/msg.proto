@@ -2609,6 +2609,16 @@ message msg_leave_game_ret{
 	optional int32		coin_ret_code		  = 4; //1.金币不足; 2.金币超过最大携带数量 3.挂机次数超过规定次数
 }
 
+message msg_stand_game_req{
+	optional common_game_header game_info     = 1;
+}
+
+message msg_stand_game_ret{
+	optional int32      ret_code       		  = 1[default=0];// 1 房间不存在 2 不在此房间内 3 朋友场不能离开 
+	optional common_game_header game_info     = 2;
+	optional int32      user_id               = 3;
+}
+
 message msg_prepare_game_req{
 	optional common_game_header game_info     = 1; //如果是金币场，发送的是房间级别id，类似于普通场，高手场，其他就是房间号
 	optional int32           rate          = 2[default=0];

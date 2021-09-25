@@ -717,8 +717,8 @@ let hall = cc.Class({
             cc.dd._firstShowSign = true;
             Hall.HallData.Instance().showedSign = true;
             if (showsign) {
-                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
-                    prefab.getComponent('klb_hall_daily_sign').showClsoeBtn(true, this.showChongBangActivity.bind(this));
+                cc.dd.UIMgr.openUI('blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_DailySign', function (prefab) {
+                    prefab.getComponent('BlackJack_Hall_Daily_Sign').showClsoeBtn(true, this.showChongBangActivity.bind(this));
                 }.bind(this));
                 return;
             }
@@ -942,7 +942,7 @@ let hall = cc.Class({
                 this.updateTaskGetTip(HallTask.Instance().checkTaskCanAward());
                 break;
             case Hall.HallEvent.SHOW_DAILY_SIGN:
-                //this.showDailySign();
+                this.showDailySign();
                 break;
             case Hall.HallEvent.UIDATE_FXYL_UI:
                 cc.log('UIDATE_FXYL_UI')

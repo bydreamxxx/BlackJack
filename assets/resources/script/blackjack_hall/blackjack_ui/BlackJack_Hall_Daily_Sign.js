@@ -9,8 +9,6 @@ let sign = cc.Class({
     properties: {
         today: 0,
         isget: false,
-        alreadyBtnSp: cc.SpriteFrame,
-        getBtnSp: cc.SpriteFrame,
         m_oCloseBtn: cc.Node,
     },
 
@@ -42,7 +40,7 @@ let sign = cc.Class({
                     var canget = cc.find('canGet', day_node);
                     canget.active = true;
                     var dayDesc = cc.find('hd-qiandao-1', day_node);
-                    dayDesc.setColor(c.color(169, 120, 27))
+                    dayDesc.color = cc.color(169, 120, 27)
                     self.today = item.index;
                     self.isget = false;
                     // var btn = cc.find('bg/btn', this.node);
@@ -64,7 +62,7 @@ let sign = cc.Class({
     //发送领取
     sign: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        var index = this.today;
+        var index = parseInt(data);
         if (this.isget == true) {
             cc.dd.PromptBoxUtil.show('今日已签到已领取,不可重复领取!');
             return;
@@ -112,7 +110,7 @@ let sign = cc.Class({
         get.active = false;
 
         var dayDesc = cc.find('hd-qiandao-1', day_node);
-        dayDesc.setColor(c.color(255, 255, 255))
+        dayDesc.color = cc.color(255, 255, 255)
 
         var get = cc.find('canGet', day_node);
         get.active = false;

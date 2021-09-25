@@ -95,8 +95,8 @@ let getCoin = cc.Class({
     },
 
     onClickSign: function () {
-        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_QD', function (prefab) {
-            prefab.getComponent('klb_hall_daily_sign').showClsoeBtn(true);
+        cc.dd.UIMgr.openUI('blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_DailySign', function (prefab) {
+            prefab.getComponent('BlackJack_Hall_Daily_Sign').showClsoeBtn(true);
         });
 
         this.close();
