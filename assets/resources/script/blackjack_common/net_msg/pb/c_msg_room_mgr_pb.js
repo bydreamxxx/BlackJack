@@ -403,6 +403,48 @@ let msg_leave_game_ret = cc.Class({
 
 module.exports.msg_leave_game_ret = msg_leave_game_ret;
 
+let msg_stand_game_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.gameInfo = this.gameInfo;
+
+        return content;
+    },
+    setGameInfo(gameInfo){
+        this.gameInfo = gameInfo;
+    },
+
+});
+
+module.exports.msg_stand_game_req = msg_stand_game_req;
+
+let msg_stand_game_ret = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.retCode = this.retCode;
+        content.gameInfo = this.gameInfo;
+        content.userId = this.userId;
+
+        return content;
+    },
+    setRetCode(retCode){
+        this.retCode = retCode;
+    },
+    setGameInfo(gameInfo){
+        this.gameInfo = gameInfo;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+
+});
+
+module.exports.msg_stand_game_ret = msg_stand_game_ret;
+
 let msg_prepare_game_req = cc.Class({
     ctor(){
     },
