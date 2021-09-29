@@ -1,5 +1,3 @@
-import { isLong } from 'long';
-
 var FortuneHallManager = require('FortuneHallManager').Instance();
 var ddz = require('ddz_util');
 var AudioManager = require('AudioManager');

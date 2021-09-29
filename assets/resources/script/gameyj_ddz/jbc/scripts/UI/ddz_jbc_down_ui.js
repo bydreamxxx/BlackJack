@@ -1,5 +1,3 @@
-import { setInterval, clearInterval } from 'timers';
-
 var ddz = require('ddz_util');
 var ddz_send_msg = require('ddz_send_msg');
 const DDZ_Data = require('ddz_data').DDZ_Data;

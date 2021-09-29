@@ -5,7 +5,7 @@ var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 
-GAME_STATE = cc.Enum({
+var GAME_STATE = cc.Enum({
     WAITING:1,//等待玩家状态
     BETTING:2,//初次下注阶段
     PROTECTING:3,//买保险阶段

@@ -474,17 +474,17 @@ var GamePID = {
     CFMJ: 10006
 }
 
-GetBundleNameByScene = {
+var GetBundleNameByScene = {
     'blackjack_hall': 'resources',
     'blackjack_login': 'resources',
     'blackjack_preLogin': 'resources',
-    'blackjack': 'blackjack_blackjack',
+    'blackjack': 'resources',
 
-    'nn_game_jbc': 'gameyj_nn',
-    'ddz_game_jbc': 'gameyj_ddz',
+    'nn_game_jbc': 'resources',
+    'ddz_game_jbc': 'resources',
 
-    'loading': 'gameyj_loading',
-    'texas_jbc':"gameyj_texas",
+    'loading': 'resources',
+    'texas_jbc':"resources",
 }
 
 module.exports = {

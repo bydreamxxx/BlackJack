@@ -168,7 +168,7 @@ let resLoad = cc.Class({
 
     loadProto: function () {
         cc.dd.TimeTake.start("加载proto");
-        var protobuf = require("protobufjs");
+        var protobuf = cc.dd.protobufjs;
         let count = 0;
         let self = this;
         cc.proto_file.forEach(function (item) {
