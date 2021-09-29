@@ -223,7 +223,7 @@ cc.Class({
         if (curtime > duration) {
             curtime = duration;
         }
-        this.headQuanSpr.node.color = cc.color(0, 255, 0);
+        // this.headQuanSpr.node.color = cc.color(0, 255, 0);
         var color_t = 255/duration;
         this.unscheduleAllCallbacks();
         var stepTime = 0.05;
@@ -254,15 +254,15 @@ cc.Class({
                 this.headAni.x = pos.x;
                 this.headAni.y = pos.y;
 
-                this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
+                // this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
             }
         }.bind(this), stepTime);
     },
 
     //计算位置
     getPos:function(value) {
-        const Width = 37.4;
-        const Height = 47.2;
+        const Width = 79;
+        const Height = 104;
         const Theta = Math.atan(Width / Height);
 
         value = value < 0 ? 0 : (value > 1 ? 1 : value);

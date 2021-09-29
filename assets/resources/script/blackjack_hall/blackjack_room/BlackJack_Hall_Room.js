@@ -54,7 +54,7 @@ cc.Class({
             }
         }.bind(this));
 
-        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/blackjack/BlackJack_Common_Room_Item", function (prefab) { //加载房间数据
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/blackjack/room/BlackJack_Common_Room_Item", function (prefab) { //加载房间数据
             for (var i = 0; i < data.roomlistList.length; i++) {
                 var dataInfo = data.roomlistList[i];
 

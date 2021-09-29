@@ -287,7 +287,7 @@ cc.Class({
     },
 
     playerLeave(data){
-        if(data.userId == cc.dd.user.id){
+        if(data.userId == cc.dd.user.id || !data.hasOwnProperty("userId")){
             cc.dd.SceneManager.enterHall([],[],()=>{
                 cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
             });

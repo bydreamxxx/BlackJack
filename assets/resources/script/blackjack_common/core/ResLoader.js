@@ -400,6 +400,7 @@ var ResLoader = {
         //         bundle.load(path, type, onProgress, onComplete);
         //     })
         // } else {
+        cc.error(`加载资源 ${path}`);
             cc.resources.load(path, type, onProgress, onComplete);
         // }
     },
