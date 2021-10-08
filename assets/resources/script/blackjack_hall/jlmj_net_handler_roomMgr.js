@@ -312,6 +312,32 @@ var handler = {
         }*/
     },
 
+    on_msg_stand_game_ret(msg){
+        switch (msg.retCode) {
+            case 0: {
+                if (RoomMgr.Instance().player_mgr) {
+                    if (RoomMgr.Instance().player_mgr.othersNum != null)
+                        RoomMgr.Instance().player_mgr.othersNum -= 1;
+                    RoomMgr.Instance().player_mgr.playerExit(msg.userId);
+                }
+                RoomED.notifyEvent(RoomEvent.on_player_stand, [msg]);
+                break;
+            }
+            case 1: {
+                break;
+            }
+            case 2: {
+                break;
+            }
+            case 3: {
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    },
+
     on_msg_plan_leave_game_ret(msg) {
         RoomED.notifyEvent(RoomEvent.on_room_leave_plan, [msg]);
     },

@@ -23,6 +23,7 @@ cc.Class({
 
         weak: cc.Node,
         offline: cc.Node,
+        standNode: cc.Node,
 
         CDTime: 10,
     },
@@ -35,9 +36,6 @@ cc.Class({
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
         this.score.node.active = false;
-
-        this.weak.active = true;
-
     },
 
     onClickHead(){
@@ -55,10 +53,19 @@ cc.Class({
         this.tuo_guan.active = false;
         this.stop_chupai_ani();
 
-        this.weak.active = true;
+        this.weak.active = false;
         this.offline.active = false;
+        this.standNode.active = true;
 
         this.playerData = null;
+    },
+
+    sit(){
+        this.standNode.active = false;
+    },
+
+    stand(){
+        this.standNode.active = true;
     },
 
     showCoin(data){

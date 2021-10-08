@@ -53,6 +53,15 @@ var GameItem = cc.Class({
         },
 
         /**
+         * titleframeName
+         */
+        _titleFrameName: "titleframeName",
+        titleFrameName: {
+            get: function () {return this._titleFrameName;},
+            set: function (value) {this._titleFrameName = value;},
+        },
+
+        /**
          * 游戏监听脚本名称
          */
         _gameScriptName: "",
@@ -115,6 +124,7 @@ var GameItem = cc.Class({
         this.isOpen = params[6];
         this.isHot = params[7];
         this.shadowName = params[8];
+        this.titleFrameName = params[9];
     },
 
     toString: function () {

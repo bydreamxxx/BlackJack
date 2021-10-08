@@ -134,12 +134,13 @@ var HallGameList = cc.Class({
                     gameid,  //游戏id
                     gameData.name,                                              //游戏名字
                     ntype,     //游戏类型：麻将／纸牌
-                    gameData.gamenameicon,                                              //游戏icon
+                    gameData.gamenameicon, 
                     "",                          //子游戏的事件监听脚本
                     "",
                     gameData.isclick > 0 ? true : false,
                     gameData.ishot,
-                    gameData.ty
+                    gameData.ty,
+                    gameData.gametitle,                                             //游戏icon
                 );
                 gameItem.chongfu = gameData.chongfu;
                 var index = this.gameList.length - 1;

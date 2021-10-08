@@ -80,7 +80,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     setGameInfo(data){
-        this.head.weak.active = false;
+        this.head.sit();
 
         this.cardNodeList = [];
         this.cardNode.removeAllChildren();

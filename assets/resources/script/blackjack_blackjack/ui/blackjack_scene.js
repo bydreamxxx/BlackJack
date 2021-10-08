@@ -20,6 +20,10 @@ cc.Class({
         remindCardLabel: cc.Label,
         banker: require("blackjack_player_ui"),
         playerList: [require("blackjack_player_ui")],
+
+        sitBtn: cc.Node,
+        standBtn: cc.Node,
+
         betButtonNode: cc.Node,
         sliderNode: cc.Node,
         betLabel: cc.Label,
@@ -51,6 +55,10 @@ cc.Class({
         this.maxBetLabel.string = "";
         this.minBetButtonLabel.string = "MinBet";
         this.maxBetButtonLabel.string = "MaxBet";
+
+        this.sitBtn.active = false;
+        this.standBtn.active = false;
+
         this.betButtonNode.active = false;
         this.insureNode.active = false;
         this.actionButtonNode.active = false;
@@ -75,8 +83,14 @@ cc.Class({
         switch (event) {
             case RoomEvent.on_coin_room_enter:
                 break;
+            case RoomEvent.on_room_join:
+                this.playerJoin(data[0]);
+                break;
             case RoomEvent.on_room_leave:
                 this.playerLeave(data[0]);
+                break;
+            case RoomEvent.on_player_stand:
+                this.playerStand(data[0]);
                 break;
             case BlackJackEvent.UPDATE_UI:
                 this.updateUI();
@@ -85,6 +99,9 @@ cc.Class({
                 this.updateState();
                 break;
             case BlackJackEvent.CLOSE_BET_BUTTON:
+                this.sitBtn.active = false;
+                this.standBtn.active = false;
+
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
@@ -278,6 +295,22 @@ cc.Class({
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
     },
 
+    onClickStandUp(event, data){
+        var msg = new cc.pb.room_mgr.msg_stand_game_req();
+        var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+        gameInfoPB.setGameType(RoomMgr.Instance().gameId);
+        gameInfoPB.setRoomId(BlackJackData.roomConfigId);
+        msg.setGameInfo(gameInfoPB);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_stand_game_req, msg, "msg_stand_game_req", true);
+    },
+
+    onClickSitDown(event, data){
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setGameType(RoomMgr.Instance().gameId);
+        msg.setRoomId(BlackJackData.roomConfigId);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+    },
+
     onClickChat(event, data){
 
     },
@@ -286,11 +319,27 @@ cc.Class({
 
     },
 
+    playerJoin(data){
+        BlackJackData.otherPlayerEnter(data.roleInfo.userId);
+    },
+
     playerLeave(data){
         if(data.userId == cc.dd.user.id || !data.hasOwnProperty("userId")){
             cc.dd.SceneManager.enterHall([],[],()=>{
                 cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
             });
+        }
+    },
+
+    playerStand(data){
+        if(data.userId == cc.dd.user.id){
+            BlackJackData.hasUserPlayer = false;
+            this.playerList[0].head.stand();
+
+            this.sitBtn.active = true;
+            this.standBtn.active = false;
+        }else{
+            BlackJackData.playerExit(data.userId);
         }
     },
 
@@ -329,6 +378,9 @@ cc.Class({
         switch(BlackJackData.state){
             case GAME_STATE.WAITING:
                 this.banker.clear();
+                this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                this.standBtn.active = BlackJackData.hasUserPlayer;
+
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
@@ -336,6 +388,9 @@ cc.Class({
                 this.tipsNode.active = false;
                 break;
             case GAME_STATE.BETTING:
+                this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                this.standBtn.active = BlackJackData.hasUserPlayer;
+
                 this.startTips.active = true;
                 this.stopTips.active = false;
                 this.loadTips.active = false;
@@ -354,6 +409,9 @@ cc.Class({
                 this.sliderNode.active = false;
                 break;
             case GAME_STATE.PROTECTING:
+                this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                this.standBtn.active = BlackJackData.hasUserPlayer;
+
                 this.betButtonNode.active = false;
                 this.insureNode.active = BlackJackData.hasUserPlayer;
                 this.actionButtonNode.active = false;
@@ -361,6 +419,9 @@ cc.Class({
                 this.tipsNode.active = false;
                 break;
             case GAME_STATE.PLAYING:
+                this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                this.standBtn.active = BlackJackData.hasUserPlayer;
+
                 if(BlackJackData.lastState != BlackJackData.state){
                     this.startTips.active = false;
                     this.stopTips.active = true;
@@ -379,6 +440,9 @@ cc.Class({
                 this.sliderNode.active = false;
                 break;
             case GAME_STATE.RESULTING:
+                this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                this.standBtn.active = BlackJackData.hasUserPlayer;
+
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;

@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var TimeTake = require('TimeTake');
 
 /**
@@ -205,7 +204,7 @@ var ResLoader = {
     loadAtlasFrame: function (path, name, onload) {
         this.loadAtlas(path, function (atlas) {
             var spriteFrame = atlas.getSpriteFrame(name);
-            if (_.isUndefined(spriteFrame)) {
+            if (cc.dd._.isUndefined(spriteFrame)) {
                 cc.error("spriteFrame:" + path + "/" + name + " 不存在");
             }
             else {
@@ -400,7 +399,7 @@ var ResLoader = {
         //         bundle.load(path, type, onProgress, onComplete);
         //     })
         // } else {
-        cc.error(`加载资源 ${path}`);
+        cc.log(`加载资源 ${path}`);
             cc.resources.load(path, type, onProgress, onComplete);
         // }
     },

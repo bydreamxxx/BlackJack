@@ -101,6 +101,21 @@ let BlackJackData = cc.Class({
         this.playerList[player.seat] = data;
     },
 
+    otherPlayerEnter(playerId){
+        let mainUser =  this.getPlayerById(cc.dd.user.id);
+        let player =  this.getPlayerById(playerId);
+        if(mainUser){
+            let offset = mainUser.seat;
+            player.viewIdx = player.seat - offset;
+            if(player.viewIdx < 0){
+                player.viewIdx += 5;
+            }
+            player.playerEnter();
+        }else{
+            player.playerEnter();
+        }
+    },
+
     playerEnterGame(){
       let mainUser =  this.getPlayerById(cc.dd.user.id);
       if(mainUser){

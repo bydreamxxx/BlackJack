@@ -12,7 +12,7 @@ var HallGameItemUI = cc.Class({
 
     properties: {
         icon: { default: null, type: cc.Sprite, tooltip: "游戏icon" },
-        gameName: { default: null, type: cc.Label, tooltip: "游戏名称" },
+        gameName: { default: null, type: cc.Sprite, tooltip: "游戏名称" },
         lightAni: { default: null, type: cc.Animation, tooltip: "特效" },
         gameBgAnim: { default: null, type: cc.Animation, tooltip: "特效" },
         gameIconAnim: { default: null, type: cc.Animation, tooltip: "特效" },
@@ -24,17 +24,6 @@ var HallGameItemUI = cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        if (this.gameName) {
-            // let outLine = this.gameName.node.getComponent(cc.LabelOutline);
-            // if(outLine){
-            //     if(cc._themeStyle == 0){
-            //         outLine.color = new cc.Color(15, 70, 35, 255);
-            //     }else{
-            //         outLine.color = new cc.Color(29, 63, 93, 255);
-            //     }
-            // }
-        }
-
         if (this.spine) {
             this.spine.node.active = false;
         }
@@ -66,9 +55,10 @@ var HallGameItemUI = cc.Class({
         this.gameType = gameItem.type;
         this.roomType = gameItem.roomType;
         this.isOpen = gameItem.isOpen;
-        cc.dd.ResLoader.loadAtlas("blackjack_hall/atals/gameIcon", function (atlas) {
+        cc.dd.ResLoader.loadAtlas("blackjack_hall/atlas_new/BlackJack_GameIcon", function (atlas) {
             this.icon.spriteFrame = atlas.getSpriteFrame(gameItem.frameName);
             this.updateMask.spriteFrame = atlas.getSpriteFrame(gameItem.frameName);
+            this.gameName.spriteFrame = atlas.getSpriteFrame(gameItem.titleFrameName);
         }.bind(this));
         if (gameItem.isHot == 1) {
             // this.gameBgAnim.node.active = true;

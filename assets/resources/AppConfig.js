@@ -100,7 +100,7 @@ module.exports = {
     LOGIN_SCENE_NAME:"blackjack_login",
     //模拟器分辨率
     // SIMULATOR_RATIO: '2688,1242',
-    SIMULATOR_RATIO: '1920,1080',
+    SIMULATOR_RATIO: '1280,720',
 
     //GVoice账号
     // GVOICE_ACC: { game_id: "1141580017", key: "d51548d7934c42b94b2c774ab1de31d6", server_info: "udp://cn.voice.gcloudcs.com:10001" },

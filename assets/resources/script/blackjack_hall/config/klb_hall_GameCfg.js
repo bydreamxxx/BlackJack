@@ -35,16 +35,16 @@ var Hall_Game_List = {
         //     true,
         //     0,
         // ),
-        new GameItem(
-            -100,  //游戏id
-            "添加游戏",                                        //游戏名字
-            GameType.ADD_GAME,                                //游戏类型：麻将／纸牌
-            "dt-tianjiayouxi",                                              //游戏icon
-            "" ,                          //子游戏的事件监听脚本
-            "",
-            true,
-            0,
-        ),
+        // new GameItem(
+        //     -100,  //游戏id
+        //     "添加游戏",                                        //游戏名字
+        //     GameType.ADD_GAME,                                //游戏类型：麻将／纸牌
+        //     "dt-tianjiayouxi",                                              //游戏icon
+        //     "" ,                          //子游戏的事件监听脚本
+        //     "",
+        //     true,
+        //     0,
+        // ),
 
     ],
 };

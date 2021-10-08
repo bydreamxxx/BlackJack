@@ -22,6 +22,7 @@ var RoomEvent = cc.Enum({
     on_room_enter: "on_room_enter", //进入房间
     on_room_join: "on_room_join", //加入房间成功
     on_room_leave: "on_room_leave", //离开房间成功
+    on_player_stand: "on_player_stand",//玩家站起
     on_room_leave_plan: 'on_room_leave_plan',//下局离开(部分金币场)
     on_room_ready: "on_room_ready", //准备房间成功
     on_room_player_online: "on_room_player_online", // 玩家在线离线
