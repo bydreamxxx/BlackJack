@@ -44,6 +44,9 @@ var handler = {
                 })
             }
         }
+
+        BlackJackData.fapaiList.push(msg.userId);
+
         BlackJackED.notifyEvent(BlackJackEvent.DEAL_POKER, msg);
     },
     on_msg_bj_bet_ret(msg) {

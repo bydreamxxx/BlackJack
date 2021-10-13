@@ -81,6 +81,10 @@ let BlackJackData = cc.Class({
                 _player.setGameInfo(player.betInfosList.concat());
             }
         })
+
+        this.fapaiList = [];
+        this.banker = new BlackJackPlayerData();
+        this.banker.init({userId: 100, seat: -1});
     },
 
     updatePlayerNum: function () {
@@ -167,6 +171,30 @@ let BlackJackData = cc.Class({
             }
         }
         return player;
+    },
+
+    fapai(){
+        let length = this.fapaiList.length * 2;
+        let canvas  = cc.find("Canvas").getComponent(cc.Canvas);
+        let i = 0;
+        canvas.schedule(()=>{
+            if(cc.isValid(this)){
+                let id = this.fapaiList[i % this.fapaiList.length];
+                if(id == 100){
+                    this.banker.fapai();
+                }else{
+                    let player = this.getPlayerById(id);
+                    if(player){
+                        player.fapai();
+                    }
+                }
+                i++;
+                if(i === length){
+                    this.fapaiList = [];
+                    cc.error(`清空发牌列表`);
+                }
+            }
+        }, 1, length - 1);
     },
 
     /**

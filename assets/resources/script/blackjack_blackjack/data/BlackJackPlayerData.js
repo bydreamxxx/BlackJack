@@ -3,6 +3,7 @@ let BlackJackPlayerEvent = cc.Enum({
     PLAYER_EXIT: "PLAYER_EXIT",
     PLAYER_GAME_INFO: "PLAYER_GAME_INFO",
     UPDATE_BET_INFO: "UPDATE_BET_INFO",
+    PLAYER_FAPAI: "PLAYER_FAPAI",
 });
 
 let BlackJackPlayerED = new cc.dd.EventDispatcher();
@@ -114,6 +115,11 @@ let BlackJackPlayerData = cc.Class({
         }else{
             return false;
         }
+    },
+
+    fapai(){
+        cc.error(`player fapai ${this.viewIdx}`);
+        BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.PLAYER_FAPAI, this);
     }
 });
 

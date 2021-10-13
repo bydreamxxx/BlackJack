@@ -19,6 +19,10 @@ let blackjack_player_ui = cc.Class({
         _lastTime: 0,
 
         head: require("blackjack_head"),
+
+        fapaiNode: cc.Node,
+
+        betIndex: 1,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -51,7 +55,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     clear() {
-        cc.error(`座位号${this.viewIdx} clear`);
+        cc.log(`座位号${this.viewIdx} clear`);
         if(!this.isbanker){
             this.head.clear();
 
@@ -63,6 +67,11 @@ let blackjack_player_ui = cc.Class({
         this.cardNode.removeAllChildren();
 
         this.cardNodeList = [];
+    },
+
+    fapai(){
+        cc.error(`player UI fapai ${this.viewIdx}`);
+        this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode);
     },
 
     playerEnter(data) {
@@ -88,26 +97,36 @@ let blackjack_player_ui = cc.Class({
         data.betInfosList.forEach(betInfo=>{
            let node = cc.instantiate(this.cardPrefab);
            this.cardNode.addChild(node);
-           node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
+           node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
            node.x = (betInfo.index - 1) * 180;
            this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
         });
     },
 
-    updateCards(index, cardsList){
+    /**
+     * 更新手牌
+     * @param index
+     * @param cardsList
+     * @param show
+     */
+    updateCards(index, cardsList, show){
+        this.betIndex = index;
         if(this.isbanker){
-            if(this.cardNodeList.length == 0){
+            if(this.cardNodeList.length == 0){//banker未初始化
                 let node = cc.instantiate(this.cardPrefab);
                 this.cardNode.addChild(node);
                 this.cardNodeList[index - 1] = node.getComponent("blackjack_cardNode");
-                node.getComponent("blackjack_cardNode").init(cardsList, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
+                node.getComponent("blackjack_cardNode").init(cardsList, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, show);
                 return;
             }
         }
 
-        if(this.cardNodeList[index - 1]){
-            this.cardNodeList[index - 1].updateCards(cardsList);
-        }else{
+        if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
+            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 2 && show);
+            if(cardsList.length >2){
+                this.fapai();
+            }
+        }else{//没有对应index的牌堆，做拆分处理
             let bet = 0;
             if(this.cardNodeList[0]){
                 bet = this.cardNodeList[0].betInfo.value;
@@ -120,6 +139,10 @@ let blackjack_player_ui = cc.Class({
         }
     },
 
+    /**
+     * 更新下注及手牌信息
+     * @param data
+     */
     updateBetInfo(data){
         data.betInfosList.forEach(betInfo=>{
             if(!this.cardNodeList[betInfo.index - 1]){
@@ -127,7 +150,7 @@ let blackjack_player_ui = cc.Class({
                 this.cardNode.addChild(node);
                 this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
                 node.x = (betInfo.index - 1) * 180;
-                node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
+                node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
             }else{
                 this.cardNodeList[betInfo.index - 1].getComponent("blackjack_cardNode").updateInfo(betInfo);
             }
@@ -136,6 +159,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     showSplit(index){
+        this.betIndex = index;
         this.cardNodeList.forEach(cardNode=>{
             if(cardNode.index == index){
                 cardNode.showChoose();
@@ -171,6 +195,8 @@ let blackjack_player_ui = cc.Class({
             case BlackJackPlayerEvent.UPDATE_BET_INFO:
                 this.updateBetInfo(data);
                 break;
+            case BlackJackPlayerEvent.PLAYER_FAPAI:
+                this.fapai();
             default:
                 break;
         }

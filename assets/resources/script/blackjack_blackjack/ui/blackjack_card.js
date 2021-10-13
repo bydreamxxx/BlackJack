@@ -5,9 +5,10 @@ cc.Class({
 
     properties: {
         frame: cc.Sprite,
+        isActive: true,
     },
 
-    init(card){
+    init(card, show){
         this.card = card;
        // let bundle = cc.assetManager.getBundle("blackjack_blackjack");
        // if(bundle){
@@ -19,6 +20,14 @@ cc.Class({
        // }
        if(AppCfg.IS_DEBUG)
        cc.find("Label", this.node).getComponent(cc.Label).string = card;
+
+       if(!cc.dd._.isUndefined(show)){
+           if(show){
+               this.setShow();
+           }else{
+               this.setHide();
+           }
+       }
     },
 
     getCard(){
@@ -27,5 +36,15 @@ cc.Class({
 
     change(card){
         this.init(card);
+    },
+
+    setHide(){
+        this.node.active = false;
+        this.isActive = false;
+    },
+
+    setShow(){
+        this.node.active = true;
+        this.isActive = true;
     }
 });
