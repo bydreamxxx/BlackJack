@@ -73,6 +73,8 @@ cc.Class({
         RoomED.addObserver(this);
         BlackJackED.addObserver(this);
 
+        this.banker.clear();
+
         // let handler = require("jlmj_net_handler_roomMgr");
         // handler.on_msg_enter_coin_game_ret({ retCode: 0, rate: 0 });
         // handler.on_msg_enter_game_ret({ otherInfosList:
@@ -516,8 +518,6 @@ cc.Class({
     },
 
     updateUI(){
-        this.banker.clear();
-
         this.minBetLabel.string = BlackJackData.minBet;
         this.maxBetLabel.string = BlackJackData.maxBet;
         this.minBetButtonLabel.string = `MinBet: ${BlackJackData.minBet}`;
@@ -630,6 +630,7 @@ cc.Class({
                 if(BlackJackData.lastState != BlackJackData.state){
                     cc.error(`发牌`);
 
+                    cc.gateNet.Instance().dispatchTimeOut(BlackJackData.playerNum);
                     BlackJackData.fapai();
 
                     this.startTips.active = false;

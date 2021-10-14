@@ -66,7 +66,7 @@ var handler = {
             let player = BlackJackData.getPlayerById(msg.userId);
             if(player){
                 player.betInfosList = msg.betList.concat();
-                BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.UPDATE_BET_INFO, player);
+                BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.UPDATE_BET_INFO, [player, msg.type == 5]);
             }else {
                 cc.error(`用户不存在 ${msg.userId}`);
             }

@@ -36,6 +36,7 @@ let BlackJackData = cc.Class({
     ctor() {
         this.playerList = new Array(5);
         this.lastBet = 0;
+        this.playerNum = 0;
     },
 
     changeState(msg){
@@ -72,19 +73,25 @@ let BlackJackData = cc.Class({
 
         this.hasUserPlayer = false;
 
+        this.banker = new BlackJackPlayerData();
+        this.banker.init({userId: 100, seat: -1});
+
         msg.usersInfoList.forEach(player=>{
-            if(player.userId === cc.dd.user.id){
-                this.hasUserPlayer = true;
-            }
-            let _player = this.getPlayerById(player.userId);
-            if(_player){
-                _player.setGameInfo(player.betInfosList.concat());
+            if(player.userId === 100){
+                this.banker.setGameInfo(player.betInfosList.concat());
+            }else{
+                if(player.userId === cc.dd.user.id){
+                    this.hasUserPlayer = true;
+                }
+                let _player = this.getPlayerById(player.userId);
+                if(_player){
+                    _player.setGameInfo(player.betInfosList.concat());
+                }
             }
         })
 
         this.fapaiList = [];
-        this.banker = new BlackJackPlayerData();
-        this.banker.init({userId: 100, seat: -1});
+
     },
 
     updatePlayerNum: function () {
@@ -103,6 +110,7 @@ let BlackJackData = cc.Class({
         let data = new BlackJackPlayerData();
         data.init(player);
         this.playerList[player.seat] = data;
+        this.playerNum++;
     },
 
     otherPlayerEnter(playerId){
@@ -144,8 +152,10 @@ let BlackJackData = cc.Class({
     },
 
     playerExit(id){
+        this.playerNum--;
         if (id == cc.dd.user.id) {
             this.playerList = [];
+            this.playerNum = 0;
             return;
         }
         for (var i = 0; i < this.playerList.length; i++) {

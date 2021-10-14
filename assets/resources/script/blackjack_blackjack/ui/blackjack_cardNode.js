@@ -21,6 +21,54 @@ cc.Class({
         cardPrefab: cc.Prefab,
     },
 
+    createPai(list, show){
+        let point = 0;
+        let Anum = 0;
+
+        list.forEach(card=>{
+            let num = cc.dd.Utils.translate21(card);
+            if(num != null){
+                point += num;
+                if(num == 11){
+                    Anum++;
+                }
+            }
+
+            let node = cc.instantiate(this.cardPrefab);
+            this.cardZone.addChild(node);
+
+            if(this.isRight) {
+                for(let i = 0; i < this.cardList.length; i++){
+                    this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
+                }
+                node.x = -START_X;
+            }else{
+                node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
+            }
+
+            node.getComponent("blackjack_card").init(card, show);
+
+            this.cardList.push(node.getComponent("blackjack_card"));
+        });
+
+        if(point > 21){
+            let num = Math.ceil((point - 21)/10);
+            if(num < Anum){
+                point -= num * 10;
+            }else{
+                point -= Anum * 10;
+            }
+        }
+
+        this.point.string = point.toString();
+        let cardShowNum = 0;
+        this.cardList.forEach(card=>{
+            if(card.node.active){}
+            cardShowNum++;
+        })
+        this.point.node.parent.active = point > 0 && cardShowNum >= 2;
+    },
+
     /**
      * 初始化
      * @param betInfo
@@ -51,37 +99,12 @@ cc.Class({
         if(this.isBanker){
             this.chipZone.active = false;
             this.chipLabel.node.parent.active = false;
-            let point = 0;
-            let Anum = 0;
-            betInfo.forEach(card=>{
-                let num = cc.dd.Utils.translate21(card);
-                if(num != null){
-                    point += num;
-                    if(num == 11){
-                        Anum++;
-                    }
-                }
 
-                let node = cc.instantiate(this.cardPrefab);
-                this.cardZone.addChild(node);
-
-                node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
-
-                node.getComponent("blackjack_card").init(card, show);
-
-                this.cardList.push(node.getComponent("blackjack_card"));
-            });
-
-            if(point > 21){
-                let num = Math.ceil((point - 21)/10);
-                if(num < Anum){
-                    point -= num * 10;
-                }else{
-                    point -= Anum * 10;
-                }
+            if(betInfo.hasOwnProperty("cardsList")){
+                this.createPai(betInfo.cardsList, show);
+            }else{
+                this.createPai(betInfo, show);
             }
-
-            this.point.string = point.toString();
         }else{
             this.betInfo = betInfo;
             this.index = betInfo.index;
@@ -89,49 +112,8 @@ cc.Class({
 
             this.chipLabel.node.parent.active = betInfo.value > 0;
 
-            let point = 0;
-            let Anum = 0;
-
-            betInfo.cardsList.forEach(card=>{
-                let num = cc.dd.Utils.translate21(card);
-                if(num != null){
-                    point += num;
-                    if(num == 11){
-                        Anum++;
-                    }
-                }
-
-                let node = cc.instantiate(this.cardPrefab);
-                this.cardZone.addChild(node);
-
-                if(this.isRight) {
-                    for(let i = 0; i < this.cardList.length; i++){
-                        this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
-                    }
-                    node.x = -START_X;
-                }else{
-                    node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
-                }
-
-                node.getComponent("blackjack_card").init(card, show);
-
-                this.cardList.push(node.getComponent("blackjack_card"));
-            });
-
-            if(point > 21){
-                let num = Math.ceil((point - 21)/10);
-                if(num < Anum){
-                    point -= num * 10;
-                }else{
-                    point -= Anum * 10;
-                }
-            }
-            this.point.string = point.toString();
-
-            this.point.node.parent.active = point > 0;
+            this.createPai(betInfo.cardsList, show);
         }
-
-
     },
 
     /**
@@ -167,44 +149,7 @@ cc.Class({
         this.chipLabel.string = bet;
         this.chipLabel.node.parent.active = !this.isBanker && bet > 0;
 
-        let point = 0;
-        let Anum = 0;
-
-        cardsList.forEach(card=>{
-            let num = cc.dd.Utils.translate21(card);
-            if(num != null){
-                point += num;
-                if(num == 11){
-                    Anum++;
-                }
-            }
-
-            let node = cc.instantiate(this.cardPrefab);
-            this.cardZone.addChild(node);
-
-            if(this.isRight) {
-                for(let i = 0; i < this.cardList.length; i++){
-                    this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
-                }
-                node.x = -START_X;
-            }else{
-                node.x = START_X + this.cardList.length *( node.width + OFFSET_X);
-            }
-
-            node.getComponent("blackjack_card").init(card);
-
-            this.cardList.push(node.getComponent("blackjack_card"));
-        });
-
-        if(point > 21){
-            let num = Math.ceil((point - 21)/10);
-            if(num < Anum){
-                point -= num * 10;
-            }else{
-                point -= Anum * 10;
-            }
-        }
-        this.point.string = point.toString();
+        this.createPai(cardsList, true);
     },
 
     /**
@@ -274,6 +219,15 @@ cc.Class({
             }
         }
 
+        if(this.cardList.length > cardsList.length){
+            for(let i = this.cardList.length - 1; i >= cardsList.length; i--){
+                let node = this.cardList[i].node;
+                node.removeFromParent();
+                node.destroy();
+                this.cardList.splice(i, 1);
+            }
+        }
+
         if(point > 21){
             let num = Math.ceil((point - 21)/10);
             if(num < Anum){
@@ -283,8 +237,12 @@ cc.Class({
             }
         }
         this.point.string = point.toString();
-
-        this.point.node.parent.active = point > 0;
+        let cardShowNum = 0;
+        this.cardList.forEach(card=>{
+            if(card.node.active){}
+            cardShowNum++;
+        })
+        this.point.node.parent.active = point > 0 && cardShowNum >= 2;
     },
 
     showChoose(){
@@ -297,10 +255,12 @@ cc.Class({
 
     fapai(startNode){
         let card = null;
+        let index = 0;
         for(let i = 0; i < this.cardList.length; i++){
             if(!this.cardList[i].isActive){
                 card = this.cardList[i];
                 card.isActive = true;
+                index = i;
                 break;
             }
         }
@@ -315,38 +275,40 @@ cc.Class({
             node.opacity = 0;
             node.getComponent("blackjack_card").init(0);
 
+            let move = cc.tween()
+                .parallel(
+                    cc.tween().to(1, {opacity: 255}),
+                    cc.tween().to(1, {position: endPos})
+                );
             let scale = cc.tween()
-                .to(0.2, {scaleX: 0})
+                .to(0.2, {scaleX: 0}, { easing: 'quartIn'})
                 .call(()=>{
                     node.getComponent("blackjack_card").change(card.getCard());
                 })
-                .to(0.2, {scaleX: 1});
-
+                .to(0.2, {scaleX: 1}, { easing: 'quartOut'});
+            let rotation = cc.tween()
+                .to(1, {rotation: 90});
+            let end = cc.tween()
+                .call(()=>{
+                    card.setShow();
+                    if(index === this.cardList.length - 1){
+                        this.point.node.parent.active = true;
+                    }
+                })
+                .hide()
+                .removeSelf();
 
             if(card.getCard() == node.getComponent("blackjack_card").getCard()){
                 cc.tween(node)
-                    .parallel(
-                        cc.tween().to(0.5, {opacity: 255}),
-                        cc.tween().to(1, {position: endPos})
-                    )
-                    .call(()=>{
-                        card.setShow();
-                    })
-                    .hide()
-                    .removeSelf()
+                    .then(move)
+                    .then(end)
                     .start();
+
             }else{
                 cc.tween(node)
-                    .parallel(
-                        cc.tween().to(0.5, {opacity: 255}),
-                        cc.tween().to(1, {position: endPos})
-                    )
+                    .then(move)
                     .then(scale)
-                    .call(()=>{
-                        card.setShow();
-                    })
-                    .hide()
-                    .removeSelf()
+                    .then(end)
                     .start();
             }
         }

@@ -8432,6 +8432,7 @@ message msg_bj_bet_ret{
 	optional uint32      		user_id     = 2;
 	optional int32				type		= 3;
 	repeated bj_bet_info   		bet     	= 4; //这里有可能有分牌的情况，所以可能是两个
+	optional int32				show_coin	= 5;//显示的金币
 }
 
 message bj_result_info{

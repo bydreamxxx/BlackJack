@@ -118,7 +118,7 @@ let BlackJackPlayerData = cc.Class({
     },
 
     fapai(){
-        cc.error(`player fapai ${this.viewIdx}`);
+        cc.log(`player fapai ${this.viewIdx}`);
         BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.PLAYER_FAPAI, this);
     }
 });

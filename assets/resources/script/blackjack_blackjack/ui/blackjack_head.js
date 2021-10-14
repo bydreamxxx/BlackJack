@@ -68,6 +68,11 @@ cc.Class({
         this.standNode.active = true;
     },
 
+    changeCoin(coin){
+        this.playerData.score -= coin;
+        this.coin.string = this.playerData.score;
+    },
+
     showCoin(data){
         this.coin.string = data.allCoin;
         let win = parseInt(data.coin)+parseInt(data.insure);

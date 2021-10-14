@@ -70,7 +70,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     fapai(){
-        cc.error(`player UI fapai ${this.viewIdx}`);
+        cc.log(`player UI fapai ${this.viewIdx}`);
         this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode);
     },
 
@@ -89,7 +89,9 @@ let blackjack_player_ui = cc.Class({
     },
 
     setGameInfo(data){
-        this.head.sit();
+        if(!this.isbanker){
+            this.head.sit();
+        }
 
         this.cardNodeList = [];
         this.cardNode.removeAllChildren();
@@ -143,19 +145,54 @@ let blackjack_player_ui = cc.Class({
      * 更新下注及手牌信息
      * @param data
      */
-    updateBetInfo(data){
-        data.betInfosList.forEach(betInfo=>{
-            if(!this.cardNodeList[betInfo.index - 1]){
-                let node = cc.instantiate(this.cardPrefab);
-                this.cardNode.addChild(node);
-                this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
-                node.x = (betInfo.index - 1) * 180;
-                node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
-            }else{
-                this.cardNodeList[betInfo.index - 1].getComponent("blackjack_cardNode").updateInfo(betInfo);
+    updateBetInfo(data, isSplit){
+        if(isSplit){
+            cc.gateNet.Instance().dispatchTimeOut(1);
+
+            let first = {
+                cardsList:[data.betInfosList[0].cardsList[0]],
+                index: 1,
+                value: data.betInfosList[0].value,
+                insure: data.betInfosList[0].insure,
+            }
+            this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first);
+
+            if(!this.isbanker){
+                this.head.changeCoin(data.betInfosList[0].value);
+                this.head.changeCoin(data.betInfosList[0].insure);
             }
 
-        });
+            let second = {
+                cardsList:[data.betInfosList[0].cardsList[1]],
+                index: 2,
+                value: data.betInfosList[0].value,
+                insure: data.betInfosList[0].insure,
+            }
+
+            let node = cc.instantiate(this.cardPrefab);
+            this.cardNode.addChild(node);
+            this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
+            node.x = 180;
+            node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
+        }else{
+            data.betInfosList.forEach(betInfo=>{
+                if(!this.isbanker){
+                    this.head.changeCoin(betInfo.value);
+                    this.head.changeCoin(betInfo.insure);
+                }
+
+                if(!this.cardNodeList[betInfo.index - 1]){
+                    let node = cc.instantiate(this.cardPrefab);
+                    this.cardNode.addChild(node);
+                    this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
+                    node.x = (betInfo.index - 1) * 180;
+                    node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
+                }else{
+                    this.cardNodeList[betInfo.index - 1].getComponent("blackjack_cardNode").updateInfo(betInfo);
+                }
+
+            });
+        }
     },
 
     showSplit(index){
@@ -176,6 +213,11 @@ let blackjack_player_ui = cc.Class({
     },
 
     onEventMessage: function (event, data) {
+        let data1 = null;
+        if(cc.dd._.isArray(data)){
+            data1 = data[1];
+            data = data[0];
+        }
         if(data && data.viewIdx !== this.viewIdx){
             return;
         }
@@ -193,7 +235,7 @@ let blackjack_player_ui = cc.Class({
                 this.setGameInfo(data)
                 break;
             case BlackJackPlayerEvent.UPDATE_BET_INFO:
-                this.updateBetInfo(data);
+                this.updateBetInfo(data, data1);
                 break;
             case BlackJackPlayerEvent.PLAYER_FAPAI:
                 this.fapai();
