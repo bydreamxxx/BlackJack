@@ -221,6 +221,7 @@ let msg_bj_deal_poker = cc.Class({
         content.index = this.index;
         content.cardsList = this.cardsList;
         content.pointList = this.pointList;
+        content.type = this.type;
 
         return content;
     },
@@ -235,6 +236,9 @@ let msg_bj_deal_poker = cc.Class({
     },
     setPointList(pointList){
         this.pointList = pointList;
+    },
+    setType(type){
+        this.type = type;
     },
 
 });
