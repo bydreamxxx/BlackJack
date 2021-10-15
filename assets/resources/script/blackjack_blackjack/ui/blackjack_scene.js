@@ -294,7 +294,7 @@ cc.Class({
                 }else{
                     let player = BlackJackData.getPlayerById(data.userId);
                     if(player){
-                        this.playerList[player.viewIdx].updateCards(data.index, data.cardsList, BlackJackData.state === GAME_STATE.PLAYING);
+                        this.playerList[player.viewIdx].updateCards(data.index, data.cardsList, BlackJackData.state === GAME_STATE.PLAYING, data.type == 1);
                     }
                 }
                 break;
@@ -630,7 +630,9 @@ cc.Class({
                 if(BlackJackData.lastState != BlackJackData.state){
                     cc.error(`发牌`);
 
-                    cc.gateNet.Instance().dispatchTimeOut(BlackJackData.playerNum);
+                    if(BlackJackData.hasUserPlayer){
+                        cc.gateNet.Instance().pauseDispatch();
+                    }
                     BlackJackData.fapai();
 
                     this.startTips.active = false;

@@ -123,6 +123,40 @@ let msg_rm_info = cc.Class({
 
 module.exports.msg_rm_info = msg_rm_info;
 
+let msg_rm_poker_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.type = this.type;
+
+        return content;
+    },
+    setType(type){
+        this.type = type;
+    },
+
+});
+
+module.exports.msg_rm_poker_req = msg_rm_poker_req;
+
+let msg_rm_poker_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.ret = this.ret;
+
+        return content;
+    },
+    setRet(ret){
+        this.ret = ret;
+    },
+
+});
+
+module.exports.msg_rm_poker_ack = msg_rm_poker_ack;
+
 let msg_rm_deal_poker = cc.Class({
     ctor(){
     },
@@ -143,6 +177,31 @@ let msg_rm_deal_poker = cc.Class({
 });
 
 module.exports.msg_rm_deal_poker = msg_rm_deal_poker;
+
+let msg_rm_deal_poker_broadcast = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.type = this.type;
+        content.cardList = this.cardList;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setType(type){
+        this.type = type;
+    },
+    setCardList(cardList){
+        this.cardList = cardList;
+    },
+
+});
+
+module.exports.msg_rm_deal_poker_broadcast = msg_rm_deal_poker_broadcast;
 
 let msg_rm_give_up_poker_req = cc.Class({
     ctor(){
@@ -182,6 +241,27 @@ let msg_rm_give_up_poker_ack = cc.Class({
 
 module.exports.msg_rm_give_up_poker_ack = msg_rm_give_up_poker_ack;
 
+let msg_rm_give_up_poker_broadcast = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.card = this.card;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setCard(card){
+        this.card = card;
+    },
+
+});
+
+module.exports.msg_rm_give_up_poker_broadcast = msg_rm_give_up_poker_broadcast;
+
 let msg_rm_syn_giveup_poker = cc.Class({
     ctor(){
     },
@@ -219,44 +299,6 @@ let rm_group = cc.Class({
 });
 
 module.exports.rm_group = rm_group;
-
-let msg_rm_group_req = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.groupsList = this.groupsList;
-
-        return content;
-    },
-    setGroupsList(groupsList){
-        this.groupsList = groupsList;
-    },
-
-});
-
-module.exports.msg_rm_group_req = msg_rm_group_req;
-
-let msg_rm_group_ack = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.ret = this.ret;
-        content.score = this.score;
-
-        return content;
-    },
-    setRet(ret){
-        this.ret = ret;
-    },
-    setScore(score){
-        this.score = score;
-    },
-
-});
-
-module.exports.msg_rm_group_ack = msg_rm_group_ack;
 
 let msg_rm_show_req = cc.Class({
     ctor(){

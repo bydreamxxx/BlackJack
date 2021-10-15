@@ -8406,6 +8406,7 @@ message bj_bet_info{
 	repeated int32		cards		= 2;
 	optional int64      value 		= 3;
 	optional int64      insure	    = 4;  //保险
+	optional int32		type		= 5; //0:普通情况 1：doubule情况
 }
 
 message bj_user_info{
@@ -8658,11 +8659,26 @@ message msg_rm_info{
 	optional int32									self_state			= 10; //1：正常玩， 2:已经弃牌 ， 3:围观状态
 }
 
+//请求一张牌
+message msg_rm_poker_req{
+	optional int32			type		= 1;// 0:随机取， 1：弃牌堆第一张
+}
 
-//发牌
+message msg_rm_poker_ack{
+	optional int32			ret		= 1;// 0:成功， 1：没有找到用户 2：不是该用户的轮次 3：不能拿取该牌(百搭)
+}
+
+//发牌(第一次发牌和后面单独请求都用这个)
 message msg_rm_deal_poker{
 	optional uint32			user_id 	= 1;
-	repeated int32			cards		= 2;
+	repeated int32			cards 		= 2;//客户端本地记录用户组牌结果， 恢复的时候使用
+}
+
+//广播摸牌情况, 此条消息只针对非摸牌玩家
+message msg_rm_deal_poker_broadcast{
+	optional uint32			user_id 	= 1;
+	optional int32			type		= 2; //0:随机取， 1：弃牌堆第一张
+	repeated int32			card		= 3; //type =1 时候， card就是牌的id, 其他情况为0
 }
 
 //弃一张牌
@@ -8671,8 +8687,14 @@ message msg_rm_give_up_poker_req{
 }
 
 message msg_rm_give_up_poker_ack{
-	optional int32			ret = 1;
+	optional int32			ret = 1; //0:成功， 1：没有找到用户 2：不是该用户的轮次 3：没有这张牌
 	optional int32			card = 2;
+}
+
+//广播弃牌情况
+message msg_rm_give_up_poker_broadcast{
+	optional uint32			user_id 	= 1;
+	optional int32			card		= 2;
 }
 
 //同步弃牌堆的牌和xcard
@@ -8683,16 +8705,6 @@ message msg_rm_syn_giveup_poker{
 
 message rm_group{
 	repeated int32	cards = 1;
-}
-
-//组牌请求
-message msg_rm_group_req{
-	repeated rm_group		groups = 1;
-}
-
-message msg_rm_group_ack{
-	optional int32 		ret = 1; //0:正确， 1：当前不是你的轮次
-	optional int32		score = 2;
 }
 
 //show牌请求

@@ -69,8 +69,8 @@ cc.Class({
     },
 
     changeCoin(coin){
-        this.playerData.score -= coin;
-        this.coin.string = this.playerData.score;
+        this.playerData.score = coin;
+        this.coin.string = coin;
     },
 
     showCoin(data){

@@ -69,9 +69,9 @@ let blackjack_player_ui = cc.Class({
         this.cardNodeList = [];
     },
 
-    fapai(){
+    fapai(isDouble){
         cc.log(`player UI fapai ${this.viewIdx}`);
-        this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode);
+        this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode, this.viewIdx == 0, isDouble);
     },
 
     playerEnter(data) {
@@ -106,12 +106,12 @@ let blackjack_player_ui = cc.Class({
     },
 
     /**
-     * 更新手牌
+     * msg_bj_deal_poker更新手牌
      * @param index
      * @param cardsList
      * @param show
      */
-    updateCards(index, cardsList, show){
+    updateCards(index, cardsList, show, isDouble){
         this.betIndex = index;
         if(this.isbanker){
             if(this.cardNodeList.length == 0){//banker未初始化
@@ -124,28 +124,33 @@ let blackjack_player_ui = cc.Class({
         }
 
         if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
-            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 2 && show);
+            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 2 && show, isDouble);
             if(cardsList.length >2){
-                this.fapai();
+                this.fapai(isDouble);
             }
         }else{//没有对应index的牌堆，做拆分处理
-            let bet = 0;
-            if(this.cardNodeList[0]){
-                bet = this.cardNodeList[0].betInfo.value;
-            }
-            let node = cc.instantiate(this.cardPrefab);
-            this.cardNode.addChild(node);
-            this.cardNodeList[index - 1] = node.getComponent("blackjack_cardNode");
-            node.x = (index - 1) * 180;
-            node.getComponent("blackjack_cardNode").splitInfo(cardsList, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, index, bet);
+            cc.error(`没有分牌`);
+            // let bet = 0;
+            // if(this.cardNodeList[0]){
+            //     bet = this.cardNodeList[0].betInfo.value + this.cardNodeList[0].betInfo.insure;
+            // }
+            // let node = cc.instantiate(this.cardPrefab);
+            // this.cardNode.addChild(node);
+            // this.cardNodeList[index - 1] = node.getComponent("blackjack_cardNode");
+            // node.x = (index - 1) * 180;
+            // node.getComponent("blackjack_cardNode").splitInfo(cardsList, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, index, bet);
         }
     },
 
     /**
-     * 更新下注及手牌信息
+     * msg_bj_bet_ret更新下注及手牌信息
      * @param data
      */
     updateBetInfo(data, isSplit){
+        if(!this.isbanker){
+            this.head.changeCoin(data.score);
+        }
+
         if(isSplit){
             cc.gateNet.Instance().dispatchTimeOut(1);
 
@@ -156,11 +161,6 @@ let blackjack_player_ui = cc.Class({
                 insure: data.betInfosList[0].insure,
             }
             this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first);
-
-            if(!this.isbanker){
-                this.head.changeCoin(data.betInfosList[0].value);
-                this.head.changeCoin(data.betInfosList[0].insure);
-            }
 
             let second = {
                 cardsList:[data.betInfosList[0].cardsList[1]],
@@ -176,11 +176,6 @@ let blackjack_player_ui = cc.Class({
             node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
         }else{
             data.betInfosList.forEach(betInfo=>{
-                if(!this.isbanker){
-                    this.head.changeCoin(betInfo.value);
-                    this.head.changeCoin(betInfo.insure);
-                }
-
                 if(!this.cardNodeList[betInfo.index - 1]){
                     let node = cc.instantiate(this.cardPrefab);
                     this.cardNode.addChild(node);

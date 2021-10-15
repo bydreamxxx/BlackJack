@@ -171,6 +171,7 @@ let bj_bet_info = cc.Class({
         content.cardsList = this.cardsList;
         content.value = this.value;
         content.insure = this.insure;
+        content.type = this.type;
 
         return content;
     },
@@ -185,6 +186,9 @@ let bj_bet_info = cc.Class({
     },
     setInsure(insure){
         this.insure = insure;
+    },
+    setType(type){
+        this.type = type;
     },
 
 });
@@ -279,6 +283,7 @@ let msg_bj_bet_ret = cc.Class({
         content.userId = this.userId;
         content.type = this.type;
         content.betList = this.betList;
+        content.showCoin = this.showCoin;
 
         return content;
     },
@@ -293,6 +298,9 @@ let msg_bj_bet_ret = cc.Class({
     },
     setBetList(betList){
         this.betList = betList;
+    },
+    setShowCoin(showCoin){
+        this.showCoin = showCoin;
     },
 
 });

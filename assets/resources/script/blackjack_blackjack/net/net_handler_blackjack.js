@@ -65,6 +65,7 @@ var handler = {
 
             let player = BlackJackData.getPlayerById(msg.userId);
             if(player){
+                player.score = msg.showCoin;
                 player.betInfosList = msg.betList.concat();
                 BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.UPDATE_BET_INFO, [player, msg.type == 5]);
             }else {
