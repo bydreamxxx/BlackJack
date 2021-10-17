@@ -10,7 +10,8 @@ cc.Class({
         data: null,
         timeSp: cc.Node,
         //itemIcon:[cc.SpriteFrame],
-        infoPrefab: cc.Prefab
+        infoPrefab: cc.Prefab,
+        clickCallBack: null,
     },
 
     // use this for initialization
@@ -19,7 +20,7 @@ cc.Class({
         this.icon.enabled = false;
     },
 
-    init: function (itemInfo, data) {
+    init: function (itemInfo, data, callBack) {
         this.countTxt.string = data.count;
         if (data.dataId == 1004 || data.dataId == 1006 || data.dataId == 1099) {
             this.countTxt.string = (data.count / 100).toFixed(1) + '元';
@@ -43,20 +44,16 @@ cc.Class({
 
         this.itemInfo = itemInfo;
         this.data = data;
+        this.clickCallBack = callBack;
     },
 
     onClick: function () {
         if (this.itemInfo == null || this.data == null) {
             return;
         }
-        let prefabPath = hall_prefab.KLB_HALL_ITEM_TIPS;
-        if (cc.game_pid == 2) {
-            prefabPath = hall_prefab.KLB_DL_HALL_ITEM_TIPS;
+        if(this.clickCallBack){
+            this.clickCallBack(this.itemInfo, this.data)
         }
-        cc.dd.UIMgr.openUI(prefabPath, function (prefab) {
-            var component = prefab.getComponent('klb_hall_ItemTips');
-            component.initUI(this.itemInfo, this.data);
-        }.bind(this));
     },
 
     clearInfo: function () {

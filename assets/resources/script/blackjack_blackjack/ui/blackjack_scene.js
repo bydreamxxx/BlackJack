@@ -47,6 +47,10 @@ cc.Class({
         loadTips: cc.Node,
     },
 
+    editor:{
+        menu:"BlackJack/blackjack_scene"
+    },
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -74,178 +78,6 @@ cc.Class({
         BlackJackED.addObserver(this);
 
         this.banker.clear();
-
-        // let handler = require("jlmj_net_handler_roomMgr");
-        // handler.on_msg_enter_coin_game_ret({ retCode: 0, rate: 0 });
-        // handler.on_msg_enter_game_ret({ otherInfosList:
-        //         [ { userId: 1633790121,
-        //             name: '游客1633790121',
-        //             sex: 1,
-        //             headUrl: '',
-        //             openId: '',
-        //             isReady: false,
-        //             seat: 0,
-        //             state: 1,
-        //             coin: 6901000,
-        //             robot: false,
-        //             aiLevel: 0,
-        //             winTimes: 2399,
-        //             totalTimes: 2414,
-        //             level: 1,
-        //             exp: 0,
-        //             vipLevel: 0,
-        //             lucky: 0,
-        //             isSwitch: false,
-        //             netState: 0,
-        //             cheatRate: 0,
-        //             cheatScore: 0,
-        //             cheatState: 0,
-        //             score: 6901000,
-        //             robotLevel: 0,
-        //             ip: '117.173.227.179',
-        //             rate: 0,
-        //             itemNum: 0,
-        //             autoFlag: false,
-        //             fishBetId: 0,
-        //             loginIntervalTime: 104,
-        //             lookPlayer: 0 } ],
-        //     retCode: 0,
-        //     gameInfo:
-        //         { gameType: 203,
-        //             roomId: 203520933,
-        //             userId: 1632398991,
-        //             clubId: 0,
-        //             recordId: 0,
-        //             clubCreateType: 1,
-        //             bloodLevel: 0,
-        //             bloodRate: 0,
-        //             firstBankerId: 0,
-        //             lastWinnerId: 0,
-        //             multiple: 0 },
-        //     selfInfo:
-        //         { userId: 1632398991,
-        //             name: '游客1632398991',
-        //             sex: 1,
-        //             headUrl: '',
-        //             openId: '',
-        //             isReady: false,
-        //             seat: 1,
-        //             state: 1,
-        //             coin: 4499600,
-        //             robot: false,
-        //             aiLevel: 0,
-        //             winTimes: 100,
-        //             totalTimes: 134,
-        //             level: 1,
-        //             exp: 0,
-        //             vipLevel: 0,
-        //             lucky: 0,
-        //             isSwitch: false,
-        //             netState: 0,
-        //             cheatRate: 0,
-        //             cheatScore: 0,
-        //             cheatState: 0,
-        //             score: 4499600,
-        //             robotLevel: 0,
-        //             ip: '125.70.79.180',
-        //             rate: 0,
-        //             itemNum: 0,
-        //             autoFlag: false,
-        //             fishBetId: 0,
-        //             loginIntervalTime: 9,
-        //             lookPlayer: 0 },
-        //     isGetOthers: false,
-        //     othersNum: 2,
-        //     deskId: 1 });
-        //
-        // handler.on_msg_prepare_game_ret({ retCode: 0,
-        //     gameInfo: { gameType: 203, roomId: 203520933 },
-        //     userId: 1632398991,
-        //     rate: 0 });
-        //
-        // handler.on_msg_room_user_info({ roleInfosList:
-        //         [ { userId: 1633790121,
-        //             name: '游客1633790121',
-        //             sex: 1,
-        //             headUrl: '',
-        //             openId: '',
-        //             isReady: true,
-        //             seat: 0,
-        //             state: 1,
-        //             coin: 6901000,
-        //             robot: false,
-        //             aiLevel: 0,
-        //             winTimes: 2426,
-        //             totalTimes: 2441,
-        //             level: 1,
-        //             exp: 0,
-        //             vipLevel: 0,
-        //             lucky: 0,
-        //             isSwitch: false,
-        //             netState: 0,
-        //             cheatRate: 0,
-        //             cheatScore: 0,
-        //             cheatState: 0,
-        //             score: 6901000,
-        //             robotLevel: 0,
-        //             ip: '117.173.227.179',
-        //             rate: 0,
-        //             itemNum: 0,
-        //             autoFlag: false,
-        //             fishBetId: 0,
-        //             loginIntervalTime: 104,
-        //             lookPlayer: 0 },
-        //             { userId: 1632398991,
-        //                 name: '游客1632398991',
-        //                 sex: 1,
-        //                 headUrl: '',
-        //                 openId: '',
-        //                 isReady: true,
-        //                 seat: 1,
-        //                 state: 1,
-        //                 coin: 4499600,
-        //                 robot: false,
-        //                 aiLevel: 0,
-        //                 winTimes: 127,
-        //                 totalTimes: 161,
-        //                 level: 1,
-        //                 exp: 0,
-        //                 vipLevel: 0,
-        //                 lucky: 0,
-        //                 isSwitch: false,
-        //                 netState: 0,
-        //                 cheatRate: 0,
-        //                 cheatScore: 0,
-        //                 cheatState: 0,
-        //                 score: 4499600,
-        //                 robotLevel: 0,
-        //                 ip: '125.70.79.180',
-        //                 rate: 0,
-        //                 itemNum: 0,
-        //                 autoFlag: false,
-        //                 fishBetId: 0,
-        //                 loginIntervalTime: 9,
-        //                 lookPlayer: 0 } ],
-        //     gameInfo: { gameType: 203, roomId: 203520933 } });
-        //
-        // handler = require("net_handler_blackjack");
-        // handler.on_msg_bj_info({ usersInfoList:
-        //         [ { betInfosList: [ { cardsList: [], index: 1, value: 0, insure: 0 } ],
-        //             userId: 1632398991 },
-        //             { betInfosList: [ { cardsList: [], index: 1, value: 0, insure: 0 } ],
-        //                 userId: 1633790121 } ],
-        //     bjState: 1,
-        //     lastTime: 10,
-        //     roomConfigId: 20304 });
-        // handler.on_msg_bj_info({ usersInfoList:
-        //         [ { betInfosList: [ { cardsList: [], index: 1, value: 0, insure: 0 } ],
-        //             userId: 1632398991 },
-        //             { betInfosList: [ { cardsList: [], index: 1, value: 0, insure: 0 } ],
-        //                 userId: 1633790121 } ],
-        //     bjState: 2,
-        //     lastTime: 16,
-        //     roomConfigId: 20304,
-        //     turn: { userId: 0, index: 1 } });
     },
 
     onDestroy() {
@@ -612,6 +444,9 @@ cc.Class({
                 break;
             case GAME_STATE.PROTECTING:
                 cc.error(`保险`)
+                if(BlackJackData.hasUserPlayer){
+                    cc.gateNet.Instance().pauseDispatch();
+                }
                 BlackJackData.fapai();
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
@@ -627,7 +462,11 @@ cc.Class({
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;
 
-                if(BlackJackData.lastState != BlackJackData.state){
+                if(BlackJackData.lastState === GAME_STATE.PROTECTING){
+                    cc.error(`收走保险`);
+                }
+
+                if(BlackJackData.lastState === GAME_STATE.BETTING){
                     cc.error(`发牌`);
 
                     if(BlackJackData.hasUserPlayer){

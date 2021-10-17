@@ -8442,6 +8442,7 @@ message bj_result_info{
 	optional int64				coin		   = 3; //当前赢的钱
 	optional int64				insure		   = 4; //保险的钱
 	optional int64				all_coin	   = 5; //赢钱后总的钱
+	optional int32				type		   = 6;//0:普通情况 1：doubule情况
 }
 
 
@@ -8710,10 +8711,12 @@ message rm_group{
 //show牌请求
 message msg_rm_show_req{
 	optional int32 		card = 1; //打出去的那张poker
+	repeated rm_group	groups = 2;
 }
 
 message msg_rm_show_ack{
-	optional int32 		ret = 1; //0:成功， 1:失败
+	optional int32 		ret = 1; //0:成功， -1:错误的show, 1：没有找到用户 2：不是该用户的轮次 3：没有这张牌 4:groups的牌不是他自己的
+	optional uint32		uid = 2;
 }
 
 //请求自动排序
@@ -8721,7 +8724,7 @@ message msg_rm_sort_req{
 }
 
 message msg_rm_sort_ack{
-	optional int32 	ret = 1; //0:成功， 1:请求过于频繁
+	optional int32 	ret = 1; //0:成功， 1：没有找到用户 2：请求过于频繁 3：非法用户 4:已经结算
 	repeated rm_group	groups = 2;
 }
 

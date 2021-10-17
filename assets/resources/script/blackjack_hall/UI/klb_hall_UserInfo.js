@@ -557,7 +557,7 @@ let userInfo = cc.Class({
         if (cc._useChifengUI || cc._useCardUI) {
             cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_USERINFO);
         } else {
-            cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_USERINFO, function (ui) {
+            cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_USERINFO, function (ui) {
                 ui.getComponent('klb_hall_user_info').setData(HallCommonData.getInstance());
             }.bind(this));
         }
@@ -649,7 +649,7 @@ let userInfo = cc.Class({
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.TASK);
         /************************游戏统计   end************************/
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
+        cc.dd.UIMgr.openUI("blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Task");
     },
 
     /**
@@ -735,10 +735,10 @@ let userInfo = cc.Class({
                 this.updateFxylBtn();
                 break;
             case Hall.HallEvent.GET_Battle_History_LIST:
-                var hallHistory = cc.dd.UIMgr.getUI(hall_prefab.CHIFENG_HISTORY);
+                var hallHistory = cc.dd.UIMgr.getUI(hall_prefab.BJ_HALL_RECORD);
                 if (!hallHistory) {
-                    cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_HISTORY, function (ui) {
-                        ui.getComponent('chifeng_hall_history').initItem(data);
+                    cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_RECORD, function (ui) {
+                        ui.getComponent('BlackJack_Hall_Record').initItem(data);
                     }.bind(this));
                 }
                 break;

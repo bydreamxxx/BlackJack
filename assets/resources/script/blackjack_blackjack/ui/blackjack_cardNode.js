@@ -1,12 +1,9 @@
-// Learn cc.Class:
-//  - https://docs.cocos.com/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+const BlackJackData = require("BlackJackData").BlackJackData.Instance();
 
 const START_X = 104;
 const OFFSET_X = -92;
+
+const POS = [cc.v2(-37, -30), cc.v2(-65, -45), cc.v2(-65,-13), cc.v2(-80, 56), cc.v2(-117,56)];
 
 cc.Class({
     extends: cc.Component,
@@ -19,6 +16,11 @@ cc.Class({
         choose: cc.Node,
 
         cardPrefab: cc.Prefab,
+        chipPrefab: cc.Prefab,
+    },
+
+    editor:{
+        menu:"BlackJack/blackjack_cardNode"
     },
 
     createPai(list, show, isDouble){
@@ -52,6 +54,7 @@ cc.Class({
 
             if(this.cardList.length == 3 && isDouble){
                 node.rotation = 90;
+                node.y = 42;
             }
         });
 
@@ -71,6 +74,61 @@ cc.Class({
             cardShowNum++;
         })
         this.point.node.parent.active = point > 0 && cardShowNum >= 2;
+    },
+
+    createChip(num, show, type){
+        if(!this.isBanker){
+            let green = BlackJackData.minBet;
+            let red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.3) + BlackJackData.minBet;
+            let blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.7) + BlackJackData.minBet;
+
+            let blueCount = Math.floor(num / blue);
+            let redCount = Math.floor((num - blueCount * blue) / red);
+            let greenCount = Math.floor((num - blueCount * blue - redCount * red) / green);
+
+            let createChip = ()=>{
+                let node = cc.instantiate(this.chipPrefab);
+                this.chipZone.addChild(node);
+
+                if(type == 1){
+                    //result
+                    node.scaleX = 0.3;
+                    node.scaleY = 0.3;
+                    node.x = POS[3].x;
+                    node.y = POS[3].y + 1.2 * this.resultList.length;
+                    this.resultList.push(node.getComponent("blackjack_chip"));
+                }else if(type == 2){
+                    //double
+                    node.scaleX = 0.3;
+                    node.scaleY = 0.3;
+                    node.x = POS[1].x;
+                    node.y = POS[1].y + 1.2 * this.doubleList.length;
+                    this.doubleList.push(node.getComponent("blackjack_chip"));
+                }else if(type == 3){
+                    //insure
+                    node.scaleX = 0.3;
+                    node.scaleY = 0.3;
+                    node.x = POS[2].x;
+                    node.y = POS[2].y + 1.2 * this.insureList.length;
+                    this.insureList.push(node.getComponent("blackjack_chip"));
+                }else {
+                    node.scaleX = 0.5;
+                    node.scaleY = 0.5;
+                    node.y = 2 * this.chipList.length;
+                    this.chipList.push(node.getComponent("blackjack_chip"));
+                }
+            }
+
+            for(let i = 0; i < greenCount; i++){
+                createChip();
+            }
+            for(let i = 0; i < redCount; i++){
+                createChip();
+            }
+            for(let i = 0; i < blueCount; i++){
+                createChip();
+            }
+        }
     },
 
     /**
@@ -95,6 +153,10 @@ cc.Class({
         }
 
         this.cardList = [];
+        this.chipList = [];
+        this.doubleList = [];
+        this.insureList = [];
+        this.resultList = [];
 
         if(this.isBanker){
             this.chipZone.active = false;
@@ -112,6 +174,7 @@ cc.Class({
 
             this.chipLabel.node.parent.active = (betInfo.value + betInfo.insure) > 0;
 
+            this.createChip(betInfo.value + betInfo.insure, show, betInfo.type == 1);
             this.createPai(betInfo.cardsList, show, betInfo.type == 1);
         }
     },
@@ -163,6 +226,7 @@ cc.Class({
         this.chipLabel.string = (data.value + data.insure).toString();
         this.chipLabel.node.parent.active = !this.isBanker && (data.value + data.insure) > 0;
 
+        this.createChip(data.value + data.insure, !this.isBanker, data.type == 1);
         this.updateCards(data.cardsList);
     },
 
@@ -211,6 +275,7 @@ cc.Class({
 
                 if(this.cardList.length == 3 && isDouble){
                     node.rotation = 90;
+                    node.y = 42;
                 }
             }
 

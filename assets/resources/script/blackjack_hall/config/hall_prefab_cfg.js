@@ -13,9 +13,8 @@ module.exports = {
     KLB_HALL_NOTICE: 'blackjack_hall/prefabs/klb_hall_Notice',
     KLB_HALL_NOTICEDETAIL: 'blackjack_hall/prefabs/klb_hall_NoticeDetail',
     //邮件
-    KLB_HALL_MAIL: 'blackjack_hall/prefabs/klb_hall_mail',
-    KLB_HALL_MAILDETAIL: 'blackjack_hall/prefabs/klb_hall_mail_detail',
-    KLB_HALL_MAILSEND: 'blackjack_hall/prefabs/klb_hall_mail_send',
+    BLACKJACK_HALL_MAIL: 'blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Mail',
+
 
     //商城
     KLB_SHOP_PAGE: 'blackjack_hall/prefabs/klb_hall_ShopListPage',
@@ -204,5 +203,6 @@ module.exports = {
     KLB_HALL_ACTIVE_TG: 'blackjack_hall/prefabs/daily_active/klb_hall_daily_active_TG',
 
     BJ_HALL_ROOM: "blackjack_hall/prefabs/blackjack/room/BlackJack_Common_Room",
-
+    BJ_HALL_RECORD:"blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Record",
+    BJ_HALL_USERINFO:"blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_UserInfo"
 };

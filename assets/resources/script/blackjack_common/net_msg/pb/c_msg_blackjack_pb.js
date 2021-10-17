@@ -317,6 +317,7 @@ let bj_result_info = cc.Class({
         content.coin = this.coin;
         content.insure = this.insure;
         content.allCoin = this.allCoin;
+        content.type = this.type;
 
         return content;
     },
@@ -335,7 +336,9 @@ let bj_result_info = cc.Class({
     setAllCoin(allCoin){
         this.allCoin = allCoin;
     },
-
+    setType(type){
+        this.type = type;
+    },
 });
 
 module.exports.bj_result_info = bj_result_info;

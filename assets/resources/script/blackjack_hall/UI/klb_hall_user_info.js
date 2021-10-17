@@ -105,10 +105,11 @@ cc.Class({
                     break;
             }
         }
-
-        this.changeName.active = this.isAccoutnReg;
-        this.changeHead.interactable = this.isAccoutnReg;
-        this.changeHeadTips.active = this.isAccoutnReg;
+        if (this.changeName){
+            this.changeName.active = this.isAccoutnReg;
+            this.changeHead.interactable = this.isAccoutnReg;
+            this.changeHeadTips.active = this.isAccoutnReg;
+        }
 
         //刷新网络头像 或者 本地图片
         // if (userInfo && userInfo.openId) {

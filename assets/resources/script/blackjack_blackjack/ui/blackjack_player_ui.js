@@ -25,6 +25,10 @@ let blackjack_player_ui = cc.Class({
         betIndex: 1,
     },
 
+    editor:{
+        menu:"BlackJack/blackjack_player_ui"
+    },
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {

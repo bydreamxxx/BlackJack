@@ -28,6 +28,10 @@ cc.Class({
         CDTime: 10,
     },
 
+    editor:{
+        menu:"BlackJack/blackjack_head"
+    },
+
     init(data){
         this.playerData = data;
 

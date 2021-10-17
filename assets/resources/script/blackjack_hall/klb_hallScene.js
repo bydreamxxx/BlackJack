@@ -161,8 +161,8 @@ let hall = cc.Class({
                 else if (cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_CHANGE_HEAD)) {
                     cc.dd.UIMgr.destroyUI(hall_prefab.KLB_HALL_CHANGE_HEAD);
                 }
-                else if (cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_USERINFO)) {
-                    cc.dd.UIMgr.destroyUI(hall_prefab.KLB_HALL_USERINFO);
+                else if (cc.dd.UIMgr.getUI(hall_prefab.BJ_HALL_USERINFO)) {
+                    cc.dd.UIMgr.destroyUI(hall_prefab.BJ_HALL_USERINFO);
                 }
                 else if (cc.dd.UIMgr.getUI(hall_prefab.KLB_HALL_MAP_ADD_GAME)) {
                     cc.dd.UIMgr.destroyUI(hall_prefab.KLB_HALL_MAP_ADD_GAME);
@@ -642,8 +642,8 @@ let hall = cc.Class({
 
     onClickMail: function () {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_MAIL, function (prefab) {
-            var comp = prefab.getComponent('klb_hall_mail');
+        cc.dd.UIMgr.openUI(hall_prefab.BLACKJACK_HALL_MAIL, function (prefab) {
+            var comp = prefab.getComponent('BlackJack_Hall_Mail');
             comp.getMailInfo();
         });
     },
@@ -988,10 +988,10 @@ let hall = cc.Class({
                 }
                 break;
             case Hall.HallEvent.GET_Battle_History_LIST:
-                var hallHistory = cc.dd.UIMgr.getUI(hall_prefab.CHIFENG_HISTORY);
+                var hallHistory = cc.dd.UIMgr.getUI(hall_prefab.BJ_HALL_RECORD);
                 if (!hallHistory) {
-                    cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_HISTORY, function (ui) {
-                        ui.getComponent('chifeng_hall_history').initItem(data);
+                    cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_RECORD, function (ui) {
+                        ui.getComponent('BlackJack_Hall_Record').initItem(data);
                     }.bind(this));
                 }
                 break;

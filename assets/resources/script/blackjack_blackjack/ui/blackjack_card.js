@@ -8,6 +8,10 @@ cc.Class({
         isActive: true,
     },
 
+    editor:{
+        menu:"BlackJack/blackjack_card"
+    },
+
     init(card, show){
         this.card = card;
        // let bundle = cc.assetManager.getBundle("blackjack_blackjack");

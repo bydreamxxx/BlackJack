@@ -47,9 +47,9 @@ cc.Class({
             default: null,
             type : cc.Node,
         },
-        spaceY: 5,
-        spaceX: 5,
-        itemHeight: 107,
+        spaceY: 7,
+        spaceX: 7,
+        itemHeight: 148,
 
         itemCell : [],
         bankNode:{
@@ -57,6 +57,11 @@ cc.Class({
             type : cc.Node,
         },
         passNode:{
+            default: null,
+            type : cc.Node,
+        },
+
+        itemTipsNode:{
             default: null,
             type : cc.Node,
         },
@@ -140,7 +145,7 @@ cc.Class({
 
                 var index = cnt % 4;
                 if(index == 0) {index = 4};
-                var x = (index - 0.5) * this.itemHeight + (index - 0.5) * this.spaceX;
+                var x = (index - 0.5)  * this.itemHeight +  (index - 0.5) * this.spaceX;
                 cell.x = x;
                 //cell.parent.height = cnt*this.itemHeight+(cnt+1)*this.spaceY;
                 //cell.getComponent('klb_hall_BagCell').init(i);
@@ -171,7 +176,10 @@ cc.Class({
                 if(data.dataId == 1102){
                     var itemInfo = this.getItemById(data.dataId);
                     if(itemInfo && itemInfo.isshow != 0){
-                        this.itemCell[index].getComponent('klb_hall_BagCell').init(itemInfo, data);
+                        this.itemCell[index].getComponent('klb_hall_BagCell').init(itemInfo, data, function(itemInfo, data){
+                            var component = this.itemTipsNode.getComponent('klb_hall_ItemTips');
+                            component.initUI(itemInfo, data);
+                        }.bind(this));
                         index++;
                     }
                 }
@@ -189,7 +197,10 @@ cc.Class({
                 if(data.count > 0 || (data.count == 0 && (data.dataId == 1004 || data.dataId == 1099))){
                     var itemInfo = this.getItemById(data.dataId);
                     if(itemInfo && itemInfo.isshow != 0){
-                        this.itemCell[index].getComponent('klb_hall_BagCell').init(itemInfo, data);
+                        this.itemCell[index].getComponent('klb_hall_BagCell').init(itemInfo, data,function(itemInfo, data){
+                            var component = this.itemTipsNode.getComponent('klb_hall_ItemTips');
+                            component.initUI(itemInfo, data);
+                        }.bind(this));
                         index++;
                     }
                 }

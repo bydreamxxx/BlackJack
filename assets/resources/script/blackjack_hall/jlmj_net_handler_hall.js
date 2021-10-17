@@ -610,7 +610,7 @@ var hanlder = {
     },
 
     on_hall_update_task(msg) {
-        if (msg.task.status == 2 && !cc.dd.UIMgr.getUI('klb_hall_tasknew') && !cc._chifengGame && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame)
+        if (msg.task.status == 2 && !cc.dd.UIMgr.getUI('BlackJack_Hall_Task') && !cc._chifengGame && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame)
             cc.dd.PromptBoxUtil.show('有任务已完成，请前往领取奖励哦~');
         if (cc._taskDataList) {
             for (var i = 0; i < cc._taskDataList.length; i++) {

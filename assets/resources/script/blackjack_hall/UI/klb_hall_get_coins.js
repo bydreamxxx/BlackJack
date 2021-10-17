@@ -163,10 +163,10 @@ let getCoin = cc.Class({
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.TASK);
         /************************游戏统计   end************************/
         if (cc.director.getScene().name === AppConfig.HALL_NAME) {
-            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
+            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Task");
         } else {
             cc.dd.SceneManager.endcallEx = () => {
-                cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_tasknew");
+                cc.dd.UIMgr.openUI("blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Task");
             }
 
             switch (HallCommonData.getInstance().gameId) {
