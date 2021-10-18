@@ -92,6 +92,10 @@ let blackjack_player_ui = cc.Class({
         this.node.active = true;
     },
 
+    /**
+     * msg_bj_info初始化
+     * @param data
+     */
     setGameInfo(data){
         if(!this.isbanker){
             this.head.sit();
@@ -128,8 +132,8 @@ let blackjack_player_ui = cc.Class({
         }
 
         if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
-            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 2 && show, isDouble);
-            if(cardsList.length >2){
+            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 1 && show, isDouble);
+            if(cardsList.length >= 2){
                 this.fapai(isDouble);
             }
         }else{//没有对应index的牌堆，做拆分处理

@@ -345,19 +345,19 @@ cc.Class({
             node.getComponent("blackjack_card").init(0);
 
             let move = cc.tween()
-                    .to(1, {opacity: 255, position: endPos});
+                    .to(1, {opacity: 255, position: { value: endPos, easing: 'quintOut' }});
 
             if(isDouble){
                 move = cc.tween()
-                    .to(1, {opacity: 255, position: endPos, rotation: 90});
+                    .to(1, {opacity: 255, position: { value: endPos, easing: 'quintOut' }, rotation: 90});
             }
 
             let scale = cc.tween()
-                .to(0.2, {scaleX: 0}, { easing: 'quartIn'})
+                .to(0.2, {scaleX: 0}, { easing: 'quintIn'})
                 .call(()=>{
                     node.getComponent("blackjack_card").change(card.getCard());
                 })
-                .to(0.2, {scaleX: 1}, { easing: 'quartOut'});
+                .to(0.2, {scaleX: 1}, { easing: 'quintOut'});
 
             let end = cc.tween()
                 .call(()=>{
@@ -386,5 +386,12 @@ cc.Class({
                     .start();
             }
         }
+    },
+
+    /**
+     * 移到筹码区
+     */
+    changeChipPos(){
+
     },
 });

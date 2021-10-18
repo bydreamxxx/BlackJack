@@ -142,7 +142,7 @@ cc.Class({
                         })
 
                         let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
-                        this.splitButton.interactable = userPlayer.canSplit(data.index);
+                        this.splitButton.interactable = true;//userPlayer.canSplit(data.index);
                         this.doubleButton.interactable = userPlayer.canDouble(data.index);
                         this.betIndex = data.index;
 
@@ -386,7 +386,7 @@ cc.Class({
                 })
 
                 let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
-                this.splitButton.interactable = userPlayer.canSplit(BlackJackData.turn.index);
+                this.splitButton.interactable = true;//userPlayer.canSplit(BlackJackData.turn.index);
                 this.doubleButton.interactable = userPlayer.canDouble(BlackJackData.turn.index);
                 this.betIndex = BlackJackData.turn.index;
 
