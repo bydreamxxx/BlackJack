@@ -1,7 +1,7 @@
 const BlackJackData = require("BlackJackData").BlackJackData.Instance();
 
 const START_X = 104;
-const OFFSET_X = -92;
+const OFFSET_X = -140;
 
 const POS = [cc.v2(-37, -30), cc.v2(-65, -45), cc.v2(-65,-13), cc.v2(-80, 56), cc.v2(-117,56)];
 
@@ -21,6 +21,26 @@ cc.Class({
 
     editor:{
         menu:"BlackJack/blackjack_cardNode"
+    },
+
+    ctor(){
+        this.isRight = false;
+        this.isBanker = false;
+        this.isSelf = false;
+
+        this.cardList = [];
+        this.chipList = [];
+        this.doubleList = [];
+        this.insureList = [];
+        this.resultList = [];
+        this.resultDoubleList = [];
+
+        this.waitFaPaiPoint = 0;
+        this.index = 1;
+
+        this.green = BlackJackData.minBet;
+        this.red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.3) + BlackJackData.minBet;
+        this.blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.7) + BlackJackData.minBet;
     },
 
     createPai(list, isWaitforFapai, isDouble){
@@ -48,13 +68,17 @@ cc.Class({
                 node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
             }
 
+            // node.y = 40 * this.cardList.length;
+
             node.getComponent("blackjack_card").init(card, isWaitforFapai);
 
             this.cardList.push(node.getComponent("blackjack_card"));
 
             if(this.cardList.length == 3 && isDouble){
                 node.rotation = 90;
+                node.x += 40
                 node.y = 42;
+                // node.y = 42 + 40 * (this.cardList.length - 1);
             }
         });
 
@@ -77,61 +101,88 @@ cc.Class({
             if(card.node.active){}
             cardShowNum++;
         })
-        this.point.node.parent.active = point > 0 && cardShowNum >= 2;
+        this.point.node.parent.active = point > 0 && cardShowNum >= 1;
     },
 
-    createChip(num, isWaitForAnima, type){
+    createChip(num, isWaitForAnima, isDouble, insure, result){
         if(!this.isBanker){
-            let green = BlackJackData.minBet;
-            let red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.3) + BlackJackData.minBet;
-            let blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.7) + BlackJackData.minBet;
+            if(isDouble){
+                this.createChouma(num / 2, isWaitForAnima, 0, result);
+                this.createChouma(num / 2, isWaitForAnima, 1, result);
+            }else{
+                this.createChouma(num, isWaitForAnima, 0, result);
+            }
+            if(insure){
+                this.createChouma(insure, isWaitForAnima, 2);
+            }
+        }
+    },
 
-            let blueCount = Math.floor(num / blue);
-            let redCount = Math.floor((num - blueCount * blue) / red);
-            let greenCount = Math.floor((num - blueCount * blue - redCount * red) / green);
+    createChouma(num, isWaitForAnimam, type, isResult){
+        let blueCount = Math.floor(num / this.blue);
+        let redCount = Math.floor((num - blueCount * this.blue) / this.red);
+        let greenCount = Math.floor((num - blueCount * this.blue - redCount * this.red) / this.green);
 
-            let createChip = ()=>{
-                let node = cc.instantiate(this.chipPrefab);
-                this.chipZone.addChild(node);
+        let createChip = ()=>{
+            let node = cc.instantiate(this.chipPrefab);
+            this.chipZone.addChild(node);
 
-                if(type == 1){
-                    //result
-                    node.scaleX = 0.3;
-                    node.scaleY = 0.3;
+            if(isWaitForAnimam){
+                node.scaleX = 0.5;
+                node.scaleY = 0.5;
+            }else{
+                node.scaleX = 0.3;
+                node.scaleY = 0.3;
+            }
+
+            if(isResult){
+                if(type == 0){
                     node.x = POS[3].x;
                     node.y = POS[3].y + 1.2 * this.resultList.length;
                     this.resultList.push(node.getComponent("blackjack_chip"));
-                }else if(type == 2){
-                    //double
-                    node.scaleX = 0.3;
-                    node.scaleY = 0.3;
-                    node.x = POS[1].x;
-                    node.y = POS[1].y + 1.2 * this.doubleList.length;
-                    this.doubleList.push(node.getComponent("blackjack_chip"));
-                }else if(type == 3){
-                    //insure
-                    node.scaleX = 0.3;
-                    node.scaleY = 0.3;
-                    node.x = POS[2].x;
-                    node.y = POS[2].y + 1.2 * this.insureList.length;
-                    this.insureList.push(node.getComponent("blackjack_chip"));
                 }else {
-                    node.scaleX = 0.5;
-                    node.scaleY = 0.5;
-                    node.y = 2 * this.chipList.length;
-                    this.chipList.push(node.getComponent("blackjack_chip"));
+                    node.x = POS[4].x;
+                    node.y = POS[4].y + 1.2 * this.resultList.length;
+                    this.resultDoubleList.push(node.getComponent("blackjack_chip"));
                 }
-            }
+            }else if(type == 1){
+                //double
+                node.x = POS[1].x;
+                if(isWaitForAnimam){
+                    node.y = POS[1].y + 1.2 * this.doubleList.length - 20;
+                }else{
+                    node.y = POS[1].y + 1.2 * this.doubleList.length;
+                }
+                this.doubleList.push(node.getComponent("blackjack_chip"));
+            }else if(type == 2){
+                //insure
+                node.x = POS[2].x;
 
-            for(let i = 0; i < greenCount; i++){
-                createChip();
+                if(isWaitForAnimam) {
+                    node.y = POS[2].y + 1.2 * this.insureList.length - 20;
+                }else{
+                    node.y = POS[2].y + 1.2 * this.insureList.length;
+                }
+                this.insureList.push(node.getComponent("blackjack_chip"));
+            }else {
+                if(isWaitForAnimam){
+                    node.y = 2 * this.chipList.length;
+                }else{
+                    node.x = POS[0].x;
+                    node.y = POS[0].y + 1.2 * this.doubleList.length;
+                }
+                this.chipList.push(node.getComponent("blackjack_chip"));
             }
-            for(let i = 0; i < redCount; i++){
-                createChip();
-            }
-            for(let i = 0; i < blueCount; i++){
-                createChip();
-            }
+        }
+
+        for(let i = 0; i < greenCount; i++){
+            createChip();
+        }
+        for(let i = 0; i < redCount; i++){
+            createChip();
+        }
+        for(let i = 0; i < blueCount; i++){
+            createChip();
         }
     },
 
@@ -143,7 +194,7 @@ cc.Class({
      * @param isSelf
      */
     init(betInfo, isRight, isBanker, isSelf){
-        this.isRight = isRight;
+        // this.isRight = isRight;
         this.isBanker = isBanker;
         this.isSelf = isSelf;
 
@@ -162,6 +213,8 @@ cc.Class({
         this.resultList = [];
 
         if(this.isBanker){
+            this.index = 1;
+
             this.chipZone.active = false;
             this.chipLabel.node.parent.active = false;
 
@@ -173,7 +226,7 @@ cc.Class({
 
             this.chipLabel.node.parent.active = (betInfo.value + betInfo.insure) > 0;
 
-            this.createChip(betInfo.value + betInfo.insure, false, betInfo.type);
+            this.createChip(betInfo.value, false, betInfo.type == 1, betInfo.insure, false);
             this.createPai(betInfo.cardsList, false, betInfo.type == 1);
         }
     },
@@ -225,7 +278,7 @@ cc.Class({
         this.chipLabel.string = (data.value + data.insure).toString();
         this.chipLabel.node.parent.active = !this.isBanker && (data.value + data.insure) > 0;
 
-        this.createChip(data.value + data.insure, !this.isBanker, data.type);
+        this.createChip(data.value,false, data.type == 1, data.insure, false);
         this.updateCards(data.cardsList, false, data.type == 1);
     },
 
@@ -252,6 +305,7 @@ cc.Class({
                             this.cardList[i].setShow();
                         })
                         .start();
+                    isWaitforFapai = false;
                 }
             }else{
                 let node = cc.instantiate(this.cardPrefab);
@@ -265,6 +319,9 @@ cc.Class({
                 }else{
                     node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
                 }
+
+                // node.y = 40 * this.cardList.length;
+
                 if(this.cardList.length >= 2){
                     isWaitforFapai = true;
                 }
@@ -274,7 +331,9 @@ cc.Class({
 
                 if(this.cardList.length == 3 && isDouble){
                     node.rotation = 90;
+                    node.x += 40;
                     node.y = 42;
+                    // node.y = 42 + 40 * (this.cardList.length - 1);
                 }
             }
 
@@ -315,7 +374,7 @@ cc.Class({
                 cardShowNum++;
             }
         })
-        this.point.node.parent.active = point > 0 && cardShowNum >= 2;
+        this.point.node.parent.active = point > 0 && cardShowNum >= 1;
     },
 
     showChoose(){

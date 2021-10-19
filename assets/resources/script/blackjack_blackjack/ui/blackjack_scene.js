@@ -122,11 +122,11 @@ cc.Class({
                 break;
             case BlackJackEvent.DEAL_POKER:
                 if(data.userId === 100){
-                    this.banker.dealPoker(data.index, data.cardsList, BlackJackData.lastState === GAME_STATE.BETTING);
+                    this.banker.dealPoker(data.index, data.cardsList, BlackJackData.state === GAME_STATE.PLAYING);
                 }else{
                     let player = BlackJackData.getPlayerById(data.userId);
                     if(player){
-                        this.playerList[player.viewIdx].dealPoker(data.index, data.cardsList, BlackJackData.lastState === GAME_STATE.BETTING, data.type == 1);
+                        this.playerList[player.viewIdx].dealPoker(data.index, data.cardsList, BlackJackData.state === GAME_STATE.PLAYING, data.type == 1);
                     }
                 }
                 break;

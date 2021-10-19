@@ -59,7 +59,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     clear() {
-        cc.log(`座位号${this.viewIdx} clear`);
+        cc.error(`座位号${this.viewIdx} clear`);
         if(!this.isbanker){
             this.head.clear();
 
@@ -117,9 +117,9 @@ let blackjack_player_ui = cc.Class({
      * msg_bj_deal_poker更新手牌
      * @param index
      * @param cardsList
-     * @param isWaitForFapai
+     * @param needFapai
      */
-    dealPoker(index, cardsList, isWaitForFapai, isDouble){
+    dealPoker(index, cardsList, needFapai, isDouble){
         this.betIndex = index;
         if(this.isbanker){
             if(this.cardNodeList.length == 0){//banker未初始化
@@ -131,8 +131,8 @@ let blackjack_player_ui = cc.Class({
         }
 
         if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
-            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 1 && isWaitForFapai, isDouble);
-            if(cardsList.length >= 2){
+            this.cardNodeList[index - 1].updateCards(cardsList, true, isDouble);
+            if(cardsList.length >= 2 && needFapai){
                 this.fapai(isDouble);
             }
         }else{//没有对应index的牌堆，做拆分处理

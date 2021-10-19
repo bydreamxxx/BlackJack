@@ -80,9 +80,11 @@ cc.Class({
     showCoin(data){
         this.coin.string = data.allCoin;
         let win = parseInt(data.coin)+parseInt(data.insure);
+        cc.error(`${this.nameLabel} result ${win}`);
         this.score.string = win > 0 ? `+${win}` : win;
         this.score.node.active = true;
         cc.tween(this.score.node)
+            .show()
             .delay(1)
             .hide()
             .start()
