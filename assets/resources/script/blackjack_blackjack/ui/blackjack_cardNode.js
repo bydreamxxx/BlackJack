@@ -23,7 +23,7 @@ cc.Class({
         menu:"BlackJack/blackjack_cardNode"
     },
 
-    createPai(list, show, isDouble){
+    createPai(list, isWaitforFapai, isDouble){
         let point = 0;
         let Anum = 0;
 
@@ -48,7 +48,7 @@ cc.Class({
                 node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
             }
 
-            node.getComponent("blackjack_card").init(card, show);
+            node.getComponent("blackjack_card").init(card, isWaitforFapai);
 
             this.cardList.push(node.getComponent("blackjack_card"));
 
@@ -67,7 +67,11 @@ cc.Class({
             }
         }
 
-        this.point.string = point.toString();
+        if(!isWaitforFapai){
+            this.point.string = point.toString();
+        }else{
+            this.waitFaPaiPoint = point;
+        }
         let cardShowNum = 0;
         this.cardList.forEach(card=>{
             if(card.node.active){}
@@ -76,7 +80,7 @@ cc.Class({
         this.point.node.parent.active = point > 0 && cardShowNum >= 2;
     },
 
-    createChip(num, show, type){
+    createChip(num, isWaitForAnima, type){
         if(!this.isBanker){
             let green = BlackJackData.minBet;
             let red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.3) + BlackJackData.minBet;
@@ -137,9 +141,8 @@ cc.Class({
      * @param isRight
      * @param isBanker
      * @param isSelf
-     * @param show
      */
-    init(betInfo, isRight, isBanker, isSelf, show){
+    init(betInfo, isRight, isBanker, isSelf){
         this.isRight = isRight;
         this.isBanker = isBanker;
         this.isSelf = isSelf;
@@ -162,11 +165,7 @@ cc.Class({
             this.chipZone.active = false;
             this.chipLabel.node.parent.active = false;
 
-            if(betInfo.hasOwnProperty("cardsList")){
-                this.createPai(betInfo.cardsList, show);
-            }else{
-                this.createPai(betInfo, show);
-            }
+            this.createPai(betInfo.cardsList, false);
         }else{
             this.betInfo = betInfo;
             this.index = betInfo.index;
@@ -174,8 +173,8 @@ cc.Class({
 
             this.chipLabel.node.parent.active = (betInfo.value + betInfo.insure) > 0;
 
-            this.createChip(betInfo.value + betInfo.insure, show, betInfo.type == 1);
-            this.createPai(betInfo.cardsList, show, betInfo.type == 1);
+            this.createChip(betInfo.value + betInfo.insure, false, betInfo.type);
+            this.createPai(betInfo.cardsList, false, betInfo.type == 1);
         }
     },
 
@@ -226,16 +225,16 @@ cc.Class({
         this.chipLabel.string = (data.value + data.insure).toString();
         this.chipLabel.node.parent.active = !this.isBanker && (data.value + data.insure) > 0;
 
-        this.createChip(data.value + data.insure, !this.isBanker, data.type == 1);
-        this.updateCards(data.cardsList);
+        this.createChip(data.value + data.insure, !this.isBanker, data.type);
+        this.updateCards(data.cardsList, false, data.type == 1);
     },
 
     /**
      * 更新牌堆
      * @param cardsList
-     * @param show
+     * @param isWaitforFapai
      */
-    updateCards(cardsList, show, isDouble){
+    updateCards(cardsList, isWaitforFapai, isDouble){
         let point = 0;
         let Anum = 0;
 
@@ -267,9 +266,9 @@ cc.Class({
                     node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
                 }
                 if(this.cardList.length >= 2){
-                    show = false;
+                    isWaitforFapai = true;
                 }
-                node.getComponent("blackjack_card").init(card, show);
+                node.getComponent("blackjack_card").init(card, isWaitforFapai);
 
                 this.cardList.push(node.getComponent("blackjack_card"));
 
@@ -305,11 +304,16 @@ cc.Class({
                 point -= Anum * 10;
             }
         }
-        this.point.string = point.toString();
+        if(!isWaitforFapai){
+            this.point.string = point.toString();
+        }else{
+            this.waitFaPaiPoint = point;
+        }
         let cardShowNum = 0;
         this.cardList.forEach(card=>{
-            if(card.node.active){}
-            cardShowNum++;
+            if(card.node.active){
+                cardShowNum++;
+            }
         })
         this.point.node.parent.active = point > 0 && cardShowNum >= 2;
     },
@@ -363,6 +367,7 @@ cc.Class({
                 .call(()=>{
                     card.setShow();
                     if(index === this.cardList.length - 1){
+                        this.point.string = this.waitFaPaiPoint.toString();
                         this.point.node.parent.active = true;
                         if(isSelf){
                             cc.gateNet.Instance().startDispatch();

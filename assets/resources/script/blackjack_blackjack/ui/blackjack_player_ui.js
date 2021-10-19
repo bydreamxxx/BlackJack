@@ -107,7 +107,7 @@ let blackjack_player_ui = cc.Class({
         data.betInfosList.forEach(betInfo=>{
            let node = cc.instantiate(this.cardPrefab);
            this.cardNode.addChild(node);
-           node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
+           node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
            node.x = (betInfo.index - 1) * 180;
            this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
         });
@@ -117,22 +117,21 @@ let blackjack_player_ui = cc.Class({
      * msg_bj_deal_poker更新手牌
      * @param index
      * @param cardsList
-     * @param show
+     * @param isWaitForFapai
      */
-    updateCards(index, cardsList, show, isDouble){
+    dealPoker(index, cardsList, isWaitForFapai, isDouble){
         this.betIndex = index;
         if(this.isbanker){
             if(this.cardNodeList.length == 0){//banker未初始化
                 let node = cc.instantiate(this.cardPrefab);
                 this.cardNode.addChild(node);
                 this.cardNodeList[index - 1] = node.getComponent("blackjack_cardNode");
-                node.getComponent("blackjack_cardNode").init(cardsList, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, show);
-                return;
+                node.getComponent("blackjack_cardNode").init({cardsList:[]}, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
             }
         }
 
         if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
-            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 1 && show, isDouble);
+            this.cardNodeList[index - 1].updateCards(cardsList, cardsList.length <= 1 && isWaitForFapai, isDouble);
             if(cardsList.length >= 2){
                 this.fapai(isDouble);
             }
@@ -181,7 +180,7 @@ let blackjack_player_ui = cc.Class({
             this.cardNode.addChild(node);
             this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
             node.x = 180;
-            node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
+            node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
         }else{
             data.betInfosList.forEach(betInfo=>{
                 if(!this.cardNodeList[betInfo.index - 1]){
@@ -189,7 +188,7 @@ let blackjack_player_ui = cc.Class({
                     this.cardNode.addChild(node);
                     this.cardNodeList[betInfo.index - 1] = node.getComponent("blackjack_cardNode");
                     node.x = (betInfo.index - 1) * 180;
-                    node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0, true);
+                    node.getComponent("blackjack_cardNode").init(betInfo, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
                 }else{
                     this.cardNodeList[betInfo.index - 1].getComponent("blackjack_cardNode").updateInfo(betInfo);
                 }

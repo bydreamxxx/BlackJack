@@ -12,7 +12,7 @@ cc.Class({
         menu:"BlackJack/blackjack_card"
     },
 
-    init(card, show){
+    init(card, isWaitforFapai){
         this.card = card;
        // let bundle = cc.assetManager.getBundle("blackjack_blackjack");
        // if(bundle){
@@ -25,8 +25,8 @@ cc.Class({
        if(AppCfg.IS_DEBUG)
        cc.find("Label", this.node).getComponent(cc.Label).string = card;
 
-       if(!cc.dd._.isUndefined(show)){
-           if(show){
+       if(!cc.dd._.isUndefined(isWaitforFapai)){
+           if(!isWaitforFapai){
                this.setShow();
            }else{
                this.setHide();
