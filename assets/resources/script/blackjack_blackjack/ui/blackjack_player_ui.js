@@ -21,6 +21,9 @@ let blackjack_player_ui = cc.Class({
         head: require("blackjack_head"),
 
         fapaiNode: cc.Node,
+        bankerNode: cc.Node,
+
+        animation: cc.Animation,
 
         betIndex: 1,
     },
@@ -162,12 +165,15 @@ let blackjack_player_ui = cc.Class({
      * msg_bj_bet_ret更新下注及手牌信息
      * @param data
      */
-    updateBetInfo(data, isSplit){
+    updateBetInfo(data, type){
         if(!this.isbanker){
             this.head.changeCoin(data.score);
         }
 
-        if(isSplit){
+        if(type == 5){
+            this.animation.setCurrentTime(0, "split");
+            this.animation.play("split");
+
             cc.gateNet.Instance().dispatchTimeOut(1);
 
             let first = {
@@ -176,8 +182,7 @@ let blackjack_player_ui = cc.Class({
                 value: data.betInfosList[0].value,
                 insure: data.betInfosList[0].insure,
             }
-            this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first);
-            this.cardNodeList[0].x -= 90;
+            this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first, true);
 
             let second = {
                 cardsList:[data.betInfosList[0].cardsList[1]],
@@ -189,9 +194,17 @@ let blackjack_player_ui = cc.Class({
             let node = cc.instantiate(this.cardPrefab);
             this.cardNode.addChild(node);
             this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
-            node.x = 90;
+            node.x = 180;
             node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
         }else{
+            if(type == 4){
+                this.animation.setCurrentTime(0, "hit");
+                this.animation.play("hit");
+            }else if(type == 6){
+                this.animation.setCurrentTime(0, "stand");
+                this.animation.play("stand");
+            }
+
             data.betInfosList.forEach(betInfo=>{
                 if(!this.cardNodeList[betInfo.index - 1]){
                     let node = cc.instantiate(this.cardPrefab);
@@ -262,6 +275,21 @@ let blackjack_player_ui = cc.Class({
 
     stop_chupai_ani(){
         this.head.stop_chupai_ani();
+    },
+
+    showResult(result){
+        this.head.showCoin(result);
+        if(result.coin < 0){
+            this.cardNodeList[result.index - 1].loseChip(result.type == 1, this.bankerNode);
+        }else{
+            this.cardNodeList[result.index - 1].winChip(result.type == 1, this.head.node, result.coin);
+        }
+        //
+        // if(result.insure < 0){
+        //     this.cardNodeList[result.index - 1].loseInsure(this.bankerNode);
+        // }else{
+        //     this.cardNodeList[result.index - 1].winInsure(this.head.node);
+        // }
     }
 });
 

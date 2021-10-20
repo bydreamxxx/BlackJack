@@ -104,39 +104,47 @@ cc.Class({
         this.point.node.parent.active = point > 0 && cardShowNum >= 1;
     },
 
-    createChip(num, isWaitForAnima, isDouble, insure, result){
+    createChip(num, isWaitForAnima, isDouble, insure){
         if(!this.isBanker){
             if(isDouble){
-                this.createChouma(num / 2, isWaitForAnima, 1, result);
-                if(isWaitForAnima){
-                    for(let i = 0; i < this.doubleList.length; i++){
-                        let node = this.doubleList[i];
-                        cc.tween(node)
-                            .to(0.5, {y: POS[1].y + 1.2 * i}, { easing: 'quintIn'})
-                            .start();
+                if(this.doubleList.length == 0){
+                    this.createChouma(num / 2, isWaitForAnima, 1, false);
+                    if(isWaitForAnima){
+                        for(let i = 0; i < this.doubleList.length; i++){
+                            let node = this.doubleList[i].node;
+                            cc.tween(node)
+                                .to(0.5, {y: POS[1].y + 1.2 * i}, { easing: 'quintIn'})
+                                .start();
+                        }
                     }
                 }
+
                 if(this.chipList.length == 0){
-                    this.createChouma(num, false, 0, result);
+                    this.createChouma(num, false, 0, false);
                 }
             }else{
-                this.createChouma(num, isWaitForAnima, 0, result);
-                if(isWaitForAnima){
-                    this.chipList.forEach(chip=>{
-                        cc.tween(chip.node)
-                            .to(0.17, {scale: 0.5}, { easing: 'quintIn'})
-                            .start();
-                    })
+                if(this.chipList.length == 0) {
+                    this.createChouma(num, isWaitForAnima, 0, false);
+                    if (isWaitForAnima) {
+                        this.chipList.forEach(chip => {
+                            cc.tween(chip.node)
+                                .to(0.17, {scale: 0.5}, {easing: 'quintIn'})
+                                .start();
+                        })
+                    }
                 }
             }
+
             if(insure){
-                this.createChouma(insure, isWaitForAnima, 2);
-                if(isWaitForAnima){
-                    for(let i = 0; i < this.insureList.length; i++){
-                        let node = this.insureList[i];
-                        cc.tween(node)
-                            .to(0.5, {y: POS[2].y + 1.2 * i}, { easing: 'quintIn'})
-                            .start();
+                if(this.insureList.length == 0) {
+                    this.createChouma(insure, isWaitForAnima, 2);
+                    if (isWaitForAnima) {
+                        for (let i = 0; i < this.insureList.length; i++) {
+                            let node = this.insureList[i].node;
+                            cc.tween(node)
+                                .to(0.5, {y: POS[2].y + 1.2 * i}, {easing: 'quintIn'})
+                                .start();
+                        }
                     }
                 }
             }
@@ -157,6 +165,8 @@ cc.Class({
             node.scaleX = 0.3;
             node.scaleY = 0.3;
             if(isResult){
+                node.scaleX = 0.6;
+                node.scaleY = 0.6;
                 if(type == 0){
                     node.x = POS[3].x;
                     node.y = POS[3].y + 1.2 * this.resultList.length;
@@ -294,14 +304,14 @@ cc.Class({
      * 更新信息
      * @param data
      */
-    updateInfo(data){
+    updateInfo(data, isSplit){
         this.betInfo = data;
         this.index = data.index;
 
         this.chipLabel.string = (data.value + data.insure).toString();
         this.chipLabel.node.parent.active = !this.isBanker && (data.value + data.insure) > 0;
 
-        this.createChip(data.value,true, data.type == 1, data.insure, false);
+        this.createChip(data.value, !isSplit, data.type == 1, data.insure, false);
         this.updateCards(data.cardsList, false, data.type == 1);
     },
 
@@ -480,9 +490,112 @@ cc.Class({
      */
     changeChipPos(){
         for(let i = 0; i < this.chipList.length; i++){
-            let node = this.chipList[i];
+            let node = this.chipList[i].node;
             cc.tween(node)
                 .to(0.5, {scale: 0.3, x: POS[0].x, y: POS[0].y + 1.2 * i}, { easing: 'quintIn'})
+                .start();
+        }
+    },
+
+    loseChip(isDouble, bankerNode){
+        let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        for(let i = 0; i < this.chipList.length; i++){
+            let node = this.chipList[i].node;
+            cc.tween(node)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                .start();
+        }
+
+        if(isDouble){
+            for(let i = 0; i < this.doubleList.length; i++){
+                let node = this.doubleList[i].node;
+                cc.tween(node)
+                    .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                    .start();
+            }
+        }
+    },
+
+    winChip(isDouble, headNode, num){
+        let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        if(isDouble){
+            if(this.resultDoubleList.length == 0){
+                this.createChouma(num / 2, true, 1, true);
+                for(let i = 0; i < this.resultDoubleList.length; i++){
+                    let node = this.resultDoubleList[i].node;
+                    cc.tween(node)
+                        .to(0.17, {scale: 0.3}, {easing: 'quintIn'})
+                        .delay(0.5)
+                        .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                        .start();
+                }
+            }
+
+            if(this.resultList.length == 0){
+                this.createChouma(num / 2, true, 0, true);
+                for(let i = 0; i < this.resultList.length; i++){
+                    let node = this.resultList[i].node;
+                    cc.tween(node)
+                        .to(0.17, {scale: 0.3}, {easing: 'quintIn'})
+                        .delay(0.5)
+                        .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                        .start();
+                }
+            }
+        }else{
+            if(this.resultList.length == 0) {
+                this.createChouma(num, true, 0, true);
+                for(let i = 0; i < this.resultList.length; i++){
+                    let node = this.resultList[i].node;
+                    cc.tween(node)
+                        .to(0.17, {scale: 0.3}, {easing: 'quintIn'})
+                        .delay(0.5)
+                        .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                        .start();
+                }
+            }
+        }
+
+        for(let i = 0; i < this.chipList.length; i++){
+            let node = this.chipList[i].node;
+            cc.tween(node)
+                .delay(0.67)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                .start();
+        }
+        for(let i = 0; i < this.doubleList.length; i++){
+            let node = this.doubleList[i].node;
+            cc.tween(node)
+                .delay(0.67)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                .start();
+        }
+    },
+
+    loseInsure(bankerNode){
+        let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        for(let i = 0; i < this.insureList.length; i++){
+            let node = this.insureList[i].node;
+            cc.tween(node)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                .start();
+        }
+    },
+
+    winInsure(headNode){
+        let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        for(let i = 0; i < this.insureList.length; i++){
+            let node = this.insureList[i].node;
+            cc.tween(node)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
                 .start();
         }
     },

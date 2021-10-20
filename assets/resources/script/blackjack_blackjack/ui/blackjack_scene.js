@@ -163,7 +163,7 @@ cc.Class({
                 }
                 break;
             case BlackJackEvent.SHOW_COIN:
-                this.playerList[data.viewIdx].head.showCoin(data.result);
+                this.playerList[data.viewIdx].showResult(data.result);
                 break;
             default:
                 break;
@@ -444,9 +444,6 @@ cc.Class({
                 break;
             case GAME_STATE.PROTECTING:
                 cc.error(`保险`)
-                if(BlackJackData.hasUserPlayer){
-                    cc.gateNet.Instance().pauseDispatch();
-                }
                 BlackJackData.fapai();
                 this.playerList.forEach(player=>{
                     player.changeChipPos();
@@ -471,10 +468,6 @@ cc.Class({
 
                 if(BlackJackData.lastState === GAME_STATE.BETTING){
                     cc.error(`发牌`);
-
-                    if(BlackJackData.hasUserPlayer){
-                        cc.gateNet.Instance().pauseDispatch();
-                    }
                     BlackJackData.fapai();
                     this.playerList.forEach(player=>{
                         player.changeChipPos();

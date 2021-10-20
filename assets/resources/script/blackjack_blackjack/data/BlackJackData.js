@@ -184,6 +184,8 @@ let BlackJackData = cc.Class({
     },
 
     fapai(){
+        cc.gateNet.Instance().pauseDispatch();
+
         let length = this.fapaiList.length * 2;
         let canvas  = cc.find("Canvas").getComponent(cc.Canvas);
         let i = 0;
@@ -191,19 +193,11 @@ let BlackJackData = cc.Class({
             if(cc.isValid(this)){
                 let id = this.fapaiList[i % this.fapaiList.length];
                 if(id == 100){
-                    this.banker.fapai(()=>{
-                        if(i === length){
-                            cc.gateNet.Instance().startDispatch();
-                        }
-                    });
+                    this.banker.fapai();
                 }else{
                     let player = this.getPlayerById(id);
                     if(player){
-                        player.fapai(()=>{
-                            if(i === length){
-                                cc.gateNet.Instance().startDispatch();
-                            }
-                        });
+                        player.fapai();
                     }
                 }
                 i++;
@@ -211,8 +205,12 @@ let BlackJackData = cc.Class({
                     this.fapaiList = [];
                     cc.error(`清空发牌列表`);
                 }
+                if(i === length + 1){
+                    cc.error(`发完牌啦`)
+                    cc.gateNet.Instance().startDispatch();
+                }
             }
-        }, 1, length - 1);
+        }, 1, length);
     },
 
     /**

@@ -67,7 +67,7 @@ var handler = {
             if(player){
                 player.score = msg.showCoin;
                 player.betInfosList = msg.betList.concat();
-                BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.UPDATE_BET_INFO, [player, msg.type == 5]);
+                BlackJackPlayerED.notifyEvent(BlackJackPlayerEvent.UPDATE_BET_INFO, [player, msg.type]);
             }else {
                 cc.error(`用户不存在 ${msg.userId}`);
             }
@@ -75,6 +75,8 @@ var handler = {
         cc.dd.NetWaitUtil.net_wait_end('onClickBet');
     },
     on_msg_bj_result(msg) {
+        cc.gateNet.Instance().dispatchTimeOut(2);
+
         msg.resultsList.forEach(result=>{
             let player = BlackJackData.getPlayerById(result.userId);
             if(player){
