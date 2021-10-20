@@ -177,6 +177,7 @@ let blackjack_player_ui = cc.Class({
                 insure: data.betInfosList[0].insure,
             }
             this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first);
+            this.cardNodeList[0].x -= 90;
 
             let second = {
                 cardsList:[data.betInfosList[0].cardsList[1]],
@@ -188,7 +189,7 @@ let blackjack_player_ui = cc.Class({
             let node = cc.instantiate(this.cardPrefab);
             this.cardNode.addChild(node);
             this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
-            node.x = 180;
+            node.x = 90;
             node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
         }else{
             data.betInfosList.forEach(betInfo=>{
