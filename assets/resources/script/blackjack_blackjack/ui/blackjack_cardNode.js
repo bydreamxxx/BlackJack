@@ -38,9 +38,9 @@ cc.Class({
         this.waitFaPaiPoint = 0;
         this.index = 1;
 
-        this.green = BlackJackData.minBet;
-        this.red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.3) + BlackJackData.minBet;
-        this.blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet) * 0.7) + BlackJackData.minBet;
+        this.green = BlackJackData.minBet / 2;
+        this.red = Math.floor((BlackJackData.maxBet - BlackJackData.minBet / 2) * 0.3) + BlackJackData.minBet / 2;
+        this.blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet / 2) * 0.7) + BlackJackData.minBet / 2;
     },
 
     createPai(list, isWaitforFapai, isDouble){
@@ -107,13 +107,38 @@ cc.Class({
     createChip(num, isWaitForAnima, isDouble, insure, result){
         if(!this.isBanker){
             if(isDouble){
-                this.createChouma(num / 2, isWaitForAnima, 0, result);
                 this.createChouma(num / 2, isWaitForAnima, 1, result);
+                if(isWaitForAnima){
+                    for(let i = 0; i < this.doubleList.length; i++){
+                        let node = this.doubleList[i];
+                        cc.tween(node)
+                            .to(0.5, {y: POS[1].y + 1.2 * i}, { easing: 'quintIn'})
+                            .start();
+                    }
+                }
+                if(this.chipList.length == 0){
+                    this.createChouma(num, false, 0, result);
+                }
             }else{
                 this.createChouma(num, isWaitForAnima, 0, result);
+                if(isWaitForAnima){
+                    this.chipList.forEach(chip=>{
+                        cc.tween(chip.node)
+                            .to(0.17, {scale: 0.5}, { easing: 'quintIn'})
+                            .start();
+                    })
+                }
             }
             if(insure){
                 this.createChouma(insure, isWaitForAnima, 2);
+                if(isWaitForAnima){
+                    for(let i = 0; i < this.insureList.length; i++){
+                        let node = this.insureList[i];
+                        cc.tween(node)
+                            .to(0.5, {y: POS[2].y + 1.2 * i}, { easing: 'quintIn'})
+                            .start();
+                    }
+                }
             }
         }
     },
@@ -123,18 +148,14 @@ cc.Class({
         let redCount = Math.floor((num - blueCount * this.blue) / this.red);
         let greenCount = Math.floor((num - blueCount * this.blue - redCount * this.red) / this.green);
 
-        let createChip = ()=>{
+        let createChip = (color)=>{
             let node = cc.instantiate(this.chipPrefab);
             this.chipZone.addChild(node);
 
-            if(isWaitForAnimam){
-                node.scaleX = 0.5;
-                node.scaleY = 0.5;
-            }else{
-                node.scaleX = 0.3;
-                node.scaleY = 0.3;
-            }
+            node.getComponent("blackjack_chip").init(color);
 
+            node.scaleX = 0.3;
+            node.scaleY = 0.3;
             if(isResult){
                 if(type == 0){
                     node.x = POS[3].x;
@@ -166,23 +187,25 @@ cc.Class({
                 this.insureList.push(node.getComponent("blackjack_chip"));
             }else {
                 if(isWaitForAnimam){
+                    node.scaleX = 0.8;
+                    node.scaleY = 0.8;
                     node.y = 2 * this.chipList.length;
                 }else{
                     node.x = POS[0].x;
-                    node.y = POS[0].y + 1.2 * this.doubleList.length;
+                    node.y = POS[0].y + 1.2 * this.chipList.length;
                 }
                 this.chipList.push(node.getComponent("blackjack_chip"));
             }
         }
 
         for(let i = 0; i < greenCount; i++){
-            createChip();
+            createChip(0);
         }
         for(let i = 0; i < redCount; i++){
-            createChip();
+            createChip(1);
         }
         for(let i = 0; i < blueCount; i++){
-            createChip();
+            createChip(2);
         }
     },
 
@@ -278,7 +301,7 @@ cc.Class({
         this.chipLabel.string = (data.value + data.insure).toString();
         this.chipLabel.node.parent.active = !this.isBanker && (data.value + data.insure) > 0;
 
-        this.createChip(data.value,false, data.type == 1, data.insure, false);
+        this.createChip(data.value,true, data.type == 1, data.insure, false);
         this.updateCards(data.cardsList, false, data.type == 1);
     },
 
@@ -385,7 +408,7 @@ cc.Class({
         this.choose.active = false;
     },
 
-    fapai(startNode, isSelf, isDouble){
+    fapai(startNode, func, isDouble){
         let card = null;
         let index = 0;
         for(let i = 0; i < this.cardList.length; i++){
@@ -428,8 +451,8 @@ cc.Class({
                     if(index === this.cardList.length - 1){
                         this.point.string = this.waitFaPaiPoint.toString();
                         this.point.node.parent.active = true;
-                        if(isSelf){
-                            cc.gateNet.Instance().startDispatch();
+                        if(func){
+                            func();
                         }
                     }
                 })
@@ -456,6 +479,11 @@ cc.Class({
      * 移到筹码区
      */
     changeChipPos(){
-
+        for(let i = 0; i < this.chipList.length; i++){
+            let node = this.chipList[i];
+            cc.tween(node)
+                .to(0.5, {scale: 0.3, x: POS[0].x, y: POS[0].y + 1.2 * i}, { easing: 'quintIn'})
+                .start();
+        }
     },
 });

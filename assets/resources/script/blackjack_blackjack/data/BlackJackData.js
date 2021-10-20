@@ -191,11 +191,19 @@ let BlackJackData = cc.Class({
             if(cc.isValid(this)){
                 let id = this.fapaiList[i % this.fapaiList.length];
                 if(id == 100){
-                    this.banker.fapai();
+                    this.banker.fapai(()=>{
+                        if(i === length){
+                            cc.gateNet.Instance().startDispatch();
+                        }
+                    });
                 }else{
                     let player = this.getPlayerById(id);
                     if(player){
-                        player.fapai();
+                        player.fapai(()=>{
+                            if(i === length){
+                                cc.gateNet.Instance().startDispatch();
+                            }
+                        });
                     }
                 }
                 i++;

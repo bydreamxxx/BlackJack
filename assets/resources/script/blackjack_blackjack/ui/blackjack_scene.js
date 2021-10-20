@@ -448,6 +448,9 @@ cc.Class({
                     cc.gateNet.Instance().pauseDispatch();
                 }
                 BlackJackData.fapai();
+                this.playerList.forEach(player=>{
+                    player.changeChipPos();
+                })
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;
@@ -473,6 +476,9 @@ cc.Class({
                         cc.gateNet.Instance().pauseDispatch();
                     }
                     BlackJackData.fapai();
+                    this.playerList.forEach(player=>{
+                        player.changeChipPos();
+                    })
 
                     this.startTips.active = false;
                     this.stopTips.active = true;

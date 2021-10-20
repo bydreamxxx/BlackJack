@@ -73,9 +73,9 @@ let blackjack_player_ui = cc.Class({
         this.cardNodeList = [];
     },
 
-    fapai(isDouble){
+    fapai(isDouble, func){
         cc.log(`player UI fapai ${this.viewIdx}`);
-        this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode, this.viewIdx == 0, isDouble);
+        this.cardNodeList[this.betIndex - 1].fapai(this.fapaiNode, func, isDouble);
     },
 
     playerEnter(data) {
@@ -90,6 +90,12 @@ let blackjack_player_ui = cc.Class({
         this.cardNode.removeAllChildren();
 
         this.node.active = true;
+    },
+
+    changeChipPos(){
+        this.cardNodeList.forEach(cardNode=>{
+            cardNode.changeChipPos();
+        });
     },
 
     /**
@@ -133,7 +139,10 @@ let blackjack_player_ui = cc.Class({
         if(this.cardNodeList[index - 1]){//已经有对应index的牌堆
             this.cardNodeList[index - 1].updateCards(cardsList, true, isDouble);
             if(cardsList.length >= 2 && needFapai){
-                this.fapai(isDouble);
+                cc.gateNet.Instance().dispatchTimeOut(4);
+                this.fapai(isDouble, ()=>{
+                    cc.gateNet.Instance().clearDispatchTimeout();
+                });
             }
         }else{//没有对应index的牌堆，做拆分处理
             cc.error(`没有分牌`);
@@ -240,7 +249,7 @@ let blackjack_player_ui = cc.Class({
                 this.updateBetInfo(data, data1);
                 break;
             case BlackJackPlayerEvent.PLAYER_FAPAI:
-                this.fapai();
+                this.fapai(false, data1);
             default:
                 break;
         }

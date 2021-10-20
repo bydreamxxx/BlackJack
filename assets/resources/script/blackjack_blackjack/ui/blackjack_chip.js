@@ -18,6 +18,6 @@ cc.Class({
     },
 
     init(num){
-
+        this.icon.spriteFrame = this.frames[num];
     }
 });
