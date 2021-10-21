@@ -444,10 +444,28 @@ cc.Class({
                 break;
             case GAME_STATE.PROTECTING:
                 cc.error(`保险`)
-                BlackJackData.fapai();
-                this.playerList.forEach(player=>{
-                    player.changeChipPos();
-                })
+                if(BlackJackData.lastState === GAME_STATE.BETTING) {
+                    BlackJackData.fapai();
+                    this.playerList.forEach(player => {
+                        player.changeChipPos();
+                    })
+
+                    this.startTips.active = false;
+                    this.stopTips.active = true;
+                    this.loadTips.active = false;
+                    this.tipsNode.active = true;
+
+                    cc.tween(this.tipsNode)
+                        .show()
+                        .delay(1)
+                        .hide()
+                        .start();
+                }else{
+                    this.startTips.active = false;
+                    this.stopTips.active = false;
+                    this.loadTips.active = false;
+                    this.tipsNode.active = false;
+                }
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;
@@ -456,7 +474,6 @@ cc.Class({
                 this.insureNode.active = BlackJackData.hasUserPlayer;
                 this.actionButtonNode.active = false;
                 this.sliderNode.active = false;
-                this.tipsNode.active = false;
                 break;
             case GAME_STATE.PLAYING:
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;

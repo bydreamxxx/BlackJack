@@ -5,11 +5,11 @@ import LanguageComponent from './LanguageComponent';
 @menu("多语言/label")
 @requireComponent(cc.Label)
 export default class LanguageLabel extends LanguageComponent {
-    @property
+    @property({tooltip:"前缀(非多语言)"})
     prefix = "";
-    @property
+    @property({tooltip:"后缀(非多语言)"})
     suffix = "";
-    @property
+    @property({tooltip:"多语言文本"})
     text = "";
 
     changeLanguage() {

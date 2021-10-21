@@ -17,6 +17,10 @@ cc.Class({
 
         cardPrefab: cc.Prefab,
         chipPrefab: cc.Prefab,
+
+        resultIcon: cc.Sprite,
+        resultFrame: [cc.SpriteFrame],
+        hand: cc.Node,
     },
 
     editor:{
@@ -110,6 +114,15 @@ cc.Class({
                 if(this.doubleList.length == 0){
                     this.createChouma(num / 2, isWaitForAnima, 1, false);
                     if(isWaitForAnima){
+                        this.hand.x = POS[1].x;
+                        this.hand.y = POS[1].y - 20;
+
+                        cc.tween(this.hand)
+                            .show()
+                            .to(0.5, {y: POS[1].y}, { easing: 'quintIn'})
+                            .hide()
+                            .start();
+
                         for(let i = 0; i < this.doubleList.length; i++){
                             let node = this.doubleList[i].node;
                             cc.tween(node)
@@ -139,6 +152,15 @@ cc.Class({
                 if(this.insureList.length == 0) {
                     this.createChouma(insure, isWaitForAnima, 2);
                     if (isWaitForAnima) {
+                        this.hand.x = POS[2].x;
+                        this.hand.y = POS[2].y - 20;
+
+                        cc.tween(this.hand)
+                            .show()
+                            .to(0.5, {y: POS[2].y}, { easing: 'quintIn'})
+                            .hide()
+                            .start();
+
                         for (let i = 0; i < this.insureList.length; i++) {
                             let node = this.insureList[i].node;
                             cc.tween(node)
@@ -501,6 +523,16 @@ cc.Class({
         let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
+        this.resultIcon.spriteFrame = this.resultFrame[0];
+        this.resultIcon.node.scaleX = 1.3;
+        this.resultIcon.node.scaleY = 1.3;
+        this.resultIcon.node.active = true;
+        cc.tween(this.resultIcon.node)
+            .to(0.17, {scale: 1}, {easing: 'quintIn'})
+            .start();
+
+        this.point.node.color = cc.Color.RED;
+
         for(let i = 0; i < this.chipList.length; i++){
             let node = this.chipList[i].node;
             cc.tween(node)
@@ -521,6 +553,24 @@ cc.Class({
     winChip(isDouble, headNode, num){
         let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        if(num == 0){
+            this.resultIcon.spriteFrame = this.resultFrame[1];
+            this.point.node.color = cc.Color.WHITE;
+        }else if(parseInt(this.point.string) == 21){
+            this.resultIcon.spriteFrame = this.resultFrame[3];
+            this.point.node.color = cc.Color.GREEN;
+        }else{
+            this.resultIcon.spriteFrame = this.resultFrame[2];
+            this.point.node.color = cc.Color.GREEN;
+        }
+
+        this.resultIcon.node.scaleX = 1.3;
+        this.resultIcon.node.scaleY = 1.3;
+        this.resultIcon.node.active = true;
+        cc.tween(this.resultIcon.node)
+            .to(0.17, {scale: 1}, {easing: 'quintIn'})
+            .start();
 
         if(isDouble){
             if(this.resultDoubleList.length == 0){
@@ -583,6 +633,7 @@ cc.Class({
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
             cc.tween(node)
+                .delay(0.67)
                 .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
                 .start();
         }
@@ -595,6 +646,15 @@ cc.Class({
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
             cc.tween(node)
+                .delay(0.67)
+                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
+                .start();
+        }
+
+        for(let i = 0; i < this.chipList.length; i++){
+            let node = this.chipList[i].node;
+            cc.tween(node)
+                .delay(0.67)
                 .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
                 .start();
         }

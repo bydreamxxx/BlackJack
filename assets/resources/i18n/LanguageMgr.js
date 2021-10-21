@@ -3,7 +3,7 @@ const LanguageEvent = cc.Enum({
 });
 const LanguageEd = new cc.dd.EventDispatcher();
 
-const LanguangeConfig = require('LanguangeConfig');
+const LanguangeConfig = require('language');
 
 const LanguageMgr = cc.Class({
     statics: {
@@ -17,12 +17,9 @@ const LanguageMgr = cc.Class({
         },
     },
 
-    languageJson: null,
     kind: '',
 
     ctor() {
-        this.languageJson = LanguangeConfig;
-
         let kind = "ZH";
 
         if (cc.sys.localStorage.getItem("lanAndCountry")) {
@@ -48,8 +45,13 @@ const LanguageMgr = cc.Class({
         }
     },
     getText(text, param) {
-        if (this.languageJson && this.languageJson[text]) {
-            let str = this.languageJson[text][this.kind] || "";
+        let config = LanguangeConfig.getItem(function(item){
+            if(item.keyword == text)
+                return item;
+        });
+
+        if (config) {
+            let str = config[this.kind] || "";
             if (param && param["$param"] !== undefined) {
                 str = str.replace("$param", param["$param"].toString());
             }
