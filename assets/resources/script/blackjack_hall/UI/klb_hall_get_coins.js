@@ -263,7 +263,7 @@ let getCoin = cc.Class({
      * 关注有礼点击事件
      */
     onClikcFocus: function () {
-        cc.dd.PromptBoxUtil.show('活动暂未开放');
+        cc.dd.PromptBoxUtil.show('活动NOT YET OPEN');
         // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GUANZHU, function (ui) {
         // }.bind(this));
         // this.close();

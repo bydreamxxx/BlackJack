@@ -61,8 +61,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1920,
-      "height": 720
+      "width": 2560,
+      "height": 1080
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73,8 +73,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        640,
-        360,
+        960,
+        540,
         0,
         0,
         0,
@@ -301,7 +301,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 198.1,
-      "height": 30.24
+      "height": 35.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -313,7 +313,7 @@
       "ctor": "Float64Array",
       "array": [
         -195.638,
-        0,
+        2,
         0,
         0,
         0,
@@ -355,7 +355,7 @@
     "_string": "ONLINE PLAYER:",
     "_N$string": "ONLINE PLAYER:",
     "_fontSize": 24,
-    "_lineHeight": 24,
+    "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "e35af0e9-1e3d-42af-9908-09fa95765062"
@@ -1175,7 +1175,7 @@
         "__id__": 32
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 36
@@ -1490,7 +1490,7 @@
         "__id__": 45
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 50
@@ -2271,7 +2271,7 @@
     },
     "component": "",
     "_componentId": "cc9fcfrUz5FCqO6FrmDoOuS",
-    "handler": "onClickEnterGame",
+    "handler": "onClickKSRoom",
     "customEventData": ""
   },
   {

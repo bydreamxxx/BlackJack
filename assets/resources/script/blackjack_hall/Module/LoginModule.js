@@ -116,7 +116,7 @@ var jlmj_login_module = cc.Class({
         // if (!cc.sys.isNative) {
         //     return;
         // }
-        cc.dd.NetWaitUtil.show('登录中...');
+        cc.dd.NetWaitUtil.show('LOADING...');
 
         let encodePass = cc.dd.SysTools.encode64(password);
         let gameid = 10361;
@@ -409,7 +409,7 @@ var jlmj_login_module = cc.Class({
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
             }
             this.bindID = null;
-            cc.dd.NetWaitUtil.show('登录中...');
+            cc.dd.NetWaitUtil.show('LOADING...');
 
         } else if (this.loginType === emun.Login_Type.ACCOUNT) {
             cc.log('[游戏登录] ', '账号登录请求');
@@ -427,7 +427,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             } else if (this.account_token) {
                 let req = new cc.pb.login.yj_login_by_token_req();
                 req.setChannel(this.loginType);
@@ -449,7 +449,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         else if (this.loginType === emun.Login_Type.HUAWEI) {
@@ -479,7 +479,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         else if (this.loginType === emun.Login_Type.VIVO) {
@@ -507,7 +507,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         else if (this.loginType === emun.Login_Type.OPPO) {
@@ -533,7 +533,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         else if (this.loginType === emun.Login_Type.XIAOMI) {
@@ -560,7 +560,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         else {
@@ -586,7 +586,7 @@ var jlmj_login_module = cc.Class({
                 req.setRefreshToken(LoginData.Instance().refreshToken);
                 req.setChannel(this.loginType);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
-                cc.dd.NetWaitUtil.show('登录中...');
+                cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
         this.noNetWaitUtil = false;

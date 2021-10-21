@@ -87,7 +87,7 @@ cc.Class({
 
     clickPayType: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         return;
         switch (data) {
             case 'zfb'://支付宝
@@ -102,7 +102,7 @@ cc.Class({
                 break;
             case 'other'://其他
                 cc.log("其他支付")
-                cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+                cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
                 break;
             default:
                 break;

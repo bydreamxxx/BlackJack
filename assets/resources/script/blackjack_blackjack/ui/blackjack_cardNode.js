@@ -47,6 +47,11 @@ cc.Class({
         this.blue = Math.floor((BlackJackData.maxBet - BlackJackData.minBet / 2) * 0.7) + BlackJackData.minBet / 2;
     },
 
+    // onLoad(){
+    //     this.hand.zIndex = 3000;
+    //     this.hand.setSiblingIndex(3000);
+    // },
+
     createPai(list, isWaitforFapai, isDouble){
         let point = 0;
         let Anum = 0;
@@ -116,6 +121,8 @@ cc.Class({
                     if(isWaitForAnima){
                         this.hand.x = POS[1].x;
                         this.hand.y = POS[1].y - 20;
+                        this.hand.active = true;
+                        this.hand.zIndex = 3000;
 
                         cc.tween(this.hand)
                             .show()
@@ -148,12 +155,14 @@ cc.Class({
                 }
             }
 
-            if(insure){
+            if(insure && BlackJackData.state == 3){
                 if(this.insureList.length == 0) {
                     this.createChouma(insure, isWaitForAnima, 2);
                     if (isWaitForAnima) {
                         this.hand.x = POS[2].x;
                         this.hand.y = POS[2].y - 20;
+                        this.hand.active = true;
+                        this.hand.zIndex = 3000;
 
                         cc.tween(this.hand)
                             .show()
@@ -259,6 +268,10 @@ cc.Class({
         }else{
             this.cardZone.anchorX = 0;
             this.cardZone.x = -18.904;
+        }
+
+        if(this.isBanker){
+            this.cardZone.x = -48.512;
         }
 
         this.cardList = [];
@@ -524,10 +537,10 @@ cc.Class({
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
         this.resultIcon.spriteFrame = this.resultFrame[0];
-        this.resultIcon.node.scaleX = 1.3;
-        this.resultIcon.node.scaleY = 1.3;
-        this.resultIcon.node.active = true;
-        cc.tween(this.resultIcon.node)
+        this.resultIcon.node.parent.scaleX = 1.3;
+        this.resultIcon.node.parent.scaleY = 1.3;
+        this.resultIcon.node.parent.active = true;
+        cc.tween(this.resultIcon.node.parent)
             .to(0.17, {scale: 1}, {easing: 'quintIn'})
             .start();
 
@@ -565,10 +578,10 @@ cc.Class({
             this.point.node.color = cc.Color.GREEN;
         }
 
-        this.resultIcon.node.scaleX = 1.3;
-        this.resultIcon.node.scaleY = 1.3;
-        this.resultIcon.node.active = true;
-        cc.tween(this.resultIcon.node)
+        this.resultIcon.node.parent.scaleX = 1.3;
+        this.resultIcon.node.parent.scaleY = 1.3;
+        this.resultIcon.node.parent.active = true;
+        cc.tween(this.resultIcon.node.parent)
             .to(0.17, {scale: 1}, {easing: 'quintIn'})
             .start();
 
@@ -645,14 +658,6 @@ cc.Class({
 
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
-            cc.tween(node)
-                .delay(0.67)
-                .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})
-                .start();
-        }
-
-        for(let i = 0; i < this.chipList.length; i++){
-            let node = this.chipList[i].node;
             cc.tween(node)
                 .delay(0.67)
                 .to(0.6, {x: endPos.x, y: endPos.y + 1.2 * i, opacity: 0})

@@ -139,7 +139,7 @@ cc.Class({
     },
 
     clickTab2() {
-        //cc.dd.PromptBoxUtil.show('暂未开放,敬请期待!');
+        //cc.dd.PromptBoxUtil.show('NOT YET OPEN,敬请期待!');
         this._page_idx = 2;
         this.showDingShiSai();
     },
@@ -379,7 +379,7 @@ cc.Class({
      */
     flushScrollItemToNet: function (data) {
         if (data.infoList && data.infoList.length <= 0) {
-            cc.dd.PromptBoxUtil.show('暂未开放,敬请期待！');
+            cc.dd.PromptBoxUtil.show('NOT YET OPEN,敬请期待！');
             return;
         }
         this.infoList = data.infoList.concat();

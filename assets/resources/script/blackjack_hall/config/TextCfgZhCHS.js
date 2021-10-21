@@ -418,7 +418,7 @@ var TextCfgZhCHS = {
 	TEXT_SYSTEM_18: "当前禁止游客登录!",
 
 	// 弹窗提示
-	TEXT_POPUP_1 : "暂未开放",
+	TEXT_POPUP_1 : "NOT YET OPEN",
 	TEXT_POPUP_2 : "您确定要退出游戏吗？",
 	TEXT_POPUP_3 : "安卓有更新包，是否前往下载",
 	TEXT_POPUP_4 : "无法更新,请下载最新包!",

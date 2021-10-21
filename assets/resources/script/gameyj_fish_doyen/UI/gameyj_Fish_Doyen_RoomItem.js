@@ -62,7 +62,7 @@ cc.Class({
         let translateGameID = require("clientAction").translateGameID;
         let actionID = translateGameID(this.gameid);
         if(this.roomid == 5){
-            cc.dd.PromptBoxUtil.show('专家场暂未开放，敬请期待');
+            cc.dd.PromptBoxUtil.show('专家场NOT YET OPEN，敬请期待');
             return;
         }
         let _roomID = 0;

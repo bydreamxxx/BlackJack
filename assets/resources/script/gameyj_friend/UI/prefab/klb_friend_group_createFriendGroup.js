@@ -53,7 +53,7 @@ cc.Class({
         if(cc._useChifengUI){
             cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_SHOP);
         }else if(cc._useCardUI){
-            cc.dd.PromptBoxUtil.show('暂未开放');
+            cc.dd.PromptBoxUtil.show('NOT YET OPEN');
         }else{
             cc.dd.UIMgr.openUI(hall_prefab.KLB_SHOP_LAYER, function (ui) {
                 ui.getComponent('klb_hall_ShopLayer').gotoPage('FK');

@@ -20,7 +20,7 @@ cc.Class({
     //购买商品
     clickBuy(event, custom) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.DialogBoxUtil.show(1, '暂未开放充值，请联系客服', '确定', '', function () { }, null);
+        cc.dd.DialogBoxUtil.show(1, 'NOT YET OPEN充值，请联系客服', '确定', '', function () { }, null);
         return;
         var itemId = event.target.name;
         var goods = goodsList.find(item => { return item.id == itemId; });

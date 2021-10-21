@@ -155,7 +155,7 @@ var SceneManagerUtil = cc.Class({
         AudioManager.clearBackGroundMusicKey();
         var self = this;
         this.replaceName = sceneName;
-        dd.NetWaitUtil.smooth_show("正在切换场景");
+        dd.NetWaitUtil.smooth_show("REPLACING SCENE");
         cc.dd.ResLoader.preloadAudioList(audioList, function () {
             cc.dd.ResLoader.loadSceneStaticResList(resList, null, function () {
                 if (!_.isNull(resLoadSuccess) && !_.isUndefined(resLoadSuccess) && typeof resLoadSuccess == 'function') {
@@ -230,7 +230,7 @@ var SceneManagerUtil = cc.Class({
         AudioManager.clearBackGroundMusicKey();
         var self = this;
         this.replaceName = sceneName;
-        // dd.NetWaitUtil.smooth_show("正在切换场景");
+        // dd.NetWaitUtil.smooth_show("REPLACING SCENE");
         cc.loading_progress_max = 0.8;
         var data = loading_cfg.getItem(function (item) {
             var list = item.key.split(';');
@@ -307,7 +307,7 @@ var SceneManagerUtil = cc.Class({
      */
     // loadScene: function (sceneName, resList, audioList, endcall, resLoadSuccess) {
     //     var self = this;
-    //     dd.NetWaitUtil.smooth_show("正在切换场景");
+    //     dd.NetWaitUtil.smooth_show("REPLACING SCENE");
     //     cc.dd.ResLoader.preloadAudioList(audioList, function () {
     //         cc.dd.ResLoader.loadSceneStaticResList(resList, null, function () {
     //             if (!_.isNull(resLoadSuccess) && !_.isUndefined(resLoadSuccess) && typeof resLoadSuccess == 'function') {

@@ -318,7 +318,7 @@ let userInfo = cc.Class({
 
     // 打开商城（房卡）
     openShop: function (button, data) {
-        cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         return;
         // cc.dd.UIMgr.openUI(hall_prefab.JLMJ_SHOP_LAYER,function (ui) {
         //     var type = data || "FK";
@@ -466,14 +466,14 @@ let userInfo = cc.Class({
         //         break;
         //     case 10009:
         //     case 10004:
-        //         cc.dd.PromptBoxUtil.show('暂未开放');
+        //         cc.dd.PromptBoxUtil.show('NOT YET OPEN');
         //         break;
         //     default:
         //         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_RANK, function (prefab) {
         //         }, true);
         //         break;
         // }
-        cc.dd.PromptBoxUtil.show('暂未开放');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN');
     },
 
     /**
@@ -536,7 +536,7 @@ let userInfo = cc.Class({
             hall_audio_mgr.com_btn_click();
             cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_SHOP);
         } else if (cc._useCardUI) {
-            cc.dd.PromptBoxUtil.show('暂未开放');
+            cc.dd.PromptBoxUtil.show('NOT YET OPEN');
         } else {
             cc.dd.UIMgr.openUI(hall_prefab.KLB_SHOP_LAYER, function (ui) {
                 type = type || 'ZS'; //默认打开房卡页面

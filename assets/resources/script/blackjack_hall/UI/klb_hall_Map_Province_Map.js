@@ -70,7 +70,7 @@ cc.Class({
             return info.province_code == parseInt(data);
         });
         if (cityData.open == 0) {
-            cc.dd.PromptBoxUtil.show('该地区暂未开放，敬请期待');
+            cc.dd.PromptBoxUtil.show('该地区NOT YET OPEN，敬请期待');
             return;
         }
         var prefab = 'blackjack_hall/prefabs/klb_hall_map/' + data;

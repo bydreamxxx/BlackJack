@@ -130,7 +130,7 @@ cc.Class({
                 }
             }
         }
-        cc.dd.PromptBoxUtil.show('比赛暂未开放');
+        cc.dd.PromptBoxUtil.show('比赛NOT YET OPEN');
     },
 
     getMatchGameId(goldId) {
@@ -299,7 +299,7 @@ cc.Class({
                 //cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_WELFAREBAG);
                 break;
             case 'RANK'://排行榜
-                cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+                cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
                 break;
             case 'MORE'://更多
                 this.moreNode.active = true;
@@ -393,7 +393,7 @@ cc.Class({
         })
         hall_audio_mgr.com_btn_click();
         if (createGameInfo && createGameInfo.isopen == 0) {
-            cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+            cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
             return;
         }
         switch (data) {
@@ -424,7 +424,7 @@ cc.Class({
      */
     clickClub: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        // cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        // cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         // cc.dd.SceneManager.replaceScene('club_new');
         cc.dd.SceneManager.replaceScene('klb_friend_group_scene');
     },

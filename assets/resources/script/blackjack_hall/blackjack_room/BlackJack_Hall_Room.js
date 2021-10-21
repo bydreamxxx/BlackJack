@@ -5,6 +5,7 @@ var klb_game_list_config = require('klb_gameList');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var HallCommonData = require("hall_common_data").HallCommonData;
 var Define = require("Define");
+var HallPropData = require('hall_prop_data').HallPropData.getInstance();
 
 cc.Class({
     extends: cc.Component,
@@ -88,7 +89,7 @@ cc.Class({
      * @param data
      */
     roomBtnCallBack: function (event, data) {
-        cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         return;
         // var gameid = this.game_id;
         // var game = klb_game_list_config.getItem(function (item) {
@@ -99,7 +100,7 @@ cc.Class({
         // })
         // hall_audio_mgr.com_btn_click();
         // if (createGameInfo && createGameInfo.isopen == 0) {
-        //     cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        //     cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         //     return;
         // }
         // switch (data) {
@@ -154,9 +155,28 @@ cc.Class({
     },
 
     /**
-     * 点击进入游戏
+     * 点击快速开始游戏
      */
-    onClickEnterGame: function(){
-        this.selectItem.onClickEnterGame()
+     onClickKSRoom: function(){
+        var coin = HallPropData.getCoin();
+        var entermin = 0;
+        for (var i = this.itemList.length - 1; i >= 0; --i) {
+            var item_node = this.itemList[i];
+            var item = item_node.getComponent('BlackJack_Hall_RoomItem');
+            if (i == 0) entermin = item.roomItem.entermin;
+            if ((coin >= item.roomItem.entermin && coin <= item.roomItem.entermax)) {
+                item.onClickEnterGame();
+                return;
+            } else if (item.roomItem.entermax == 0 && coin >= item.roomItem.entermin) {
+                item.onClickEnterGame();
+                return;
+            }
+        }
+        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_JIUJI, function (ui) {
+            var jiuji = ui.getComponent('klb_hall_jiuji');
+            if (jiuji != null) {
+                jiuji.update_buy_list(entermin);
+            }
+        });
     },
 });

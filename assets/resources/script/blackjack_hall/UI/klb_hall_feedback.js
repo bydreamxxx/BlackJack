@@ -20,11 +20,11 @@ cc.Class({
     },
 
     onClickPhoto: function (event, data) {
-        cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
     },
 
     onClickSubmit: function (event, data) {
-        //cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        //cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
         if (this.opnitionContent.string.length < 8) {
             cc.dd.PromptBoxUtil.show('建议最少输入8个字符');
             return;

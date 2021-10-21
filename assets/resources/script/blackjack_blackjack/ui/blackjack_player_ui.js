@@ -206,6 +206,10 @@ let blackjack_player_ui = cc.Class({
             }
 
             data.betInfosList.forEach(betInfo=>{
+                if(type == 3 && betInfo.insure == 0 && betInfo.value != 0){
+                    betInfo.insure = betInfo.value / 2;
+                }
+
                 if(!this.cardNodeList[betInfo.index - 1]){
                     let node = cc.instantiate(this.cardPrefab);
                     this.cardNode.addChild(node);
@@ -279,17 +283,23 @@ let blackjack_player_ui = cc.Class({
 
     showResult(result){
         this.head.showCoin(result);
-        if(result.coin < 0){
+        if(result.coin + result.insure < 0){
             this.cardNodeList[result.index - 1].loseChip(result.type == 1, this.bankerNode);
         }else{
-            this.cardNodeList[result.index - 1].winChip(result.type == 1, this.head.node, result.coin);
+            this.cardNodeList[result.index - 1].winChip(result.type == 1, this.head.node, result.coin + result.insure);
         }
-        //
-        // if(result.insure < 0){
-        //     this.cardNodeList[result.index - 1].loseInsure(this.bankerNode);
-        // }else{
-        //     this.cardNodeList[result.index - 1].winInsure(this.head.node);
-        // }
+    },
+
+    loseInsure(){
+        this.cardNodeList.forEach(cardNode=>{
+            cardNode.loseInsure(this.bankerNode);
+        })
+    },
+
+    winInsure(){
+        this.cardNodeList.forEach(cardNode=>{
+            cardNode.winInsure(this.head.node);
+        })
     }
 });
 

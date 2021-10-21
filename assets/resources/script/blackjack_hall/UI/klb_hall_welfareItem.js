@@ -138,7 +138,7 @@ cc.Class({
                 break;
             case 2:
                 //每日抽奖
-                //cc.dd.PromptBoxUtil.show( '功能暂未开放!' );
+                //cc.dd.PromptBoxUtil.show( '功能NOT YET OPEN!' );
                 cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_DAILY_LOTTERY_CHOOSE);
                 break;
             case 3:
@@ -174,7 +174,7 @@ cc.Class({
                 break;
             case 6:
                 //任务
-                // cc.dd.PromptBoxUtil.show( '功能暂未开放!' );
+                // cc.dd.PromptBoxUtil.show( '功能NOT YET OPEN!' );
                 cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_TASK, function (ui) {
                     var task_ui = ui.getComponent('jlmj_hall_taskUI');
                     if (task_ui == null) {

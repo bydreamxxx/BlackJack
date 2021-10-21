@@ -1,5 +1,6 @@
 var chat_duanyu_item = require('chat_duanyu_item');
 var QuickMusicPath =require('jlmj_ChatCfg').QuickMusicPath;
+var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
 cc.Class({
     extends: cc.Component,
@@ -32,6 +33,13 @@ cc.Class({
         menu:"BlackJack/blackjack_head"
     },
 
+    onLoad(){
+        this.duanyu_node.active = false;
+        this.duanyu_arrow.active = false;
+        this.biaoqing.node.active = false;
+        // this.yuyin_laba.node.active = false;
+    },
+
     init(data){
         this.playerData = data;
 
@@ -43,7 +51,12 @@ cc.Class({
     },
 
     onClickHead(){
+        hall_audio_mgr.com_btn_click();
 
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/user_info", function (node) {
+            let ui = node.getComponent('user_info_view');
+            ui.updateUI(this.playerData);
+        }.bind(this));
     },
 
     clear(){

@@ -180,7 +180,7 @@ cc.Class({
     },
     //兑换话费
     onExchangeBill: function () {
-        cc.dd.PromptBoxUtil.show('暂未开放，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
     },
 
     onExchangeGold: function (event, data) {

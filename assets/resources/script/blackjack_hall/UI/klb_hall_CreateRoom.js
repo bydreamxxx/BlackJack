@@ -365,7 +365,7 @@ cc.Class({
             case 10004:
             case 10009:
                 event.isChecked = false;
-                cc.dd.PromptBoxUtil.show('暂未开放');
+                cc.dd.PromptBoxUtil.show('NOT YET OPEN');
                 break;
             default:
                 this.onCloseCreateRoomUI();

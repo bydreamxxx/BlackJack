@@ -35,7 +35,7 @@ cc.Class({
     },
 
     clickPlayAgan: function(){
-        cc.dd.PromptBoxUtil.show( '暂未开放，敬请期待' );
+        cc.dd.PromptBoxUtil.show( 'NOT YET OPEN，敬请期待' );
     },
 
     /**

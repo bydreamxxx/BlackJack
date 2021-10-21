@@ -216,7 +216,7 @@ cc.Class({
                     'msg_rank_req', 'no');
                 break;
         }
-        //cc.dd.PromptBoxUtil.show('暂未开放');
+        //cc.dd.PromptBoxUtil.show('NOT YET OPEN');
     },
 
     closeBtn: function (event, data) {

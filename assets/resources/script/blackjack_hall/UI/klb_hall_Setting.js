@@ -258,7 +258,7 @@ cc.Class({
                 break;
             case 'FEEDBACK'://反馈
                 if (cc._useCardUI) {
-                    cc.dd.PromptBoxUtil.show('暂未开放');
+                    cc.dd.PromptBoxUtil.show('NOT YET OPEN');
                 } else {
                     cc.dd.UIMgr.openUI(hall_prefab.FEEDBACK);
                 }

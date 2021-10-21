@@ -5,6 +5,8 @@ var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 
+var hall_audio_mgr = require('hall_audio_mgr').Instance();
+
 var GAME_STATE = cc.Enum({
     WAITING:1,//等待玩家状态
     BETTING:2,//初次下注阶段
@@ -142,7 +144,7 @@ cc.Class({
                         })
 
                         let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
-                        this.splitButton.interactable = true;//userPlayer.canSplit(data.index);
+                        this.splitButton.interactable = userPlayer.canSplit(data.index);
                         this.doubleButton.interactable = userPlayer.canDouble(data.index);
                         this.betIndex = data.index;
 
@@ -171,6 +173,8 @@ cc.Class({
     },
 
     onClickMinBet(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
         msg.setIndex(this.betIndex);
@@ -180,6 +184,8 @@ cc.Class({
     },
 
     onClickMaxBet(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
         msg.setIndex(this.betIndex);
@@ -189,6 +195,8 @@ cc.Class({
     },
 
     onClickBet(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
         msg.setIndex(this.betIndex);
@@ -198,14 +206,20 @@ cc.Class({
     },
 
     onClickShowSlider(){
+        hall_audio_mgr.com_btn_click();
+
         this.sliderNode.active = true;
     },
 
     onClickCloseSlider(){
+        hall_audio_mgr.com_btn_click();
+
         this.sliderNode.active = true;
     },
 
     onClickRepeatBet(event, data){
+        hall_audio_mgr.com_btn_click();
+
         if(BlackJackData.lastBet > 0){
             let msg = new cc.pb.blackjack.msg_bj_bet_req();
             msg.setType(1);
@@ -233,6 +247,8 @@ cc.Class({
     },
 
     onClickInsure(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(3);
         msg.setIndex(this.betIndex);
@@ -241,6 +257,8 @@ cc.Class({
     },
 
     onClickCancel(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(7);
         msg.setIndex(this.betIndex);
@@ -249,6 +267,8 @@ cc.Class({
     },
 
     onClickSplit(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(5);
         msg.setIndex(this.betIndex);
@@ -257,6 +277,8 @@ cc.Class({
     },
 
     onClickDouble(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(2);
         msg.setIndex(this.betIndex);
@@ -265,6 +287,8 @@ cc.Class({
     },
 
     onClickHit(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(4);
         msg.setIndex(this.betIndex);
@@ -273,6 +297,8 @@ cc.Class({
     },
 
     onClickStand(event, data){
+        hall_audio_mgr.com_btn_click();
+
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(6);
         msg.setIndex(this.betIndex);
@@ -281,18 +307,25 @@ cc.Class({
     },
 
     onClickMore(event, data){
+        hall_audio_mgr.com_btn_click();
 
     },
 
     onClickRule(event, data){
+        hall_audio_mgr.com_btn_click();
 
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/blackjack_rule");
     },
 
     onClickSetting(event, data){
+        hall_audio_mgr.com_btn_click();
 
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/blackjack_setting");
     },
 
     onClickExit(event, data){
+        hall_audio_mgr.com_btn_click();
+
         var msg = new cc.pb.room_mgr.msg_leave_game_req();
         var gameInfoPB = new cc.pb.room_mgr.common_game_header();
         gameInfoPB.setGameType(RoomMgr.Instance().gameId);
@@ -302,6 +335,8 @@ cc.Class({
     },
 
     onClickStandUp(event, data){
+        hall_audio_mgr.com_btn_click();
+
         var msg = new cc.pb.room_mgr.msg_stand_game_req();
         var gameInfoPB = new cc.pb.room_mgr.common_game_header();
         gameInfoPB.setGameType(RoomMgr.Instance().gameId);
@@ -311,6 +346,8 @@ cc.Class({
     },
 
     onClickSitDown(event, data){
+        hall_audio_mgr.com_btn_click();
+
         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
         msg.setGameType(RoomMgr.Instance().gameId);
         msg.setRoomId(BlackJackData.roomConfigId);
@@ -318,10 +355,12 @@ cc.Class({
     },
 
     onClickChat(event, data){
+        hall_audio_mgr.com_btn_click();
 
     },
 
     onClickEmoj(event, data){
+        hall_audio_mgr.com_btn_click();
 
     },
 
@@ -386,7 +425,7 @@ cc.Class({
                 })
 
                 let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
-                this.splitButton.interactable = true;//userPlayer.canSplit(BlackJackData.turn.index);
+                this.splitButton.interactable = userPlayer.canSplit(BlackJackData.turn.index);
                 this.doubleButton.interactable = userPlayer.canDouble(BlackJackData.turn.index);
                 this.betIndex = BlackJackData.turn.index;
 
@@ -481,6 +520,9 @@ cc.Class({
 
                 if(BlackJackData.lastState === GAME_STATE.PROTECTING){
                     cc.error(`收走保险`);
+                    this.playerList.forEach(player=>{
+                        player.loseInsure();
+                    });
                 }
 
                 if(BlackJackData.lastState === GAME_STATE.BETTING){
@@ -513,6 +555,13 @@ cc.Class({
                 break;
             case GAME_STATE.RESULTING:
                 cc.error(`结算`)
+                if(BlackJackData.lastState === GAME_STATE.PROTECTING){
+                    cc.error(`收走保险`);
+                    this.playerList.forEach(player=>{
+                        player.winInsure();
+                    });
+                }
+
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;
 

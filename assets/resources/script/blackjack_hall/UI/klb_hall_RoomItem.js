@@ -98,7 +98,7 @@ cc.Class({
     onClickRoom: function (isQuick) {
         if (this.gameid == 51 || this.gameid == 135 || this.gameid == 41) {
             if (this.roomid == 4) {
-                cc.dd.PromptBoxUtil.show('暂未开放');
+                cc.dd.PromptBoxUtil.show('NOT YET OPEN');
                 return;
             }
         }
