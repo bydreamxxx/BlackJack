@@ -59,9 +59,9 @@ var handler = {
                         BlackJackData.lastBet = msg.betList[0].value;
                     }
                 }
-            }else{
-                BlackJackED.notifyEvent(BlackJackEvent.RESET_CD, msg.userId);
             }
+
+            BlackJackED.notifyEvent(BlackJackEvent.RESET_CD, msg.userId);
 
             let player = BlackJackData.getPlayerById(msg.userId);
             if(player){

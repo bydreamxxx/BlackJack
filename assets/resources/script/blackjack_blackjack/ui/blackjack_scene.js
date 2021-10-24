@@ -117,7 +117,7 @@ cc.Class({
                 this.playerList[0].stop_chupai_ani();
                 break;
             case BlackJackEvent.RESET_CD:
-                let player = BlackJackData.getPlayerById(data.userId);
+                let player = BlackJackData.getPlayerById(data);
                 if(player) {
                     this.playerList[player.viewIdx].play_chupai_ani();
 
