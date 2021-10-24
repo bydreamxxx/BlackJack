@@ -27,6 +27,7 @@ cc.Class({
         standNode: cc.Node,
 
         CDTime: 10,
+        viewIdx: 0,
     },
 
     editor:{
@@ -43,7 +44,7 @@ cc.Class({
     init(data){
         this.playerData = data;
 
-        this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 14);
+        this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 12);
         this.coin.string = data.score;
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
@@ -338,5 +339,21 @@ cc.Class({
             x = -Height * Math.tan(Math.PI * 2 - ang);
         }
         return cc.v2(x, y);
+    },
+
+    play_banker_duanyu: function (text, time) {
+        this.duanyu_node.active = true;
+        this.duanyu_arrow.active = true;
+        this.duanyu_label.string = text;
+
+        cc.Tween.stopAllByTarget(this.duanyu_node);
+
+        cc.tween(this.duanyu_node)
+            .delay(time)
+            .call(()=>{
+                this.duanyu_node.active = false;
+                this.duanyu_arrow.active = false;
+            })
+            .start()
     },
 });

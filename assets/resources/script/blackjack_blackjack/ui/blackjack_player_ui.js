@@ -300,6 +300,16 @@ let blackjack_player_ui = cc.Class({
         this.cardNodeList.forEach(cardNode=>{
             cardNode.winInsure(this.head.node);
         })
+    },
+
+    isBJ(){
+        for(let i = 0; i < this.cardNodeList.length; i++){
+            if(this.cardNodeList[i].isBJ()){
+                return true;
+            }
+        }
+
+        return false;
     }
 });
 

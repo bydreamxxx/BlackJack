@@ -120,6 +120,11 @@ cc.Class({
                 let player = BlackJackData.getPlayerById(data.userId);
                 if(player) {
                     this.playerList[player.viewIdx].play_chupai_ani();
+
+                    if(player.viewId == 0){
+                        this.splitButton.interactable = userPlayer.canSplit(this.betIndex);
+                        this.doubleButton.interactable = player.canDouble(this.betIndex);
+                    }
                 }
                 break;
             case BlackJackEvent.DEAL_POKER:
@@ -166,6 +171,19 @@ cc.Class({
                 break;
             case BlackJackEvent.SHOW_COIN:
                 this.playerList[data.viewIdx].showResult(data.result);
+
+                let hasBJ = false;
+                for(let i = 0; i < this.playerList.length; i++){
+                    if(this.playerList[i].isBJ()){
+                        hasBJ = true;
+                        break;
+                    }
+                }
+
+                if(hasBJ){
+                    this.banker.head.play_banker_duanyu("Congratulations on the blackjack", 3);
+
+                }
                 break;
             default:
                 break;
@@ -475,6 +493,11 @@ cc.Class({
                     .start();
 
                 this.betIndex = 1;
+
+                if(BlackJackData.hasUserPlayer){
+                    this.banker.head.play_banker_duanyu("PLACE YOUR BETS", 3);
+                }
+
                 this.betButtonNode.active = BlackJackData.hasUserPlayer;
                 this.repeateButton.interactable = BlackJackData.hasUserPlayer && BlackJackData.lastBet > 0;
                 this.insureNode.active = false;
@@ -485,6 +508,9 @@ cc.Class({
                 cc.error(`保险`)
                 if(BlackJackData.lastState === GAME_STATE.BETTING) {
                     BlackJackData.fapai();
+
+                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
+
                     this.playerList.forEach(player => {
                         player.changeChipPos();
                     })
@@ -510,7 +536,14 @@ cc.Class({
                 this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 this.betButtonNode.active = false;
-                this.insureNode.active = BlackJackData.hasUserPlayer;
+
+                cc.tween(this.node)
+                    .delay(BlackJackData.fapaiList.length * 2 * 1.4)
+                    .call(()=>{
+                        this.insureNode.active = BlackJackData.hasUserPlayer;
+                    })
+                    .start();
+
                 this.actionButtonNode.active = false;
                 this.sliderNode.active = false;
                 break;
@@ -528,6 +561,9 @@ cc.Class({
                 if(BlackJackData.lastState === GAME_STATE.BETTING){
                     cc.error(`发牌`);
                     BlackJackData.fapai();
+
+                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
+
                     this.playerList.forEach(player=>{
                         player.changeChipPos();
                     })
@@ -561,6 +597,9 @@ cc.Class({
                         player.winInsure();
                     });
                 }
+
+                this.banker.head.play_banker_duanyu("Dealer bust!", 3);
+
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;

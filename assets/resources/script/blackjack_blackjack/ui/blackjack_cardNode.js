@@ -264,14 +264,31 @@ cc.Class({
 
         if(this.isRight){
             this.cardZone.anchorX = 1;
-            this.cardZone.x = 73.507;
+            this.cardZone.x = 37.982;
         }else{
             this.cardZone.anchorX = 0;
-            this.cardZone.x = -18.904;
+            this.cardZone.x = -37.982;
         }
 
         if(this.isBanker){
             this.cardZone.x = -48.512;
+            this.cardZone.y = 41.48;
+            this.cardZone.scaleX = 0.399;
+            this.cardZone.scaleY = 0.399;
+        }
+
+        if(this.isSelf){
+            this.point.node.parent.y = 147.064;
+            this.chipLabel.node.parent.y = -15.131;
+            this.choose.y =  -15.131;
+            this.cardZone.scaleX = 0.399;
+            this.cardZone.scaleY = 0.399;
+
+            POS[0] = cc.v2(-37, -43.327);
+            POS[1] = cc.v2(-65, -58.327);
+            POS[2] = cc.v2(-65,-26.327);
+            POS[3] = cc.v2(-80, 75.991);
+            POS[4] = cc.v2(-117,75.991);
         }
 
         this.cardList = [];
@@ -570,7 +587,7 @@ cc.Class({
         if(num == 0){
             this.resultIcon.spriteFrame = this.resultFrame[1];
             this.point.node.color = cc.Color.WHITE;
-        }else if(parseInt(this.point.string) == 21){
+        }else if(this.isBJ()){
             this.resultIcon.spriteFrame = this.resultFrame[3];
             this.point.node.color = cc.Color.GREEN;
         }else{
@@ -664,4 +681,8 @@ cc.Class({
                 .start();
         }
     },
+
+    isBJ(){
+        return parseInt(this.point.string) == 21;
+    }
 });
