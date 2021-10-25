@@ -10,7 +10,7 @@
   "includeAnySDK": false,
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
-  "inlineSpriteFrames_native": true,
+  "inlineSpriteFrames_native": false,
   "jailbreakPlatform": false,
   "md5Cache": true,
   "mergeStartScene": false,
@@ -19,14 +19,14 @@
   "orientation": {
     "landscapeLeft": true,
     "landscapeRight": true,
-    "portrait": true,
-    "upsideDown": true
+    "portrait": false,
+    "upsideDown": false
   },
   "packageName": "com.yjhy.jlmj",
   "privateKey": "",
   "renderMode": "0",
   "startScene": "8719247d-9a91-4249-a3d5-562cad802f11",
-  "title": "gameyj",
+  "title": "blackjack",
   "webOrientation": "landscape",
   "wechatgame": {
     "appid": "wx6ac3f5090a6b99c5",
@@ -39,7 +39,7 @@
   "nativeMd5Cache": true,
   "fb-instant-games": {},
   "android": {
-    "packageName": "org.cocos2d.demo",
+    "packageName": "com.anglegame.blackjack",
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
