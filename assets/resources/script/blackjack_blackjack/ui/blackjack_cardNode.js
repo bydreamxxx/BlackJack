@@ -124,6 +124,8 @@ cc.Class({
                         this.hand.active = true;
                         this.hand.zIndex = 3000;
 
+                        AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
+
                         cc.tween(this.hand)
                             .show()
                             .to(0.5, {y: POS[1].y}, { easing: 'quintIn'})
@@ -163,6 +165,8 @@ cc.Class({
                         this.hand.y = POS[2].y - 20;
                         this.hand.active = true;
                         this.hand.zIndex = 3000;
+
+                        AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
 
                         cc.tween(this.hand)
                             .show()
@@ -503,6 +507,8 @@ cc.Class({
             let scale = cc.tween()
                 .to(0.2, {scaleX: 0}, { easing: 'quintIn'})
                 .call(()=>{
+                    AudioManager.playSound("blackjack_blackjack/audio/card_flip");
+
                     node.getComponent("blackjack_card").change(card.getCard());
                 })
                 .to(0.2, {scaleX: 1}, { easing: 'quintOut'});
@@ -520,6 +526,8 @@ cc.Class({
                 })
                 .hide()
                 .removeSelf();
+
+            AudioManager.playSound("blackjack_blackjack/audio/card_deal");
 
             if(card.getCard() == node.getComponent("blackjack_card").getCard()){
                 cc.tween(node)
@@ -553,6 +561,8 @@ cc.Class({
         let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
+        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+
         this.resultIcon.spriteFrame = this.resultFrame[0];
         this.resultIcon.node.parent.scaleX = 1.3;
         this.resultIcon.node.parent.scaleY = 1.3;
@@ -584,12 +594,16 @@ cc.Class({
         let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
+        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+
         if(num == 0){
             this.resultIcon.spriteFrame = this.resultFrame[1];
             this.point.node.color = cc.Color.WHITE;
         }else if(this.isBJ()){
             this.resultIcon.spriteFrame = this.resultFrame[3];
             this.point.node.color = cc.Color.GREEN;
+
+            AudioManager.playSound("blackjack_blackjack/audio/blackjack_sound");
         }else{
             this.resultIcon.spriteFrame = this.resultFrame[2];
             this.point.node.color = cc.Color.GREEN;
@@ -660,6 +674,8 @@ cc.Class({
         let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
+        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
             cc.tween(node)
@@ -672,6 +688,8 @@ cc.Class({
     winInsure(headNode){
         let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
+
+        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
 
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;

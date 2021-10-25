@@ -20,4 +20,12 @@ export default class LanguageLabel extends LanguageComponent {
             cc.log(`${this.node.name}挂载的节点没有label组件！`);
         }
     }
+
+    setText(text, prefix, suffix){
+        this.text = text ? text : "";
+        this.prefix = prefix ? prefix : "";
+        this.suffix = suffix ? suffix : "";
+
+        this.changeLanguage();
+    }
 }

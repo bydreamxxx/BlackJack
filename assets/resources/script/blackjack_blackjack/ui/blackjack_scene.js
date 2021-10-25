@@ -38,8 +38,8 @@ cc.Class({
 
         minBetLabel: cc.Label,
         maxBetLabel: cc.Label,
-        minBetButtonLabel: cc.Label,
-        maxBetButtonLabel: cc.Label,
+        minBetButtonLabel: require("LanguageLabel"),
+        maxBetButtonLabel: require("LanguageLabel"),
 
         cardPrefab: cc.Prefab,
 
@@ -59,8 +59,8 @@ cc.Class({
         this.remindCardLabel.string = "";
         this.minBetLabel.string = "";
         this.maxBetLabel.string = "";
-        this.minBetButtonLabel.string = "MinBet";
-        this.maxBetButtonLabel.string = "MaxBet";
+        this.minBetButtonLabel.setText("MinBet");
+        this.maxBetButtonLabel.setText("MaxBet");
 
         this.sitBtn.active = false;
         this.standBtn.active = false;
@@ -119,7 +119,14 @@ cc.Class({
             case BlackJackEvent.RESET_CD:
                 let player = BlackJackData.getPlayerById(data);
                 if(player) {
-                    this.playerList[player.viewIdx].play_chupai_ani();
+                    if(BlackJackData.state === GAME_STATE.BETTING){
+                        if(player.viewIdx == 0){
+                            this.playerList[player.viewIdx].play_chupai_ani();
+                        }
+                    }else{
+                        this.playerList[player.viewIdx].play_chupai_ani();
+                    }
+
 
                     if(player.viewId == 0){
                         this.splitButton.interactable = userPlayer.canSplit(this.betIndex);
@@ -191,7 +198,7 @@ cc.Class({
     },
 
     onClickMinBet(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/chip_button_click");
 
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
@@ -202,7 +209,7 @@ cc.Class({
     },
 
     onClickMaxBet(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/chip_button_click");
 
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
@@ -213,7 +220,7 @@ cc.Class({
     },
 
     onClickBet(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/chip_button_click");
 
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(1);
@@ -236,7 +243,7 @@ cc.Class({
     },
 
     onClickRepeatBet(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/chip_button_click");
 
         if(BlackJackData.lastBet > 0){
             let msg = new cc.pb.blackjack.msg_bj_bet_req();
@@ -265,7 +272,7 @@ cc.Class({
     },
 
     onClickInsure(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/insurance_confirm");
 
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(3);
@@ -275,7 +282,7 @@ cc.Class({
     },
 
     onClickCancel(event, data){
-        hall_audio_mgr.com_btn_click();
+        AudioManager.playSound("blackjack_blackjack/audio/insurance_decline");
 
         let msg = new cc.pb.blackjack.msg_bj_bet_req();
         msg.setType(7);
@@ -409,8 +416,8 @@ cc.Class({
     updateUI(){
         this.minBetLabel.string = BlackJackData.minBet;
         this.maxBetLabel.string = BlackJackData.maxBet;
-        this.minBetButtonLabel.string = `MinBet: ${BlackJackData.minBet}`;
-        this.maxBetButtonLabel.string = `MaxBet: ${BlackJackData.maxBet}`;
+        this.minBetButtonLabel.setText("MinBet","", `: ${BlackJackData.minBet}`);
+        this.maxBetButtonLabel.setText("MaxBet","", `: ${BlackJackData.maxBet}`);
         this.betLabel.string = BlackJackData.minBet;
 
         this.bet = BlackJackData.minBet;

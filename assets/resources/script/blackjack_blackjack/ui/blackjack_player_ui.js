@@ -173,6 +173,7 @@ let blackjack_player_ui = cc.Class({
         if(type == 5){
             this.animation.setCurrentTime(0, "split");
             this.animation.play("split");
+            AudioManager.playSound("blackjack_blackjack/audio/split_sound");
 
             cc.gateNet.Instance().dispatchTimeOut(1);
 
@@ -200,9 +201,13 @@ let blackjack_player_ui = cc.Class({
             if(type == 4){
                 this.animation.setCurrentTime(0, "hit");
                 this.animation.play("hit");
+                AudioManager.playSound("blackjack_blackjack/audio/hit_sound");
             }else if(type == 6){
                 this.animation.setCurrentTime(0, "stand");
                 this.animation.play("stand");
+                AudioManager.playSound("blackjack_blackjack/audio/stand_sound");
+            }else if(type == 2){
+                AudioManager.playSound("blackjack_blackjack/audio/double_sound");
             }
 
             data.betInfosList.forEach(betInfo=>{
@@ -284,8 +289,14 @@ let blackjack_player_ui = cc.Class({
     showResult(result){
         this.head.showCoin(result);
         if(result.coin + result.insure < 0){
+            if(this.viewIdx == 0){
+                AudioManager.playSound("blackjack_blackjack/audio/lose_sound");
+            }
             this.cardNodeList[result.index - 1].loseChip(result.type == 1, this.bankerNode);
         }else{
+            if(this.viewIdx == 0){
+                AudioManager.playSound("blackjack_blackjack/audio/win_sound");
+            }
             this.cardNodeList[result.index - 1].winChip(result.type == 1, this.head.node, result.coin + result.insure);
         }
     },
