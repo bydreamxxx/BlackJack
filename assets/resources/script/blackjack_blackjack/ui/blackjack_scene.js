@@ -381,12 +381,12 @@ cc.Class({
 
     onClickChat(event, data){
         hall_audio_mgr.com_btn_click();
-
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/chat");
     },
 
     onClickEmoj(event, data){
         hall_audio_mgr.com_btn_click();
-
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/biaoqing");
     },
 
     playerJoin(data){

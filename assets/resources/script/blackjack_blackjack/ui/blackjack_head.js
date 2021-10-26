@@ -2,6 +2,9 @@ var chat_duanyu_item = require('chat_duanyu_item');
 var QuickMusicPath =require('jlmj_ChatCfg').QuickMusicPath;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
+let ChatEd = require('jlmj_chat_data').ChatEd;
+let ChatEvent = require('jlmj_chat_data').ChatEvent;
+
 cc.Class({
     extends: cc.Component,
 
@@ -39,6 +42,14 @@ cc.Class({
         this.duanyu_arrow.active = false;
         this.biaoqing.node.active = false;
         // this.yuyin_laba.node.active = false;
+
+        ChatEd.addObserver(this);
+        cc.dd.native_gvoice_ed.addObserver(this);
+    },
+
+    onDestroy(){
+        ChatEd.removeObserver(this);
+        cc.dd.native_gvoice_ed.removeObserver(this);
     },
 
     init(data){
@@ -56,7 +67,7 @@ cc.Class({
 
         cc.dd.UIMgr.openUI("blackjack_common/prefab/user_info", function (node) {
             let ui = node.getComponent('user_info_view');
-            ui.updateUI(this.playerData);
+            ui.updateUI(this.playerData.playerData);
         }.bind(this));
     },
 
@@ -105,10 +116,6 @@ cc.Class({
     },
 
     onEventMessage: function (event, data) {
-        if(data && data.viewIdx !== this.viewIdx){
-            return;
-        }
-
         switch (event) {
             case ChatEvent.CHAT:
                 if(!this.playerData){

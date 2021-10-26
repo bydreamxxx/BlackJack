@@ -210,7 +210,7 @@ let BlackJackData = cc.Class({
                     cc.gateNet.Instance().startDispatch();
                 }
             }
-        }, 1, length);
+        }, 0.4, length);
     },
 
     /**

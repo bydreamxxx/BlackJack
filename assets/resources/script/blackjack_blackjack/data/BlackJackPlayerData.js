@@ -51,6 +51,8 @@ let BlackJackPlayerData = cc.Class({
         this.vipLevel = data.vipLevel;
 
         this.viewIdx = data.seat;
+
+        this.playerData = data;
     },
 
     playerEnter(){
