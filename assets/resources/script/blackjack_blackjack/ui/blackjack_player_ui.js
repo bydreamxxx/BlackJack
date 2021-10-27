@@ -286,8 +286,11 @@ let blackjack_player_ui = cc.Class({
         this.head.stop_chupai_ani();
     },
 
-    showResult(result){
+    showCoin(result){
         this.head.showCoin(result);
+    },
+
+    showResult(result){
         if(result.coin + result.insure < 0){
             if(this.viewIdx == 0){
                 AudioManager.playSound("blackjack_blackjack/audio/lose_sound");

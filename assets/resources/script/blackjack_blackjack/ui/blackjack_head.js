@@ -108,10 +108,12 @@ cc.Class({
         cc.error(`${this.nameLabel} result ${win}`);
         this.score.string = win > 0 ? `+${win}` : win;
         this.score.node.active = true;
+        this.score.node.opacity = 0;
+        this.score.node.y = 85.311;
         cc.tween(this.score.node)
-            .show()
-            .delay(1)
-            .hide()
+            .to(1, {y: 134.112, opacity: 255}, { easing: 'quintOut'})
+            .delay(4)
+            .to(0.5, {y: 85.311, opacity: 0}, { easing: 'quintIn'})
             .start()
     },
 

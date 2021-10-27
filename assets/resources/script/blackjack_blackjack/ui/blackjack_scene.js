@@ -12,7 +12,8 @@ var GAME_STATE = cc.Enum({
     BETTING:2,//初次下注阶段
     PROTECTING:3,//买保险阶段
     PLAYING:4,//牌局进行状态
-    RESULTING:5//显示结果状态
+    RESULTING:5,//显示结果状态
+    FAPAI:7,//发牌状态
 });
 
 cc.Class({
@@ -176,7 +177,7 @@ cc.Class({
                     }
                 }
                 break;
-            case BlackJackEvent.SHOW_COIN:
+            case BlackJackEvent.SHOW_RESULT:
                 this.playerList[data.viewIdx].showResult(data.result);
 
                 let hasBJ = false;
@@ -189,8 +190,10 @@ cc.Class({
 
                 if(hasBJ){
                     this.banker.head.play_banker_duanyu("Congratulations on the blackjack", 3);
-
                 }
+                break;
+            case BlackJackEvent.SHOW_COIN:
+                this.playerList[data.viewIdx].showCoin(data.result);
                 break;
             default:
                 break;
@@ -513,43 +516,22 @@ cc.Class({
                 break;
             case GAME_STATE.PROTECTING:
                 cc.error(`保险`)
-                if(BlackJackData.lastState === GAME_STATE.BETTING) {
-                    BlackJackData.fapai();
-
-                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
-
-                    this.playerList.forEach(player => {
-                        player.changeChipPos();
-                    })
-
-                    this.startTips.active = false;
-                    this.stopTips.active = true;
-                    this.loadTips.active = false;
-                    this.tipsNode.active = true;
-
-                    cc.tween(this.tipsNode)
-                        .show()
-                        .delay(1)
-                        .hide()
-                        .start();
-                }else{
-                    this.startTips.active = false;
-                    this.stopTips.active = false;
-                    this.loadTips.active = false;
-                    this.tipsNode.active = false;
-                }
+                this.startTips.active = false;
+                this.stopTips.active = false;
+                this.loadTips.active = false;
+                this.tipsNode.active = false;
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 this.betButtonNode.active = false;
 
-                cc.tween(this.node)
-                    .delay(BlackJackData.fapaiList.length * 2 * 1.4)
-                    .call(()=>{
+                // cc.tween(this.node)
+                //     .delay(BlackJackData.fapaiList.length * 2 * 1.4)
+                //     .call(()=>{
                         this.insureNode.active = BlackJackData.hasUserPlayer;
-                    })
-                    .start();
+                    // })
+                    // .start();
 
                 this.actionButtonNode.active = false;
                 this.sliderNode.active = false;
@@ -565,32 +547,11 @@ cc.Class({
                     });
                 }
 
-                if(BlackJackData.lastState === GAME_STATE.BETTING){
-                    cc.error(`发牌`);
-                    BlackJackData.fapai();
+                this.startTips.active = false;
+                this.stopTips.active = false;
+                this.loadTips.active = false;
+                this.tipsNode.active = false;
 
-                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
-
-                    this.playerList.forEach(player=>{
-                        player.changeChipPos();
-                    })
-
-                    this.startTips.active = false;
-                    this.stopTips.active = true;
-                    this.loadTips.active = false;
-                    this.tipsNode.active = true;
-
-                    cc.tween(this.tipsNode)
-                        .show()
-                        .delay(1)
-                        .hide()
-                        .start();
-                }else{
-                    this.startTips.active = false;
-                    this.stopTips.active = false;
-                    this.loadTips.active = false;
-                    this.tipsNode.active = false;
-                }
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
@@ -616,6 +577,29 @@ cc.Class({
                 this.actionButtonNode.active = false;
                 this.sliderNode.active = false;
                 this.tipsNode.active = false;
+                break;
+            case GAME_STATE.FAPAI:
+                if(BlackJackData.lastState === GAME_STATE.BETTING) {
+                    cc.error(`发牌`);
+                    BlackJackData.fapai();
+
+                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
+
+                    this.playerList.forEach(player => {
+                        player.changeChipPos();
+                    })
+
+                    this.startTips.active = false;
+                    this.stopTips.active = true;
+                    this.loadTips.active = false;
+                    this.tipsNode.active = true;
+
+                    cc.tween(this.tipsNode)
+                        .show()
+                        .delay(1)
+                        .hide()
+                        .start();
+                }
                 break;
         }
     },

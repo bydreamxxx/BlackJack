@@ -77,14 +77,28 @@ var handler = {
     on_msg_bj_result(msg) {
         cc.gateNet.Instance().dispatchTimeOut(2);
 
+        let list = {};
         msg.resultsList.forEach(result=>{
             let player = BlackJackData.getPlayerById(result.userId);
             if(player){
-                player.coin = result.allCoin;
-                BlackJackED.notifyEvent(BlackJackEvent.SHOW_COIN, {viewIdx: player.viewIdx, result: result});
+                if(list.hasOwnProperty(result.userId)){
+                    list[result.userId].coin += result.coin;
+                    list[result.userId].insure += result.insure;
+                }else{
+                    list[result.userId] = result;
+                    list[result.userId].viewIdx = player.viewIdx;
+                }
 
+                player.coin = result.allCoin;
+                BlackJackED.notifyEvent(BlackJackEvent.SHOW_RESULT, {viewIdx: player.viewIdx, result: result});
             }
         })
+
+        for(let k in list){
+            if(list.hasOwnProperty(k)){
+                BlackJackED.notifyEvent(BlackJackEvent.SHOW_COIN, {viewIdx: list[k].viewIdx, result: list[k]});
+            }
+        }
     },
     on_msg_bj_result_all_2c(msg) {
 

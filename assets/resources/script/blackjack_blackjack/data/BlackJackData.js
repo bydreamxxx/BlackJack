@@ -9,6 +9,7 @@ let BlackJackEvent = cc.Enum({
     PLAYER_TURN: "PLAYER_TURN",
     RESET_CD: "RESET_CD",
     SHOW_COIN: "SHOW_COIN",
+    SHOW_RESULT: "SHOW_RESULT",
 });
 
 let BlackJackED = new cc.dd.EventDispatcher();
