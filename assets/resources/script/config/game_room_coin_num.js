@@ -363,7 +363,27 @@ var data_game_room_coin_num =
       { key:359,coin_room_id:20305,min_coin:60000000,max_coin:10000000,weight:2500 },
       { key:360,coin_room_id:20305,min_coin:80000000,max_coin:12000000,weight:3000 },
       { key:361,coin_room_id:20305,min_coin:50000000,max_coin:100000000,weight:3000 },
-      { key:362,coin_room_id:20305,min_coin:150000000,max_coin:500000000,weight:1500 }
+      { key:362,coin_room_id:20305,min_coin:150000000,max_coin:500000000,weight:1500 },
+      { key:363,coin_room_id:18501,min_coin:5000,max_coin:20000,weight:4500 },
+      { key:364,coin_room_id:18501,min_coin:20000,max_coin:50000,weight:4000 },
+      { key:365,coin_room_id:18501,min_coin:50000,max_coin:100000,weight:1000 },
+      { key:366,coin_room_id:18501,min_coin:100000,max_coin:500000,weight:500 },
+      { key:367,coin_room_id:18502,min_coin:10000,max_coin:50000,weight:4500 },
+      { key:368,coin_room_id:18502,min_coin:50000,max_coin:100000,weight:4000 },
+      { key:369,coin_room_id:18502,min_coin:100000,max_coin:200000,weight:1000 },
+      { key:370,coin_room_id:18502,min_coin:200000,max_coin:500000,weight:500 },
+      { key:371,coin_room_id:18503,min_coin:100000,max_coin:500000,weight:4500 },
+      { key:372,coin_room_id:18503,min_coin:500000,max_coin:5000000,weight:4000 },
+      { key:373,coin_room_id:18503,min_coin:5000000,max_coin:10000000,weight:1000 },
+      { key:374,coin_room_id:18503,min_coin:10000000,max_coin:50000000,weight:500 },
+      { key:375,coin_room_id:18504,min_coin:1000000,max_coin:5000000,weight:4500 },
+      { key:376,coin_room_id:18504,min_coin:5000000,max_coin:10000000,weight:4000 },
+      { key:377,coin_room_id:18504,min_coin:10000000,max_coin:50000000,weight:1000 },
+      { key:378,coin_room_id:18504,min_coin:50000000,max_coin:100000000,weight:500 },
+      { key:379,coin_room_id:18505,min_coin:5000000,max_coin:25000000,weight:4500 },
+      { key:380,coin_room_id:18505,min_coin:25000000,max_coin:50000000,weight:4000 },
+      { key:381,coin_room_id:18505,min_coin:50000000,max_coin:250000000,weight:1000 },
+      { key:382,coin_room_id:18505,min_coin:250000000,max_coin:500000000,weight:500 }
     ],
 
     /**
