@@ -61,7 +61,9 @@ var handler = {
                 }
             }
 
-            BlackJackED.notifyEvent(BlackJackEvent.RESET_CD, msg.userId);
+            if(msg.type != 1){
+                BlackJackED.notifyEvent(BlackJackEvent.RESET_CD, msg.userId);
+            }
 
             let player = BlackJackData.getPlayerById(msg.userId);
             if(player){

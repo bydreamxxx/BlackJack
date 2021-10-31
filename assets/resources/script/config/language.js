@@ -70,7 +70,8 @@ var data_language =
       { key:66,keyword:"sequence",EN:"SEQUENCE",TC:"順子",YD:"इस मामले में",ZH:"顺子" },
       { key:67,keyword:"puresequence",EN:"PURE SEQUENCE",TC:"同花順",YD:"लालिमा",ZH:"同花顺" },
       { key:68,keyword:"trailorset",EN:"TRAIL OR SET",TC:"三條",YD:"तीन",ZH:"三条" },
-      { key:69,keyword:"chaal",EN:"CHAAL",TC:"下注",YD:"शर्त",ZH:"下注" }
+        { key:69,keyword:"chaal",EN:"CHAAL",TC:"下注",YD:"शर्त",ZH:"下注" },
+        { key:70,keyword:"LANGUAGE",EN:"EN",TC:"TC",YD:"YD",ZH:"ZH" },
     ],
 
     /**

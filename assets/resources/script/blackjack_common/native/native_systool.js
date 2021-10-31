@@ -294,29 +294,31 @@ var Native = cc.Class({
 
     setLandscape: function () {
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('game/SystemTool', 'SetLandscape', '()Z');
+            // return jsb.reflection.callStaticMethod('game/SystemTool', 'SetLandscape', '()Z');
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'setLandscape');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'setLandscape');
         }
+        return true;
     },
 
     setPortrait: function () {
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('game/SystemTool', 'SetPortrait', '()Z');
+            // return jsb.reflection.callStaticMethod('game/SystemTool', 'SetPortrait', '()Z');
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'setPortrait');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'setPortrait');
         }
+        return true;
     },
 
     getScreenRatio: function () {
-        var string_ratio = "";
+        var string_ratio = "1920,1080";
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            string_ratio = jsb.reflection.callStaticMethod("game/SystemTool", "getScreenRatio", "()Ljava/lang/String;");
+            // string_ratio = jsb.reflection.callStaticMethod("game/SystemTool", "getScreenRatio", "()Ljava/lang/String;");
             //  string_ratio = jsb.reflection.callStaticMethod("com/yjhy/jlmj/AppActivity", "getScreenSize", "()Ljava/lang/String;");
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            string_ratio = jsb.reflection.callStaticMethod('SystemTool', 'getScreenRatio');
+            // string_ratio = jsb.reflection.callStaticMethod('SystemTool', 'getScreenRatio');
         } else {
-            string_ratio = require('AppConfig').SIMULATOR_RATIO;
+            // string_ratio = require('AppConfig').SIMULATOR_RATIO;
         }
         return string_ratio;
     },
@@ -329,29 +331,31 @@ var Native = cc.Class({
         {
             window.location.href = url;
         }else if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod("game/SystemTool", "OpenUrl", "(Ljava/lang/String;)V", url);
+            // jsb.reflection.callStaticMethod("game/SystemTool", "OpenUrl", "(Ljava/lang/String;)V", url);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('SystemTool', 'OpenUrl:', url);
+            // jsb.reflection.callStaticMethod('SystemTool', 'OpenUrl:', url);
         }
     },
 
     isNetAvailable: function () {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "isNetAvailable", "()Z");
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "isNetAvailable", "()Z");
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'isNetAvailable');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'isNetAvailable');
         }
         else if (!cc.sys.isNative) {
-            return true;
+            // return true;
         }
+        return true;
     },
 
     isWifiAvailable: function () {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "isWifiAvailable", "()Z");
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "isWifiAvailable", "()Z");
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'isWifiAvailable');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'isWifiAvailable');
         }
+        return true;
     },
 
     SetClipBoardContent: function (content) {
@@ -394,57 +398,59 @@ var Native = cc.Class({
             }
 
         }else if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod("game/SystemTool", "SetClipBoardContent", "(Ljava/lang/String;)V", content);
+            // jsb.reflection.callStaticMethod("game/SystemTool", "SetClipBoardContent", "(Ljava/lang/String;)V", content);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('SystemTool', 'SetClipBoardContent:', content);
+            // jsb.reflection.callStaticMethod('SystemTool', 'SetClipBoardContent:', content);
         }
     },
 
     StartLoadingAni: function (content) {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod("game/SystemTool", "StartLoadingAni", "(Ljava/lang/String;)V", content);
+            // jsb.reflection.callStaticMethod("game/SystemTool", "StartLoadingAni", "(Ljava/lang/String;)V", content);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('SystemTool', 'StartLoadingAni:', content);
+            // jsb.reflection.callStaticMethod('SystemTool', 'StartLoadingAni:', content);
         }
     },
 
     StopLoadingAni: function () {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod("game/SystemTool", "StopLoadingAni", "()V");
+            // jsb.reflection.callStaticMethod("game/SystemTool", "StopLoadingAni", "()V");
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('SystemTool', 'StopLoadingAni');
+            // jsb.reflection.callStaticMethod('SystemTool', 'StopLoadingAni');
         }
     },
 
     SetLoadingAniTips: function (content) {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod("game/SystemTool", "SetLoadingAniTips", "(Ljava/lang/String;)V", content);
+            // jsb.reflection.callStaticMethod("game/SystemTool", "SetLoadingAniTips", "(Ljava/lang/String;)V", content);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('SystemTool', 'SetLoadingAniTips:', content);
+            // jsb.reflection.callStaticMethod('SystemTool', 'SetLoadingAniTips:', content);
         }
     },
 
     getBatteryLevel: function () {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "getBatteryLevel", "()F");
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "getBatteryLevel", "()F");
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'getBatteryLevel');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'getBatteryLevel');
         }
+        return 0.9;
     },
 
     getMD5ByFile: function (path) {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "getMD5ByFile", "(Ljava/lang/String;)Ljava/lang/String;", path);
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "getMD5ByFile", "(Ljava/lang/String;)Ljava/lang/String;", path);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'getMD5ByFile:', path);
+            // return jsb.reflection.callStaticMethod('SystemTool', 'getMD5ByFile:', path);
         }
+        return path;
     },
 
     captureScreenToPhotoAlbum: function (path) {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/WxTool', 'SaveFileToPhoto', '(Ljava/lang/String;)V', path);
+            // jsb.reflection.callStaticMethod('game/WxTool', 'SaveFileToPhoto', '(Ljava/lang/String;)V', path);
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'captureScreenToPhotoAlbum:', path);
+            // return jsb.reflection.callStaticMethod('SystemTool', 'captureScreenToPhotoAlbum:', path);
         }
     },
 
@@ -454,7 +460,7 @@ var Native = cc.Class({
      */
     gameStart: function () {
         if (cc.sys.OS_ANDROID == cc.sys.os && cc.sys.isNative) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "gameStart", "()V");
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "gameStart", "()V");
         }
     },
 
@@ -473,10 +479,12 @@ var Native = cc.Class({
      */
     getDeviceInfo: function () {
         if (cc.sys.isNative && cc.sys.OS_ANDROID == cc.sys.os) {
-            return jsb.reflection.callStaticMethod("game/SystemTool", "getDeviceInfo", "()Ljava/lang/String;");
+            // return jsb.reflection.callStaticMethod("game/SystemTool", "getDeviceInfo", "()Ljava/lang/String;");
         } else if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os) {
-            return jsb.reflection.callStaticMethod('SystemTool', 'getDeviceInfo');
+            // return jsb.reflection.callStaticMethod('SystemTool', 'getDeviceInfo');
         }
+        return "";
+
     },
     getHWUrl(group, port, originIP) {
         return originIP + ':' + port;
@@ -548,8 +556,8 @@ var Native = cc.Class({
                 if (cc.sys.isNative) {
                     if (cc.sys.OS_ANDROID == cc.sys.os) {
                         var loc = new cc.pb.room_mgr.latlng();
-                        var latitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
-                        var longitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
+                        var latitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
+                        var longitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
                         loc.setLatitude(latitude);
                         loc.setLongitude(longitude);
                         cc.log("详细地址：经度 " + longitude);
@@ -559,8 +567,8 @@ var Native = cc.Class({
                         }
                     } else if (cc.sys.OS_IOS == cc.sys.os) {
                         var loc = new cc.pb.room_mgr.latlng();
-                        var Latitude = jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
-                        var Longitude = jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
+                        var Latitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
+                        var Longitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
                         loc.setLatitude(Latitude);
                         loc.setLongitude(Longitude);
                         cc.log("详细地址：经度 " + Longitude);
@@ -603,8 +611,8 @@ var Native = cc.Class({
                 if (cc.sys.isNative) {
                     if (cc.sys.OS_ANDROID == cc.sys.os) {
                         var loc = new cc.pb.room_mgr.latlng();
-                        var latitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
-                        var longitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
+                        var latitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
+                        var longitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
                         loc.setLatitude(latitude);
                         loc.setLongitude(longitude);
                         cc.log("详细地址：经度 " + longitude);
@@ -614,8 +622,8 @@ var Native = cc.Class({
                         }
                     } else if (cc.sys.OS_IOS == cc.sys.os) {
                         var loc = new cc.pb.room_mgr.latlng();
-                        var Latitude = jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
-                        var Longitude = jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
+                        var Latitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
+                        var Longitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
                         loc.setLatitude(Latitude);
                         loc.setLongitude(Longitude);
                         cc.log("详细地址：经度 " + Longitude);
@@ -646,12 +654,12 @@ var Native = cc.Class({
             //获取微信好友房连接拉起
             if (cc.sys.OS_ANDROID == cc.sys.os) {
                 //TODO:  整包更新时用  game/SystemTool   暂时处理
-                if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng  || cc._isHuaweiGame)
-                    jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
-                else
-                    jsb.reflection.callStaticMethod('com/yjhy/jlmj/AppActivity', 'getWXRoomID', '()V');
+                // if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng  || cc._isHuaweiGame)
+                    // jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
+                // else
+                    // jsb.reflection.callStaticMethod('com/yjhy/jlmj/AppActivity', 'getWXRoomID', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
-                jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
+                // jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
             }
 
             setTimeout(()=>{

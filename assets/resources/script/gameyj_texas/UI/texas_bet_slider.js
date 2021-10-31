@@ -1,5 +1,4 @@
 let hall_audio_mgr = require('hall_audio_mgr').Instance();
-let AudioManager = require('AudioManager');
 let texas_audio_cfg = require('texas_audio_cfg');
 let texas_Data = require('texas_data').texas_Data;
 // var PROGRESS_STEP=0.1//点加减号
@@ -113,7 +112,7 @@ cc.Class({
 
             }else
             {
-                AudioManager.getInstance().playSound(texas_audio_cfg.Allin, false);
+                AudioManager.playSound(texas_audio_cfg.Allin, false);
                 if(this.labelAdd)
                 {
                     this.labelAdd.string = "全  下"

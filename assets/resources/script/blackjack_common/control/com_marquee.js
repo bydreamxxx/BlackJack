@@ -107,6 +107,7 @@ let com_marquee = cc.Class({
      * 播发默认的跑马灯信息
      */
     onStartPlayDefaultShow: function () {
+        return;
         if (cc._chifengGame || cc._appstore_check || cc._androidstore_check || cc._isHuaweiGame || cc._isBaiDuPingTaiGame || cc._useCardUI)
             return;
         switch (AppConfig.GAME_PID) {
@@ -173,6 +174,7 @@ let com_marquee = cc.Class({
      * 开始
      */
     startShow: function () {
+        return;
         if (cc._chifengGame || cc._appstore_check || cc._androidstore_check || cc._isHuaweiGame || cc._isBaiDuPingTaiGame || cc._useCardUI || cc._applyForPayment)
             return;
         switch (AppConfig.GAME_PID) {
@@ -203,6 +205,7 @@ let com_marquee = cc.Class({
      * @param data 公告内容
      */
     showDLInfo: function (data) {
+        return;
         if (!this.showNode.active) {
             this.showNode.active = true;
             this._isEnd = false

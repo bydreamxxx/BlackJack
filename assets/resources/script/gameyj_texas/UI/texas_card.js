@@ -1,7 +1,6 @@
 /**
  * Created by luke on 2019/1/8
  */
-let AudioManager = require('AudioManager');
 let texas_audio_cfg = require('texas_audio_cfg');
 cc.Class({
     extends: cc.Component,
@@ -53,7 +52,7 @@ cc.Class({
             var action = cc.sequence(cc.delayTime(delay),
                 //加一个cc.delayTime(0)是引擎原因造成有时候位置和缩放都不对
                 cc.spawn(cc.delayTime(0),tweenScale, tweenPostion, tweenRotation,
-                        cc.callFunc(() => { AudioManager.getInstance().playSound(texas_audio_cfg.Deal, false) })),
+                        cc.callFunc(() => { AudioManager.playSound(texas_audio_cfg.Deal, false) })),
                 cc.callFunc(() => {
                     if (self._toScale != null) {
                         self.node.scaleX = self._toScale.x;
@@ -78,7 +77,7 @@ cc.Class({
             var action = cc.sequence(cc.delayTime(delay),
                 //加一个cc.delayTime(0)是引擎原因造成有时候位置和缩放都不对
                 cc.spawn(cc.delayTime(0),tweenScale, tweenPostion, tweenRotation, 
-                            cc.callFunc(() => { AudioManager.getInstance().playSound(texas_audio_cfg.Deal, false) })),
+                            cc.callFunc(() => { AudioManager.playSound(texas_audio_cfg.Deal, false) })),
                 cc.callFunc(() => {
                     if (self._toScale != null) {
                         self.node.scaleX = self._toScale.x;

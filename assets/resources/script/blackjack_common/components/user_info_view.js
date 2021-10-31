@@ -253,11 +253,11 @@ cc.Class({
             return 0xFFFF;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            var distance = jsb.reflection.callStaticMethod("game/SystemTool", "getDistanceBetwwen", "(FFFF)F", locA.latitude, locB.latitude, locA.longitude, locB.longitude);
+            var distance = 0;//jsb.reflection.callStaticMethod("game/SystemTool", "getDistanceBetwwen", "(FFFF)F", locA.latitude, locB.latitude, locA.longitude, locB.longitude);
             cc.log('gps距离userInfo:++++++' + distance);
             return distance;
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            var distance = jsb.reflection.callStaticMethod('SystemTool', 'getDistance:endLatitude:startLongitude:endLongitude:', locA.latitude, locB.latitude, locA.longitude, locB.longitude);
+            var distance = 0;//jsb.reflection.callStaticMethod('SystemTool', 'getDistance:endLatitude:startLongitude:endLongitude:', locA.latitude, locB.latitude, locA.longitude, locB.longitude);
             cc.log('gps距离userInfo:++++++' + distance);
             return distance;
         }

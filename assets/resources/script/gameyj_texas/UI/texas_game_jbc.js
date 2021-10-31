@@ -7,7 +7,6 @@ let TEXAS_ED = require('texas_data').TEXAS_ED;
 let Texas_Event = require('texas_data').Texas_Event;
 let texas_Data = require('texas_data').texas_Data;
 let RoomMgr = require('jlmj_room_mgr').RoomMgr;
-let AudioManager = require('AudioManager');
 let game_room = require("game_room");
 let RoomED = require("jlmj_room_mgr").RoomED;
 let RoomEvent = require("jlmj_room_mgr").RoomEvent;
@@ -185,20 +184,20 @@ cc.Class({
 
     //初始化音乐音效设置
     initMusicAndSound() {
-        var music = AudioManager.getInstance()._getLocalMusicSwitch();
-        var sound = AudioManager.getInstance()._getLocalSoundSwitch();
-        var s_volume = AudioManager.getInstance()._getLocalSoundVolume();
-        var m_volume = AudioManager.getInstance()._getLocalMusicVolume();
+        var music = AudioManager._getLocalMusicSwitch();
+        var sound = AudioManager._getLocalSoundSwitch();
+        var s_volume = AudioManager._getLocalSoundVolume();
+        var m_volume = AudioManager._getLocalMusicVolume();
         if (!music) {
 
         }
         else {
-            // AudioManager.getInstance().onMusic(tw_audio_cfg.GAME_MUSIC);
+            // AudioManager.onMusic(tw_audio_cfg.GAME_MUSIC);
         }
     },
 
     playBackGround: function () {
-        // AudioManager.getInstance().onMusic(tw_audio_cfg.GAME_MUSIC);
+        // AudioManager.onMusic(tw_audio_cfg.GAME_MUSIC);
     },
     //最新声音更改
     onOpenSettingMusic: function (event, data) {
@@ -428,17 +427,17 @@ cc.Class({
         this.allStopSay();
         this.head_list[view].say(this.player_state_type[4]);
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-            AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Raise, false);
+            AudioManager.playSound(texas_audio_cfg.MAN.Raise, false);
         else
-            AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Raise, false);
+            AudioManager.playSound(texas_audio_cfg.WOMAN.Raise, false);
         // }
         // else {
         //     this.allStopSay();
         //     this.head_list[view].say('下注');
         //     if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-        //         AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Xiazhu, false);
+        //         AudioManager.playSound(texas_audio_cfg.MAN.Xiazhu, false);
         //     else
-        //         AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Xiazhu, false);
+        //         AudioManager.playSound(texas_audio_cfg.WOMAN.Xiazhu, false);
         // }
         // this.updateRoundScore();
     },
@@ -466,9 +465,9 @@ cc.Class({
         }
 
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-            AudioManager.getInstance().playSound(texas_audio_cfg.MAN.ShowHand, false);
+            AudioManager.playSound(texas_audio_cfg.MAN.ShowHand, false);
         else
-            AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.ShowHand, false);
+            AudioManager.playSound(texas_audio_cfg.WOMAN.ShowHand, false);
         // this.updateRoundScore();
     },
 
@@ -500,11 +499,11 @@ cc.Class({
         this.allStopSay();
         // this.head_list[view].say('弃牌');
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-            AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Discard, false);
+            AudioManager.playSound(texas_audio_cfg.MAN.Discard, false);
         else
-            AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Discard, false);
+            AudioManager.playSound(texas_audio_cfg.WOMAN.Discard, false);
         // this.updateRoundScore();
-        AudioManager.getInstance().playSound(texas_audio_cfg.Sound_Turn_card_4, false);
+        AudioManager.playSound(texas_audio_cfg.Sound_Turn_card_4, false);
     },
 
     //跟注
@@ -528,9 +527,9 @@ cc.Class({
         else {
             this.head_list[view].say(this.player_state_type[1]);
             if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-                AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Call, false);
+                AudioManager.playSound(texas_audio_cfg.MAN.Call, false);
             else
-                AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Call, false);
+                AudioManager.playSound(texas_audio_cfg.WOMAN.Call, false);
         }
         // this.updateRoundScore();
     },
@@ -545,9 +544,9 @@ cc.Class({
         this.allStopSay();
         this.head_list[view].say(this.player_state_type[2]);
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
-            AudioManager.getInstance().playSound(texas_audio_cfg.MAN.Pass, false);
+            AudioManager.playSound(texas_audio_cfg.MAN.Pass, false);
         else
-            AudioManager.getInstance().playSound(texas_audio_cfg.WOMAN.Pass, false);
+            AudioManager.playSound(texas_audio_cfg.WOMAN.Pass, false);
     },
     onBanker(msg, isReconnect) {
         if (isReconnect) {
@@ -801,7 +800,7 @@ cc.Class({
                 this.clearEffectNode();
             }.bind(this))));
         }
-        AudioManager.getInstance().playSound(texas_audio_cfg.Win, false);
+        AudioManager.playSound(texas_audio_cfg.Win, false);
     },
     onResultFinish(msg, noCards) {
         // cc.find('add', this.node).active = false;
@@ -898,7 +897,7 @@ cc.Class({
                     sk.setCompleteListener(null);
                 }.bind(this));
             }
-            AudioManager.getInstance().playSound(texas_audio_cfg.Win, false);
+            AudioManager.playSound(texas_audio_cfg.Win, false);
         }
 
 
@@ -906,7 +905,7 @@ cc.Class({
     },
 
     showCoinFly(winList) {
-        AudioManager.getInstance().playSound(texas_audio_cfg.Sound_Win_Clips, false);
+        AudioManager.playSound(texas_audio_cfg.Sound_Win_Clips, false);
         const totalTime = 1;
         const flyTime = 0.5;
         const coinCount = 20;
@@ -928,7 +927,7 @@ cc.Class({
                     var delay = (totalTime - flyTime) / coinCount * j + offsetT;
                     node.getComponent('texas_chip').setAction(delay, posTo.add(offsetP), flyTime, this.head_list[tv].node, null);
                 }
-                // AudioManager.getInstance().playSound(nn_audio_cfg.COMMON.GoldFly, false);
+                // AudioManager.playSound(nn_audio_cfg.COMMON.GoldFly, false);
             }
 
         }
@@ -1151,7 +1150,7 @@ cc.Class({
             // cc.log('客户端计算胜率是:'+texas_Data.Instance().calWinRate(selfPlayer.cardsList,texas_Data.Instance().t_commonCards));
 
         }
-        AudioManager.getInstance().playSound(texas_audio_cfg.Sound_See_Card, false);
+        AudioManager.playSound(texas_audio_cfg.Sound_See_Card, false);
     },
 
     getNeedShowCommonCards: function () {
@@ -1291,7 +1290,7 @@ cc.Class({
                 this.texas_op.showOp(OP_TYPE.MY_TURN, optype, turnBet);
             }
 
-            AudioManager.getInstance().playSound(texas_audio_cfg.Talk_own, false);
+            AudioManager.playSound(texas_audio_cfg.Talk_own, false);
         } else if (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)//旁观
         {
             this.texas_op.showOp(OP_TYPE.WATCH);
@@ -1348,9 +1347,9 @@ cc.Class({
         // }
         // if (chips.length > 0) {
         //     if (chips.length > 5)
-        //         AudioManager.getInstance().playSound(texas_audio_cfg.Chip_HE, false);
+        //         AudioManager.playSound(texas_audio_cfg.Chip_HE, false);
         //     else
-        AudioManager.getInstance().playSound(texas_audio_cfg.Chip, false);
+        AudioManager.playSound(texas_audio_cfg.Chip, false);
         // }
     },
 

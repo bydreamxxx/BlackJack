@@ -49,35 +49,37 @@ var loginModle = cc.Class({
             cc.need_login_accout = true
         let guest = cc.find('Canvas/align_down/Layout/YKBtn');
         let wxBtn = cc.find('Canvas/align_down/Layout/WXBtn');
-        if (guest) {
-            guest.active = cc.need_login_guest
-        }
-        if (wxBtn) {
-            wxBtn.active = cc.sys.platform != cc.sys.DESKTOP_BROWSER
-        }
+        wxBtn.active = false;
+        // if (guest) {
+        //     guest.active = cc.need_login_guest
+        // }
+        // if (wxBtn) {
+        //     wxBtn.active = cc.sys.platform != cc.sys.DESKTOP_BROWSER
+        // }
         let account = cc.find('Canvas/align_down/Layout/ZHBtn');
-        if (account) {
-            if (cc._appstore_check)
-                account.active = true;
-            // else if(AppConfig.GAME_PID == 10004 || AppConfig.GAME_PID == 10003)
-            //     account.active = true;
-            else if (cc.sys.platform == cc.sys.MOBILE_BROWSER)
-                account.active = true;
-            else
-                account.active = cc.need_login_accout;
-        }
-
-        let wechat = cc.find('Canvas/align_down/Layout/WXBtn');
-        if (wechat) {
-            if (cc._appstore_check)
-                wechat.active = false;
-            // else if (cc.sys.platform == cc.sys.DESKTOP_BROWSER)//扫码登陆
-            //     wechat.active = true;
-            else if (!cc.dd.native_wx.IsWXAppInstalled())
-                wechat.active = false;
-            else
-                wechat.active = true;
-        }
+        account.active = false;
+        // if (account) {
+        //     if (cc._appstore_check)
+        //         account.active = true;
+        //     // else if(AppConfig.GAME_PID == 10004 || AppConfig.GAME_PID == 10003)
+        //     //     account.active = true;
+        //     else if (cc.sys.platform == cc.sys.MOBILE_BROWSER)
+        //         account.active = true;
+        //     else
+        //         account.active = cc.need_login_accout;
+        // }
+        //
+        // let wechat = cc.find('Canvas/align_down/Layout/WXBtn');
+        // if (wechat) {
+        //     if (cc._appstore_check)
+        //         wechat.active = false;
+        //     // else if (cc.sys.platform == cc.sys.DESKTOP_BROWSER)//扫码登陆
+        //     //     wechat.active = true;
+        //     else if (!cc.dd.native_wx.IsWXAppInstalled())
+        //         wechat.active = false;
+        //     else
+        //         wechat.active = true;
+        // }
 
         if (cc._isKuaiLeBaTianDaKeng) {
             this.banhao.string = '2018 快乐吧填大坑    klbgame.com    新广出审[2018]1281号    浙新广[2018]199号'
@@ -114,17 +116,17 @@ var loginModle = cc.Class({
             node.active = false;
         })
 
-        switch (LoginData.Instance().loadLoginType()) {
-            case cc.dd.jlmj_enum.Login_Type.GUEST:
-                this.lastLogin[0].active = true;
-                break;
-            case cc.dd.jlmj_enum.Login_Type.WX:
-                this.lastLogin[1].active = true;
-                break;
-            case cc.dd.jlmj_enum.Login_Type.ACCOUNT:
-                this.lastLogin[2].active = true;
-                break;
-        }
+        // switch (LoginData.Instance().loadLoginType()) {
+        //     case cc.dd.jlmj_enum.Login_Type.GUEST:
+        //         this.lastLogin[0].active = true;
+        //         break;
+        //     case cc.dd.jlmj_enum.Login_Type.WX:
+        //         this.lastLogin[1].active = true;
+        //         break;
+        //     case cc.dd.jlmj_enum.Login_Type.ACCOUNT:
+        //         this.lastLogin[2].active = true;
+        //         break;
+        // }
         this.resetRegist();
         this.resetAccountLogin();
 
@@ -444,7 +446,12 @@ var loginModle = cc.Class({
             } else {
                 // login_module.Instance().WXLogin();
                 cc.log('[游戏登录] ', '游客');
-                login_module.Instance().NewGuestLogin();
+                // login_module.Instance().NewGuestLogin();
+
+                login_module.Instance().guestLogin("42.193.2.94", '3801');
+
+                cc.sys.localStorage.setItem("SAVE_IP", "42.193.2.94");
+                cc.sys.localStorage.setItem("SAVE_PORT", '3801');
             }
         }.bind(this));
     },
@@ -689,6 +696,31 @@ var loginModle = cc.Class({
         let AppCfg = require('AppConfig');
         cc.dd.native_systool.OpenUrl(Platform.kefuUrl[AppCfg.PID] + "?user_id=" + cc.dd.user.id);
     },
+
+    /**
+     * 清理玩家数据
+     */
+    clearUserInfo: function () {
+        cc.sys.localStorage.clear();
+        require('jlmj_login_data').destroy();
+    },
+
+    onClickChangeLanguage() {
+        switch (LanguageMgr.getKind()){
+            case "EN":
+                LanguageMgr.changeLanguage("TC");
+                break;
+            case "TC":
+                LanguageMgr.changeLanguage("YD");
+                break;
+            case "YD":
+                LanguageMgr.changeLanguage("ZH");
+                break;
+            case "ZH":
+                LanguageMgr.changeLanguage("EN");
+                break;
+        }
+    }
 });
 
 module.exports = loginModle;

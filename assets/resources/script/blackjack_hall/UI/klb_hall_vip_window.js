@@ -81,7 +81,7 @@ cc.Class({
             se_lv.getComponent(cc.Label).string = 'V' + (i+1).toString();
             unse_lv.getComponent(cc.Label).string = 'V' + (i+1).toString();
             tog.node.on('toggle', this.selectVipTitle, this);
-            tog.toggleGroup = this.m_vipTitleGroup.getComponent(cc.ToggleGroup);
+            tog.toggleGroup = this.m_vipTitleGroup.getComponent(cc.ToggleContainer);
             //选中第一个
             if(i==0)
             {
