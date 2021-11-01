@@ -20,6 +20,7 @@ let UpdaterEntrance = cc.Enum({
 
 var Updater = cc.Class({
     ctor: function (...params) {
+        return;
         if (!cc.sys.isNative) {
             return;
         }

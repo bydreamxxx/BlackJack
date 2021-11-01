@@ -143,7 +143,7 @@ var SceneManagerUtil = cc.Class({
         var pre_scene_dir = scene_dir_cfg[cc.director.getScene().name];
         var load_scene_dir = scene_dir_cfg[sceneName];
         if (cc.sys.isMobile && cc.sys.isNative) {
-            cc.Texture2D.setDefaultAlphaPixelFormat(0);
+            // cc.Texture2D.setDefaultAlphaPixelFormat(0);
             // if(sceneName == "gameyj_water_margin_slot"){
             //     cc.Texture2D.setDefaultAlphaPixelFormat(cc.Texture2D.PixelFormat.RGBA4444);
             // }else{
@@ -168,12 +168,12 @@ var SceneManagerUtil = cc.Class({
                     cc.dd.TimeTake.end("加载场景:" + sceneName);
                     clearTimeout(self.gc_id);
                     if (cc.sys.isMobile && cc.sys.isNative) {
-                        if (pre_scene_dir != load_scene_dir) {
-                            cc.loader.releaseResDir(pre_scene_dir);
-                            cc.log("释放资源:" + pre_scene_dir);
-                        }
-                        cc.log("执行GC");
-                        cc.sys.garbageCollect();
+                        // if (pre_scene_dir != load_scene_dir) {
+                        //     cc.loader.releaseResDir(pre_scene_dir);
+                        //     cc.log("释放资源:" + pre_scene_dir);
+                        // }
+                        // cc.log("执行GC");
+                        // cc.sys.garbageCollect();
                     }
                     cc.dd.DialogBoxUtil.refresh();
                     dd.NetWaitUtil.smooth_close();
@@ -219,11 +219,11 @@ var SceneManagerUtil = cc.Class({
         var pre_scene_dir = scene_dir_cfg[cc.director.getScene().name];
         var load_scene_dir = scene_dir_cfg[sceneName];
         if (cc.sys.isMobile && cc.sys.isNative) {
-            if (sceneName == "gameyj_water_margin_slot") {
-                cc.Texture2D.setDefaultAlphaPixelFormat(cc.Texture2D.PixelFormat.RGBA4444);
-            } else {
-                cc.Texture2D.setDefaultAlphaPixelFormat(0);
-            }
+            // if (sceneName == "gameyj_water_margin_slot") {
+            //     cc.Texture2D.setDefaultAlphaPixelFormat(cc.Texture2D.PixelFormat.RGBA4444);
+            // } else {
+            //     cc.Texture2D.setDefaultAlphaPixelFormat(0);
+            // }
         }
         //切换场景时,暂停网络消息分发
         cc.gateNet.Instance().pauseDispatch();
@@ -247,12 +247,12 @@ var SceneManagerUtil = cc.Class({
 
         this.loadScene(loading_scene, loadbundleName, () => { }, function () {
             if (cc.sys.isMobile) {
-                if (pre_scene_dir != load_scene_dir && cc.sys.isNative) {
-                    cc.loader.releaseResDir(pre_scene_dir);
-                    cc.log("释放资源:" + pre_scene_dir);
-                }
-                cc.log("执行GC");
-                cc.sys.garbageCollect();
+                // if (pre_scene_dir != load_scene_dir && cc.sys.isNative) {
+                //     cc.loader.releaseResDir(pre_scene_dir);
+                //     cc.log("释放资源:" + pre_scene_dir);
+                // }
+                // cc.log("执行GC");
+                // cc.sys.garbageCollect();
             }
             setTimeout(function () {
                 cc.dd.ResLoader.preloadAudioList(audioList, function () {
@@ -268,12 +268,12 @@ var SceneManagerUtil = cc.Class({
                                 cc.dd.TimeTake.end("加载场景:" + sceneName);
                                 clearTimeout(self.gc_id);
                                 if (cc.sys.isMobile && cc.sys.isNative) {
-                                    if (pre_scene_dir != load_scene_dir) {
-                                        cc.loader.releaseResDir(pre_scene_dir);
-                                        cc.log("释放资源:" + pre_scene_dir);
-                                    }
-                                    cc.log("执行GC");
-                                    cc.sys.garbageCollect();
+                                    // if (pre_scene_dir != load_scene_dir) {
+                                    //     cc.loader.releaseResDir(pre_scene_dir);
+                                    //     cc.log("释放资源:" + pre_scene_dir);
+                                    // }
+                                    // cc.log("执行GC");
+                                    // cc.sys.garbageCollect();
                                 }
                                 cc.dd.DialogBoxUtil.refresh();
                                 // dd.NetWaitUtil.smooth_close();
@@ -397,12 +397,12 @@ var SceneManagerUtil = cc.Class({
         let loadBundleName = cc.dd.Define.GetBundleNameByScene[loading_scene];
         this.loadScene(loading_scene, loadBundleName, () => { }, function () {
             if (cc.sys.isMobile) {
-                if (pre_scene_dir != load_scene_dir) {
-                    cc.loader.releaseResDir(pre_scene_dir);
-                    cc.log("释放资源:" + pre_scene_dir);
-                }
-                cc.log("执行GC");
-                cc.sys.garbageCollect();
+                // if (pre_scene_dir != load_scene_dir) {
+                //     cc.loader.releaseResDir(pre_scene_dir);
+                //     cc.log("释放资源:" + pre_scene_dir);
+                // }
+                // cc.log("执行GC");
+                // cc.sys.garbageCollect();
             }
         });
     },
@@ -639,22 +639,26 @@ var SceneManagerUtil = cc.Class({
     },
 
     loadScene(sceneName, bundleName, onBeforeLoadScene, onLaunched) {
-        let bundle = cc.assetManager.getBundle(bundleName);
-        if (bundle) {
-            bundle.loadScene(sceneName, function (err, scene) {
-                cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
-            });
-        } else {
-            cc.assetManager.loadBundle(bundleName, (err, bundle) => {
-                if (err) {
-                    cc.error(`load bundle ${bundleName} error ${err.message}`)
-                    return;
-                }
-                bundle.loadScene(sceneName, function (err, scene) {
-                    cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
-                });
-            })
-        }
+        // let bundle = cc.assetManager.getBundle(bundleName);
+        // if (bundle) {
+        //     bundle.loadScene(sceneName, function (err, scene) {
+        //         cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
+        //     });
+        // } else {
+        //     cc.assetManager.loadBundle(bundleName, (err, bundle) => {
+        //         if (err) {
+        //             cc.error(`load bundle ${bundleName} error ${err.message}`)
+        //             return;
+        //         }
+        //         bundle.loadScene(sceneName, function (err, scene) {
+        //             cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
+        //         });
+        //     })
+        // }
+
+        cc.resources.loadScene(sceneName, function (err, scene) {
+            cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
+        });
     }
 });
 

@@ -299,6 +299,9 @@ let resLoad = cc.Class({
      * 更新APK
      */
     updatePKG: function () {
+        this.changeState(LoginState.LOGIN_START);
+        return;
+
         if (cc._appstore_check)
             this.tips.string = "加载资源中...";
         else
@@ -380,9 +383,9 @@ let resLoad = cc.Class({
      */
     loadRes: function () {
         if (cc.sys.isNative && !cc.dd._.isUndefined(cc.open_update) && cc.open_update) {
-            this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.HALL);
-            AppCfg.VERSION = this.hallUpdater.getVersion();
-            cc.log("当前版本:" + AppCfg.VERSION);
+            // this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.HALL);
+            // AppCfg.VERSION = this.hallUpdater.getVersion();
+            // cc.log("当前版本:" + AppCfg.VERSION);
         }
 
         var self = this;

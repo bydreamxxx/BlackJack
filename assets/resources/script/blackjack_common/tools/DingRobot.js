@@ -188,20 +188,20 @@ cc.error = function () {
     // DingRobot.push_log(str);
 };
 
-cc.info = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【INFO】:' + time + ' ' + str;
-    console.info(str);
-    // DingRobot.push_log(str);
-};
+// cc.info = function () {
+//     var len = arguments.length;
+//     var str = '';
+//     for (var i = 0; i < len; i++) {
+//         var tmp = arguments[i];
+//         if (typeof tmp == 'object') {
+//             tmp = cc.dd.obj2string(tmp);
+//         }
+//         str += tmp;
+//     }
+//     var time = '[' + new Date().toLocaleString() + ']';
+//     str = '【INFO】:' + time + ' ' + str;
+//     console.info(str);
+//     // DingRobot.push_log(str);
+// };
 
 module.exports = DingRobot;

@@ -55,7 +55,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 39
+      "__id__": 38
     },
     "_opacity": 255,
     "_color": {
@@ -1397,9 +1397,6 @@
     "clickEvents": [
       {
         "__id__": 37
-      },
-      {
-        "__id__": 38
       }
     ],
     "_N$interactable": true,
@@ -1458,16 +1455,6 @@
       "__id__": 1
     },
     "_id": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
-    "component": "",
-    "_componentId": "5e37bN3Nx1Mi4pjxhk+BrcK",
-    "handler": "onClickEnterGame",
-    "customEventData": ""
   },
   {
     "__type__": "cc.ClickEvent",

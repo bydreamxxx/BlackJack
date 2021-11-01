@@ -297,13 +297,13 @@ var SysTools = {
             var file_path = head_icon_path + '/' + file_name + date;
 
             //textureCache是否存在纹理
-            var texture = cc.textureCache.getTextureForKey(file_path);
-            if (texture && cc.isValid(sprite)) {
-                sprite.spriteFrame = new cc.SpriteFrame(texture);
-                checkHeadLoadingList(sprite);
-                //cc.log("[头像] textureCache 已存在纹理:", file_name);
-                return;
-            }
+            // var texture = cc.textureCache.getTextureForKey(file_path);
+            // if (texture && cc.isValid(sprite)) {
+            //     sprite.spriteFrame = new cc.SpriteFrame(texture);
+            //     checkHeadLoadingList(sprite);
+            //     //cc.log("[头像] textureCache 已存在纹理:", file_name);
+            //     return;
+            // }
 
             //头像目录是否存在头像文件
             if (jsb.fileUtils.isFileExist(file_path)) {
