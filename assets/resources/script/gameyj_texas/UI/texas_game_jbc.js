@@ -201,8 +201,10 @@ cc.Class({
     },
     //最新声音更改
     onOpenSettingMusic: function (event, data) {
-        var scp = event.target.getComponent('com_game_menu')
-        scp.setOpenMusicCallBack(this.playBackGround)
+        hall_audio_mgr.com_btn_click();
+
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/blackjack_setting");
+
     },
 
     //分享按钮
@@ -223,9 +225,9 @@ cc.Class({
     },
 
 
-    onMenu: function (event, data) {
-        this.menu_funcs.active = data != null;
-    },
+    // onMenu: function (event, data) {
+    //     this.menu_funcs.active = data != null;
+    // },
 
 
     start() {
@@ -1084,7 +1086,7 @@ cc.Class({
     //实时更新
     updateDeskScore(data) {
         let total = texas_Data.Instance().convertNumToStr(texas_Data.Instance().m_totalBet);
-        this.title.string = '底池：' + total;
+        this.title.string = 'Pots:' + total;
     },
     //每轮更新一次
     updateRoundScore(data) {
@@ -1505,12 +1507,12 @@ cc.Class({
                         str = '当前禁止该游戏，请联系管理员';
                         break;
                 }
-                var func = function () {
+                //var func = function () {
                     this.backToHall();
-                }.bind(this);
-                cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
-                    ui.getComponent("jlmj_popup_view").show(str, func, 2);
-                }.bind(this));
+                // }.bind(this);
+                // cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
+                //     ui.getComponent("jlmj_popup_view").show(str, func, 2);
+                // }.bind(this));
             }
             else {
                 this.backToHall();

@@ -105,7 +105,7 @@ cc.Class({
             // var xd = cc.find('discard', this.node).convertToWorldSpaceAR(cc.v2(0, 0)).x;
             // cc.find('discard', this.node).x = cc.find('discard', this.node).x + (x - xd);
             this._des.node.active = true;
-            this._des.string = '弃牌'
+            this._des.string = 'FOLD'
             this.node.opacity = 180;
         }
         else {
@@ -127,7 +127,7 @@ cc.Class({
 
     showWait()
     {
-        this._des.string = '等待中'
+        this._des.string = 'Waitting'
         this._des.node.active = true;
         
     },
@@ -166,7 +166,7 @@ cc.Class({
         var winRate = cc.find('winRate/type', this.node).getComponent(cc.Label);
         if(lb)
             lb.y = 9.8;
-        winRate.string = '胜率'+rate/100+'%'
+        winRate.string = 'WinRata:'+rate/100+'%'
     },
     
 

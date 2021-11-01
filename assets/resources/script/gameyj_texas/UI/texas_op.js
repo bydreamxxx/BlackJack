@@ -114,9 +114,9 @@ cc.Class({
                 if(turnBet)
                 {
                     var str = cc.find('canAdd/follow/str',this.my_turn_node).getComponent(cc.Label);
-                    str.string  =  '跟'+texas_Data.Instance().convertNumToStr(turnBet);
+                    str.string  =  'CALL'+texas_Data.Instance().convertNumToStr(turnBet);
                     str = cc.find('canNotAdd/follow/str',this.my_turn_node).getComponent(cc.Label);
-                    str.string  =  '跟'+texas_Data.Instance().convertNumToStr(turnBet);
+                    str.string  =  'CALL'+texas_Data.Instance().convertNumToStr(turnBet);
                 }
 
                 var check = cc.find('check', this.not_my_turn_node)
@@ -157,7 +157,7 @@ cc.Class({
                     {
                         var str = cc.find('str',fl).getComponent(cc.Label);
                         var tog = fl.getComponent(cc.Toggle);
-                        str.string  =  '跟'+texas_Data.Instance().convertNumToStr(turnBet);
+                        str.string  =  'CALL'+texas_Data.Instance().convertNumToStr(turnBet);
                         if(tog.isChecked)
                         {
                             tog.uncheck();  
@@ -194,13 +194,13 @@ cc.Class({
 
         if(noAni)
             return;
-        this.node.getComponent(cc.Animation).stop();
-        this.node.getComponent(cc.Animation).play('show_op');
+        // this.node.getComponent(cc.Animation).stop();
+        // this.node.getComponent(cc.Animation).play('show_op');
         this.m_isHide = false;
     },
 
     hideOp() {
-        this.node.getComponent(cc.Animation).play('hide_op');
+        //this.node.getComponent(cc.Animation).play('hide_op');
         this.m_isHide = true;
     },
 

@@ -63,7 +63,7 @@ cc.Class({
             this.showAllIn(true);
         }else
         {
-            this.labelAdd.string = "加  注"
+            this.labelAdd.string = "RAISE"
             this.skeNode.active = false;
         }
     },
@@ -98,7 +98,7 @@ cc.Class({
             this.skeNode.active = false;
             if(this.labelAdd)
             {
-                this.labelAdd.string = "加  注"
+                this.labelAdd.string = "RAISE"
             }
         }
     },
@@ -115,7 +115,7 @@ cc.Class({
                 AudioManager.playSound(texas_audio_cfg.Allin, false);
                 if(this.labelAdd)
                 {
-                    this.labelAdd.string = "全  下"
+                    this.labelAdd.string = "ALL IN"
                 }
             }
             
@@ -318,7 +318,7 @@ cc.Class({
             sender.Raise(this._value); // + this._min);
         }
         this.skeNode.active = false;
-        this.labelAdd.string = "加  注"
+        this.labelAdd.string = "RAISE"
     },
 
     onAllIn(){
@@ -331,7 +331,7 @@ cc.Class({
 
     resetAddLabel()
     {
-        this.labelAdd.string = "加  注"
+        this.labelAdd.string = "RAISE"
     },
 
     onEnter() {

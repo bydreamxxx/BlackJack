@@ -1,0 +1,88 @@
+1：硬点 ： 
+	第一种情况：无A
+	第二种情况：有A，但是只能作为1
+
+2：软件：
+	有A，且可以作为1或者11
+
+3：6 decks:
+	使用6副牌
+
+4：S17:
+	庄家在软17点时Stand
+5:   DA2:
+	Double Any 2 first cards
+6:  DAS
+	Double After Split Allowed
+7: No surrender
+	不允许缴枪投降
+
+想要在Blackjack上赚钱之前，必须要了解“基本策略”（Basic Strategy）。Basic Strategy就是玩任何一手牌的最优策略。最优的意思就是说，这个策略从概率上讲最大程度的减少庄家赢面。在不算牌的情况下，Basic Stragety是一个玩家必备且必须坚持的法则。
+ 
+很多玩家对Basic Stragety有疑问。最常见的疑问就是这样的：“Basic Stragety说16点对庄家7点要Hit，可是我连续7次Hit16点都爆了，这次我还要Hit吗？”答案是“Hit，坚决要Hit”哪怕你连续爆了1000次，下次还是要Hit。Dealer可能会对你叹息，其他玩家可能会窃笑你的傻逼，但你要知道，你是玩一个长期的游戏，你是冲着钱去的。这个游戏里面没有“运气”“直觉”“猜测”和“点背点正”，只有概率，计算，信心和坚持。
+ 
+Basic Srategy取决与赌场规则，不同规则下的Basic Strategy大致相同但是有细微区别。下面的Basic Strategy表是在最常见的规则下的最有策略：
+6 Decks(使用6副牌), S17（庄家在软17点时Stand）, DA2(Double Any 2 first cards), DAS,（Double After Split Allowed） No surrender(不允许缴枪投降), Resplit up to 4 times, Only one card after resplit Ace.
+
+你的牌	Dealer的Face-up Card			
+	2	3	4	5	6	7	8	9	10	A			
+	Hard Total(硬点数)			
+17-20	S	S	S	S	S	S	S	S	S	S			
+16	S	S	S	S	S	H	H	H	H	H			
+15	S	S	S	S	S	H	H	H	H	H			
+14	S	S	S	S	S	H	H	H	H	H			
+13	S	S	S	S	S	H	H	H	H	H			
+12	H	H	S	S	S	H	H	H	H	H			
+11	D	D	D	D	D	D	D	D	D	H			
+10	D	D	D	D	D	D	D	D	H	H		H	Hit
+9	H	D	D	D	D	H	H	H	H	H		S	Stand
+<8	H	H	H	H	H	H	H	H	H	H		D	Double Down
+ 
+
+第一个表是说的硬点数的情况。所谓硬点数Hard Total，是指你手中没有A，或者虽然有A，但是A只能当1点用，否则就要爆掉。这个表很好理解，只要找到你自己的点数和Dealer的点数，就能确定你的唯一策略。
+ 
+第二个表是软点数的情况。所谓软点数Soft Total，是指手里有A，而且这个A当11点也不会Bust的情况。软点数时应该这样：
+
+你的牌	Dealer的Face-up Card			
+	2	3	4	5	6	7	8	9	10	A			
+	Soft Total(软点数)			
+A,9	S	S	S	S	S	S	S	S	S	S			
+A,8	S	S	S	S	S	S	S	S	S	S			
+A,7	S	Ds	Ds	Ds	Ds	S	S	H	H	H			
+A,6	H	D	D	D	D	H	H	H	H	H			
+A,5	H	H	D	D	D	H	H	H	H	H			
+A,4	H	H	D	D	D	H	H	H	H	H			
+A,3	H	H	H	D	D	H	H	H	H	H		D	Double Down(Hit if not allowed)
+A,2	H	H	H	D	D	H	H	H	H	H		Ds	Double Down(Stand if not allowed)
+这个表也很好理解。唯一可能有麻烦的是Ds。Ds的意思就是说如果允许Double Down，就Double Down, 不允许就Stand。什么时候会不允许double down呢？1是有的赌场有非常操蛋的规矩叫做D9-11，也就是说只有前两张牌是9,10或11的时候才允许double down，不允许double down软点数。2是如果已经Hit过牌，比如手中是A+2+5，这时也不能double down了，就要stand。
+
+
+首先强烈抗议live space竟然不允许我一篇文章中贴三个表（contains too much text）。难道他们没有学习三个代表带三块表吗？
+
+第三个表是手中是一对的时候的分对策略。
+
+你的牌	Dealer的Face-up Card			
+	2	3	4	5	6	7	8	9	10	A			
+	Hard Total(硬点数)			
+A,A	SP	SP	SP	SP	SP	SP	SP	SP	SP	SP			
+10,10	S	S	S	S	S	S	S	S	S	S			
+9,9	SP	SP	SP	SP	SP	S	SP	SP	S	S			
+8,8	SP	SP	SP	SP	SP	SP	SP	SP	SP	SP			
+7,7	SP	SP	SP	SP	SP	SP	H	H	H	H			
+6,6	SP	SP	SP	SP	SP	H	H	H	H	H			
+5,5	D	D	D	D	D	D	D	D	H	H			
+4,4	H	H	H	SP	SP	H	H	H	H	H			
+3,3	SP	SP	SP	SP	SP	SP	H	H	H	H			
+2,2	SP	SP	SP	SP	SP	SP	H	H	H	H		SP	Split
+这三个表，就叫做基本策略表。是Blackjack玩家居家旅行，杀人越货的必备武器。如果一个玩家不能把这三个表记得比自己的名字还熟悉，最好还是待在家里看电视吧。好在它们并不难记比如第三个表，我总结出一些助记规则：
+1.  A,A;  8,8始终Split，10,10始终Stand
+2.  5,5不要Split跟10一样
+3.  99split到9，对7例外要stand
+4.  77split到7，66split到6，22与33和77一样split到7
+5。44只split 56
+
+一个中等记忆力的人大概只要几个小时就能吧这几个表熟记。
+
+熟记这几个表能赢钱吗？非也！按照本文开头的规则（6 decks, S17, DA2, DAS, No surrender），基本策略表能把House Edge降低到0.35%。也就是说，平均每押100块钱，你只输3毛5. 虽然还是输，但是对与其他赌场游戏2-20%的House Edge，已经是好得不能再好了。
+
+那要怎么才能赢钱呢？下次有时间再写Card Counting。今天美国国庆节要看焰火了
