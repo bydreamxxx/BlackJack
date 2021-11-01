@@ -7,8 +7,8 @@ var DingRobot = require('DingRobot');
 /**
  * 设计分辨率配置
  */
-var DESIGN_RATIO_PORT = { width: 720.0, height: 1280.0 };
-var DESIGN_RATIO_LAND = { width: 1280.0, height: 720.0 };
+var DESIGN_RATIO_PORT = { width: 1080.0, height: 1920.0 };
+var DESIGN_RATIO_LAND = { width: 1920.0, height: 1080.0 };
 
 //for base64
 var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="; //索引表

@@ -1,0 +1,41 @@
+{
+"skeleton": { "hash": "+nvksYkoOwfGAZH/puYOCNu/zs4", "spine": "3.7.94", "width": 699.84, "height": 699.84, "images": "./images/", "audio": "E:/ZX/众喜比赛/奖励" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root", "scaleX": 1.59, "scaleY": 1.59 },
+	{ "name": "ssg_00", "parent": "all", "scaleX": 1.996, "scaleY": 1.996 },
+	{ "name": "ssg_12", "parent": "all", "scaleX": 0.802, "scaleY": 0.802 }
+],
+"slots": [
+	{ "name": "ssg_12", "bone": "ssg_12", "color": "ffc340b4", "attachment": "ssg_12", "blend": "screen" },
+	{ "name": "ssg_00", "bone": "ssg_00", "color": "ffd435b4", "attachment": "ssg_00", "blend": "screen" }
+],
+"skins": {
+	"default": {
+		"ssg_00": {
+			"ssg_00": { "x": -0.16, "width": 189, "height": 190 }
+		},
+		"ssg_12": {
+			"ssg_12": { "width": 549, "height": 549 }
+		}
+	}
+},
+"animations": {
+	"jb": {
+		"bones": {
+			"ssg_00": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 4, "angle": -140.5 }
+				]
+			},
+			"ssg_12": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 4, "angle": 150.02 }
+				]
+			}
+		}
+	}
+}
+}

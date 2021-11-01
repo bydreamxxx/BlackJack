@@ -711,9 +711,9 @@ var loginModle = cc.Class({
                 LanguageMgr.changeLanguage("TC");
                 break;
             case "TC":
-                LanguageMgr.changeLanguage("YD");
+                LanguageMgr.changeLanguage("IN");
                 break;
-            case "YD":
+            case "IN":
                 LanguageMgr.changeLanguage("ZH");
                 break;
             case "ZH":

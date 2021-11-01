@@ -420,7 +420,7 @@ var hanlder = {
                 if (Hall.HallData.Instance().sign_data.rewardListList[i].index == msg.index) {
                     Hall.HallData.Instance().sign_data.rewardListList[i].state = 2;
                     cc.dd.shareAgainIndex = msg.index;
-                    cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }], !cc._isHuaweiGame);
+                    //cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }], !cc._isHuaweiGame);
 
                     Hall.HallData.Instance().sign_data = null;
                     break;
@@ -450,7 +450,7 @@ var hanlder = {
                 if (Hall.HallData.Instance().sign_data.rewardListList[i].index == msg.index) {
                     Hall.HallData.Instance().sign_data.rewardListList[i].state = 2;
                     cc.dd.shareAgainIndex = msg.index;
-                    cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }]);
+                    //cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }]);
                     break;
                 }
             }
@@ -629,7 +629,7 @@ var hanlder = {
                 for (var i = 0; i < msg.itemListList.length; i++) {
                     msg.itemListList[i].id = msg.itemListList[i].itemDataId;
                 }
-                cc.dd.RewardWndUtil.show(msg.itemListList);
+                //cc.dd.RewardWndUtil.show(msg.itemListList);
                 break;
             case 1:
                 cc.dd.PromptBoxUtil.show('您已经领取过这个奖励了！');

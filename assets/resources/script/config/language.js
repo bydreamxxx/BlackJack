@@ -83,7 +83,7 @@ var data_language =
       { key:79,keyword:"SB",EN:"SB",TC:"小盲",IN:"SB",ZH:"小盲" },
       { key:80,keyword:"bigblind",EN:"BIGBLING",TC:"大盲註",IN:"बड़ा ब्लैंड इंजीक्शन",ZH:"大盲注" },
       { key:81,keyword:"smallblind",EN:"SMALLBLIND",TC:"小盲註",IN:"छोटा ब्लैंड इंजीक्शन",ZH:"小盲注" },
-      { key:82,keyword:"LANGUAGE",EN:"EN",TC:"TC",IN:"YD",ZH:"ZH" }
+      { key:82,keyword:"LANGUAGE",EN:"EN",TC:"TC",IN:"IN",ZH:"ZH" }
     ],
 
     /**
