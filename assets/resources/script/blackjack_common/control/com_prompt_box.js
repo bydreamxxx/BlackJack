@@ -41,8 +41,8 @@ cc.Class({
         }
 
         var lblNodt = cc.find('lbl', bgNode);
-        var lblCpt = lblNodt.getComponent(cc.Label);
-        lblCpt.string = text;
+        var lblCpt = lblNodt.getComponent(require("LanguageLabel"));
+        lblCpt.setText(text);
         if (bgWidth)
             bgNode.width = bgWidth;
 

@@ -142,7 +142,7 @@ cc.Class({
                     cardnode.children[j].scaleX = 0.5;
                     cardnode.children[j].scaleY = 0.5;
                 }
-                cardnode.children[j].rotation = 0;
+                cardnode.children[j].angle = 0;
                 if (view == 1 || view == 2)
                     cardnode.children[j].setPosition(cardPositon[view][5 - data.handPoker.length + j], 0);
                 else

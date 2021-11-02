@@ -165,8 +165,9 @@ cc.Class({
     /**
      * 设置头像
      */
-    onSetHeadSp: function (sp, openid) {
-        this.headSp.spriteFrame = sp;
+    onSetHeadSp: function (openid) {
+        // this.headSp.spriteFrame = sp;
+        this._getWxHeadFrame(openid, this.headSp);
     },
 
     /**
@@ -411,14 +412,24 @@ cc.Class({
     /**
      * 获取微信头像精灵帧
      */
-    _getWxHeadFrame: function (openId) {
+    _getWxHeadFrame: function (openId, sprite) {
         var headFilePath = jsb.fileUtils.getWritablePath() + "head_" + openId;
-        var texture = cc.textureCache.addImage(headFilePath);
-        if (texture) {
-            return new cc.SpriteFrame(texture);
-        } else {
-            cc.error("无微信头像文件,openid:" + openId);
-        }
+        // var texture = cc.textureCache.addImage(headFilePath);
+        // if (texture) {
+        //     return new cc.SpriteFrame(texture);
+        // } else {
+        //     cc.error("无微信头像文件,openid:" + openId);
+        // }
+
+        cc.assetManager.loadRemote(headFilePath, {ext: '.png'}, (err, texture)=>{
+            if(err){
+                cc.error(`加载头像失败 ${err.code} ${err.message}`);
+                return;
+            }
+            if (texture && cc.isValid(sprite)) {
+                sprite.spriteFrame = new cc.SpriteFrame(texture);
+            }
+        });
     },
 
     updateNick: function (data) {
@@ -465,7 +476,7 @@ cc.Class({
         switch (event) {
             case WxEvent.DOWNLOAD_HEAD:
                 cc.log('玩家头像下载完毕!!');
-                this.onSetHeadSp(this._getWxHeadFrame(data[0]), data[0]);
+                this.onSetHeadSp(data[0]);
                 break;
             case HallCommonEvent.UPDATE_NICK:
                 this.updateNick(data);

@@ -13,7 +13,7 @@ var BET_ERROR = {
     [-1]:'未轮到自已',
     [-2]:'金额不足',
     [-3]:'玩家不存在',
-    [-4]:'不是下注状态',
+    [-4]:'notbet',
     [-5]:'状态不对',
     [-6]:'未在下注状态中',
     [-7]:'跟和过投注额少于条件',
@@ -147,6 +147,7 @@ module.exports = {
 
     //发牌
     on_msg_texas_common_poker_notify(msg) {
+        RoomMgr.Instance().gameStart = true;
         texas_Data.Instance().updateCommonCards(msg);
         var total = texas_Data.Instance().getRoundTotalBet();
         texas_Data.Instance().clearBetRound();
@@ -220,6 +221,7 @@ module.exports = {
         else{
             TEXAS_ED.notifyEvent(Texas_Event.NO_CARDS_RESULT, msg);
         }
+        RoomMgr.Instance().gameStart = false;
     },
 
     //战绩

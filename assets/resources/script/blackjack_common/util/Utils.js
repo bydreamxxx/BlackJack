@@ -291,9 +291,9 @@ var Utils = {
             if (num < 10000) {
                 word = num.toString();
             } else if (num >= 10000 && num < 1000000) {
-                word = (Math.floor(num * 100 / 10000) / 100).toString() + "万";
+                word = (Math.floor(num * 100 / 10000) / 100).toString() + "w";
             } else if (num >= 1000000 && num < 100000000) {
-                word = Math.floor(num / 10000).toString() + "万";
+                word = Math.floor(num / 10000).toString() + "w";
             } else {
                 word = (Math.floor(num / 1000000) / 100).toString() + "亿";
             }

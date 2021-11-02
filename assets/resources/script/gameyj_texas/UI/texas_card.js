@@ -119,7 +119,7 @@ cc.Class({
         if (this._toPosition != null) {
             this.node.setPosition(this._toPosition);
         }
-        this.node.rotation = 0;
+        this.node.angle = 0;
         if (this._isShow) {
             
             this.node.getComponent(cc.Animation).play('dipai_rotate');
@@ -145,7 +145,7 @@ cc.Class({
         // var tweenScale = cc.scaleTo(durTime, toScale.x, toScale.y).easing(cc.easeExponentialOut());
         var fade = cc.fadeOut(1.0);
         var tweenPostion = cc.moveTo(1, endpos).easing(cc.easeExponentialOut());
-        var tweenRotation = cc.rotateTo(1, this.node.rotation + 360).easing(cc.easeExponentialOut());
+        var tweenRotation = cc.rotateTo(1, this.node.angle + 360).easing(cc.easeExponentialOut());
         var self = this;
         action = cc.sequence(
         cc.spawn(fade,tweenRotation,tweenPostion),

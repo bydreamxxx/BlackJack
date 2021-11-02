@@ -12,7 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        titleTxt: cc.Label,
+        titleTxt: require("LanguageLabel"),
         baseScoreTxt: cc.Label,
         playerNumTxt: cc.Label,
         descTxt: cc.Label,
@@ -33,7 +33,7 @@ cc.Class({
         game_room_list.items.forEach(function (roomItem) {
             if (gameId == roomItem.gameid && roomItem.roomid == data.fangjianid) {
                 this.roomItem = roomItem;
-                this.titleTxt.string = roomItem.titel ;
+                this.titleTxt.setText(roomItem.titel);
                 this.baseScoreTxt.string = roomItem.basescore;
                 this.playerNumTxt.string = data.fangjianrenshu;
                 this.descTxt.string = roomItem.desc;

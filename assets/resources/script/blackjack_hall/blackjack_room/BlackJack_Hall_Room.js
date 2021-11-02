@@ -15,7 +15,7 @@ cc.Class({
         game_name: '',
         game_id: '',
         itemList: [],
-
+        totalPlayerNumTxt:cc.Label,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -56,10 +56,11 @@ cc.Class({
         }.bind(this));
 
         cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/blackjack/room/BlackJack_Common_Room_Item", function (prefab) { //加载房间数据
+            var number = 0
             for (var i = 0; i < data.roomlistList.length; i++) {
                 var dataInfo = data.roomlistList[i];
-
                 if (dataInfo) {
+                    number += dataInfo.fangjianrenshu
                     var item = cc.instantiate(prefab);
                     item.tagname = i + 1;
                     this.itemList.push(item);
@@ -67,6 +68,7 @@ cc.Class({
                     item.getComponent('BlackJack_Hall_RoomItem').init(dataInfo, data.hallGameid, this.onClickCallBack.bind(this));
                 }
             }
+            this.totalPlayerNumTxt.string = number
         }.bind(this))
      },
 

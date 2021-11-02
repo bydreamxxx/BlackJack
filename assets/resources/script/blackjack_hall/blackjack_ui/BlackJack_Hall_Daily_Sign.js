@@ -61,13 +61,18 @@ let sign = cc.Class({
 
     //发送领取
     sign: function (event, data) {
-        hall_audio_mgr.com_btn_click();
         var index = parseInt(data);
+        var day_node = cc.find('bg/day' + index.toString(), this.node);
+        var canget = cc.find('canGet', day_node);
+        if(canget.active == false){
+            return
+        }
+
+        hall_audio_mgr.com_btn_click();
         if (this.isget == true) {
             cc.dd.PromptBoxUtil.show('今日已签到已领取,不可重复领取!');
             return;
         }
-        var day_node = cc.find('bg/day' + index.toString(), this.node);
         var click = cc.find('click', day_node);
         click.active = true;
 

@@ -134,7 +134,7 @@ var DialogBoxUtil = cc.Class({
         this.dialogBox.resetUI();
         this.dialogBox.content_text.string = contentStr;
         this.dialogBox.title_text.string = titleStr || '温馨提示';
-        this.dialogBox.ok_text.string = this._isValidStr(okStr) ? okStr : '确定';
+        this.dialogBox.ok_text.setText(this._isValidStr(okStr) ? okStr : 'OK');
         this.dialogBox.ok_func = okHandler;
         this.dialogBox.cancel_func = cancelHandler;
         this.dialogBox.node.active = true;
@@ -161,7 +161,7 @@ var DialogBoxUtil = cc.Class({
 
         if (this._isValidStr(cancelStr)) {
             this.dialogBox.cancel_btn.active = true;
-            this.dialogBox.cancel_text.string = cancelStr;
+            this.dialogBox.cancel_text.setText(cancelStr);
             this.dialogBox.ok_btn.x = 155.1;
         } else {
             this.dialogBox.cancel_btn.active = false;

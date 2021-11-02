@@ -61,7 +61,7 @@ cc.Class({
         chip_splist: [cc.SpriteFrame],      //筹码sp列表
         result_fonts: [cc.Font],            //结算字体
         result_bg: [cc.SpriteFrame],               //结算背景
-        type_splist: [cc.SpriteFrame],      //牌类型
+        type_splist: [String],      //牌类型
         type_splist_gray: [cc.SpriteFrame], //牌类型(灰色)
         tpye_ani_prefab: [cc.Prefab],        //赢家牌类型动画
         win_ani_prefab: cc.Prefab,        //赢家动画(不亮牌)
@@ -224,6 +224,16 @@ cc.Class({
         this.emojiNode.active = data != null;
     },
 
+    onClickChat(event, data){
+        hall_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/chat");
+    },
+
+    onClickEmoj(event, data){
+        hall_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/biaoqing");
+    },
+
 
     // onMenu: function (event, data) {
     //     this.menu_funcs.active = data != null;
@@ -367,7 +377,7 @@ cc.Class({
             let view = texas_Data.Instance().getViewById(data.playerid);
             let player = texas_Data.Instance().getPlayerById(data.playerid);
             if (player)
-                this.head_list[view].updateUI();
+                this.head_list[view].updateCoin();
             else
                 cc.log("null player");
             //当前说话玩家是自己，更新金币的时候可能是取钱，需要重置操作按钮
@@ -376,7 +386,7 @@ cc.Class({
                 cc.log('重置操作按钮');
             }
         } else {
-            this.head_list[0].updateUI();
+            this.head_list[0].updateCoin();
         }
 
     },
@@ -427,7 +437,7 @@ cc.Class({
         this.playChips(view, data.bet);
         // if (texas_Data.Instance().getMaxCurBetWithout(userId) > 0) {
         this.allStopSay();
-        this.head_list[view].say(this.player_state_type[4]);
+        this.head_list[view].say("jiazhu");
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
             AudioManager.playSound(texas_audio_cfg.MAN.Raise, false);
         else
@@ -458,7 +468,7 @@ cc.Class({
             cc.log('null player');
         this.playChips(view, data.bet);
         this.allStopSay();
-        this.head_list[view].say(this.player_state_type[5]);
+        this.head_list[view].say("allin");
         var allin = cc.find('allin', this.head_list[view].node);
         allin.active = true;
         var ani = allin.getComponentInChildren(cc.Animation);
@@ -527,7 +537,7 @@ cc.Class({
 
         }
         else {
-            this.head_list[view].say(this.player_state_type[1]);
+            this.head_list[view].say("genzhu");
             if (texas_Data.Instance().getPlayerById(userId).sex == 1)
                 AudioManager.playSound(texas_audio_cfg.MAN.Call, false);
             else
@@ -544,7 +554,7 @@ cc.Class({
         if (view == 0) this.texas_op.hideOp();
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
         this.allStopSay();
-        this.head_list[view].say(this.player_state_type[2]);
+        this.head_list[view].say("guopai");
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
             AudioManager.playSound(texas_audio_cfg.MAN.Pass, false);
         else
@@ -591,6 +601,7 @@ cc.Class({
         var playerNum = this.head_list.length;
         for (var j = bankerView; j > bankerView - playerNum; j--) {
             var i = j < 0 ? (j + playerNum) : j;
+            this.head_list[i].ready.active = false
             var player = texas_Data.Instance().getPlayerByViewIdx(i);
             if (player && player.joinGame) {
                 delay += stepTime
@@ -616,7 +627,7 @@ cc.Class({
             var node0 = cc.find('card0', cardnode);
             node0.scaleX = card.scaleX;
             node0.scaleY = card.scaleY;
-            node0.rotation = card.rotation;
+            node0.angle = card.rotation;
             var nodepos0 = node0.convertToWorldSpaceAR(cc.v2(0, 0));
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node0.x += (cardpos0.x - nodepos0.x);
@@ -651,7 +662,7 @@ cc.Class({
             var node1 = cc.find('card1', cardnode);
             node1.scaleX = card.scaleX;
             node1.scaleY = card.scaleY;
-            node1.rotation = card.rotation;
+            node1.angle = card.rotation;
             var nodepos0 = node1.convertToWorldSpaceAR(cc.v2(0, 0));
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node1.x += (cardpos0.x - nodepos0.x);
@@ -786,7 +797,7 @@ cc.Class({
 
     showNYL() {
         var effectNode = cc.find('effectNode', this.node)
-        effectNode.active = true;
+        effectNode.active = false;
 
         this.middle_effect[0].active = true;
         var ani = this.middle_effect[0].getComponent(cc.Animation);
@@ -800,6 +811,7 @@ cc.Class({
 
             this.node.runAction(cc.sequence(cc.delayTime(5), cc.callFunc(function () {
                 this.clearEffectNode();
+                this.resetGameUI()
             }.bind(this))));
         }
         AudioManager.playSound(texas_audio_cfg.Win, false);
@@ -1128,7 +1140,7 @@ cc.Class({
 
             cNode.scaleX = card.scaleX;
             cNode.scaleY = card.scaleY;
-            cNode.rotation = card.rotation;
+            cNode.angle = card.rotation;
             var nodepos0 = cNode.convertToWorldSpaceAR(cc.v2(0, 0));
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             cNode.x += (cardpos0.x - nodepos0.x);
@@ -1219,7 +1231,10 @@ cc.Class({
     onOverTurn(userId, noTime) {
         let view = texas_Data.Instance().getViewById(userId || texas_Data.Instance().curPlayer);
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0)
-        let playGold = selfPlayer.score;
+        let playGold = 0;
+        if(!cc.dd._.isNull(selfPlayer) && !cc.dd._.isNull(selfPlayer.score)){
+            playGold = selfPlayer.score;
+        }
         let curBet = texas_Data.Instance().getMaxCurBet();
         let turnBet = texas_Data.Instance().getMaxTurnBet();
         if (view == 0) {//自己
@@ -1309,7 +1324,7 @@ cc.Class({
             }
             this.texas_op.showOp(OP_TYPE.NOT_MY_TURN, optype, turnBet, null, selfPlayer.turnBet);
         }
-        this.head_list[view].say(this.player_state_type[0]);
+        this.head_list[view].say("wait");
         if (noTime) {
 
         } else {
@@ -1507,12 +1522,10 @@ cc.Class({
                         str = '当前禁止该游戏，请联系管理员';
                         break;
                 }
-                //var func = function () {
+                var func = function () {
                     this.backToHall();
-                // }.bind(this);
-                // cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
-                //     ui.getComponent("jlmj_popup_view").show(str, func, 2);
-                // }.bind(this));
+                }.bind(this);
+                cc.dd.DialogBoxUtil.show(1, str, 'confirm', 'cancel',func)
             }
             else {
                 this.backToHall();

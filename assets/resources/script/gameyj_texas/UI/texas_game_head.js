@@ -8,16 +8,16 @@ let texas_Data = require('texas_data').texas_Data;
 
 const CARD_TYPE_STR=[
     '',
-    '高牌',
-    '一对',
-    '两对',
-    '三条',
-    '顺子',
-    '同花',
-    '葫芦',
-    '四条',
-    '同花顺',
-    '皇家同花顺',
+    'gaopai',
+    'yidui',
+    'liangdui',
+    'santiao',
+    'shunzi',
+    'touhua',
+    'hulu',
+    'sitiao',
+    'tonghuashun',
+    'huangjiatonghuashun',
 ];
 
 cc.Class({
@@ -145,7 +145,7 @@ cc.Class({
         if(bg && type!=null)
         {
             bg.active = true;
-            cc.find('type',bg).getComponent(cc.Label).string = CARD_TYPE_STR[type];
+            cc.find('type',bg).getComponent(require("LanguageLabel")).setText(CARD_TYPE_STR[type]);
         }
         
     },
@@ -179,33 +179,35 @@ cc.Class({
             cc.find('dipai_1/beimian',this._cardnode.children[i]).active = false;
         }
         // var tp = cc.find('type/type', this.node)
+        var bg = cc.find('type', this.node)
+        bg.getComponent(require("LanguageLabel")).setText(sp);
+        bg.active = true;
+
         if(gray)
         {
-            var bg = cc.find('type', this.node)
-            bg.getComponent(cc.Sprite).spriteFrame = sp;
-            bg.active = true;
-            var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
-            bg.getComponent(cc.Sprite).setMaterial(0,gray)
+            bg.color = cc.color(171, 163, 163)
 
             // cc.dd.ShaderUtil.setDarkShader(tp);//setGrayShader(tp);
             //cc.dd.ShaderUtil.setDarkShader(bg);//setGrayShader(bg);
         }else//win
         {
-            var effct = cc.instantiate(pref);
-            if(!effct)
-            {
-                cc.log("texas error:pref is null");
-                return;
-            }
-            if(cardType<=6)
-            {
-                var pic = cc.find('px/sp',effct).getComponent(cc.Sprite);
-                pic.spriteFrame = sp;
-            }
+            bg.color = cc.color(241, 182, 15)
+
+            // var effct = cc.instantiate(pref);
+            // if(!effct)
+            // {
+            //     cc.log("texas error:pref is null");
+            //     return;
+            // }
+            // if(cardType<=6)
+            // {
+            //     var pic = cc.find('px/sp',effct).getComponent(cc.Sprite);
+            //     pic.spriteFrame = sp;
+            // }
             var winnode = cc.find('win', this.node)
             winnode.removeAllChildren(true);
             winnode.active = true;
-            winnode.addChild(effct);
+            //winnode.addChild(effct);
             var animation = winnode.getComponent(cc.Animation);
             if(animation)
             {
@@ -247,7 +249,7 @@ cc.Class({
     say(sp) {
         this._des.node.active = false;
         cc.find('say', this.node).active = true;
-        cc.find('say', this.node).getComponent(cc.Sprite).spriteFrame = sp;
+        cc.find('say', this.node).getComponent(require("LanguageLabel")).setText(sp);
         this.removeWinFrame();
         // this.node.getComponent(cc.Animation).play('say');
     },
@@ -288,6 +290,9 @@ cc.Class({
         cc.find('bet', this.node).active = false;
         cc.find('allin', this.node).active = false;
         cc.find('winRate',this.node).active = false;
+        cc.find('banker',this.node).active = false;
+
+        this.ready.active = false
         var myType = cc.find('handType', this.node)
         if(myType)
         myType.active = false

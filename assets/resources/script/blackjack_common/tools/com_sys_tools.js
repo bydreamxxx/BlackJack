@@ -277,24 +277,24 @@ var SysTools = {
         }
 
         //头像缓存
-        if (cc.sys.isNative) {
-            var date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-            if (url.indexOf('.jpg') != -1) {
-                var start_pos = url.lastIndexOf("/");
-                var file_name = url.substring(start_pos + 1);
-                //cc.log("[头像] 头像文件名:", file_name);
-            }
-            else {
-                var name_strs = url.split("/");
-                var file_name = name_strs[name_strs.length - 2];
-                //cc.log("[头像] 头像文件名:", file_name);
-            }
-
-            var head_icon_path = jsb.fileUtils.getWritablePath() + "head_icon";
-            if (!jsb.fileUtils.isDirectoryExist(head_icon_path)) {
-                jsb.fileUtils.createDirectory(head_icon_path);
-            }
-            var file_path = head_icon_path + '/' + file_name + date;
+        // if (cc.sys.isNative) {
+        //     var date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        //     if (url.indexOf('.jpg') != -1) {
+        //         var start_pos = url.lastIndexOf("/");
+        //         var file_name = url.substring(start_pos + 1);
+        //         //cc.log("[头像] 头像文件名:", file_name);
+        //     }
+        //     else {
+        //         var name_strs = url.split("/");
+        //         var file_name = name_strs[name_strs.length - 2];
+        //         //cc.log("[头像] 头像文件名:", file_name);
+        //     }
+        //
+        //     var head_icon_path = jsb.fileUtils.getWritablePath() + "head_icon";
+        //     if (!jsb.fileUtils.isDirectoryExist(head_icon_path)) {
+        //         jsb.fileUtils.createDirectory(head_icon_path);
+        //     }
+        //     var file_path = head_icon_path + '/' + file_name + date;
 
             //textureCache是否存在纹理
             // var texture = cc.textureCache.getTextureForKey(file_path);
@@ -306,64 +306,64 @@ var SysTools = {
             // }
 
             //头像目录是否存在头像文件
-            if (jsb.fileUtils.isFileExist(file_path)) {
-                var texture = cc.textureCache.addImage(file_path);
-                if (texture && cc.isValid(sprite)) {
-                    sprite.spriteFrame = new cc.SpriteFrame(texture);
-                    //cc.log("[头像] 头像目录中存在头像文件:", file_name);
-                }
-                checkHeadLoadingList(sprite);
-                return;
-            }
+            // if (jsb.fileUtils.isFileExist(file_path)) {
+            //     var texture = cc.textureCache.addImage(file_path);
+            //     if (texture && cc.isValid(sprite)) {
+            //         sprite.spriteFrame = new cc.SpriteFrame(texture);
+            //         //cc.log("[头像] 头像目录中存在头像文件:", file_name);
+            //     }
+            //     checkHeadLoadingList(sprite);
+            //     return;
+            // }
 
-            if (!this.sprite_list) {
-                this.sprite_list = [];
-            }
-            this.sprite_list.push(sprite);
-            var self = this;
-            var onSucceed = function (task) {
-                if (task.requestURL.indexOf('.jpg') != -1) {
-                    var start_pos = task.requestURL.lastIndexOf("/");
-                    var file_name2 = task.requestURL.substring(start_pos + 1);
-                }
-                else {
-                    var name_strs = task.requestURL.split("/");
-                    var file_name2 = name_strs[name_strs.length - 2];
-                }
-                var head_icon_path = jsb.fileUtils.getWritablePath() + "head_icon";
-                var file_path2 = head_icon_path + '/' + file_name2 + date;
-
-                var texture = cc.textureCache.addImage(file_path2);
-                var idx = parseInt(task.identifier);
-                if (texture && cc.isValid(self.sprite_list[idx])) {
-                    if (self.sprite_list[idx]._headTag == task.requestURL)
-                        self.sprite_list[idx].spriteFrame = new cc.SpriteFrame(texture);
-                    else
-                        cc.error("[头像] 头像url不匹配: " + self.sprite_list[idx]._headTag + "  &&  " + task.requestURL);
-                }
-                if (self.sprite_list[idx]) {
-                    checkHeadLoadingList(self.sprite_list[idx]);
-                }
-            };
-
-            var onError = function (task, errorCode, errorCodeInternal, errorStr) {
-                cc.error('[头像] 下载头像失败 (' + task.requestURL + '): ' + errorStr + '(' + errorCode + ')')
-                var idx = parseInt(task.identifier);
-                if (self.sprite_list[idx]) {
-                    checkHeadLoadingList(self.sprite_list[idx]);
-                }
-            };
-
-            //开始下载头像
-            if (!this.downloader) {
-                this.downloader = new jsb.Downloader();
-                this.downloader.setOnFileTaskSuccess(onSucceed);
-                this.downloader.setOnTaskError(onError);
-            }
-            var identifier = (this.sprite_list.length - 1) + "";
-            this.downloader.createDownloadFileTask(url, file_path, identifier);
-            return;
-        }
+            // if (!this.sprite_list) {
+            //     this.sprite_list = [];
+            // }
+            // this.sprite_list.push(sprite);
+            // var self = this;
+            // var onSucceed = function (task) {
+            //     if (task.requestURL.indexOf('.jpg') != -1) {
+            //         var start_pos = task.requestURL.lastIndexOf("/");
+            //         var file_name2 = task.requestURL.substring(start_pos + 1);
+            //     }
+            //     else {
+            //         var name_strs = task.requestURL.split("/");
+            //         var file_name2 = name_strs[name_strs.length - 2];
+            //     }
+            //     var head_icon_path = jsb.fileUtils.getWritablePath() + "head_icon";
+            //     var file_path2 = head_icon_path + '/' + file_name2 + date;
+            //
+            //     var texture = cc.textureCache.addImage(file_path2);
+            //     var idx = parseInt(task.identifier);
+            //     if (texture && cc.isValid(self.sprite_list[idx])) {
+            //         if (self.sprite_list[idx]._headTag == task.requestURL)
+            //             self.sprite_list[idx].spriteFrame = new cc.SpriteFrame(texture);
+            //         else
+            //             cc.error("[头像] 头像url不匹配: " + self.sprite_list[idx]._headTag + "  &&  " + task.requestURL);
+            //     }
+            //     if (self.sprite_list[idx]) {
+            //         checkHeadLoadingList(self.sprite_list[idx]);
+            //     }
+            // };
+            //
+            // var onError = function (task, errorCode, errorCodeInternal, errorStr) {
+            //     cc.error('[头像] 下载头像失败 (' + task.requestURL + '): ' + errorStr + '(' + errorCode + ')')
+            //     var idx = parseInt(task.identifier);
+            //     if (self.sprite_list[idx]) {
+            //         checkHeadLoadingList(self.sprite_list[idx]);
+            //     }
+            // };
+            //
+            // //开始下载头像
+            // if (!this.downloader) {
+            //     this.downloader = new jsb.Downloader();
+            //     this.downloader.setOnFileTaskSuccess(onSucceed);
+            //     this.downloader.setOnTaskError(onError);
+            // }
+            // var identifier = (this.sprite_list.length - 1) + "";
+            // this.downloader.createDownloadFileTask(url, file_path, identifier);
+        //     return;
+        // }
 
         //网页加载头像
         // var types = ['png', 'jpg', 'jpeg', 'bmp'];
@@ -372,28 +372,28 @@ var SysTools = {
             cc.log('加载头像, url=' + url);
             //头像是否重新加载
             let head_reload = false;
-            if (cc.sys.isNative && head_reload) {
-                //修复加载远程图片过程中,网络中断导致加载图片成黑块的bug
-                cc.textureCache.removeTextureForKey(url);
-                jsb.loadRemoteImg(url, function (succeed, tex) {
-                    if (succeed && cc.isValid(sprite)) {
-                        sprite.spriteFrame = new cc.SpriteFrame(tex);
-                        cc.log('加载微信头像成功' + tex);
-                        checkHeadLoadingList(sprite);
-                    }
-                    else {
-                        idx++;
-                        if (idx >= types.length) {
-                            cc.error('加载微信头像失败,检查格式是否支持, url=' + url);
-                            checkHeadLoadingList(sprite);
-                        } else {
-                            cc.log('继续加载头像失败, next ' + idx);
-                            loadUrlImg(idx);
-                        }
-                        //cc.log('加载头像失败, err=' + err);
-                    }
-                });
-            } else {
+            // if (cc.sys.isNative && head_reload) {
+            //     //修复加载远程图片过程中,网络中断导致加载图片成黑块的bug
+            //     cc.textureCache.removeTextureForKey(url);
+            //     jsb.loadRemoteImg(url, function (succeed, tex) {
+            //         if (succeed && cc.isValid(sprite)) {
+            //             sprite.spriteFrame = new cc.SpriteFrame(tex);
+            //             cc.log('加载微信头像成功' + tex);
+            //             checkHeadLoadingList(sprite);
+            //         }
+            //         else {
+            //             idx++;
+            //             if (idx >= types.length) {
+            //                 cc.error('加载微信头像失败,检查格式是否支持, url=' + url);
+            //                 checkHeadLoadingList(sprite);
+            //             } else {
+            //                 cc.log('继续加载头像失败, next ' + idx);
+            //                 loadUrlImg(idx);
+            //             }
+            //             //cc.log('加载头像失败, err=' + err);
+            //         }
+            //     });
+            // } else {
                 cc.assetManager.loadRemote(url, { ext: types[idx] }, function (err, tex) {
                     if (err != null) {
                         idx++;
@@ -412,7 +412,7 @@ var SysTools = {
                         checkHeadLoadingList(sprite);
                     }
                 });
-            }
+            // }
         };
         var idx = 0;
         loadUrlImg(idx);

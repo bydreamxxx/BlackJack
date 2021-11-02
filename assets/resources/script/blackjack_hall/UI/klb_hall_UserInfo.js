@@ -265,8 +265,9 @@ let userInfo = cc.Class({
     /**
      * 设置头像
      */
-    onSetHeadSp: function (sp, openid) {
-        this.headSp.spriteFrame = sp;
+    onSetHeadSp: function (openid) {
+        // this.headSp.spriteFrame = sp;
+        this._getWxHeadFrame(openid, this.headSp);
     },
     /**
      * 购买商品成功

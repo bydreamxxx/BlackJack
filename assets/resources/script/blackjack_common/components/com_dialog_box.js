@@ -6,8 +6,8 @@ cc.Class({
     properties: {
         title_text: cc.Label,
         content_text: cc.RichText,
-        ok_text: cc.Label,
-        cancel_text: cc.Label,
+        ok_text: require("LanguageLabel"),
+        cancel_text: require("LanguageLabel"),
         ok_btn: cc.Node,
         cancel_btn: cc.Node,
 

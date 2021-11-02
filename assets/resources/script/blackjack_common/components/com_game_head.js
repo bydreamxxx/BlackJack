@@ -202,6 +202,12 @@ let com_game_head = cc.Class({
             return distance;
         }
     },
+
+    updateCoin: function(){
+        //金币
+        let coin = this.player.score != null ? this.player.score : this.player.coin;
+        this.coin.string = cc.dd.Utils.getNumToWordTransform(coin);
+    },
     /**
      * 播放魔法道具
      * @param idx
