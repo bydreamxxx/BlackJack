@@ -87,7 +87,7 @@ var data_language =
       { key:83,keyword:"qian",EN:"K",TC:"千",IN:"K",ZH:"千" },
       { key:84,keyword:"wan",EN:"W",TC:"萬",IN:"W",ZH:"万" },
       { key:85,keyword:"baiwan",EN:"M",TC:"百萬",IN:"M",ZH:"百万" },
-      { key:86,keyword:"xieyi",EN:"Agree to the 《User Use Agreement》",TC:"同意《用戶使用協議》",IN:"स्वीकारें "प्रयोक्ता स्वीकार करें"",ZH:"同意《用户使用协议》" },
+      { key:86,keyword:"xieyi",EN:"Agree to the 《User Use Agreement》",TC:"同意《用戶使用協議》",IN:"स्वीकारें 'प्रयोक्ता स्वीकार करें'",ZH:"同意《用户使用协议》" },
       { key:87,keyword:"zhunbei",EN:"Ready",TC:"已準備",IN:"तैयार",ZH:"已准备" },
       { key:88,keyword:"gaopai",EN:"HIGH CARD",TC:"高牌",IN:"हाई कार्ड",ZH:"高牌" },
       { key:89,keyword:"yidui",EN:"ONE PAIR",TC:"一對",IN:"जोड़ा",ZH:"一对" },
@@ -109,7 +109,15 @@ var data_language =
       { key:105,keyword:"notbet",EN:"Not betting status",TC:"不是下注狀態",IN:"बेटिंग स्थिति नहीं",ZH:"不是下注状态" },
       { key:106,keyword:"lingquchenggong",EN:"Received successfully",TC:"領取成功",IN:"सफलतापूर्वक प्राप्त",ZH:"领取成功" },
       { key:107,keyword:"duanwangtishi",EN:"The link timed out, or you have disconnected the network",TC:"連接超時，或您已經斷開網絡",IN:"लिंक समय समाप्त, या आप नेटवर्क डिस्कनेक्ट किया है",ZH:"链接超时，或您已经断开网络" },
-      { key:108,keyword:"dianjipinfan",EN:"Click too often, please try again in 1 second",TC:"點擊過於頻繁，請1秒後重試",IN:"बहुत बार क्लिक करें, कृपया 1 सेकण्ड में फिर कोशिश करें",ZH:"点击过于频繁，请1秒后重试" }
+      { key:108,keyword:"dianjipinfan",EN:"Click too often, please try again in 1 second",TC:"點擊過於頻繁，請1秒後重試",IN:"बहुत बार क्लिक करें, कृपया 1 सेकण्ड में फिर कोशिश करें",ZH:"点击过于频繁，请1秒后重试" },
+      { key:109,keyword:"room1",EN:"1K-2W",TC:"1千-2萬",IN:"1K-2W",ZH:"1千-2万" },
+      { key:110,keyword:"room2",EN:"1W-20W",TC:"1万-20萬",IN:"1W-20W",ZH:"1万-20万" },
+      { key:111,keyword:"room3",EN:"10W-200W",TC:"10万-200萬",IN:"10W-200W",ZH:"10万-200万" },
+      { key:112,keyword:"room4",EN:"1M-20M",TC:"100万-2000萬",IN:"1M-20M",ZH:"100万-2000万" },
+      { key:113,keyword:"room5",EN:"MORE THAN 10M",TC:"1000萬以上",IN:"MORE THAN 10M",ZH:"1000万以上" },
+      { key:114,keyword:"room6",EN:"2W-25W",TC:"2萬-25萬",IN:"2W-25W",ZH:"2万-25万" },
+      { key:115,keyword:"room7",EN:"MORE THAN 25W",TC:"25萬以上",IN:"MORE THAN 25W",ZH:"25万以上" },
+      { key:116,keyword:"room8",EN:"MORE THAN 1M",TC:"100万以上",IN:"MORE THAN 1M",ZH:"100万以上" }
     ],
 
     /**
