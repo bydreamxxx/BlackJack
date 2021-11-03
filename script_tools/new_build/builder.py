@@ -378,10 +378,10 @@ def copy_main_code_to_project():
     # shutil.copyfile('./main.js', buildCfg.NATIVE_PATH + '/main.js')
     print('changing main.js')
 
-    mainjs=getFileContent(buildCfg.NATIVE_PATH + '/main.js')
-    if re.search(r"var bundleRoot = \[INTERNAL\]", mainjs):
-        mainjs = re.sub(r"var bundleRoot = \[INTERNAL\]", "var bundleRoot = [INTERNAL,MAIN]", mainjs)
-    writeFileContent(buildCfg.NATIVE_PATH + '/main.js',mainjs)
+    # mainjs=getFileContent(buildCfg.NATIVE_PATH + '/main.js')
+    # if re.search(r"var bundleRoot = \[INTERNAL\]", mainjs):
+    #     mainjs = re.sub(r"var bundleRoot = \[INTERNAL\]", "var bundleRoot = [INTERNAL,MAIN]", mainjs)
+    # writeFileContent(buildCfg.NATIVE_PATH + '/main.js',mainjs)
 
     settings=getFileContent(buildCfg.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/settings.gradle')
     if re.search(r"include ':libcocos2dx',':game', ':instantapp'", settings):
