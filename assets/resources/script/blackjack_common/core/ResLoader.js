@@ -387,21 +387,21 @@ var ResLoader = {
             }
         }
 
-        // if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search('i18n') == -1) {
-        //     let str = path.split("/");
-        //     cc.assetManager.loadBundle(str[0], (err, bundle) => {
-        //         if (err) {
-        //             cc.error(`load bundle ${str[0]} error ${err.message}`)
-        //             return;
-        //         }
-        //         str.shift();
-        //         path = str.join('/');
-        //         bundle.load(path, type, onProgress, onComplete);
-        //     })
-        // } else {
-        cc.log(`加载资源 ${path}`);
+        if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search('i18n') == -1) {
+            let str = path.split("/");
+            cc.assetManager.loadBundle(str[0], (err, bundle) => {
+                if (err) {
+                    cc.error(`load bundle ${str[0]} error ${err.message}`)
+                    return;
+                }
+                str.shift();
+                path = str.join('/');
+                bundle.load(path, type, onProgress, onComplete);
+            })
+        } else {
+            cc.log(`加载资源 ${path}`);
             cc.resources.load(path, type, onProgress, onComplete);
-        // }
+        }
     },
 
     releaseBundle(bundleName){

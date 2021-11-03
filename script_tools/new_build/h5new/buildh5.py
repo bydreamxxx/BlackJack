@@ -127,8 +127,43 @@ def modify_md5():
     # if re.search(r": 'src/project.*.js';",mainjs):
     #     mainjs=re.sub(r": 'src/project.*.js';",": 'src/"+projectfile+"';",mainjs)
     #     print('replaced project file')
-    if re.search(r"var bundleRoot = \[INTERNAL\]", mainjs):
-        mainjs = re.sub(r"var bundleRoot = \[INTERNAL\]", "var bundleRoot = [INTERNAL,MAIN]", mainjs)
+    if re.search(r"""    var bundleRoot = \[INTERNAL\];
+    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
+
+    var count = 0;
+    function cb \(err\) \{
+        if \(err\) return console\.error\(err\.message, err\.stack\);
+        count\+\+;
+        if \(count === bundleRoot\.length \+ 1\) \{
+            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
+                if \(!err\) cc\.game\.run\(option, onStart\);
+            \}\);
+        \}
+    \}""", mainjs):
+        mainjs = re.sub(r"""    var bundleRoot = \[INTERNAL\];
+    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
+
+    var count = 0;
+    function cb \(err\) \{
+        if \(err\) return console\.error\(err\.message, err\.stack\);
+        count\+\+;
+        if \(count === bundleRoot\.length \+ 1\) \{
+            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
+                if \(!err\) cc\.game\.run\(option, onStart\);
+            \}\);
+        \}
+    \}""", """    var bundleRoot = [INTERNAL];
+    bundleRoot.push(MAIN);
+    settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
+
+    var count = 0;
+    function cb (err) {
+        if (err) return console.error(err.message, err.stack);
+        count++;
+        if (count === bundleRoot.length + 1) {
+            cc.game.run(option, onStart);
+        }
+    }""", mainjs)
     writeFileContent('../../../build-246/web-mobile/'+mainfile,mainjs)
 
 

@@ -51,15 +51,15 @@ var UIMgr = cc.Class({
             return ui;
         } else {
             let prefab = null;
-            // if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search("i18n") == -1) {
-            //     let str = path.split("/");
-            //     let bundle = cc.assetManager.getBundle(str);
-            //     if (bundle) {
-            //         prefab = bundle.get(path, cc.Prefab);
-            //     }
-            // } else {
+            if (path.search("blackjack_common") == -1 && path.search("blackjack_hall") == -1 && path.search("i18n") == -1) {
+                let str = path.split("/");
+                let bundle = cc.assetManager.getBundle(str);
+                if (bundle) {
+                    prefab = bundle.get(path, cc.Prefab);
+                }
+            } else {
                 prefab = cc.resources.get(path, cc.Prefab);
-            // }
+            }
 
             if (prefab) {
                 ui = cc.instantiate(prefab);

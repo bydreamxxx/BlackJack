@@ -13,29 +13,35 @@ class Game:
 
 
 # 大厅
-hall = Game('大厅', '2018-7-13', '64.2.0.6', '/hall', '', '')
+hall = Game('大厅', '2021-11-03', '1.0.0.0', '/hall', '', '')
 
 # 游戏配置
 games = [
     # 配置参数: 描述 日期 版本号 游戏目录 资源目录(为空代表内含资源) 压缩文件名
-    # Game('港式五张', '2018-11-21', '1.0.1.4', '/suoha', '/gameyj_suoha', 'suoha.zip'),
-    # Game('红包扫雷', '2019-04-01', '1.0.1.8', '/hbsl', '/gameyj_hbsl', 'hbsl.zip'),
-    # Game('麻将', '2019-04-01', '1.0.0.0', '/majiang', '/gameyj_mj', 'majiang.zip'),
-    # Game('赤峰麻将', '2019-11-26', '1.0.0.0', '/majiangneimenggu', '/gameyj_mj_neimenggu', 'majiangneimenggu.zip'),
-    # Game('麻将工具', '2019-11-26', '1.0.0.0', '/majiangtools', '/gameyj_mj_tools', 'majiangtools.zip'),
-    # Game('单挑', '2019-04-01', '1.0.1.7', '/dantiao', '/gameyj_one_on_one', 'dantiao.zip'),
-    # Game('斗地主', '2019-04-01', '1.0.2.6', '/doudizhu', '/gameyj_ddz', 'doudizhu.zip'),
-    # Game('填大坑', '2018-11-21', '1.0.5.7', '/tiandakeng', '/gameyj_tiandakeng', 'tiandakeng.zip'),
-    # Game('三打一', '2018-11-21', '1.0.0.0', '/shandayi', '/gameyj_sdy', 'shandayi.zip'),
-    # Game('拼双十', '2018-11-21', '1.0.6.2', '/pinshuangshi', '/gameyj_nn', 'pinshuangshi.zip'),
-    # Game('财神到', '2018-11-21', '1.0.1.3', '/caishendao', '/gameyj_mammon_slot', 'caishendao.zip'),
-    # Game('上梁山', '2018-11-21', '1.0.6.3', '/shangliangshan', '/gameyj_water_margin_slot', 'shangliangshan.zip'),
-    # Game('疯狂拼十', '2018-11-21', '1.0.6.6', '/fengkuangpinshi', '/gameyj_brnn', 'fengkuangpinshi.zip'),
-    # Game('刨幺', '2018-11-21', '1.0.7.1', '/paoyao', '/gameyi_paoyao', 'paoyao.zip'),
-    # Game('逗三张', '2018-11-21', '1.0.5.5', '/dousanzhang', '/gameyj_dsz', 'dousanzhang.zip'),
-    # Game('新逗三张', '2018-11-21', '1.0.0.1', '/xinsanzhang', '/gameyj_new_dsz', 'xinsanzhang.zip'),
-    Game('苹果', '2018-11-21', '2.0.1.3', '/pkg', '', ''),
-    Game('安卓', '2018-11-21', '2.0.1.4', '/pkgandroid', '', ''),
+    # Game('blackjack', '2021-11-03', '1.0.0.0', '/blackjack', '/blackjack_blackjack', 'blackjack.zip'),
+    Game('快乐吧', '2021-11-03', '1.0.0.0', '/dlmajiang', '/gamedl_majiang', 'dlmajiang.zip'),
+    Game('大话西游', '2021-11-03', '1.0.0.0', '/dhxy', '/gameyj_big_talk_westward_journey', 'dhxy.zip'),
+    Game('飞禽走兽', '2021-11-03', '1.0.0.0', '/fqzs', '/gameyj_birds_and_animals', 'fqzs.zip'),
+    Game('百人牛牛', '2021-11-03', '1.0.0.0', '/brnn', '/gameyj_brnn', 'brnn.zip'),
+    Game('斗地主', '2021-11-03', '1.0.0.0', '/ddz', '/gameyj_ddz', 'ddz.zip'),
+    Game('捕鱼', '2021-11-03', '1.0.0.0', '/fish', '/gameyj_fish', 'fish.zip'),
+    Game('捕鱼达人', '2021-11-03', '1.0.0.0', '/fishdoyen', '/gameyj_fish_doyen', 'fishdoyen.zip'),
+    Game('亲友圈', '2021-11-03', '1.0.0.0', '/friend', '/gameyj_friend', 'friend.zip'),
+    Game('赛马', '2021-11-03', '1.0.0.0', '/horse', '/gameyj_horse_racing', 'horse.zip'),
+    Game('loading', '2021-11-03', '1.0.0.0', '/loading', '/gameyj_loading', 'loading.zip'),
+    Game('转盘', '2021-11-03', '1.0.0.0', '/lucky', '/gameyj_lucky_turntable', 'lucky.zip'),
+    Game('slot', '2021-11-03', '1.0.0.0', '/slot', '/gameyj_mammon_slot', 'slot.zip'),
+    Game('斗三张', '2021-11-03', '1.0.0.0', '/dsz', '/gameyj_new_dsz', 'dsz.zip'),
+    Game('牛牛', '2021-11-03', '1.0.0.0', '/nn', '/gameyj_nn', 'nn.zip'),
+    Game('PK', '2021-11-03', '1.0.0.0', '/pk', '/gameyj_one_on_one', 'pk.zip'),
+    Game('跑得快', '2021-11-03', '1.0.0.0', '/pdk', '/gameyj_pdk', 'pdk.zip'),
+    # Game('德州', '2021-11-03', '1.0.0.0', '/texas', '/gameyj_texas', 'texas.zip'),
+    Game('水浒', '2021-11-03', '1.0.0.0', '/shuihu', '/gameyj_water_margin_slot', 'shuihu.zip'),
+    Game('祥云斗地主', '2021-11-03', '1.0.0.0', '/xyddz', '/gameyj_xyddz', 'xyddz.zip'),
+    Game('俱乐部百人牛牛', '2021-11-03', '1.0.0.0', '/jlbbrnn', '/jlb_brnn', 'jlbbrnn.zip'),
+    Game('俱乐部牛牛', '2021-11-03', '1.0.0.0', '/jlbnn', '/jlb_nn', 'jlbnn.zip'),
+    # Game('苹果', '2021-11-03', '1.0.0.0', '/pkg', '', ''),
+    # Game('安卓', '2021-11-03', '1.0.0.0', '/pkgandroid', '', ''),
     # ----------大厅需要放在最后 请在此上增加配置 ------------
     hall
 ]

@@ -378,10 +378,45 @@ def copy_main_code_to_project():
     # shutil.copyfile('./main.js', buildCfg.NATIVE_PATH + '/main.js')
     print('changing main.js')
 
-    # mainjs=getFileContent(buildCfg.NATIVE_PATH + '/main.js')
-    # if re.search(r"var bundleRoot = \[INTERNAL\]", mainjs):
-    #     mainjs = re.sub(r"var bundleRoot = \[INTERNAL\]", "var bundleRoot = [INTERNAL,MAIN]", mainjs)
-    # writeFileContent(buildCfg.NATIVE_PATH + '/main.js',mainjs)
+    mainjs=getFileContent(buildCfg.NATIVE_PATH + '/main.js')
+    if re.search(r"""    var bundleRoot = \[INTERNAL\];
+    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
+
+    var count = 0;
+    function cb \(err\) \{
+        if \(err\) return console\.error\(err\.message, err\.stack\);
+        count\+\+;
+        if \(count === bundleRoot\.length \+ 1\) \{
+            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
+                if \(!err\) cc\.game\.run\(option, onStart\);
+            \}\);
+        \}
+    \}""", mainjs):
+        mainjs = re.sub(r"""    var bundleRoot = \[INTERNAL\];
+    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
+
+    var count = 0;
+    function cb \(err\) \{
+        if \(err\) return console\.error\(err\.message, err\.stack\);
+        count\+\+;
+        if \(count === bundleRoot\.length \+ 1\) \{
+            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
+                if \(!err\) cc\.game\.run\(option, onStart\);
+            \}\);
+        \}
+    \}""", """    var bundleRoot = [INTERNAL];
+    bundleRoot.push(MAIN);
+    settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
+
+    var count = 0;
+    function cb (err) {
+        if (err) return console.error(err.message, err.stack);
+        count++;
+        if (count === bundleRoot.length + 1) {
+            cc.game.run(option, onStart);
+        }
+    }""", mainjs)
+    writeFileContent(buildCfg.NATIVE_PATH + '/main.js',mainjs)
 
     settings=getFileContent(buildCfg.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/settings.gradle')
     if re.search(r"include ':libcocos2dx',':game', ':instantapp'", settings):
@@ -473,7 +508,9 @@ module.exports = scene_dir_cfg;
                 continue
             scene_name = file.split('.fire')[0]
             abs_path = os.path.join(dir_path, file)
-            scene_dir = abs_path.split('resources/')[1].split('/')[0]
+            scene_dir = abs_path.split('assets/')[1].split('/')[0]
+            if scene_dir == "resources":
+                scene_dir = abs_path.split('resources/')[1].split('/')[0]
             content_attr += template_attr % (scene_name, scene_dir)
     content = template % content_attr
     writeFileContent(path, content)

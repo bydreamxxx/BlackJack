@@ -21,7 +21,7 @@ H5_TEMP_PATH = COCOS_PROJECT_PATH + "/build-246/"
 # NATIVE_PATH = COCOS_PROJECT_PATH + "/build-170/jsb-default"
 # 1.8.2
 NATIVE_PATH = COCOS_PROJECT_PATH + "/build-246/jsb-default"
-NATIVE_VERSIONS_PATH = NATIVE_PATH + "/res/raw-assets/resources/versions"
+NATIVE_VERSIONS_PATH = NATIVE_PATH + "/assets"
 
 # 压缩路径
 TINIFY_PATH = COCOS_PROJECT_PATH + '/script_tools/build/tininy_images/'

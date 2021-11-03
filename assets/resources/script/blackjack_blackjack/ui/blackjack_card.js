@@ -14,14 +14,14 @@ cc.Class({
 
     init(card, isWaitforFapai){
         this.card = card;
-       // let bundle = cc.assetManager.getBundle("blackjack_blackjack");
-       // if(bundle){
-       //  let atlas = bundle.get("atlas/cards", cc.SpriteAtlas);
-        let atlas = cc.resources.get("blackjack_blackjack/atlas/cards", cc.SpriteAtlas);
+       let bundle = cc.assetManager.getBundle("blackjack_blackjack");
+       if(bundle){
+            let atlas = bundle.get("atlas/cards", cc.SpriteAtlas);
+       //  let atlas = cc.resources.get("blackjack_blackjack/atlas/cards", cc.SpriteAtlas);
            if(atlas){
                this.frame.spriteFrame = atlas.getSpriteFrame(card);
            }
-       // }
+       }
        if(AppCfg.IS_DEBUG)
        cc.find("Label", this.node).getComponent(cc.Label).string = card;
 

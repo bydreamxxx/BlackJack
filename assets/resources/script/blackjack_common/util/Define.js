@@ -478,13 +478,13 @@ var GetBundleNameByScene = {
     'blackjack_hall': 'resources',
     'blackjack_login': 'resources',
     'blackjack_preLogin': 'resources',
-    'blackjack': 'resources',
+    'blackjack': 'blackjack_blackjack',
 
-    'nn_game_jbc': 'resources',
-    'ddz_game_jbc': 'resources',
+    'nn_game_jbc': 'gameyj_nn',
+    'ddz_game_jbc': 'gameyj_ddz',
 
-    'loading': 'resources',
-    'texas_jbc':"resources",
+    'loading': 'gameyj_loading',
+    'texas_jbc':"gameyj_texas",
 }
 
 module.exports = {

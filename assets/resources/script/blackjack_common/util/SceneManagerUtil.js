@@ -639,26 +639,22 @@ var SceneManagerUtil = cc.Class({
     },
 
     loadScene(sceneName, bundleName, onBeforeLoadScene, onLaunched) {
-        // let bundle = cc.assetManager.getBundle(bundleName);
-        // if (bundle) {
-        //     bundle.loadScene(sceneName, function (err, scene) {
-        //         cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
-        //     });
-        // } else {
-        //     cc.assetManager.loadBundle(bundleName, (err, bundle) => {
-        //         if (err) {
-        //             cc.error(`load bundle ${bundleName} error ${err.message}`)
-        //             return;
-        //         }
-        //         bundle.loadScene(sceneName, function (err, scene) {
-        //             cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
-        //         });
-        //     })
-        // }
-
-        cc.resources.loadScene(sceneName, function (err, scene) {
-            cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
-        });
+        let bundle = cc.assetManager.getBundle(bundleName);
+        if (bundle) {
+            bundle.loadScene(sceneName, function (err, scene) {
+                cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
+            });
+        } else {
+            cc.assetManager.loadBundle(bundleName, (err, bundle) => {
+                if (err) {
+                    cc.error(`load bundle ${bundleName} error ${err.message}`)
+                    return;
+                }
+                bundle.loadScene(sceneName, function (err, scene) {
+                    cc.director.runScene(scene, onBeforeLoadScene, onLaunched);
+                });
+            })
+        }
     }
 });
 

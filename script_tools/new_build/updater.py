@@ -11,14 +11,14 @@ import os
 def remove_self(game):
     if game.res_dir == "":
         return
-    if os.path.exists(buildCfg.NATIVE_PATH + '/res/raw-assets/resources' + game.res_dir):
-        shutil.rmtree(buildCfg.NATIVE_PATH + '/res/raw-assets/resources' + game.res_dir)
+    if os.path.exists(buildCfg.NATIVE_PATH + '/assets' + game.res_dir):
+        shutil.rmtree(buildCfg.NATIVE_PATH + '/assets' + game.res_dir)
     return
 def remove_self_withpath(nativepath, game):
     if game.res_dir == "":
         return
-    if os.path.exists(nativepath + '/res/raw-assets/resources' + game.res_dir):
-        shutil.rmtree(nativepath + '/res/raw-assets/resources' + game.res_dir)
+    if os.path.exists(nativepath + '/assets' + game.res_dir):
+        shutil.rmtree(nativepath + '/assets' + game.res_dir)
     return
 
 # 生成本地版本
@@ -61,7 +61,7 @@ def gen_local_version(platform, game):
     return
 
 def gen_local_version_withpath(nativepath,platform, game):
-    versionpath = nativepath + "/res/raw-assets/resources/versions"
+    versionpath = nativepath + "/assets/versions"
     # 生成本地目录
     if not os.path.exists(platform.local_dir):
         os.mkdir(platform.local_dir)
@@ -116,8 +116,8 @@ def gen_remote_version(platform, game):
 
     # 拷贝游戏资源
     if game.res_dir != '':
-        shutil.copytree(buildCfg.NATIVE_PATH + '/res/raw-assets/resources' + game.res_dir,
-                        platform.remote_dir + game.game_dir + '/res/raw-assets/resources' + game.res_dir)
+        shutil.copytree(buildCfg.NATIVE_PATH + '/assets' + game.res_dir,
+                        platform.remote_dir + game.game_dir + '/assets' + game.res_dir)
 
     # 生成远程版本
     url = platform.remote_url + game.game_dir + '/'
