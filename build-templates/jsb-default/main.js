@@ -100,8 +100,8 @@ window.boot = function () {
     });
     
     var bundleRoot = [INTERNAL];
+    bundleRoot.push(MAIN);
     settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
-    bundleRoot.push(MAIN)
 
     var count = 0;
     function cb (err) {
