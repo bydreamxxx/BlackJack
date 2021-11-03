@@ -162,7 +162,9 @@ var SceneManagerUtil = cc.Class({
                     resLoadSuccess();
                 }
                 cc.dd.TimeTake.start("加载场景:" + sceneName);
-                this.loadScene(sceneName, bundleName, () => { }, function () {
+                this.loadScene(sceneName, bundleName, () => { },  ()=> {
+                    this.loadingSceneName = null;
+
                     //切换场景完成,启动网络消息分发
                     cc.gateNet.Instance().startDispatch();
                     cc.dd.TimeTake.end("加载场景:" + sceneName);
@@ -246,6 +248,8 @@ var SceneManagerUtil = cc.Class({
         let loadbundleName = cc.dd.Define.GetBundleNameByScene[loading_scene];
 
         this.loadScene(loading_scene, loadbundleName, () => { }, function () {
+            this.loadingSceneName = null;
+
             if (cc.sys.isMobile) {
                 // if (pre_scene_dir != load_scene_dir && cc.sys.isNative) {
                 //     cc.loader.releaseResDir(pre_scene_dir);
@@ -396,6 +400,8 @@ var SceneManagerUtil = cc.Class({
             loading_scene = data.scenename;
         let loadBundleName = cc.dd.Define.GetBundleNameByScene[loading_scene];
         this.loadScene(loading_scene, loadBundleName, () => { }, function () {
+            this.loadingSceneName = null;
+
             if (cc.sys.isMobile) {
                 // if (pre_scene_dir != load_scene_dir) {
                 //     cc.loader.releaseResDir(pre_scene_dir);
@@ -639,6 +645,11 @@ var SceneManagerUtil = cc.Class({
     },
 
     loadScene(sceneName, bundleName, onBeforeLoadScene, onLaunched) {
+        if(this.loadingSceneName == sceneName){
+            cc.log(`正在加载重复场景 ${sceneName}`);
+            return;
+        }
+        this.loadingSceneName = sceneName
         let bundle = cc.assetManager.getBundle(bundleName);
         if (bundle) {
             bundle.loadScene(sceneName, function (err, scene) {
