@@ -38,7 +38,7 @@ var Updater = cc.Class({
 
         this.local_version_url = params[0]._newurl ? params[0]._newurl : ("versions/" + params[0].name + "/project.manifest");
         this.storage_manifest_preffix = params[0].name + '_';
-        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'gameyj');
+        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack');
         var PID = require('AppConfig').PID;
         var is_version_num_url = require('Platform').is_version_num_url[PID];
         var down_url_origin = require('Platform').down_url_origin[PID];

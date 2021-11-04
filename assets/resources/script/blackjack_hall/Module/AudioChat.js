@@ -110,7 +110,7 @@ const AudioChat = {
         }
         AudioManager.startRecord();
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'startRecord', '()V');
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'startRecord', '()V');
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'startRecord');
         }
@@ -127,7 +127,7 @@ const AudioChat = {
         }
         AudioManager.cancelRecord();
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'cancelRecord', '()V');
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'cancelRecord', '()V');
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'cancelRecord');
         }
@@ -144,7 +144,7 @@ const AudioChat = {
         }
         AudioManager.completeRecord();
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'completeRecord', '()V');
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'completeRecord', '()V');
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'completeRecord');
         }
@@ -161,7 +161,7 @@ const AudioChat = {
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
             jsb.reflection.callStaticMethod(
-                'com/yjhy/jlmj/record/GameChat',
+                'com/anglegame/blackjack/record/GameChat',
                 'loginIm',
                 '(Ljava/lang/String;Ljava/lang/String;)V',
                 account, token
@@ -183,7 +183,7 @@ const AudioChat = {
             return;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'addUser', '(Ljava/lang/String;)V', account);
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'addUser', '(Ljava/lang/String;)V', account);
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'addUser:', account);
         }
@@ -201,7 +201,7 @@ const AudioChat = {
             return;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'removeUser', '(Ljava/lang/String;)V', account);
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'removeUser', '(Ljava/lang/String;)V', account);
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'removeUser:', account);
         }
@@ -218,7 +218,7 @@ const AudioChat = {
             return;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/record/GameChat', 'clearUsers', '()V');
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/record/GameChat', 'clearUsers', '()V');
         }else if(cc.sys.OS_IOS == cc.sys.os){
             jsb.reflection.callStaticMethod('GameChat', 'clearUsers');
         }

@@ -33,17 +33,17 @@ var DingRobot = {
      * @param content
      */
     push_log: function (content) {
-        // // if (!cc.sys.isNative) {
-        // //     return;
-        // // }
-        // // if (ding_log.length >= max_length) {
-        // //     ding_log.shift();
-        // // }
-        // // ding_log.push(content);
-        // // //if(cc.pid == 3)
-        // //     content = this.aesEncrypt(content);
-        // // cc.dd.writelog(content);
-        // // //cc.dd.writelog(content);
+        if (!cc.sys.isNative) {
+            return;
+        }
+        if (ding_log.length >= max_length) {
+            ding_log.shift();
+        }
+        ding_log.push(content);
+        //if(cc.pid == 3)
+        //     content = this.aesEncrypt(content);
+        cc.dd.writelog(content);
+        //cc.dd.writelog(content);
     },
 
     //日志加密
@@ -153,7 +153,7 @@ cc.log = function () {
     var time = '[' + new Date().toLocaleString() + ']';
     str = '【LOG】' + time + ' ' + str;
     console.log(str);
-    // DingRobot.push_log(str);
+    DingRobot.push_log(str);
 };
 
 cc.warn = function () {
@@ -169,7 +169,7 @@ cc.warn = function () {
     var time = '[' + new Date().toLocaleString() + ']';
     str = '【WARN】' + time + ' ' + str;
     console.warn(str);
-    // DingRobot.push_log(str);
+    DingRobot.push_log(str);
 };
 
 cc.error = function () {
@@ -185,7 +185,7 @@ cc.error = function () {
     var time = '[' + new Date().toLocaleString() + ']';
     str = '【ERROR】:' + time + ' ' + str;
     console.error(str);
-    // DingRobot.push_log(str);
+    DingRobot.push_log(str);
 };
 
 // cc.info = function () {

@@ -346,12 +346,8 @@ def build_empty_pro(des_path):
     if not os.path.exists(des_path):
         os.mkdir(des_path)
 
-    shutil.rmtree(des_path + '/src', True)
-    shutil.rmtree(des_path + '/res', True)
     shutil.rmtree(des_path + '/zip', True)
 
-    os.mkdir(des_path + "/res")
-    os.mkdir(des_path + "/src")
     os.mkdir(des_path + "/zip")
     return
 
@@ -362,10 +358,13 @@ def build_hall_pro(des_path):
         os.mkdir(des_path)
 
     shutil.rmtree(des_path + '/src', True)
-    shutil.rmtree(des_path + '/res', True)
+    shutil.rmtree(des_path + '/assets', True)
 
     shutil.copytree(buildCfg.NATIVE_PATH + '/src', des_path + '/src')
-    shutil.copytree(buildCfg.NATIVE_PATH + '/res', des_path + '/res')
+    os.mkdir(des_path + '/assets')
+    shutil.copytree(buildCfg.NATIVE_PATH + '/assets/internal', des_path + '/assets/internal')
+    shutil.copytree(buildCfg.NATIVE_PATH + '/assets/resources', des_path + '/assets/resources')
+    shutil.copytree(buildCfg.NATIVE_PATH + '/assets/main', des_path + '/assets/main')
     return
 
 

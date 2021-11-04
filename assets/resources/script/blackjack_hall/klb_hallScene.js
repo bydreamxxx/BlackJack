@@ -170,17 +170,17 @@ let hall = cc.Class({
                 else {
                     if (cc._isHuaweiGame && cc._lianyunID == 'vivo') {
                         if (cc.sys.OS_ANDROID == cc.sys.os) {
-                            // jsb.reflection.callStaticMethod('game/SystemTool', 'vivoExit', '()V');
+                            jsb.reflection.callStaticMethod('game/SystemTool', 'vivoExit', '()V');
                         }
                     }
                     else if (cc._isHuaweiGame && cc._lianyunID == 'oppo') {
                         if (cc.sys.OS_ANDROID == cc.sys.os) {
-                            // jsb.reflection.callStaticMethod('game/SystemTool', 'oppoExit', '()V');
+                            jsb.reflection.callStaticMethod('game/SystemTool', 'oppoExit', '()V');
                         }
                     }
                     else if (cc._isHuaweiGame && cc._lianyunID == 'xiaomi') {
                         if (cc.sys.OS_ANDROID == cc.sys.os) {
-                            // jsb.reflection.callStaticMethod('game/SystemTool', 'miExit', '()V');
+                            jsb.reflection.callStaticMethod('game/SystemTool', 'miExit', '()V');
                         }
                     }
                     else {

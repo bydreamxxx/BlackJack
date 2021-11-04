@@ -141,13 +141,13 @@ var Native = cc.Class({
      * @param user_id
      */
     login(game_id, key, server_info, user_id) {
-        if (!cc.sys.isNative)
+        // if (!cc.sys.isNative)
             return;
 
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/GVoiceMessage', 'init', '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V', game_id, key, server_info, user_id.toString());
+            // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'init', '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V', game_id, key, server_info, user_id.toString());
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('GVoiceMessage', 'init:withKey:serverInfo:andUserId:', game_id, key, server_info, user_id.toString());
+            // jsb.reflection.callStaticMethod('GVoiceMessage', 'init:withKey:serverInfo:andUserId:', game_id, key, server_info, user_id.toString());
         }
     },
 
@@ -162,9 +162,9 @@ var Native = cc.Class({
         if (this.state == GVoiceState.Idle) {
             cc.log("腾讯GVoice 开始录音 ");
             if (cc.sys.OS_ANDROID == cc.sys.os) {
-                jsb.reflection.callStaticMethod('game/GVoiceMessage', 'startRecord', '()V');
+                // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'startRecord', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
-                jsb.reflection.callStaticMethod('GVoiceMessage', 'startRecord');
+                // jsb.reflection.callStaticMethod('GVoiceMessage', 'startRecord');
             }
             return true;
         } else if (this.state == GVoiceState.Playing) {
@@ -187,9 +187,9 @@ var Native = cc.Class({
         }
         cc.log("腾讯GVoice 结束录音 ");
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/GVoiceMessage', 'stopRecord', '()V');
+            // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'stopRecord', '()V');
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('GVoiceMessage', 'stopRecord');
+            // jsb.reflection.callStaticMethod('GVoiceMessage', 'stopRecord');
         }
     },
 
@@ -203,9 +203,9 @@ var Native = cc.Class({
         }
         cc.log("腾讯GVoice 开始上传");
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/GVoiceMessage', 'upload', '()V');
+            // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'upload', '()V');
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('GVoiceMessage', 'upload');
+            // jsb.reflection.callStaticMethod('GVoiceMessage', 'upload');
         }
     },
 
@@ -239,9 +239,9 @@ var Native = cc.Class({
             let file_id = file_names[1].substr(user_id_len);
             cc.log("腾讯GVoice 开始下载 ", user_id);
             if (cc.sys.OS_ANDROID == cc.sys.os) {
-                jsb.reflection.callStaticMethod('game/GVoiceMessage', 'download', '(Ljava/lang/String;Ljava/lang/String;)V', file_id, file_path);
+                // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'download', '(Ljava/lang/String;Ljava/lang/String;)V', file_id, file_path);
             } else if (cc.sys.OS_IOS == cc.sys.os) {
-                jsb.reflection.callStaticMethod('GVoiceMessage', 'download:withPath:', file_id, file_path);
+                // jsb.reflection.callStaticMethod('GVoiceMessage', 'download:withPath:', file_id, file_path);
             }
         }
     },
@@ -260,9 +260,9 @@ var Native = cc.Class({
             return;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/GVoiceMessage', 'playMessage', '(Ljava/lang/String;)V', file_path);
+            // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'playMessage', '(Ljava/lang/String;)V', file_path);
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('GVoiceMessage', 'playMessage:', file_path);
+            // jsb.reflection.callStaticMethod('GVoiceMessage', 'playMessage:', file_path);
         }
 
         cc.log("腾讯GVoice 开始播放 ", speak_user_id);
@@ -282,9 +282,9 @@ var Native = cc.Class({
             return;
         }
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('game/GVoiceMessage', 'stopMessage', '(Ljava/lang/String;)V', this.speaking_file_path);
+            // jsb.reflection.callStaticMethod('game/GVoiceMessage', 'stopMessage', '(Ljava/lang/String;)V', this.speaking_file_path);
         } else if (cc.sys.OS_IOS == cc.sys.os) {
-            jsb.reflection.callStaticMethod('GVoiceMessage', 'stopMessage:', this.speaking_file_path);
+            // jsb.reflection.callStaticMethod('GVoiceMessage', 'stopMessage:', this.speaking_file_path);
         }
 
         cc.log("腾讯GVoice 停止播放 ", this.speaking_user_id);

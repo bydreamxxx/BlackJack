@@ -115,10 +115,10 @@ def back_up():
 
 
 if __name__ == "__main__":
-    # init()
-    # builder.cocos_build()
+    init()
+    builder.cocos_build()
     # #builder.gen_etc2()
-    # gen_game_version()
+    gen_game_version()
     # gen_game_num_version()
     # remove_download_games()
     # # 移除游戏后,生成大厅版本

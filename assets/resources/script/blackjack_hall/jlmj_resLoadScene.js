@@ -39,7 +39,7 @@ let resLoad = cc.Class({
     // use this for initialization
     onLoad: function () {
         if (cc.sys.isNative) {
-            var update_path = jsb.fileUtils.getWritablePath() + "gameyj";
+            var update_path = jsb.fileUtils.getWritablePath() + "blackjack";
             cc.log('热更新目录:' + update_path);
         }
         this.closeSplash();
@@ -65,12 +65,12 @@ let resLoad = cc.Class({
             //获取微信好友房连接拉起
             if (cc.sys.OS_ANDROID == cc.sys.os) {
                 //TODO:  整包更新时用  game/SystemTool   暂时处理
-                // if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng || cc._isHuaweiGame)
-                //     jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
-                // else
-                //     jsb.reflection.callStaticMethod('com/yjhy/jlmj/AppActivity', 'getWXRoomID', '()V');
+                if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng || cc._isHuaweiGame)
+                    jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
+                else
+                    jsb.reflection.callStaticMethod('com/anglegame/blackjack/AppActivity', 'getWXRoomID', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
-                // jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
+                jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
             }
         }
         this.initDlUI();
@@ -79,7 +79,7 @@ let resLoad = cc.Class({
         //打开ios的定位设置
         if (cc.sys.isNative && cc.sys.OS_IOS == cc.sys.os && !cc._appstore_check) {
             if (!cc.open_ios_gps) {
-                // jsb.reflection.callStaticMethod('SystemTool', 'startGpsLocation');
+                jsb.reflection.callStaticMethod('SystemTool', 'startGpsLocation');
                 cc.open_ios_gps = true;
             }
         }
@@ -111,7 +111,7 @@ let resLoad = cc.Class({
     closeSplash: function () {
         if (cc.sys.isNative) {
             if (cc.sys.OS_ANDROID == cc.sys.os) {
-                // jsb.reflection.callStaticMethod('game/SystemTool', 'closeSplash', '()V');
+                jsb.reflection.callStaticMethod('game/SystemTool', 'closeSplash', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
                 // var para = partnerid + "," + prepayid + "," + noncestr + "," + timestamp + "," + package_ + "," + sign;
                 // jsb.reflection.callStaticMethod( 'RootViewController', 'WeixinPay:', para);
@@ -335,7 +335,7 @@ let resLoad = cc.Class({
         } else if (pkgVersion != this.pkgUpdater.getVersion()) {
             cc.assetManager.releaseAll();
             cc.log('整包更新后,删除包内更新缓存');
-            var update_path = jsb.fileUtils.getWritablePath() + "gameyj" + "/hall";
+            var update_path = jsb.fileUtils.getWritablePath() + "blackjack" + "/hall";
             jsb.fileUtils.removeDirectory(update_path);
             cc.sys.localStorage.removeItem('pkgVersion');
             this.reStartGame();
@@ -437,7 +437,7 @@ let resLoad = cc.Class({
             //     }.bind(this));
             dd.DialogBoxUtil.show(1, "请前往下载新包", "确定", '',
                 function () {
-                    var update_path = jsb.fileUtils.getWritablePath() + "gameyj";
+                    var update_path = jsb.fileUtils.getWritablePath() + "blackjack";
                     jsb.fileUtils.removeDirectory(update_path);
                     cc.dd.native_systool.OpenUrl("https://d.alphaqr.com/xlqpcommonandroid");
                     cc.game.end();
@@ -670,8 +670,8 @@ let resLoad = cc.Class({
             case dd.UpdaterEvent.UPDATE_FINISHED:
                 cc.log("APK下载更新完成");
                 var sdCardPath = "/mnt/sdcard/";
-                var filePath = "gameyj/res/gameyj-release.apk";
-                // jsb.reflection.callStaticMethod("com/yjhy/jlmj/AppActivity", "installApp", "(Ljava/lang/String;)V", sdCardPath + filePath);
+                var filePath = "blackjack/res/blackjack-release.apk";
+                jsb.reflection.callStaticMethod("com/anglegame/blackjack/AppActivity", "installApp", "(Ljava/lang/String;)V", sdCardPath + filePath);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
                 dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",

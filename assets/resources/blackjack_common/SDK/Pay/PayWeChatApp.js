@@ -40,7 +40,7 @@ var PayWeChatApp = cc.Class( {
      */
     jumpToPay: function( partnerid, prepayid, package_, noncestr, timestamp, sign ) {
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/yjhy/jlmj/AppActivity', 'JumpToWeixinPay', '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V', partnerid, prepayid, noncestr, timestamp, package_, sign );
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/AppActivity', 'JumpToWeixinPay', '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V', partnerid, prepayid, noncestr, timestamp, package_, sign );
         }else if(cc.sys.OS_IOS == cc.sys.os){
             var para = partnerid + "," + prepayid + "," + noncestr + "," + timestamp + "," + package_ + "," + sign;
             jsb.reflection.callStaticMethod( 'RootViewController', 'WeixinPay:', para);

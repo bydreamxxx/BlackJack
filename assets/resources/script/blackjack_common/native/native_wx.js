@@ -451,7 +451,7 @@ var Native = cc.Class({
             return;
         cc.WxShareing = true;
         cc.ShareType = type == null ? -1 : type;
-        var share_img_path = jsb.fileUtils.getWritablePath() + 'gameyj/res/raw-assets/' + path;
+        var share_img_path = jsb.fileUtils.getWritablePath() + 'blackjack/res/raw-assets/' + path;
         var share_img_dir = share_img_path.substring(0, share_img_path.lastIndexOf('/'));
         jsb.fileUtils.createDirectory(share_img_dir);
         // cc.log('分享图片地址:'+share_img_path);
@@ -492,7 +492,7 @@ var Native = cc.Class({
             return;
         cc.WxShareing = true;
         cc.ShareType = type == null ? -1 : type;
-        var share_img_path = jsb.fileUtils.getWritablePath() + 'gameyj/res/raw-assets/' + path;
+        var share_img_path = jsb.fileUtils.getWritablePath() + 'blackjack/res/raw-assets/' + path;
         var share_img_dir = share_img_path.substring(0, share_img_path.lastIndexOf('/'));
         jsb.fileUtils.createDirectory(share_img_dir);
         // cc.log('分享图片地址:'+share_img_path);
@@ -548,7 +548,7 @@ var Native = cc.Class({
         if (!cc.sys.isNative) {
             return;
         }
-        var share_img_path = jsb.fileUtils.getWritablePath() + 'gameyj/res/raw-assets/' + path;
+        var share_img_path = jsb.fileUtils.getWritablePath() + 'blackjack/res/raw-assets/' + path;
         var share_img_dir = share_img_path.substring(0, share_img_path.lastIndexOf('/'));
         jsb.fileUtils.createDirectory(share_img_dir);
         // cc.log('分享图片地址:'+share_img_path);

@@ -15,39 +15,39 @@ var _storagePath = null;
 //写日志文件
 cc.dd.getLogSize = function (info) {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
-        // if (!_storagePath)
-        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        // let size = jsb.fileUtils.getFileSize(_storagePath + "/xlqp_log_1.txt");
-        // cc.log("缓存文件大小:" + size);
+        if (!_storagePath)
+            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        let size = jsb.fileUtils.getFileSize(_storagePath + "/xlqp_log_1.txt");
+        cc.log("缓存文件大小:" + size);
     }
 };
 
 //写日志文件
 cc.dd.writelog = function (info) {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
-        // if (!_storagePath)
-        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        // jsb.fileUtils.writeLog(info, _storagePath + "/xlqp_log.txt");
-        //
-        // if (cc.dd.log_size == null) {
-        //     cc.dd.log_size = jsb.fileUtils.getFileSize(_storagePath + "/xlqp_log.txt");
-        // }
-        // cc.dd.log_size += info.length;
-        // if (cc.dd.log_size >= cc.dd.log_max_size) {
-        //     jsb.fileUtils.removeFile(_storagePath + "/xlqp_log.txt");
-        //     cc.dd.log_size = 0;
-        //     cc.log("日志文件超过上限,清空");
-        // }
+        if (!_storagePath)
+            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        jsb.fileUtils.writeLog(info, _storagePath + "/anglegame_log.txt");
+
+        if (cc.dd.log_size == null) {
+            cc.dd.log_size = jsb.fileUtils.getFileSize(_storagePath + "/anglegame_log.txt");
+        }
+        cc.dd.log_size += info.length;
+        if (cc.dd.log_size >= cc.dd.log_max_size) {
+            jsb.fileUtils.removeFile(_storagePath + "/anglegame_log.txt");
+            cc.dd.log_size = 0;
+            cc.log("日志文件超过上限,清空");
+        }
     }
 };
 cc.dd.deletelog = function () {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
-        // if (!_storagePath)
-        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        // var filePath = _storagePath + "/xlqp_log.txt";
-        // if (jsb.fileUtils.isFileExist(filePath)) {
-        //     jsb.fileUtils.removeFile(filePath);
-        // }
+        if (!_storagePath)
+            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        var filePath = _storagePath + "/anglegame_log.txt";
+        if (jsb.fileUtils.isFileExist(filePath)) {
+            jsb.fileUtils.removeFile(filePath);
+        }
     }
 };
 

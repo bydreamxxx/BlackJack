@@ -840,8 +840,8 @@ var handler = {
             if (cc.sys.isNative) {
                 if (cc.sys.OS_ANDROID == cc.sys.os) {
                     var loc = new cc.pb.room_mgr.latlng();
-                    var latitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
-                    var longitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
+                    var latitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
+                    var longitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
                     loc.setLatitude(latitude);
                     loc.setLongitude(longitude);
                     cc.log("详细地址：经度 " + longitude);
@@ -851,8 +851,8 @@ var handler = {
                     }
                 } else if (cc.sys.OS_IOS == cc.sys.os) {
                     var loc = new cc.pb.room_mgr.latlng();
-                    var Latitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
-                    var Longitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
+                    var Latitude = jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
+                    var Longitude = jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
                     loc.setLatitude(Latitude);
                     loc.setLongitude(Longitude);
                     cc.log("详细地址：经度 " + Longitude);
@@ -880,8 +880,8 @@ var handler = {
                     if (cc.sys.isNative) {
                         if (cc.sys.OS_ANDROID == cc.sys.os) {
                             var loc = new cc.pb.room_mgr.latlng();
-                            var latitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
-                            var longitude = 0//jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
+                            var latitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLatitude", "()F");
+                            var longitude = jsb.reflection.callStaticMethod("game/SystemTool", "getLongitude", "()F");
                             loc.setLatitude(latitude);
                             loc.setLongitude(longitude);
                             cc.log("详细地址：经度 " + longitude);
@@ -891,8 +891,8 @@ var handler = {
                             }
                         } else if (cc.sys.OS_IOS == cc.sys.os) {
                             var loc = new cc.pb.room_mgr.latlng();
-                            var Latitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
-                            var Longitude = 0//jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
+                            var Latitude = jsb.reflection.callStaticMethod('SystemTool', 'getLatitude');
+                            var Longitude = jsb.reflection.callStaticMethod('SystemTool', 'getLongitude');
                             loc.setLatitude(Latitude);
                             loc.setLongitude(Longitude);
                             cc.log("详细地址：经度 " + Longitude);
