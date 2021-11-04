@@ -189,7 +189,7 @@ cc.Class({
                 }
 
                 if(hasBJ){
-                    this.banker.head.play_banker_duanyu("Congratulations on the blackjack", 3);
+                    this.banker.head.play_banker_duanyu("blackjack", 3);
                 }
                 break;
             case BlackJackEvent.SHOW_COIN:
@@ -384,12 +384,12 @@ cc.Class({
 
     onClickChat(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/chat");
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_chat");
     },
 
     onClickEmoj(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/biaoqing");
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_biaoqing");
     },
 
     playerJoin(data){
@@ -505,7 +505,7 @@ cc.Class({
                 this.betIndex = 1;
 
                 if(BlackJackData.hasUserPlayer){
-                    this.banker.head.play_banker_duanyu("PLACE YOUR BETS", 3);
+                    this.banker.head.play_banker_duanyu("placeyourbets", 3);
                 }
 
                 this.betButtonNode.active = BlackJackData.hasUserPlayer;
@@ -566,7 +566,7 @@ cc.Class({
                     });
                 }
 
-                this.banker.head.play_banker_duanyu("Dealer bust!", 3);
+                this.banker.head.play_banker_duanyu("dealerbust", 3);
 
 
                 this.sitBtn.active = !BlackJackData.hasUserPlayer;
@@ -583,7 +583,7 @@ cc.Class({
                     cc.error(`发牌`);
                     BlackJackData.fapai();
 
-                    this.banker.head.play_banker_duanyu("Heads up！", BlackJackData.fapaiList.length * 2 * 1.4);
+                    this.banker.head.play_banker_duanyu("headsup", BlackJackData.fapaiList.length * 2 * 1.4);
 
                     this.playerList.forEach(player => {
                         player.changeChipPos();

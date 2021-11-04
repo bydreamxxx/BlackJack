@@ -23,11 +23,14 @@ cc.Class({
 
     },
     
-    show:function(text){
+    show:function(text, text1){
+        if(typeof (text1) !== "string"){
+            text1 = "";
+        }
         var ani = this.node.getComponent(cc.Animation);
         //ani.play(aniName.NET_WAIT);
         ani.play('Loading');
-        this.lbl.string = text;
+        this.lbl.node.getComponent("LanguageLabel").setText(text,'',text1);
     },
 
     // called every frame, uncomment this function to activate update callback

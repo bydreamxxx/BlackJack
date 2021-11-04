@@ -41,10 +41,16 @@ var loginModle = cc.Class({
 
         qrNode: cc.Node,
         webview: cc.WebView,
+
+        languageNode: cc.Node,
+        languageArrow: cc.Node,
     },
 
     // use this for initialization
     onLoad: function () {
+        this.languageNode.active = false;
+        this.languageArrow.scaleY = 1;
+
         if (cc.sys.platform == cc.sys.DESKTOP_BROWSER)
             cc.need_login_accout = true
         let guest = cc.find('Canvas/align_down/Layout/YKBtn');
@@ -705,21 +711,35 @@ var loginModle = cc.Class({
         require('jlmj_login_data').destroy();
     },
 
-    onClickChangeLanguage() {
-        switch (LanguageMgr.getKind()){
+    onClickChangeLanguage(event, data) {
+        switch (data){
             case "EN":
-                LanguageMgr.changeLanguage("TC");
-                break;
-            case "TC":
-                LanguageMgr.changeLanguage("IN");
-                break;
-            case "IN":
-                LanguageMgr.changeLanguage("ZH");
-                break;
-            case "ZH":
                 LanguageMgr.changeLanguage("EN");
                 break;
+            case "TC":
+                LanguageMgr.changeLanguage("TC");
+                break;
+            case "IN":
+                LanguageMgr.changeLanguage("IN");
+                break;
+            case "ZH":
+                LanguageMgr.changeLanguage("ZH");
+                break;
         }
+
+        this.languageNode.active = false;
+        this.languageArrow.scaleY = 1;
+    },
+
+    onClickChange(){
+        if(this.languageNode.active){
+            this.languageNode.active = false;
+            this.languageArrow.scaleY = 1;
+        }else{
+            this.languageNode.active = true;
+            this.languageArrow.scaleY = -1;
+        }
+
     }
 });
 

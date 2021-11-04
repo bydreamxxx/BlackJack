@@ -66,16 +66,17 @@ var NetWaitUtil = cc.Class({
      * 显示菊花转
      * @param text
      */
-    show: function (text) {
+    show: function (text, text1) {
         //网络等待时,直接返回
         UIMgr.openUI("blackjack_common/prefab/com_mask");
         this.smooth_close();
         var node = this.getNode();
         var cpt = node.getComponent('com_net_wait');
         if (typeof text == 'undefined') {
-            text = '正在进行网络连接……';
+            text = 'Networkconnection';
+            text1 = '……';
         }
-        cpt.show(text);
+        cpt.show(text, text1);
         // node.parent = cc.find('Canvas');
         node.active = true;
     },
@@ -133,11 +134,18 @@ var NetWaitUtil = cc.Class({
             clearTimeout(this.net_wait_id);
             this.net_wait_id = null;
         }
+
+        let text1 = "";
+        if(text === "网络状况不佳..."){
+            text = "Poornetwork";
+            text1 = "..."
+        }
+
         this.net_waiting = false;
         this.close();
         this.net_wait_tag = tag;
         this.net_wait_id = setTimeout(function () {
-            this.show(text);
+            this.show(text, text1);
             this.net_waiting = true;
         }.bind(this), 2000);
     },

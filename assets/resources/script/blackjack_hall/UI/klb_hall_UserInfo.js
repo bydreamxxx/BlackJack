@@ -608,15 +608,38 @@ let userInfo = cc.Class({
  */
     changeNumToCHN: function (num) {
         var str = '';
-        if (num >= 100000000) {
-            str = (num / 100000000.00).toFixed(1) + '亿';
-        } else if (num >= 10000000) {
-            str = (num / 10000000.00).toFixed(1) + '千万';
-        } else if (num >= 100000) {
-            str = (num / 10000.00).toFixed(1) + '万';
-        } else {
-            str = num;
+        if(LanguageMgr.getKind() == "ZH"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '亿';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千万';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '万';
+            } else {
+                str = num;
+            }
+        }else if(LanguageMgr.getKind() == "TC"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '億';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千萬';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '萬';
+            } else {
+                str = num;
+            }
+        }else{
+            if (num >= 1000000000) {
+                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
+            } else if (num >= 10000000) {
+                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
+            } else if (num >= 10000) {
+                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
+            } else {
+                str = num.toLocaleString('en-US');
+            }
         }
+
         return str;
     },
 

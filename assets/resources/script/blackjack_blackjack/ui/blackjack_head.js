@@ -353,8 +353,8 @@ cc.Class({
     play_banker_duanyu: function (text, time) {
         this.duanyu_node.active = true;
         this.duanyu_arrow.active = true;
-        // this.duanyu_label.node.getComponent("LanguageLabel").setText(text);
-        this.duanyu_label.string = text;
+        this.duanyu_label.node.getComponent("LanguageLabel").setText(text);
+        // this.duanyu_label.string = text;
 
         cc.Tween.stopAllByTarget(this.duanyu_node);
 
