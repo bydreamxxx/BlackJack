@@ -1,0 +1,21 @@
+Executable : /Users/yons/dev/trunk/client/software/sdk22/ndk/19.2.5345600/ndk-build
+arguments : 
+NDK_PROJECT_PATH=null
+APP_BUILD_SCRIPT=/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/runtime-src/proj.android-studio/app/jni/Android.mk
+NDK_APPLICATION_MK=/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/runtime-src/proj.android-studio/app/jni/Application.mk
+APP_ABI=x86
+NDK_ALL_ABIS=x86
+NDK_DEBUG=1
+APP_PLATFORM=android-16
+NDK_OUT=/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/runtime-src/proj.android-studio/app/build/intermediates/ndkBuild/anglegame/debug/obj
+NDK_LIBS_OUT=/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/runtime-src/proj.android-studio/app/build/intermediates/ndkBuild/anglegame/debug/lib
+NDK_TOOLCHAIN_VERSION=clang
+NDK_MODULE_PATH=/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/cocos2d-x:/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/cocos2d-x/cocos:/Users/yons/workspace/BlackJack/build-246/jsb-default/frameworks/cocos2d-x/external
+-j8
+NDK_DEBUG=1
+APP_SHORT_COMMANDS=false
+LOCAL_SHORT_COMMANDS=false
+-B
+-n
+jvmArgs : 
+
