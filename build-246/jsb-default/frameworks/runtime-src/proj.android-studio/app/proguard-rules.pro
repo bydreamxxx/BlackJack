@@ -44,6 +44,8 @@
 -keep public class com.anysdk.** { *; }
 -dontwarn com.anysdk.**
 
+-keep public class com.anglegame.blackjack.** { *; }
+-keep public class game.** { *; }
 #-keep class org.eclipse.jdt.annotation.Nullable
 #-dontwarn org.eclipse.jdt.annotation.Nullable
 #-keep class org.eclipse.jdt.annotation.NonNull

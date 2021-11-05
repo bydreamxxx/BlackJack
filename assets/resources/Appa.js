@@ -27,7 +27,7 @@ cc.dd.writelog = function (info) {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
         if (!_storagePath)
             _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        jsb.fileUtils.writeLog(info, _storagePath + "/anglegame_log.txt");
+        jsb.fileUtils.writeDataToFile(info, _storagePath + "/anglegame_log.txt");
 
         if (cc.dd.log_size == null) {
             cc.dd.log_size = jsb.fileUtils.getFileSize(_storagePath + "/anglegame_log.txt");

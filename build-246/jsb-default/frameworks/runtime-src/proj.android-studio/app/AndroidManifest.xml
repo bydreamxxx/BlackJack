@@ -12,8 +12,8 @@
         android:allowBackup="true"
         android:label="${APP_NAME}"
         android:icon="${APP_ICON}"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:usesCleartextTraffic="true">
+<!--        android:requestLegacyExternalStorage="true">-->
 
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name"
