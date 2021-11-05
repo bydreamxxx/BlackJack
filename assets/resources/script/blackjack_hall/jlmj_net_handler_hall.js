@@ -430,12 +430,12 @@ var hanlder = {
             if (sign) {
                 var node = cc.dd.Utils.seekNodeByName(sign, "klb_hall_daily_active_QD");
                 node.getComponent('klb_hall_daily_sign').done(msg.index);
-                cc.dd.PromptBoxUtil.show('领取成功!');
+                cc.dd.PromptBoxUtil.show('lingquchenggong!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             } else {
                 var node = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_DailySign');
                 node.getComponent('BlackJack_Hall_Daily_Sign').done(msg.index);
-                cc.dd.PromptBoxUtil.show('领取成功!');
+                cc.dd.PromptBoxUtil.show('lingquchenggong!');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             }
         }

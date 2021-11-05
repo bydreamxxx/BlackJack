@@ -20,6 +20,7 @@ let texas_audio_cfg = require('texas_audio_cfg');
 var Platform = require('Platform');
 var AppConfig = require('AppConfig');
 let sender = require('net_sender_texas');
+var hall_prefab = require('hall_prefab_cfg');
 
 var ChatEd = require('jlmj_chat_data').ChatEd;
 var ChatEvent = require('jlmj_chat_data').ChatEvent;
@@ -76,7 +77,8 @@ cc.Class({
         menu_funcs: cc.Node,                 //菜单
         common_cards: cc.Node,               //公共牌
         emojiNode: cc.Node,
-        title: cc.Label,                     //底分xxx
+        title: require("LanguageLabel"),                     //底分xxx
+        numtitle:cc.Label,
         roomIdLb: cc.Label,                  //房间id
         roomMangLb: cc.Label,                 //盲注
         addBtnLabel: cc.Label,               //加注按钮的字
@@ -203,7 +205,7 @@ cc.Class({
     onOpenSettingMusic: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/blackjack_setting");
+        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI);
 
     },
 
@@ -226,12 +228,12 @@ cc.Class({
 
     onClickChat(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/chat");
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_chat");
     },
 
     onClickEmoj(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI("blackjack_blackjack/prefab/biaoqing");
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_biaoqing");
     },
 
 
@@ -729,11 +731,11 @@ cc.Class({
                             if (view == 0) {
                                 this.showMiddleWinEffect(player.cardtype);
                             } else {
-                                this.head_list[view].showCardType(this.tpye_ani_prefab[player.cardtype - 1], this.type_splist[player.cardtype - 1], false, player.cardtype);
+                                this.head_list[view].showCardType(this.tpye_ani_prefab[player.cardtype - 1], this.type_splist[player.cardtype - 1].toString(), false, player.cardtype);
                             }
                         }
                         else
-                            this.head_list[view].showCardType(null, this.type_splist[player.cardtype - 1], true, player.cardtype);
+                            this.head_list[view].showCardType(null, this.type_splist[player.cardtype - 1].toString(), true, player.cardtype);
                     }
                 }
 
@@ -1098,7 +1100,8 @@ cc.Class({
     //实时更新
     updateDeskScore(data) {
         let total = texas_Data.Instance().convertNumToStr(texas_Data.Instance().m_totalBet);
-        this.title.string = 'Pots:' + total;
+        this.title.setText('Pots');
+        this.numtitle.string = ":" + total;
     },
     //每轮更新一次
     updateRoundScore(data) {

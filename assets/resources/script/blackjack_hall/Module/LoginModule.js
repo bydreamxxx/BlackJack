@@ -762,7 +762,7 @@ var jlmj_login_module = cc.Class({
                     cc.dd.Text.TEXT_NET_8, cc.dd.Text.TEXT_NET_9, cc.dd.Text.TEXT_NET_10, cc.dd.Text.TEXT_NET_11
                 ];
                 if (data[1] != 5) {
-                    dd.DialogBoxUtil.show(1, LogoutCodeStr[data[1]], '确定', null, function () {
+                    dd.DialogBoxUtil.show(1, LogoutCodeStr[data[1]], 'OK', null, function () {
                         cc.dd.SceneManager.enterLoginScene();
                     });
                     if (data[1] == 8) {
@@ -784,7 +784,7 @@ var jlmj_login_module = cc.Class({
                 }
                 else {
                     dd.DialogBoxUtil.clear();
-                    dd.DialogBoxUtil.showFixDialog(1, "连接超时,或本机已与网络断开", "重试", "返回登录",
+                    dd.DialogBoxUtil.showFixDialog(1, "duanwangtishi", "retry", "back",
                         function () {
                             this.reconnectWG();
                         }.bind(this),
@@ -805,7 +805,7 @@ var jlmj_login_module = cc.Class({
                 }
                 else {
                     dd.DialogBoxUtil.clear();
-                    dd.DialogBoxUtil.show(1, "您的网络不稳定,请稍后再试", "重试", "返回登录",
+                    dd.DialogBoxUtil.show(1, "networkinstable", "retry", "returntologin",
                         function () {
                             this.reconnectWG();
                         }.bind(this),

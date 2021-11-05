@@ -20,6 +20,14 @@ const CARD_TYPE_STR=[
     'huangjiatonghuashun',
 ];
 
+const CARD_TYPE_COLOR = {
+    guopai : cc.color(130,181,193),
+    wait: cc.color(53,163,254),
+    jiazhu: cc.color(255,142,42),
+    allin:cc.color(255,147,148),
+    genzhu:cc.color(145,255,121),
+};
+
 cc.Class({
     extends: com_game_head,
 
@@ -145,7 +153,7 @@ cc.Class({
         if(bg && type!=null)
         {
             bg.active = true;
-            cc.find('type',bg).getComponent(require("LanguageLabel")).setText(CARD_TYPE_STR[type]);
+            cc.find('type',bg).getComponent("LanguageLabel").setText(CARD_TYPE_STR[type]);
         }
         
     },
@@ -180,7 +188,7 @@ cc.Class({
         }
         // var tp = cc.find('type/type', this.node)
         var bg = cc.find('type', this.node)
-        bg.getComponent(require("LanguageLabel")).setText(sp);
+        bg.getComponent("LanguageLabel").setText(sp);
         bg.active = true;
 
         if(gray)
@@ -250,6 +258,7 @@ cc.Class({
         this._des.node.active = false;
         cc.find('say', this.node).active = true;
         cc.find('say', this.node).getComponent(require("LanguageLabel")).setText(sp);
+        cc.find("say", this.node).color = CARD_TYPE_COLOR[sp]
         this.removeWinFrame();
         // this.node.getComponent(cc.Animation).play('say');
     },

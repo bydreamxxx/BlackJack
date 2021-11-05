@@ -518,7 +518,7 @@ cc.Class({
                     return item
             })
             var str = '您还在[' + gameItem.name + ']游戏中，约30秒后退出成功...'
-            cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, str, 'backroom', 'Cancel', function () {
                 this.requestLeaveDesk();
 
                 var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();

@@ -70,7 +70,7 @@ let sign = cc.Class({
 
         hall_audio_mgr.com_btn_click();
         if (this.isget == true) {
-            cc.dd.PromptBoxUtil.show('今日已签到已领取,不可重复领取!');
+            cc.dd.PromptBoxUtil.show('yilingqu');
             return;
         }
         var click = cc.find('click', day_node);

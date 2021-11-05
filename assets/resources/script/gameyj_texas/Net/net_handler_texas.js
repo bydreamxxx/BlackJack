@@ -10,13 +10,13 @@ let game_room = require("game_room");
 var RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 var BET_ERROR = {
-    [-1]:'未轮到自已',
-    [-2]:'金额不足',
-    [-3]:'玩家不存在',
+    [-1]:'notturn',
+    [-2]:'coinenough',
+    [-3]:'notplayer',
     [-4]:'notbet',
-    [-5]:'状态不对',
-    [-6]:'未在下注状态中',
-    [-7]:'跟和过投注额少于条件',
+    [-5]:'wrongstate',
+    [-6]:'notbetstatus',
+    [-7]:'Insufficientconditions',
 }
 module.exports = {
     //房间状态改变

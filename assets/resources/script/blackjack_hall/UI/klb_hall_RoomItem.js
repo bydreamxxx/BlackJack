@@ -279,7 +279,7 @@ cc.Class({
                     return item
             })
             var str = '您正在[' + gameItem.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
-            cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, str, 'backroom', 'Cancel', function () {
                 var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                 msg.setGameType(HallCommonData.getInstance().gameId);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);

@@ -184,7 +184,7 @@ module.exports = {
     on_match_wx_share_ret(msg) {
         switch (msg.retCode) {
             case 0:
-                cc.dd.PromptBoxUtil.show('领取成功');
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
                 BSC_ED.notifyEvent(BSC_Event.SCORE_SHARE_RET, null);
                 break;
             case 1:

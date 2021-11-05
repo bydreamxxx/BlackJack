@@ -173,7 +173,7 @@ var hanlder = {
     on_msg_vip_draw_2c: function (msg) {
         switch (msg.retCode) {
             case 0:
-                cc.dd.PromptBoxUtil.show('领取成功');
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
                 HallVip.Instance().updateVipGiftInfo(msg);
                 break;
             case 1:
@@ -188,7 +188,7 @@ var hanlder = {
     on_msg_vip_draw_onekey_2c: function (msg) {
         switch (msg.retCode) {
             case 0:
-                cc.dd.PromptBoxUtil.show('领取成功');
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
 
                 let list = {}
                 for(let i = 0; i < msg.rewardListList.length; i++){
@@ -443,7 +443,7 @@ var hanlder = {
     on_msg_share_friend_2c: function (msg) {
         cc.OnWxShareFunc = null;
         if (msg.retCode == 0) {
-            cc.dd.PromptBoxUtil.show('领取奖励成功');
+            cc.dd.PromptBoxUtil.show('lingquchenggong');
         }
     },
 

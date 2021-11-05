@@ -10,19 +10,19 @@ module.exports = {
     Sound_See_Card: Prefix + 'Sound_See_Card',//发公共牌
     Sound_Turn_card_4: Prefix + 'Sound_Turn_card_4',//弃牌
     MAN: {
-        ShowHand: Prefix + 'man/allin',     //梭哈
-        Call: Prefix + 'man/gen',           //跟
-        Pass: Prefix + 'man/guo',           //过
-        Discard: Prefix + 'man/qi',         //弃
-        Raise: Prefix + 'man/jia',          //加
+        ShowHand: Prefix + 'comaudio',     //梭哈
+        Call: Prefix + 'comaudio',           //跟
+        Pass: Prefix + 'comaudio',           //过
+        Discard: Prefix + 'comaudio',         //弃
+        Raise: Prefix + 'comaudio',          //加
         // Xiazhu: Prefix + 'man/xiazhu',      //下注
     },
     WOMAN: {
-        ShowHand: Prefix + 'woman/allin',
-        Call: Prefix + 'woman/gen',
-        Pass: Prefix + 'woman/guo',
-        Discard: Prefix + 'woman/qi',
-        Raise: Prefix + 'woman/jia',
+        ShowHand: Prefix + 'comaudio',
+        Call: Prefix + 'comaudio',
+        Pass: Prefix + 'comaudio',
+        Discard: Prefix + 'comaudio',
+        Raise: Prefix + 'comaudio',
         // Xiazhu: Prefix + 'woman/xiazhu',
     },
 };
