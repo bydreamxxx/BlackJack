@@ -42,8 +42,57 @@ let resLoad = cc.Class({
             var update_path = jsb.fileUtils.getWritablePath() + "blackjack";
             cc.log('热更新目录:' + update_path);
         }
+
+        cc.log = function () {
+            var len = arguments.length;
+            var str = '';
+            for (var i = 0; i < len; i++) {
+                var tmp = arguments[i];
+                if (typeof tmp == 'object') {
+                    tmp = cc.dd.obj2string(tmp);
+                }
+                str += tmp;
+            }
+            var time = '[' + new Date().toLocaleString() + ']';
+            str = '【LOG】' + time + ' ' + str;
+            console.log(str);
+            cc.dd.DingRobot.push_log(str);
+        };
+
+        cc.warn = function () {
+            var len = arguments.length;
+            var str = '';
+            for (var i = 0; i < len; i++) {
+                var tmp = arguments[i];
+                if (typeof tmp == 'object') {
+                    tmp = cc.dd.obj2string(tmp);
+                }
+                str += tmp;
+            }
+            var time = '[' + new Date().toLocaleString() + ']';
+            str = '【WARN】' + time + ' ' + str;
+            console.warn(str);
+            cc.dd.DingRobot.push_log(str);
+        };
+
+        cc.error = function () {
+            var len = arguments.length;
+            var str = '';
+            for (var i = 0; i < len; i++) {
+                var tmp = arguments[i];
+                if (typeof tmp == 'object') {
+                    tmp = cc.dd.obj2string(tmp);
+                }
+                str += tmp;
+            }
+            var time = '[' + new Date().toLocaleString() + ']';
+            str = '【ERROR】:' + time + ' ' + str;
+            console.error(str);
+            cc.dd.DingRobot.push_log(str);
+        };
+
         this.closeSplash();
-        cc.dd.native_wx.SetShareThumbImage("blackjack_hall/textures/shareImages/WxShare.png");
+        cc.dd.native_wx.SetShareThumbImage("shareImages/WxShare.png");
         // cc.dd.SysTools.disableLog();
         AudioManager.stopMusic();
         cc.dd.native_systool.gameStart();

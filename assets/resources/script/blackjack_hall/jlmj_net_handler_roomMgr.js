@@ -1133,7 +1133,7 @@ var handler = {
                 RoomMgr.Instance().roomType = msg.gameInfo.roomId;
                 cc.dd.SceneManager.enterGameWithLoading(msg.gameInfo.gameType);
             } else if(msg.gameInfo.gameType == define.GameType.BLACKJACK_GOLD){
-                cc.dd.SceneManager.enterGame(msg.gameInfo.gameType, null, [new cc.dd.ResLoadCell("blackjack_blackjack/atlas/cards", cc.SpriteAtlas)]);
+                cc.dd.SceneManager.enterGame(msg.gameInfo.gameType, null, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
             }else
                 if (msg.gameInfo.gameType != define.LKFISH_GOLD)//捕鱼需要特殊加载处理
                     cc.dd.SceneManager.enterGame(msg.gameInfo.gameType);

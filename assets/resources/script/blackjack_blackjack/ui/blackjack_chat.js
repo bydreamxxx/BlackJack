@@ -14,6 +14,7 @@ cc.Class({
         this.duanyu_scrollView = cc.find("duanyu_list",this.node).getComponent(cc.ScrollView);
         this.duan_yu_contentNode = cc.find("duanyu_list/view/content",this.node);
         this.duan_yu_item = cc.find("duanyu_item",this.node);
+        this.initChat()
     },
     initChat: function () {
         var duanyu_list = chat_game_cfg.getItem(function (itrem) {

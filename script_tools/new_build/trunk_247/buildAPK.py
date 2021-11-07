@@ -46,6 +46,7 @@ def back_up():
 
 
 if __name__ == "__main__":
+    builder.clean()
     init()
     builder.cocos_build_withcmd(COCOS_CMD)
     # # builder.gen_etc2()

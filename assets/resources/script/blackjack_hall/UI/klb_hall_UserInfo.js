@@ -713,7 +713,7 @@ let userInfo = cc.Class({
         // if (share_imgs.length > 1) {
         //     idx = Math.floor(Math.random() * share_imgs.length);
         // }
-        // cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + share_imgs[idx]);
+        // cc.dd.native_wx.ShareImageToTimeline('shareImages/' + share_imgs[idx]);
 
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);

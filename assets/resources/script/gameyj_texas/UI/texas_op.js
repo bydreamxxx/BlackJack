@@ -260,9 +260,9 @@ cc.Class({
 
     showNotMoney()
     {
-        cc.dd.UIMgr.openUI('gameyj_texas/prefab/texas_quick_pick_money', function (ui) {
-            // ui.getComponent("texas_quick_pick_money").show(str, func, 2);
-        }.bind(this));
+        // cc.dd.UIMgr.openUI('gameyj_texas/prefab/texas_quick_pick_money', function (ui) {
+        //     // ui.getComponent("texas_quick_pick_money").show(str, func, 2);
+        // }.bind(this));
     },
 
     //取消加注

@@ -1,7 +1,7 @@
 
 
-const Width = 62;
-const Height = 88;
+const Width = 75;
+const Height = 100;
 const Theta = Math.atan(Width / Height);
 
 const TOTAL_TIME = 12;

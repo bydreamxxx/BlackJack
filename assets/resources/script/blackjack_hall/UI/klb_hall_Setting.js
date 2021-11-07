@@ -275,8 +275,12 @@ cc.Class({
             cc.log(cc.dd.user.id + "设置里上传日志");
 
             if (!_storagePath)
-                _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-            var filePath = _storagePath + "/xlqp_log.txt";
+                _storagePath = jsb.fileUtils.getWritablePath()+"log";
+                // _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+            if(!jsb.fileUtils.isDirectoryExist(_storagePath)) {
+                jsb.fileUtils.createDirectory(_storagePath);
+            }
+            var filePath = _storagePath + "/anglegame_log.txt";
             if (jsb.fileUtils.isFileExist(filePath)) {
                 cc.dd.SysTools.uploadLog(jsb.fileUtils.getDataFromFile(filePath), Platform.uploadLogUrl[AppCfg.PID]);
             }

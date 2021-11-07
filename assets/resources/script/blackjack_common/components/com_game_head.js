@@ -94,20 +94,21 @@ let com_game_head = cc.Class({
 
         //头像
         this.head.node.active = true;
-        if (this.player.headUrl.indexOf('.jpg') != -1) {
-            let robotUrl = require('Platform').GetRobotUrl();
-            cc.dd.SysTools.loadWxheadH5(this.head, robotUrl + this.player.headUrl);
-        }
-        else {
-            //cc.log("加载玩家头像");
-            if (this.player.headUrl) {
-                //cc.log("玩家头像获取成功-->" + this.player.headUrl);
-                cc.dd.SysTools.loadWxheadH5(this.head, this.player.headUrl);
-            } else {
-                //cc.log("玩家头像获取失败-->" + this.player.headUrl);
-                this.head.spriteFrame = this.tx_img;
-            }
-        }
+        this.head.node.getComponent('klb_hall_Player_Head').initHead(this.player.openId, this.player.headUrl);
+        // if (this.player.headUrl.indexOf('.jpg') != -1) {
+        //     let robotUrl = require('Platform').GetRobotUrl();
+        //     cc.dd.SysTools.loadWxheadH5(this.head, robotUrl + this.player.headUrl);
+        // }
+        // else {
+        //     //cc.log("加载玩家头像");
+        //     if (this.player.headUrl) {
+        //         //cc.log("玩家头像获取成功-->" + this.player.headUrl);
+        //         cc.dd.SysTools.loadWxheadH5(this.head, this.player.headUrl);
+        //     } else {
+        //         //cc.log("玩家头像获取失败-->" + this.player.headUrl);
+        //         this.head.spriteFrame = this.tx_img;
+        //     }
+        // }
 
         //准备
         if (RoomMgr.Instance().gameStart) {

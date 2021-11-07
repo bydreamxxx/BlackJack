@@ -123,7 +123,7 @@ cc.Class({
                     //     '发送协议[id: ${cmd_hall_req_new_room_list}],cmd_hall_req_new_room_list,[小刺激获取房间列表]',true);
 
                 } else {
-                    cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_POPUP_16);
+                    cc.dd.PromptBoxUtil.show("coinTooMuch");
                 }
             }
         }

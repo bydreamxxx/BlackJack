@@ -49,7 +49,7 @@ cc.Class({
     // update (dt) {},
 
     initItem(list, isShare) {
-        this.again_node.active = !!isShare;
+        //this.again_node.active = !!isShare;
         this.layout_node.removeAllChildren();
         this.layout_node.opacity = 0;
         let self = this;
@@ -107,7 +107,7 @@ cc.Class({
         //     if (share_imgs.length > 1) {
         //         idx = Math.floor(Math.random() * share_imgs.length);
         //     }
-        //     cc.dd.native_wx.ShareImageToTimeline('blackjack_hall/textures/shareImages/' + share_imgs[idx], shareType);
+        //     cc.dd.native_wx.ShareImageToTimeline('shareImages/' + share_imgs[idx], shareType);
         // }
         let shareItem = cc.dd.Utils.getRandomShare();
         if (!cc.dd._.isNull(shareItem)) {

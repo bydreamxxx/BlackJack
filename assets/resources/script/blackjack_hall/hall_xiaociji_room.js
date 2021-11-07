@@ -70,7 +70,7 @@ cc.Class({
                     // todo 请求进入游戏
                     gSlotMgr.enterGame(this.roomItem.gameid, this.roomItem.roomid);
                 } else {
-                    cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_POPUP_16);
+                    cc.dd.PromptBoxUtil.show("coinTooMuch");
                 }
             }
         }

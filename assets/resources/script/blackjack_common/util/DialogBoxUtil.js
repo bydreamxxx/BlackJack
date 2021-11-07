@@ -118,7 +118,7 @@ var DialogBoxUtil = cc.Class({
      * @param okHandler  确定按钮回调
      * @param cancelHandler  取消按钮回调
      */
-    show: function (priority, contentStr, okStr, cancelStr, okHandler, cancelHandler, titleStr) {
+    show: function (priority, contentStr, okStr, cancelStr, okHandler, cancelHandler, titleStr, addStr) {
         this.waitCB = null;
         if (!this.inited) {
             if (cc._useChifengUI)
@@ -132,8 +132,13 @@ var DialogBoxUtil = cc.Class({
         NetWaitUtil.Instance().close();
 
         this.dialogBox.resetUI();
-        this.dialogBox.content_text.string = contentStr;
-        this.dialogBox.title_text.string = titleStr || '温馨提示';
+        if(addStr){
+            this.dialogBox.content_text.setText(contentStr,"","",addStr);
+        }else{
+            this.dialogBox.content_text.setText(contentStr);
+        }
+        var str = titleStr || 'reminder'
+        this.dialogBox.title_text.setText(str);
         this.dialogBox.ok_text.setText(this._isValidStr(okStr) ? okStr : 'OK');
         this.dialogBox.ok_func = okHandler;
         this.dialogBox.cancel_func = cancelHandler;

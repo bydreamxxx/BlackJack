@@ -16,8 +16,12 @@ var _storagePath = null;
 cc.dd.getLogSize = function (info) {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
         if (!_storagePath)
-            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        let size = jsb.fileUtils.getFileSize(_storagePath + "/xlqp_log_1.txt");
+            _storagePath = jsb.fileUtils.getWritablePath()+"log";
+        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        if(!jsb.fileUtils.isDirectoryExist(_storagePath)) {
+            jsb.fileUtils.createDirectory(_storagePath);
+        }
+        let size = jsb.fileUtils.getFileSize(_storagePath + "/anglegame_log.txt");
         cc.log("缓存文件大小:" + size);
     }
 };
@@ -26,8 +30,14 @@ cc.dd.getLogSize = function (info) {
 cc.dd.writelog = function (info) {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
         if (!_storagePath)
-            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-        jsb.fileUtils.writeDataToFile(info, _storagePath + "/anglegame_log.txt");
+            _storagePath = jsb.fileUtils.getWritablePath()+"log";
+        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        if(!jsb.fileUtils.isDirectoryExist(_storagePath)) {
+            jsb.fileUtils.createDirectory(_storagePath);
+        }
+        let str_data = jsb.fileUtils.getStringFromFile(_storagePath + "/anglegame_log.txt")
+        str_data+='\n'+info;
+        jsb.fileUtils.writeStringToFile(str_data, _storagePath + "/anglegame_log.txt");
 
         if (cc.dd.log_size == null) {
             cc.dd.log_size = jsb.fileUtils.getFileSize(_storagePath + "/anglegame_log.txt");
@@ -43,7 +53,11 @@ cc.dd.writelog = function (info) {
 cc.dd.deletelog = function () {
     if (cc.sys.OS_ANDROID == cc.sys.os) {
         if (!_storagePath)
-            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+            _storagePath = jsb.fileUtils.getWritablePath()+"log";
+        //     _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+        if(!jsb.fileUtils.isDirectoryExist(_storagePath)) {
+            jsb.fileUtils.createDirectory(_storagePath);
+        }
         var filePath = _storagePath + "/anglegame_log.txt";
         if (jsb.fileUtils.isFileExist(filePath)) {
             jsb.fileUtils.removeFile(filePath);

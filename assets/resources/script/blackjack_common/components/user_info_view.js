@@ -126,13 +126,13 @@ cc.Class({
 
         if (gameConfig) {
             if (gameConfig.isfriend == 1) {
-                this.lab_id.string = 'ID.' + data.userId;
+                this.lab_id.string = data.userId;
                 if (this.copyBtnNode) {
                     this.copyBtnNode.active = true;
                 }
             } else {
                 if (data.userId == cc.dd.user.id) {
-                    this.lab_id.string = 'ID.' + data.userId;
+                    this.lab_id.string = data.userId;
                 } else {
                     this.lab_id.string = '';
                 }
@@ -142,7 +142,7 @@ cc.Class({
             }
         } else {
             if (data.userId == cc.dd.user.id) {
-                this.lab_id.string = 'ID.' + data.userId;
+                this.lab_id.string = data.userId;
             } else {
                 this.lab_id.string = '';
             }

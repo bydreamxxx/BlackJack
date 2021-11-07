@@ -283,22 +283,40 @@ var Utils = {
      * @returns {string}
      */
     getNumToWordTransform: function (num) {
-        var symbol = "";
-        var word = "";
-        if (!this.isNull(num)) {
-            symbol = num < 0 ? "-" : "";
-            num = Math.abs(Number(num));
-            if (num < 10000) {
-                word = num.toString();
-            } else if (num >= 10000 && num < 1000000) {
-                word = (Math.floor(num * 100 / 10000) / 100).toString() + "w";
-            } else if (num >= 1000000 && num < 100000000) {
-                word = Math.floor(num / 10000).toString() + "w";
+        var str = '';
+        if(LanguageMgr.getKind() == "ZH"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '亿';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千万';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '万';
             } else {
-                word = (Math.floor(num / 1000000) / 100).toString() + "亿";
+                str = num;
+            }
+        }else if(LanguageMgr.getKind() == "TC"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '億';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千萬';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '萬';
+            } else {
+                str = num;
+            }
+        }else{
+            if (num >= 1000000000) {
+                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
+            } else if (num >= 10000000) {
+                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
+            } else if (num >= 10000) {
+                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
+            } else {
+                str = num.toLocaleString('en-US');
             }
         }
-        return symbol + word;
+
+        return str;
     },
 
 

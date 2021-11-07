@@ -42,7 +42,7 @@
         "__id__": 34
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 37
@@ -517,7 +517,11 @@
       "__id__": 11
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -616,8 +620,8 @@
     "target": {
       "__id__": 1
     },
-    "component": "com_award",
-    "_componentId": "",
+    "component": "",
+    "_componentId": "06e7b9oPGxF/rSTSpJDy7v/",
     "handler": "onAgain",
     "customEventData": ""
   },

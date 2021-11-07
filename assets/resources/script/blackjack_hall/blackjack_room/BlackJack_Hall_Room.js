@@ -91,7 +91,7 @@ cc.Class({
      * @param data
      */
     roomBtnCallBack: function (event, data) {
-        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
+        cc.dd.PromptBoxUtil.show('notopen');
         return;
         // var gameid = this.game_id;
         // var game = klb_game_list_config.getItem(function (item) {

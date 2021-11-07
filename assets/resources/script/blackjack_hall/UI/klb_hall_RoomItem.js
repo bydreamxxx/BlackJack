@@ -278,13 +278,13 @@ cc.Class({
                 if (item.gameid == HallCommonData.getInstance().gameId)
                     return item
             })
-            var str = '您正在[' + gameItem.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
+            var str = 'Intheroom'
             cc.dd.DialogBoxUtil.show(0, str, 'backroom', 'Cancel', function () {
                 var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                 msg.setGameType(HallCommonData.getInstance().gameId);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
                 cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickRoom');
-            }, null);
+            }, null, null, gameItem.name);
             cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
             return;
         }
@@ -556,6 +556,6 @@ cc.Class({
             msg.setRoomId(data.roomid);
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
-        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_blackjack/atlas/cards", cc.SpriteAtlas)]);
+        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
     },
 });

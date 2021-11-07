@@ -10,6 +10,9 @@ import zipfile
 import platform
 import re
 
+def clean():
+    shutil.rmtree(buildCfg.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/app/build', True)
+
 def getFileContent(fileName):
     all_the_text = ""
     try:

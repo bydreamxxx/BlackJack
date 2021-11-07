@@ -4,8 +4,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        title_text: cc.Label,
-        content_text: cc.RichText,
+        title_text: require("LanguageLabel"),
+        content_text: require("LanguageLabel"),
         ok_text: require("LanguageLabel"),
         cancel_text: require("LanguageLabel"),
         ok_btn: cc.Node,

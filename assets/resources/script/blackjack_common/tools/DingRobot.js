@@ -36,10 +36,10 @@ var DingRobot = {
         if (!cc.sys.isNative) {
             return;
         }
-        if (ding_log.length >= max_length) {
-            ding_log.shift();
-        }
-        ding_log.push(content);
+        // if (ding_log.length >= max_length) {
+        //     ding_log.shift();
+        // }
+        // ding_log.push(content);
         //if(cc.pid == 3)
         //     content = this.aesEncrypt(content);
         cc.dd.writelog(content);
@@ -139,55 +139,6 @@ window.__errorHandler = function (filename, lineno, message) {
     cc.error('错误', str);
     // DingRobot.report(str);
 };
-
-cc.log = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【LOG】' + time + ' ' + str;
-    console.log(str);
-    DingRobot.push_log(str);
-};
-
-cc.warn = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【WARN】' + time + ' ' + str;
-    console.warn(str);
-    DingRobot.push_log(str);
-};
-
-cc.error = function () {
-    var len = arguments.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
-        var tmp = arguments[i];
-        if (typeof tmp == 'object') {
-            tmp = cc.dd.obj2string(tmp);
-        }
-        str += tmp;
-    }
-    var time = '[' + new Date().toLocaleString() + ']';
-    str = '【ERROR】:' + time + ' ' + str;
-    console.error(str);
-    DingRobot.push_log(str);
-};
-
 // cc.info = function () {
 //     var len = arguments.length;
 //     var str = '';

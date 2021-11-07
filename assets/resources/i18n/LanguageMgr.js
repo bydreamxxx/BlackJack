@@ -44,7 +44,7 @@ const LanguageMgr = cc.Class({
             LanguageEd.notifyEvent(LanguageEvent.CHANGE_LANGUAGE);
         }
     },
-    getText(text, param) {
+    getText(text) {
         let config = LanguangeConfig.getItem(function(item){
             if(item.keyword == text)
                 return item;
@@ -52,9 +52,6 @@ const LanguageMgr = cc.Class({
 
         if (config) {
             let str = config[this.kind] || "";
-            if (param && param["$param"] !== undefined) {
-                str = str.replace("$param", param["$param"].toString());
-            }
             return str;
         } else if (text == "") {
             return "";

@@ -10,6 +10,8 @@ cc.Class({
         musicProgerss: cc.ProgressBar,
         soundSlider: cc.Slider,
         soundProgress: cc.ProgressBar,
+        kefuBtn:cc.Node,
+        loginOutBtn:cc.Node,
     },
 
     editor:{
@@ -43,6 +45,68 @@ cc.Class({
 
     closeBtn() {
         hall_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.destroyUI(this.node);
+    },
+
+    showBtn(isShow){
+        this.kefuBtn.active = isShow;
+        this.loginOutBtn.active = isShow;
+    },
+
+    onClickBtnCallBack: function (event, data) {
+        hall_audio_mgr.com_btn_click();
+
+        switch (data) {
+            case 'NOTICE'://公告
+                /************************游戏统计 start************************/
+                cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.NOTICE);
+                /************************游戏统计   end************************/
+                cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_STATEMENT, function (prefab) {
+                });
+                break;
+            case 'KEFU'://客服
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
+                return;
+                if (cc._chifengGame) {
+                    cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_KEFU);
+                } else {
+                    // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_KEFU, function (prefab) {
+                    //     prefab.getComponent('klbj_hall_KeFu').getKefuDetailInfo();
+                    // });
+                    let Platform = require('Platform');
+                    let AppCfg = require('AppConfig');
+                    cc.dd.native_systool.OpenUrl(Platform.kefuUrl[AppCfg.PID] + "?user_id=" + cc.dd.user.id);
+                }
+                break;
+            case 'CHANGE'://切换账号
+                /************************游戏统计 start************************/
+                cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.SWITCH_USER);
+                /************************游戏统计   end************************/
+                if (cc.sys.platform == cc.sys.MOBILE_BROWSER) {
+                    wx.closeWindow();
+                    return;
+                }
+                LoginData.Instance().saveRefreshToken('');
+                cc.dd.SceneManager.enterLoginScene();
+                break;
+            case 'RULE':
+                /************************游戏统计 start************************/
+                cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.GAME_RULE);
+                /************************游戏统计   end************************/
+                cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_RULE, function (ui) {
+                    //ui.getComponent('klb_hall_Rule').InitGameList();
+                }.bind(this));
+                break;
+            case 'FEEDBACK'://反馈
+                if (cc._useCardUI) {
+                    cc.dd.PromptBoxUtil.show('notopen');
+                } else {
+                    cc.dd.UIMgr.openUI(hall_prefab.FEEDBACK);
+                }
+                break;
+            default:
+                break;
+        }
         cc.dd.UIMgr.destroyUI(this.node);
     },
 });

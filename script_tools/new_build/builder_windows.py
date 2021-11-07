@@ -10,6 +10,9 @@ import zipfile
 import platform
 import re
 
+def clean():
+    shutil.rmtree(buildCfg_windows.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/app/build', True)
+
 def getFileContent(fileName):
     all_the_text = ""
     try:
@@ -457,10 +460,10 @@ def generate_apk(output_path):
     if platform.system() == "Windows":
         cmd = 'gradlew assembleRelease'
     os.system(cmd)
-    os.chdir(output_path)
+    # os.chdir(output_path)
     #os.system('cp -r {0} {1}'.format(os.path.abspath(
     #    buildCfg_windows.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/xlqp-release.apk'), './xlqp-release.apk'))
-    shutil.copyfile(buildCfg_windows.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/release/blackjack-release.apk', './blackjack-release.apk')
+    # shutil.copyfile(buildCfg_windows.NATIVE_PATH + '/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/release/blackjack-release.apk', './blackjack-release.apk')
     return
 
 def generate_apk_withpath(NATIVE_PATH,output_path):
@@ -507,6 +510,7 @@ module.exports = scene_dir_cfg;
                 continue
             scene_name = file.split('.fire')[0]
             abs_path = os.path.join(dir_path, file)
+            abs_path = abs_path.replace('\\', '/')
             scene_dir = abs_path.split('assets/')[1].split('/')[0]
             if scene_dir == "resources":
                 scene_dir = abs_path.split('resources/')[1].split('/')[0]

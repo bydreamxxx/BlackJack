@@ -27,5 +27,19 @@ export default class LanguageLabel extends LanguageComponent {
         this.suffix = suffix ? suffix : "";
 
         this.changeLanguage();
+
+        if(arguments.length > 3){
+            let label = this.getComponent(cc.Label);
+            if (label) {
+                let str = label.string;
+
+                for(let i = 3; i < arguments.length; i++){
+                    let re = new RegExp('\\{' + (i - 3) + '\\}','gm');
+                    str = str.replace(re, arguments[i]);
+                }
+
+                label.string = str;
+            }
+        }
     }
 }

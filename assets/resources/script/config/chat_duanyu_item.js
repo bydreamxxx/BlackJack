@@ -65,7 +65,16 @@ var data_chat_duanyu_item =
       { key:61,duanyu_id:61,text:"诶呀哥，你这牌打的也太硬了",boy_audio:"nm_boy/msg_7.mp3",girl_audio:"nm_girl/msg_7.mp3",duration:2 },
       { key:62,duanyu_id:62,text:"光吃不叉，胡的不大",boy_audio:"nm_boy/msg_8.mp3",girl_audio:"nm_girl/msg_8.mp3",duration:2 },
       { key:63,duanyu_id:63,text:"先赢的是纸，后赢的才是钱呢",boy_audio:"nm_boy/msg_9.mp3",girl_audio:"nm_girl/msg_9.mp3",duration:2 },
-      { key:64,duanyu_id:64,text:"这麻将，太麻了",boy_audio:"nm_boy/msg_10.mp3",girl_audio:"nm_girl/msg_10.mp3",duration:2 }
+      { key:64,duanyu_id:64,text:"这麻将，太麻了",boy_audio:"nm_boy/msg_10.mp3",girl_audio:"nm_girl/msg_10.mp3",duration:2 },
+      { key:65,duanyu_id:65,text:"hi",boy_audio:"",girl_audio:"",duration:2 },
+      { key:66,duanyu_id:66,text:"comeon",boy_audio:"",girl_audio:"",duration:2 },
+      { key:67,duanyu_id:67,text:"god",boy_audio:"",girl_audio:"",duration:2 },
+      { key:68,duanyu_id:68,text:"haha",boy_audio:"",girl_audio:"",duration:2 },
+      { key:69,duanyu_id:69,text:"notmyday",boy_audio:"",girl_audio:"",duration:2 },
+      { key:70,duanyu_id:70,text:"luckyday",boy_audio:"",girl_audio:"",duration:2 },
+      { key:71,duanyu_id:71,text:"cheer",boy_audio:"",girl_audio:"",duration:2 },
+      { key:72,duanyu_id:72,text:"Congratulations",boy_audio:"",girl_audio:"",duration:2 },
+      { key:73,duanyu_id:73,text:"bye",boy_audio:"",girl_audio:"",duration:2 }
     ],
 
     /**

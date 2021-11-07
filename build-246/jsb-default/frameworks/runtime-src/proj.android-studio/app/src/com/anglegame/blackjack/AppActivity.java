@@ -115,7 +115,6 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     private WakeLock mWakeLock;
     public static IWXAPI api;
     public static String APP_ID;
-    public static final String xiaoliaoId = "OnGPpDavD9iAI68d";
     public static float batteryLevel = 0.9f; //电量值
 
     public static ImageView splashImage;
@@ -374,7 +373,15 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     }
 
     public static String getInnerSDCardPath() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? (app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/") : Environment.getExternalStorageDirectory().getPath();
+//        String rootPath = "";
+//        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//有SD卡
+//            rootPath = Environment.getExternalStorageDirectory() + "/";
+//        } else {
+//            rootPath = Environment.getDataDirectory() + "/";
+//        }
+//        return rootPath;
+//        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? (app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/") : Environment.getExternalStorageDirectory().getPath();
+        return Environment.getExternalStorageDirectory().getPath();
     }
 
     @Override
@@ -560,9 +567,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        Log.v("注册到微信APP_ID", APP_ID);
-        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
-        api.registerApp(APP_ID);
+//        Log.v("注册到微信APP_ID", APP_ID);
+//        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
+//        api.registerApp(APP_ID);
 
         //注册监听获取电量
         BatteryBroadcastReceiver receiver = new BatteryBroadcastReceiver();

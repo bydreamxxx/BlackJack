@@ -535,12 +535,12 @@ let hall = cc.Class({
                                         if (item.gameid == hallData.getInstance().gameId)
                                             return item;
                                     })
-                                    var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
+                                    var str = 'Intheroom'
                                     cc.dd.DialogBoxUtil.show(0, str, 'backroom', 'Cancel', function () {
                                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                                         msg.setGameType(hallData.getInstance().gameId);
                                         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-                                    }, null);
+                                    }, null, null, itemgame.name);
                                     cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
                                 }
                             }

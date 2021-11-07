@@ -15,7 +15,7 @@ cc.Class({
         titleTxt: require("LanguageLabel"),
         baseScoreTxt: cc.Label,
         playerNumTxt: cc.Label,
-        descTxt: cc.Label,
+        descTxt: require("LanguageLabel"),
         bg: cc.Sprite,
         tubiaoBg: cc.Sprite,
         roleBg: cc.Sprite,
@@ -36,7 +36,7 @@ cc.Class({
                 this.titleTxt.setText(roomItem.titel);
                 this.baseScoreTxt.string = roomItem.basescore;
                 this.playerNumTxt.string = data.fangjianrenshu;
-                this.descTxt.string = roomItem.desc;
+                this.descTxt.setText(roomItem.desc);
                 var index = roomItem.roomid;
 
                 if (index > 4) {
@@ -88,13 +88,13 @@ cc.Class({
                 if (item.gameid == HallCommonData.getInstance().gameId)
                     return item
             })
-            var str = '您正在[' + gameItem.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
+            var str = 'Intheroom'
             cc.dd.DialogBoxUtil.show(0, str, 'backroom', 'Cancel', function () {　      
                 var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                 msg.setGameType(HallCommonData.getInstance().gameId);
                 cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
                 cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickRoom');
-            }, null);
+            }, null, null, gameItem.name );
             cc.dd.DialogBoxUtil.setWaitGameEnd(enterfunc);
             return;
         }
@@ -128,7 +128,7 @@ cc.Class({
                 if (this.roomItem.entermax === 0) {
                     callFunc(gameId);
                 } else {
-                    cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_POPUP_16);
+                    cc.dd.PromptBoxUtil.show("coinTooMuch");
                 }
             }
         }
@@ -200,6 +200,6 @@ cc.Class({
             msg.setRoomId(data.roomid);
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
-        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_blackjack/atlas/cards", cc.SpriteAtlas)]);
+        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
     },
 });

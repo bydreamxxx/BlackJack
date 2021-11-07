@@ -103,8 +103,8 @@ let activity = cc.Class({
 
                 var text = cc.dd.Utils.seekNodeByName(itemNode, "text");
                 var text1 = cc.dd.Utils.seekNodeByName(itemNode, "text1");
-                text.getComponent(cc.Label).string = data.content;
-                text1.getComponent(cc.Label).string = data.content;
+                text.getComponent("LanguageLabel").setText(data.content);
+                text1.getComponent("LanguageLabel").setText( data.content);
             }
         }
     },

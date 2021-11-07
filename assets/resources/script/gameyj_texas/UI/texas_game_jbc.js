@@ -85,8 +85,10 @@ cc.Class({
         anim_match: { default: null, type: dragonBones.ArmatureDisplay, tooltip: "匹配中动画" },
 
         emojiItem: { default: null, type: cc.Prefab, tooltip: "表情(弹幕)" },
-        messagePrefab: { default: null, type: cc.Prefab, tooltip: "快捷短语(弹幕)" }
+        messagePrefab: { default: null, type: cc.Prefab, tooltip: "快捷短语(弹幕)" },
 
+        ruleImge:[cc.SpriteFrame],
+        firstBet: true
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -205,8 +207,9 @@ cc.Class({
     onOpenSettingMusic: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI);
-
+        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI, function (prefab) {
+            prefab.getComponent("blackjack_setting").showBtn(false)
+        });
     },
 
     //分享按钮
@@ -295,6 +298,9 @@ cc.Class({
                 this.updateDeskScore();
                 break;
             case Texas_Event.BET_BOTTOM://底注
+                if(this.firstBet){
+                    this.firstBet = false
+                }
                 this.onBetCall(data, true);
                 this.updateDeskScore();
                 break;
@@ -308,6 +314,7 @@ cc.Class({
             //     this.onDealCard(data);
             //     break;
             case Texas_Event.BANKER:
+                this.resetGameUI();
                 this.onBanker(data);
                 break;
             case Texas_Event.SHOW_CARD://亮牌
@@ -321,9 +328,11 @@ cc.Class({
                 this.updateRoundBet(data);
                 break;
             case Texas_Event.RESULT://结算
+                this.firstBet = true;
                 this.onResult(data);
                 break;
             case Texas_Event.NO_CARDS_RESULT://结算
+                this.firstBet = true;
                 this.onResult(data, true);
                 break;
             case Texas_Event.RECONNECT://重连
@@ -799,7 +808,7 @@ cc.Class({
 
     showNYL() {
         var effectNode = cc.find('effectNode', this.node)
-        effectNode.active = false;
+        effectNode.active = true;
 
         this.middle_effect[0].active = true;
         var ani = this.middle_effect[0].getComponent(cc.Animation);
@@ -1048,18 +1057,39 @@ cc.Class({
                 break;
             case 1:
                 this.onBanker(msg, true);
-                TEXAS_ED.notifyEvent(Texas_Event.OVER_TURN);
+                TEXAS_ED.notifyEvent(Texas_Event.OVER_TURN, msg.curOpPlayerId);
                 break;
         }
     },
 
     onGuize(event, custom) {
         hall_audio_mgr.com_btn_click();
+        var ruleNode = cc.find('guize', this.node)
         if (custom == 'close') {
-            cc.find('guize', this.node).active = false;
+            ruleNode.active = false;
         }
         else {
-            cc.find('guize', this.node).active = true;
+            ruleNode.active = true;
+            var ruleImge = cc.dd.Utils.seekNodeByName(ruleNode, "rule").getComponent(cc.Sprite)
+            if(ruleImge){
+                var index = 0
+                switch(LanguageMgr.getKind()){
+                    case "EN":
+                        index = 0;
+                        break;
+                    case "TC":
+                        index = Lang1;
+                        break;
+                    case "IN":
+                        index = 2;
+                        break;
+                    case "ZH":
+                        index = 3;
+                        break;
+        
+                }
+                ruleImge.spriteFrame = this.ruleImge[index];
+            }
         }
     },
 
@@ -1099,9 +1129,9 @@ cc.Class({
 
     //实时更新
     updateDeskScore(data) {
-        let total = texas_Data.Instance().convertNumToStr(texas_Data.Instance().m_totalBet);
+        let total = texas_Data.Instance().m_totalBet;
         this.title.setText('Pots');
-        this.numtitle.string = ":" + total;
+        this.numtitle.string = cc.dd.Utils.getNumToWordTransform(total);
     },
     //每轮更新一次
     updateRoundScore(data) {
@@ -1194,13 +1224,15 @@ cc.Class({
     onRoomStatus(status) {
         this.gameStart();
         // this.updateRoundScore();
+        cc.log("status===" + status)
+
         switch (status) {
             case 0://等待
-                this.resetGameUI();
                 this._fapaiqi.resetCards();
                 // this.updateRoundScore();
                 break;
             case 1://开始
+                //this.resetGameUI();
                 var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
                 if (!selfplayer.joinGame) {
                     this.onDealCard();
@@ -1311,7 +1343,7 @@ cc.Class({
             }
 
             AudioManager.playSound(texas_audio_cfg.Talk_own, false);
-        } else if (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)//旁观
+        } else if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5))//旁观
         {
             this.texas_op.showOp(OP_TYPE.WATCH);
         }
@@ -1398,70 +1430,22 @@ cc.Class({
     //背面牌
     setPokerBack(node, cardValue, isShow) {
         let paiAtlas = this.pokerAtlas;
-        var value = Math.floor(cardValue / 10);
-        var flower = cardValue % 10;
-        var hua_xiao = cc.find("dipai_1/hua_xiao", node);//node.getChildByName('hua_xiao');
-        var hua_da = cc.find("dipai_1/hua_da", node);//node.getChildByName('hua_da');
-        var num = cc.find("dipai_1/num", node);//node.getChildByName('num');
-        if (value == 2) value = 16;
-        if (value == 1) value = 14;
-        if (value < 17) {
-            switch (flower) {
-                case 1:
-                    flower = 4;
-                    break;
-                case 2:
-                    flower = 3;
-                    break;
-                case 3:
-                    flower = 2;
-                    break;
-                case 4:
-                    flower = 1;
-                    break;
-            }
-        }
-
-        switch (value) {
-            case 0:
+        var hua_da = cc.find("dipai_1", node);
+        switch(cardValue){
+            case 141:
+                cardValue = 11;
                 break;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 16:
-                if (flower % 2 == 0) {
-                    num.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_r' + value.toString());
-                }
-                else {
-                    num.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_b' + value.toString());
-                }
-                var isJQK = (value >= 11 && value <= 13);
-                hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('hs_' + flower.toString() + (isJQK ? ('_' + value) : ''));
-
-                hua_xiao.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('hs_' + flower.toString());
-                hua_xiao.active = true;
+            case 142:
+                cardValue = 12;
                 break;
-            case 17:
-                if (flower % 2 == 0) {
-                    num.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_r' + value.toString());
-                    hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_jokerda');
-                }
-                else {
-                    num.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_b' + value.toString());
-                    hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame('pkp_jokerxiao');
-                }
-                hua_xiao.active = false;
+            case 143:
+                cardValue = 13;
+                break;            
+            case 144:
+                cardValue = 14;
                 break;
         }
+        hua_da.getComponent(cc.Sprite).spriteFrame = paiAtlas.getSpriteFrame(cardValue);
 
         if (isShow) {
             node.getComponent('texas_card').updateCard(true);
@@ -1513,16 +1497,16 @@ cc.Class({
                 var str = '';
                 switch (data.coinRetCode) {
                     case 1:
-                        str = '持有金币低于房间限制，即将被移出房间';
+                        str = 'coinNotEnough';
                         break;
                     case 2:
-                        str = '您的金币超过房间最高携带金币';
+                        str = 'coinTooMuch';
                         break;
                     case 3:
-                        str = '您长时间未操作，系统暂时将您移除房间';
+                        str = 'yichu';
                         break;
                     case 4:
-                        str = '当前禁止该游戏，请联系管理员';
+                        str = 'jinzhiyouxi';
                         break;
                 }
                 var func = function () {
@@ -1544,5 +1528,5 @@ cc.Class({
 
     backToHall() {
         cc.dd.SceneManager.enterHall();
-    }
+    },
 });

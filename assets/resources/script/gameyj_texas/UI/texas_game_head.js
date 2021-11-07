@@ -49,7 +49,7 @@ cc.Class({
     //当前轮投注额
     setTurnBet(num) {
         // cc.log('setTurnBet:'+num);
-        var res = this.convertNumToStr(num);
+        var res = cc.dd.Utils.getNumToWordTransform(num);
         // cc.log('res:'+res);
         cc.find('bet/num', this.node).getComponent(cc.Label).string = res
         this.updateUI();
@@ -58,17 +58,6 @@ cc.Class({
         
     },
 
-    convertNumToStr(num) {
-        if (num < 10000) {
-            return num.toString();
-        }
-        else if (num < 100000000) {
-            return Math.round(num / 100) / 100 + '万';
-        }
-        else {
-            return Math.round(num / 1000000) / 100 + '亿';
-        }
-    },
 
     setBanker(msg,isBanker){
         var bknode = cc.find('banker', this.node)
@@ -82,9 +71,10 @@ cc.Class({
                 var str = "card" + i
                 var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
                 if(card){
-                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
-                    var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
-                    pic.setMaterial(0,gray)
+                    var pic = cc.dd.Utils.seekNodeByName(card, "dipai_1").getComponent(cc.Sprite)
+                
+                    var mask = cc.dd.Utils.seekNodeByName(this.node, "mask")
+                    mask.active = true
                 }
             }
             // cc.dd.ShaderUtil.setDarkShader(this._cardnode);//setGrayShader(this._cardnode);
@@ -122,9 +112,11 @@ cc.Class({
                 var str = "card" + i
                 var card =  cc.dd.Utils.seekNodeByName(this._cardnode, str)
                 if(card){
-                    var pic = cc.dd.Utils.seekNodeByName(card, "pic1").getComponent(cc.Sprite)
+                    var pic = cc.dd.Utils.seekNodeByName(card, "dipai_1").getComponent(cc.Sprite)
                     var gray = cc.Material.getBuiltinMaterial('2d-sprite')
                     pic.setMaterial(0,gray)
+                    var mask = cc.dd.Utils.seekNodeByName(this.node, "mask")
+                    mask.active = false
                 }
             }
 

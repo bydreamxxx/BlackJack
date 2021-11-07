@@ -13,12 +13,6 @@ cc.Class({
 
     properties: {
         lingqu: cc.Label,
-        jiuji_jindou: cc.Label,
-
-        shop_jindou_list: [cc.Label],
-        shop_rmb_list: [cc.Label],
-
-        matchButton: cc.Node,
     },
 
     onLoad: function () {
@@ -32,17 +26,12 @@ cc.Class({
     },
 
     initUI: function () {
-        this.matchButton.active = cc.director.getScene().name === AppCfg.HALL_NAME && !cc._isHuaweiGame;
-
-        this.lingqu.string = '今日还可以领取' + HallCommonData.getInstance().jiuji_cnt + '次';
+        this.lingqu.string = HallCommonData.getInstance().jiuji_cnt + ' / 3';
         var viplevel = HallCommonData.getInstance().vipLevel;
         var jiuji_item = data_vip.getItem(function (item) {
             return item.key == viplevel;
         });
         var data = jiuji_item.relief_coe.split(",");
-        var jiuji_num = data[0];
-        this.jiuji_jindou.string = jiuji_num + '金币';
-        //this.update_buy_list(0);
     },
 
     onClickClose: function () {
@@ -79,48 +68,48 @@ cc.Class({
     },
 
     update_buy_list: function (need_nun) {
-        if (cc._appstore_check || cc._androidstore_check || cc._isHuaweiGame) {//屏蔽购买  平台包
-            for (var i = 0; i < 3; ++i) {
-                this.shop_jindou_list[i].node.parent.active = false;
-            }
-            return;
-        }
-
-        var buy_list = [];
-        var coinList = shop_data.getCoinList();
-        coinList.forEach(function (item) {
-            if (item.itemCount >= need_nun)
-                buy_list.push(item)
-        });
-
-        var item_buchong = null;
-        var cnt_buchong = 0;
-        // if(buy_list.length == 0){
-        //     if(data_klb_shop.items.length == 0){
-        //         cc.error('商城表未配置');
-        //         return;
+        // if (cc._appstore_check || cc._androidstore_check || cc._isHuaweiGame) {//屏蔽购买  平台包
+        //     for (var i = 0; i < 3; ++i) {
+        //         this.shop_jindou_list[i].node.parent.active = false;
         //     }
-        //     item_buchong = data_klb_shop.items[data_klb_shop.items.length-1];
-        //     cnt_buchong = 3;
-        // }else if(buy_list.length<3){
-        //     item_buchong = buy_list[buy_list.length-1];
-        //     cnt_buchong = 3 - buy_list.length;
-        // }else{
-
+        //     return;
         // }
-        if (buy_list.length < 3) {
-            item_buchong = buy_list[buy_list.length - 1];
-            cnt_buchong = 3 - buy_list.length;
-        }
-        for (var i = 0; i < cnt_buchong; ++i) {
-            buy_list.push(item_buchong);
-        }
 
-        for (var i = 0; i < 3; ++i) {
-            this.shop_jindou_list[i].string = buy_list[i].itemCount + '金币';
-            this.shop_rmb_list[i].string = (buy_list[i].costDiscount > 0 ? buy_list[i].costDiscount / 100 : buy_list[i].costItemCount / 100) + '元';
-            this.shop_charge_list[i] = buy_list[i];
-        }
+        // var buy_list = [];
+        // var coinList = shop_data.getCoinList();
+        // coinList.forEach(function (item) {
+        //     if (item.itemCount >= need_nun)
+        //         buy_list.push(item)
+        // });
+
+        // var item_buchong = null;
+        // var cnt_buchong = 0;
+        // // if(buy_list.length == 0){
+        // //     if(data_klb_shop.items.length == 0){
+        // //         cc.error('商城表未配置');
+        // //         return;
+        // //     }
+        // //     item_buchong = data_klb_shop.items[data_klb_shop.items.length-1];
+        // //     cnt_buchong = 3;
+        // // }else if(buy_list.length<3){
+        // //     item_buchong = buy_list[buy_list.length-1];
+        // //     cnt_buchong = 3 - buy_list.length;
+        // // }else{
+
+        // // }
+        // if (buy_list.length < 3) {
+        //     item_buchong = buy_list[buy_list.length - 1];
+        //     cnt_buchong = 3 - buy_list.length;
+        // }
+        // for (var i = 0; i < cnt_buchong; ++i) {
+        //     buy_list.push(item_buchong);
+        // }
+
+        // for (var i = 0; i < 3; ++i) {
+        //     this.shop_jindou_list[i].string = buy_list[i].itemCount + '金币';
+        //     this.shop_rmb_list[i].string = (buy_list[i].costDiscount > 0 ? buy_list[i].costDiscount / 100 : buy_list[i].costItemCount / 100) + '元';
+        //     this.shop_charge_list[i] = buy_list[i];
+        // }
     },
 
     /**
@@ -131,7 +120,7 @@ cc.Class({
     onEventMessage: function (event, data) {
         switch (event) {
             case HallCommonEvent.HALL_UPDATE_JIUJI_CNT:
-                this.lingqu.string = '今日还可以领取' + HallCommonData.getInstance().jiuji_cnt + '次';
+                this.lingqu.string =  HallCommonData.getInstance().jiuji_cnt + ' / 3';
                 break;
             default:
                 break;

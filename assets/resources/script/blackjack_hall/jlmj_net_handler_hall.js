@@ -420,7 +420,7 @@ var hanlder = {
                 if (Hall.HallData.Instance().sign_data.rewardListList[i].index == msg.index) {
                     Hall.HallData.Instance().sign_data.rewardListList[i].state = 2;
                     cc.dd.shareAgainIndex = msg.index;
-                    //cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }], !cc._isHuaweiGame);
+                    cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }], !cc._isHuaweiGame);
 
                     Hall.HallData.Instance().sign_data = null;
                     break;
@@ -430,12 +430,12 @@ var hanlder = {
             if (sign) {
                 var node = cc.dd.Utils.seekNodeByName(sign, "klb_hall_daily_active_QD");
                 node.getComponent('klb_hall_daily_sign').done(msg.index);
-                cc.dd.PromptBoxUtil.show('lingquchenggong!');
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             } else {
                 var node = cc.dd.UIMgr.getUI('blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_DailySign');
                 node.getComponent('BlackJack_Hall_Daily_Sign').done(msg.index);
-                cc.dd.PromptBoxUtil.show('lingquchenggong!');
+                cc.dd.PromptBoxUtil.show('lingquchenggong');
                 Hall.HallED.notifyEvent(Hall.HallEvent.DAILYSIGN_END);
             }
         }
@@ -880,8 +880,9 @@ var hanlder = {
             cc.log(cc.dd.user.id + "自动拉取日志");
 
             if (!_storagePath)
-                _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
-            var filePath = _storagePath + "/xlqp_log.txt";
+                _storagePath = jsb.fileUtils.getWritablePath()+"log";
+            // _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+            var filePath = _storagePath + "/anglegame_log.txt";
             if (jsb.fileUtils.isFileExist(filePath)) {
                 cc.dd.SysTools.uploadLog(jsb.fileUtils.getDataFromFile(filePath), Platform.uploadLogUrl[AppCfg.PID]);
             }

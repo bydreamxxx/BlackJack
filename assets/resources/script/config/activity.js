@@ -3,7 +3,7 @@ var data_activity =
     items:
     [
       { key:4,sort:2,content:"红包天天领",isopen:"0",ui:"klb_hall_daily_active_HB" },
-      { key:2,sort:4,content:"7日签到",isopen:"1",ui:"klb_hall_daily_active_QD" },
+      { key:2,sort:4,content:"Sevenday",isopen:"0",ui:"klb_hall_daily_active_QD" },
       { key:3,sort:5,content:"实名认证",isopen:"0",ui:"klb_hall_daily_active_SM" },
       { key:1,sort:1,content:"房卡代理",isopen:"0",ui:"klb_hall_daily_active_FK" },
       { key:5,sort:6,content:"VIP特权",isopen:"0",ui:"klb_hall_daily_active_VIP" },
