@@ -1456,26 +1456,24 @@ cc.Class({
     //退出
     onExit() {
         hall_audio_mgr.com_btn_click();
-        // if (texas_Data.Instance().isGaming) {
-        //     var self = texas_Data.Instance().getPlayerById(cc.dd.user.id);
-        //     if (self.isWatch) {
-        //         this.sendLeaveRoom();
-        //     }
-        //     else if (self.state == 3) {
-        //         this.sendLeaveRoom();
-        //     }
-        //     else {
-        //         cc.dd.DialogBoxUtil.show(0, '游戏正在进行中，退出后将由系统操作，确定退出？', '确定', '取消', this.sendLeaveRoom, null, '退出游戏');
-        //     }
-        // }
-        // // else if (hall_common_data.getInstance().gameId == 163) {
-        // //     this.sendLeaveRoom();
-        // // }
-        // else {
-        this.sendLeaveRoom();
-        this.backToHall();
-        // }
-        //}
+        if (texas_Data.Instance().isGaming) {
+            var self = texas_Data.Instance().getPlayerById(cc.dd.user.id);
+            if (self.isWatch) {
+                this.sendLeaveRoom();
+            }
+            else if (self.state == 3) {
+                this.sendLeaveRoom();
+            }
+            else {
+                cc.dd.DialogBoxUtil.show(0, '游戏正在进行中，退出后将由系统操作，确定退出？', 'OK', 'CANCEL', function(){ 
+                    this.sendLeaveRoom();
+                    this.backToHall();
+                }.bind(this), null, 'reminder');
+            }
+        }
+        else {
+            this.sendLeaveRoom();
+        }
     },
     /**
     * 离开房间

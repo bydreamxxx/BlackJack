@@ -450,7 +450,7 @@ var hanlder = {
                 if (Hall.HallData.Instance().sign_data.rewardListList[i].index == msg.index) {
                     Hall.HallData.Instance().sign_data.rewardListList[i].state = 2;
                     cc.dd.shareAgainIndex = msg.index;
-                    //cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }]);
+                    cc.dd.RewardWndUtil.show([{ id: Hall.HallData.Instance().sign_data.rewardListList[i].itemId, num: Hall.HallData.Instance().sign_data.rewardListList[i].num }]);
                     break;
                 }
             }

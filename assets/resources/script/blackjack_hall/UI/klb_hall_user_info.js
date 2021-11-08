@@ -382,4 +382,22 @@ cc.Class({
         var msg = new cc.pb.rank.msg_vip_open();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rank.cmd_msg_vip_open, msg, 'msg_vip_open', true);
     },
+
+    onClickUploadLog() {
+        hall_audio_mgr.com_btn_click();
+        if (cc.sys.OS_ANDROID == cc.sys.os) {
+            cc.log(cc.dd.user.id + "设置里上传日志");
+
+            if (!_storagePath)
+                _storagePath = jsb.fileUtils.getWritablePath()+"log";
+                // _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+            if(!jsb.fileUtils.isDirectoryExist(_storagePath)) {
+                jsb.fileUtils.createDirectory(_storagePath);
+            }
+            var filePath = _storagePath + "/anglegame_log.txt";
+            if (jsb.fileUtils.isFileExist(filePath)) {
+                cc.dd.SysTools.uploadLog(jsb.fileUtils.getDataFromFile(filePath), Platform.uploadLogUrl[AppCfg.PID]);
+            }
+        }
+    },
 });
