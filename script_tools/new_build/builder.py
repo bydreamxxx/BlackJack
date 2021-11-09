@@ -410,6 +410,11 @@ def copy_main_code_to_project():
     bundleRoot.push(MAIN);
     settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
 
+    cc.open_update = true;
+    cc.open_debug = false;
+    cc.pid = 2;
+    cc.game_pid = 0;
+
     var count = 0;
     function cb (err) {
         if (err) return console.error(err.message, err.stack);

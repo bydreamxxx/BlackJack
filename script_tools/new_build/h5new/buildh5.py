@@ -156,6 +156,11 @@ def modify_md5():
     bundleRoot.push(MAIN);
     settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
 
+    cc.open_update = false;
+    cc.open_debug = false;
+    cc.pid = 2;
+    cc.game_pid = 0;
+
     var count = 0;
     function cb (err) {
         if (err) return console.error(err.message, err.stack);

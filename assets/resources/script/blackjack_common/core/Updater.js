@@ -49,6 +49,13 @@ var Updater = cc.Class({
             var down_url_version = require('Platform').down_url_version_rgba8888[PID];
         }
 
+        cc.error(`local_version_url ${this.local_version_url}
+storage_manifest_preffix ${this.storage_manifest_preffix}
+_storagePath ${this._storagePath}
+is_version_num_url ${is_version_num_url}
+down_url_origin ${down_url_origin}
+down_url_version ${down_url_version}`)
+
         this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
         cc.log('本地路径: ' + this._storagePath);
         cc.log(this.cfg.name + ' ' + this.local_version_url);

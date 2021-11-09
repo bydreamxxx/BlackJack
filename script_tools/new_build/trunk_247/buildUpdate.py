@@ -24,7 +24,7 @@ def upload():
     builder.make_zip(game_platform.remote_dir, game_platform.remote_dir + '.zip')
 
     cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip game@39.106.30.21:/data/project_2'.format(game_platform.remote_dir))
+    cmd_upload.append('scp -r ./{0}.zip game@139.155.70.226:/data/project_2'.format(game_platform.remote_dir))
 
     print '上传中...'
     for i, val in enumerate(cmd_upload):
@@ -32,7 +32,7 @@ def upload():
         print status, output
     print '上传完成'
 
-    cmd = 'ssh game@39.106.30.21 \'unzip -o /data/project_2/{0}.zip -d /data/project_2/\''.format(game_platform.remote_dir)
+    cmd = 'ssh game@139.155.70.226 \'unzip -o /data/project_2/{0}.zip -d /data/project_2/\''.format(game_platform.remote_dir)
     os.system(cmd)
 
 
@@ -41,7 +41,7 @@ def version_num_upload():
     builder.make_zip(game_platform.remote_version_dir, game_platform.remote_version_dir + '.zip')
 
     cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip game@39.106.30.21:/data/project_1'.format(game_platform.remote_version_dir))
+    cmd_upload.append('scp -r ./{0}.zip game@139.155.70.226:/data/project_1'.format(game_platform.remote_version_dir))
 
     print '上传中...'
     for i, val in enumerate(cmd_upload):
@@ -115,15 +115,16 @@ def back_up():
 
 
 if __name__ == "__main__":
+    builder.clean()
     init()
     builder.cocos_build()
     # #builder.gen_etc2()
     gen_game_version()
-    # gen_game_num_version()
-    # remove_download_games()
-    # # 移除游戏后,生成大厅版本
-    # gen_hall()
+    gen_game_num_version()
+    remove_download_games()
+    # 移除游戏后,生成大厅版本
+    gen_hall()
     # back_up()
-    # upload_to_version_dir()
-    # version_num_upload()
+    upload_to_version_dir()
+    version_num_upload()
     print '远程构建完成'

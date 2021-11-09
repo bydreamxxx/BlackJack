@@ -120,14 +120,14 @@ var UpdateMgr = cc.Class({
         if (!updater_cfg) {
             return 0;
         }
-        var url = "versions/" + updater_cfg.name + "/project.manifest";
+        var url = updater_cfg.name + "/project.manifest";
         if (!jsb.fileUtils.isFileExist(url)) {
             var full_dir = jsb.fileUtils.getWritablePath() + 'versions/' + updater_cfg.name;
             var game_project_url = full_dir + "/project.manifest";
             if (!jsb.fileUtils.isFileExist(game_project_url)) {
                 if (!jsb.fileUtils.isDirectoryExist(full_dir))
                     jsb.fileUtils.createDirectory(full_dir);
-                var hall_version_url = "versions/hall/version.manifest";
+                var hall_version_url = "hall/version.manifest";
                 var game_version_url = full_dir + "/version.manifest";
                 var str = jsb.fileUtils.getStringFromFile(hall_version_url);
                 cc.log('***************  Hall_version_manifest:' + str);

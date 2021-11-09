@@ -51,7 +51,7 @@ if __name__ == "__main__":
     builder.cocos_build_withcmd(COCOS_CMD)
     # # builder.gen_etc2()
     remove_download_games()
-    # gen_local_version()
+    gen_local_version()
     builder.copy_main_code_to_project()
     # back_up()
     builder.generate_apk(buildCfg.COCOS_PROJECT_PATH + '/script_tools/new_build/trunk_247/output/')

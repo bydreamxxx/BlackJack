@@ -4,6 +4,7 @@ var crypto = require('crypto');
 
 var manifest = {
     packageUrl: 'http://localhost/tutorial-hot-update/remote-assets/',
+    remoteManifestUrl: 'http://localhost/tutorial-hot-update/remote-assets/project.manifest',
     remoteVersionUrl: '',
     version: '1.0.0',
     assets: {},
@@ -25,7 +26,6 @@ while ( i < process.argv.length) {
         var url = process.argv[i+1];
         manifest.packageUrl = url;
         manifest.remoteManifestUrl = url + 'project.manifest';
-        manifest.remoteVersionUrl = url + 'version.manifest';
         i += 2;
         break;
     //增加版本url
@@ -58,6 +58,9 @@ while ( i < process.argv.length) {
 
 
 function readDir (dir, obj) {
+    if(dir.indexOf('trunk_247/hall/src') === -1){
+        return;
+    }
     var stat = fs.statSync(dir);
     if (!stat.isDirectory()) {
         return;
@@ -102,12 +105,16 @@ var mkdirSync = function (path) {
 
 // Iterate res and src folder
 readDir(path.join(src, 'src'), manifest.assets);
-readDir(path.join(src, 'res'), manifest.assets);
-readDir(path.join(src, 'zip'), manifest.zip);
+readDir(path.join(src, 'assets'), manifest.assets);
 
+var destManifest = path.join(dest, 'project.manifest');
 var destVersion = path.join(dest, 'version.manifest');
 
 mkdirSync(dest);
+
+fs.writeFile(destManifest, JSON.stringify(manifest), (err) => {
+  if (err) throw err;
+});
 
 delete manifest.assets;
 delete manifest.searchPaths;

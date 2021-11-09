@@ -880,8 +880,8 @@ var hanlder = {
             cc.log(cc.dd.user.id + "自动拉取日志");
 
             if (!_storagePath)
-                _storagePath = jsb.fileUtils.getWritablePath()+"log";
-            // _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
+                // _storagePath = jsb.fileUtils.getWritablePath()+"log";
+            _storagePath = jsb.reflection.callStaticMethod("game/SystemTool", "getInnerSDCardPath", "()Ljava/lang/String;");
             var filePath = _storagePath + "/anglegame_log.txt";
             if (jsb.fileUtils.isFileExist(filePath)) {
                 cc.dd.SysTools.uploadLog(jsb.fileUtils.getDataFromFile(filePath), Platform.uploadLogUrl[AppCfg.PID]);

@@ -135,19 +135,19 @@ is_version_num_url[2] = true;
 is_version_num_url[3] = true;
 
 var down_url_origin = new Array(4);
-down_url_origin[1] = "trunk_234";
+down_url_origin[1] = "trunk_247";
 down_url_origin[2] = "trunk_247";
-down_url_origin[3] = "remote";
+down_url_origin[3] = "trunk_247";
 
 var down_url_version = new Array(4);
-down_url_version[1] = "versions_234";
+down_url_version[1] = "versions_247";
 down_url_version[2] = "versions_247";
-down_url_version[3] = "versions";
+down_url_version[3] = "versions_247";
 
 var down_url_version_rgba8888 = new Array(4);
-down_url_version_rgba8888[1] = "versions_234_rgba8888";
+down_url_version_rgba8888[1] = "versions_247_rgba8888";
 down_url_version_rgba8888[2] = "versions_247_rgba8888";
-down_url_version_rgba8888[3] = "versions_rgba8888";
+down_url_version_rgba8888[3] = "versions_247_rgba8888";
 
 //苹果内购后台地址
 var appleInAppPayUrl = new Array(4);

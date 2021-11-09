@@ -245,7 +245,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //        }
 
         splashImage = new ImageView(this);
-        splashImage.setImageResource(R.drawable.splash);
+        splashImage.setImageResource(R.mipmap.splash);
         splashImage.setScaleType(ImageView.ScaleType.FIT_XY);
         addContentView(splashImage,
                 new WindowManager.LayoutParams(
@@ -373,15 +373,14 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     }
 
     public static String getInnerSDCardPath() {
-//        String rootPath = "";
-//        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//有SD卡
-//            rootPath = Environment.getExternalStorageDirectory() + "/";
-//        } else {
-//            rootPath = Environment.getDataDirectory() + "/";
-//        }
-//        return rootPath;
-//        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? (app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/") : Environment.getExternalStorageDirectory().getPath();
-        return Environment.getExternalStorageDirectory().getPath();
+
+        if(Build.VERSION.SDK_INT >= 24){
+            return org.cocos2dx.lib.Cocos2dxHelper.getWritablePath();
+        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/";
+        }else{
+            return Environment.getExternalStorageDirectory().getPath();
+        }
     }
 
     @Override
