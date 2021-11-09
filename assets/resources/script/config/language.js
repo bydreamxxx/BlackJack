@@ -183,7 +183,12 @@ var data_language =
       { key:179,keyword:"Networkinstability",en:"Network instability",tc:"網絡不穩定",in:"नेटवर्क अस्थिर",zh:"网络不稳定" },
       { key:180,keyword:"Networkerror1",en:"Network Error",tc:"網絡出錯",in:"नेटवर्क त्रुटि",zh:"网络出错" },
       { key:181,keyword:"sitdown",en:"Sit down and wait for the start",tc:"坐下成功，等待開局",in:"बैठो और प्रारंभ के लिए इंतजार करें",zh:"坐下成功，等待开局" },
-      { key:182,keyword:"standup1",en:"Sit up successfully and wait for the end",tc:"坐起成功，等待結束",in:"सफलतापूर्वक बैठो और अंत के लिए इंतजार करें",zh:"坐起成功，等待结束" }
+      { key:182,keyword:"standup1",en:"Sit up successfully and wait for the end",tc:"坐起成功，等待結束",in:"सफलतापूर्वक बैठो और अंत के लिए इंतजार करें",zh:"坐起成功，等待结束" },
+      { key:183,keyword:"logup",en:"Upload log",tc:"上傳日誌",in:"रिपोर्ट",zh:"上传日志" },
+      { key:184,keyword:"sureexit",en:"After exiting, you will lose chips by default. Are you sure to exit",tc:"退出後默認輸掉籌碼，確認退出嗎",in:"बाहर होने के बाद, आप डिफ़ॉल्ट से चिप्स खोलेंगे। क्या आप निश्चित है बाहर होने के लिए",zh:"退出后默认输掉筹码，确认退出吗" },
+      { key:185,keyword:"quitgame",en:"Are you sure you want to quit the game",tc:"Are you sure you want to quit the game",in:"क्या आप निश्चित है कि आप खेल से बाहर होना चाहते हैं",zh:"你确定要退出游戏吗" },
+      { key:186,keyword:"nomail",en:"There is no mail information for the time being",tc:"暫時沒有郵件資訊",in:"समय के लिए कोई मेल जानकारी नहीं है",zh:"暂时没有邮件信息" },
+      { key:187,keyword:"return",en:"RETURN",tc:"返回",in:"वापस",zh:"返回" }
     ],
 
     /**

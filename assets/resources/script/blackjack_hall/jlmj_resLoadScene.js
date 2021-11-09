@@ -378,26 +378,26 @@ let resLoad = cc.Class({
         this.pkgUpdater = UpdateMgr.getUpdater(updater_game_id);
         cc.log('pkg version=', this.pkgUpdater.getVersion());
 
-        // var pkgVersion = cc.sys.localStorage.getItem("pkgVersion");
-        // if (cc.dd._.isUndefined(pkgVersion) || cc.dd._.isNull(pkgVersion)) {
-        //     cc.sys.localStorage.setItem('pkgVersion', this.pkgUpdater.getVersion());
-        // } else if (pkgVersion != this.pkgUpdater.getVersion()) {
-        //     cc.assetManager.releaseAll();
-        //     cc.log('整包更新后,删除包内更新缓存');
-        //     var update_path = jsb.fileUtils.getWritablePath() + "blackjack" + "/hall";
-        //     jsb.fileUtils.removeDirectory(update_path);
-        //     cc.sys.localStorage.removeItem('pkgVersion');
-        //     this.reStartGame();
-        //     return;
-        // }
-        // this.pkgUpdater.checkUpdate();
-        //
-        // //更新服务器连接超时,直接登录
-        // this.updateServerConnTimeoutCheck = setTimeout(function () {
-        //     cc.log("连接更新服务器超时,跳过更新检测,直接登录");
-        //     dd.UpdaterED.removeObserver(this);
-        //     this.updateFailed();
-        // }.bind(this), 10000);
+        var pkgVersion = cc.sys.localStorage.getItem("pkgVersion");
+        if (cc.dd._.isUndefined(pkgVersion) || cc.dd._.isNull(pkgVersion)) {
+            cc.sys.localStorage.setItem('pkgVersion', this.pkgUpdater.getVersion());
+        } else if (pkgVersion != this.pkgUpdater.getVersion()) {
+            cc.assetManager.releaseAll();
+            cc.log('整包更新后,删除包内更新缓存');
+            var update_path = jsb.fileUtils.getWritablePath() + "blackjack" + "/hall";
+            jsb.fileUtils.removeDirectory(update_path);
+            cc.sys.localStorage.removeItem('pkgVersion');
+            this.reStartGame();
+            return;
+        }
+        this.pkgUpdater.checkUpdate();
+
+        //更新服务器连接超时,直接登录
+        this.updateServerConnTimeoutCheck = setTimeout(function () {
+            cc.log("连接更新服务器超时,跳过更新检测,直接登录");
+            dd.UpdaterED.removeObserver(this);
+            this.updateFailed();
+        }.bind(this), 10000);
     },
 
     /**

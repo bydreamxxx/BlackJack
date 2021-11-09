@@ -50,7 +50,7 @@ if __name__ == "__main__":
     builder_windows.cocos_build_withcmd(COCOS_CMD)
     # # builder_windows.gen_etc2()
     remove_download_games()
-    # gen_local_version()
+    gen_local_version()
     builder_windows.copy_main_code_to_project()
     # back_up()
     builder_windows.generate_apk(buildCfg_windows.COCOS_PROJECT_PATH + '/script_tools/new_build/trunk_247/output/')

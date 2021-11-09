@@ -62,7 +62,7 @@ def writeFileContent(fileName, strContent, strEncoding='utf-8'):
 
 
 def cocos_build():
-    cmd = "C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.6/CocosCreator.exe --path ../../../  --build \"platform=web-mobile;debug=false;buildPath=./build-246;md5Cache=true;inlineSpriteFrames=true\" "
+    cmd = "C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.6/CocosCreator.exe --path ../../../  --build \"platform=web-mobile;debug=false;buildPath=E:/build-246;md5Cache=true;inlineSpriteFrames=true\" "
     os.system(cmd)
 
 
@@ -92,7 +92,7 @@ def modify_md5():
     # if os.path.exists('../../../build-246/web-mobile/index.html'):
     #     os.remove('../../../build-246/web-mobile/index.html')
 
-    gmfile=glob.glob('../../../build-246/web-mobile/main*.js')
+    gmfile=glob.glob('E:/build-246/web-mobile/main*.js')
     mainfile = gmfile[0][-13:]
     print(mainfile)
     # settingsfile=glob.glob('../../../build-246/web-mobile/src/settings*.js')[0][-17:]
@@ -123,7 +123,7 @@ def modify_md5():
 
     #modify main.js
     print('changing main.js')
-    mainjs=getFileContent('../../../build-246/web-mobile/'+mainfile)
+    mainjs=getFileContent('E:/build-246/web-mobile/'+mainfile)
     # if re.search(r": 'src/project.*.js';",mainjs):
     #     mainjs=re.sub(r": 'src/project.*.js';",": 'src/"+projectfile+"';",mainjs)
     #     print('replaced project file')
@@ -169,7 +169,7 @@ def modify_md5():
             cc.game.run(option, onStart);
         }
     }""", mainjs)
-    writeFileContent('../../../build-246/web-mobile/'+mainfile,mainjs)
+    writeFileContent('E:/build-246/web-mobile/'+mainfile,mainjs)
 
 
     # #modify index_desktop.html
@@ -189,5 +189,5 @@ if __name__ == "__main__":
     # compressRes()
     # copy_h5_assets()
     modify_md5()
-    make_zip('E:/AnotherWorkspace/client/jilinmajiang243/build-246/web-mobile/', 'E:/AnotherWorkspace/client/jilinmajiang243/build-246/web-mobile.zip')
+    make_zip('E:/build-246/web-mobile/', 'E:/build-246/web-mobile.zip')
     # upload()

@@ -20,7 +20,6 @@ let UpdaterEntrance = cc.Enum({
 
 var Updater = cc.Class({
     ctor: function (...params) {
-        return;
         if (!cc.sys.isNative) {
             return;
         }
@@ -36,7 +35,7 @@ var Updater = cc.Class({
         //更新配置
         this.cfg = params[0];
 
-        this.local_version_url = params[0]._newurl ? params[0]._newurl : ("versions/" + params[0].name + "/project.manifest");
+        this.local_version_url = params[0]._newurl ? params[0]._newurl : ("assets/" + params[0].name + "/project.manifest");
         this.storage_manifest_preffix = params[0].name + '_';
         this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack');
         var PID = require('AppConfig').PID;
@@ -49,20 +48,34 @@ var Updater = cc.Class({
             var down_url_version = require('Platform').down_url_version_rgba8888[PID];
         }
 
-        cc.error(`local_version_url ${this.local_version_url}
-storage_manifest_preffix ${this.storage_manifest_preffix}
-_storagePath ${this._storagePath}
-is_version_num_url ${is_version_num_url}
-down_url_origin ${down_url_origin}
-down_url_version ${down_url_version}`)
-
-        this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
+        this._am = new jsb.AssetsManager(this.local_version_url, this._storagePath, (versionA, versionB)=>{
+            var vA = versionA.split('.');
+            var vB = versionB.split('.');
+            for (var i = 0; i < vA.length; ++i) {
+                var a = parseInt(vA[i]);
+                var b = parseInt(vB[i] || 0);
+                if (a === b) {
+                    continue;
+                }
+                else {
+                    return a - b;
+                }
+            }
+            if (vB.length > vA.length) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
+        // this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
         cc.log('本地路径: ' + this._storagePath);
         cc.log(this.cfg.name + ' ' + this.local_version_url);
-        this._am.retain();
+        // this._am.retain();
         //设置监听
-        this._updateListener = new jsb.EventListenerAssetsManager(this._am, this.updateCb.bind(this));
-        cc.eventManager.addListener(this._updateListener, 1);
+        this._am.setEventCallback(this.updateCb.bind(this));
+        // this._updateListener = new jsb.EventListenerAssetsManager(this._am, this.updateCb.bind(this));
+        // cc.eventManager.addListener(this._updateListener, 1);
         //实现验证回调函数
         this._am.setVerifyCallback(this.verificationFile.bind(this));
         //设置下载资源时 并发的线程数量
@@ -236,7 +249,7 @@ down_url_version ${down_url_version}`)
             this._updateListener = null;
         }
         if (this._am) {
-            this._am.release();
+            // this._am.release();
             this._am = null;
         }
 
@@ -253,13 +266,34 @@ down_url_version ${down_url_version}`)
         } else {
             var down_url_version = require('Platform').down_url_version_rgba8888[PID];
         }
-        this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
+        this._am = new jsb.AssetsManager(this.local_version_url, this._storagePath, (versionA, versionB)=>{
+            var vA = versionA.split('.');
+            var vB = versionB.split('.');
+            for (var i = 0; i < vA.length; ++i) {
+                var a = parseInt(vA[i]);
+                var b = parseInt(vB[i] || 0);
+                if (a === b) {
+                    continue;
+                }
+                else {
+                    return a - b;
+                }
+            }
+            if (vB.length > vA.length) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
+        // this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
         cc.log('本地路径: ' + this._storagePath);
         cc.log(this.cfg.name + ' ' + this.local_version_url);
-        this._am.retain();
+        // this._am.retain();
         //设置监听
-        this._updateListener = new jsb.EventListenerAssetsManager(this._am, this.updateCb.bind(this));
-        cc.eventManager.addListener(this._updateListener, 1);
+        this._am.setEventCallback(this.updateCb.bind(this));
+        // this._updateListener = new jsb.EventListenerAssetsManager(this._am, this.updateCb.bind(this));
+        // cc.eventManager.addListener(this._updateListener, 1);
         //实现验证回调函数
         this._am.setVerifyCallback(this.verificationFile.bind(this));
         //设置下载资源时 并发的线程数量
@@ -275,7 +309,7 @@ down_url_version ${down_url_version}`)
      */
     getVersion: function () {
         if (this._am) {
-            return this._am.getLocalVersion();
+            return this._am.getLocalManifest().getVersion();
         }
     }
 });
