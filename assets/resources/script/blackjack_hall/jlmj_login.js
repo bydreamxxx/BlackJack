@@ -714,16 +714,16 @@ var loginModle = cc.Class({
     onClickChangeLanguage(event, data) {
         switch (data){
             case "EN":
-                LanguageMgr.changeLanguage("EN");
+                LanguageMgr.changeLanguage("en");
                 break;
             case "TC":
-                LanguageMgr.changeLanguage("TC");
+                LanguageMgr.changeLanguage("tc");
                 break;
             case "IN":
-                LanguageMgr.changeLanguage("IN");
+                LanguageMgr.changeLanguage("in");
                 break;
             case "ZH":
-                LanguageMgr.changeLanguage("ZH");
+                LanguageMgr.changeLanguage("zh");
                 break;
         }
 

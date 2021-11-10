@@ -11,11 +11,6 @@ from new_build import buildCfg_windows
 from new_build import builder_windows
 from new_build import updater_windows
 
-COCOS_PROJECT_PATH = "E:/AnotherWorkspace/client/jilinmajiang243"
-COCOS_CMD = "C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.6/CocosCreator.exe " \
-            "--path {0}  --build \"platform=android;packageName=com.anglegame.blackjack;" \
-            "buildPath=E:/build-246;debug=false;autoCompile=false;encryptJs=true;xxteaKey=bdd7b8ea-7650-43;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];\" ".format(COCOS_PROJECT_PATH)
-
 def init():
     shutil.rmtree(game_platform.local_dir, True)
     shutil.rmtree(game_platform.remote_dir, True)
@@ -47,7 +42,7 @@ def back_up():
 if __name__ == "__main__":
     builder_windows.clean()
     init()
-    builder_windows.cocos_build_withcmd(COCOS_CMD)
+    builder_windows.cocos_build()
     # # builder_windows.gen_etc2()
     remove_download_games()
     gen_local_version()

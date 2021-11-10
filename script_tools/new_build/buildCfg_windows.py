@@ -12,7 +12,7 @@ COCOS_PROJECT_PATH = "E:/AnotherWorkspace/client/jilinmajiang243"
 # 1.8.2
 COCOS_CMD = " C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.6/CocosCreator.exe " \
             "--path {0}  --build \"platform=android;packageName=com.anglegame.blackjack;" \
-            "buildPath=E:/build-246;debug=false;autoCompile=true;xxteaKey=bdd7b8ea-7650-43;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];\" ".format(COCOS_PROJECT_PATH)
+            "buildPath=E:/build-246;debug=false;autoCompile=false;xxteaKey=bdd7b8ea-7650-43;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];md5Cache=false;\" ".format(COCOS_PROJECT_PATH)
 # ----------------------------以上需要更改成自己的目录------------------------
 H5_PATH = COCOS_PROJECT_PATH + "/build-246/"
 #h5临时目录，对比png是否修改过使用

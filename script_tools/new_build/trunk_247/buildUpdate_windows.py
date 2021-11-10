@@ -1,0 +1,136 @@
+#!/usr/bin/env python
+# coding=utf-8
+
+import commands
+import os
+import shutil
+
+from new_build import buildCfg_windows
+from new_build import builder_windows
+from new_build import updater_windows
+
+import game_platform
+import games_cfg
+
+
+def init():
+    shutil.rmtree(game_platform.local_dir, True)
+    shutil.rmtree(game_platform.remote_dir, True)
+    shutil.rmtree(game_platform.remote_version_dir, True)
+
+#
+# # 上传远程版本
+# def upload():
+#     builder.make_zip(game_platform.remote_dir, game_platform.remote_dir + '.zip')
+#
+#     cmd_upload = []
+#     cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/project_2'.format(game_platform.remote_dir))
+#
+#     print '上传中...'
+#     for i, val in enumerate(cmd_upload):
+#         (status, output) = commands.getstatusoutput(val)
+#         print status, output
+#     print '上传完成'
+#
+#     cmd = 'ssh root@139.155.70.226 \'unzip -o /data/project_2/{0}.zip -d /data/project_2/\''.format(game_platform.remote_dir)
+#     os.system(cmd)
+#
+#
+# 上传远程版本号
+def version_num_upload():
+    builder_windows.make_zip(game_platform.remote_version_dir, game_platform.remote_version_dir + '.zip')
+
+    cmd_upload = []
+    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert'.format(game_platform.remote_version_dir))
+
+    print '上传中...'
+    for i, val in enumerate(cmd_upload):
+        (status, output) = commands.getstatusoutput(val)
+        print status, output
+    print '上传完成'
+
+    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/{0}.zip -d /data/assert/\''.format(
+        game_platform.remote_version_dir)
+    os.system(cmd)
+    return
+
+
+# 上传远程版本至版本号目录
+def upload_to_version_dir():
+    builder_windows.make_zip(game_platform.remote_dir, games_cfg.resources.version+'.zip')
+
+    cmd_upload = []
+    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert/versions_247'.format(games_cfg.resources.version))
+    print 'scp -r ./{0}.zip root@139.155.70.226:/data/assert/versions_247'.format(games_cfg.resources.version)
+    print '上传中...'
+    for i, val in enumerate(cmd_upload):
+        print val
+        (status, output) = commands.getstatusoutput(val)
+        print status, output
+    print '上传完成'
+
+    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/versions_247/{0}.zip -d /data/assert/versions_247/\''.format(games_cfg.resources.version)
+    os.system(cmd)
+    cmd = 'ssh root@139.155.70.226 \'rm /data/assert/versions_247/{0} -rf\''.format(games_cfg.resources.version)
+    os.system(cmd)
+    cmd = 'ssh root@139.155.70.226 \'mv /data/assert/versions_247/trunk_247 /data/assert/versions_247/{0}\''.format(games_cfg.resources.version)
+    os.system(cmd)
+    return
+
+#
+# 删除子游戏
+def remove_download_games():
+    for game in games_cfg.games:
+        updater_windows.remove_self(game)
+    return
+
+
+# 生成游戏远程版本
+def gen_game_version():
+    for game in games_cfg.games:
+        updater_windows.gen_remote_version(game_platform, game)
+    return
+
+
+# 生成游戏远程版本号
+def gen_game_num_version():
+    for game in games_cfg.games:
+        updater_windows.gen_remote_num_version(game_platform, game)
+    return
+
+
+# 生成大厅版本
+def gen_hall():
+    updater_windows.gen_remote_version(game_platform, games_cfg.internal)
+    updater_windows.gen_remote_num_version(game_platform, games_cfg.internal)
+    updater_windows.gen_remote_version(game_platform, games_cfg.resources)
+    updater_windows.gen_remote_num_version(game_platform, games_cfg.resources)
+    updater_windows.gen_remote_version(game_platform, games_cfg.main)
+    updater_windows.gen_remote_num_version(game_platform, games_cfg.main)
+
+    return
+
+
+# # 备份版本代码
+# def back_up():
+#     back_path = os.path.abspath('./backup/' + games_cfg.hall.version + '/')
+#     shutil.rmtree(back_path, True)
+#     os.mkdir(back_path)
+#     shutil.copyfile(buildCfg.NATIVE_PATH + "/js backups (useful for debugging)/project.js", back_path + '/project.js')
+#     return
+
+
+if __name__ == "__main__":
+    builder_windows.clean()
+    init()
+    builder_windows.cocos_build()
+    # #builder.gen_etc2()
+    gen_game_version()
+    gen_game_num_version()
+    remove_download_games()
+    # 移除游戏后,生成大厅版本
+    gen_hall()
+    # back_up()
+    upload_to_version_dir()
+    version_num_upload()
+    print '远程构建完成'

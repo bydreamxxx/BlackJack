@@ -9,12 +9,20 @@ export default class LanguageSprite extends LanguageComponent {
     zh = null;
     @property(cc.SpriteFrame)
     en = null;
+    @property(cc.SpriteFrame)
+    in = null;
+    @property(cc.SpriteFrame)
+    tc = null;
 
     changeLanguage() {
-        if (LanguageMgr.getKind() == "EN") {
+        if (LanguageMgr.getKind() == "en") {
             this.getComponent(cc.Sprite).spriteFrame = this.en;
-        } else if (LanguageMgr.getKind() == "ZH") {
+        } else if (LanguageMgr.getKind() == "zh") {
             this.getComponent(cc.Sprite).spriteFrame = this.zh;
+        }else if (LanguageMgr.getKind() == "in") {
+            this.getComponent(cc.Sprite).spriteFrame = this.in;
+        }else if (LanguageMgr.getKind() == "tc") {
+            this.getComponent(cc.Sprite).spriteFrame = this.tc;
         }
     }
 }

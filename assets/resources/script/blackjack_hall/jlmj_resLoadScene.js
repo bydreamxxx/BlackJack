@@ -312,7 +312,8 @@ let resLoad = cc.Class({
         cc.log("【hall-login】" + "检查互联网连接 开始");
         if (cc.sys.isNative && cc.sys.isMobile) {   //真机
             if (cc.dd.native_systool.isNetAvailable()) {
-                this.changeState(LoginState.UPDATE_PKG);
+                // this.changeState(LoginState.UPDATE_PKG);
+                this.changeState(LoginState.LOGIN_START);
             } else {
                 dd.DialogBoxUtil.show(1, "网络连接不可用,请检查网状态", "重试", "退出",
                     function () {
@@ -853,7 +854,12 @@ let resLoad = cc.Class({
                 }else if(data[0].game_id == UpdaterGameId.RESOURCES){
                     this.changeState(LoginState.UPDATE_HALL);
                 }else{
-                    this.changeState(LoginState.LOGIN_START);
+                    if(this.needRestart){
+                        this.needRestart = false;
+                        this.reStartGame();
+                    }else{
+                        this.changeState(LoginState.LOGIN_START);
+                    }
                 }
                 break;
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
@@ -887,8 +893,10 @@ let resLoad = cc.Class({
                 break;
             case dd.UpdaterEvent.UPDATE_FINISHED:
                 if(data[0].game_id == UpdaterGameId.INTERNAL){
+                    this.needRestart = true;
                     this.changeState(LoginState.UPDATE_RESOURCES);
                 }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                    this.needRestart = true;
                     this.changeState(LoginState.UPDATE_HALL);
                 }else{
                     this.reStartGame();
