@@ -5,11 +5,10 @@ var crypto = require('crypto');
 var manifest = {
     packageUrl: 'http://localhost/tutorial-hot-update/remote-assets/',
     remoteManifestUrl: 'http://localhost/tutorial-hot-update/remote-assets/project.manifest',
-    remoteVersionUrl: '',
+    remoteVersionUrl: 'http://localhost/tutorial-hot-update/remote-assets/version.manifest',
     version: '1.0.0',
     assets: {},
-    searchPaths: [],
-    zip:{}
+    searchPaths: []
 };
 
 var dest = './remote-assets/';
@@ -26,12 +25,6 @@ while ( i < process.argv.length) {
         var url = process.argv[i+1];
         manifest.packageUrl = url;
         manifest.remoteManifestUrl = url + 'project.manifest';
-        i += 2;
-        break;
-    //增加版本url
-    case '--version_url':
-    case '-vu':
-        var url = process.argv[i+1];
         manifest.remoteVersionUrl = url + 'version.manifest';
         i += 2;
         break;
@@ -58,7 +51,7 @@ while ( i < process.argv.length) {
 
 
 function readDir (dir, obj) {
-    if(dir.indexOf('trunk_247/hall/src') === -1){
+    if(!fs.existsSync(dir)){
         return;
     }
     var stat = fs.statSync(dir);
@@ -103,9 +96,9 @@ var mkdirSync = function (path) {
     }
 }
 
-// Iterate res and src folder
-readDir(path.join(src, 'src'), manifest.assets);
-readDir(path.join(src, 'assets'), manifest.assets);
+// Iterate assets and src folder
+readDir(path.join(src, 'import'), manifest.assets);
+readDir(path.join(src, 'native'), manifest.assets);
 
 var destManifest = path.join(dest, 'project.manifest');
 var destVersion = path.join(dest, 'version.manifest');
@@ -114,10 +107,12 @@ mkdirSync(dest);
 
 fs.writeFile(destManifest, JSON.stringify(manifest), (err) => {
   if (err) throw err;
+  console.log('Manifest successfully generated');
 });
 
 delete manifest.assets;
 delete manifest.searchPaths;
 fs.writeFile(destVersion, JSON.stringify(manifest), (err) => {
   if (err) throw err;
+  console.log('Version successfully generated');
 });

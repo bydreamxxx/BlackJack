@@ -28,13 +28,6 @@ while ( i < process.argv.length) {
         manifest.remoteVersionUrl = url + 'version.manifest';
         i += 2;
         break;
-    //增加版本url
-    case '--version_url':
-    case '-vu':
-        var url = process.argv[i+1];
-        manifest.remoteVersionUrl = url + 'version.manifest';
-        i += 2;
-        break;
     case '--version' :
     case '-v' :
         manifest.version = process.argv[i+1];
@@ -58,7 +51,7 @@ while ( i < process.argv.length) {
 
 
 function readDir (dir, obj) {
-    if(dir.indexOf('trunk_247/hall/src') === -1){
+    if(!fs.existsSync(dir)){
         return;
     }
     var stat = fs.statSync(dir);
@@ -104,8 +97,8 @@ var mkdirSync = function (path) {
 }
 
 // Iterate res and src folder
-readDir(path.join(src, 'src'), manifest.assets);
-readDir(path.join(src, 'assets'), manifest.assets);
+readDir(path.join(src, 'import'), manifest.assets);
+readDir(path.join(src, 'native'), manifest.assets);
 readDir(path.join(src, 'zip'), manifest.zip);
 
 var destVersion = path.join(dest, 'version.manifest');

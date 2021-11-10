@@ -18,30 +18,30 @@ def init():
     shutil.rmtree(game_platform.remote_dir, True)
     shutil.rmtree(game_platform.remote_version_dir, True)
 
-
-# 上传远程版本
-def upload():
-    builder.make_zip(game_platform.remote_dir, game_platform.remote_dir + '.zip')
-
-    cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip game@139.155.70.226:/data/project_2'.format(game_platform.remote_dir))
-
-    print '上传中...'
-    for i, val in enumerate(cmd_upload):
-        (status, output) = commands.getstatusoutput(val)
-        print status, output
-    print '上传完成'
-
-    cmd = 'ssh game@139.155.70.226 \'unzip -o /data/project_2/{0}.zip -d /data/project_2/\''.format(game_platform.remote_dir)
-    os.system(cmd)
-
-
+#
+# # 上传远程版本
+# def upload():
+#     builder.make_zip(game_platform.remote_dir, game_platform.remote_dir + '.zip')
+#
+#     cmd_upload = []
+#     cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/project_2'.format(game_platform.remote_dir))
+#
+#     print '上传中...'
+#     for i, val in enumerate(cmd_upload):
+#         (status, output) = commands.getstatusoutput(val)
+#         print status, output
+#     print '上传完成'
+#
+#     cmd = 'ssh root@139.155.70.226 \'unzip -o /data/project_2/{0}.zip -d /data/project_2/\''.format(game_platform.remote_dir)
+#     os.system(cmd)
+#
+#
 # 上传远程版本号
 def version_num_upload():
     builder.make_zip(game_platform.remote_version_dir, game_platform.remote_version_dir + '.zip')
 
     cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip game@139.155.70.226:/data/project_1'.format(game_platform.remote_version_dir))
+    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert'.format(game_platform.remote_version_dir))
 
     print '上传中...'
     for i, val in enumerate(cmd_upload):
@@ -49,7 +49,7 @@ def version_num_upload():
         print status, output
     print '上传完成'
 
-    cmd = 'ssh game@39.106.30.21 \'unzip -o /data/project_1/{0}.zip -d /data/project_1/\''.format(
+    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/{0}.zip -d /data/assert/\''.format(
         game_platform.remote_version_dir)
     os.system(cmd)
     return
@@ -57,26 +57,25 @@ def version_num_upload():
 
 # 上传远程版本至版本号目录
 def upload_to_version_dir():
-    builder.make_zip(game_platform.remote_dir, games_cfg.hall.version+'.zip')
+    builder.make_zip(game_platform.remote_dir, games_cfg.main.version+'.zip')
 
     cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip game@39.106.30.21:/data/project_1/versions_247'.format(games_cfg.hall.version))
-
+    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert/versions_247'.format(games_cfg.main.version))
     print '上传中...'
     for i, val in enumerate(cmd_upload):
         (status, output) = commands.getstatusoutput(val)
         print status, output
     print '上传完成'
 
-    cmd = 'ssh game@39.106.30.21 \'unzip -o /data/project_1/versions_247/{0}.zip -d /data/project_1/versions_247/\''.format(games_cfg.hall.version)
+    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/versions_247/{0}.zip -d /data/assert/versions_247/\''.format(games_cfg.main.version)
     os.system(cmd)
-    cmd = 'ssh game@39.106.30.21 \'rm /data/project_1/versions_247/{0} -rf\''.format(games_cfg.hall.version)
+    cmd = 'ssh root@139.155.70.226 \'rm /data/assert/versions_247/{0} -rf\''.format(games_cfg.main.version)
     os.system(cmd)
-    cmd = 'ssh game@39.106.30.21 \'mv /data/project_1/versions_247/trunk_247 /data/project_1/versions_247/{0}\''.format(games_cfg.hall.version)
+    cmd = 'ssh root@139.155.70.226 \'mv /data/assert/versions_247/trunk_247 /data/assert/versions_247/{0}\''.format(games_cfg.main.version)
     os.system(cmd)
     return
 
-
+#
 # 删除子游戏
 def remove_download_games():
     for game in games_cfg.games:
@@ -100,18 +99,23 @@ def gen_game_num_version():
 
 # 生成大厅版本
 def gen_hall():
-    updater.gen_remote_version(game_platform, games_cfg.hall)
-    updater.gen_remote_num_version(game_platform, games_cfg.hall)
+    updater.gen_remote_version(game_platform, games_cfg.internal)
+    updater.gen_remote_num_version(game_platform, games_cfg.internal)
+    updater.gen_remote_version(game_platform, games_cfg.resources)
+    updater.gen_remote_num_version(game_platform, games_cfg.resources)
+    updater.gen_remote_version(game_platform, games_cfg.main)
+    updater.gen_remote_num_version(game_platform, games_cfg.main)
+
     return
 
 
-# 备份版本代码
-def back_up():
-    back_path = os.path.abspath('./backup/' + games_cfg.hall.version + '/')
-    shutil.rmtree(back_path, True)
-    os.mkdir(back_path)
-    shutil.copyfile(buildCfg.NATIVE_PATH + "/js backups (useful for debugging)/project.js", back_path + '/project.js')
-    return
+# # 备份版本代码
+# def back_up():
+#     back_path = os.path.abspath('./backup/' + games_cfg.hall.version + '/')
+#     shutil.rmtree(back_path, True)
+#     os.mkdir(back_path)
+#     shutil.copyfile(buildCfg.NATIVE_PATH + "/js backups (useful for debugging)/project.js", back_path + '/project.js')
+#     return
 
 
 if __name__ == "__main__":

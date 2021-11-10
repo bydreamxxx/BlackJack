@@ -4,7 +4,9 @@ var data_game_update =
     [
       { key:1,type:1,game_id:-1,name:"pkg",desc:0 },
       { key:2,type:2,game_id:-2,name:"pkgandroid",desc:0 },
-      { key:3,type:3,game_id:-3,name:"hall",desc:0 },
+      { key:3,type:3,game_id:-3,name:"main",desc:0 },
+        { key:70,type:3,game_id:-4,name:"internal",desc:0 },
+        { key:71,type:3,game_id:-5,name:"resources",desc:0 },
       { key:4,type:4,game_id:101,name:"shangliangshan",desc:0 },
       { key:5,type:5,game_id:50,name:"pinshuangshi",desc:0 },
       { key:6,type:5,game_id:51,name:"pinshuangshi",desc:0 },
@@ -68,7 +70,9 @@ var data_game_update =
       { key:64,type:22,game_id:106,name:"luckyturn",desc:0 },
       { key:65,type:16,game_id:184,name:"majiang",desc:0 },
       { key:66,type:23,game_id:107,name:"horseracing",desc:0 },
-      { key:67,type:24,game_id:201,name:"erbagang",desc:0 }
+        { key:67,type:24,game_id:201,name:"erbagang",desc:0 },
+        { key:68,type:25,game_id:203,name:"blackjack",desc:0 },
+        { key:69,type:26,game_id:202,name:"texas",desc:0 }
     ],
 
     /**

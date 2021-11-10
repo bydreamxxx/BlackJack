@@ -7,7 +7,9 @@ let game_update_cfg = require('game_update');
 var UpdaterGameId = {
     IOS: -1,
     ANDROID: -2,
-    HALL: -3,
+    MAIN: -3,
+    INTERNAL: -4,
+    RESOURCES: -5,
 };
 
 var UpdateMgr = cc.Class({
@@ -127,17 +129,17 @@ var UpdateMgr = cc.Class({
             if (!jsb.fileUtils.isFileExist(game_project_url)) {
                 if (!jsb.fileUtils.isDirectoryExist(full_dir))
                     jsb.fileUtils.createDirectory(full_dir);
-                var hall_version_url = "assets/hall/version.manifest";
+                var hall_version_url = "assets/main/version.manifest";
                 var game_version_url = full_dir + "/version.manifest";
                 var str = jsb.fileUtils.getStringFromFile(hall_version_url);
                 cc.log('***************  Hall_version_manifest:' + str);
-                var replaceStr = '/hall';
+                var replaceStr = '/main';
                 str = str.replace(new RegExp(replaceStr, 'gm'), '/' + updater_cfg.name);
                 str = str.replace(/version":.*,/, 'version":"0.0.0.0",');
                 jsb.fileUtils.writeStringToFile(str, game_version_url);
                 cc.log('***************  Game version exist is:' + jsb.fileUtils.isFileExist(game_version_url));
 
-                var hall_project_url = "versions/hall/project.manifest";
+                var hall_project_url = "versions/main/project.manifest";
                 var str_prj = jsb.fileUtils.getStringFromFile(hall_project_url);
                 str_prj = str_prj.replace(/assets":{.*},"searchPaths":/, 'assets":{},"searchPaths":');
                 str_prj = str_prj.replace(new RegExp(replaceStr, 'gm'), '/' + updater_cfg.name);

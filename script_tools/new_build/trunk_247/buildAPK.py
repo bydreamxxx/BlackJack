@@ -11,11 +11,6 @@ from new_build import buildCfg
 from new_build import builder
 from new_build import updater
 
-COCOS_PROJECT_PATH = "/Users/yons/workspace/BlackJack"
-COCOS_CMD = " /Applications/CocosCreatorFiles/Creator/2.4.6/CocosCreator.app/Contents/MacOS/CocosCreator " \
-            "--path {0}  --build \"platform=android;packageName=com.anglegame.blackjack;" \
-            "buildPath=./build-246;debug=false;autoCompile=false;encryptJs=true;xxteaKey=bdd7b8ea-7650-43;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];\" ".format(COCOS_PROJECT_PATH)
-
 def init():
     shutil.rmtree(game_platform.local_dir, True)
     shutil.rmtree(game_platform.remote_dir, True)
@@ -48,7 +43,7 @@ def back_up():
 if __name__ == "__main__":
     builder.clean()
     init()
-    builder.cocos_build_withcmd(COCOS_CMD)
+    builder.cocos_build()
     # # builder.gen_etc2()
     remove_download_games()
     gen_local_version()

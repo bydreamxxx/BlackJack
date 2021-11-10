@@ -21,6 +21,8 @@ var LoginState = cc.Enum({
     CHECK_INTERNET: "check_internet",    //检查互联网
     UPDATE_PKG: "update_pkg",            //更新安装包
     UPDATE_HALL: "update_hall",          //更新大厅资源
+    UPDATE_INTERNAL: "update_internal",          //更新大厅资源
+    UPDATE_RESOURCES: "update_resources",          //更新大厅资源
     LOGIN_START: "login_start",          //登录开始
 });
 
@@ -205,6 +207,12 @@ let resLoad = cc.Class({
                 break;
             case LoginState.UPDATE_HALL:
                 this.updateHall();
+                break;
+            case LoginState.UPDATE_INTERNAL:
+                this.updateInternal();
+                break;
+            case LoginState.UPDATE_RESOURCES:
+                this.updateResources();
                 break;
             case LoginState.LOGIN_START:
                 this.loadRes();
@@ -404,6 +412,12 @@ let resLoad = cc.Class({
      * 更新大厅
      */
     updateHall: function () {
+        cc.log("【hall-login】" + " 更新大厅 开始");
+        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.MAIN);
+        this.hallUpdater.checkUpdate();
+    },
+
+    updateInternal(){
         if (cc._appstore_check)
             this.tips.string = "加载资源中...";
         else
@@ -418,12 +432,19 @@ let resLoad = cc.Class({
             this.changeState(LoginState.LOGIN_START);
             return;
         }
-        if (1 != UpdateMgr.isUpdateVersionExist(UpdaterGameId.HALL)) {
+        if (1 != UpdateMgr.isUpdateVersionExist(UpdaterGameId.MAIN)) {
             this.goToAppURL();
             return;
         }
-        cc.log("【hall-login】" + " 更新大厅 开始");
-        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.HALL);
+
+        cc.log("【hall-login】" + " 更新Internal 开始");
+        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.INTERNAL);
+        this.hallUpdater.checkUpdate();
+    },
+
+    updateResources(){
+        cc.log("【hall-login】" + " 更新Resources 开始");
+        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.RESOURCES);
         this.hallUpdater.checkUpdate();
     },
 
@@ -629,7 +650,11 @@ let resLoad = cc.Class({
         if (!data || !data[0]) {
             return;
         }
-        if (data[0].game_id == UpdaterGameId.HALL) {
+        if (data[0].game_id == UpdaterGameId.MAIN) {
+            this.onHallUpdateEventMessage(event, data);
+        } else if (data[0].game_id == UpdaterGameId.INTERNAL) {
+            this.onHallUpdateEventMessage(event, data);
+        } else if (data[0].game_id == UpdaterGameId.RESOURCES) {
             this.onHallUpdateEventMessage(event, data);
         } else if (data[0].game_id == UpdaterGameId.ANDROID) {
             this.onAPKUpdateEventMessage(event, data);
@@ -704,7 +729,7 @@ let resLoad = cc.Class({
         clearTimeout(this.updateServerConnTimeoutCheck);
         switch (event) {
             case dd.UpdaterEvent.ALREADY_UP_TO_DATE:
-                this.changeState(LoginState.UPDATE_HALL);
+                this.changeState(LoginState.UPDATE_INTERNAL);
                 break;
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
                 this.promptedDownload(data);
@@ -766,7 +791,7 @@ let resLoad = cc.Class({
         clearTimeout(this.updateServerConnTimeoutCheck);
         switch (event) {
             case dd.UpdaterEvent.ALREADY_UP_TO_DATE:
-                this.changeState(LoginState.UPDATE_HALL);
+                this.changeState(LoginState.UPDATE_INTERNAL);
                 break;
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
                 this.promptedDownload(data);
@@ -823,7 +848,13 @@ let resLoad = cc.Class({
     onHallUpdateEventMessage: function (event, data) {
         switch (event) {
             case dd.UpdaterEvent.ALREADY_UP_TO_DATE:
-                this.changeState(LoginState.LOGIN_START);
+                if(data[0].game_id == UpdaterGameId.INTERNAL){
+                    this.changeState(LoginState.UPDATE_RESOURCES);
+                }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                    this.changeState(LoginState.UPDATE_HALL);
+                }else{
+                    this.changeState(LoginState.LOGIN_START);
+                }
                 break;
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
                 if (cc.dd.native_systool.isNetAvailable()) {
@@ -855,7 +886,13 @@ let resLoad = cc.Class({
                 this.onProgress(data[1]);
                 break;
             case dd.UpdaterEvent.UPDATE_FINISHED:
-                this.reStartGame();
+                if(data[0].game_id == UpdaterGameId.INTERNAL){
+                    this.changeState(LoginState.UPDATE_RESOURCES);
+                }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                    this.changeState(LoginState.UPDATE_HALL);
+                }else{
+                    this.reStartGame();
+                }
                 // dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_7, "确定", null,
                 //     function () {
                 //         this.reStartGame();
