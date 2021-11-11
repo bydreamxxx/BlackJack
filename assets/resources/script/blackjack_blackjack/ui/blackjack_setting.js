@@ -12,6 +12,9 @@ cc.Class({
         soundProgress: cc.ProgressBar,
         kefuBtn:cc.Node,
         loginOutBtn:cc.Node,
+
+        languageNode: cc.Node,
+        languageArrow: cc.Node,
     },
 
     editor:{
@@ -109,4 +112,35 @@ cc.Class({
         }
         cc.dd.UIMgr.destroyUI(this.node);
     },
+
+    onClickChangeLanguage(event, data) {
+        switch (data){
+            case "EN":
+                LanguageMgr.changeLanguage("en");
+                break;
+            case "TC":
+                LanguageMgr.changeLanguage("tc");
+                break;
+            case "IN":
+                LanguageMgr.changeLanguage("in");
+                break;
+            case "ZH":
+                LanguageMgr.changeLanguage("zh");
+                break;
+        }
+
+        this.languageNode.active = false;
+        this.languageArrow.scaleY = 1;
+    },
+
+    onClickChange(){
+        if(this.languageNode.active){
+            this.languageNode.active = false;
+            this.languageArrow.scaleY = 1;
+        }else{
+            this.languageNode.active = true;
+            this.languageArrow.scaleY = -1;
+        }
+
+    }
 });

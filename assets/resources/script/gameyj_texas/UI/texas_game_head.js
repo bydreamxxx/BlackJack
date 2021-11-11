@@ -41,7 +41,7 @@ cc.Class({
         this._cardnode = cc.find('card', this.node);
         this._cardnodeDisplay = cc.find('card_display', this.node);
 
-        this._des = cc.find('desc', this.node).getComponent(cc.Label);
+        this._des = cc.find('desc', this.node).getComponent("LanguageLabel");
         this._super();
         cc.log()
     },
@@ -103,7 +103,7 @@ cc.Class({
             // var xd = cc.find('discard', this.node).convertToWorldSpaceAR(cc.v2(0, 0)).x;
             // cc.find('discard', this.node).x = cc.find('discard', this.node).x + (x - xd);
             this._des.node.active = true;
-            this._des.string = 'FOLD'
+            this._des.setText('fold')
             this.node.opacity = 180;
         }
         else {
@@ -127,7 +127,7 @@ cc.Class({
 
     showWait()
     {
-        this._des.string = 'Waitting'
+        this._des.setText('wait');
         this._des.node.active = true;
         
     },

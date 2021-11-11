@@ -117,9 +117,9 @@ serFileUrl[3] = '';
 
 //机器人头像地址
 var robotUrl = new Array(4);
-robotUrl[1] = 'http://game.yuejiegame.net/robot_icon/';
-robotUrl[2] = 'http://game.yuejiegame.net/robot_icon/';
-robotUrl[3] = 'http://game.yuejiegame.net/robot_icon/';
+robotUrl[1] = 'http://139.155.70.226/head/';
+robotUrl[2] = 'http://139.155.70.226/head/';
+robotUrl[3] = 'http://139.155.70.226/head/';
 // robotUrl[1] = '';
 // robotUrl[2] = '';
 // robotUrl[3] = '';

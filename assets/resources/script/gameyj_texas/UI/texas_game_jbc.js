@@ -1465,7 +1465,7 @@ cc.Class({
                 this.sendLeaveRoom();
             }
             else {
-                cc.dd.DialogBoxUtil.show(0, '游戏正在进行中，退出后将由系统操作，确定退出？', 'OK', 'CANCEL', function(){ 
+                cc.dd.DialogBoxUtil.show(0, 'sureexit', 'OK', 'CANCEL', function(){ 
                     this.sendLeaveRoom();
                     this.backToHall();
                 }.bind(this), null, 'reminder');
