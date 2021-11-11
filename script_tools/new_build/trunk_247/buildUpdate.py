@@ -57,21 +57,21 @@ def version_num_upload():
 
 # 上传远程版本至版本号目录
 def upload_to_version_dir():
-    builder.make_zip(game_platform.remote_dir, games_cfg.main.version+'.zip')
+    builder.make_zip(game_platform.remote_dir, games_cfg.resources.version+'.zip')
 
     cmd_upload = []
-    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert/versions_247'.format(games_cfg.main.version))
+    cmd_upload.append('scp -r ./{0}.zip root@139.155.70.226:/data/assert/versions_247'.format(games_cfg.resources.version))
     print '上传中...'
     for i, val in enumerate(cmd_upload):
         (status, output) = commands.getstatusoutput(val)
         print status, output
     print '上传完成'
 
-    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/versions_247/{0}.zip -d /data/assert/versions_247/\''.format(games_cfg.main.version)
+    cmd = 'ssh root@139.155.70.226 \'unzip -o /data/assert/versions_247/{0}.zip -d /data/assert/versions_247/\''.format(games_cfg.resources.version)
     os.system(cmd)
-    cmd = 'ssh root@139.155.70.226 \'rm /data/assert/versions_247/{0} -rf\''.format(games_cfg.main.version)
+    cmd = 'ssh root@139.155.70.226 \'rm /data/assert/versions_247/{0} -rf\''.format(games_cfg.resources.version)
     os.system(cmd)
-    cmd = 'ssh root@139.155.70.226 \'mv /data/assert/versions_247/trunk_247 /data/assert/versions_247/{0}\''.format(games_cfg.main.version)
+    cmd = 'ssh root@139.155.70.226 \'mv /data/assert/versions_247/trunk_247 /data/assert/versions_247/{0}\''.format(games_cfg.resources.version)
     os.system(cmd)
     return
 

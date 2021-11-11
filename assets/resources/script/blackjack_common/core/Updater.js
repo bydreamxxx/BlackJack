@@ -37,7 +37,7 @@ var Updater = cc.Class({
 
         this.local_version_url = params[0]._newurl ? params[0]._newurl : ("assets/" + params[0].name + "/project.manifest");
         this.storage_manifest_preffix = params[0].name + '_';
-        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack');
+        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'updateFiles/assets/'+params[0].name);
         var PID = require('AppConfig').PID;
         var is_version_num_url = require('Platform').is_version_num_url[PID];
         var down_url_origin = require('Platform').down_url_origin[PID];
@@ -48,26 +48,7 @@ var Updater = cc.Class({
             var down_url_version = require('Platform').down_url_version_rgba8888[PID];
         }
 
-        this._am = new jsb.AssetsManager(this.local_version_url, this._storagePath, (versionA, versionB)=>{
-            var vA = versionA.split('.');
-            var vB = versionB.split('.');
-            for (var i = 0; i < vA.length; ++i) {
-                var a = parseInt(vA[i]);
-                var b = parseInt(vB[i] || 0);
-                if (a === b) {
-                    continue;
-                }
-                else {
-                    return a - b;
-                }
-            }
-            if (vB.length > vA.length) {
-                return -1;
-            }
-            else {
-                return 0;
-            }
-        });
+        this._am = new jsb.AssetsManager(this.local_version_url, this._storagePath);
         // this._am = new jsb.AssetsManager(this.local_version_url, this.storage_manifest_preffix, this._storagePath, 'xlqp', is_version_num_url, down_url_origin, down_url_version);
         cc.log('本地路径: ' + this._storagePath);
         cc.log(this.cfg.name + ' ' + this.local_version_url);
@@ -116,9 +97,9 @@ var Updater = cc.Class({
                 UpdaterEd.notifyEvent(UpdaterEvent.ALREADY_UP_TO_DATE, [this.cfg]);
                 break;
             case jsb.EventAssetsManager.NEW_VERSION_FOUND:
-                cc.log(this.cfg.name + ':' + '检查到新版本');
+                cc.log(this.cfg.name + ':' + '检查到新版本', '当前版本号:' + this.getVersion());
                 this.checking = false;
-                var allDownloadSize = event.getAllDownloadSize();
+                var allDownloadSize = event.getDownloadedBytes();
                 UpdaterEd.notifyEvent(UpdaterEvent.NEW_VERSION_FOUND, [this.cfg, allDownloadSize]);
                 break;
             case jsb.EventAssetsManager.UPDATE_PROGRESSION:

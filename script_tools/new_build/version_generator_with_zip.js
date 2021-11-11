@@ -97,9 +97,10 @@ var mkdirSync = function (path) {
 }
 
 // Iterate res and src folder
-readDir(path.join(src, 'import'), manifest.assets);
-readDir(path.join(src, 'native'), manifest.assets);
-readDir(path.join(src, 'zip'), manifest.zip);
+readDir(src, manifest.assets);
+// readDir(path.join(src, 'import'), manifest.assets);
+// readDir(path.join(src, 'native'), manifest.assets);
+// readDir(path.join(src, 'zip'), manifest.zip);
 
 var destVersion = path.join(dest, 'version.manifest');
 

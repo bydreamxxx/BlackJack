@@ -10,7 +10,7 @@ ssh账号：
 ssh密码：
 
 操作方式:
-cd ../opt/bl
+cd ../data/assert
 rsync --delete-before -av ./web-mobile-temp/ ./web-mobile/
 unzip web-mobile.zip -d ./web-mobile/
 chmod 777 ./web-mobile

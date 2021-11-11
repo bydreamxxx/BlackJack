@@ -44,7 +44,7 @@ def gen_local_version(platform, game):
 
     # 生成本地版本
     version = platform.empty_version
-    if game.res_dir == '':
+    if game.res_dir == '' or game.desc == 'internal' or game.desc == 'resources' or game.desc == 'main':
         version = game.version
     url = platform.remote_url + game.game_dir + '/'
     version_url = platform.remote_url_version + game.game_dir + '/'

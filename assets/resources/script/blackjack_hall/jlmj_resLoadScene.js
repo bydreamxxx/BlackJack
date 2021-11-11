@@ -312,8 +312,7 @@ let resLoad = cc.Class({
         cc.log("【hall-login】" + "检查互联网连接 开始");
         if (cc.sys.isNative && cc.sys.isMobile) {   //真机
             if (cc.dd.native_systool.isNetAvailable()) {
-                // this.changeState(LoginState.UPDATE_PKG);
-                this.changeState(LoginState.LOGIN_START);
+                this.changeState(LoginState.UPDATE_PKG);
             } else {
                 dd.DialogBoxUtil.show(1, "网络连接不可用,请检查网状态", "重试", "退出",
                     function () {
@@ -357,9 +356,6 @@ let resLoad = cc.Class({
      * 更新APK
      */
     updatePKG: function () {
-        // this.changeState(LoginState.LOGIN_START);
-        // return;
-
         if (cc._appstore_check)
             this.tips.string = "加载资源中...";
         else
@@ -439,14 +435,14 @@ let resLoad = cc.Class({
         }
 
         cc.log("【hall-login】" + " 更新Internal 开始");
-        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.INTERNAL);
-        this.hallUpdater.checkUpdate();
+        this.internalUpdater = UpdateMgr.getUpdater(UpdaterGameId.INTERNAL);
+        this.internalUpdater.checkUpdate();
     },
 
     updateResources(){
         cc.log("【hall-login】" + " 更新Resources 开始");
-        this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.RESOURCES);
-        this.hallUpdater.checkUpdate();
+        this.resourcesUpdater = UpdateMgr.getUpdater(UpdaterGameId.RESOURCES);
+        this.resourcesUpdater.checkUpdate();
     },
 
     /**
@@ -865,7 +861,13 @@ let resLoad = cc.Class({
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
                 if (cc.dd.native_systool.isNetAvailable()) {
                     if (cc.dd.native_systool.isWifiAvailable() || data[1] <= 0) {
-                        this.hallUpdater.startUpdate();
+                        if(data[0].game_id == UpdaterGameId.INTERNAL){
+                            this.internalUpdater.startUpdate();
+                        }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                            this.resourcesUpdater.startUpdate();
+                        }else{
+                            this.hallUpdater.startUpdate();
+                        }
                     } else {
                         var size = parseFloat(data[1]) / 1024;
                         var unit_des = 'KB';
@@ -876,7 +878,13 @@ let resLoad = cc.Class({
                         size = size.toFixed(2);
                         dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", '确定', '取消',
                             function () {
-                                this.hallUpdater.startUpdate();
+                                if(data[0].game_id == UpdaterGameId.INTERNAL){
+                                    this.internalUpdater.startUpdate();
+                                }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                                    this.resourcesUpdater.startUpdate();
+                                }else{
+                                    this.hallUpdater.startUpdate();
+                                }
                             }.bind(this),
                             function () {
                                 this.reStartGame();
@@ -931,7 +939,13 @@ let resLoad = cc.Class({
             case dd.UpdaterEvent.UPDATE_FAILED:
                 dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
                     function () {
-                        this.hallUpdater.retry();
+                        if(data[0].game_id == UpdaterGameId.INTERNAL){
+                            this.internalUpdater.retry();
+                        }else if(data[0].game_id == UpdaterGameId.RESOURCES){
+                            this.resourcesUpdater.retry();
+                        }else{
+                            this.hallUpdater.retry();
+                        }
                     }.bind(this),
                     function () {
                         cc.game.end();

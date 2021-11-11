@@ -87,107 +87,10 @@ def compressRes():
     cmd = "python ../trunk_247/compressH5Res_mobile.py"
     os.system(cmd)
 
-def modify_md5():
-    # #删除index.html
-    # if os.path.exists('../../../build-246/web-mobile/index.html'):
-    #     os.remove('../../../build-246/web-mobile/index.html')
-
-    gmfile=glob.glob('../../../build-246/web-mobile/main*.js')
-    mainfile = gmfile[0][-13:]
-    print(mainfile)
-    # settingsfile=glob.glob('../../../build-246/web-mobile/src/settings*.js')[0][-17:]
-    # print(settingsfile)
-    # projectfile=glob.glob('../../../build-246/web-mobile/src/project*.js')[0][-16:]
-    # print(projectfile)
-    #
-    # if isTest:
-    #     project = getFileContent('../../../build-246/web-mobile/src/'+projectfile)
-    #     if re.search(r'H5PID:3,', project):
-    #         project = re.sub(r'H5PID:3,', 'H5PID:1,', project)
-    #     if re.search(r'cc.pid=3,', project):
-    #         project = re.sub(r'cc.pid=3,', 'cc.pid=1,', project)
-    #     writeFileContent('../../../build-246/web-mobile/src/'+projectfile, project)
-
-    # #modify index.php
-    # print('changing index.php')
-    # indexphp=getFileContent('../../../build-246/web-mobile/index.php')
-    # if re.search(r'main.*.js" charset=',indexphp):
-    #     indexphp=re.sub(r'main.*.js" charset=',mainfile+'" charset=',indexphp)
-    #     print('replaced main file')
-    #
-    # if re.search(r'"src/settings.*.js" charset=',indexphp):
-    #     indexphp=re.sub(r'"src/settings.*.js" charset=','"src/'+settingsfile+'" charset=',indexphp)
-    #     print('replaced settings file')
-    # writeFileContent('../../../build-246/web-mobile/index.php',indexphp)
-
-
-    #modify main.js
-    print('changing main.js')
-    mainjs=getFileContent('../../../build-246/web-mobile/'+mainfile)
-    # if re.search(r": 'src/project.*.js';",mainjs):
-    #     mainjs=re.sub(r": 'src/project.*.js';",": 'src/"+projectfile+"';",mainjs)
-    #     print('replaced project file')
-    if re.search(r"""    var bundleRoot = \[INTERNAL\];
-    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
-
-    var count = 0;
-    function cb \(err\) \{
-        if \(err\) return console\.error\(err\.message, err\.stack\);
-        count\+\+;
-        if \(count === bundleRoot\.length \+ 1\) \{
-            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
-                if \(!err\) cc\.game\.run\(option, onStart\);
-            \}\);
-        \}
-    \}""", mainjs):
-        mainjs = re.sub(r"""    var bundleRoot = \[INTERNAL\];
-    settings\.hasResourcesBundle && bundleRoot\.push\(RESOURCES\);
-
-    var count = 0;
-    function cb \(err\) \{
-        if \(err\) return console\.error\(err\.message, err\.stack\);
-        count\+\+;
-        if \(count === bundleRoot\.length \+ 1\) \{
-            cc\.assetManager\.loadBundle\(MAIN, function \(err\) \{
-                if \(!err\) cc\.game\.run\(option, onStart\);
-            \}\);
-        \}
-    \}""", """    var bundleRoot = [INTERNAL];
-    bundleRoot.push(MAIN);
-    settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
-
-    cc.open_update = false;
-    cc.open_debug = false;
-    cc.pid = 2;
-    cc.game_pid = 0;
-
-    var count = 0;
-    function cb (err) {
-        if (err) return console.error(err.message, err.stack);
-        count++;
-        if (count === bundleRoot.length + 1) {
-            cc.game.run(option, onStart);
-        }
-    }""", mainjs)
-    writeFileContent('../../../build-246/web-mobile/'+mainfile,mainjs)
-
-
-    # #modify index_desktop.html
-    # print('changing index_desktop.html')
-    # deskhtml=getFileContent('../../../build-246/web-mobile/index_desktop.html')
-    # if re.search(r'main.*.js" charset=',deskhtml):
-    #     deskhtml=re.sub(r'main.*.js" charset=',mainfile+'" charset=',deskhtml)
-    #     print('replaced main file')
-    #
-    # if re.search(r'"src/settings.*.js" charset=',deskhtml):
-    #     deskhtml=re.sub(r'"src/settings.*.js" charset=','"src/'+settingsfile+'" charset=',deskhtml)
-    #     print('replaced settings file')
-    # writeFileContent('../../../build-246/web-mobile/index_desktop.html',deskhtml)
 
 if __name__ == "__main__":
     cocos_build()
     # compressRes()
     # copy_h5_assets()
-    modify_md5()
     make_zip('../../../build-246/web-mobile/', '../../../build-246/web-mobile.zip')
     # upload()
