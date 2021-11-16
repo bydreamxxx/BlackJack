@@ -6,6 +6,8 @@ var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var HallCommonData = require("hall_common_data").HallCommonData;
 var Define = require("Define");
 var HallPropData = require('hall_prop_data').HallPropData.getInstance();
+var UpdateMgr = require("updaterMgr").UpdateMgr.Instance();
+var AppCfg = require('AppConfig');
 
 cc.Class({
     extends: cc.Component,
@@ -16,6 +18,8 @@ cc.Class({
         game_id: '',
         itemList: [],
         totalPlayerNumTxt:cc.Label,
+
+        version: cc.Label,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -70,6 +74,17 @@ cc.Class({
             }
             this.totalPlayerNumTxt.string = number
         }.bind(this))
+
+        if(cc.sys.isNative){
+            this.version.node.active = true;//AppCfg.IS_DEBUG;
+
+            let updater = UpdateMgr.getUpdater(data.hallGameid);
+            if(updater){
+                this.version.string = updater.getVersion();
+            }
+        }else{
+            this.version.node.active = false;
+        }
      },
 
     //关闭界面

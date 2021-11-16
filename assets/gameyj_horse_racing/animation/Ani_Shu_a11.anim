@@ -1,0 +1,282 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Ani_Shu_a11",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "head/shu_a11_10": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -2.5,
+                3.3
+              ]
+            },
+            {
+              "frame": 0.11666666666666667,
+              "value": [
+                -2.5,
+                5.5
+              ]
+            },
+            {
+              "frame": 0.25,
+              "value": [
+                -2.5,
+                3.3
+              ]
+            },
+            {
+              "frame": 0.36666666666666664,
+              "value": [
+                -2.5,
+                5.5
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                -2.5,
+                3.3
+              ]
+            },
+            {
+              "frame": 0.6166666666666667,
+              "value": [
+                -2.5,
+                5.5
+              ]
+            },
+            {
+              "frame": 0.75,
+              "value": [
+                -2.5,
+                3.3
+              ]
+            },
+            {
+              "frame": 0.8666666666666667,
+              "value": [
+                -2.5,
+                5.5
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                -2.5,
+                3.3
+              ]
+            }
+          ]
+        }
+      },
+      "lingdaiNode": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 7
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.75,
+              "value": 7
+            },
+            {
+              "frame": 1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "shu_a11_08": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.13333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1.1
+              }
+            },
+            {
+              "frame": 0.25,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.38333333333333336,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1.1
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.6333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1.1
+              }
+            },
+            {
+              "frame": 0.75,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.8833333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1.1
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "arm": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 13
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.75,
+              "value": 13
+            },
+            {
+              "frame": 1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "arm/hand_r": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": -37
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.75,
+              "value": -37
+            },
+            {
+              "frame": 1,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "biao_node/fenzhen": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": -12
+            }
+          ]
+        }
+      },
+      "biao_node/shizhen": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": -2
+            }
+          ]
+        }
+      },
+      "biao_node/miaozhen": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": -720
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

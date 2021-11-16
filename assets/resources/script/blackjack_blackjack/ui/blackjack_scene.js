@@ -4,6 +4,9 @@ const BlackJackEvent = require("BlackJackData").BlackJackEvent;
 var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 let RoomMgr = require("jlmj_room_mgr").RoomMgr;
+let HallCommonObj = require('hall_common_data');
+let HallCommonEd = HallCommonObj.HallCommonEd;
+let HallCommonEvent = HallCommonObj.HallCommonEvent;
 
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
@@ -32,10 +35,16 @@ cc.Class({
         betLabel: cc.Label,
         insureNode: cc.Node,
         actionButtonNode: cc.Node,
+        toggleButtonNode: cc.Node,
 
         repeateButton: cc.Button,
         splitButton: cc.Button,
         doubleButton: cc.Button,
+
+        splitToggle: cc.Toggle,
+        doubleToggle: cc.Toggle,
+        hitToggle: cc.Toggle,
+        standToggle: cc.Toggle,
 
         minBetLabel: cc.Label,
         maxBetLabel: cc.Label,
@@ -69,6 +78,7 @@ cc.Class({
         this.betButtonNode.active = false;
         this.insureNode.active = false;
         this.actionButtonNode.active = false;
+        this.toggleButtonNode.active = false;
 
         this.tipsNode.active = true;
         this.startTips.active = false;
@@ -79,17 +89,36 @@ cc.Class({
 
         RoomED.addObserver(this);
         BlackJackED.addObserver(this);
+        HallCommonEd.addObserver(this);
 
         this.banker.clear();
+
+        this.splitToggle.node.on("click", this.onClickToggleButton.bind(this), this);
+        this.doubleToggle.node.on("click", this.onClickToggleButton.bind(this), this);
+        this.hitToggle.node.on("click", this.onClickToggleButton.bind(this), this);
+        this.standToggle.node.on("click", this.onClickToggleButton.bind(this), this);
+
+        this.splitToggle.uncheck();
+        this.doubleToggle.uncheck();
+        this.hitToggle.uncheck();
+        this.standToggle.uncheck();
+        this.autoToggle = null;
     },
 
     onDestroy() {
         RoomED.addObserver(this);
         BlackJackED.removeObserver(this);
+        HallCommonEd.removeObserver(this);
     },
 
     onEventMessage: function (event, data) {
         switch (event) {
+            case HallCommonEvent.HALL_NO_RECONNECT_GAME:
+                BlackJackData.clear();
+                cc.dd.SceneManager.enterHall([],[],()=>{
+                    // cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
+                });
+                break;
             case RoomEvent.on_coin_room_enter:
                 break;
             case RoomEvent.on_room_join:
@@ -114,6 +143,7 @@ cc.Class({
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
+                this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
                 this.playerList[0].stop_chupai_ani();
                 break;
@@ -130,8 +160,11 @@ cc.Class({
 
 
                     if(player.viewId == 0){
-                        this.splitButton.interactable = userPlayer.canSplit(this.betIndex);
+                        this.splitButton.interactable = player.canSplit(this.betIndex);
                         this.doubleButton.interactable = player.canDouble(this.betIndex);
+
+                        this.splitToggle.interactable = player.canSplit(this.betIndex);
+                        this.doubleToggle.interactable = player.canDouble(this.betIndex);
                     }
                 }
                 break;
@@ -149,6 +182,40 @@ cc.Class({
                 if(BlackJackData.state === GAME_STATE.PLAYING){
                     if(data.userId === cc.dd.user.id && BlackJackData.hasUserPlayer){
                         this.actionButtonNode.active = true;
+
+                        if(this.autoToggle != null){
+                            let msg = new cc.pb.blackjack.msg_bj_bet_req();
+
+                            switch(this.autoToggle){
+                                case "SPLIT":
+                                    msg.setType(5);
+                                    break;
+                                case "DOUBLE":
+                                    msg.setType(2);
+                                    break;
+                                case "HIT":
+                                    msg.setType(4);
+                                    break;
+                                case "STAND":
+                                    msg.setType(6);
+                                    break;
+                                default:
+                                    msg.setType(6);
+                                    break;
+
+                            }
+                            msg.setIndex(this.betIndex);
+                            cc.gateNet.Instance().sendMsg(cc.netCmd.blackjack.cmd_msg_bj_bet_req, msg, 'msg_bj_bet_req', true);
+                            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'onClickBet');
+
+                            this.splitToggle.uncheck();
+                            this.doubleToggle.uncheck();
+                            this.hitToggle.uncheck();
+                            this.standToggle.uncheck();
+                            this.autoToggle = null;
+                        }
+
+                        this.toggleButtonNode.active = false;
                         let bidList = this.actionButtonNode.getComponentsInChildren("forbid_double_click");
                         bidList.forEach(bid=>{
                             if(bid._button){
@@ -159,6 +226,10 @@ cc.Class({
                         let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
                         this.splitButton.interactable = userPlayer.canSplit(data.index);
                         this.doubleButton.interactable = userPlayer.canDouble(data.index);
+
+                        this.splitToggle.interactable = userPlayer.canSplit(data.index);
+                        this.doubleToggle.interactable = userPlayer.canDouble(data.index);
+
                         this.betIndex = data.index;
 
                         this.playerList[0].showSplit(this.betIndex);
@@ -194,6 +265,14 @@ cc.Class({
                 break;
             case BlackJackEvent.SHOW_COIN:
                 this.playerList[data.viewIdx].showCoin(data.result);
+                break;
+            case BlackJackEvent.CHECK_BET_BUTTON:
+                let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
+                this.splitButton.interactable = userPlayer.canSplit(this.betIndex);
+                this.doubleButton.interactable = userPlayer.canDouble(this.betIndex);
+
+                this.splitToggle.interactable = userPlayer.canSplit(this.betIndex);
+                this.doubleToggle.interactable = userPlayer.canDouble(this.betIndex);
                 break;
             default:
                 break;
@@ -392,12 +471,25 @@ cc.Class({
         cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_biaoqing");
     },
 
+    onClickToggle(event, data){
+        if(event.isChecked){
+            this.autoToggle = data;
+        }else{
+            this.autoToggle = null;
+        }
+    },
+
+    onClickToggleButton(){
+        hall_audio_mgr.com_btn_click();
+    },
+
     playerJoin(data){
         BlackJackData.otherPlayerEnter(data.roleInfo.userId);
     },
 
     playerLeave(data){
         if(data.userId == cc.dd.user.id || !data.hasOwnProperty("userId")){
+            BlackJackData.clear();
             cc.dd.SceneManager.enterHall([],[],()=>{
                 // cc.dd.ResLoader.releaseBundle("blackjack_blackjack");
             });
@@ -409,8 +501,8 @@ cc.Class({
             BlackJackData.hasUserPlayer = false;
             this.playerList[0].head.stand();
 
-            this.sitBtn.active = true;
-            this.standBtn.active = false;
+            // this.sitBtn.active = true;
+            // this.standBtn.active = false;
         }else{
             BlackJackData.playerExit(data.userId);
         }
@@ -445,6 +537,7 @@ cc.Class({
         }else if(BlackJackData.state === GAME_STATE.PLAYING){
             if(BlackJackData.turn.userId === cc.dd.user.id && BlackJackData.hasUserPlayer){
                 this.actionButtonNode.active = true;
+                this.toggleButtonNode.active = false;
                 let bidList = this.actionButtonNode.getComponentsInChildren("forbid_double_click");
                 bidList.forEach(bid=>{
                     if(bid._button){
@@ -455,6 +548,10 @@ cc.Class({
                 let userPlayer = BlackJackData.getPlayerById(cc.dd.user.id);
                 this.splitButton.interactable = userPlayer.canSplit(BlackJackData.turn.index);
                 this.doubleButton.interactable = userPlayer.canDouble(BlackJackData.turn.index);
+
+                this.splitToggle.interactable = userPlayer.canSplit(BlackJackData.turn.index);
+                this.doubleToggle.interactable = userPlayer.canDouble(BlackJackData.turn.index);
+
                 this.betIndex = BlackJackData.turn.index;
 
                 this.playerList[0].showSplit(this.betIndex);
@@ -478,19 +575,26 @@ cc.Class({
         switch(BlackJackData.state){
             case GAME_STATE.WAITING:
                 this.banker.clear();
-                this.sitBtn.active = !BlackJackData.hasUserPlayer;
-                this.standBtn.active = BlackJackData.hasUserPlayer;
+                // this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                // this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
+                this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
                 this.tipsNode.active = false;
+
+                this.splitToggle.uncheck();
+                this.doubleToggle.uncheck();
+                this.hitToggle.uncheck();
+                this.standToggle.uncheck();
+                this.autoToggle = null;
                 break;
             case GAME_STATE.BETTING:
                 cc.error(`下注`)
-                this.sitBtn.active = !BlackJackData.hasUserPlayer;
-                this.standBtn.active = BlackJackData.hasUserPlayer;
+                // this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                // this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 this.startTips.active = true;
                 this.stopTips.active = false;
@@ -512,7 +616,14 @@ cc.Class({
                 this.repeateButton.interactable = BlackJackData.hasUserPlayer && BlackJackData.lastBet > 0;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
+                this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
+
+                this.splitToggle.uncheck();
+                this.doubleToggle.uncheck();
+                this.hitToggle.uncheck();
+                this.standToggle.uncheck();
+                this.autoToggle = null;
                 break;
             case GAME_STATE.PROTECTING:
                 cc.error(`保险`)
@@ -521,24 +632,31 @@ cc.Class({
                 this.loadTips.active = false;
                 this.tipsNode.active = false;
 
-                this.sitBtn.active = !BlackJackData.hasUserPlayer;
-                this.standBtn.active = BlackJackData.hasUserPlayer;
+                // this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                // this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 this.betButtonNode.active = false;
 
                 // cc.tween(this.node)
                 //     .delay(BlackJackData.fapaiList.length * 2 * 1.4)
                 //     .call(()=>{
-                        this.insureNode.active = BlackJackData.hasUserPlayer;
+                        this.insureNode.active = BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0;
                     // })
                     // .start();
 
                 this.actionButtonNode.active = false;
+                this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
+
+                this.splitToggle.uncheck();
+                this.doubleToggle.uncheck();
+                this.hitToggle.uncheck();
+                this.standToggle.uncheck();
+                this.autoToggle = null;
                 break;
             case GAME_STATE.PLAYING:
-                this.sitBtn.active = !BlackJackData.hasUserPlayer;
-                this.standBtn.active = BlackJackData.hasUserPlayer;
+                // this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                // this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 if(BlackJackData.lastState === GAME_STATE.PROTECTING){
                     cc.error(`收走保险`);
@@ -547,6 +665,12 @@ cc.Class({
                     });
                 }
 
+                this.splitToggle.uncheck();
+                this.doubleToggle.uncheck();
+                this.hitToggle.uncheck();
+                this.standToggle.uncheck();
+                this.autoToggle = null;
+                this.toggleButtonNode.active = BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0;
                 this.startTips.active = false;
                 this.stopTips.active = false;
                 this.loadTips.active = false;
@@ -569,17 +693,28 @@ cc.Class({
                 this.banker.head.play_banker_duanyu("dealerbust", 3);
 
 
-                this.sitBtn.active = !BlackJackData.hasUserPlayer;
-                this.standBtn.active = BlackJackData.hasUserPlayer;
+                // this.sitBtn.active = !BlackJackData.hasUserPlayer;
+                // this.standBtn.active = BlackJackData.hasUserPlayer;
+                this.splitToggle.uncheck();
+                this.doubleToggle.uncheck();
+                this.hitToggle.uncheck();
+                this.standToggle.uncheck();
+                this.autoToggle = null;
 
                 this.betButtonNode.active = false;
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
+                this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
                 this.tipsNode.active = false;
                 break;
             case GAME_STATE.FAPAI:
                 if(BlackJackData.lastState === GAME_STATE.BETTING) {
+                    this.betButtonNode.active = false;
+                    this.playerList.forEach(player=>{
+                        player.stop_chupai_ani();
+                    })
+
                     cc.error(`发牌`);
                     BlackJackData.fapai();
 

@@ -1,0 +1,250 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "dipai_reset",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.02,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {},
+    "paths": {
+      "dipai_1": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 0.6
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -144,
+                144
+              ]
+            }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            }
+          ]
+        }
+      },
+      "dipai_2": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 0.6
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                144
+              ]
+            }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            }
+          ]
+        }
+      },
+      "dipai_3": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 0.6
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                144,
+                144
+              ]
+            }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            }
+          ]
+        }
+      },
+      "pic1": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -144,
+                144
+              ]
+            }
+          ],
+          "width": [
+            {
+              "frame": 0,
+              "value": 98.88
+            }
+          ]
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "0dcd908a-60e7-4a9b-98ff-94972b33e3f1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "pic2": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                144
+              ]
+            }
+          ],
+          "width": [
+            {
+              "frame": 0,
+              "value": 98.88
+            }
+          ]
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "0dcd908a-60e7-4a9b-98ff-94972b33e3f1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "pic3": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                144,
+                144
+              ]
+            }
+          ],
+          "width": [
+            {
+              "frame": 0,
+              "value": 98.88
+            }
+          ]
+        },
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "0dcd908a-60e7-4a9b-98ff-94972b33e3f1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "dipai_3/beimian": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
+      },
+      "dipai_2/beimian": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
+      },
+      "dipai_1/beimian": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

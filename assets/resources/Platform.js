@@ -126,7 +126,7 @@ robotUrl[3] = 'http://139.155.70.226/head/';
 
 var getRobotUrl = function () {
     var AppCfg = require('AppConfig');
-    return robotUrl[AppCfg.PID];
+    return robotUrl[1];
 };
 
 var is_version_num_url = new Array(4);
@@ -220,9 +220,9 @@ if (cc.game_pid == 10006)
 var accountUrl = "http://42.193.2.94:8081/";//47.92.129.247:8100
 // var accountUrl = "http://39.106.30.21:8081/";//47.92.129.247:8100
 var newHeadUrl = new Array(4);
-newHeadUrl[1] = "http://42.193.2.94:60602/";
-newHeadUrl[2] = "http://42.193.2.94:60602/";
-newHeadUrl[3] = "http://42.193.2.94:60602/";
+newHeadUrl[1] = "http://42.193.2.94:3806/";
+newHeadUrl[2] = "http://42.193.2.94:3806/";
+newHeadUrl[3] = "http://42.193.2.94:3806/";
 // newHeadUrl[1] = "http://123.56.150.124:60602/";
 // newHeadUrl[2] = "http://123.56.150.124:60602/";
 // newHeadUrl[3] = "http://39.107.247.165:9999/";

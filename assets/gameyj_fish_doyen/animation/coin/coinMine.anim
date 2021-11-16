@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "coinMine",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.08333333333333333,
+  "sample": 60,
+  "speed": 0.15,
+  "wrapMode": "2",
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "a9c5e869-5f1c-4a28-9351-7d2f2bcc6b1a"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "9bc29129-1397-4f9f-a80c-c21d5c9ffd9f"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "6aee2ec9-48cc-4cfb-8368-7af27c8f191b"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "21ce222b-d6eb-4834-9845-ff3cbfee3e76"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "f0c16c74-9fd1-4c79-8dd3-fea34ada0733"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -72,6 +72,7 @@ var DialogBoxUtil = cc.Class({
         if (this.dialogBox) {
             this.dialogBox.node.active = false;
             cc.game.removePersistRootNode(this.dialogBox.node);
+            cc.dd.UIMgr.destroyUI(this.dialogBox.node);
         }
         var prefab = cc.resources.get(this.prefabPath, cc.Prefab);
         var node = cc.instantiate(prefab);
@@ -102,6 +103,7 @@ var DialogBoxUtil = cc.Class({
      * @param titleStr
      */
     showFixDialog(priority, contentStr, okStr, cancelStr, okHandler, cancelHandler, titleStr) {
+        cc.error(`showFixDialog`);
         if (cc._useChifengUI)
             this.setDialogType(2);
         else
@@ -119,6 +121,8 @@ var DialogBoxUtil = cc.Class({
      * @param cancelHandler  取消按钮回调
      */
     show: function (priority, contentStr, okStr, cancelStr, okHandler, cancelHandler, titleStr, addStr) {
+        cc.error(`show`);
+
         this.waitCB = null;
         if (!this.inited) {
             if (cc._useChifengUI)

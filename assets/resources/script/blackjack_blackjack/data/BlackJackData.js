@@ -10,6 +10,7 @@ let BlackJackEvent = cc.Enum({
     RESET_CD: "RESET_CD",
     SHOW_COIN: "SHOW_COIN",
     SHOW_RESULT: "SHOW_RESULT",
+    CHECK_BET_BUTTON: "CHECK_BET_BUTTON",
 });
 
 let BlackJackED = new cc.dd.EventDispatcher();
@@ -38,6 +39,19 @@ let BlackJackData = cc.Class({
         this.playerList = new Array(5);
         this.lastBet = 0;
         this.playerNum = 0;
+    },
+
+    clear(){
+        this.playerList = [];
+        this.lastBet = 0;
+        this.playerNum = 0;
+        this.hasUserPlayer = false;
+        this.roomInfo = null;
+        this.lastState = 0;
+        this.state = 0;
+        this.fapaiList = [];
+        this.roomConfigId = 0;
+        this.turn = 0;
     },
 
     changeState(msg){

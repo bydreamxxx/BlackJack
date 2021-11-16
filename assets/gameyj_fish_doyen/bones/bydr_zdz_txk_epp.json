@@ -1,0 +1,93 @@
+{
+"skeleton": { "hash": "N3Qz+msGxCJyPu4Avp1jVvyxJwA", "spine": "3.4.02", "width": 108, "height": 53, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root" },
+	{ "name": "bydr_clq_sg_00", "parent": "all", "x": 0.87, "y": 2.26 },
+	{ "name": "bydr_clq_sg_0", "parent": "all", "x": 0.87, "y": 2.26 }
+],
+"slots": [
+	{ "name": "ticket_topBar_getBt_auto", "bone": "all", "attachment": "ticket_topBar_getBt_auto" },
+	{ "name": "ticket_topBar_getBt_auto2", "bone": "all", "attachment": "ticket_topBar_getBt_auto", "blend": "screen" },
+	{ "name": "bydr_zdz_txk_00", "bone": "bydr_clq_sg_00", "attachment": "bydr_zdz_txk_09", "blend": "screen" },
+	{ "name": "bydr_zdz_txk_0", "bone": "bydr_clq_sg_0", "color": "ffffff59", "attachment": "bydr_zdz_txk_09", "blend": "additive" }
+],
+"skins": {
+	"default": {
+		"bydr_zdz_txk_0": {
+			"bydr_zdz_txk_00": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_01": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_02": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_03": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_04": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_05": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_06": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_07": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_08": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_09": { "width": 108, "height": 53 }
+		},
+		"bydr_zdz_txk_00": {
+			"bydr_zdz_txk_00": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_01": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_02": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_03": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_04": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_05": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_06": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_07": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_08": { "width": 108, "height": 53 },
+			"bydr_zdz_txk_09": { "width": 108, "height": 53 }
+		},
+		"ticket_topBar_getBt_auto": {
+			"ticket_topBar_getBt_auto": { "width": 98, "height": 43 }
+		},
+		"ticket_topBar_getBt_auto2": {
+			"ticket_topBar_getBt_auto": { "width": 98, "height": 43 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"bydr_zdz_txk_00": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "bydr_zdz_txk_00" },
+					{ "time": 0.0666, "name": "bydr_zdz_txk_01" },
+					{ "time": 0.1333, "name": "bydr_zdz_txk_02" },
+					{ "time": 0.2, "name": "bydr_zdz_txk_03" },
+					{ "time": 0.2666, "name": "bydr_zdz_txk_04" },
+					{ "time": 0.3333, "name": "bydr_zdz_txk_05" },
+					{ "time": 0.4, "name": "bydr_zdz_txk_06" },
+					{ "time": 0.4666, "name": "bydr_zdz_txk_07" },
+					{ "time": 0.5333, "name": "bydr_zdz_txk_08" },
+					{ "time": 0.6, "name": "bydr_zdz_txk_09" }
+				]
+			},
+			"bydr_zdz_txk_0": {
+				"attachment": [
+					{ "time": 0, "name": "bydr_zdz_txk_00" },
+					{ "time": 0.0666, "name": "bydr_zdz_txk_01" },
+					{ "time": 0.1333, "name": "bydr_zdz_txk_02" },
+					{ "time": 0.2, "name": "bydr_zdz_txk_03" },
+					{ "time": 0.2666, "name": "bydr_zdz_txk_04" },
+					{ "time": 0.3333, "name": "bydr_zdz_txk_05" },
+					{ "time": 0.4, "name": "bydr_zdz_txk_06" },
+					{ "time": 0.4666, "name": "bydr_zdz_txk_07" },
+					{ "time": 0.5333, "name": "bydr_zdz_txk_08" },
+					{ "time": 0.6, "name": "bydr_zdz_txk_09" }
+				]
+			},
+			"ticket_topBar_getBt_auto2": {
+				"color": [
+					{ "time": 0, "color": "ffffff5c" },
+					{ "time": 0.3, "color": "ffffffff" },
+					{ "time": 0.6, "color": "ffffff5c" }
+				]
+			}
+		}
+	}
+}
+}

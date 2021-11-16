@@ -86,9 +86,9 @@ module.exports = {
     KLB_HALL_YUE_KA: 'blackjack_hall/prefabs/klb_hall_YueKa',
 
     //背包
-    KLB_HALL_BAG: 'blackjack_hall/prefabs/klb_hall_Bag',
-    KLB_BAG_CELL: 'blackjack_hall/prefabs/klb_hall_BagItem',
-    KLB_HALL_ITEM_TIPS: 'blackjack_hall/prefabs/klb_hall_ItemTips',
+    KLB_HALL_BAG: 'blackjack_hall/prefabs/hall_bag',
+    KLB_BAG_CELL: 'blackjack_hall/prefabs/hall_BagItem',
+    KLB_HALL_ITEM_TIPS: 'blackjack_hall/prefabs/hall_ItemTips',
     KLB_HALL_EXCHANGE_GOLD: 'blackjack_hall/prefabs/klb_hall_Exchange',
     KLB_HALL_EXCHANGE_CASH: 'blackjack_hall/prefabs/klb_hall_ExchangeCash',
     KLB_HALL_EXCHANGE_HISTORY: 'blackjack_hall/prefabs/klb_hall_ExchangeHistory',

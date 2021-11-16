@@ -4,7 +4,8 @@ var data_task =
     [
       { key:1,mainType:2,subType:13,prevId:0,level:0,awardExp:0,awardCoin:5000,awardTimes:1,awardItems:"1001,5000",selectItems:"",target:"",completeLevel:0,limit_time:"",trigger:"",title:"blackjackTitle",desc:"blackjackTask",b_id:0 },
       { key:2,mainType:2,subType:14,prevId:0,level:0,awardExp:0,awardCoin:5000,awardTimes:1,awardItems:"1001,5000",selectItems:"",target:"",completeLevel:0,limit_time:"",trigger:"",title:"TexasHoldemTitle",desc:"TexasHoldemTask",b_id:0 },
-      { key:3,mainType:2,subType:1,prevId:0,level:0,awardExp:0,awardCoin:1000,awardTimes:1,awardItems:"1001,1000",selectItems:"",target:"",completeLevel:0,limit_time:"",trigger:"",title:"shareTitle",desc:"shareTask",b_id:0 }
+      { key:3,mainType:2,subType:1,prevId:0,level:0,awardExp:0,awardCoin:1000,awardTimes:1,awardItems:"1001,1000",selectItems:"",target:"",completeLevel:0,limit_time:"",trigger:"",title:"shareTitle",desc:"shareTask",b_id:0 },
+      { key:4,mainType:2,subType:14,prevId:0,level:0,awardExp:0,awardCoin:1000,awardTimes:1,awardItems:"1001,5000",selectItems:"",target:"",completeLevel:0,limit_time:"",trigger:"",title:"TexasHoldemTitle",desc:"TexasHoldemTask1",b_id:0 }
     ],
 
     /**

@@ -1,0 +1,51 @@
+{
+"skeleton": { "hash": "r/0EjSr8WxlGhpjDMBRpcJw6WK0", "spine": "3.4.02", "width": 241, "height": 170, "images": "" },
+"bones": [
+	{ "name": "daiziZT" }
+],
+"slots": [
+	{ "name": "daguangbaodai", "bone": "daiziZT", "attachment": "daguangbaodai" }
+],
+"skins": {
+	"default": {
+		"daguangbaodai": {
+			"daguangbaodai": { "x": -1.11, "y": 1.58, "width": 241, "height": 170 }
+		}
+	}
+},
+"animations": {
+	"daizi": {
+		"slots": {
+			"daguangbaodai": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.7666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.8333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.9, "color": "ffffffff" },
+					{ "time": 1.6666, "color": "ffffff0b" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "daguangbaodai" },
+					{ "time": 1.6666, "name": "daguangbaodai" }
+				]
+			}
+		},
+		"bones": {
+			"daiziZT": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

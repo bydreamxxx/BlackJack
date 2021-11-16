@@ -48,15 +48,15 @@ cc.Class({
                     active_num: taskitem.active_num,
                     trigger_num: taskitem.trigger_num,
                 };
-                if (taskitem.active_num == -1) {
-                    //activeTask.push(taskdata);
-                }
-                else {
+//                if (taskitem.active_num == -1) {
+//                    //activeTask.push(taskdata);
+//                }
+//                else {
                     if(cc._applyForPayment && (taskitem.key == 6 || taskitem.key == 7 || taskitem.key == 4)){
                     }else{
                         normalTask.push(taskdata);
                     }
-                }
+//                }
             }
         });
         normalTask.sort((a, b) => {
@@ -88,7 +88,7 @@ cc.Class({
             var element = normalTask[index];
             itemNode.tag = element.taskId;
             itemNode.getChildByName('title').active = false;
-            itemNode.getChildByName('desc').getComponent(cc.Label).string = element.title;
+            itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.title);
             itemNode.getChildByName('gold').getComponent(cc.Label).string = element.reward_item.split(',')[1];
             //itemNode.getChildByName('active').getComponent(cc.Label).string = 'X' + element.active_num;
             itemNode.getChildByName('jindu').getComponent(cc.Label).string = element.curNum + '/' + element.trigger_num;
@@ -140,7 +140,7 @@ cc.Class({
             var element = normalTask[index];
             itemNode.tag = element.taskId;
             //itemNode.getChildByName('title').getComponent(cc.Label).string = element.title;
-            itemNode.getChildByName('desc').getComponent(cc.Label).string = element.title;
+            itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.title);
             itemNode.getChildByName('gold').getComponent(cc.Label).string = element.reward_item.split(',')[1];
             //itemNode.getChildByName('active').getComponent(cc.Label).string = 'X' + element.active_num;
             itemNode.getChildByName('jindu').getComponent(cc.Label).string = '进度' + element.curNum + '/' + element.trigger_num;

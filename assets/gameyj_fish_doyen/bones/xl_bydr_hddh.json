@@ -1,0 +1,171 @@
+{
+"skeleton": { "hash": "FjEJpOR+1v23oRO4hQZsW6vCLKs", "spine": "3.4.02", "width": 750.85, "height": 752.9, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "all", "parent": "root" },
+	{ "name": "bydr-icon", "parent": "all", "x": 1.12, "y": 10.26 },
+	{ "name": "bydr-icon2", "parent": "all", "x": 1.12, "y": 10.26 },
+	{ "name": "bydr-zi-dhcg", "parent": "all", "y": 202.65 },
+	{ "name": "bydr_guang", "parent": "all", "scaleX": 2.72, "scaleY": 2.72 },
+	{ "name": "ssg_00", "parent": "all", "scaleX": 3.963, "scaleY": 3.963 }
+],
+"slots": [
+	{ "name": "bydr_guang", "bone": "bydr_guang", "attachment": "bydr_guang" },
+	{ "name": "ssg_00", "bone": "ssg_00", "color": "ffdc4032", "attachment": "ssg_00", "blend": "additive" },
+	{ "name": "bydr-zi-dhcg", "bone": "bydr-zi-dhcg", "attachment": "dhcg_01" },
+	{ "name": "bydr-icon", "bone": "bydr-icon", "attachment": "dhcg_02" },
+	{ "name": "bydr-icon2", "bone": "bydr-icon2", "attachment": "dhcg_02", "blend": "screen" }
+],
+"skins": {
+	"default": {
+		"bydr_guang": {
+			"bydr_guang": { "width": 276, "height": 276 }
+		},
+		"ssg_00": {
+			"ssg_00": { "x": -0.37, "y": 6.73, "width": 179, "height": 177 }
+		}
+	},
+	"dhcg": {
+		"bydr-icon": {
+			"dhcg_02": { "name": "bydr_icon", "x": -1.12, "y": 10.25, "width": 136, "height": 202 }
+		},
+		"bydr-icon2": {
+			"dhcg_02": { "name": "bydr_icon", "x": -1.12, "y": 10.25, "width": 136, "height": 202 }
+		},
+		"bydr-zi-dhcg": {
+			"dhcg_01": { "name": "bydr_zi_gjlq", "width": 199, "height": 66 }
+		}
+	},
+	"gjlq": {
+		"bydr-icon": {
+			"dhcg_02": { "name": "tk_icon_jinbi", "x": -1.12, "y": -4.73, "scaleX": 2.556, "scaleY": 2.556, "width": 64, "height": 72 }
+		},
+		"bydr-icon2": {
+			"dhcg_02": { "name": "tk_icon_jinbi", "x": -1.12, "y": -4.73, "scaleX": 2.556, "scaleY": 2.556, "width": 64, "height": 72 }
+		},
+		"bydr-zi-dhcg": {
+			"dhcg_01": { "name": "bydr_zi_dhcg", "width": 198, "height": 66 }
+		}
+	},
+	"hb": {
+		"bydr-icon": {
+			"dhcg_02": { "name": "bydr_icon4", "width": 129, "height": 188 }
+		},
+		"bydr-icon2": {
+			"dhcg_02": { "name": "bydr_icon4", "width": 129, "height": 188 }
+		},
+		"bydr-zi-dhcg": {
+			"dhcg_01": { "name": "bydr_zi_dhcg", "width": 198, "height": 66 }
+		}
+	},
+	"jdk": {
+		"bydr-icon": {
+			"dhcg_02": { "name": "bydr_icon5", "scaleX": 1.9, "scaleY": 1.9, "width": 100, "height": 71 }
+		},
+		"bydr-icon2": {
+			"dhcg_02": { "name": "bydr_icon5", "scaleX": 1.9, "scaleY": 1.9, "width": 100, "height": 71 }
+		},
+		"bydr-zi-dhcg": {
+			"dhcg_01": { "name": "bydr_zi_dhcg", "width": 198, "height": 66 }
+		}
+	}
+},
+"animations": {
+	"Standby": {
+		"slots": {
+			"bydr-icon2": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.9,
+						"color": "ffffff00",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 1.0666,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.5, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"bydr_guang": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 2, "angle": -45 }
+				]
+			},
+			"ssg_00": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 2, "angle": 59.77 }
+				]
+			},
+			"bydr-icon2": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{
+						"time": 0.9,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.5, "x": 1.2, "y": 1.2 }
+				]
+			}
+		}
+	},
+	"appear": {
+		"slots": {
+			"bydr-icon2": {
+				"attachment": [
+					{ "time": 0, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"all": {
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.1, "x": 1, "y": 1 }
+				]
+			},
+			"bydr_guang": {
+				"rotate": [
+					{ "time": 0, "angle": -352.5, "curve": "stepped" },
+					{ "time": 0.0333, "angle": -352.5 },
+					{ "time": 0.3333, "angle": 0 }
+				]
+			},
+			"ssg_00": {
+				"rotate": [
+					{ "time": 0, "angle": -9.96, "curve": "stepped" },
+					{ "time": 0.0333, "angle": -9.96 },
+					{ "time": 0.3333, "angle": 0 }
+				]
+			},
+			"bydr-icon": {
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.1,
+						"x": 1.125,
+						"y": 1.125,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.2, "x": 1, "y": 1 },
+					{ "time": 0.2666, "x": 1.016, "y": 1.016 },
+					{ "time": 0.3333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

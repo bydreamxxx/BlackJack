@@ -116,13 +116,15 @@ cc.Class({
             if (coin < this.roomItem.entermin) {
                 if (this.roomItem.entermin === 0) {
                     callFunc(gameId);
-                } else {
+                } else if(coin + HallPropData.getBankCoin() < 2000 && HallCommonData.getInstance().jiuji_cnt > 0){
                     cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_JIUJI, function (ui) {
                         var jiuji = ui.getComponent('klb_hall_jiuji');
                         if (jiuji != null) {
                             jiuji.update_buy_list(this.roomItem.entermin);
                         }
                     }.bind(this));
+                }else{
+                    cc.dd.PromptBoxUtil.show("coinNotEnough");
                 }
             } else if (coin > this.roomItem.entermax) {
                 if (this.roomItem.entermax === 0) {
@@ -149,13 +151,15 @@ cc.Class({
             if (coin < this.roomItem.entermin) {
                 if (this.roomItem.entermin === 0) {
                     this.replaceRoomMgr(gameId);
-                } else {
+                } else if(coin + HallPropData.getBankCoin() < 2000 && HallCommonData.getInstance().jiuji_cnt > 0) {
                     cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_JIUJI, function (ui) {
                         var jiuji = ui.getComponent('klb_hall_jiuji');
                         if (jiuji != null) {
                             jiuji.update_buy_list(this.roomItem.entermin);
                         }
                     }.bind(this));
+                }else{
+                    cc.dd.PromptBoxUtil.show("coinNotEnough");
                 }
             } else if (coin > this.roomItem.entermax) {
                 if (this.roomItem.entermax === 0) {

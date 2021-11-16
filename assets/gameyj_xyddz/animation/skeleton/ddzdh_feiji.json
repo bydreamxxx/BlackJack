@@ -1,0 +1,48 @@
+{
+"skeleton": { "hash": "O12B4Z4/N/EDwh7b2qynjzjaj2M", "spine": "3.4.02", "width": 344.49, "height": 104, "images": "" },
+"bones": [
+	{ "name": "Layer3", "x": 886.71, "y": 132.86, "scaleX": 0.5, "scaleY": 0.5, "inheritScale": false }
+],
+"slots": [
+	{ "name": "Layer3", "bone": "Layer3", "attachment": "dh_feiji_feiji" }
+],
+"skins": {
+	"default": {
+		"Layer3": {
+			"dh_feiji_feiji": { "width": 689, "height": 208 }
+		}
+	}
+},
+"animations": {
+	"play": {
+		"slots": {
+			"Layer3": {
+				"attachment": [
+					{ "time": 0, "name": "dh_feiji_feiji" },
+					{ "time": 1.0333, "name": null },
+					{ "time": 1.4, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"Layer3": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.4, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -290.9, "y": -30 },
+					{ "time": 1, "x": -1511.69, "y": -30 },
+					{ "time": 1.0333, "x": -1560.52, "y": -30 },
+					{ "time": 1.3832, "x": -2000, "y": -30, "curve": "stepped" },
+					{ "time": 1.4, "x": -2000, "y": -30 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.4, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

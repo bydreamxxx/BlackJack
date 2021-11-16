@@ -9,18 +9,18 @@ var ChangePassRet = cc.Enum({
 });
 
 var PickOutMoneyError = cc.Enum({
-    [0]: "取款成功",
-    [-1]: "您输入的密码不正确",
-    [-2]: "银行余额不足",
-    [-3]: "网络错误，请重新操作",
+    [0]: "Withdrawalsucceeded",
+    [-1]: "passwordError",
+    [-2]: "Insufficientbankbalance",
+    [-3]: "Networkerror2",
     [-4]: "游戏房间内禁止此操作，请您一分钟后再试",
 });
 
 var SaveMoneyRet = cc.Enum({
-    [0]: "存款成功",
-    [-1]: "您输入的密码不正确，请重新输入",
-    [-2]: "存款失败，存款金额超过携带最大金额",
-    [-3]: "网络错误，请重新操作",
+    [0]: "Depositsuccessful",
+    [-1]: "passwordError1",
+    [-2]: "Depositfailed",
+    [-3]: "can'tdeposit",
     [-4]: "游戏房间内禁止此操作，请您一分钟后再试",
 });
 

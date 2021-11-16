@@ -188,7 +188,20 @@ var data_language =
       { key:184,keyword:"sureexit",en:"After exiting, you will lose chips by default. Are you sure to exit",tc:"退出後默認輸掉籌碼，確認退出嗎",in:"बाहर होने के बाद, आप डिफ़ॉल्ट से चिप्स खोलेंगे। क्या आप निश्चित है बाहर होने के लिए",zh:"退出后默认输掉筹码，确认退出吗" },
       { key:185,keyword:"quitgame",en:"Are you sure you want to quit the game",tc:"Are you sure you want to quit the game",in:"क्या आप निश्चित है कि आप खेल से बाहर होना चाहते हैं",zh:"你确定要退出游戏吗" },
       { key:186,keyword:"nomail",en:"There is no mail information for the time being",tc:"暫時沒有郵件資訊",in:"समय के लिए कोई मेल जानकारी नहीं है",zh:"暂时没有邮件信息" },
-      { key:187,keyword:"return",en:"RETURN",tc:"返回",in:"वापस",zh:"返回" }
+      { key:187,keyword:"return",en:"RETURN",tc:"返回",in:"वापस",zh:"返回" },
+      { key:188,keyword:"TexasHoldemTask1",en:"Win 5000 gold coins inTexas Holdem",tc:"在德州撲克遊戲累計贏5000金幣",in:"टेक्सास होल्डेम में 5000 सोने कोइन जीता",zh:"在德州扑克游戏累计赢5000金币" },
+      { key:189,keyword:"Changetables",en:"CHANGE",tc:"換桌",in:"बदलें",zh:"换桌" },
+      { key:190,keyword:"Withdrawalsucceeded",en:"Withdrawal succeeded",tc:"取款成功",in:"विचड्रावेल सफल",zh:"取款成功" },
+      { key:191,keyword:"passwordError",en:"The password you entered is incorrect",tc:"您輸入的密碼不正確",in:"आप प्रविष्ट किया गया पासवर्ड",zh:"您输入的密码不正确" },
+      { key:192,keyword:"Insufficientbankbalance",en:"Insufficient bank balance",tc:"銀行餘額不足",in:"अपर्याप्त बैंक बैलेंस",zh:"银行余额不足" },
+      { key:193,keyword:"Networkerror2",en:"Network error, please operate again",tc:"網絡錯誤，請重新操作",in:"नेटवर्क त्रुटि, कृपया फिर कार्यान्वयन करें",zh:"网络错误，请重新操作" },
+      { key:194,keyword:"Depositsuccessful",en:"Deposit successful",tc:"存款成功",in:"डिपोस्ट सफल",zh:"存款成功" },
+      { key:195,keyword:"passwordError1",en:"The password you entered is incorrect. Please re-enter it",tc:"您輸入的密碼不正確，請重新輸入",in:"आपने प्रविष्ट किया हुआ पासवर्ड गलत है. कृपया इसे फिर प्रविष्ट करें",zh:"您输入的密码不正确，请重新输入" },
+      { key:196,keyword:"Depositfailed",en:"Deposit failed. The deposit amount exceeds the maximum amount carried",tc:"存款失敗，存款金額超過攜帶最大金額",in:"डेपोसिट असफल. डेपोसिट मात्रा अधिकतम मात्रा ज़्यादा है",zh:"存款失败，存款金额超过携带最大金额" },
+      { key:197,keyword:"can'tdeposit",en:"You have bet or been on the bank and can't deposit it. Please try again later",tc:"已下注或上莊，無法存入，請稍後再試",in:"आप बैंक में शब्द हो गया है या हो गया है और इसे डॉस्पोट नहीं कर सकता। कृपया बाद फिर कोशिश करें",zh:"已下注或上庄，无法存入，请稍后再试" },
+      { key:198,keyword:"forbidden",en:"This operation is forbidden in the game room. Please try again in a minute",tc:"遊戲房間內禁止此操作，請您一分鐘後再試",in:"यह आपरेशन वर्तमान में रोका गया है. कृपया एक मिनट में फिर कोशिश करें",zh:"游戏房间内禁止此操作，请您一分钟后再试" },
+      { key:199,keyword:"enternumber",en:"Please enter the correct number",tc:"請輸入正確的數位",in:"कृपया सही संख्या भरें",zh:"请输入正确的数字" },
+      { key:200,keyword:"enteramount",en:"Please enter the deposit amount",tc:"請輸入存入金額",in:"कृपया डोपोसिट मात्रा भरें",zh:"请输入存入金额" }
     ],
 
     /**

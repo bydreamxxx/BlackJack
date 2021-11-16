@@ -51,9 +51,15 @@ cc.Class({
         if (this.itemInfo == null || this.data == null) {
             return;
         }
-        if(this.clickCallBack){
-            this.clickCallBack(this.itemInfo, this.data)
-        }
+        let prefabPath = hall_prefab.KLB_HALL_ITEM_TIPS;
+        cc.dd.UIMgr.openUI(prefabPath, function(prefab){
+            var component = prefab.getComponent('hall_ItemTips');
+            component.initUI(this.itemInfo, this.data);
+        }.bind(this));
+//        if(this.clickCallBack){
+//            cc.log("2----------- " + this.clickCallBack);
+//            this.clickCallBack(this.itemInfo, this.data)
+//        }
     },
 
     clearInfo: function () {

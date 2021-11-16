@@ -68,14 +68,14 @@ cc.Class({
             let node = cc.instantiate(this.cardPrefab);
             this.cardZone.addChild(node);
 
-            if(this.isRight) {
-                for(let i = 0; i < this.cardList.length; i++){
-                    this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
-                }
-                node.x = -START_X;
-            }else{
+            // if(this.isRight) {
+            //     for(let i = 0; i < this.cardList.length; i++){
+            //         this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
+            //     }
+            //     node.x = -START_X;
+            // }else{
                 node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
-            }
+            // }
 
             // node.y = 40 * this.cardList.length;
 
@@ -119,23 +119,25 @@ cc.Class({
                 if(this.doubleList.length == 0){
                     this.createChouma(num / 2, isWaitForAnima, 1, false);
                     if(isWaitForAnima){
-                        this.hand.x = POS[1].x;
-                        this.hand.y = POS[1].y - 20;
+                        this.hand.x = POS[1].x + 25;
+                        this.hand.y = POS[1].y - 24;
                         this.hand.active = true;
                         this.hand.zIndex = 3000;
 
-                        AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
+                        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_pile") == -1) {
+                            AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
+                        }
 
                         cc.tween(this.hand)
                             .show()
-                            .to(0.5, {y: POS[1].y}, { easing: 'quintIn'})
+                            .to(0.8, {y: POS[1].y}, { easing: 'quintIn'})
                             .hide()
                             .start();
 
                         for(let i = 0; i < this.doubleList.length; i++){
                             let node = this.doubleList[i].node;
                             cc.tween(node)
-                                .to(0.5, {y: POS[1].y + 1.2 * i}, { easing: 'quintIn'})
+                                .to(0.8, {y: POS[1].y + 1.2 * i}, { easing: 'quintIn'})
                                 .start();
                         }
                     }
@@ -161,23 +163,25 @@ cc.Class({
                 if(this.insureList.length == 0) {
                     this.createChouma(insure, isWaitForAnima, 2);
                     if (isWaitForAnima) {
-                        this.hand.x = POS[2].x;
-                        this.hand.y = POS[2].y - 20;
+                        this.hand.x = POS[2].x + 25;
+                        this.hand.y = POS[2].y - 24;
                         this.hand.active = true;
                         this.hand.zIndex = 3000;
 
-                        AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
+                        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_pile") == -1) {
+                            AudioManager.playSound("blackjack_blackjack/audio/chips_pile");
+                        }
 
                         cc.tween(this.hand)
                             .show()
-                            .to(0.5, {y: POS[2].y}, { easing: 'quintIn'})
+                            .to(0.8, {y: POS[2].y}, { easing: 'quintIn'})
                             .hide()
                             .start();
 
                         for (let i = 0; i < this.insureList.length; i++) {
                             let node = this.insureList[i].node;
                             cc.tween(node)
-                                .to(0.5, {y: POS[2].y + 1.2 * i}, {easing: 'quintIn'})
+                                .to(0.8, {y: POS[2].y + 1.2 * i}, {easing: 'quintIn'})
                                 .start();
                         }
                     }
@@ -262,17 +266,17 @@ cc.Class({
      * @param isSelf
      */
     init(betInfo, isRight, isBanker, isSelf){
-        // this.isRight = isRight;
+        this.isRight = isRight;
         this.isBanker = isBanker;
         this.isSelf = isSelf;
 
-        if(this.isRight){
-            this.cardZone.anchorX = 1;
-            this.cardZone.x = 37.982;
-        }else{
-            this.cardZone.anchorX = 0;
-            this.cardZone.x = -37.982;
-        }
+        // if(this.isRight){
+        //     this.cardZone.anchorX = 1;
+        //     this.cardZone.x = 37.982;
+        // }else{
+        //     this.cardZone.anchorX = 0;
+        //     this.cardZone.x = -37.982;
+        // }
 
         if(this.isBanker){
             this.cardZone.x = -48.512;
@@ -400,14 +404,14 @@ cc.Class({
                 let node = cc.instantiate(this.cardPrefab);
                 this.cardZone.addChild(node);
 
-                if(this.isRight) {
-                    for(let i = 0; i < this.cardList.length; i++){
-                        this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
-                    }
-                    node.x = -START_X;
-                }else{
+                // if(this.isRight) {
+                //     for(let i = 0; i < this.cardList.length; i++){
+                //         this.cardList[i].node.x = -START_X - (this.cardList.length - i) * (node.width + OFFSET_X);
+                //     }
+                //     node.x = -START_X;
+                // }else{
                     node.x = START_X + this.cardList.length * (node.width + OFFSET_X);
-                }
+                // }
 
                 // node.y = 40 * this.cardList.length;
 
@@ -507,8 +511,9 @@ cc.Class({
             let scale = cc.tween()
                 .to(0.2, {scaleX: 0}, { easing: 'quintIn'})
                 .call(()=>{
-                    AudioManager.playSound("blackjack_blackjack/audio/card_flip");
-
+                    if(AudioManager.getAudioID("blackjack_blackjack/audio/card_flip") == -1) {
+                        AudioManager.playSound("blackjack_blackjack/audio/card_flip");
+                    }
                     node.getComponent("blackjack_card").change(card.getCard());
                 })
                 .to(0.2, {scaleX: 1}, { easing: 'quintOut'});
@@ -519,6 +524,22 @@ cc.Class({
                     if(index === this.cardList.length - 1){
                         this.point.string = this.waitFaPaiPoint.toString();
                         this.point.node.parent.active = true;
+
+                        if(this.cardList.length == 2){
+                            if(this.isBJ()){
+                                this.resultIcon.spriteFrame = this.resultFrame[3];
+                                if(AudioManager.getAudioID("blackjack_blackjack/audio/blackjack_sound") == -1) {
+                                    AudioManager.playSound("blackjack_blackjack/audio/blackjack_sound");
+                                }
+                                this.resultIcon.node.parent.scaleX = 1.3;
+                                this.resultIcon.node.parent.scaleY = 1.3;
+                                this.resultIcon.node.parent.active = true;
+                                cc.tween(this.resultIcon.node.parent)
+                                    .to(0.17, {scale: 1}, {easing: 'quintIn'})
+                                    .start();
+                            }
+                        }
+
                         if(func){
                             func();
                         }
@@ -527,7 +548,9 @@ cc.Class({
                 .hide()
                 .removeSelf();
 
-            AudioManager.playSound("blackjack_blackjack/audio/card_deal");
+            if(AudioManager.getAudioID("blackjack_blackjack/audio/card_deal") == -1) {
+                AudioManager.playSound("blackjack_blackjack/audio/card_deal");
+            }
 
             if(card.getCard() == node.getComponent("blackjack_card").getCard()){
                 cc.tween(node)
@@ -561,7 +584,9 @@ cc.Class({
         let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
-        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
+            AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        }
 
         this.resultIcon.spriteFrame = this.resultFrame[0];
         this.resultIcon.node.parent.scaleX = 1.3;
@@ -593,8 +618,9 @@ cc.Class({
     winChip(isDouble, headNode, num){
         let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
-
-        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
+            AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        }
 
         if(num == 0){
             this.resultIcon.spriteFrame = this.resultFrame[1];
@@ -602,8 +628,11 @@ cc.Class({
         }else if(this.isBJ()){
             this.resultIcon.spriteFrame = this.resultFrame[3];
             this.point.node.color = cc.Color.GREEN;
-
-            AudioManager.playSound("blackjack_blackjack/audio/blackjack_sound");
+            if(!this.isBanker){
+                if(AudioManager.getAudioID("blackjack_blackjack/audio/big_win_sound") == -1) {
+                    AudioManager.playSound("blackjack_blackjack/audio/big_win_sound");
+                }
+            }
         }else{
             this.resultIcon.spriteFrame = this.resultFrame[2];
             this.point.node.color = cc.Color.GREEN;
@@ -674,7 +703,9 @@ cc.Class({
         let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
-        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
+            AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        }
 
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
@@ -689,7 +720,9 @@ cc.Class({
         let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
         let endPos = this.chipZone.convertToNodeSpace(worldPos);
 
-        AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1){
+            AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
+        }
 
         for(let i = 0; i < this.insureList.length; i++){
             let node = this.insureList[i].node;
@@ -701,6 +734,22 @@ cc.Class({
     },
 
     isBJ(){
-        return parseInt(this.point.string) == 21;
+        return parseInt(this.point.string) == 21 && this.cardList.length == 2;
+    },
+
+    setFirstPos(){
+        if(this.isRight){
+            this.node.x = -180;
+        }else{
+            this.node.x = 0;
+        }
+    },
+
+    setSecondPos(){
+        if(this.isRight){
+            this.node.x = 0;
+        }else{
+            this.node.x = 180;
+        }
     }
 });

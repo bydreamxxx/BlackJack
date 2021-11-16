@@ -1,0 +1,367 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "shu_a06",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "all/body": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.08,
+                "y": 0.85
+              }
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.95,
+                "y": 1.05
+              }
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.38333333333333336,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.95,
+                "y": 1.05
+              }
+            },
+            {
+              "frame": 0.5166666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "all/body/zs_r/shu_a03_04_l": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 0.25,
+              "value": 255
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 0
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": -1,
+                "y": 0.77
+              }
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": -1,
+                "y": 0.72
+              }
+            }
+          ]
+        }
+      },
+      "all/body/zs_l/shu_a03_04_l": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 0.25,
+              "value": 255
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 0
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 0.68
+              }
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 0.71
+              }
+            }
+          ]
+        }
+      },
+      "all/body/zs_l/sz_l/shu_a06_05_l": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 0
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 255
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "all/body/zs_l/shu_a06_04": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 0
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 255
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "all/body/zs_r/shu_a06_02": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 0
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 255
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": 255
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0.26666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "all/body/zs_r/sz_r/shu_a06_05_r": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 0
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 255
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "all/body/tou/shu_a03_03": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 0.25,
+              "value": 255
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 0
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                80.4,
+                -5.4
+              ]
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": [
+                83.6,
+                9
+              ]
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0,
+              "value": -97
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": -89
+            }
+          ]
+        }
+      },
+      "all/body/tou/shu_a06_03": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.25,
+              "value": 0
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": 255
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "all/body/particle/shu_a06_P1_l": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.25,
+              "value": false
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": true
+            },
+            {
+              "frame": 0.6833333333333333,
+              "value": true
+            }
+          ]
+        }
+      },
+      "all/body/particle/shu_a06_P1_r": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.25,
+              "value": false
+            },
+            {
+              "frame": 0.26666666666666666,
+              "value": true
+            },
+            {
+              "frame": 0.6833333333333333,
+              "value": true
+            }
+          ]
+        }
+      },
+      "all/body/particle": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 0.5833333333333334,
+              "value": 255
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

@@ -242,7 +242,7 @@ var SysTools = {
             return;
         }
         //获取头像地址
-        if (url.indexOf('.jpg') != -1) {
+        if (url.indexOf('.jpg') != -1 || url.indexOf('.png') != -1) {
             //机器人
             if (url.indexOf('/upload/head/') != -1) {
                 let accountUrl = require('Platform').accountUrl;

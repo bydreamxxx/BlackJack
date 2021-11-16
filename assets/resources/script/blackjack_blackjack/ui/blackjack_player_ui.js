@@ -42,6 +42,13 @@ let blackjack_player_ui = cc.Class({
         if(!this.isbanker){
             this.node.active = false;
         }
+
+        // this.firstPos = this.animation.node.position;
+        // if(this.viewIdx >= 3){
+        //     this.secondPos = cc.v2(this.animation.node.position.x + 180, this.animation.node.position.y);
+        // }else{
+        //     this.secondPos = cc.v2(this.animation.node.position.x - 180, this.animation.node.position.y);
+        // }
     },
 
     onDestroy() {
@@ -171,6 +178,7 @@ let blackjack_player_ui = cc.Class({
         }
 
         if(type == 5){
+            // this.animation.node.position = this.firstPos;
             this.animation.setCurrentTime(0, "split");
             this.animation.play("split");
             AudioManager.playSound("blackjack_blackjack/audio/split_sound");
@@ -184,6 +192,7 @@ let blackjack_player_ui = cc.Class({
                 insure: data.betInfosList[0].insure,
             }
             this.cardNodeList[0].getComponent("blackjack_cardNode").updateInfo(first, true);
+            this.cardNodeList[0].getComponent("blackjack_cardNode").setFirstPos();
 
             let second = {
                 cardsList:[data.betInfosList[0].cardsList[1]],
@@ -195,9 +204,28 @@ let blackjack_player_ui = cc.Class({
             let node = cc.instantiate(this.cardPrefab);
             this.cardNode.addChild(node);
             this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
-            node.x = 180;
             node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
+            node.getComponent("blackjack_cardNode").setSecondPos();
+
+            cc.gateNet.Instance().clearDispatchTimeout();
         }else{
+            // if(betInfo.index == 1){
+            //     if(this.viewIdx == 3 || this.viewIdx == 4){
+            //         if(this.cardNodeList.length == 2){
+            //             this.animation.node.position = this.secondPos;
+            //         }else{
+            //             this.animation.node.position = this.firstPos;
+            //         }
+            //     }else{
+            //         this.animation.node.position = this.firstPos;
+            //     }
+            // }else{
+            //     if(this.viewIdx == 3 || this.viewIdx == 4){
+            //         this.animation.node.position = this.firstPos;
+            //     }else{
+            //         this.animation.node.position = this.secondPos;
+            //     }
+            // }
             if(type == 4){
                 this.animation.setCurrentTime(0, "hit");
                 this.animation.play("hit");

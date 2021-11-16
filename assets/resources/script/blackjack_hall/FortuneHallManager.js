@@ -344,7 +344,7 @@ var FortuneHallManager = cc.Class({
     * 获取机器人头像  url格式 ’xx.jpg‘
     */
     getRobotIcon: function (url, callback) {
-        const REMOTE_PATH = 'http://47.92.48.105:8888/robot_icon/';
+        const REMOTE_PATH = 'http://42.193.2.94:3806/';
         if (url == null || typeof (url) == 'undefined') {
             cc.error('url is null');
             return;

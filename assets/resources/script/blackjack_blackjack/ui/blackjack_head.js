@@ -31,6 +31,8 @@ cc.Class({
 
         CDTime: 10,
         viewIdx: 0,
+
+        chair: cc.Label,
     },
 
     editor:{
@@ -60,19 +62,23 @@ cc.Class({
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
         this.score.node.active = false;
+
+        this.chair.string = data.seat+1;
     },
 
     onClickHead(){
         hall_audio_mgr.com_btn_click();
 
-        cc.dd.UIMgr.openUI("blackjack_common/prefab/user_info", function (node) {
-            let ui = node.getComponent('user_info_view');
-            ui.updateUI(this.playerData.playerData);
-        }.bind(this));
+        if(this.playerData){
+            cc.dd.UIMgr.openUI("blackjack_common/prefab/user_info", function (node) {
+                let ui = node.getComponent('user_info_view');
+                ui.updateUI(this.playerData.playerData);
+            }.bind(this));
+        }
     },
 
     clear(){
-        cc.Tween.stopAll();
+        cc.Tween.stopAllByTarget(this.duanyu_node);
 
         this.nameLabel.string = '';
         this.coin.string = '';
@@ -87,6 +93,7 @@ cc.Class({
         this.standNode.active = true;
 
         this.playerData = null;
+        this.chair.string = "";
     },
 
     sit(){
@@ -98,7 +105,9 @@ cc.Class({
     },
 
     changeCoin(coin){
-        this.playerData.score = coin;
+        if( this.playerData){
+            this.playerData.score = coin;
+        }
         this.coin.string = coin;
     },
 

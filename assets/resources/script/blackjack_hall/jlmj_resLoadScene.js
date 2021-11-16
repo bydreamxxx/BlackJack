@@ -450,9 +450,9 @@ let resLoad = cc.Class({
      */
     loadRes: function () {
         if (cc.sys.isNative && !cc.dd._.isUndefined(cc.open_update) && cc.open_update) {
-            // this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.HALL);
-            // AppCfg.VERSION = this.hallUpdater.getVersion();
-            // cc.log("当前版本:" + AppCfg.VERSION);
+            this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.RESOURCES);
+            AppCfg.VERSION = this.hallUpdater.getVersion();
+            cc.log("当前版本:" + AppCfg.VERSION);
         }
 
         var self = this;

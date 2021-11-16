@@ -98,6 +98,11 @@ var PromptBoxUtil = cc.Class({
         var size = cc.winSize;
         node.x = size.width / 2;
         node.y = Math.min(size.height / 2, tarPos.y);
+
+        var n1 = cc.find('bg', node);
+        var n2 = cc.find('lbl', n1);
+        var language = n2.getComponent('LanguageLabel');
+        language.setText(text);
         // node.parent = cc.find('Canvas');
     },
 

@@ -45,6 +45,10 @@ var handler = {
             }
         }
 
+        if(msg.userId == cc.dd.user.id) {
+            BlackJackED.notifyEvent(BlackJackEvent.CHECK_BET_BUTTON);
+        }
+
         BlackJackData.fapaiList.push(msg.userId);
 
         BlackJackED.notifyEvent(BlackJackEvent.DEAL_POKER, msg);
@@ -73,11 +77,19 @@ var handler = {
             }else {
                 cc.error(`用户不存在 ${msg.userId}`);
             }
+        }else{
+            switch(msg.retCode){
+                case 3:
+                    cc.dd.PromptBoxUtil.show('coinenough');
+                    break;
+            }
         }
         cc.dd.NetWaitUtil.net_wait_end('onClickBet');
     },
     on_msg_bj_result(msg) {
-        cc.gateNet.Instance().dispatchTimeOut(2);
+        if(BlackJackData.state == 5){
+            cc.gateNet.Instance().dispatchTimeOut(2);
+        }
 
         let list = {};
         msg.resultsList.forEach(result=>{
