@@ -47,7 +47,7 @@ var data_language =
       { key:43,keyword:"Music",en:"MUSIC",tc:"音樂",in:"संगीत",zh:"音乐" },
       { key:44,keyword:"Sound",en:"SOUND",tc:"音效",in:"ध्वनि",zh:"音效" },
       { key:45,keyword:"Rule",en:"RULE",tc:"規則",in:"नियम",zh:"规则" },
-      { key:46,keyword:"personalInformation",en:"PERSONAL INFORMATION",tc:"個人信息",in:"व्यक्तिगत जानकारी",zh:"个人信息" },
+      { key:46,keyword:"personalInformation",en:"INFORMATION",tc:"個人信息",in:"जानकारी",zh:"个人信息" },
       { key:47,keyword:"GameNum",en:"GAME NUM",tc:"遊戲場次",in:"खेल संख्या",zh:"游戏局数" },
       { key:48,keyword:"WinNum",en:"WIN NUM",tc:"勝利場次",in:"संख्या जीतना",zh:"胜利局数" },
       { key:49,keyword:"WINRate",en:"WIN RATE",tc:"勝率",in:"जीत",zh:"胜率" },
@@ -109,7 +109,7 @@ var data_language =
       { key:105,keyword:"notbet",en:"Not betting status",tc:"不是下注狀態",in:"बेटिंग स्थिति नहीं",zh:"未在下注状态" },
       { key:106,keyword:"lingquchenggong",en:"Received successfully",tc:"領取成功",in:"सफलतापूर्वक प्राप्त",zh:"领取成功" },
       { key:107,keyword:"duanwangtishi",en:"The link timed out, or you have disconnected the network",tc:"連接超時，或您已經斷開網絡",in:"लिंक समय समाप्त, या आप नेटवर्क डिस्कनेक्ट किया है",zh:"连接超时，或您已经断开网络" },
-      { key:108,keyword:"dianjipinfan",en:"Click too often, please try again in 1 second",tc:"點擊過於頻繁，請1秒後重試",in:"बहुत बार क्लिक करें, कृपया 1 सेकण्ड में फिर कोशिश करें",zh:"点击过于频繁，请1秒后重试" },
+      { key:108,keyword:"dianjipinfan",en:"Click too often, please try again in {1} second",tc:"點擊過於頻繁，請{1}秒後重試",in:"बहुत बार क्लिक करें, कृपया {1} सेकण्ड में फिर कोशिश करें",zh:"点击过于频繁，请{1}秒后重试" },
       { key:109,keyword:"room1",en:"1K-2W",tc:"1千-2萬",in:"1K-2W",zh:"1千-2万" },
       { key:110,keyword:"room2",en:"1W-20W",tc:"1万-20萬",in:"1W-20W",zh:"1万-20万" },
       { key:111,keyword:"room3",en:"10W-200W",tc:"10万-200萬",in:"10W-200W",zh:"10万-200万" },
@@ -201,7 +201,8 @@ var data_language =
       { key:197,keyword:"can'tdeposit",en:"You have bet or been on the bank and can't deposit it. Please try again later",tc:"已下注或上莊，無法存入，請稍後再試",in:"आप बैंक में शब्द हो गया है या हो गया है और इसे डॉस्पोट नहीं कर सकता। कृपया बाद फिर कोशिश करें",zh:"已下注或上庄，无法存入，请稍后再试" },
       { key:198,keyword:"forbidden",en:"This operation is forbidden in the game room. Please try again in a minute",tc:"遊戲房間內禁止此操作，請您一分鐘後再試",in:"यह आपरेशन वर्तमान में रोका गया है. कृपया एक मिनट में फिर कोशिश करें",zh:"游戏房间内禁止此操作，请您一分钟后再试" },
       { key:199,keyword:"enternumber",en:"Please enter the correct number",tc:"請輸入正確的數位",in:"कृपया सही संख्या भरें",zh:"请输入正确的数字" },
-      { key:200,keyword:"enteramount",en:"Please enter the deposit amount",tc:"請輸入存入金額",in:"कृपया डोपोसिट मात्रा भरें",zh:"请输入存入金额" }
+      { key:200,keyword:"enteramount",en:"Please enter the deposit amount",tc:"請輸入存入金額",in:"कृपया डोपोसिट मात्रा भरें",zh:"请输入存入金额" },
+      { key:201,keyword:"Requestingdata",en:"Requesting data",tc:"正在請求數據",in:"निवेदन डाटा",zh:"正在请求数据" }
     ],
 
     /**

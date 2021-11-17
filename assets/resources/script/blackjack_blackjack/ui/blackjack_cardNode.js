@@ -525,6 +525,10 @@ cc.Class({
                         this.point.string = this.waitFaPaiPoint.toString();
                         this.point.node.parent.active = true;
 
+                        if(this.waitFaPaiPoint > 21 && this.isBanker){
+                            this.point.node.color = cc.Color.RED;
+                        }
+
                         if(this.cardList.length == 2){
                             if(this.isBJ()){
                                 this.resultIcon.spriteFrame = this.resultFrame[3];

@@ -50,7 +50,7 @@ cc.Class({
 
             this.repeatCount++;
             if (this.repeatCount >= MAX_REPEAT)
-                cc.dd.PromptBoxUtil.show("点击过于频繁，请等待" + Math.ceil(this.lastTime) + "秒钟后重试");
+                cc.dd.PromptBoxUtil.show("dianjipinfan", null, null, null, 10);//Math.ceil(this.lastTime));
 
             if (this.lastTime <= 0) {
                 this.cleanCD();

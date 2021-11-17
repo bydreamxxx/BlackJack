@@ -588,10 +588,13 @@ var handler = {
                 break;
             case cc.dd.Define.GameType.BLACKJACK_GOLD:
                 RoomMgr.Instance().setPlayerMgr();
-                RoomMgr.Instance().player_mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(player=>{
-                    RoomMgr.Instance().player_mgr.playerEnter(player);
-                });
+                if(RoomMgr.Instance().state >= 1 && RoomMgr.Instance().state <= 7){
+                }else{
+                    RoomMgr.Instance().player_mgr.updatePlayerNum();
+                    msg.roleInfosList.forEach(player=>{
+                        RoomMgr.Instance().player_mgr.playerEnter(player);
+                    });
+                }
                 break;
         }
     },

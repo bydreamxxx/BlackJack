@@ -77,7 +77,7 @@ var PromptBoxUtil = cc.Class({
      * @param 最多几条消息同屏(默认5条)
      * @param 背景长度
      */
-    show: function (text, bgSpf, len, bgwidth) {
+    show: function (text, bgSpf, len, bgwidth, ...args) {
         var num = len ? len : 5;
         if (this.popList.length >= num)
             return;
@@ -94,15 +94,15 @@ var PromptBoxUtil = cc.Class({
         }.bind(this));
 
         var tarPos = this.getTargetPos(this.popList.length - 1);
-        cpt.show(text, bgSpf, tarPos, bgwidth);
+        cpt.show(text, bgSpf, len, bgwidth, ...args);
         var size = cc.winSize;
         node.x = size.width / 2;
         node.y = Math.min(size.height / 2, tarPos.y);
 
-        var n1 = cc.find('bg', node);
-        var n2 = cc.find('lbl', n1);
-        var language = n2.getComponent('LanguageLabel');
-        language.setText(text);
+        // var n1 = cc.find('bg', node);
+        // var n2 = cc.find('lbl', n1);
+        // var language = n2.getComponent('LanguageLabel');
+        // language.setText(text);
         // node.parent = cc.find('Canvas');
     },
 

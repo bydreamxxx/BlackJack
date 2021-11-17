@@ -1,7 +1,7 @@
-var com_replay_data = require('com_replay_data').REPLAY_DATA;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 const Hall = require('jlmj_halldata');
 const com_glistView = require('com_glistView');
+const HallSendMsgCenter = require('HallSendMsgCenter');
 
 cc.Class({
     extends: cc.Component,
@@ -23,8 +23,9 @@ cc.Class({
                     itemNode.getChildByName('gold').getComponent(cc.Label).string = data.score > 0 ? data.score : (0 - data.score);
                     itemNode.getChildByName('win').active = data.score > 0;
                     itemNode.getChildByName('fail').active = data.score <= 0;
+                    itemNode.tagname = data.historyId
                 }
-            }
+            } 
 
             var itemInfo = gameListConfig.getItem(function(item){
                 if(item.gameid == element.gameType){
@@ -40,6 +41,11 @@ cc.Class({
         var hour = date.getHours();
         var min = date.getMinutes();
         return (hour > 9 ? hour : ('0' + hour)) + ':' + (min > 9 ? min : ('0' + min));
+    },
+
+    onClickHistoryDetail(event, data){
+        var historyId = event.target.tagname
+        HallSendMsgCenter.getInstance().sendBattleRecordDetail(historyId);
     },
 
     close: function () {

@@ -34,7 +34,7 @@ cc.Class({
         this._baseBgWidth = cc.find('bg', this.node).width;
     },
 
-    show: function (text, bgFrame, tarPos, bgWidth) {
+    show: function (text, bgFrame, tarPos, bgWidth, ...args) {
         var bgNode = cc.find('bg', this.node);
         if (arguments[1]) {
             bgNode.getComponent(cc.Sprite).spriteFrame = bgFrame;
@@ -42,7 +42,7 @@ cc.Class({
 
         var lblNodt = cc.find('lbl', bgNode);
         var lblCpt = lblNodt.getComponent(require("LanguageLabel"));
-        lblCpt.setText(text);
+        lblCpt.setText(text, "", "", ...args);
         if (bgWidth)
             bgNode.width = bgWidth;
 
