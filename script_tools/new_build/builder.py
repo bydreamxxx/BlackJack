@@ -221,39 +221,40 @@ def cocos_build():
 #     return
 #
 #
-# def gen_etc2():
-#     file_filter_list = []
-#     #登录界面
-#     # file_filter_list.append("denglu-1.png")
-#     # file_filter_list.append("DT.png")
-#     # file_filter_list.append("dss-bg-yuanzhuo.png")
-#     # file_filter_list.append("common-1.png")
-#     # file_filter_list.append("loading1.png")
-#     # file_filter_list.append("loading2.png")
-#     # file_filter_list.append("wait.png")
-#     # file_filter_list.append("zn_di_jujue.png")
-#     # file_filter_list.append("prompt_bg.png")
-#     # file_filter_list.append("tdk_bg2.png")
-#     path = buildCfg.NATIVE_PATH + '/assets/resources/native'
-#     path_filter_list = []
-#     # path_filter_list.append(path+"/gameyj_mj/common/textures/tanchuang/AutoAtlas-1.png")
-#     tool = "/Applications/TexturePacker.app/Contents/MacOS/TexturePacker"
-#     for dir_path, dir_names, filenames in os.walk(path):
-#         for file in filenames:
-#             if not file.endswith('.png'):
-#                 continue
-#             if file_filter_list.count(file) > 0:
-#                 continue
-#             file_path = os.path.join(dir_path, file)
-#             if path_filter_list.count(file_path) > 0:
-#                 continue
-#             pvr_path = file_path.replace('.png', '.pvr.ccz');
-#             cmd = """%s %s --sheet %s --format "cocos2d" --texture-format "pvr3ccz" --opt "ETC2_RGBA" --max-width 4096 --max-height 4096 --trim-mode "None" --extrude 0 """ % (
-#             tool, file_path, pvr_path)
-#             os.system(cmd)
-#             os.remove(file_path)
-#             os.rename(pvr_path, file_path)
-#     return
+def gen_etc2():
+    file_filter_list = []
+    #登录界面
+    # file_filter_list.append("denglu-1.png")
+    # file_filter_list.append("DT.png")
+    # file_filter_list.append("dss-bg-yuanzhuo.png")
+    # file_filter_list.append("common-1.png")
+    # file_filter_list.append("loading1.png")
+    # file_filter_list.append("loading2.png")
+    # file_filter_list.append("wait.png")
+    # file_filter_list.append("zn_di_jujue.png")
+    # file_filter_list.append("prompt_bg.png")
+    # file_filter_list.append("tdk_bg2.png")
+    path = buildCfg.NATIVE_PATH + '/assets'
+    path_filter_list = []
+    # path_filter_list.append(path+"/gameyj_mj/common/textures/tanchuang/AutoAtlas-1.png")
+    tool = "/Applications/TexturePacker.app/Contents/MacOS/TexturePacker"
+    for dir_path, dir_names, filenames in os.walk(path):
+        for file in filenames:
+            if not file.endswith('.png'):
+                continue
+            if file_filter_list.count(file) > 0:
+                continue
+            file_path = os.path.join(dir_path, file)
+            if path_filter_list.count(file_path) > 0:
+                continue
+            pvr_path = file_path.replace('.png', '.pvr.ccz');
+            cmd = """%s %s --sheet %s --format "cocos2d" --texture-format "pvr3ccz" --opt "ETC2_RGBA" --max-width 4096 --max-height 4096 --trim-mode "None" --extrude 0 """ % (
+            tool, file_path, pvr_path)
+            print cmd
+            os.system(cmd)
+            # os.remove(file_path)
+            # os.rename(pvr_path, file_path)
+    return
 #
 # def gen_etc2_withpath(nativePath):
 #     file_filter_list = []

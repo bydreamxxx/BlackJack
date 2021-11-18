@@ -1,7 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013      cocos2d-x.org
- Copyright (c) 2013-2016 Chukong Technologies Inc.
- Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ Copyright (c) 2013-2017 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
  
@@ -25,10 +24,38 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
+@class LoadingAnimation;
 
-@interface RootViewController : UIViewController {
-
+@interface RootViewController : UIViewController <SKPaymentTransactionObserver,SKProductsRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate >{
+    LoadingAnimation    *loadingAni;
+    NSString            *selectProductID;
+    NSString            *upload_data, *upload_url;
 }
+
+@property (nonatomic)UIInterfaceOrientation interfaceOrientation;
+@property (nonatomic)UIInterfaceOrientationMask interfaceOrientationMask;
+
+
+
 - (BOOL)prefersStatusBarHidden;
+
+- (BOOL)setLandscape;
+- (BOOL)setPortrait;
+
+- (void) startLoadingAni:(NSString*)content;
+- (void) stopLoadingAni;
+- (void) setLoadingAniTips:(NSString*)content;
+
+- (void) inAppPay:(NSString*)product_id;
+-(void) requestProductID:(NSString *)productID;
+-(void) productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response;
+-(void) buyProduct:(SKProduct *)product;
+-(void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions;
+-(void) buyAppleStoreProductSucceedWithPaymentTransactionp:(SKPaymentTransaction *)paymentTransactionp;
+-(void) checkAppStorePayResultWithBase64String:(NSString *)base64String withProductId:(NSString *)productId withTransactionId:(NSString *)transactionId;
+-(void) verifyTransactionResult;
+-(void)openAlbum:(NSString *)data uploadURL:(NSString *)url;
+-(void)takePhoto:(NSString *)data uploadURL:(NSString *)url;
 @end

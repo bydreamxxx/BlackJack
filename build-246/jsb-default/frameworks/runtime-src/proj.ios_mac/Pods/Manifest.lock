@@ -1,0 +1,39 @@
+PODS:
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
+  - Fabric (1.7.9)
+  - UMCCommon (1.5.3)
+  - UMCCommonLog (1.0.0)
+  - UMCPush (3.2.3):
+    - UMCCommon
+  - UMCSecurityPlugins (1.0.6)
+
+DEPENDENCIES:
+  - Crashlytics
+  - Fabric
+  - UMCCommon
+  - UMCCommonLog
+  - UMCPush
+  - UMCSecurityPlugins
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Fabric
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - Crashlytics
+    - UMCCommon
+    - UMCCommonLog
+    - UMCPush
+    - UMCSecurityPlugins
+
+SPEC CHECKSUMS:
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  UMCCommon: 016af43c0f769feb1ae1861d65aaf2b23b89c9c7
+  UMCCommonLog: 05a2d5de21858e3d870551562cff405c1366d244
+  UMCPush: 628b5c61be5a5036cb31eb9b3a3ab8dce7521691
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
+
+PODFILE CHECKSUM: 20bacf3c4e502ca2912969f5bd088ce2a72931cd
+
+COCOAPODS: 1.5.3

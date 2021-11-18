@@ -24,14 +24,24 @@
  THE SOFTWARE.
  ****************************************************************************/
 #import <UIKit/UIKit.h>
+#include "WXApiManager.h"
+
+#import "GameChat.h"
+@class GameChat;
 
 @class RootViewController;
 
-@interface AppController : NSObject <UIApplicationDelegate>
+@interface AppController : NSObject <UIApplicationDelegate,WXApiManagerDelegate>
 {
+    UIWindow *window;
+    RootViewController    *viewController;
+    GameChat*   m_gameChat;
 }
 
 @property(nonatomic, readonly) RootViewController* viewController;
-
+/*
+ App初始化
+ */
+- (void) appInit;
 @end
 

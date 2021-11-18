@@ -41,7 +41,7 @@ var DingRobot = {
         // }
         // ding_log.push(content);
         //if(cc.pid == 3)
-        //     content = this.aesEncrypt(content);
+            content = this.aesEncrypt(content);
         cc.dd.writelog(content);
         //cc.dd.writelog(content);
     },
