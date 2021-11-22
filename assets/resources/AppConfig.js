@@ -14,14 +14,11 @@
 
 // cc._applyForPayment = false;
 
-// //游戏大厅选择类型
-// var HALL_TYPE = [
-//     "kuaileba_hall",
-//     "kuaileba_hall",
-//     "gamedl_hall", //快乐吧麻将
-//     "xyyl_hall",
-//     "gamedl_new_hall", //新快乐吧麻将
-// ];
+//游戏大厅选择类型
+var HALL_TYPE = [
+    "blackjack_hall_texas",
+    "blackjack_hall",
+];
 // var LOGIN_SCENE = [
 //     "jlmj_login",
 //     "jlmj_login",
@@ -59,7 +56,7 @@ module.exports = {
     //h5
     H5PID: 1,
     // 语言 [1:中文 2:繁体 3:英文]
-    LANGUAGE: 1,
+    LANGUAGE: 3,
     //版本 该字段值会根据更新文件自动更新
     VERSION: "",
 
@@ -82,7 +79,13 @@ module.exports = {
     //         return 0;
     //     }
     // })()],
-    HALL_NAME:"blackjack_hall",
+    HALL_NAME: HALL_TYPE[(function(){
+       if(cc.pid == 2){
+           return 0;
+       }else{
+           return 1;
+       }
+    })()],
     // LOGIN_SCENE_NAME: LOGIN_SCENE[(cc._isAppstore && !cc._isHuaweiGame || cc.dd._.isUndefined(cc.game_pid)) ? 0 : (cc._androidstore_check ? 2 : (((cc.game_pid > 1 && cc.game_pid < 10000) ? 2 : (cc._isXiangYueYuLe ? 3 : 0))))],
     // LOGIN_SCENE_NAME: LOGIN_SCENE[(function () {
     //     if (cc._isAppstore && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame || cc.dd._.isUndefined(cc.game_pid)) {

@@ -356,7 +356,7 @@ var jlmj_login_module = cc.Class({
             return;
         };
         cc.log('[游戏登录] ', '重连网关');
-        cc.dd.NetWaitUtil.show('正在重连....');
+        cc.dd.NetWaitUtil.show('Reconnecting');
         // if(!_switch_gateway){
         //     cc.gateNet.Instance().reconnect();
         // }

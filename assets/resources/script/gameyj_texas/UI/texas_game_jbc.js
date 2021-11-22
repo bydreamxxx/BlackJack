@@ -88,7 +88,8 @@ cc.Class({
         messagePrefab: { default: null, type: cc.Prefab, tooltip: "快捷短语(弹幕)" },
 
         ruleImge:[cc.SpriteFrame],
-        firstBet: true
+        firstBet: true,
+        m_oChangeBtn: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -224,6 +225,20 @@ cc.Class({
         cc.dd.native_systool.OpenUrl(Platform.kefuUrl[AppConfig.PID] + '?user_id=' + cc.dd.user.id);
     },
 
+    //换桌
+    onClickChange: function (event, data) {
+        hall_audio_mgr.com_btn_click();
+        sender.sendReplaceDesktop(202, texas_Data.Instance().getRoomId());
+        this.m_oChangeBtn.getComponent(cc.Button).interactable = false;
+        this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = false;
+        this.cd_time = setTimeout(function () {
+            this.m_oChangeBtn.getComponent(cc.Button).interactable = true;
+            this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = true;
+            clearTimeout(this.cd_time);
+        }.bind(this), 6000);
+        // this.onClose();
+    },
+
     //聊天表情符号
     showEmoticon(event, data) {
         this.emojiNode.active = data != null;
@@ -347,9 +362,6 @@ cc.Class({
             case RoomEvent.on_room_leave:
                 this.playerLeave(data[0]);
                 break;
-            case RoomEvent.on_room_replace:
-                this.on_room_replace(data[0]);
-                break;
             case HallCommonEvent.HALL_NO_RECONNECT_GAME:
                 var end_node = cc.find('zhanjitongji', this.node);
                 if (end_node && end_node.active == true) {
@@ -378,6 +390,11 @@ cc.Class({
                 break;
             case Texas_Event.SHOW_TEST_RATE:
                 this.showOtherWinRate(data);
+                break;
+            case RoomEvent.on_room_replace: //换桌成功
+                if (data[0].retCode == 0) {
+                    this.resetGameUI();
+                } 
                 break;
 
         }
@@ -1027,6 +1044,7 @@ cc.Class({
                 //是否弃牌
                 this.head_list[i].showDiscard(player.state == 3, i == 0);
                 if (player.joinGame == 0) {
+                    this.showChangeDeskBtn(true)
                     this.head_list[i].showWait();
                 } else if (player.state == 5) {
                     //是否allin
@@ -1056,6 +1074,7 @@ cc.Class({
                 this.resetGameUI();
                 break;
             case 1:
+                this.showChangeDeskBtn(false);
                 this.onBanker(msg, true);
                 TEXAS_ED.notifyEvent(Texas_Event.OVER_TURN, msg.curOpPlayerId);
                 break;
@@ -1233,6 +1252,7 @@ cc.Class({
                 break;
             case 1://开始
                 //this.resetGameUI();
+                this.showChangeDeskBtn(false);
                 var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
                 if (!selfplayer.joinGame) {
                     this.onDealCard();
@@ -1345,6 +1365,7 @@ cc.Class({
             AudioManager.playSound(texas_audio_cfg.Talk_own, false);
         } else if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5))//旁观
         {
+            this.showChangeDeskBtn(true) //设置显示换桌按钮
             this.texas_op.showOp(OP_TYPE.WATCH);
         }
         else {//其他人
@@ -1526,5 +1547,11 @@ cc.Class({
 
     backToHall() {
         cc.dd.SceneManager.enterHall();
+    },
+
+    showChangeDeskBtn(isShow){
+        this.m_oChangeBtn.active = isShow;
+        this.m_oChangeBtn.getComponent(cc.Button).interactable = isShow;
+        this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = isShow;
     },
 });

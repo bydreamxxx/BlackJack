@@ -103,9 +103,9 @@ var RecordUrl = new Array(4);
 // // RecordUrl[1] = 'http://123.56.150.124:3806/';
 // RecordUrl[2] = 'http://47.94.10.64:3806/';
 // RecordUrl[3] = 'http://39.107.247.165:8881/';
-RecordUrl[1] = 'http://42.193.2.94:3806/';
-RecordUrl[2] = 'http://42.193.2.94:3806/';
-RecordUrl[3] = 'http://42.193.2.94:3806/';
+RecordUrl[1] = 'http://42.193.2.94:8881/';
+RecordUrl[2] = 'http://42.193.2.94:8881/';
+RecordUrl[3] = 'http://42.193.2.94:8881/';
 
 var serFileUrl = new Array(4);
 // serFileUrl[1] = 'http://47.92.48.105:8888/servlist.json';

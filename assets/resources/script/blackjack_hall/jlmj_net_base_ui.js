@@ -68,7 +68,7 @@ cc.Class({
      * 网络出错
      */
     onNetError: function () {
-        dd.NetWaitUtil.show('正在重连');
+        dd.NetWaitUtil.show('Reconnecting');
         login_module.Instance().reconnectWG();
 
         // dd.DialogBoxUtil.clear();

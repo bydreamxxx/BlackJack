@@ -26,6 +26,8 @@ let blackjack_player_ui = cc.Class({
         animation: cc.Animation,
 
         betIndex: 1,
+
+        blackjackWin: cc.Node,
     },
 
     editor:{
@@ -76,6 +78,10 @@ let blackjack_player_ui = cc.Class({
             this.giftBtn.active = false;
 
             this.playerData = null;
+
+            cc.Tween.stopAllByTarget(this.blackjackWin);
+
+            this.blackjackWin.active = false;
         }
 
         this.cardNode.removeAllChildren();
@@ -352,6 +358,16 @@ let blackjack_player_ui = cc.Class({
         }
 
         return false;
+    },
+
+    playBJWin(){
+        this.blackjackWin.active = true;
+        this.blackjackWin.scaleX = 0;
+        this.blackjackWin.scaleY = 0;
+        cc.tween(this.blackjackWin)
+            .to(0.5, {scale: 0.31}, { easing: 'quintIn'})
+            .to(0.1, {scale: 0.3}, { easing: 'quintOut'})
+            .start();
     }
 });
 

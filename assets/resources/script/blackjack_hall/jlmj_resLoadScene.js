@@ -23,6 +23,7 @@ var LoginState = cc.Enum({
     UPDATE_HALL: "update_hall",          //更新大厅资源
     UPDATE_INTERNAL: "update_internal",          //更新大厅资源
     UPDATE_RESOURCES: "update_resources",          //更新大厅资源
+    UPDATE_TEXAS: "update_texas",          //更新大厅资源
     LOGIN_START: "login_start",          //登录开始
 });
 
@@ -217,6 +218,9 @@ let resLoad = cc.Class({
             case LoginState.LOGIN_START:
                 this.loadRes();
                 break;
+            case LoginState.UPDATE_TEXAS:
+                this.updateTexas();
+                break;
             default:
                 cc.error("【hall-login】" + " 登录状态错误 state=" + this.state);
                 break;
@@ -284,11 +288,11 @@ let resLoad = cc.Class({
             this.tips.string = "检测更新中...";
         this.resetProgress();
         var loadResEnd = function () {
-            if (AppCfg.PID == 2) {
-                this.changeState(LoginState.TEST_AUTH);  //授权验证
-            } else {
+            // if (AppCfg.PID == 2) {
+            //     this.changeState(LoginState.TEST_AUTH);  //授权验证
+            // } else {
                 this.changeState(LoginState.CHECK_INTERNET);
-            }
+            // }
         }.bind(this);
 
         const loadCellList = [];
@@ -412,6 +416,31 @@ let resLoad = cc.Class({
         cc.log("【hall-login】" + " 更新大厅 开始");
         this.hallUpdater = UpdateMgr.getUpdater(UpdaterGameId.MAIN);
         this.hallUpdater.checkUpdate();
+    },
+
+    updateTexas(){
+        if (cc._appstore_check)
+            this.tips.string = "加载资源中...";
+        else
+            this.tips.string = "正在检测资源更新";
+        if (cc.dd._.isUndefined(cc.open_update) || !cc.open_update) {
+            cc.log("【hall-login】" + " 更新未开启 ");
+            this.changeState(LoginState.LOGIN_START);
+            return;
+        }
+        if (!cc.sys.isNative) {
+            cc.log("【hall-login】" + " web不支持更新 ");
+            this.changeState(LoginState.LOGIN_START);
+            return;
+        }
+        if (1 != UpdateMgr.isUpdateVersionExist(UpdaterGameId.MAIN)) {
+            this.goToAppURL();
+            return;
+        }
+
+
+        this.texasUpdater = UpdateMgr.getUpdater(cc.dd.Define.GameType.TEXAS);
+        this.texasUpdater.checkUpdate();
     },
 
     updateInternal(){
@@ -657,6 +686,8 @@ let resLoad = cc.Class({
             this.onAPKUpdateEventMessage(event, data);
         } else if (data[0].game_id == UpdaterGameId.IOS) {
             this.onIPAUpdateEventMessage(event, data);
+        } else if (data[0].game_id == cc.dd.Define.GameType.TEXAS) {
+            this.onTexasUpdateEventMessage(event, data)
         } else if (cc.dd._.isNumber(data[0].game_id) && cc.JOIN_FRIEND_AND_PLAY) {
             this.onGameUpdateEventMessage(event, data)
         }
@@ -726,7 +757,8 @@ let resLoad = cc.Class({
         clearTimeout(this.updateServerConnTimeoutCheck);
         switch (event) {
             case dd.UpdaterEvent.ALREADY_UP_TO_DATE:
-                this.changeState(LoginState.UPDATE_INTERNAL);
+                // this.changeState(LoginState.UPDATE_INTERNAL);
+                this.changeState(LoginState.UPDATE_TEXAS);
                 break;
             case dd.UpdaterEvent.NEW_VERSION_FOUND:
                 this.promptedDownload(data);
@@ -946,6 +978,83 @@ let resLoad = cc.Class({
                         }else{
                             this.hallUpdater.retry();
                         }
+                    }.bind(this),
+                    function () {
+                        cc.game.end();
+                    }.bind(this));
+                break;
+            default:
+                break;
+        }
+    },
+
+    /**
+     * 游戏资源更新处理
+     * @param event
+     * @param data
+     */
+    onTexasUpdateEventMessage: function (event, data) {
+        switch (event) {
+            case dd.UpdaterEvent.ALREADY_UP_TO_DATE:
+                this.changeState(LoginState.UPDATE_INTERNAL);
+                break;
+            case dd.UpdaterEvent.NEW_VERSION_FOUND:
+                if (cc.dd.native_systool.isNetAvailable()) {
+                    if (cc.dd.native_systool.isWifiAvailable() || data[1] <= 0) {
+                        this.texasUpdater.startUpdate();
+                    } else {
+                        var size = parseFloat(data[1]) / 1024;
+                        var unit_des = 'KB';
+                        if (size >= 100) {
+                            size = parseFloat(size) / 1024;
+                            unit_des = 'M';
+                        }
+                        size = size.toFixed(2);
+                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", '确定', '取消',
+                            function () {
+                                this.texasUpdater.startUpdate();
+                            }.bind(this),
+                            function () {
+                                this.reStartGame();
+                            }.bind(this));
+                    }
+                }
+                break;
+            case dd.UpdaterEvent.UPDATE_PROGRESSION:
+                if (cc._appstore_check)
+                    this.tips.string = "加载资源中...";
+                else
+                    this.tips.string = "正在更新";
+                this.onProgress(data[1]);
+                break;
+            case dd.UpdaterEvent.UPDATE_FINISHED:
+                this.changeState(LoginState.UPDATE_INTERNAL);
+                break;
+            case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                    function () {
+                        this.goToAppURL();
+                    }.bind(this),
+                    function () {
+                        cc.game.end();
+                    }.bind(this));
+                break;
+            case dd.UpdaterEvent.ERROR_DOWNLOAD_MANIFEST:
+                this.updateFailed();
+                break;
+            case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                    function () {
+                        this.goToAppURL();
+                    }.bind(this),
+                    function () {
+                        cc.game.end();
+                    }.bind(this));
+                break;
+            case dd.UpdaterEvent.UPDATE_FAILED:
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
+                    function () {
+                        this.texasUpdater.retry();
                     }.bind(this),
                     function () {
                         cc.game.end();

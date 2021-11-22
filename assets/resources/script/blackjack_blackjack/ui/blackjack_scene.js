@@ -635,6 +635,12 @@ cc.Class({
                 // this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 // this.standBtn.active = BlackJackData.hasUserPlayer;
 
+                this.playerList.forEach(player=>{
+                    if(player.cardNodeList.length > 0 && player.cardNodeList[0].cardList.length > 0){
+                        player.play_chupai_ani(10);
+                    }
+                })
+
                 this.betButtonNode.active = false;
 
                 // cc.tween(this.node)
@@ -670,7 +676,7 @@ cc.Class({
                 this.hitToggle.uncheck();
                 this.standToggle.uncheck();
                 this.autoToggle = null;
-                this.toggleButtonNode.active = BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0;
+                this.toggleButtonNode.active = BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0 && !this.playerList[0].isBJ();
                 this.startTips.active = false;
                 this.stopTips.active = false;
                 this.loadTips.active = false;

@@ -531,10 +531,12 @@ cc.Class({
 
                         if(this.cardList.length == 2){
                             if(this.isBJ()){
-                                this.resultIcon.spriteFrame = this.resultFrame[3];
-                                if(AudioManager.getAudioID("blackjack_blackjack/audio/blackjack_sound") == -1) {
-                                    AudioManager.playSound("blackjack_blackjack/audio/blackjack_sound");
+                                if(!this.isBanker){
+                                    if(AudioManager.getAudioID("blackjack_blackjack/audio/blackjack_sound") == -1) {
+                                        AudioManager.playSound("blackjack_blackjack/audio/blackjack_sound");
+                                    }
                                 }
+                                this.resultIcon.spriteFrame = this.resultFrame[3];
                                 this.resultIcon.node.parent.scaleX = 1.3;
                                 this.resultIcon.node.parent.scaleY = 1.3;
                                 this.resultIcon.node.parent.active = true;
@@ -636,6 +638,7 @@ cc.Class({
                 if(AudioManager.getAudioID("blackjack_blackjack/audio/big_win_sound") == -1) {
                     AudioManager.playSound("blackjack_blackjack/audio/big_win_sound");
                 }
+                this.node.parent.parent.getComponent("blackjack_player_ui").playBJWin();
             }
         }else{
             this.resultIcon.spriteFrame = this.resultFrame[2];
