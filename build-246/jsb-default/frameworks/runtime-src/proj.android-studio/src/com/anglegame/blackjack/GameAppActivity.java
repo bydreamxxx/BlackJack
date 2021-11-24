@@ -23,9 +23,6 @@
  ****************************************************************************/
 package com.anglegame.blackjack;
 
-import org.cocos2dx.lib.Cocos2dxActivity;
-import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -39,11 +36,9 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -60,22 +55,16 @@ import android.os.PowerManager.WakeLock;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-//import com.huawei.cloudsecurity.GameShield;
-
-//import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
+import com.anglegame.blackjack.R;
+import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 import org.cocos2dx.lib.Utils;
 import org.json.JSONException;
@@ -106,12 +95,14 @@ import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 
 import game.UploadUtil;
 
-public class AppActivity extends Cocos2dxActivity implements TencentLocationListener, UploadUtil.OnUploadProcessListener {
-    public static AppActivity app = null;
+public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUploadProcessListener {
+    public static Cocos2dxActivity mainActive = null;
+    public static GameAppActivity gameApp = null;
     private WakeLock mWakeLock;
     public static IWXAPI api;
     public static String APP_ID;
@@ -161,7 +152,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
             if (!gameStarted) {
                 return;
             }
-            ConnectivityManager manager = (ConnectivityManager) AppActivity.app.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager manager = (ConnectivityManager) mainActive.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeInfo = manager.getActiveNetworkInfo();
             //未连接=0,已连接=1
             int connectType = 0;
@@ -169,7 +160,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
                 connectType = 1;
             }
             final String jsCallStr = String.format("cc.networkChanged(\"%d\");", connectType);
-            runOnGLThread(new Runnable() {
+            mainActive.runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);
@@ -189,13 +180,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         }
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Important
-
+    public void onCreate(Cocos2dxActivity context) {
         //Fabric.with(this, new Crashlytics());
+        mainActive = context;
 
         if (gpsTimer == null) {
             gpsTimer = new Timer();
@@ -211,7 +198,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
             };
         }
 
-        Intent i_getvalue = this.getIntent();
+        Intent i_getvalue = mainActive.getIntent();
         String action = i_getvalue.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = i_getvalue.getData();
@@ -223,53 +210,42 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
             }
         }
 
-        // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
-        if (!isTaskRoot()) {
-            // Android launched another instance of the root activity into an existing task
-            //  so just quietly finish and go away, dropping the user back into the activity
-            //  at the top of the stack (ie: the last state of this task)
-            // Don't need to finish it again since it's finished in super.onCreate .
-            Log.e("MySelf","another task");
-            return;
-        }
-        // DO OTHER INITIALIZATION BELOW
-
 //        SDKWrapper.getInstance().init(this);
 
 //        if(Build.VERSION.SDK_INT >= 30){
 //            if(!Environment.isExternalStorageManager()){
 //                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-//                intent.setData(Uri.parse("package:"+app.getPackageName()));
+//                intent.setData(Uri.parse("package:"+mainActive.getPackageName()));
 //                startActivityForResult(intent, 100);
 //            }
 //        }
 
-        splashImage = new ImageView(this);
+        splashImage = new ImageView(mainActive);
         splashImage.setImageResource(R.mipmap.splash);
         splashImage.setScaleType(ImageView.ScaleType.FIT_XY);
-        addContentView(splashImage,
+        mainActive.addContentView(splashImage,
                 new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.FILL_PARENT,
                         WindowManager.LayoutParams.FILL_PARENT));
 
-        app = this;
+        gameApp = this;
         isAppStartResume = true;
         this.appInit();
         //设置竖屏
 //        SetLandscape();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        mainActive.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 //        showBar();
 
         Preference.setActivity(this);
 
-        final View view = this.getCurrentFocus();
+        final View view = mainActive.getCurrentFocus();
         if (view != null) {
             view.setBackgroundColor(0xFFFFFFFF);
         }
 
-        Preference.setContext(AppActivity.this);
+        Preference.setContext(mainActive);
 
-        SAVED_IMAGE_DIR_PATH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? (getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/") : SAVED_IMAGE_DIR_PATH + "/" + this.getPackageName() + "/club/";
+        SAVED_IMAGE_DIR_PATH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? (mainActive.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/") : SAVED_IMAGE_DIR_PATH + "/" + mainActive.getPackageName() + "/club/";
         System.out.println("俱乐部图片缓存路径：" + SAVED_IMAGE_DIR_PATH);
         File dir = new File(SAVED_IMAGE_DIR_PATH);
         if (!dir.exists()) {
@@ -285,7 +261,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //        else
 //            Log.i("HWurl init", "初始化gameshield成功");
 
-        Intent intent = getIntent();
+        Intent intent = mainActive.getIntent();
         String roomId = intent.getStringExtra("roomId");
         if (roomId != null && !roomId.isEmpty()) {
             wxinvite = roomId;
@@ -298,12 +274,12 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     }
 
     public static void closeSplash() {
-        app.runOnUiThread(new Runnable() {
+        mainActive.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 splashImage.setVisibility(View.GONE);
 
-                final View view = app.getCurrentFocus();
+                final View view = mainActive.getCurrentFocus();
                 if (view != null) {
                     view.setBackgroundColor(0x00000000);
                 }
@@ -324,7 +300,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //            e.printStackTrace();
 //        }
 
-        View decorView = app.getWindow().getDecorView();
+        View decorView = mainActive.getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
@@ -333,7 +309,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 
 
     public static String getScreenSize() {
-        WindowManager wm = app.getWindowManager();
+        WindowManager wm = mainActive.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
         return String.format("%d,%d", width, height);
@@ -362,10 +338,10 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     }
 
     public static void closeNavigationBar() {
-        app.runOnUiThread(new Runnable() {
+        mainActive.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                View decorView = app.getWindow().getDecorView();
+                View decorView = mainActive.getWindow().getDecorView();
                 int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 decorView.setSystemUiVisibility(uiOptions);
             }
@@ -377,30 +353,18 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         if(Build.VERSION.SDK_INT >= 24){
             return org.cocos2dx.lib.Cocos2dxHelper.getWritablePath();
         }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            return app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/";
+            return mainActive.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/";
         }else{
             return Environment.getExternalStorageDirectory().getPath();
         }
     }
 
-    @Override
-    public Cocos2dxGLSurfaceView onCreateView() {
-        Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
-        // TestCpp should create stencil buffer
-        glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
-
-//        SDKWrapper.getInstance().setGLSurfaceView(glSurfaceView);
-
-        return glSurfaceView;
-    }
-
-    @Override
-    protected void onResume() {
+    public void onResume() {
         Log.v("gameStarted", "系统恢复");
         if (gameStarted) {
             final String jsCallStr = String.format("cc.SystemOnResume();cc.dealWithWXInviteInfo(\"%s\");cc.loginWithWX()", wxinvite);
             wxinvite = "";
-            runOnGLThread(new Runnable() {
+            mainActive.runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);
@@ -410,16 +374,13 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         } else {
             Log.v("gameStarted", "不执行JS");
         }
-        super.onResume();
-//        SDKWrapper.getInstance().onResume();
     }
 
-    @Override
-    protected void onPause() {
+    public void onPause() {
         Log.v("gameStarted", "系统暂停");
         if (gameStarted) {
             final String jsCallStr = String.format("cc.SystemOnPause();");
-            runOnGLThread(new Runnable() {
+            mainActive.runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);
@@ -429,27 +390,18 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         } else {
             Log.v("gameStarted", "不执行JS");
         }
-
-        super.onPause();
-//        SDKWrapper.getInstance().onPause();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        SDKWrapper.getInstance().onDestroy();
+    public void onDestroy() {
         if (networkChangeRecevier != null) {
-            unregisterReceiver(networkChangeRecevier);
+            mainActive.unregisterReceiver(networkChangeRecevier);
         }
         if (gpsTimer != null)
             gpsTimer.cancel();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        SDKWrapper.getInstance().onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == mainActive.RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
                 case ALBUM_REQUEST_CODE:
 //                    Log.e("MySelf", "ALBUM_REQUEST_CODE");
@@ -490,53 +442,8 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-//        SDKWrapper.getInstance().onNewIntent(intent);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-//        SDKWrapper.getInstance().onRestart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        SDKWrapper.getInstance().onStop();
-    }
-
-    @Override
-    public void onBackPressed() {
-//        SDKWrapper.getInstance().onBackPressed();
-        super.onBackPressed();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-//        SDKWrapper.getInstance().onConfigurationChanged(newConfig);
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        SDKWrapper.getInstance().onRestoreInstanceState(savedInstanceState);
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-//        SDKWrapper.getInstance().onSaveInstanceState(outState);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onStart() {
-//        SDKWrapper.getInstance().onStart();
-        super.onStart();
+    public void onNewIntent(Intent intent) {
+        mainActive.setIntent(intent);
     }
 
     public void gameStart() {
@@ -549,7 +456,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
     @SuppressLint("InvalidWakeLockTag")
     public void appInit() {
         //设置屏幕常亮
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) mainActive.getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
                 | PowerManager.ON_AFTER_RELEASE, "DonDeen");
         try {
@@ -561,7 +468,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //        APP_ID = AppActivity.getMetaInfo("APP_ID"); //读取微信AppId
 //        APP_ID = "wx25b71c6d0cb9e6b6";    //巷乐吉林麻将
         try {
-            ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            ApplicationInfo appInfo = mainActive.getPackageManager().getApplicationInfo(mainActive.getPackageName(), PackageManager.GET_META_DATA);
             APP_ID = appInfo.metaData.getString("APP_ID");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -573,11 +480,11 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         //注册监听获取电量
         BatteryBroadcastReceiver receiver = new BatteryBroadcastReceiver();
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(receiver, filter);
+        mainActive.registerReceiver(receiver, filter);
 
-        loading_ani = new LoadingAnimation(this);
+        loading_ani = new LoadingAnimation(mainActive);
         loading_ani.stopLoadingAni();
-        addContentView(loading_ani.getContent(),
+        mainActive.addContentView(loading_ani.getContent(),
                 new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.FILL_PARENT,
                         WindowManager.LayoutParams.FILL_PARENT));
@@ -585,7 +492,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         networkChangeRecevier = new NetworkChangeRecevier();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(networkChangeRecevier, intentFilter);
+        mainActive.registerReceiver(networkChangeRecevier, intentFilter);
 
 //        CrashReport.initCrashReport(getApplicationContext(), "c85404f09d", false);
     }
@@ -623,7 +530,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
                 intent.setType("image/*");
 //                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, ALBUM_REQUEST_CODE);
+                mainActive.startActivityForResult(intent, ALBUM_REQUEST_CODE);
 
             }
 
@@ -634,9 +541,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         };
 
         if (Build.VERSION.SDK_INT >= 29) {
-            PermissionsUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
+            PermissionsUtils.getInstance().checkPermissions(mainActive, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
         }else {
-            PermissionsUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
+            PermissionsUtils.getInstance().checkPermissions(mainActive, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
         }
     }
 
@@ -661,16 +568,16 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         // Android 7.0 "file://" uri权限适配
                         //		获取图片沙盒文件夹
-                        photoUri = FileProvider.getUriForFile(app, "com.anglegame.blackjack.provider", new File(SAVED_IMAGE_DIR_PATH+"head_" + System.currentTimeMillis() + ".jpg"));
+                        photoUri = FileProvider.getUriForFile(mainActive, "com.anglegame.blackjack.provider", new File(SAVED_IMAGE_DIR_PATH+"head_" + System.currentTimeMillis() + ".jpg"));
                     } else {
                         photoUri = Uri.fromFile(new File(SAVED_IMAGE_DIR_PATH+"head_" + System.currentTimeMillis() + ".jpg"));
                     }
 
                     // 设置系统相机拍摄照片完成后图片文件的存放地址
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                    mainActive.startActivityForResult(intent, CAMERA_REQUEST_CODE);
                 } else {
-                    Toast.makeText(app, "请确认已经插入SD卡",
+                    Toast.makeText(mainActive, "请确认已经插入SD卡",
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -683,9 +590,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         };
 
         if (Build.VERSION.SDK_INT >= 29){
-            PermissionsUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.CAMERA}, permissionsResult);
+            PermissionsUtils.getInstance().checkPermissions(mainActive, new String[]{Manifest.permission.CAMERA}, permissionsResult);
         }else{
-            PermissionsUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
+            PermissionsUtils.getInstance().checkPermissions(mainActive, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, permissionsResult);
 
         }
     }
@@ -810,9 +717,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         });
     }
 
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
 
         if (!gameStarted) {
             return;
@@ -838,10 +743,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean rt = super.onKeyDown(keyCode, event);
-
+    public void onKeyDown() {
         final Handler mHandler = new Handler();
         Runnable r = new Runnable() {
 
@@ -852,7 +754,6 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         };
 
         mHandler.postDelayed(r, 3000);
-        return rt;
     }
 
     @Override
@@ -877,7 +778,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
             this.mlocationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_NAME);
             this.mlocationRequest.setAllowCache(true);
         }
-        this.mlocationManager = TencentLocationManager.getInstance(this);
+        this.mlocationManager = TencentLocationManager.getInstance(mainActive);
         int error = this.mlocationManager.requestLocationUpdates(this.mlocationRequest, this);
         if (error == 0) {
 
@@ -926,7 +827,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         final String jsCallStr = String.format("cc.dealWithWXInviteInfo(\"%s\");", wxinvite);
         System.out.println(jsCallStr);
         wxinvite = "";
-        app.runOnGLThread(new Runnable() {
+        mainActive.runOnGLThread(new Runnable() {
             @Override
             public void run() {
                 Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);
@@ -941,9 +842,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setComponent(cmp);
-            app.startActivity(intent);
+            mainActive.startActivity(intent);
         } else {
-            Toast.makeText(app, "微信未安装", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActive, "微信未安装", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -963,7 +864,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
-                ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+                ParcelFileDescriptor parcelFileDescriptor = mainActive.getContentResolver().openFileDescriptor(uri, "r");
                 FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                 image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
             } catch (IOException e) {
@@ -1026,9 +927,9 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // Android 7.0 "file://" uri权限适配
-            tempUri = FileProvider.getUriForFile(this, "com.anglegame.blackjack.provider", faceFile);
+            tempUri = FileProvider.getUriForFile(mainActive, "com.anglegame.blackjack.provider", faceFile);
             //		获取图片沙盒文件夹
-            photoUri = FileProvider.getUriForFile(this, "com.anglegame.blackjack.provider", new File(SAVED_IMAGE_DIR_PATH+ "cut_" + System.currentTimeMillis() + ".jpg"));
+            photoUri = FileProvider.getUriForFile(mainActive, "com.anglegame.blackjack.provider", new File(SAVED_IMAGE_DIR_PATH+ "cut_" + System.currentTimeMillis() + ".jpg"));
         } else {
             tempUri = Uri.fromFile(faceFile);
             photoUri = Uri.fromFile(new File(SAVED_IMAGE_DIR_PATH + "cut_" + System.currentTimeMillis() + ".jpg"));
@@ -1051,14 +952,14 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
         //给裁剪应用赋权
-        List<ResolveInfo> resInfoList = this.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> resInfoList = mainActive.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for(ResolveInfo resolveInfo : resInfoList){
             String packageName = resolveInfo.activityInfo.packageName;
-            this.grantUriPermission(packageName, tempUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            this.grantUriPermission(packageName, photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            mainActive.grantUriPermission(packageName, tempUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            mainActive.grantUriPermission(packageName, photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
 
-        startActivityForResult(intent, PHOTO_RESOULT);
+        mainActive.startActivityForResult(intent, PHOTO_RESOULT);
     }
 
     /**
@@ -1070,7 +971,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
         if(!SystemTool.isNetAvailable()){
             Log.e("UploadUtil error", "connection error 上传失败：无网络连接");
             final String jsCallStrError = String.format("cc.error(\"Android UploadUtil error connection error 上传失败：无网络连接\");");
-            runOnGLThread(new Runnable() {
+            mainActive.runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);
@@ -1105,7 +1006,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //            pd.show();
             String fileKey = "image";
             UploadUtil uploadUtil = UploadUtil.getInstance();
-            uploadUtil.setOnUploadProcessListener(AppActivity.this); //设置监听器监听上传状态
+            uploadUtil.setOnUploadProcessListener(GameAppActivity.this); //设置监听器监听上传状态
 
             Map<String, String> params = new HashMap<String, String>();//上传map对象
             params.put("data", upload_Data);
@@ -1130,7 +1031,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
                     String msg = json.getString("msg");
 //                    String data = json.getString("data");
                     final String jsCallStr = String.format("cc.onChangeHeadCallBack(\"%s\",\"%s\");", code, msg);
-                    runOnGLThread(new Runnable() {
+                    mainActive.runOnGLThread(new Runnable() {
                         @Override
                         public void run() {
                             Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);
@@ -1147,7 +1048,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 Log.e("UploadUtil error", message);
                 final String jsCallStrError = String.format("cc.error(\"Android UploadUtil error %s\");", message);
-                runOnGLThread(new Runnable() {
+                mainActive.runOnGLThread(new Runnable() {
                     @Override
                     public void run() {
                         Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);
@@ -1171,9 +1072,7 @@ public class AppActivity extends Cocos2dxActivity implements TencentLocationList
 //        msg.arg1 = fileSize;
     }
 
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionsUtils.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        PermissionsUtils.getInstance().onRequestPermissionsResult(mainActive, requestCode, permissions, grantResults);
     }
 }

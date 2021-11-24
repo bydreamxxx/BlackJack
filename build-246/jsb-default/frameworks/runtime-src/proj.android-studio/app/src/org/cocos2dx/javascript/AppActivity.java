@@ -31,8 +31,13 @@ import android.os.Bundle;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
+import android.view.KeyEvent;
+
+import com.anglegame.blackjack.GameAppActivity;
 
 public class AppActivity extends Cocos2dxActivity {
+    GameAppActivity app = new GameAppActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class AppActivity extends Cocos2dxActivity {
         }
         // DO OTHER INITIALIZATION BELOW
         SDKWrapper.getInstance().init(this);
-
+        app.onCreate(this);
     }
 
     @Override
@@ -63,6 +68,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     @Override
     protected void onResume() {
+        app.onResume();
         super.onResume();
         SDKWrapper.getInstance().onResume();
 
@@ -70,6 +76,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     @Override
     protected void onPause() {
+        app.onPause();
         super.onPause();
         SDKWrapper.getInstance().onPause();
 
@@ -85,19 +92,21 @@ public class AppActivity extends Cocos2dxActivity {
         }
 
         SDKWrapper.getInstance().onDestroy();
-
+        app.onDestroy();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         SDKWrapper.getInstance().onActivityResult(requestCode, resultCode, data);
+        app.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         SDKWrapper.getInstance().onNewIntent(intent);
+        app.onNewIntent(intent);
     }
 
     @Override
@@ -140,5 +149,23 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onStart() {
         SDKWrapper.getInstance().onStart();
         super.onStart();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        app.onWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        app.onKeyDown();
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        app.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -17,7 +17,7 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.anglegame.blackjack.AppActivity;
+import com.anglegame.blackjack.GameAppActivity;
 import com.anglegame.blackjack.R;
 
 import java.io.ByteArrayInputStream;
@@ -41,7 +41,7 @@ public class WxTool {
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "laiyiquanyx";
-        boolean result = AppActivity.api.sendReq(req);
+        boolean result = GameAppActivity.api.sendReq(req);
         Log.v("WX", "wxapi.sendReq end. result=" + result);
     }
 
@@ -78,7 +78,7 @@ public class WxTool {
 
         Log.v("WX", "SendMessageToWX >>> checkArgs=" + req.checkArgs() + " req.getType()=" + req.getType());
 
-        boolean result = AppActivity.api.sendReq(req);
+        boolean result = GameAppActivity.api.sendReq(req);
         Log.v("WX", "wxapi.sendReq end. result=" + result);
     }
 
@@ -88,7 +88,7 @@ public class WxTool {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = content;
-        Bitmap bmp = BitmapFactory.decodeResource(AppActivity.app.getResources(), R.mipmap.ic_launcher);
+        Bitmap bmp = BitmapFactory.decodeResource(GameAppActivity.mainActive.getResources(), R.mipmap.ic_launcher);
 //		Bitmap thumb = BitmapFactory.decodeResource(app.getResources(), R.drawable.icon);
         msg.thumbData = Util.bmpToByteArray(bmp, true);
 
@@ -96,7 +96,7 @@ public class WxTool {
         req.transaction = "" + System.currentTimeMillis();
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneSession;
-        AppActivity.api.sendReq(req);
+        GameAppActivity.api.sendReq(req);
     }
 
     public static void ShareLinkTimeline(String url, String title, String content) {
@@ -105,14 +105,14 @@ public class WxTool {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = content;
-        Bitmap thumb = BitmapFactory.decodeResource(AppActivity.app.getResources(), R.mipmap.ic_launcher);
+        Bitmap thumb = BitmapFactory.decodeResource(GameAppActivity.mainActive.getResources(), R.mipmap.ic_launcher);
         // è¿éæ¿æ¢ä¸å¼ èªå·±å·¥ç¨éçå¾çèµæº
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "" + System.currentTimeMillis();
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneTimeline;
-        AppActivity.api.sendReq(req);
+        GameAppActivity.api.sendReq(req);
     }
 
     public static void SendWXScreenshot(String imagePath, int where) {
@@ -156,7 +156,7 @@ public class WxTool {
             req.transaction = buildTransaction("img");//"img"+String.valueOf(System.currentTimeMillis());
             req.message = msg;
             req.scene = where;
-            AppActivity.api.sendReq(req);
+            GameAppActivity.api.sendReq(req);
         } catch (Exception e) {
             Log.e("WX", e.toString());
         }
@@ -169,18 +169,18 @@ public class WxTool {
     public static void JumpToWeixinPay(String partnerId, String prepayId, String nonceStr,
                                        String timeStamp, String packageVal, String sign) {
         PayReq request = new PayReq();
-        request.appId = AppActivity.APP_ID;
+        request.appId = GameAppActivity.APP_ID;
         request.partnerId = partnerId;
         request.prepayId = prepayId;
         request.packageValue = packageVal;
         request.nonceStr = nonceStr;
         request.timeStamp = timeStamp;
         request.sign = sign;
-        AppActivity.api.sendReq(request);
+        GameAppActivity.api.sendReq(request);
     }
 
     public static boolean IsWXAppInstalled() {
-        boolean sIsWXAppInstalledAndSupported = AppActivity.api.isWXAppInstalled();
+        boolean sIsWXAppInstalledAndSupported = GameAppActivity.api.isWXAppInstalled();
         return sIsWXAppInstalledAndSupported;
     }
 
@@ -217,7 +217,7 @@ public class WxTool {
 //        if (!appDir.exists()) {
 //            appDir.mkdir();
 //        }
-        Context context = AppActivity.getContext();
+        Context context = GameAppActivity.mainActive.getContext();
         String[] names = path.split("/");
         String fileName = names[names.length -1];
 //        copyFile(path,appDir.toString() + "/" + fileName);

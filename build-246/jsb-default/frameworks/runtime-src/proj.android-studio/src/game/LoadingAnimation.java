@@ -11,7 +11,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.TextView;
 
-import com.anglegame.blackjack.AppActivity;
+import com.anglegame.blackjack.GameAppActivity;
 import com.anglegame.blackjack.R;
 
 import java.lang.reflect.Method;
@@ -41,7 +41,7 @@ public class LoadingAnimation {
         int ver = Build.VERSION.SDK_INT;
         Log.d(TAG,"安卓系统版本 "+ver);
         if(ver>=17){
-            Display display = AppActivity.app.getWindowManager().getDefaultDisplay();
+            Display display = GameAppActivity.mainActive.getWindowManager().getDefaultDisplay();
             DisplayMetrics dm = new DisplayMetrics();
             Class c;
             try {
@@ -56,7 +56,7 @@ public class LoadingAnimation {
             screen_height = dm.heightPixels;
         }else{
             Point point = new Point();
-            AppActivity.app.getWindowManager().getDefaultDisplay().getSize(point);
+            GameAppActivity.mainActive.getWindowManager().getDefaultDisplay().getSize(point);
             Log.d(TAG,"屏幕分辨率 "+point.toString());
             screen_width = point.x;
             screen_height = point.y;
@@ -113,7 +113,7 @@ public class LoadingAnimation {
         int ver = Build.VERSION.SDK_INT;
         Log.d(TAG,"安卓系统版本 "+ver);
         if(ver>=17){
-            Display display = AppActivity.app.getWindowManager().getDefaultDisplay();
+            Display display = GameAppActivity.mainActive.getWindowManager().getDefaultDisplay();
             DisplayMetrics dm = new DisplayMetrics();
             Class c;
             try {
@@ -128,7 +128,7 @@ public class LoadingAnimation {
             screen_height = dm.heightPixels;
         }else{
             Point point = new Point();
-            AppActivity.app.getWindowManager().getDefaultDisplay().getSize(point);
+            GameAppActivity.mainActive.getWindowManager().getDefaultDisplay().getSize(point);
             Log.d(TAG,"屏幕分辨率 "+point.toString());
             screen_width = point.x;
             screen_height = point.y;
@@ -138,7 +138,7 @@ public class LoadingAnimation {
         float scale_height = 0;
         float scale_min = 0;
 
-        if (AppActivity.app.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        if (GameAppActivity.mainActive.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             scale_width = screen_width/1280;
             scale_height = screen_height/720;
             scale_min = scale_width<scale_height ? scale_width : scale_height;

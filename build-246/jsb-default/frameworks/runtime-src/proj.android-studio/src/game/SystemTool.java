@@ -4,8 +4,7 @@ package game;
 //import com.crashlytics.android.Crashlytics;
 //import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.map.geolocation.TencentLocationUtils;
-import com.anglegame.blackjack.AppActivity;
-import com.anglegame.blackjack.R;
+import com.anglegame.blackjack.GameAppActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -42,9 +41,9 @@ public class SystemTool {
     private final static String TAG = Cocos2dxActivity.class.getSimpleName();
 
     public static boolean SetLandscape() {
-        if (AppActivity.app.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+        if (GameAppActivity.mainActive.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
             Log.i("横竖屏切换", "设置横屏");
-            AppActivity.app.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            GameAppActivity.mainActive.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             return true;
         } else {
             Log.i("横竖屏切换", "已经是横屏");
@@ -53,9 +52,9 @@ public class SystemTool {
     }
 
     public static boolean SetPortrait() {
-        if (AppActivity.app.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        if (GameAppActivity.mainActive.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             Log.i("横竖屏切换", "设置竖屏");
-            AppActivity.app.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            GameAppActivity.mainActive.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             return true;
         } else {
             Log.i("横竖屏切换", "已经是竖屏");
@@ -71,7 +70,7 @@ public class SystemTool {
         int ver = Build.VERSION.SDK_INT;
         Log.d(TAG, "安卓系统版本 " + ver);
         if (ver >= 17) {
-            Display display = AppActivity.app.getWindowManager().getDefaultDisplay();
+            Display display = GameAppActivity.mainActive.getWindowManager().getDefaultDisplay();
             DisplayMetrics dm = new DisplayMetrics();
             Class c;
             try {
@@ -86,7 +85,7 @@ public class SystemTool {
             screen_height = dm.heightPixels;
         } else {
             Point point = new Point();
-            AppActivity.app.getWindowManager().getDefaultDisplay().getSize(point);
+            GameAppActivity.mainActive.getWindowManager().getDefaultDisplay().getSize(point);
             Log.d(TAG, "屏幕分辨率 " + point.toString());
             screen_width = point.x;
             screen_height = point.y;
@@ -96,7 +95,7 @@ public class SystemTool {
     }
 
     public static boolean is3GAvailable() {
-        ConnectivityManager mgr = (ConnectivityManager) AppActivity.app.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager mgr = (ConnectivityManager) GameAppActivity.mainActive.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = mgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (info != null) {
             return info.isAvailable();
@@ -105,7 +104,7 @@ public class SystemTool {
     }
 
     public static boolean isWifiAvailable() {
-        ConnectivityManager mgr = (ConnectivityManager) AppActivity.app.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager mgr = (ConnectivityManager) GameAppActivity.mainActive.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = mgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (info != null) {
             return info.isAvailable();
@@ -115,7 +114,7 @@ public class SystemTool {
 
     public static boolean isNetAvailable() {
 //        Log.i("MainActivity", "isNetAvailable in java called");
-        ConnectivityManager manager = (ConnectivityManager) AppActivity.app.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) GameAppActivity.mainActive.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeInfo = manager.getActiveNetworkInfo();
         if (activeInfo != null) {
             return activeInfo.isAvailable();
@@ -126,8 +125,8 @@ public class SystemTool {
     public static String getChannelID() {
         String channel = "default";
         try {
-            String packageName = AppActivity.app.getPackageName();
-            PackageManager mgr = AppActivity.app.getPackageManager();
+            String packageName = GameAppActivity.mainActive.getPackageName();
+            PackageManager mgr = GameAppActivity.mainActive.getPackageManager();
             ApplicationInfo info = mgr.getApplicationInfo(packageName,
                     PackageManager.GET_META_DATA);
             Object value = info.metaData.get("CHANNEL_ID");
@@ -143,23 +142,23 @@ public class SystemTool {
     public static void OpenUrl(String url) {
         final Uri uri = Uri.parse(url);
         final Intent it = new Intent(Intent.ACTION_VIEW, uri);
-        AppActivity.app.startActivity(it);
+        GameAppActivity.mainActive.startActivity(it);
     }
 
     static String tempStr;
 
     public static String GetClipBoardContent() {
         tempStr = "";
-        AppActivity.app.runOnUiThread(new Runnable() {
+        GameAppActivity.mainActive.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < 11) { // API=11ä»¥ä¸: android.os.Build.VERSION_CODES.HONEYCOMB
-                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) AppActivity.app
+                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) GameAppActivity.mainActive
                             .getSystemService(Context.CLIPBOARD_SERVICE);
                     tempStr = clipboard.getText().toString();
                 } else {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) AppActivity.app
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) GameAppActivity.mainActive
                             .getSystemService(Context.CLIPBOARD_SERVICE);
                     if (clipboard != null && clipboard.getText() != null) {
                         tempStr = clipboard.getText().toString();
@@ -172,16 +171,16 @@ public class SystemTool {
 
     public static void SetClipBoardContent(String content) {
         tempStr = content;
-        AppActivity.app.runOnUiThread(new Runnable() {
+        GameAppActivity.mainActive.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.DONUT) { // API=11ä»¥ä¸
-                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) AppActivity.app
+                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) GameAppActivity.mainActive
                             .getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setText(tempStr);
                 } else {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) AppActivity.app
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) GameAppActivity.mainActive
                             .getSystemService(Context.CLIPBOARD_SERVICE);
                     if (clipboard != null) {
                         android.content.ClipData clip = android.content.ClipData
@@ -195,19 +194,19 @@ public class SystemTool {
 
 
     public static float getBatteryLevel() {
-        return AppActivity.batteryLevel;
+        return GameAppActivity.batteryLevel;
     }
 
     public static void StartLoadingAni(final String content) {
-        AppActivity.app.startLoadingAni(content);
+        GameAppActivity.gameApp.startLoadingAni(content);
     }
 
     public static void StopLoadingAni() {
-        AppActivity.app.stopLoadingAni();
+        GameAppActivity.gameApp.stopLoadingAni();
     }
 
     public static void SetLoadingAniTips(final String content) {
-        AppActivity.app.setLoadingAniTips(content);
+        GameAppActivity.gameApp.setLoadingAniTips(content);
     }
 
     public static String getMD5ByFile(final String path) {
@@ -235,7 +234,7 @@ public class SystemTool {
     }
 
     public static void gameStart() {
-        AppActivity.app.gameStart();
+        GameAppActivity.gameApp.gameStart();
     }
 
     /**********************************以下接口未使用*************************************/
@@ -243,12 +242,12 @@ public class SystemTool {
     public static void installApp(String fileName) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(new File(fileName)), "application/vnd.android.package-archive");
-        AppActivity.app.startActivity(intent);
+        GameAppActivity.mainActive.startActivity(intent);
     }
 
     public static String GetGPSLocation() {
         //è·åå®ä½æå¡
-        LocationManager locationManager = (LocationManager) AppActivity.app.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) GameAppActivity.mainActive.getSystemService(Context.LOCATION_SERVICE);
         //è·åå½åå¯ç¨çä½ç½®æ§å¶å¨
         List<String> list = locationManager.getProviders(true);
 
@@ -278,10 +277,10 @@ public class SystemTool {
         return locationVal;
     }
 
-    public static String getInnerSDCardPath() { return AppActivity.app.getInnerSDCardPath(); }
+    public static String getInnerSDCardPath() { return GameAppActivity.gameApp.getInnerSDCardPath(); }
 
     public static void closeSplash() {
-        AppActivity.closeSplash();
+        GameAppActivity.closeSplash();
     }
 
     public static float getDistanceBetwwen(float start_Lat, float end_lat, float start_long, float end_long) {
@@ -290,18 +289,18 @@ public class SystemTool {
 
     public static String getAdress() {
         Log.e("详细地址： 调用函数：", "getAdress");
-        return AppActivity.app.getAdress();
+        return GameAppActivity.gameApp.getAdress();
     }
 
     public static float getLatitude() {
         Log.e("详细纬度：", "调用getlatitude");
-        float latitude = AppActivity.app.getLatitude();
+        float latitude = GameAppActivity.gameApp.getLatitude();
         return latitude;
     }
 
     public static float getLongitude() {
         Log.e("详细经度：", "调用getLongitude");
-        float longitude = AppActivity.app.getLongitude();
+        float longitude = GameAppActivity.gameApp.getLongitude();
         return longitude;
     }
 
@@ -330,10 +329,10 @@ public class SystemTool {
     }
 
     public static void getWXRoomID() {
-        final String jsCallStr = String.format("cc.dealWithWXInviteInfo(\"%s\");", AppActivity.wxinvite);
+        final String jsCallStr = String.format("cc.dealWithWXInviteInfo(\"%s\");", GameAppActivity.wxinvite);
         System.out.println(jsCallStr);
-        AppActivity.wxinvite = "";
-        AppActivity.app.runOnGLThread(new Runnable() {
+        GameAppActivity.wxinvite = "";
+        GameAppActivity.mainActive.runOnGLThread(new Runnable() {
             @Override
             public void run() {
                 Cocos2dxJavascriptJavaBridge.evalString(jsCallStr);

@@ -1,11 +1,9 @@
 package game;
 
 import android.graphics.Bitmap;
-import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;

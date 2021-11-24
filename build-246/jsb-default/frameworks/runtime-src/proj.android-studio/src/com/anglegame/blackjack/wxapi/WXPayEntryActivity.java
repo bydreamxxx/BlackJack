@@ -6,7 +6,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.anglegame.blackjack.AppActivity;
+import com.anglegame.blackjack.GameAppActivity;
 
 import android.app.Activity;
 //import android.app.AlertDialog;
@@ -26,7 +26,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
         super.onCreate(savedInstanceState);
 
 //        APP_ID = AppActivity.getMetaInfo("APP_ID");
-		APP_ID = AppActivity.APP_ID;
+		APP_ID = GameAppActivity.APP_ID;
 
         Log.v(TAG,"WXPayEntryActivity  onCreate ---------Get APP_ID="+APP_ID);
 

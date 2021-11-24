@@ -3,7 +3,7 @@ package game;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.anglegame.blackjack.AppActivity;
+import com.anglegame.blackjack.GameAppActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +14,16 @@ import java.util.List;
 
 public class Preference {
     private static Context context;
-    private static AppActivity activity;
+    private static GameAppActivity activity;
     private static final String KEY_USER_ACCOUNT = "account";
     private static final String KEY_USER_TOKEN = "token";
     private static final List<String> users = new ArrayList<String>();
 
-    public static void setActivity(AppActivity activity){
+    public static void setActivity(GameAppActivity activity){
         Preference.activity = activity;
     }
 
-    public static AppActivity getActivity(){
+    public static GameAppActivity getActivity(){
         return Preference.activity;
     }
 
