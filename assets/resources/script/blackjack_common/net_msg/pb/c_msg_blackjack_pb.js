@@ -339,6 +339,7 @@ let bj_result_info = cc.Class({
     setType(type){
         this.type = type;
     },
+
 });
 
 module.exports.bj_result_info = bj_result_info;

@@ -306,11 +306,15 @@ let msg_rm_show_req = cc.Class({
     getContent(){
         let content = {};
         content.card = this.card;
+        content.groupsList = this.groupsList;
 
         return content;
     },
     setCard(card){
         this.card = card;
+    },
+    setGroupsList(groupsList){
+        this.groupsList = groupsList;
     },
 
 });
@@ -318,6 +322,44 @@ let msg_rm_show_req = cc.Class({
 module.exports.msg_rm_show_req = msg_rm_show_req;
 
 let msg_rm_show_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.ret = this.ret;
+        content.uid = this.uid;
+
+        return content;
+    },
+    setRet(ret){
+        this.ret = ret;
+    },
+    setUid(uid){
+        this.uid = uid;
+    },
+
+});
+
+module.exports.msg_rm_show_ack = msg_rm_show_ack;
+
+let msg_rm_commit_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.groupsList = this.groupsList;
+
+        return content;
+    },
+    setGroupsList(groupsList){
+        this.groupsList = groupsList;
+    },
+
+});
+
+module.exports.msg_rm_commit_req = msg_rm_commit_req;
+
+let msg_rm_commit_ack = cc.Class({
     ctor(){
     },
     getContent(){
@@ -332,7 +374,7 @@ let msg_rm_show_ack = cc.Class({
 
 });
 
-module.exports.msg_rm_show_ack = msg_rm_show_ack;
+module.exports.msg_rm_commit_ack = msg_rm_commit_ack;
 
 let msg_rm_sort_req = cc.Class({
     ctor(){

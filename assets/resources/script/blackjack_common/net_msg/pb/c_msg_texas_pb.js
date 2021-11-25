@@ -371,9 +371,17 @@ let msg_texas_results_notify = cc.Class({
     },
     getContent(){
         let content = {};
+        content.roomId = this.roomId;
+        content.configId = this.configId;
         content.resultList = this.resultList;
 
         return content;
+    },
+    setRoomId(roomId){
+        this.roomId = roomId;
+    },
+    setConfigId(configId){
+        this.configId = configId;
     },
     setResultList(resultList){
         this.resultList = resultList;

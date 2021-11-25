@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_sdy');
     var recvFuncs = {
         [5100]:{ package_name:'msg', msg_name:'sdy_user_info', name:msg.sdy_user_info, func:handler.on_sdy_user_info, func_name:'on_sdy_user_info', logtag:'[5100:sdy_user_info]' },
         [5101]:{ package_name:'msg', msg_name:'sdy_room_info', name:msg.sdy_room_info, func:handler.on_sdy_room_info, func_name:'on_sdy_room_info', logtag:'[5101:sdy_room_info]' },

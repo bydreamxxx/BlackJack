@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_twoeight');
     var recvFuncs = {
         [9400]:{ package_name:'msg', msg_name:'msg_br_tb_state_notify', name:msg.msg_br_tb_state_notify, func:handler.on_msg_br_tb_state_notify, func_name:'on_msg_br_tb_state_notify', logtag:'[9400:msg_br_tb_state_notify ]' },
         [9401]:{ package_name:'msg', msg_name:'msg_br_tb_battle_record', name:msg.msg_br_tb_battle_record, func:handler.on_msg_br_tb_battle_record, func_name:'on_msg_br_tb_battle_record', logtag:'[9401:msg_br_tb_battle_record ]' },

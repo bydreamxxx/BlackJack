@@ -18,12 +18,14 @@
         [9813]:{ package_name:'msg', msg_name:'rm_group', name:msg.rm_group, func:handler.on_rm_group, func_name:'on_rm_group', logtag:'[9813:rm_group]' },
         [9814]:{ package_name:'msg', msg_name:'msg_rm_show_req', name:msg.msg_rm_show_req, func:handler.on_msg_rm_show_req, func_name:'on_msg_rm_show_req', logtag:'[9814:msg_rm_show_req]' },
         [9815]:{ package_name:'msg', msg_name:'msg_rm_show_ack', name:msg.msg_rm_show_ack, func:handler.on_msg_rm_show_ack, func_name:'on_msg_rm_show_ack', logtag:'[9815:msg_rm_show_ack]' },
-        [9816]:{ package_name:'msg', msg_name:'msg_rm_sort_req', name:msg.msg_rm_sort_req, func:handler.on_msg_rm_sort_req, func_name:'on_msg_rm_sort_req', logtag:'[9816:msg_rm_sort_req]' },
-        [9817]:{ package_name:'msg', msg_name:'msg_rm_sort_ack', name:msg.msg_rm_sort_ack, func:handler.on_msg_rm_sort_ack, func_name:'on_msg_rm_sort_ack', logtag:'[9817:msg_rm_sort_ack]' },
-        [9818]:{ package_name:'msg', msg_name:'msg_rm_drop_req', name:msg.msg_rm_drop_req, func:handler.on_msg_rm_drop_req, func_name:'on_msg_rm_drop_req', logtag:'[9818:msg_rm_drop_req]' },
-        [9819]:{ package_name:'msg', msg_name:'msg_rm_drop_ack', name:msg.msg_rm_drop_ack, func:handler.on_msg_rm_drop_ack, func_name:'on_msg_rm_drop_ack', logtag:'[9819:msg_rm_drop_ack]' },
-        [9820]:{ package_name:'msg', msg_name:'rm_result_info', name:msg.rm_result_info, func:handler.on_rm_result_info, func_name:'on_rm_result_info', logtag:'[9820:rm_result_info]' },
-        [9821]:{ package_name:'msg', msg_name:'msg_rm_result', name:msg.msg_rm_result, func:handler.on_msg_rm_result, func_name:'on_msg_rm_result', logtag:'[9821:msg_rm_result]' },
+        [9816]:{ package_name:'msg', msg_name:'msg_rm_commit_req', name:msg.msg_rm_commit_req, func:handler.on_msg_rm_commit_req, func_name:'on_msg_rm_commit_req', logtag:'[9816:msg_rm_commit_req]' },
+        [9817]:{ package_name:'msg', msg_name:'msg_rm_commit_ack', name:msg.msg_rm_commit_ack, func:handler.on_msg_rm_commit_ack, func_name:'on_msg_rm_commit_ack', logtag:'[9817:msg_rm_commit_ack]' },
+        [9818]:{ package_name:'msg', msg_name:'msg_rm_sort_req', name:msg.msg_rm_sort_req, func:handler.on_msg_rm_sort_req, func_name:'on_msg_rm_sort_req', logtag:'[9818:msg_rm_sort_req]' },
+        [9819]:{ package_name:'msg', msg_name:'msg_rm_sort_ack', name:msg.msg_rm_sort_ack, func:handler.on_msg_rm_sort_ack, func_name:'on_msg_rm_sort_ack', logtag:'[9819:msg_rm_sort_ack]' },
+        [9820]:{ package_name:'msg', msg_name:'msg_rm_drop_req', name:msg.msg_rm_drop_req, func:handler.on_msg_rm_drop_req, func_name:'on_msg_rm_drop_req', logtag:'[9820:msg_rm_drop_req]' },
+        [9821]:{ package_name:'msg', msg_name:'msg_rm_drop_ack', name:msg.msg_rm_drop_ack, func:handler.on_msg_rm_drop_ack, func_name:'on_msg_rm_drop_ack', logtag:'[9821:msg_rm_drop_ack]' },
+        [9822]:{ package_name:'msg', msg_name:'rm_result_info', name:msg.rm_result_info, func:handler.on_rm_result_info, func_name:'on_rm_result_info', logtag:'[9822:rm_result_info]' },
+        [9823]:{ package_name:'msg', msg_name:'msg_rm_result', name:msg.msg_rm_result, func:handler.on_msg_rm_result, func_name:'on_msg_rm_result', logtag:'[9823:msg_rm_result]' },
 
     };
     module.exports = {

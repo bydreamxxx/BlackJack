@@ -16,12 +16,14 @@
         cmd_rm_group:9813,
         cmd_msg_rm_show_req:9814,
         cmd_msg_rm_show_ack:9815,
-        cmd_msg_rm_sort_req:9816,
-        cmd_msg_rm_sort_ack:9817,
-        cmd_msg_rm_drop_req:9818,
-        cmd_msg_rm_drop_ack:9819,
-        cmd_rm_result_info:9820,
-        cmd_msg_rm_result:9821,
+        cmd_msg_rm_commit_req:9816,
+        cmd_msg_rm_commit_ack:9817,
+        cmd_msg_rm_sort_req:9818,
+        cmd_msg_rm_sort_ack:9819,
+        cmd_msg_rm_drop_req:9820,
+        cmd_msg_rm_drop_ack:9821,
+        cmd_rm_result_info:9822,
+        cmd_msg_rm_result:9823,
 
     };
 

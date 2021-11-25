@@ -1,6 +1,7 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var baseHandler = require('base_mj_net_handler_base_mj').handler;
+    var handler = new baseHandler();
     var recvFuncs = {
         [8000]:{ package_name:'msg', msg_name:'EndLotteryInfo', name:msg.EndLotteryInfo, func:handler.on_EndLotteryInfo, func_name:'on_EndLotteryInfo', logtag:'[8000:EndLotteryInfo ]' },
         [8001]:{ package_name:'msg', msg_name:'PlayerCard', name:msg.PlayerCard, func:handler.on_PlayerCard, func_name:'on_PlayerCard', logtag:'[8001:PlayerCard ]' },

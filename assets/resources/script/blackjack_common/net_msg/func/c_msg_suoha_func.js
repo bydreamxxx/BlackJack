@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_suoha');
     var recvFuncs = {
         [6300]:{ package_name:'msg', msg_name:'msg_suoha_state_change_2c', name:msg.msg_suoha_state_change_2c, func:handler.on_msg_suoha_state_change_2c, func_name:'on_msg_suoha_state_change_2c', logtag:'[6300:msg_suoha_state_change_2c ]' },
         [6301]:{ package_name:'msg', msg_name:'msg_suoha_ready_2s', name:msg.msg_suoha_ready_2s, func:handler.on_msg_suoha_ready_2s, func_name:'on_msg_suoha_ready_2s', logtag:'[6301:msg_suoha_ready_2s ]' },

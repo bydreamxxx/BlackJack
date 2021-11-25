@@ -80,10 +80,10 @@ module.exports = {
     //     }
     // })()],
     HALL_NAME: HALL_TYPE[(function(){
-       if(cc.pid == 2){
-           return 0;
-       }else{
+       if(cc.sys.isBrowser){
            return 1;
+       }else{
+           return 0;
        }
     })()],
     // LOGIN_SCENE_NAME: LOGIN_SCENE[(cc._isAppstore && !cc._isHuaweiGame || cc.dd._.isUndefined(cc.game_pid)) ? 0 : (cc._androidstore_check ? 2 : (((cc.game_pid > 1 && cc.game_pid < 10000) ? 2 : (cc._isXiangYueYuLe ? 3 : 0))))],

@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('jlmj_net_handler_zjh');
     var recvFuncs = {
         [5200]:{ package_name:'msg', msg_name:'msg_zhajinhua_match_2s', name:msg.msg_zhajinhua_match_2s, func:handler.on_msg_zhajinhua_match_2s, func_name:'on_msg_zhajinhua_match_2s', logtag:'[5200:msg_zhajinhua_match_2s ]' },
         [5201]:{ package_name:'msg', msg_name:'msg_zhajinhua_match_2c', name:msg.msg_zhajinhua_match_2c, func:handler.on_msg_zhajinhua_match_2c, func_name:'on_msg_zhajinhua_match_2c', logtag:'[5201:msg_zhajinhua_match_2c ]' },

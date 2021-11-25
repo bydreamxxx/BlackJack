@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_paoyao');
     var recvFuncs = {
         [5500]:{ package_name:'msg', msg_name:'py_team', name:msg.py_team, func:handler.on_py_team, func_name:'on_py_team', logtag:'[5500:py_team]' },
         [5501]:{ package_name:'msg', msg_name:'py_role', name:msg.py_role, func:handler.on_py_role, func_name:'on_py_role', logtag:'[5501:py_role]' },

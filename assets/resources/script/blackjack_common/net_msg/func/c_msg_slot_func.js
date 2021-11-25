@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_slot');
     var recvFuncs = {
         [5400]:{ package_name:'msg', msg_name:'msg_slot_enter_2s', name:msg.msg_slot_enter_2s, func:handler.on_msg_slot_enter_2s, func_name:'on_msg_slot_enter_2s', logtag:'[5400:msg_slot_enter_2s]' },
         [5401]:{ package_name:'msg', msg_name:'msg_slot_enter_2c', name:msg.msg_slot_enter_2c, func:handler.on_msg_slot_enter_2c, func_name:'on_msg_slot_enter_2c', logtag:'[5401:msg_slot_enter_2c]' },

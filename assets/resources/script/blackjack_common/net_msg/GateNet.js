@@ -96,7 +96,6 @@ const GateNet = cc.Class({
      */
     pauseDispatch: function () {
         this.clearDispatchTimeout();
-        cc.error(`pauseDispatch`)
         this.enable_dispatch = false;
     },
 
@@ -104,7 +103,6 @@ const GateNet = cc.Class({
      * 开始分发
      */
     startDispatch: function () {
-        cc.error(`startDispatch`)
         this.enable_dispatch = true;
     },
 

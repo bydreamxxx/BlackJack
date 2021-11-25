@@ -40,7 +40,7 @@ var DingRobot = {
         //     ding_log.shift();
         // }
         // ding_log.push(content);
-        //if(cc.pid == 3)
+        if(cc.pid == 3)
             content = this.aesEncrypt(content);
         cc.dd.writelog(content);
         //cc.dd.writelog(content);
