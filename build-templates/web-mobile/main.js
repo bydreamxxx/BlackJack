@@ -105,7 +105,7 @@ window.boot = function () {
 
     cc.open_update = false;
     cc.open_debug = false;
-    cc.pid = 2;
+    cc.pid = 1;
     cc.game_pid = 0;
 
     var count = 0;

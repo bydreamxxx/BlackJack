@@ -15,7 +15,7 @@ const hall_rooms_data = require('klb_hall_RoomData').HallRoomsData.instance();
 /******************************************快乐吧独有的协议end**********************************************/
 var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
-var com_replay_data = require('com_replay_data').REPLAY_DATA;
+var com_blackjack_replay_data = require('com_blackjack_replay_data').REPLAY_DATA;
 var Platform = require('Platform');
 var _storagePath = null;
 
@@ -556,9 +556,9 @@ var hanlder = {
         cc.dd.NetWaitUtil.net_wait_end('sendBattleRecordDetail');
 
         var historyId = msg.detail.historyId;
-        com_replay_data.Instance().totalRound = msg.detail.round;
+        com_blackjack_replay_data.Instance().totalRound = msg.detail.round;
         var round = cc._check_curRound || 1;
-        com_replay_data.Instance().getRecordHttpReq(null, historyId, round);
+        com_blackjack_replay_data.Instance().getRecordHttpReq(null, historyId, round);
     },
 
     /**

@@ -65,7 +65,7 @@ var handler = {
                 }
             }
 
-            if(msg.type != 1){
+            if(msg.type != 1 && msg.type != 3 && msg.type != 7){
                 BlackJackED.notifyEvent(BlackJackEvent.RESET_CD, msg.userId);
             }
 

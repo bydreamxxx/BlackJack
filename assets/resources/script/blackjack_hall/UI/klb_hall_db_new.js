@@ -135,16 +135,16 @@ cc.Class({
         var string = '';
         switch (parseInt(data)) {
             case 1:
-                string = 'XLdl001';
+                string = '000';
                 break;
             case 2:
                 if (this.m_phoneLabel)
                     string = this.m_phoneLabel.string;
                 else
-                    string = '17052495555';
+                    string = '000';
                 break;
             case 3:
-                string = 'XLcs003';
+                string = '000';
                 break;
         }
 

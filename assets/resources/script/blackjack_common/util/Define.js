@@ -476,6 +476,7 @@ var GamePID = {
 
 var GetBundleNameByScene = {
     'blackjack_hall': 'resources',
+    'blackjack_hall_texas': 'resources',
     'blackjack_login': 'resources',
     'blackjack_preLogin': 'resources',
     'blackjack': 'blackjack_blackjack',

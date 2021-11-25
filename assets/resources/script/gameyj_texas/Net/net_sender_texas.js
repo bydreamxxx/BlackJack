@@ -82,5 +82,15 @@ module.exports = {
             'msg_texas_auto_req', 'no');
 
     },
+
+    /**
+     * 换桌
+     */
+    sendReplaceDesktop(gameId, roomId){
+        var pbData = new cc.pb.room_mgr.msg_change_room_req();
+        pbData.setGameType(gameId);
+        pbData.setRoomCoinId(roomId);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_change_room_req, pbData, 'msg_change_room_req', true);
+    },
     
 }

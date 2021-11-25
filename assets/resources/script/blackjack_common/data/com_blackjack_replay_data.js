@@ -42,7 +42,7 @@ const com_blackjack_replay = cc.Class({
         cc.dd.NetWaitUtil.show('请求数据中...');
         var callback = this.onGetDataSuccess.bind(this);
         var host = Platform.RecordUrl[AppCfg.PID];
-        gameType = parseInt((recordId + '').substring(9, 11));
+        gameType = parseInt((recordId + '').substring(9, 12));
         roundId = roundId || 1;
         this.curRound = roundId;
         var round = roundId > 99 ? roundId.toString() : (roundId > 9 ? '0' + roundId.toString() : '00' + roundId.toString());
@@ -108,6 +108,10 @@ const com_blackjack_replay = cc.Class({
             if (this.decodeRecordData(data)) {
                 this.gameType = gameType;
                 this.recordId = recordId;
+                if(this.gameType == Define.GameType.TEXAS){
+                    cc.dd.UIMgr.openUI("gameyj_texas/prefab/Texas_Record_Detail", function (node) {
+                    }.bind(this));        
+                }
 
                 REPLAY_ED.notifyEvent(REPLAY_EVENT.ON_GET_DATA, null);
             }

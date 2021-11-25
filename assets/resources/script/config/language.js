@@ -202,7 +202,15 @@ var data_language =
       { key:198,keyword:"forbidden",en:"This operation is forbidden in the game room. Please try again in a minute",tc:"遊戲房間內禁止此操作，請您一分鐘後再試",in:"यह आपरेशन वर्तमान में रोका गया है. कृपया एक मिनट में फिर कोशिश करें",zh:"游戏房间内禁止此操作，请您一分钟后再试" },
       { key:199,keyword:"enternumber",en:"Please enter the correct number",tc:"請輸入正確的數位",in:"कृपया सही संख्या भरें",zh:"请输入正确的数字" },
       { key:200,keyword:"enteramount",en:"Please enter the deposit amount",tc:"請輸入存入金額",in:"कृपया डोपोसिट मात्रा भरें",zh:"请输入存入金额" },
-      { key:201,keyword:"Requestingdata",en:"Requesting data",tc:"正在請求數據",in:"निवेदन डाटा",zh:"正在请求数据" }
+      { key:201,keyword:"Requestingdata",en:"Requesting data",tc:"正在請求數據",in:"निवेदन डाटा",zh:"正在请求数据" },
+      { key:202,keyword:"BTN",en:"BTN",tc:"莊位",in:"BTN",zh:"庄位" },
+      { key:203,keyword:"UTG",en:"UTG",tc:"槍口位",in:"UTG",zh:"枪口位" },
+      { key:204,keyword:"MP",en:"MP",tc:"中位",in:"MP",zh:"中位" },
+      { key:205,keyword:"HJ",en:"HJ",tc:"後置位",in:"HJ",zh:"后置位" },
+      { key:206,keyword:"UTG+1",en:"UTG+1",tc:"槍口位+1",in:"UTG+1",zh:"枪口位+1" },
+      { key:207,keyword:"MP+2",en:"MP+2",tc:"中位+2",in:"MP+2",zh:"中位+2" },
+      { key:208,keyword:"CO",en:"CO",tc:"後置位+1",in:"CO",zh:"后置位+1" },
+      { key:209,keyword:"Details",en:"Details",tc:"詳情",in:"विवरण",zh:"详情" }
     ],
 
     /**
