@@ -162,6 +162,7 @@ var GameType = {
     BLACKJACK_GOLD: 203,
     BLACKJACK_FRIEND: 85,
     TEXAS: 202, //德州
+    RUMMY: 185
 };
 
 /**

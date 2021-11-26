@@ -10,7 +10,7 @@ var handler = {
     },
 
     on_msg_rm_state_change_2c(msg) {
-
+        RummyData.changeState(msg);
     },
 
     on_msg_rm_info(msg) {

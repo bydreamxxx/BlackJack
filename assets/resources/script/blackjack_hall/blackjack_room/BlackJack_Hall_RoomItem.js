@@ -79,6 +79,9 @@ cc.Class({
                 case Define.GameType.BLACKJACK_GOLD:
                     this.checkIsEnterCommon(this.gameid, this.sendBlackJack.bind(this));
                     break;
+                case Define.GameType.RUMMY:
+                    this.checkIsEnterCommon(this.gameid, this.sendRummy.bind(this));
+                    break;
                 default:
                     break;
             }
@@ -193,17 +196,28 @@ cc.Class({
     },
 
     sendBlackJack(gameid){
+        cc.dd.AppCfg.GAME_ID = gameid;
+        let data = this.roomItem;
+
         let BlackJackData = require('BlackJackData').BlackJackData.Instance();
         BlackJackData.setRoomInfo(data);
 
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setGameType(data.gameid);
+        msg.setRoomId(data.roomid);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+    },
+
+    sendRummy(gameid){
         cc.dd.AppCfg.GAME_ID = gameid;
         let data = this.roomItem;
-        var func = function () {
-            var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-            msg.setGameType(data.gameid);
-            msg.setRoomId(data.roomid);
-            cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
-        }
-        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
-    },
+
+        let RummyData = require('RummyData').RummyData.Instance();
+        RummyData.setRoomInfo(data);
+
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setGameType(data.gameid);
+        msg.setRoomId(data.roomid);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+    }
 });

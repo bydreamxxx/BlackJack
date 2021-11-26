@@ -596,6 +596,13 @@ var handler = {
                     });
                 }
                 break;
+            case cc.dd.Define.GameType.RUMMY:
+                RoomMgr.Instance().setPlayerMgr();
+                RoomMgr.Instance().player_mgr.updatePlayerNum();
+                msg.roleInfosList.forEach(player=>{
+                    RoomMgr.Instance().player_mgr.playerEnter(player);
+                });
+                break;
         }
     },
 
@@ -1135,7 +1142,7 @@ var handler = {
                 RoomMgr.Instance().gameId = msg.gameInfo.gameType;
                 RoomMgr.Instance().roomType = msg.gameInfo.roomId;
                 cc.dd.SceneManager.enterGameWithLoading(msg.gameInfo.gameType);
-            } else if(msg.gameInfo.gameType == define.GameType.BLACKJACK_GOLD){
+            } else if(msg.gameInfo.gameType == define.GameType.BLACKJACK_GOLD || msg.gameInfo.gameType == define.GameType.RUMMY){
                 cc.dd.SceneManager.enterGame(msg.gameInfo.gameType, null, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
             }else
                 if (msg.gameInfo.gameType != define.LKFISH_GOLD)//捕鱼需要特殊加载处理
