@@ -121,8 +121,6 @@ var DialogBoxUtil = cc.Class({
      * @param cancelHandler  取消按钮回调
      */
     show: function (priority, contentStr, okStr, cancelStr, okHandler, cancelHandler, titleStr, addStr) {
-        cc.error(`show`);
-
         this.waitCB = null;
         if (!this.inited) {
             if (cc._useChifengUI)

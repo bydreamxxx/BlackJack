@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('net_hadler_hbsl');
+    var handler = require('no_use');
     var recvFuncs = {
         [6800]:{ package_name:'msg', msg_name:'hb_role', name:msg.hb_role, func:handler.on_hb_role, func_name:'on_hb_role', logtag:'[6800:hb_role]' },
         [6801]:{ package_name:'msg', msg_name:'mai_role', name:msg.mai_role, func:handler.on_mai_role, func_name:'on_mai_role', logtag:'[6801:mai_role]' },

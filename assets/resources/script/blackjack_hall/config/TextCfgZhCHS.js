@@ -434,7 +434,7 @@ var TextCfgZhCHS = {
 	TEXT_POPUP_14 : "检测更新失败,是否继续进入游戏?",
 	TEXT_POPUP_15 : "金币不足",
 	TEXT_POPUP_16 : "金币过多，请重新选择更高级的房间",
-	TEXT_POPUP_17 : "当前禁止该游戏，请联系管理员",
+	TEXT_POPUP_17 : "jinzhiyouxi",
 	TEXT_POPUP_18 : "金币不足，不能进入",
 	TEXT_POPUP_19 : "金币高于进入上限",
 	TEXT_POPUP_20 : "金币不足，无法匹配，请重新选择房间",

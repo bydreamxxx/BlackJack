@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('net_handler_gdy');
+    var handler = require('no_use');
     var recvFuncs = {
         [6500]:{ package_name:'msg', msg_name:'gdy_role', name:msg.gdy_role, func:handler.on_gdy_role, func_name:'on_gdy_role', logtag:'[6500:gdy_role]' },
         [6501]:{ package_name:'msg', msg_name:'gdy_desk', name:msg.gdy_desk, func:handler.on_gdy_desk, func_name:'on_gdy_desk', logtag:'[6501:gdy_desk]' },

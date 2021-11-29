@@ -465,7 +465,7 @@ var handler = {
                 tipsText = '该房间鱼潮进行中，请等待' + msg.arg + '秒后再尝试加入';
                 break;
         }
-        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        cc.dd.DialogBoxUtil.show(0, tipsText, "OK");
         RoomED.notifyEvent(RoomEvent.check_is_in_game, [msg]);
     },
 

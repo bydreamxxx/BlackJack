@@ -614,9 +614,10 @@ cc.Class({
         if (selfPlayer.joinGame) {
             cardInfoList = msg.cardsList;
             this.head_list[0].node.opacity = 255;
+            this.head_list[0].showWait(false);
         } else {
             this.head_list[0].node.opacity = 180;
-            this.head_list[0].showWait();
+            this.head_list[0].showWait(true);
         }
 
         var bankerView = texas_Data.Instance().getViewById(texas_Data.Instance().bankerId);
@@ -1045,7 +1046,7 @@ cc.Class({
                 this.head_list[i].showDiscard(player.state == 3, i == 0);
                 if (player.joinGame == 0) {
                     this.showChangeDeskBtn(true)
-                    this.head_list[i].showWait();
+                    this.head_list[i].showWait(true);
                 } else if (player.state == 5) {
                     //是否allin
                     var allin = cc.find('allin', this.head_list[i].node);
@@ -1531,7 +1532,7 @@ cc.Class({
                 var func = function () {
                     this.backToHall();
                 }.bind(this);
-                cc.dd.DialogBoxUtil.show(1, str, 'confirm', 'cancel',func)
+                cc.dd.DialogBoxUtil.show(0, str, 'confirm', nill, func)
             }
             else {
                 this.backToHall();

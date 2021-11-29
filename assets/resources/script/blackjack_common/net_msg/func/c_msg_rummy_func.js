@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_rummy');
     var recvFuncs = {
         [9800]:{ package_name:'msg', msg_name:'msg_rm_ready_req', name:msg.msg_rm_ready_req, func:handler.on_msg_rm_ready_req, func_name:'on_msg_rm_ready_req', logtag:'[9800:msg_rm_ready_req]' },
         [9801]:{ package_name:'msg', msg_name:'msg_rm_ready_ack', name:msg.msg_rm_ready_ack, func:handler.on_msg_rm_ready_ack, func_name:'on_msg_rm_ready_ack', logtag:'[9801:msg_rm_ready_ack]' },

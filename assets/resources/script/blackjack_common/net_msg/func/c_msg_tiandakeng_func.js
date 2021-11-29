@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('jlmj_net_handler_tdk');
+    var handler = require('no_use');
     var recvFuncs = {
         [3600]:{ package_name:'msg', msg_name:'TdkCDeskUserData', name:msg.TdkCDeskUserData, func:handler.on_TdkCDeskUserData, func_name:'on_TdkCDeskUserData', logtag:'[3600:TdkCDeskUserData ]' },
         [3601]:{ package_name:'msg', msg_name:'TdkJoinPlayingDeskRsp', name:msg.TdkJoinPlayingDeskRsp, func:handler.on_TdkJoinPlayingDeskRsp, func_name:'on_TdkJoinPlayingDeskRsp', logtag:'[3601:TdkJoinPlayingDeskRsp ]' },

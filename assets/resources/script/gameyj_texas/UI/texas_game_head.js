@@ -115,21 +115,22 @@ cc.Class({
                     var pic = cc.dd.Utils.seekNodeByName(card, "dipai_1").getComponent(cc.Sprite)
                     var gray = cc.Material.getBuiltinMaterial('2d-sprite')
                     pic.setMaterial(0,gray)
-                    var mask = cc.dd.Utils.seekNodeByName(this.node, "mask")
-                    mask.active = false
                 }
             }
+            var mask = cc.dd.Utils.seekNodeByName(this.node, "mask")
+            mask.active = false    
 
             //cc.dd.ShaderUtil.setNormalShader(this._cardnode);
             this.tryShowPlayerName();
         }
     },
 
-    showWait()
+    showWait(isShow)
     {
         this._des.setText('wait');
-        this._des.node.active = true;
-        
+        this._des.node.active = isShow;
+        var mask = cc.dd.Utils.seekNodeByName(this.node, "mask1")
+        mask.active = isShow
     },
 
     setCardSprite(sprite) {
@@ -269,6 +270,10 @@ cc.Class({
             cc.log("重置头像:"+player.userId)+",view_idx:"+this.view_idx;
 
         this.showDiscard(false);
+        var mask = cc.dd.Utils.seekNodeByName(this.node, "mask1")
+        if(mask)
+            mask.active = false
+
         this.node.getComponent(cc.Animation).stop();
         cc.find('say', this.node).active = false;
         this.node.getComponentInChildren('texas_timer').setActive(false);
@@ -325,7 +330,7 @@ cc.Class({
                 {
                     this.resetUI();
                 }
-                this.showWait();
+                this.showWait(true);
             }
             
                 
