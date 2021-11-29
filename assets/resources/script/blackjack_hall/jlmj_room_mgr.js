@@ -401,7 +401,7 @@ var RoomMgr = cc.Class({
                 this.player_mgr = require('BlackJackData').BlackJackData.Instance();
                 break;
             case Define.GameType.RUMMY:
-                this.player_mgr = require('RummyData').RummyData.Instance();
+                this.player_mgr = require('RummyRoomMgr');
                 break;
             default:
                 break;

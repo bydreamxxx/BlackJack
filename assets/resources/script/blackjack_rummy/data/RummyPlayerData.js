@@ -1,6 +1,7 @@
 let RummyPlayerEvent = cc.Enum({
     PLAYER_ENTER: "PLAYER_ENTER",
     PLAYER_EXIT: "PLAYER_EXIT",
+    PLAYER_RESET_CD: "PLAYER_RESET_CD",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -58,6 +59,10 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_EXIT, this);
 
     },
+
+    resetCD(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, this);
+    }
 });
 
 module.exports = {
