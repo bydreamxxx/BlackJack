@@ -16,21 +16,23 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        perPointLabel: cc.Label,
+        maxWinLabel: cc.Label,
+
+        bottomNode: cc.Node,
+        tipsLabel: cc.Label,
+        tipsNode: cc.Node,
+        switchButtonNode: cc.Node,
+
+        showcardNode: cc.Node,
+        cardsNode: cc.Node,
+        discardNode: cc.Node,
+
+        dropNode: cc.Node,
+        invalidShowNode: cc.Node,
+        showNode: cc.Node,
+
+        cardPrefab: cc.Prefab,
     },
 
     editor:{
@@ -43,6 +45,17 @@ cc.Class({
         RoomED.addObserver(this);
         RummyED.addObserver(this);
         HallCommonEd.addObserver(this);
+
+        this.perPointLabel.string = "";
+        this.maxWinLabel.string = "";
+
+        this.cardPool = new cc.NodePool();
+        for (var i = 0; i < 106; i++) {
+            var node = cc.instantiate(this.cardPrefab);
+            this.cardPool.put(node);
+        }
+
+        this.clear();
     },
 
     onDestroy() {
@@ -71,6 +84,20 @@ cc.Class({
             default:
                 break;
         }
+    },
+
+    clear(){
+        this.showcardNode.removeAllChildren();
+        this.cardsNode.removeAllChildren();
+        this.discardNode.removeAllChildren();
+
+        this.bottomNode.active = false;
+        this.tipsNode.active = false;
+        this.switchButtonNode.active = false;
+
+        this.dropNode.active = false;
+        this.invalidShowNode.active = false;
+        this.showNode.active = false;
     },
 
     playerJoin(data){

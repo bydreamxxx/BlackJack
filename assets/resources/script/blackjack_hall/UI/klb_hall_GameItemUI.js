@@ -125,6 +125,10 @@ var HallGameItemUI = cc.Class({
      * 更新游戏完成回调
      */
     onUpdateFinish() {
+        if(this.game_id == cc.dd.Define.GameType.RUMMY){
+            cc.dd.SceneManager.enterGame(cc.dd.Define.GameType.RUMMY);
+            return;
+        }
         if (this._callFunc) {
             this._callFunc(this.game_id, this.roomType);
         } else if (this.gameType == GameType.VIP_FUNCTION) {

@@ -399,6 +399,8 @@ var GameId = {
     203: 'blackjack',
     85: 'blackjack',
     202:'texas_jbc',
+
+    185: 'rummy',
 };
 
 /**
@@ -481,6 +483,7 @@ var GetBundleNameByScene = {
     'blackjack_login': 'resources',
     'blackjack_preLogin': 'resources',
     'blackjack': 'blackjack_blackjack',
+    'rummy': 'blackjack_rummy',
 
     'nn_game_jbc': 'gameyj_nn',
     'ddz_game_jbc': 'gameyj_ddz',

@@ -13,6 +13,10 @@ let rummy_player_ui = cc.Class({
         _lastTime: 0,
     },
 
+    editor:{
+        menu:"Rummy/rummy_player_ui"
+    },
+
     onLoad() {
         this.clear();
 

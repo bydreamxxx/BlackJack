@@ -12,6 +12,7 @@ cc.Class({
         headSp: cc.Node,
         nameLabel: cc.Label,
         coin: cc.Label,
+        point: cc.Label,
         score: cc.Label,
 
         chupai_ani: cc.Node,
@@ -31,8 +32,6 @@ cc.Class({
 
         CDTime: 10,
         viewIdx: 0,
-
-        chair: cc.Label,
     },
 
     editor:{
@@ -62,8 +61,6 @@ cc.Class({
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
         this.score.node.active = false;
-
-        this.chair.string = data.seat+1;
     },
 
     onClickHead(){
@@ -81,7 +78,7 @@ cc.Class({
         cc.Tween.stopAllByTarget(this.duanyu_node);
 
         this.nameLabel.string = '';
-        this.coin.string = '';
+        this.coin.string = '0';
         this.score.string = '';
         this.score.node.active = false;
 
@@ -93,7 +90,10 @@ cc.Class({
         this.standNode.active = true;
 
         this.playerData = null;
-        this.chair.string = "";
+
+        if(this.point){
+            this.point.string = "0";
+        }
     },
 
     sit(){
@@ -283,15 +283,19 @@ cc.Class({
         var ratio = this.remain / this.time;
         this.headQuanSpr.fillRange = ratio;
         var p = this.getPos(ratio);
-        this.headAni.x = p.x;
-        this.headAni.y = p.y;
-        this.headAni.getComponent(cc.Animation).play();
-        this.headAni.parent.active = true;
+        if(this.headAni){
+            this.headAni.x = p.x;
+            this.headAni.y = p.y;
+            this.headAni.getComponent(cc.Animation).play();
+            this.headAni.parent.active = true;
+        }
         this.schedule(function () {
             this.remain -= stepTime;
             if (this.remain <= 0) {
-                this.headAni.getComponent(cc.Animation).stop();
-                this.headAni.parent.active = false;
+                if(this.headAni) {
+                    this.headAni.getComponent(cc.Animation).stop();
+                    this.headAni.parent.active = false;
+                }
                 this.unscheduleAllCallbacks();
                 if (this.callback) {
                     this.callback();
@@ -301,8 +305,10 @@ cc.Class({
                 var ratio = this.remain / this.time;
                 this.headQuanSpr.fillRange = ratio;
                 var pos = this.getPos(ratio);
-                this.headAni.x = pos.x;
-                this.headAni.y = pos.y;
+                if(this.headAni) {
+                    this.headAni.x = pos.x;
+                    this.headAni.y = pos.y;
+                }
 
                 // this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
             }
