@@ -25,6 +25,8 @@ cc.Class({
         not_my_turn_node: cc.Node,
         my_turn_node: cc.Node,
         add_bet_node: cc.Node,
+        m_oAddBtn : cc.Node,
+        m_oSureBtn: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -74,6 +76,7 @@ cc.Class({
                     cc.find('canAdd/check', this.my_turn_node).active = ((mask & OP_TYPE.pass) > 0);
                     cc.find('canAdd/addbet', this.my_turn_node).active = ((mask & OP_TYPE.add) > 0);
                     cc.find('canAdd/follow', this.my_turn_node).active = ((mask & OP_TYPE.follow) > 0);
+                    this.m_oSureBtn.active = false;
                     this.add_bet_node.getComponentInChildren('texas_bet_slider').resetAddLabel();
 
                     var canDichi = false;
@@ -183,6 +186,8 @@ cc.Class({
                 this.not_my_turn_node.active = false;
                 // this.my_turn_node.active = false;
                 this.add_bet_node.active = true;
+                this.m_oAddBtn.active = false;
+                this.m_oSureBtn.active = true;
                 break;
         }
         

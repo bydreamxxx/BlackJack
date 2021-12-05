@@ -300,8 +300,6 @@ let resLoad = cc.Class({
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/Marquee", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/DialogBox", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/DialogBox_withFix", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/chifeng_dialog", cc.Prefab));
-        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/chifeng_join_dialog", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_prompt_box", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_mask", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_smooth_mask", cc.Prefab));

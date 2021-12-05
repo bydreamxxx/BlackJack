@@ -76,12 +76,11 @@ cc.Class({
         pokerAtlas: cc.SpriteAtlas,         //牌图集
         menu_funcs: cc.Node,                 //菜单
         common_cards: cc.Node,               //公共牌
-        emojiNode: cc.Node,
         title: require("LanguageLabel"),                     //底分xxx
         numtitle:cc.Label,
-        roomIdLb: cc.Label,                  //房间id
+        roomIdLb: require("LanguageLabel"),                  //房间id
         roomMangLb: cc.Label,                 //盲注
-        addBtnLabel: cc.Label,               //加注按钮的字
+        addBtnLabel: require("LanguageLabel"),               //加注按钮的字
         anim_match: { default: null, type: dragonBones.ArmatureDisplay, tooltip: "匹配中动画" },
 
         emojiItem: { default: null, type: cc.Prefab, tooltip: "表情(弹幕)" },
@@ -147,7 +146,8 @@ cc.Class({
     },
 
     updateTitle() {
-        this.roomIdLb.string = RoomMgr.Instance().roomId;
+        var roomName = texas_Data.Instance().m_strTitle;
+        this.roomIdLb.setText(roomName);
         this.roomMangLb.string = parseInt(texas_Data.Instance().m_nBaseScore / 2) + '/' + (texas_Data.Instance().m_nBaseScore);
     },
 
@@ -230,18 +230,11 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         sender.sendReplaceDesktop(202, texas_Data.Instance().getRoomId());
         this.m_oChangeBtn.getComponent(cc.Button).interactable = false;
-        this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = false;
         this.cd_time = setTimeout(function () {
             this.m_oChangeBtn.getComponent(cc.Button).interactable = true;
-            this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = true;
             clearTimeout(this.cd_time);
         }.bind(this), 6000);
         // this.onClose();
-    },
-
-    //聊天表情符号
-    showEmoticon(event, data) {
-        this.emojiNode.active = data != null;
     },
 
     onClickChat(event, data){
@@ -255,10 +248,38 @@ cc.Class({
     },
 
 
-    // onMenu: function (event, data) {
-    //     this.menu_funcs.active = data != null;
-    // },
+    onMenu: function (event, data) {
+        var posY = this.menu_funcs.getPosition().y
+        var viewSize = cc.view.getVisibleSize()
+        if(data != null){
+            this.menu_funcs.setPosition(-1920, posY);
+            this.menu_funcs.runAction(cc.moveTo(0.15, cc.v2(-viewSize.width / 2, posY) ))
+        }else{
+            this.menu_funcs.runAction(cc.moveTo(0.15, cc.v2(-1920, posY) ))
+        }
+    },
 
+    onClickStandUp(event, data){
+        hall_audio_mgr.com_btn_click();
+
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        //var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+        msg.setGameType(RoomMgr.Instance().gameId);
+        msg.setRoomId(texas_Data.Instance().getRoomId());
+        msg.setDeskId(RoomMgr.Instance().roomId);
+        msg.setLookPlayer(1);
+        //msg.setGameInfo(gameInfoPB);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "cmd_msg_enter_coin_game_req", true);
+    },
+
+    onClickSitDown(event, data){
+        hall_audio_mgr.com_btn_click();
+
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setGameType(RoomMgr.Instance().gameId);
+        msg.setRoomId(texas_Data.Instance().getConfigId());
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+    },
 
     start() {
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
@@ -349,6 +370,9 @@ cc.Class({
             case Texas_Event.NO_CARDS_RESULT://结算
                 this.firstBet = true;
                 this.onResult(data, true);
+                break;
+            case Texas_Event.CHANGE_ROOM_STATE_TO_RESULT_STATE://清理用户
+                texas_Data.Instance().roomStatus = 2;
                 break;
             case Texas_Event.RECONNECT://重连
                 this.onReconnect(data);
@@ -1532,7 +1556,7 @@ cc.Class({
                 var func = function () {
                     this.backToHall();
                 }.bind(this);
-                cc.dd.DialogBoxUtil.show(0, str, 'confirm', nill, func)
+                cc.dd.DialogBoxUtil.show(0, str, 'confirm', null, func)
             }
             else {
                 this.backToHall();
@@ -1553,6 +1577,5 @@ cc.Class({
     showChangeDeskBtn(isShow){
         this.m_oChangeBtn.active = isShow;
         this.m_oChangeBtn.getComponent(cc.Button).interactable = isShow;
-        this.m_oChangeBtn.getChildByName('desc_btn').getComponent(cc.Button).interactable = isShow;
     },
 });

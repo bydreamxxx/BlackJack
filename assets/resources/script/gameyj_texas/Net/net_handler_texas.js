@@ -221,6 +221,7 @@ module.exports = {
         else{
             TEXAS_ED.notifyEvent(Texas_Event.NO_CARDS_RESULT, msg);
         }
+        TEXAS_ED.notifyEvent(Texas_Event.CHANGE_ROOM_STATE_TO_RESULT_STATE, msg);
         RoomMgr.Instance().gameStart = false;
     },
 

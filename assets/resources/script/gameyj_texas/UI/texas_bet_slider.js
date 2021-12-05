@@ -16,7 +16,8 @@ cc.Class({
 
     properties: {
         value_lbl: cc.Label,
-        skeNode:cc.Node,
+        baseScore_lbl : {default:[], type: cc.Label},
+        baseScore_Btn : {default:[], type: cc.Button},
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -51,20 +52,20 @@ cc.Class({
         this._bottom = bottom;
         this._value = min + defalutPercent * (max - min);
         this.getComponent(cc.Slider).progress = defalutPercent;
-        // this.getComponent(cc.ProgressBar).progress = defalutPercent;
-        this.value_lbl.string = this._value;//this.convertNumToStr(this._value);
-        if(defalutPercent == 0)
-            cc.find('coins/coin0',this.node).active = true;
+        this.getComponent(cc.ProgressBar).progress = defalutPercent;
+        this.value_lbl.string = cc.dd.Utils.getNumToWordTransform(this._value);
+        for(var i = 0; i < 3; i++){
+            this.baseScore_lbl[i].string = cc.dd.Utils.getNumToWordTransform(this._min);
+            if((i+3) * this._min < this._max)
+                this.baseScore_Btn[i].interactable = true
+            else
+                this.baseScore_Btn[i].interactable = false
+        }
 
         this.labelAdd = labelAdd;
-        this.updateCoins();
         if(this._defalutPercent == 100)
         {
             this.showAllIn(true);
-        }else
-        {
-            this.labelAdd.string = "RAISE"
-            this.skeNode.active = false;
         }
     },
 
@@ -86,63 +87,47 @@ cc.Class({
             }
             
             this.getComponent(cc.Slider).progress = Math.min(1, (this._value-this._min)/(this._max - this._min));
+            this.getComponent(cc.ProgressBar).progress = Math.min(1, (this._value-this._min)/(this._max - this._min));
         }
         this.value_lbl.string = this._value;//this.convertNumToStr(this._value);
-        this.updateCoins();
         if(this._value == this._max)
         {
             this.showAllIn();
             
-        }else
-        {
-            this.skeNode.active = false;
-            if(this.labelAdd)
-            {
-                this.labelAdd.string = "RAISE"
-            }
         }
     },
 
     showAllIn(isInit)
     {
-        if(this.skeNode.active==false)
-        {
-            if(isInit)
-            {
+        // if(this.skeNode.active==false)
+        // {
+        //     if(isInit)
+        //     {
 
-            }else
-            {
-                AudioManager.playSound(texas_audio_cfg.Allin, false);
-                if(this.labelAdd)
-                {
-                    this.labelAdd.string = "ALL IN"
-                }
-            }
+        //     }else
+        //     {
+        //         AudioManager.playSound(texas_audio_cfg.Allin, false);
+        //         if(this.labelAdd)
+        //         {
+        //             this.labelAdd.string = "ALL IN"
+        //         }
+        //     }
             
-            this.skeNode.active = true;
-            var sk = this.skeNode.getComponentInChildren(sp.Skeleton) ;
-            if(sk)
-            {
-                sk.clearTracks();
-                sk.setAnimation(0, 'allin_come',false);
-                sk.setCompleteListener(function () {
-                    sk.setCompleteListener(function () {});
-                    // sk.clearTracks();
-                    sk.setAnimation(0, 'allin_xh',true);
-                }.bind(this));
-            }
-        }
+        //     this.skeNode.active = true;
+        //     var sk = this.skeNode.getComponentInChildren(sp.Skeleton) ;
+        //     if(sk)
+        //     {
+        //         sk.clearTracks();
+        //         sk.setAnimation(0, 'allin_come',false);
+        //         sk.setCompleteListener(function () {
+        //             sk.setCompleteListener(function () {});
+        //             // sk.clearTracks();
+        //             sk.setAnimation(0, 'allin_xh',true);
+        //         }.bind(this));
+        //     }
+        // }
     },
 
-    updateCoins:function()
-    {
-        var father = cc.find('coins',this.node);
-        var handler = cc.find('Handle',this.node);
-        for(var i=0;i<father.childrenCount;i++)
-        {
-            father.children[i].active = (father.children[i].y<=(handler.y + this.node.height/2))
-        }
-    },
     update (dt) {
         if(this.m_bAddUp)
         {
@@ -244,11 +229,13 @@ cc.Class({
         {
             pro = 1;
             this.getComponent(cc.Slider).progress = pro
+            this.getComponent(cc.ProgressBar).progress = pro;
             this.onSlider(this.getComponent(cc.Slider),true);
         }else
         {
             pro = Math.min(1, (this._value-this._min)/(this._max - this._min));
             this.getComponent(cc.Slider).progress = pro
+            this.getComponent(cc.ProgressBar).progress = pro;
             this.onSlider(this.getComponent(cc.Slider),true);
         }
         
@@ -268,11 +255,13 @@ cc.Class({
         {
             pro = 1;
             this.getComponent(cc.Slider).progress = pro
+            this.getComponent(cc.ProgressBar).progress = pro;
             this.onSlider(this.getComponent(cc.Slider),true);
         }else
         {
             pro = Math.max(0, (this._value-this._min)/(this._max - this._min));
             this.getComponent(cc.Slider).progress = pro
+            this.getComponent(cc.ProgressBar).progress = pro;
             this.onSlider(this.getComponent(cc.Slider),true);
         }
     },
@@ -292,10 +281,10 @@ cc.Class({
         this._value = Math.min(this._max,parseInt(v*texas_Data.Instance().m_totalBet) );
         this.onQuickAdd()
     },
-    //2x大盲  3x大盲  4x大盲
+    //5x大盲  4x大盲  3x大盲
     onBaseScore(event,data){
         var v = parseInt(data);
-        this._value = Math.min(this._max,v*texas_Data.Instance().getBaseScore());
+        this._value = Math.min(this._max,v*this._min);
         this.onQuickAdd()
     },
 
@@ -306,19 +295,19 @@ cc.Class({
         // let value = this.getBetValue(this._value);
         if(this._value <=0)
         {
-            cc.dd.PromptBoxUtil.show('加注金额不对!');
+            cc.dd.PromptBoxUtil.show('RaiseError');
             return;
         }
         let sender = require('net_sender_texas');
         if (this._value < this._min)
         {
-            cc.dd.PromptBoxUtil.show('加注金额不对!');
+            cc.dd.PromptBoxUtil.show('RaiseError');
         }else
         {
             sender.Raise(this._value); // + this._min);
+            this.onClose()
         }
-        this.skeNode.active = false;
-        this.labelAdd.string = "RAISE"
+        this.labelAdd.setText("RAISE")
     },
 
     onAllIn(){
@@ -326,12 +315,12 @@ cc.Class({
         this.value_lbl.string = this._value;//this.convertNumToStr(this._value);
         let progress = 1;
         this.getComponent(cc.Slider).progress = progress;
-        // this.getComponent(cc.ProgressBar).progress = progress;
+        this.getComponent(cc.ProgressBar).progress = progress;
     },
 
     resetAddLabel()
     {
-        this.labelAdd.string = "RAISE"
+        this.labelAdd.setText("RAISE")
     },
 
     onEnter() {
@@ -339,7 +328,7 @@ cc.Class({
         // let value = this.getBetValue(this._value);
         if(this._value <=0)
         {
-            cc.dd.PromptBoxUtil.show('加注金额不对!');
+            cc.dd.PromptBoxUtil.show('RaiseError');
             return;
         }
         let sender = require('net_sender_texas');
@@ -349,12 +338,11 @@ cc.Class({
             this.resetAddLabel();
         }else if (this._value < this._min)
         {
-            cc.dd.PromptBoxUtil.show('加注金额不对!');
+            cc.dd.PromptBoxUtil.show('RaiseError');
         }else
         {
             sender.Raise(this._value); // + this._min);
         }
-        this.skeNode.active = false;
     },
 
     getBetValue(num) {

@@ -369,7 +369,7 @@ var SysTools = {
         // var types = ['png', 'jpg', 'jpeg', 'bmp'];
         var types = ['.png', '.jpg'];
         var loadUrlImg = function (idx) {
-            cc.log('加载头像, url=' + url);
+//            cc.log('加载头像, url=' + url);
             //头像是否重新加载
             let head_reload = false;
             // if (cc.sys.isNative && head_reload) {
@@ -408,7 +408,7 @@ var SysTools = {
                     } else {
                         if (cc.isValid(sprite))
                             sprite.spriteFrame = new cc.SpriteFrame(tex);
-                        cc.log('加载微信头像成功' + tex);
+//                        cc.log('加载微信头像成功' + tex);
                         checkHeadLoadingList(sprite);
                     }
                 });

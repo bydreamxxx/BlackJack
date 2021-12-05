@@ -169,6 +169,6 @@ cc.Class({
             return;
         }
         this.stopTime();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
+        // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
     }
 });

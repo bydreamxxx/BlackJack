@@ -31,6 +31,7 @@ var Texas_Event = cc.Enum({
     UPDATE_ROUND_BET:'TEXAS_UPDATE_ROUND_BET',   //更新当局注数
     UPDATE_PLAYER_GOLD:'UPDATE_PLAYER_GOLD',   //更新玩家金币
     UPDATE_TITTLE:'UPDATE_TITTLE',   //更新标题
+    CHANGE_ROOM_STATE_TO_RESULT_STATE:'CHANGE_ROOM_STATE_TO_RESULT_STATE',   //改变房间状态到结算， 服务器没有发送该状态下来
     //////////////////////////////test
     SHOW_TEST_CARD: 'TEXAS_SHOW_TEST_CARD',    //test
     SHOW_TEST_RATE: 'SHOW_TEST_RATE',    //test
@@ -116,6 +117,17 @@ var texas_Data = cc.Class({
 
     //重置游戏数据
     resetGameData() {
+        //清理要离开的玩家
+        let leaves = [];
+        for (var i = 0; i < this.playerList.length; i++) {
+            if (this.playerList[i].isPrepareLeave == true) {
+                leaves.push(i);
+            }
+        }
+        for (var i = 0; i < leaves.length; i++) {
+            this.playerList.splice(leaves[i], 1);
+        }
+
         this.curPlayer = null;
         this.curPlayerTime = 0;
         for (var i = 0; i < this.playerList.length; i++) {
@@ -165,6 +177,7 @@ var texas_Data = cc.Class({
             isSwitch: role_info.isSwitch,
             netState: role_info.netState,
             isBanker: false,
+            isPrepareLeave:false,
             setReady(r) { this.bready = r; },
             setOnLine(ol) { this.isOnLine = ol; },
             //-------------游戏内数据---------------
@@ -377,6 +390,15 @@ var texas_Data = cc.Class({
      */
     playerExit(userId) {
         if (userId == cc.dd.user.id) {
+            return;
+        }
+        if(this.roomStatus == 2){ //结算状态，不处理玩家退出
+            for (var i = 0; i < this.playerList.length; i++) {
+                if (this.playerList[i].userId == userId) {
+                    this.playerList[i].isPrepareLeave = true;
+                    break;
+                }
+            }
             return;
         }
         for (var i = 0; i < this.playerList.length; i++) {

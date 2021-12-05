@@ -751,7 +751,7 @@ let hall = cc.Class({
                     }
                 }.bind(this));
             } else if (cc.game_pid != 2) {
-                cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
+                // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
             }
 
         }

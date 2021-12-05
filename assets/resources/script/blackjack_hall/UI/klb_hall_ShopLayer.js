@@ -32,12 +32,13 @@ let shop = cc.Class({
         propScroll: cc.Node,
         spaceX: 10,
         spaceY: 10,
-        itemWidth: 350,
-        itemHeight: 256,
+        itemWidth: 240,
+        itemHeight: 304,
         togglList: [cc.Toggle],
+        toggleBgList: [cc.Node], //标签背景节点
         itemList: [],
         coinLabel: cc.Label,
-        descLabel: cc.Label,
+        // descLabel: cc.Label,
         vipCurLabel: cc.Label,
         vipLevel: cc.Label,
         vipNextLevel: cc.Label,
@@ -210,6 +211,9 @@ let shop = cc.Class({
         this.packageNode.active = false;
         this.jdCardNode.active = false;
         this.initShopItem(this._CoinData, 3, this.coinContentNode);
+        for(let i=0;i<this.toggleBgList.length;i++) {
+            this.toggleBgList[i].active = i!==0
+        }
     },
 
     /**
@@ -250,6 +254,9 @@ let shop = cc.Class({
         this.packageNode.active = false;
         this.jdCardNode.active = false;
         this.initShopItem(this._PropData, 2, this.propContentNode);
+        for(let i=0;i<this.toggleBgList.length;i++) {
+            this.toggleBgList[i].active = i!==1
+        }
     },
 
     /**
@@ -339,10 +346,10 @@ let shop = cc.Class({
      */
     initShopItem: function (data, type, parent) {
         if (data.length == 0) {
-            this.descLabel.node.active = true
+            // this.descLabel.node.active = true
             return;
         } else {
-            this.descLabel.node.active = false;
+            // this.descLabel.node.active = false;
         }
         this.itemList.splice(0, this.itemList.length);
         if (cc._isHuaweiGame || cc._isBaiDuPingTaiGame) {
@@ -351,7 +358,7 @@ let shop = cc.Class({
                     data.splice(i, 1);
             }
         }
-        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_ShopItem", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/blackjack/hall/BlackJack_hall_ShopItem", function (prefab) {
             //获取客服微信列表
             for (var i = 0; i < data.length; i++) {
                 if (cc._isHuaweiGame || cc._isBaiDuPingTaiGame) {
@@ -392,10 +399,10 @@ let shop = cc.Class({
      */
     initYuanBaoItem: function (data) {
         if (data.length == 0) {
-            this.descLabel.node.active = true
+            // this.descLabel.node.active = true
             return;
         } else {
-            this.descLabel.node.active = false;
+            // this.descLabel.node.active = false;
         }
         this.itemList.splice(0, this.itemList.length);
         cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
@@ -426,10 +433,10 @@ let shop = cc.Class({
      */
     initJdCardItem: function (data) {
         if (data.length == 0) {
-            this.descLabel.node.active = true
+            // this.descLabel.node.active = true
             return;
         } else {
-            this.descLabel.node.active = false;
+            // this.descLabel.node.active = false;
         }
         this.itemList.splice(0, this.itemList.length);
         cc.dd.ResLoader.loadPrefab("blackjack_hall/prefabs/klb_hall_Shop_Exchange_Item", function (prefab) {
@@ -557,8 +564,9 @@ let shop = cc.Class({
     },
 
     updateFirstBuy() {
-        if (!cc._isHuaweiGame)
-            this.togglList[0].node.active = cc._firstBuyId != null;
+        // if (!cc._isHuaweiGame)
+        //     this.togglList[0].node.active = cc._firstBuyId != null;
+        this.togglList[0].node.active = false;
     }
 });
 module.exports = shop;

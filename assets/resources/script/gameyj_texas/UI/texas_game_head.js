@@ -130,7 +130,8 @@ cc.Class({
         this._des.setText('wait');
         this._des.node.active = isShow;
         var mask = cc.dd.Utils.seekNodeByName(this.node, "mask1")
-        mask.active = isShow
+        if(mask)
+            mask.active = isShow
     },
 
     setCardSprite(sprite) {

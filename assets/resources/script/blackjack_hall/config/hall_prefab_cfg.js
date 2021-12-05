@@ -204,5 +204,6 @@ module.exports = {
 
     BJ_HALL_ROOM: "blackjack_hall/prefabs/blackjack/room/BlackJack_Common_Room",
     BJ_HALL_RECORD:"blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_Record",
-    BJ_HALL_USERINFO:"blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_UserInfo"
+    BJ_HALL_USERINFO:"blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_UserInfo",
+    BJ_HALL_SHOP:"blackjack_hall/prefabs/blackjack/hall/BlackJack_hall_Shop"
 };

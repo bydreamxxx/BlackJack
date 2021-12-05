@@ -1,6 +1,6 @@
 const RummyED = require("RummyData").RummyED;
 const RummyEvent = require("RummyData").RummyEvent;
-const RummyRoomMgr = require("RummtRoomMgr");
+const RummyRoomMgr = require("RummyRoomMgr");
 
 let RummyGameMgr = cc.Class({
     s_data: null,

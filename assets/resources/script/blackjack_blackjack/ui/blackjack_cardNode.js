@@ -20,7 +20,7 @@ cc.Class({
 
         resultIcon: cc.Sprite,
         resultFrame: [cc.SpriteFrame],
-        hand: cc.Node,
+        hand: cc.Node
     },
 
     editor:{

@@ -530,8 +530,8 @@ let userInfo = cc.Class({
         /************************游戏统计 start************************/
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.STORE);
         /************************游戏统计   end************************/
-        if (!cc._is_shop)
-            return;
+        // if (!cc._is_shop)
+        //     return;
 
         if (cc._useChifengUI) {
             hall_audio_mgr.com_btn_click();
@@ -539,8 +539,14 @@ let userInfo = cc.Class({
         } else if (cc._useCardUI) {
             cc.dd.PromptBoxUtil.show('NOT YET OPEN');
         } else {
-            cc.dd.UIMgr.openUI(hall_prefab.KLB_SHOP_LAYER, function (ui) {
-                type = type || 'ZS'; //默认打开房卡页面
+            // cc.dd.UIMgr.openUI(hall_prefab.KLB_SHOP_LAYER, function (ui) {
+            //     type = type || 'ZS'; //默认打开房卡页面
+            //     ui.getComponent('klb_hall_ShopLayer').gotoPage(type);
+            //     // ui.setLocalZOrder(5000);
+            // }.bind(this));
+
+            cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_SHOP, function (ui) {
+                type = type || 'JB'; //默认打开金币页面
                 ui.getComponent('klb_hall_ShopLayer').gotoPage(type);
                 // ui.setLocalZOrder(5000);
             }.bind(this));
@@ -716,7 +722,7 @@ let userInfo = cc.Class({
         // cc.dd.native_wx.ShareImageToTimeline('shareImages/' + share_imgs[idx]);
 
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
+        // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_GET_COIN);
     },
 
     onClickFeedback() {
