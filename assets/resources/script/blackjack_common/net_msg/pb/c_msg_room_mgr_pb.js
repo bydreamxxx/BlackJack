@@ -2874,6 +2874,103 @@ let yq_pin3_rule_info = cc.Class({
 
 module.exports.yq_pin3_rule_info = yq_pin3_rule_info;
 
+let teenpatti_rule_info = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.roleNum = this.roleNum;
+        content.boardsCout = this.boardsCout;
+        content.circleNum = this.circleNum;
+        content.playMod = this.playMod;
+        content.playRuleList = this.playRuleList;
+        content.baseScore = this.baseScore;
+        content.limitEnter = this.limitEnter;
+        content.limitLeave = this.limitLeave;
+        content.limitTalk = this.limitTalk;
+        content.isGps = this.isGps;
+        content.isAdd = this.isAdd;
+        content.limitCmp = this.limitCmp;
+        content.luckyType = this.luckyType;
+        content.luckyPay = this.luckyPay;
+        content.luckyPokersList = this.luckyPokersList;
+        content.opTime = this.opTime;
+        content.isMidwayAdd = this.isMidwayAdd;
+        content.isViewer = this.isViewer;
+        content.limitWatch = this.limitWatch;
+        content.limitMaxChaal = this.limitMaxChaal;
+        content.limitPot = this.limitPot;
+
+        return content;
+    },
+    setRoleNum(roleNum){
+        this.roleNum = roleNum;
+    },
+    setBoardsCout(boardsCout){
+        this.boardsCout = boardsCout;
+    },
+    setCircleNum(circleNum){
+        this.circleNum = circleNum;
+    },
+    setPlayMod(playMod){
+        this.playMod = playMod;
+    },
+    setPlayRuleList(playRuleList){
+        this.playRuleList = playRuleList;
+    },
+    setBaseScore(baseScore){
+        this.baseScore = baseScore;
+    },
+    setLimitEnter(limitEnter){
+        this.limitEnter = limitEnter;
+    },
+    setLimitLeave(limitLeave){
+        this.limitLeave = limitLeave;
+    },
+    setLimitTalk(limitTalk){
+        this.limitTalk = limitTalk;
+    },
+    setIsGps(isGps){
+        this.isGps = isGps;
+    },
+    setIsAdd(isAdd){
+        this.isAdd = isAdd;
+    },
+    setLimitCmp(limitCmp){
+        this.limitCmp = limitCmp;
+    },
+    setLuckyType(luckyType){
+        this.luckyType = luckyType;
+    },
+    setLuckyPay(luckyPay){
+        this.luckyPay = luckyPay;
+    },
+    setLuckyPokersList(luckyPokersList){
+        this.luckyPokersList = luckyPokersList;
+    },
+    setOpTime(opTime){
+        this.opTime = opTime;
+    },
+    setIsMidwayAdd(isMidwayAdd){
+        this.isMidwayAdd = isMidwayAdd;
+    },
+    setIsViewer(isViewer){
+        this.isViewer = isViewer;
+    },
+    setLimitWatch(limitWatch){
+        this.limitWatch = limitWatch;
+    },
+    setLimitMaxChaal(limitMaxChaal){
+        this.limitMaxChaal = limitMaxChaal;
+    },
+    setLimitPot(limitPot){
+        this.limitPot = limitPot;
+    },
+
+});
+
+module.exports.teenpatti_rule_info = teenpatti_rule_info;
+
 let msg_get_room_user_info_req = cc.Class({
     ctor(){
     },

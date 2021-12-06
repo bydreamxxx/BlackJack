@@ -70,6 +70,35 @@ let msg_rm_state_change_2c = cc.Class({
 
 module.exports.msg_rm_state_change_2c = msg_rm_state_change_2c;
 
+let rm_user_info = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.userState = this.userState;
+        content.pokersList = this.pokersList;
+        content.dropCoin = this.dropCoin;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setUserState(userState){
+        this.userState = userState;
+    },
+    setPokersList(pokersList){
+        this.pokersList = pokersList;
+    },
+    setDropCoin(dropCoin){
+        this.dropCoin = dropCoin;
+    },
+
+});
+
+module.exports.rm_user_info = rm_user_info;
+
 let msg_rm_info = cc.Class({
     ctor(){
     },
@@ -83,8 +112,7 @@ let msg_rm_info = cc.Class({
         content.banker = this.banker;
         content.xcard = this.xcard;
         content.giveUp = this.giveUp;
-        content.diropCoin = this.diropCoin;
-        content.selfState = this.selfState;
+        content.usersList = this.usersList;
 
         return content;
     },
@@ -112,11 +140,8 @@ let msg_rm_info = cc.Class({
     setGiveUp(giveUp){
         this.giveUp = giveUp;
     },
-    setDiropCoin(diropCoin){
-        this.diropCoin = diropCoin;
-    },
-    setSelfState(selfState){
-        this.selfState = selfState;
+    setUsersList(usersList){
+        this.usersList = usersList;
     },
 
 });

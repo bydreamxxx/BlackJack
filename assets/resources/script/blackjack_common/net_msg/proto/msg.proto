@@ -3243,6 +3243,30 @@ message yq_pin3_rule_info{
 	optional int32       limit_watch   = 19;
 }
 
+message teenpatti_rule_info{
+	optional int32       role_num     = 1;
+	optional int32       boards_cout  = 2;
+	optional int32       circle_num   = 3;
+	optional int32       play_mod     = 4; //玩法模式
+	repeated int32       play_rule    = 5; //玩法
+	optional int32       base_score   = 6; //底注
+	optional int32       limit_enter  = 7; 
+	optional int32       limit_leave  = 8;
+	optional bool        limit_talk   = 9;
+	optional bool        is_gps       = 10;
+	optional bool        is_add       = 11;//是否陌生人加入
+	optional int32       limit_cmp    = 12;
+	optional int32       lucky_type   = 13;//喜分类型
+	optional int32       lucky_pay    = 14;//喜分赔付
+	repeated int32       lucky_pokers = 15;//喜分牌型
+	optional int32       op_time      = 16;
+	optional bool        is_midway_add = 17; 
+	optional bool        is_viewer     = 18;
+	optional int32       limit_watch   = 19;
+	optional int32		 limit_max_chaal = 20; //最大下注
+	optional int32		 limit_pot		= 21; //最大锅底
+}
+
 
 message msg_get_room_user_info_req{
 	optional	int32 		game_type 	= 1;		//
@@ -8650,6 +8674,14 @@ message msg_rm_state_change_2c{
 	optional uint32	banker		= 3;
 }
 
+
+message rm_user_info{
+	optional uint32	user_id = 1;
+	optional int32	user_state = 2; //1:正常在玩 2:弃牌  3:围观
+	repeated rm_group	pokers = 3; //手牌
+	optional int32 drop_coin = 4; //drop需要的代价
+}
+
 //同步房间信息，用于断线重连
 message msg_rm_info{
 	optional int32      							bj_state			= 1;//1:等待玩家状态2:牌局进行状态 3:已经有赢家，但是还可以组牌 4:显示结果状态  
@@ -8660,8 +8692,7 @@ message msg_rm_info{
 	optional uint32									banker				= 6;
 	optional int32									xcard				= 7; //百搭牌是那一张
 	optional int32									give_up				= 8; //弃牌堆的第一张牌
-	optional int32									dirop_coin			= 9; //自己放弃需要付出的金币
-	optional int32									self_state			= 10; //1：正常玩， 2:已经弃牌 ， 3:围观状态
+	repeated rm_user_info 							users				= 9;
 }
 
 //请求一张牌
@@ -8768,3 +8799,168 @@ message msg_rm_result{
 }
 //-----------------------------rummy------------------ end
 
+//-------------------------------teenpatti--------------------------
+//cmd_start_index=8900
+//cmd_name=teenpatti
+message teenpatti_user_info{
+	optional int32       user_id = 1;
+	optional int32       user_state = 2;
+	optional int64       cur_score = 3;//身上当前分数
+	optional bool        is_banker = 4;
+	optional int64       bet_score = 5;//玩家当前个人总押注
+	optional teenpatti_poker  pokers  = 6;
+	optional int32       pokers_state = 7;//0 未看牌 1 已看牌 2 放弃
+	repeated teenpatti_cmp_poker  cmp_poker = 8;
+	optional bool        is_online   = 9;
+	optional int32       seat        = 10;
+	optional int64       cur_bet_score = 11;//当前手押注
+}
+
+message teenpatti_dissolve_info{
+	optional int32       user_id    = 1;
+	optional bool        is_agree   = 2;
+}
+
+message msg_teenpatti_state_info{
+	optional teenpatti_user_info    user_info  = 1;
+	repeated teenpatti_user_info    other_infos = 2;
+    optional int64             cur_bet   = 3;//当前总押注
+	optional int32             cur_circle = 4;
+	optional int32             cur_op_user_id = 5;
+	optional int32             cur_op_time    = 6;//當前操作倒計時時間錯
+	optional int32             cur_bet_level  = 7;
+	optional int32             cur_game_state = 8;//0 游戏中 1 结束  2 火拼中
+	optional int64             fire_bet  = 9;
+	optional int32             cur_round = 10;
+	repeated teenpatti_dissolve_info     dissolves   = 11;//解散情况（为空则不是在解散状态）
+	optional int32                  disvotetime = 12;//解散时间
+	optional int32             config_id   = 13;
+	optional bool        	   is_reconnect = 14;
+}
+
+message teenpatti_poker{
+	optional int32       user_id = 1;
+	repeated int32       pokers =  2;
+	optional int32       type   =  3;
+}
+
+//看牌
+message msg_teenpatti_watch_req{
+	optional int32       user_id = 1;
+}
+
+message msg_teenpatti_watch_ret{
+	optional int32       ret_code = 1[default=0];
+	optional teenpatti_poker  poker    = 2;     
+}
+
+message teenpatti_cmp_poker{
+	repeated teenpatti_poker  poker    	= 1;
+	optional int32       win_userid = 2;
+}
+
+//比牌
+message msg_teenpatti_cmp_req{
+	optional int32       cmp_type = 1;//1主动比牌下注  2主動比牌選人
+	optional int32       user_id  = 2;
+	optional int32       cmp_id   = 3;//主动比牌玩家id, 如果是sideshow，可填也可以不填
+}
+
+
+message msg_teenpatti_cmp_ret{
+	optional int32      	 ret_code = 1[default=0];//0玩家同意比牌并返回，1则玩家不同意比牌
+	optional int32      	 cmp_type = 2;
+	optional int32           user_id  = 3;
+	optional int32           cmp_id   = 4;
+	optional int32           winner   = 5;
+	optional int32           next_op_user_id = 6;
+	optional int64           bet      = 7;
+}
+
+//请求sideshow比牌
+message msg_cmp_broadcast{
+	optional int32 		user_id = 1;//改玩家请求和你比牌
+}
+
+message msg_cmp_agree_req{
+	optional int32		is_agree = 1[default=0]; //0同意，1不同意
+}
+
+message msg_cmp_agree_ack{
+	optional int32		ret = 1[default=0];
+}
+
+//常规操作
+message msg_teenpatti_op_req {
+	optional int32           op_type = 1;//1 跟注 2 加注 3 弃牌 
+	optional int32           user_id = 2;
+	optional int32           value   = 3;
+}	
+
+message msg_teenpatti_op_ret {
+	optional int32           ret_code = 1[default=0];
+	optional int32           op_type = 2;
+	optional int32           user_id = 3;
+	optional int64           bet = 4;
+	optional int32           bet_level = 6;   //當前下注檔位
+	optional int32           next_op_user_id = 7;
+}
+
+//circle更新
+message msg_teenpatti_update{
+	optional int64           value  = 1;
+}
+
+message teenpatti_result {
+	optional int32           user_id = 1;
+	optional double          score   = 2;
+	optional int32           round   = 3;
+	optional bool            is_win  = 4;
+	optional bool            is_banker  = 5;
+	optional int32           sever_pay  = 6;
+	optional bool            is_lucky   = 7;//是否有喜分
+	optional int64           lucky_score = 8;
+}
+
+message msg_teenpatti_result{
+	repeated teenpatti_poker      pokers 	    = 1;
+	repeated teenpatti_result     score_result   = 2;
+	optional int32           time           = 3[default=0];
+}
+
+message msg_teenpatti_recharge_req{
+}
+
+message msg_teenpatti_recharge_ret{
+	optional int32              user_id     = 1;
+	optional int32              next_op_time = 2;//时间戳
+	optional int32              op_time     = 3;//秒数
+}
+
+message msg_teenpatti_cancel_auto_req{
+	optional int32 game_type = 1;
+	optional int32 room_id = 2;
+}
+
+message msg_teenpatti_cancel_auto_ret{
+	optional int32 ret_code = 1; //0:取消失败, 1:取消成功
+}
+
+message msg_teenpatti_auto_status {
+	optional int32 user_id = 1;
+	optional int32 status = 2; //0:正常中, 1:托管中
+}
+
+message msg_show_card_req{
+	repeated int32	cards =1; //[0,51,0]表示show，51这张牌
+}
+
+message msg_show_card_ack{
+	optional int32	result =1[default=0]; //0:成功，1:当前不能show牌阶段 2:你没有这张牌
+}
+
+message msg_show_card_broadcast{
+	optional int32 	user_id = 1;
+	repeated int32	cards =	2;
+}
+//-----------------------------------------------------

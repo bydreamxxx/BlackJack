@@ -2,7 +2,7 @@
 # coding=utf-8
 
 client_path = '../assets/resources/script/config/'
-xls_path = '../config_multi.xls'
+xls_path = '../../../gamedata/config_multi.xls'
 exclude_files = \
     ['activity_collect_box.xlsx','activity_collect.xlsx','broadcast.xlsx','bigwincontrol.xlsx','br_ps_ai.xlsx',
      'br_randomHead.xlsx','chat.xls','chat_robot.xlsx','client_actions.xlsx','ddz_bomb_num.xlsx','ddz_plan_poker_group.xlsx',

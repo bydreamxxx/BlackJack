@@ -110,6 +110,28 @@ let RummyRoomMgr = cc.Class({
         }
         return player;
     },
+
+    updatePlayerGameInfo(list){
+        list.forEach(userInfo=>{
+            let player = this.getPlayerById(userInfo.userId);
+            if(player){
+                player.userState = userInfo.userState;
+                player.pokersList = userInfo.pokersList;
+                player.dropCoin = userInfo.dropCoin;
+            }else{
+                cc.error(`玩家${userInfo.userId}并没有进入房间`);
+            }
+        });
+    },
+
+    isUserPlaying(){
+        let player = this.getPlayerById(cc.dd.user.id);
+        if(player){
+            return player.userState !== 3;
+        }else{
+            return false;
+        }
+    },
 });
 
 module.exports = RummyRoomMgr.Instance();

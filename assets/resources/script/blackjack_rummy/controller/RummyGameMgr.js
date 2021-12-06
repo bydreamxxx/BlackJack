@@ -1,6 +1,6 @@
 const RummyED = require("RummyData").RummyED;
 const RummyEvent = require("RummyData").RummyEvent;
-const RummyRoomMgr = require("RummyRoomMgr");
+const RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 let RummyGameMgr = cc.Class({
     s_data: null,
@@ -32,7 +32,7 @@ let RummyGameMgr = cc.Class({
     },
 
     actionChange(msg){
-        let player = RummyRoomMgr.getPlayerById(msg.userId);
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
             player.resetCD();
         }

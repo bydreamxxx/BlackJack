@@ -1,5 +1,6 @@
 const RummyData = require("RummyData").RummyData.Instance();
 const RummyGameMgr = require("RummyGameMgr");
+const RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 var handler = {
     on_msg_rm_ready_ack(msg) {
@@ -16,6 +17,7 @@ var handler = {
     },
 
     on_msg_rm_info(msg) {
+        RoomMgr.Instance().player_mgr.updatePlayerGameInfo(msg.usersList);
         RoomMgr.Instance().player_mgr.playerEnterGame();
         RummyData.setGameInfo(msg);
         RummyGameMgr.updateUI();

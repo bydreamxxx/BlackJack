@@ -61,6 +61,12 @@ cc.Class({
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
         this.score.node.active = false;
+
+        if(cc.dd._.isNumber(data.userState) && data.userState !== 3){
+            this.sit();
+        }else{
+            this.stand();
+        }
     },
 
     onClickHead(){
