@@ -250,10 +250,9 @@ def gen_etc2():
             pvr_path = file_path.replace('.png', '.pvr.ccz');
             cmd = """%s %s --sheet %s --format "cocos2d" --texture-format "pvr3ccz" --opt "ETC2_RGBA" --max-width 4096 --max-height 4096 --trim-mode "None" --extrude 0 """ % (
             tool, file_path, pvr_path)
-            print cmd
             os.system(cmd)
-            # os.remove(file_path)
-            # os.rename(pvr_path, file_path)
+            os.remove(file_path)
+            os.rename(pvr_path, file_path)
     return
 #
 # def gen_etc2_withpath(nativePath):
