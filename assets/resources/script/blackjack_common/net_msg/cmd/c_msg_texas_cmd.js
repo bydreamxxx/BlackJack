@@ -23,6 +23,8 @@
         cmd_msg_texas_sync_game_status :9720,
         cmd_texas_player_poker_type :9721,
         cmd_texas_player_list :9722,
+        cmd_texas_tips_req:9723,
+        cmd_texas_tips_ack:9724,
 
     };
 

@@ -8647,6 +8647,14 @@ message texas_player_list {
 	repeated int32 playerid = 1;
 }
 
+message texas_tips_req{
+}
+
+message texas_tips_ack{
+	optional int32 result = 1[default=0]; //1 没有该用户   2 钱不够
+	optional uint32 user_id = 2;
+}
+
 //----------------------------------德州扑克 end------------------------------
 
 //------------------rummy------------------

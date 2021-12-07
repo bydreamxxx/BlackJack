@@ -25,6 +25,8 @@
         [9720]:{ package_name:'msg', msg_name:'msg_texas_sync_game_status', name:msg.msg_texas_sync_game_status, func:handler.on_msg_texas_sync_game_status, func_name:'on_msg_texas_sync_game_status', logtag:'[9720:msg_texas_sync_game_status ]' },
         [9721]:{ package_name:'msg', msg_name:'texas_player_poker_type', name:msg.texas_player_poker_type, func:handler.on_texas_player_poker_type, func_name:'on_texas_player_poker_type', logtag:'[9721:texas_player_poker_type ]' },
         [9722]:{ package_name:'msg', msg_name:'texas_player_list', name:msg.texas_player_list, func:handler.on_texas_player_list, func_name:'on_texas_player_list', logtag:'[9722:texas_player_list ]' },
+        [9723]:{ package_name:'msg', msg_name:'texas_tips_req', name:msg.texas_tips_req, func:handler.on_texas_tips_req, func_name:'on_texas_tips_req', logtag:'[9723:texas_tips_req]' },
+        [9724]:{ package_name:'msg', msg_name:'texas_tips_ack', name:msg.texas_tips_ack, func:handler.on_texas_tips_ack, func_name:'on_texas_tips_ack', logtag:'[9724:texas_tips_ack]' },
 
     };
     module.exports = {

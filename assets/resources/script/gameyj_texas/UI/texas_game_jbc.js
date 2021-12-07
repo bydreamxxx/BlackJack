@@ -89,6 +89,8 @@ cc.Class({
         ruleImge:[cc.SpriteFrame],
         firstBet: true,
         m_oChangeBtn: cc.Node,
+
+        wheelView: require('texas_wheel')
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -110,6 +112,10 @@ cc.Class({
         this.updateDeskScore();
         // cc.gateNet.Instance().startDispatch();
         // this.test();
+
+        // this.wheelView.node.active=true
+        // this.wheelView.setRange(3000, 50000)
+        // this.wheelView.onRunCode(['1','3','7','6','2'])
     },
     onDestroy() {
         TEXAS_ED.removeObserver(this);
@@ -262,14 +268,12 @@ cc.Class({
     onClickStandUp(event, data){
         hall_audio_mgr.com_btn_click();
 
-        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        //var gameInfoPB = new cc.pb.room_mgr.common_game_header();
-        msg.setGameType(RoomMgr.Instance().gameId);
-        msg.setRoomId(texas_Data.Instance().getRoomId());
-        msg.setDeskId(RoomMgr.Instance().roomId);
-        msg.setLookPlayer(1);
-        //msg.setGameInfo(gameInfoPB);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "cmd_msg_enter_coin_game_req", true);
+        var msg = new cc.pb.room_mgr.msg_stand_game_req();
+        var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+        gameInfoPB.setGameType(RoomMgr.Instance().gameId);
+        gameInfoPB.setRoomId(BlackJackData.roomConfigId);
+        msg.setGameInfo(gameInfoPB);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_stand_game_req, msg, "msg_stand_game_req", true);
     },
 
     onClickSitDown(event, data){

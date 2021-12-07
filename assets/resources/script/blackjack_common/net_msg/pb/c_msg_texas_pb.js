@@ -581,3 +581,37 @@ let texas_player_list = cc.Class({
 
 module.exports.texas_player_list = texas_player_list;
 
+let texas_tips_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.texas_tips_req = texas_tips_req;
+
+let texas_tips_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.result = this.result;
+        content.userId = this.userId;
+
+        return content;
+    },
+    setResult(result){
+        this.result = result;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+
+});
+
+module.exports.texas_tips_ack = texas_tips_ack;
+

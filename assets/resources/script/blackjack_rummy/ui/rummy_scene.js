@@ -20,7 +20,7 @@ cc.Class({
         maxWinLabel: cc.Label,
 
         bottomNode: cc.Node,
-        tipsLabel: cc.Label,
+        tipsLabel: require('LanguageLabel'),
         tipsNode: cc.Node,
         switchButtonNode: cc.Node,
 
@@ -31,6 +31,12 @@ cc.Class({
         dropNode: cc.Node,
         invalidShowNode: cc.Node,
         showNode: cc.Node,
+
+        dropButton: cc.Button,
+        dropLabel: cc.Label,
+        showButton: cc.Button,
+        groupButton: cc.Button,
+        discardButton: cc.Button,
 
         cardPrefab: cc.Prefab,
 
@@ -73,7 +79,7 @@ cc.Class({
             if(this.lastTime >= 0){
                 this.lastTime -= dt;
 
-                this.tipsLabel.string = Math.floor(RummyData.lastTime);
+                this.tipsLabel.setText('GAMESTARTIN', '', '', Math.floor(RummyData.lastTime));
             }
         }
     },
@@ -102,6 +108,9 @@ cc.Class({
             case RummyEvent.UPDATE_UI:
                 this.updateUI();
                 break;
+            case RummyEvent.UPDATE_STATE:
+                this.updateState();
+                break;
             default:
                 break;
         }
@@ -111,6 +120,10 @@ cc.Class({
         this.showcardNode.removeAllChildren();
         this.cardsNode.removeAllChildren();
         this.discardNode.removeAllChildren();
+
+        this.cardsNode.active = false;
+        this.showcardNode.active = false;
+        this.discardNode.active = false;
 
         this.bottomNode.active = false;
         this.tipsNode.active = false;
@@ -150,26 +163,103 @@ cc.Class({
         this.perPointLabel.string = "";
         this.maxWinLabel.string = "";
 
+        let user = RoomMgr.getInstance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(user){
+            this.dropLabel.string = user.dropCoin;
+        }
+
+        if(RummyData.state === GAME_STATE.WAITING) {
+            this.tipsNode.active = true;
+            this.tipsLabel.setText('GAMESTARTIN', '', '', RummyData.lastTime);
+            this.lastTime = RummyData.lastTime;
+            this.switchButtonNode.active = true;
+        }else{
+            if(RoomMgr.getInstance().player_mgr.isUserPlaying()){
+                this.bottomNode.active = true;
+            }else{
+                this.tipsNode.active = true;
+                this.tipsLabel.setText('WAITING');
+            }
+
+            this.cardsNode.active = true;
+            this.showcardNode.active = true;
+            this.discardNode.active = true;
+
+            let discard = cc.instantiate(this.cardPrefab);
+            discard.scaleX = 0.538;
+            discard.scaleY= 0.538;
+            this.discardNode.add(discard);
+
+            let cardID = RummyData.giveUp;
+            if(!RoomMgr.getInstance().player_mgr.isUserPlaying()){
+                cardID = 172;
+            }
+
+            discard.getComponent("blackjack_card").init(cardID);
+
+            let node = cc.instantiate(this.cardPrefab);
+            node.scaleX = 0.538;
+            node.scaleY= 0.538;
+            this.cardsNode.add(node);
+
+            cardID = RummyData.xcard;
+            if(!RoomMgr.getInstance().player_mgr.isUserPlaying()){
+                cardID = 172;
+            }
+
+            node.getComponent("blackjack_card").init(cardID);
+        }
+    },
+
+    updateState(){
+        this.bottomNode.active = false;
+        this.tipsNode.active = false;
+        this.switchButtonNode.active = false;
+
+        this.dropNode.active = false;
+        this.invalidShowNode.active = false;
+        this.showNode.active = false;
+
+        this.cardsNode.active = false;
+        this.showcardNode.active = false;
+        this.discardNode.active = false;
+
         switch(RummyData.state){
             case GAME_STATE.WAITING:
+                this.bottomNode.active = false;
+
+                this.dropNode.active = false;
+                this.invalidShowNode.active = false;
+                this.showNode.active = false;
+
+                this.cardsNode.active = false;
+                this.showcardNode.active = false;
+                this.discardNode.active = false;
+
                 this.tipsNode.active = true;
-                this.tipsLabel.string = RummyData.lastTime;
+                this.tipsLabel.setText('GAMESTARTIN', '', '', RummyData.lastTime);
                 this.lastTime = RummyData.lastTime;
                 this.switchButtonNode.active = true;
                 break;
             case GAME_STATE.PLAYING:
+                this.bottomNode.active = false;
+                this.tipsNode.active = false;
+                this.switchButtonNode.active = false;
+
+                this.dropNode.active = false;
+                this.invalidShowNode.active = false;
+                this.showNode.active = false;
+
                 if(RoomMgr.getInstance().player_mgr.isUserPlaying()){
                     this.bottomNode.active = true;
                 }else{
                     this.tipsNode.active = true;
-                    this.tipsLabel.string = "";
+                    this.tipsLabel.setText('WAITING');
                 }
 
                 this.cardsNode.active = true;
                 this.showcardNode.active = true;
                 this.discardNode.active = true;
-
-
                 break;
             case GAME_STATE.GROUPING:
                 break;
@@ -177,18 +267,4 @@ cc.Class({
                 break;
         }
     },
-
-
-    createDiscard(cardID){
-        let node = cc.instantiate(this.cardPrefab);
-        node.scaleX = 0.538;
-        node.scaleY= 0.538;
-        this.discardNode.add(node);
-
-        if(!RoomMgr.getInstance().player_mgr.isUserPlaying()){
-            cardID = cardID === 0 ? 0 : 172;
-        }
-
-        node.getComponent("blackjack_card").init(cardID)
-    }
 });

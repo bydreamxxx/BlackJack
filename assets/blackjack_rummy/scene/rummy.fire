@@ -620,9 +620,26 @@
     "showNode": {
       "__id__": 218
     },
+    "dropButton": {
+      "__id__": 35
+    },
+    "dropLabel": {
+      "__id__": 31
+    },
+    "showButton": {
+      "__id__": 44
+    },
+    "groupButton": {
+      "__id__": 53
+    },
+    "discardButton": {
+      "__id__": 62
+    },
     "cardPrefab": {
       "__uuid__": "4aec4031-373e-4662-9623-6afd767610ba"
     },
+    "_fixedTimeStep": 0.03333333333333333,
+    "_lastTime": 0,
     "_id": "e6/g6QQexO6Jakom/KBgTl"
   },
   {
@@ -3159,37 +3176,17 @@
     "_id": "51jenXaZRKwqZRVUtl0Bj5"
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "82900jexG1PhLM7a1utQKx5",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 65
     },
     "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_string": "GAME STARTING IN",
-    "_N$string": "GAME STARTING IN",
-    "_fontSize": 60,
-    "_lineHeight": 40,
-    "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": "b8ZzqHMOdBVY4xgfc8Szig"
+    "prefix": "",
+    "suffix": "",
+    "text": "",
+    "_id": "30chJFvKZBaIQxwr2VeWmd"
   },
   {
     "__type__": "cc.Node",
@@ -3202,10 +3199,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 64
+        "__id__": 89
       },
       {
-        "__id__": 89
+        "__id__": 64
       }
     ],
     "_prefab": null,
@@ -4429,17 +4426,37 @@
     "_id": "dcWlh4lyJAvZEb9ara2Vf4"
   },
   {
-    "__type__": "82900jexG1PhLM7a1utQKx5",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 65
     },
     "_enabled": true,
-    "prefix": "",
-    "suffix": "",
-    "text": "",
-    "_id": "30chJFvKZBaIQxwr2VeWmd"
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_string": "GAME STARTING IN",
+    "_N$string": "GAME STARTING IN",
+    "_fontSize": 60,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": "b8ZzqHMOdBVY4xgfc8Szig"
   },
   {
     "__type__": "cc.Node",
