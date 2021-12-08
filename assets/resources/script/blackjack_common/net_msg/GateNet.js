@@ -197,6 +197,7 @@ const GateNet = cc.Class({
 
         this.handle_recvfunc_list.push(require('c_msg_blackjack_func'));
         this.handle_recvfunc_list.push(require('c_msg_texas_func'))
+        this.handle_recvfunc_list.push(require('c_msg_rummy_func'))
     },
 
     getHandlerFunc: function (id) {

@@ -20,6 +20,8 @@ let rummy_player_ui = cc.Class({
     onLoad() {
         this.clear();
 
+        this.node.active = this.viewIdx === 0;
+
         RummyPlayerED.addObserver(this);
     },
 

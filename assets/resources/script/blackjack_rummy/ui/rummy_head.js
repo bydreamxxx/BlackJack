@@ -32,6 +32,8 @@ cc.Class({
 
         CDTime: 10,
         viewIdx: 0,
+
+        banker: cc.Node,
     },
 
     editor:{
@@ -67,6 +69,8 @@ cc.Class({
         }else{
             this.stand();
         }
+
+        this.banker.active = data.isBanker;
     },
 
     onClickHead(){
@@ -96,6 +100,8 @@ cc.Class({
         this.standNode.active = true;
 
         this.playerData = null;
+
+        this.banker.active = false;
 
         if(this.point){
             this.point.string = "0";

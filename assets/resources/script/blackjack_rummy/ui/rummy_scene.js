@@ -135,7 +135,7 @@ cc.Class({
     },
 
     playerJoin(data){
-        RummyGameMgr.otherPlayerEnter(data.roleInfo.userId);
+        RoomMgr.Instance().player_mgr.otherPlayerEnter(data.roleInfo.userId);
     },
 
     playerLeave(data){
@@ -163,7 +163,7 @@ cc.Class({
         this.perPointLabel.string = "";
         this.maxWinLabel.string = "";
 
-        let user = RoomMgr.getInstance().player_mgr.getPlayerById(cc.dd.user.id);
+        let user = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(user){
             this.dropLabel.string = user.dropCoin;
         }
@@ -174,7 +174,7 @@ cc.Class({
             this.lastTime = RummyData.lastTime;
             this.switchButtonNode.active = true;
         }else{
-            if(RoomMgr.getInstance().player_mgr.isUserPlaying()){
+            if(RoomMgr.Instance().player_mgr.isUserPlaying()){
                 this.bottomNode.active = true;
             }else{
                 this.tipsNode.active = true;
@@ -188,10 +188,10 @@ cc.Class({
             let discard = cc.instantiate(this.cardPrefab);
             discard.scaleX = 0.538;
             discard.scaleY= 0.538;
-            this.discardNode.add(discard);
+            this.discardNode.addChild(discard);
 
             let cardID = RummyData.giveUp;
-            if(!RoomMgr.getInstance().player_mgr.isUserPlaying()){
+            if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
                 cardID = 172;
             }
 
@@ -200,10 +200,10 @@ cc.Class({
             let node = cc.instantiate(this.cardPrefab);
             node.scaleX = 0.538;
             node.scaleY= 0.538;
-            this.cardsNode.add(node);
+            this.cardsNode.addChild(node);
 
             cardID = RummyData.xcard;
-            if(!RoomMgr.getInstance().player_mgr.isUserPlaying()){
+            if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
                 cardID = 172;
             }
 
@@ -250,7 +250,7 @@ cc.Class({
                 this.invalidShowNode.active = false;
                 this.showNode.active = false;
 
-                if(RoomMgr.getInstance().player_mgr.isUserPlaying()){
+                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
                     this.bottomNode.active = true;
                 }else{
                     this.tipsNode.active = true;

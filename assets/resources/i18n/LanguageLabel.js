@@ -15,7 +15,7 @@ export default class LanguageLabel extends LanguageComponent {
     changeLanguage() {
         let label = this.getComponent(cc.Label);
         if (label) {
-            label.string = this.prefix + LanguageMgr.getText(this.text) + this.suffix;
+            label.string = LanguageMgr.getText(this.prefix) + LanguageMgr.getText(this.text) + LanguageMgr.getText(this.suffix);
         } else {
             cc.log(`${this.node.name}挂载的节点没有label组件！`);
         }

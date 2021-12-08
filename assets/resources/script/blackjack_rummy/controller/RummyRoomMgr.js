@@ -111,13 +111,15 @@ let RummyRoomMgr = cc.Class({
         return player;
     },
 
-    updatePlayerGameInfo(list){
+    updatePlayerGameInfo(list, banker){
         list.forEach(userInfo=>{
             let player = this.getPlayerById(userInfo.userId);
             if(player){
                 player.userState = userInfo.userState;
                 player.pokersList = userInfo.pokersList;
                 player.dropCoin = userInfo.dropCoin;
+
+                player.isBanker = userInfo.userId === banker;
             }else{
                 cc.error(`玩家${userInfo.userId}并没有进入房间`);
             }
@@ -130,6 +132,22 @@ let RummyRoomMgr = cc.Class({
             return player.userState !== 3;
         }else{
             return false;
+        }
+    },
+
+    /**
+     * 注册房间内语音玩家
+     */
+    requesYuYinUserData: function () {
+        cc.dd.AudioChat.clearUsers();
+        if (this.playerList) {
+            this.playerList.forEach(function (player) {
+                if (player) {
+                    if (player.userId != cc.dd.user.id) { // && player.isOnLine
+                        cc.dd.AudioChat.addUser(player.userId);
+                    }
+                }
+            }, this);
         }
     },
 });
