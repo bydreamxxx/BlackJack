@@ -262,7 +262,7 @@ cc.Class({
             cc.dd.UIMgr.destroyUI('gameyj_friend/prefab/klb_friend_group_createRoom');
         } else {
             if(!cc.dd.Utils.checkGPS(pbData)){
-                cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", 'text33', null, function () {
                 }, null);
                 return;
             }

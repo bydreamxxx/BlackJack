@@ -42,7 +42,7 @@ var hanlder = {
         }
         if (msg.header.code != 0) {
             dd.NetWaitUtil.close();
-            dd.DialogBoxUtil.show(0, msg.header.error, '确定');
+            dd.DialogBoxUtil.show(0, msg.header.error, 'text33');
             return false;
         }
         return true;
@@ -131,7 +131,7 @@ var hanlder = {
         if (this.headerHandle(msg)) {
             if (cc.dd._.isUndefined(msg.gameId)) {
                 if (cc.director.getScene().name != AppCfg.HALL_NAME && cc.director.getScene().name != 'club') {
-                    dd.DialogBoxUtil.show(1, "当前房间不存在,请返回大厅", "确定", null,
+                    dd.DialogBoxUtil.show(1, "当前房间不存在,请返回大厅", "text33", null,
                         function () {
                             cc.dd.SceneManager.replaceScene("jlmj_hall");
                         }.bind(this), null);

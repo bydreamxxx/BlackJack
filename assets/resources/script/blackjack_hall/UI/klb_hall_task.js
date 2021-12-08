@@ -340,7 +340,7 @@ cc.Class({
                     return cfg.gameid == gametype;
                 });
                 if (game_cfg) {
-                    cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, 'text33', null, function () {
                         cc.dd.SceneManager.enterHall();
                     }, null);
                     return;

@@ -87,7 +87,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         if (HallCommonData.telNum == '') {
             var self = this;
-            cc.dd.DialogBoxUtil.show(0, '绑定手机后，领取七天乐奖励', '前往绑定', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, '绑定手机后，领取七天乐奖励', '前往绑定', 'Cancel', function () {
                 self.onClickOpenBindUI(null, null);
             }, null);
             return

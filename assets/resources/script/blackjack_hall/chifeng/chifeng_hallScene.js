@@ -200,7 +200,7 @@ cc.Class({
                 else {
                     if (!this.__showbox) {
                         this.__showbox = true;
-                        cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, '确定', '取消',
+                        cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, 'text33', 'Cancel',
                             function () {
                                 cc.director.end();
                                 cc.dd.NetWaitUtil.close();
@@ -315,7 +315,7 @@ cc.Class({
     //打开设置
     clickQuit(event, custom) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', '取消', function () {
+        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', 'Cancel', function () {
             cc.game.end();
         }, null);
     },
@@ -544,7 +544,7 @@ cc.Class({
         //                         }.bind(this));
         //                         if (hall_prop_data.getInstance().getCoin() < entermin) {
         //                             var tipsText = '金币不足' + entermin + ',不能进入';
-        //                             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //                             cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
         //                         }
         //                         else {
         //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
@@ -569,7 +569,7 @@ cc.Class({
         //                                 return item;
         //                         })
         //                         var str = '您正在[' + itemgame.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
-        //                         cc.dd.DialogBoxUtil.show(0, str, '回到房间', '取消', function () {
+        //                         cc.dd.DialogBoxUtil.show(0, str, '回到房间', 'Cancel', function () {
         //                             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
         //                             msg.setGameType(hallData.getInstance().gameId);
         //                             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
@@ -626,7 +626,7 @@ cc.Class({
         //         }.bind(this));
         //         if (hall_prop_data.getInstance().getCoin() < entermin) {
         //             var tipsText = '金币不足' + entermin + ',不能进入';
-        //             cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //             cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
         //         }
         //         else {
         //             var gSlotMgr = require('SlotManger').SlotManger.Instance();
@@ -661,7 +661,7 @@ cc.Class({
                                     }.bind(this));
                                     if (hall_prop_data.getInstance().getCoin() < entermin) {
                                         var tipsText = '金币不足' + entermin + ',不能进入';
-                                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                        cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                                     }
                                     else {
                                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
@@ -743,7 +743,7 @@ cc.Class({
                     }.bind(this));
                     if (hall_prop_data.getInstance().getCoin() < entermin) {
                         var tipsText = '金币不足' + entermin + ',不能进入';
-                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                        cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                     }
                     else {
                         var gSlotMgr = require('SlotManger').SlotManger.Instance();

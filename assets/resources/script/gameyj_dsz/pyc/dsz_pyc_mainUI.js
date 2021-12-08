@@ -1030,7 +1030,7 @@ cc.Class({
             var player = playerMgr.findPlayerByUserId(data.userId)
             if (player.isRoomer) {//房主解散房间
                 this.clear();
-                cc.dd.DialogBoxUtil.show(0, "房主已解散房间,请重新加入房间", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "房主已解散房间,请重新加入房间", 'text33', null, function () {
                     cc.dd.SceneManager.enterHall();
                 }, function () {
                 });

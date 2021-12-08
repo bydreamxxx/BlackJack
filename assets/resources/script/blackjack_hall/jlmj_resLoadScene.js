@@ -316,7 +316,7 @@ let resLoad = cc.Class({
             if (cc.dd.native_systool.isNetAvailable()) {
                 this.changeState(LoginState.UPDATE_PKG);
             } else {
-                dd.DialogBoxUtil.show(1, "网络连接不可用,请检查网状态", "重试", "退出",
+                dd.DialogBoxUtil.show(1, "text29", "text30", "text31",
                     function () {
                         this.checkInternet();
                     }.bind(this),
@@ -513,7 +513,7 @@ let resLoad = cc.Class({
      * 资源加载完成
      */
     loadResComplet: function () {
-        // cc.dd.DialogBoxUtil.show(1, '1.0.1.0', '确定', '取消',null,null);
+        // cc.dd.DialogBoxUtil.show(1, '1.0.1.0', 'text33', 'Cancel',null,null);
         if (cc.game_pid == 10006 && !cc._newChifengApp && cc.sys.isNative) {
             cc.dd.DialogBoxUtil.show(1, `<color=#8F4F13><size=35>游戏已升级，请前往下载最新版本</size></color><br/><br/><size=20><color=red>温馨提示：安装新版本游戏之前，请卸载掉旧版本的游戏</color></size>`, '前往下载', null,
                 function () {
@@ -525,11 +525,11 @@ let resLoad = cc.Class({
 
         cc.log("【hall-login】" + "登录 开始");
         if (cc.sys.isMobile && (cc.pixel_format == 2) && !cc.configuration.supportsETC2()) {
-            // dd.DialogBoxUtil.show(1, "不支持该机型,请联系客服或用其他手机尝试登录", "确定", '',
+            // dd.DialogBoxUtil.show(1, "不支持该机型,请联系客服或用其他手机尝试登录", "text33", '',
             //     function () {
             //         cc.game.end();
             //     }.bind(this));
-            dd.DialogBoxUtil.show(1, "请前往下载新包", "确定", '',
+            dd.DialogBoxUtil.show(1, "text32", "text33", '',
                 function () {
                     var update_path = jsb.fileUtils.getWritablePath() + "blackjack";
                     jsb.fileUtils.removeDirectory(update_path);
@@ -707,13 +707,13 @@ let resLoad = cc.Class({
                     unit_des = 'M';
                 }
                 size = size.toFixed(2);
-                dd.DialogBoxUtil.show(1, '您当前处于数据流量状态,程序更新大小:' + size + unit_des + ",是否确定下载?", '确定', '取消',
+                dd.DialogBoxUtil.show(1, 'text34', 'text33', 'Cancel',
                     function () {
                         this.pkgUpdater.startUpdate();
                     }.bind(this),
                     function () {
                         this.reStartGame();
-                    }.bind(this));
+                    }.bind(this), "", size + unit_des);
             }
         }
     },
@@ -737,7 +737,7 @@ let resLoad = cc.Class({
             this.goToAppURL();
         }.bind(this);
 
-        dd.DialogBoxUtil.show(1, textTips, '确定', '取消',
+        dd.DialogBoxUtil.show(1, textTips, 'text33', 'Cancel',
             function () {
                 callfunc();
             }.bind(this),
@@ -775,7 +775,7 @@ let resLoad = cc.Class({
                 jsb.reflection.callStaticMethod("com/anglegame/blackjack/AppActivity", "installApp", "(Ljava/lang/String;)V", sdCardPath + filePath);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -787,7 +787,7 @@ let resLoad = cc.Class({
                 this.updateFailed();
                 break;
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -796,7 +796,7 @@ let resLoad = cc.Class({
                     }.bind(this));
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "text30", "Cancel",
                     function () {
                         this.pkgUpdater.retry();
                     }.bind(this),
@@ -833,7 +833,7 @@ let resLoad = cc.Class({
             case dd.UpdaterEvent.UPDATE_FINISHED:
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -845,7 +845,7 @@ let resLoad = cc.Class({
                 this.updateFailed();
                 break;
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -854,7 +854,7 @@ let resLoad = cc.Class({
                     }.bind(this));
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "text30", "Cancel",
                     function () {
                         this.pkgUpdater.retry();
                     }.bind(this),
@@ -906,7 +906,7 @@ let resLoad = cc.Class({
                             unit_des = 'M';
                         }
                         size = size.toFixed(2);
-                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", '确定', '取消',
+                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", 'text33', 'Cancel',
                             function () {
                                 if(data[0].game_id == UpdaterGameId.INTERNAL){
                                     this.internalUpdater.startUpdate();
@@ -939,14 +939,14 @@ let resLoad = cc.Class({
                 }else{
                     this.reStartGame();
                 }
-                // dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_7, "确定", null,
+                // dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_7, "text33", null,
                 //     function () {
                 //         this.reStartGame();
                 //     }.bind(this),
                 //     null);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -958,7 +958,7 @@ let resLoad = cc.Class({
                 this.updateFailed();
                 break;
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -967,7 +967,7 @@ let resLoad = cc.Class({
                     }.bind(this));
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "text30", "Cancel",
                     function () {
                         if(data[0].game_id == UpdaterGameId.INTERNAL){
                             this.internalUpdater.retry();
@@ -1008,7 +1008,7 @@ let resLoad = cc.Class({
                             unit_des = 'M';
                         }
                         size = size.toFixed(2);
-                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", '确定', '取消',
+                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", 'text33', 'Cancel',
                             function () {
                                 this.texasUpdater.startUpdate();
                             }.bind(this),
@@ -1029,7 +1029,7 @@ let resLoad = cc.Class({
                 this.changeState(LoginState.UPDATE_INTERNAL);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -1041,7 +1041,7 @@ let resLoad = cc.Class({
                 this.updateFailed();
                 break;
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -1050,7 +1050,7 @@ let resLoad = cc.Class({
                     }.bind(this));
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "重试", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_5, "text30", "Cancel",
                     function () {
                         this.texasUpdater.retry();
                     }.bind(this),
@@ -1094,11 +1094,11 @@ let resLoad = cc.Class({
                     if (config) {
                         name = config.name
                     }
-                    cc.dd.DialogBoxUtil.show(0, "请先在大厅更新游戏:" + name, '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text36", 'text33', null, function () {
                         cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
-                    }.bind(this), null);
+                    }.bind(this), null, '', name);
                 } else {
-                    cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
                         cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
                     }.bind(this), null);
                 }
@@ -1112,14 +1112,14 @@ let resLoad = cc.Class({
                 break;
             case dd.UpdaterEvent.UPDATE_FINISHED:
                 this.reStartGame();
-                // dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_7, "确定", null,
+                // dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_7, "text33", null,
                 //     function () {
                 //         this.reStartGame();
                 //     }.bind(this),
                 //     null);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -1131,7 +1131,7 @@ let resLoad = cc.Class({
                 this.updateFailed();
                 break;
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
-                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "确定", "取消",
+                dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",
                     function () {
                         this.goToAppURL();
                     }.bind(this),
@@ -1140,7 +1140,7 @@ let resLoad = cc.Class({
                     }.bind(this));
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
-                dd.DialogBoxUtil.show(1, "下载失败，请前往大厅更新", "确定", "取消",
+                dd.DialogBoxUtil.show(1, "text38", "text33", "Cancel",
                     function () {
                         cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
                     }.bind(this),
@@ -1179,7 +1179,7 @@ let resLoad = cc.Class({
         if (this._downloadingPkg) {
             return;
         }
-        dd.DialogBoxUtil.showFixDialog(1, "无法连接更新服务器", '确定', '',
+        dd.DialogBoxUtil.showFixDialog(1, "text39", 'text33', '',
             function () {
                 //cc.game.end();
                 this.changeState(LoginState.LOGIN_START);

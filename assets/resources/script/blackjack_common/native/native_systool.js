@@ -504,7 +504,7 @@ var Native = cc.Class({
         cc.wx_enter_club_baoxiang = null;
 
         if(cc.dd._.isNumber(delayTime) && new Date().getTime() > delayTime){
-            cc.dd.DialogBoxUtil.show(0, '该链接已过期，请联系亲友圈管理员重新获取', '确定', null, ()=>{
+            cc.dd.DialogBoxUtil.show(0, '该链接已过期，请联系亲友圈管理员重新获取', 'text33', null, ()=>{
                 cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
             });
             return;
@@ -516,7 +516,7 @@ var Native = cc.Class({
         }
 
         if(wx_enter_club_id == 0){
-            cc.dd.DialogBoxUtil.show(0, '亲友圈不存在', '确定', null, ()=>{
+            cc.dd.DialogBoxUtil.show(0, '亲友圈不存在', 'text33', null, ()=>{
                 cc.dd.SceneManager.replaceScene(AppCfg.HALL_NAME);
             });
             return;
@@ -579,7 +579,7 @@ var Native = cc.Class({
                     }
                 }
                 if(!cc.dd.Utils.checkGPS(info)){
-                    cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", 'text33', null, function () {
                         cc.JOIN_FRIEND_AND_PLAY.failedCall();
                     }, null);
                     return;

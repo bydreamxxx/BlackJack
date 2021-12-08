@@ -39,10 +39,10 @@ cc.Class({
 
     onClickButton(){
         if(this.nameEditBox.string == ''){
-            cc.dd.DialogBoxUtil.show(0,'昵称不能为空', '确定');
+            cc.dd.DialogBoxUtil.show(0,'昵称不能为空', 'text33');
             return;
         } else if (!/(^[A-Za-z0-9\u4e00-\u9fa5]+$)/.test(this.nameEditBox.string)) {
-            cc.dd.DialogBoxUtil.show(0,'昵称格式有误请重新输入', '确定');
+            cc.dd.DialogBoxUtil.show(0,'昵称格式有误请重新输入', 'text33');
             return;
         }else{
             this.tips.string = '';

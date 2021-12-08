@@ -142,25 +142,25 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if (this.nameEb.string == '') {
-            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_8, '确定');
+            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_8, 'text33');
             return;
         }
         var nameWithoutDot = this.nameEb.string.replace(/\u00b7/g, '');
         var nameReg = /^[\u4E00-\u9FA5]{2,15}$/;
         if (!nameReg.test(nameWithoutDot)) {
             this.nameEb.string = '';
-            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_9, '确定');
+            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_9, 'text33');
             return;
         }
 
         if (this.idEb.string == '') {
-            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_10, '确定');
+            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_10, 'text33');
             return;
         }
         var idReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
         if (!idReg.test(this.idEb.string)) {
             this.idEb.string = '';
-            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_11, '确定');
+            dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_POPUP_11, 'text33');
             return;
         }
 

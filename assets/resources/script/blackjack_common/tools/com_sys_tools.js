@@ -803,7 +803,7 @@ var SysTools = {
      */
     keepNetOk: function (net_ok_callback) {
         let func = function () {
-            cc.dd.DialogBoxUtil.show(1, "网络连接不可用,请检查网状态", "重试", "返回登录",
+            cc.dd.DialogBoxUtil.show(1, "text29", "text30", "返回登录",
                 function () {
                     if (!cc.dd.native_systool.isNetAvailable()) {
                         func()

@@ -366,7 +366,7 @@ cc.Class({
                     else {
                         if (!this.__showbox) {
                             this.__showbox = true;
-                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, '确定', '取消',
+                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, 'text33', 'Cancel',
                                 function () {
                                     cc.director.end();
                                     cc.dd.NetWaitUtil.close();

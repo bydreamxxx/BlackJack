@@ -132,7 +132,7 @@ module.exports = {
             if (config) {
                 name = config.name
             }
-            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + name, '确定', null, function () {
+            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + name, 'text33', null, function () {
                 cc.dd.SceneManager.enterHall();
             }, null);
             return;

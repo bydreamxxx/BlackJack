@@ -385,7 +385,7 @@ let userInfo = cc.Class({
         hall_audio_mgr.com_btn_click();
         var UpdateMgr = require("updaterMgr").UpdateMgr.Instance();
         if (!UpdateMgr.isGameInstalled(31)) {
-            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + '斗地主', '确定', null, function () {
+            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + '斗地主', 'text33', null, function () {
             }, null);
             return;
         }
@@ -402,7 +402,7 @@ let userInfo = cc.Class({
         hall_audio_mgr.com_btn_click();
         var UpdateMgr = require("updaterMgr").UpdateMgr.Instance();
         if (!UpdateMgr.isGameInstalled(31)) {
-            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + '斗地主', '确定', null, function () {
+            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + '斗地主', 'text33', null, function () {
             }, null);
             return;
         }

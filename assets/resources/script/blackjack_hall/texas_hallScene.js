@@ -197,7 +197,7 @@ let hall = cc.Class({
                     else {
                         if (!this.__showbox) {
                             this.__showbox = true;
-                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, '确定', '取消',
+                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, 'text33', 'Cancel',
                                 function () {
                                     cc.director.end();
                                     cc.dd.NetWaitUtil.close();
@@ -928,7 +928,7 @@ let hall = cc.Class({
                         })
                     }
                 } else {
-                    cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
 
                     }.bind(this), null);
                 }
@@ -1258,7 +1258,7 @@ let hall = cc.Class({
     //打开设置
     clickQuit(event, custom) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', '取消', function () {
+        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', 'Cancel', function () {
             cc.game.end();
         }, null);
     },

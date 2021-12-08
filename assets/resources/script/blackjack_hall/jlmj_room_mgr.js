@@ -720,10 +720,10 @@ var RoomMgr = cc.Class({
             case Define.GameType.HLMJ_GOLD:
             case Define.GameType.HLMJ_FRIEND:
             case Define.GameType.JSMJ_GOLD:
-                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_15, '确定');
+                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_15, 'text33');
                 break;
             default:
-                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_15, '确定');
+                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_15, 'text33');
                 break;
         }
     },

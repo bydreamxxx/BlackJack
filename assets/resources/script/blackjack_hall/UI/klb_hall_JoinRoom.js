@@ -190,7 +190,7 @@ cc.Class({
                         })
                     }
                 }else{
-                    cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
 
                     }.bind(this), null);
                 }

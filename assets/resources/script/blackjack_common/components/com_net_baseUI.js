@@ -123,7 +123,7 @@ cc.Class({
      * @param code
      */
     serverCloseConnect:function (code) {
-        cc.dd.DialogBoxUtil.show(1, this.getStrToCode(code),'确定',null,function () {
+        cc.dd.DialogBoxUtil.show(1, this.getStrToCode(code),'text33',null,function () {
             cc.dd.SceneManager.enterLoginScene();
         });
     },

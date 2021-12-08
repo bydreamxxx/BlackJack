@@ -249,7 +249,7 @@ cc.Class({
         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
             var cpt = prefab.getComponent('new_dsz_dialog_box');
             if(cpt)
-                cpt.show(0, "没有可加入的房间", '确定', null, function () {
+                cpt.show(0, "没有可加入的房间", 'text33', null, function () {
                 }, function () {
             });
         });

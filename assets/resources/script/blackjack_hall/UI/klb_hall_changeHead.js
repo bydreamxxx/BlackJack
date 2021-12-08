@@ -95,7 +95,7 @@ let changeHead = cc.Class({
             return;
         }
 
-        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', () => {
+        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', 'text33', 'Cancel', () => {
             let [data, uploadURL] = this.getData();
 
             if (cc.sys.OS_ANDROID == cc.sys.os) {
@@ -124,7 +124,7 @@ let changeHead = cc.Class({
             return;
         }
 
-        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', () => {
+        cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', 'text33', 'Cancel', () => {
             let [data, uploadURL] = this.getData();
 
             if (cc.sys.OS_ANDROID == cc.sys.os) {
@@ -211,7 +211,7 @@ let changeHead = cc.Class({
             if (!this.checkChangeCard()) {
                 return;
             }
-            cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', '确定', '取消', func, function () { });
+            cc.dd.DialogBoxUtil.show(0, '更换头像将消耗1张改名卡', 'text33', 'Cancel', func, function () { });
         }
 
         // this.close();

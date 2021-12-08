@@ -414,7 +414,7 @@ cc.Class({
     //点击充值按钮
     onClickRechargeBtn: function (event, data) {
         this.playAudio(101100);
-        cc.dd.DialogBoxUtil.show(1, '是否立即前往大厅充值？', '确定', '取消',
+        cc.dd.DialogBoxUtil.show(1, '是否立即前往大厅充值？', 'text33', 'Cancel',
             function () {
                 gSlotMgr.quitGame();
                 cc.dd.SceneManager.enterHallRecharge();

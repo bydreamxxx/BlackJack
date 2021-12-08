@@ -609,7 +609,7 @@ var jlmj_login_module = cc.Class({
         if (token) {
             if (Number(token) < 0) {
                 cc.log('[游戏登录] ', '获取授权码失败！', token);
-                cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_SYSTEM_7, '重试', null, function () {
+                cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_SYSTEM_7, 'text30', null, function () {
                     cc.wx_authing = true;
                     cc.log('[游戏登录] ', '微信授权请求');
                     this.loginType = emun.Login_Type.NONE;
@@ -769,7 +769,7 @@ var jlmj_login_module = cc.Class({
                         LoginData.Instance().saveRefreshToken('');
                     }
                 } else {
-                    dd.DialogBoxUtil.show(1, LogoutCodeStr[data[1]], '退出', null, function () {
+                    dd.DialogBoxUtil.show(1, LogoutCodeStr[data[1]], 'text31', null, function () {
                         cc.director.end();
                     });
                 }

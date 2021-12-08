@@ -103,13 +103,13 @@ cc.Class({
                 var taskInfo = HallTask.Instance().getTask(level + 26);
                 if (taskInfo == null) {
                     var str = '上等级福袋还有等级奖励未领取，领取后可开启新的福袋';
-                    cc.dd.DialogBoxUtil.show(1, str, "确定");
+                    cc.dd.DialogBoxUtil.show(1, str, "text33");
                     return;
 
                 }
                 if (taskInfo.flag == 0) {
                     var str = 'LV' + (level - 1) + '福袋还有等级奖励未领取，领取后可开启新的福袋';
-                    cc.dd.DialogBoxUtil.show(1, str, "确定");
+                    cc.dd.DialogBoxUtil.show(1, str, "text33");
                 } else {
                     var pbObj = new cc.pb.rank.msg_trigger_level_task_2s();
                     pbObj.setLevel(this.data.level);

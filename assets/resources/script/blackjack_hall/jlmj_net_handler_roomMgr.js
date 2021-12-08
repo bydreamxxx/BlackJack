@@ -105,7 +105,7 @@ var handler = {
                     str = cc.dd.Text.TEXT_KLB_HALL_COMMON_10;
                     break;
             }
-            cc.dd.DialogBoxUtil.show(0, str, '确定', null, () => {
+            cc.dd.DialogBoxUtil.show(0, str, 'text33', null, () => {
                 if (cc.JOIN_FRIEND_AND_PLAY) {
                     switch (msg.retCode) {
                         case 6:
@@ -175,7 +175,7 @@ var handler = {
                     break;
                 case 6:
                     str = '您当前不是亲友圈成员，不能直接进入房间\n是否加入' + msg.gameInfo.clubId + '亲友圈？';
-                    cc.dd.DialogBoxUtil.show(0, str, '申请加入', '取消', () => {
+                    cc.dd.DialogBoxUtil.show(0, str, '申请加入', 'Cancel', () => {
                         club_sender.joinClubReq(msg.gameInfo.clubId);
                         if (cc.JOIN_FRIEND_AND_PLAY) {
                             cc.JOIN_FRIEND_AND_PLAY.failedCall();
@@ -198,7 +198,7 @@ var handler = {
                 default:
                     break;
             }
-            cc.dd.DialogBoxUtil.show(0, str, '确定', null, () => {
+            cc.dd.DialogBoxUtil.show(0, str, 'text33', null, () => {
                 if (cc.JOIN_FRIEND_AND_PLAY) {
                     switch (msg.retCode) {
                         case 1:
@@ -254,7 +254,7 @@ var handler = {
                 if (cc.dd.user.id == msg.userId && msg.gameInfo.gameType != hallData.getInstance().gameId && cc._wait_end_quickenter)
                     return;
                 if (cc.dd.user.id == msg.userId && msg.coinRetCode == 6) {
-                    cc.dd.DialogBoxUtil.show(0, '由于您长时间未操作游戏，已将您切换至大厅', "确定", null, null);
+                    cc.dd.DialogBoxUtil.show(0, '由于您长时间未操作游戏，已将您切换至大厅', "text33", null, null);
                 }
                 if (RoomMgr.Instance().player_mgr) {
                     if (RoomMgr.Instance().player_mgr.othersNum != null)
@@ -266,20 +266,20 @@ var handler = {
             }
             case 1: {
                 //退出房间,出错不提示
-                // cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_8, "确定", null, function () {
+                // cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_8, "text33", null, function () {
                 cc.dd.SceneManager.enterHall();
                 // });
                 break;
             }
             case 2: {
                 //退出房间,出错不提示
-                // cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_9, "确定", null, function () {
+                // cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_9, "text33", null, function () {
                 cc.dd.SceneManager.enterHall();
                 // });
                 break;
             }
             case 3: {
-                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_13, "确定", null, function () {
+                cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_13, "text33", null, function () {
                     //cc.dd.SceneManager.enterHall();
                 });
                 break;
@@ -377,7 +377,7 @@ var handler = {
         //         break;
         // }
         // if (msg.retCode != 0) {
-        //     cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+        //     cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
         // }
     },
 
@@ -796,10 +796,10 @@ var handler = {
                     })
                 }
             } else {
-                cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
                     cc.dd.SceneManager.enterHall();
                 });
-                // cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, '确定', null, function () {
+                // cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, 'text33', null, function () {
                 //     cc.dd.SceneManager.enterHall();
                 // });
             }
@@ -873,7 +873,7 @@ var handler = {
                 }
             }
             if (cc.dd.Utils.getGpsFromMsg(msg) && cc.sys.isNative && !enter_game_req.latlngInfo && !cc._chifengGame) {
-                cc.dd.DialogBoxUtil.show(0, "加入房间失败，无法获取定位信息", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "加入房间失败，无法获取定位信息", 'text33', null, function () {
                 }, null);
                 return;
             }
@@ -913,7 +913,7 @@ var handler = {
                         }
                     }
                     if (cc.dd.Utils.getGpsFromMsg(msg) && cc.sys.isNative && !enter_game_req.latlngInfo && !cc._chifengGame) {
-                        cc.dd.DialogBoxUtil.show(0, "加入房间失败，无法获取定位信息", '确定', null, function () {
+                        cc.dd.DialogBoxUtil.show(0, "加入房间失败，无法获取定位信息", 'text33', null, function () {
                         }, null);
                         return;
                     }
@@ -973,7 +973,7 @@ var handler = {
             var str = '';
             switch (msg.retCode) {
                 case 1:
-                    str = '房间号错误';
+                    str = 'text37';
                     break;
                 case 2:
                     str = '旁观者人数已满';
@@ -994,7 +994,7 @@ var handler = {
                     break;
             }
 
-            cc.dd.DialogBoxUtil.show(0, str, '确定');
+            cc.dd.DialogBoxUtil.show(0, str, 'text33');
         }
     },
 
@@ -1034,13 +1034,13 @@ var handler = {
                         return cfg.gameid == msg.gameInfo.gameType;
                     });
                     if (game_cfg) {
-                        cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, '确定', null, function () {
+                        cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, 'text33', null, function () {
                             cc.dd.SceneManager.enterHall();
                         }, null);
                         return;
                     }
                 } else {
-                    cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
                         cc.dd.SceneManager.enterHall();
                     }, null);
                     return;
@@ -1051,7 +1051,7 @@ var handler = {
                     return cfg.gameid == msg.gameInfo.gameType;
                 });
                 if (game_cfg) {
-                    cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, 'text33', null, function () {
                         cc.dd.SceneManager.enterHall();
                     }, null);
                     return;
@@ -1255,7 +1255,7 @@ var handler = {
                     str = '卡密状态未知';
                     break;
             }
-            cc.dd.DialogBoxUtil.show(0, str, '确定');
+            cc.dd.DialogBoxUtil.show(0, str, 'text33');
         }
     },
     /********************************************卡密充值end*********************************************/

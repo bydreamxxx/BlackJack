@@ -850,7 +850,7 @@ cc.Class({
     },
 
     popupOKcancel: function (text, callfunc) {
-        cc.dd.DialogBoxUtil.show(0, text, '确定', '取消', function () {
+        cc.dd.DialogBoxUtil.show(0, text, 'text33', 'Cancel', function () {
             callfunc();
         }, function () { });
     },

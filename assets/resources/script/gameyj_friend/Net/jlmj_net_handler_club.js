@@ -92,7 +92,7 @@ var hanlder = {
                 break;
         }
         if(cc.JOIN_FRIEND_AND_PLAY){
-            cc.dd.DialogBoxUtil.show(0, str, '确定', null, ()=> {
+            cc.dd.DialogBoxUtil.show(0, str, 'text33', null, ()=> {
                 cc.JOIN_FRIEND_AND_PLAY.failedCall();
             });
         }else{
@@ -647,7 +647,7 @@ var hanlder = {
                 //从分享加入亲友圈并游戏，先获取包厢信息
                 if(cc.JOIN_FRIEND_AND_PLAY && cc.JOIN_FRIEND_AND_PLAY.state == 1){
                     if(msg.wanfanumList.indexOf(cc.JOIN_FRIEND_AND_PLAY.wanfaNum) == -1){
-                        cc.dd.DialogBoxUtil.show(0, '包厢不存在', '确定', null, ()=> {
+                        cc.dd.DialogBoxUtil.show(0, '包厢不存在', 'text33', null, ()=> {
                             cc.JOIN_FRIEND_AND_PLAY.failedCall();
                         });
                     }else{
@@ -664,7 +664,7 @@ var hanlder = {
                 break;
         }
         if(cc.JOIN_FRIEND_AND_PLAY && cc.JOIN_FRIEND_AND_PLAY.state == 1){
-            cc.dd.DialogBoxUtil.show(0, str, '确定', null, ()=> {
+            cc.dd.DialogBoxUtil.show(0, str, 'text33', null, ()=> {
                 cc.JOIN_FRIEND_AND_PLAY.failedCall();
             });
         }else{
@@ -750,7 +750,7 @@ var hanlder = {
                     }
 
                     if(!enter){
-                        cc.dd.DialogBoxUtil.show(0, '包厢桌子已满', '确定', ()=> {
+                        cc.dd.DialogBoxUtil.show(0, '包厢桌子已满', 'text33', ()=> {
                             cc.JOIN_FRIEND_AND_PLAY.failedCall();
                         });
                     }
@@ -765,7 +765,7 @@ var hanlder = {
         }
 
         if(cc.JOIN_FRIEND_AND_PLAY && cc.JOIN_FRIEND_AND_PLAY.state == 2){
-            cc.dd.DialogBoxUtil.show(0, str, '确定', null, ()=> {
+            cc.dd.DialogBoxUtil.show(0, str, 'text33', null, ()=> {
                 cc.JOIN_FRIEND_AND_PLAY.failedCall();
             });
         }else{

@@ -893,7 +893,7 @@ cc.Class({
                 }
             }
             if (roomData) {
-                cc.dd.DialogBoxUtil.show(0, "您已留机，是否立即前往？", "前往", "取消", function () {
+                cc.dd.DialogBoxUtil.show(0, "您已留机，是否立即前往？", "前往", "Cancel", function () {
                     var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                     msg.setGameType(roomData.gameId);
                     msg.setRoomId(roomData.roomId);
@@ -914,7 +914,7 @@ cc.Class({
         if (coin < entermin) {
             if ((bankCoin + coin) < entermin) {
                 // 金币不足 弹窗  跳转商城
-                cc.dd.DialogBoxUtil.show(1, '您的金币不足' + this.convertNumToStr(entermin) + '，无法上座!是否充值?', '确定', '取消', function () {
+                cc.dd.DialogBoxUtil.show(1, '您的金币不足' + this.convertNumToStr(entermin) + '，无法上座!是否充值?', 'text33', 'Cancel', function () {
                     if (!cc._is_shop)
                         return;
                     cc.dd.UIMgr.openUI(hall_prefab.KLB_SHOP_LAYER, function (ui) {

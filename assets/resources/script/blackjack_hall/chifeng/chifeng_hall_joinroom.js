@@ -170,11 +170,11 @@ cc.Class({
                         if (config) {
                             name = config.name
                         }
-                        cc.dd.DialogBoxUtil.show(0, "请先在大厅更新游戏:" + name, '确定', null, function () {
+                        cc.dd.DialogBoxUtil.show(0, "text36" + name, 'text33', null, function () {
 
-                        }.bind(this), null);
+                        }.bind(this), null, "", name);
                     }else{
-                        cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                        cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
 
                         }.bind(this), null);
                     }
@@ -186,9 +186,9 @@ cc.Class({
                     if (config) {
                         name = config.name
                     }
-                    cc.dd.DialogBoxUtil.show(0, "请先在大厅更新游戏:" + name, '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text36", 'text33', null, function () {
 
-                    }.bind(this), null);
+                    }.bind(this), null, "", name);
                 }
 
                 break;

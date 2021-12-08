@@ -29,7 +29,7 @@ var hanlder = {
                     text = cc.dd.Text.TEXT_SYSTEM_16;
                     cc.dd.NetWaitUtil.close();
                     cc.dd.DialogBoxUtil.clear();
-                    cc.dd.DialogBoxUtil.show(1, text, '退出', null, function () {
+                    cc.dd.DialogBoxUtil.show(1, text, 'text31', null, function () {
                         cc.director.end();
                     }, null);
                     return;
@@ -57,7 +57,7 @@ var hanlder = {
             }
             // cc.dd.PromptBoxUtil.show(text);
             cc.dd.DialogBoxUtil.clear();
-            cc.dd.DialogBoxUtil.show(0, text, '确定', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, text, 'text33', 'Cancel', function () {
                 if (msg.code != 7 && msg.code != 8) {
                     login_module.Instance().reconnectWG();
                 }

@@ -295,7 +295,7 @@ cc.Class({
     },
 
     popupEnterHall: function (text, callfunc) {
-        // cc.dd.DialogBoxUtil.show(0, text, '确定', null, function () {
+        // cc.dd.DialogBoxUtil.show(0, text, 'text33', null, function () {
         //     callfunc();
         // }, function () { });
         cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
@@ -1549,7 +1549,7 @@ cc.Class({
                         cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
                             ui.getComponent("jlmj_popup_view").show('正在游戏中，退出后系统自动出牌，是否退出?', this.sendLeaveRoom, 1);
                         }.bind(this));
-                        // cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动出牌，是否退出？', '确定', '取消', function () {
+                        // cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动出牌，是否退出？', 'text33', 'Cancel', function () {
                         //     this.sendLeaveRoom();
                         // }.bind(this), function () {
                         // }.bind(this));

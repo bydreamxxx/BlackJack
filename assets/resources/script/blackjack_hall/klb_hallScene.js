@@ -186,7 +186,7 @@ let hall = cc.Class({
                     else {
                         if (!this.__showbox) {
                             this.__showbox = true;
-                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, '确定', '取消',
+                            cc.dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_2, 'text33', 'Cancel',
                                 function () {
                                     cc.director.end();
                                     cc.dd.NetWaitUtil.close();
@@ -511,7 +511,7 @@ let hall = cc.Class({
                                     }.bind(this));
                                     if (hall_prop_data.getInstance().getCoin() < entermin) {
                                         var tipsText = '金币不足' + entermin + ',不能进入';
-                                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                        cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                                     }
                                     else {
                                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
@@ -556,7 +556,7 @@ let hall = cc.Class({
                                 //     }.bind(this));
                                 //     if (hall_prop_data.getInstance().getCoin() < entermin) {
                                 //         var tipsText = '金币不足' + entermin + ',不能进入';
-                                //         cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                //         cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                                 //     }
                                 //     else {
                                 //         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
@@ -622,7 +622,7 @@ let hall = cc.Class({
                     }.bind(this));
                     if (hall_prop_data.getInstance().getCoin() < entermin) {
                         var tipsText = '金币不足' + entermin + ',不能进入';
-                        cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                        cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                     }
                     else {
                         var gSlotMgr = require('SlotManger').SlotManger.Instance();
@@ -1043,7 +1043,7 @@ let hall = cc.Class({
                         })
                     }
                 } else {
-                    cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                    cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
 
                     }.bind(this), null);
                 }
@@ -1383,7 +1383,7 @@ let hall = cc.Class({
     //打开设置
     clickQuit(event, custom) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', '取消', function () {
+        cc.dd.DialogBoxUtil.show(0, '是否退出游戏', '确认', 'Cancel', function () {
             cc.game.end();
         }, null);
     },

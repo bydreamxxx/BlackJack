@@ -807,7 +807,7 @@ cc.Class({
             str = '您在本次游戏中共盈利' + (PK_MgrData.getPlayerCoin() - PK_MgrData.getStartCoin()) + '，是否现在就退出？'
 
         }
-        cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
+        cc.dd.DialogBoxUtil.show(1, str, 'text33', 'Cancel',
             function () {
                 cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();

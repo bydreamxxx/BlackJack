@@ -678,7 +678,7 @@ cc.Class({
             str = '您在本次游戏中共盈利' + (game_Data.getCurCoin() - game_Data.getStartCoin()) + '，是否现在就退出？'
 
         }
-        cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
+        cc.dd.DialogBoxUtil.show(1, str, 'text33', 'Cancel',
             function () {
                 cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));
                 AudioManager.stopMusic();
@@ -752,7 +752,7 @@ cc.Class({
             self.m_oYujingPing.off('finished', cliclkCallBack);
             var data = hall_prop_data.getItemInfoByDataId(1101);
             if (data == null) {
-                cc.dd.DialogBoxUtil.show(1, '是否前往商城购买玉净瓶？', '确定', '取消', function () {
+                cc.dd.DialogBoxUtil.show(1, '是否前往商城购买玉净瓶？', 'text33', 'Cancel', function () {
                     var msg = new cc.pb.room_mgr.msg_leave_game_req();
 
                     var gameType = 105;

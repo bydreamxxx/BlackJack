@@ -1103,7 +1103,7 @@ cc.Class({
             str = '您在本次游戏中共盈利' + (gameData.getCoin() - gameData.getStartCoin()) + '，是否现在就退出？'
 
         }
-        cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
+        cc.dd.DialogBoxUtil.show(1, str, 'text33', 'Cancel',
             function () {
                 AudioManager.stopMusic();
 

@@ -216,7 +216,7 @@ cc.Class({
                             }.bind(this));
                             if (hall_prop_data.getInstance().getCoin() < entermin) {
                                 var tipsText = '金币不足' + entermin + ',不能进入';
-                                cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                                cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
                             }
                             else {
                                 var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
@@ -298,7 +298,7 @@ cc.Class({
             }.bind(this));
             if (hall_prop_data.getInstance().getCoin() < entermin) {
                 var tipsText = '金币不足' + entermin + ',不能进入';
-                cc.dd.DialogBoxUtil.show(0, tipsText, "确定");
+                cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
             }
             else {
                 var gSlotMgr = require('SlotManger').SlotManger.Instance();

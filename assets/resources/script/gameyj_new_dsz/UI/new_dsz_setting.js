@@ -150,7 +150,7 @@ cc.Class({
                 cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
-                        cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", '确定', '取消', this.sendLeaveRoom, null);
+                        cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", 'text33', 'Cancel', this.sendLeaveRoom, null);
                 }.bind(this));
             }
             this.onClose();
@@ -161,7 +161,7 @@ cc.Class({
         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
             var cpt = prefab.getComponent('new_dsz_dialog_box');
             if (cpt)
-                cpt.show(0, text, '确定', '取消', callfunc, null);
+                cpt.show(0, text, 'text33', 'Cancel', callfunc, null);
         }.bind(this));
     },
 

@@ -194,7 +194,7 @@ cc.Class({
                 cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
-                        cpt.show(0, cc.dd.Text.TEXT_LEAVE_ROOM_3, '确定', '取消', this.sendLeaveRoom, null);
+                        cpt.show(0, cc.dd.Text.TEXT_LEAVE_ROOM_3, 'text33', 'Cancel', this.sendLeaveRoom, null);
                 }.bind(this));
                 this.__showbox = false;
                 return;
@@ -221,7 +221,7 @@ cc.Class({
             cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
-                    cpt.show(0, content, '确定', '取消', callfunc, null);
+                    cpt.show(0, content, 'text33', 'Cancel', callfunc, null);
             }.bind(this));
             this.__showbox = false;
         } else {
@@ -229,15 +229,15 @@ cc.Class({
             var gamedata = selfInfo.getPlayerGameInfo();
             var text = '正在游戏中，退出后系统自动操作，是否退出';
             if (gamedata && (gamedata.userState == config_state.UserStateWait || gamedata.userState == 0)) {
-                text = '您确定要退出游戏吗？';
+                text = 'quitthegame';
             } else if (!gamedata) {
-                text = '您确定要退出游戏吗？';
+                text = 'quitthegame';
             }
 
             cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
-                    cpt.show(0, text, '确定', '取消', this.sendLeaveRoom, null);
+                    cpt.show(0, text, 'text33', 'Cancel', this.sendLeaveRoom, null);
             }.bind(this));
             this.__showbox = false;
         }
@@ -1330,7 +1330,7 @@ cc.Class({
                 cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
-                        cpt.show(0, "房主已解散房间,请重新加入房间", '确定', null, function () {
+                        cpt.show(0, "房主已解散房间,请重新加入房间", 'text33', null, function () {
                             cc.dd.SceneManager.enterHall();
                         }, function () {
                         });
@@ -1449,7 +1449,7 @@ cc.Class({
                 cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
-                        cpt.show(0, "您的金币不足，不能匹配新的房间，是否前往商城购买！", '确定', '取消', function () {
+                        cpt.show(0, "您的金币不足，不能匹配新的房间，是否前往商城购买！", 'text33', 'Cancel', function () {
                             self.sendLeaveRoom();
                         }, function () {
                         });
@@ -1665,7 +1665,7 @@ cc.Class({
             cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
-                    cpt.show(0, str, '确定', '取消', this.sendLeaveRoom, null);
+                    cpt.show(0, str, 'text33', 'Cancel', this.sendLeaveRoom, null);
             }.bind(this));
         }
     },

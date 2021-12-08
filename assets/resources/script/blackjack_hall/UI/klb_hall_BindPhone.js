@@ -221,25 +221,25 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if(this.phoneEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;///(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.phoneEditBox.string)){
             this.phoneEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
 
         if(this.safeCodeEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, 'text33');
             return;
         }
         var idReg = /(^\d{4}$)|/;;
         if(!idReg.test(this.safeCodeEditBox.string)){
             this.safeCodeEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, 'text33');
             return;
         }
 
@@ -260,25 +260,25 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if(this.phoneEditBox2.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.phoneEditBox2.string)){
             this.phoneEditBox2.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
 
         if(this.safeCodeEditBox2.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, 'text33');
             return;
         }
         var idReg = /(^\d{4}$)|/;;
         if(!idReg.test(this.safeCodeEditBox2.string)){
             this.safeCodeEditBox2.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, 'text33');
             return;
         }
 
@@ -306,14 +306,14 @@ cc.Class({
     //绑定手机获取验证码
     getPhoneCode: function(event, data){
         if(this.phoneEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.phoneEditBox.string)){
             this.phoneEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
         this.codeType = 1;
@@ -331,14 +331,14 @@ cc.Class({
     //解绑手机获取验证码
     getDeletePhoneCode: function(event, data){
         if(this.phoneEditBox2.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.phoneEditBox2.string)){
             this.phoneEditBox2.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
         
@@ -448,19 +448,19 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if(this.newPhoneEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;///(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.newPhoneEditBox.string)){
             this.newPhoneEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
 
         if(this.newPasswordEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_22, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_22, 'text33');
             return;
         } else if (this.newPasswordEditBox.string.length < 6) {
             cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_POPUP_28);
@@ -471,13 +471,13 @@ cc.Class({
         }
 
         if(this.newSafeCodeEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_23, 'text33');
             return;
         }
         var idReg = /(^\d{4}$)|/;;
         if(!idReg.test(this.newSafeCodeEditBox.string)){
             this.newSafeCodeEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_26, 'text33');
             return;
         }
 
@@ -495,14 +495,14 @@ cc.Class({
     //绑定手机获取验证码
     getPhoneCodeNew: function(event, data){
         if(this.newPhoneEditBox.string == ''){
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_24, 'text33');
             return;
         }
 
         var nameReg = /(^\d{11}$)|/;//^[\u4E00-\u9FA5]{2,4}$/;
         if(!nameReg.test(this.newPhoneEditBox.string)){
             this.newPhoneEditBox.string = '';
-            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, '确定');
+            dd.DialogBoxUtil.show(0,cc.dd.Text.TEXT_POPUP_25, 'text33');
             return;
         }
         this.codeType = 1;

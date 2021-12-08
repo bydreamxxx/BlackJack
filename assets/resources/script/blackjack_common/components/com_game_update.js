@@ -98,7 +98,7 @@ cc.Class({
                             unit_des = 'M';
                         }
                         size = size.toFixed(2);
-                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", '确定', '取消',
+                        dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_6 + size + unit_des + ",是否确定下载?", 'text33', 'Cancel',
                             function () {
                                 this.updateUI(true, 0);
                                 this.updater.startUpdate(this.updater_entrance);
@@ -122,7 +122,7 @@ cc.Class({
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
                 this.updateUI(false);
-                dd.DialogBoxUtil.show(1, "无法更新,请下载最新包", "确定", "取消",
+                dd.DialogBoxUtil.show(1, "Unabletoupdate", "text33", "Cancel",
                     function () {
                     }.bind(this),
                     function () {
@@ -131,7 +131,7 @@ cc.Class({
             case dd.UpdaterEvent.ERROR_DOWNLOAD_MANIFEST:
             case dd.UpdaterEvent.ERROR_PARSE_MANIFEST:
                 this.updateUI(false);
-                dd.DialogBoxUtil.show(1, "下载失败,是否重新下载", "重试", "取消",
+                dd.DialogBoxUtil.show(1, "Downloadfailed", "text30", "Cancel",
                     function () {
                         this.updater.retry(this.updater_entrance);
                     }.bind(this),
@@ -141,7 +141,7 @@ cc.Class({
                 break;
             case dd.UpdaterEvent.UPDATE_FAILED:
                 this.updateUI(false);
-                dd.DialogBoxUtil.show(1, "更新失败,是否重新下载", "重试", "取消",
+                dd.DialogBoxUtil.show(1, "更新失败,是否重新下载", "text30", "Cancel",
                     function () {
                         this.updater.retry(this.updater_entrance);
                     }.bind(this),

@@ -424,7 +424,7 @@ let activity = cc.Class({
             cc.dd._firstShowSign = false;
             if (hallData.getInstance().idNum == '' && !cc.dd.isCertified) {
                 cc.dd.isCertified = true;
-                // cc.dd.DialogBoxUtil.show(0, '实名认证可以领取丰厚奖励，前往领取', '确定', '取消', function () {
+                // cc.dd.DialogBoxUtil.show(0, '实名认证可以领取丰厚奖励，前往领取', 'text33', 'Cancel', function () {
                 //     // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_USERINFO, function (ui) {
                 //     //     ui.getComponent('klb_hall_UserInfo').setData(hallData.getInstance());
                 //     //     cc.find('topBtn/toggle1', ui).getComponent(cc.Toggle).isChecked = true;

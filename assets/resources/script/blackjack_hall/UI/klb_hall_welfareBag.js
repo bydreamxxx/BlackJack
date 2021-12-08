@@ -79,7 +79,7 @@ cc.Class({
         if (cfg) {
             var title = cfg.title;
             var des = cfg.des;
-            cc.dd.DialogBoxUtil.show(0, des, '确定', null, null, null, title);
+            cc.dd.DialogBoxUtil.show(0, des, 'text33', null, null, null, title);
         }
     },
 

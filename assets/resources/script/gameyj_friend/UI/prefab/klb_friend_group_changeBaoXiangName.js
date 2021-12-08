@@ -32,10 +32,10 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if(this.nameEditBox.string.trim() == ''){
-            cc.dd.DialogBoxUtil.show(0,'备注名不能为空', '确定');
+            cc.dd.DialogBoxUtil.show(0,'备注名不能为空', 'text33');
             return;
         } else if (!/(^[A-Za-z0-9\u4e00-\u9fa5]+$)/.test(this.nameEditBox.string)) {
-            cc.dd.DialogBoxUtil.show(0,'请输入数字、汉字或字母', '确定');
+            cc.dd.DialogBoxUtil.show(0,'请输入数字、汉字或字母', 'text33');
             return;
         }
 

@@ -680,7 +680,7 @@ var SlotManger = cc.Class({
     //下注
     bet: function(line_num, line_bet_gold){
         if(hall_prop_data.getInstance().getCoin() < (data_slotroom.items[this.m_nRoomType - 1].bet_min * line_num)){
-            cc.dd.DialogBoxUtil.show( 1, '您的金币不足，不能继续进行游戏', '退出', '取消', function(){
+            cc.dd.DialogBoxUtil.show( 1, '您的金币不足，不能继续进行游戏', 'text31', 'Cancel', function(){
                 cc.dd.SceneManager.enterHall();
                 AudioManager.stopAllSound();
             }, null);

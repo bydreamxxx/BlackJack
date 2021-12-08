@@ -230,7 +230,7 @@ module.exports = {
         }
         var UpdateMgr = require("updaterMgr").UpdateMgr.Instance();
         if (!UpdateMgr.isGameInstalled(32)) {
-            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + "斗地主", '确定', null, function () {
+            cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + "斗地主", 'text33', null, function () {
                 cc.dd.SceneManager.replaceScene("kuaileba_hall");
             }, null);
             return;

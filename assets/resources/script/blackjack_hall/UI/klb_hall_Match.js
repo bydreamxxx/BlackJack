@@ -717,7 +717,7 @@ cc.Class({
                 var localdate = cc.sys.localStorage.getItem('hall_match_dialog_date');
                 if ((!localdate || localdate != date) && !cc._isHuaweiGame) {
                     cc.sys.localStorage.setItem('hall_match_dialog_date', date);
-                    cc.dd.DialogBoxUtil.show(1, '快邀请好友一起来,抢红包吧!', '分享', '取消',
+                    cc.dd.DialogBoxUtil.show(1, '快邀请好友一起来,抢红包吧!', '分享', 'Cancel',
                         function () {
                             // var cfg = klb_game_list_config.getItem(function (item) {
                             //     return item.gameid == 32;

@@ -75,6 +75,14 @@ let rummy_player_ui = cc.Class({
         this.head.init(data);
         this.node.active = true;
     },
+
+    play_chupai_ani(cd){
+        this.head.play_chupai_ani(cd);
+    },
+
+    stop_chupai_ani(){
+        this.head.stop_chupai_ani();
+    },
 });
 
 module.exports = rummy_player_ui;

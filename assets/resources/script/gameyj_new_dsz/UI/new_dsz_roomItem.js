@@ -185,7 +185,7 @@ cc.Class({
             cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
-                    cpt.show(0, str, '回到房间', '取消', function () {
+                    cpt.show(0, str, '回到房间', 'Cancel', function () {
                         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
                         msg.setGameType(HallCommonData.getInstance().gameId);
                         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);

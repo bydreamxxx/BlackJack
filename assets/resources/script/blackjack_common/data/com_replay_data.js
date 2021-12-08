@@ -133,11 +133,11 @@ const com_replay = cc.Class({
                 let game_cfg = game_list.getItem(function (cfg) {
                     return cfg.gameid == gameType;
                 });
-                cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "请先在大厅安装游戏:" + game_cfg.name, 'text33', null, function () {
                     cc.dd.SceneManager.replaceScene("kuaileba_hall");
                 });
             } else {
-                cc.dd.DialogBoxUtil.show(0, "房间号错误", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "text37", 'text33', null, function () {
                     cc.dd.SceneManager.replaceScene("kuaileba_hall");
                 });
             }

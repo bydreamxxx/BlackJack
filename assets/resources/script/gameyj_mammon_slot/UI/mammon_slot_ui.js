@@ -1202,7 +1202,7 @@ cc.Class({
             if (hall_prop_data.getInstance().getCoin() < (gSlotMgr.getBetMin() * 30)) {
                 this.setDownBtnState(SlotType.DownBtnState.Stoping);
 
-                cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能继续进行游戏', '退出', '取消', function () {
+                cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能继续进行游戏', 'text31', 'Cancel', function () {
                     gSlotMgr.quitGame();
                 }, null);
                 return;
@@ -1285,7 +1285,7 @@ cc.Class({
             this.setDownBtnState(SlotType.DownBtnState.Stoping);
             gSlotMgr.stopBetAuto();
             gSlotMgr.setSlotLastAuto();
-            cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能继续进行游戏', '退出', '取消', function () {
+            cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能继续进行游戏', 'text31', 'Cancel', function () {
                 gSlotMgr.quitGame();
             }, null);
             return;
@@ -1389,7 +1389,7 @@ cc.Class({
             str = '您在本次游戏中共盈利' + (gSlotMgr.getGold() - gSlotMgr.getStartCoin()) + '，是否现在就退出？'
 
         }
-        cc.dd.DialogBoxUtil.show(1, str, '确定', '取消',
+        cc.dd.DialogBoxUtil.show(1, str, 'text33', 'Cancel',
             function () {
                 this.node.stopAllActions();
                 cc.audioEngine.stop(AudioManager.getAudioID(this.m_nMusicId));

@@ -70,7 +70,7 @@ module.exports = {
         pbData.setRulePublic(publicInfo);
 
         if(!cc.dd.Utils.checkGPS(pbData)){
-            cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", '确定', null, function () {
+            cc.dd.DialogBoxUtil.show(0, "创建房间失败，无法获取定位信息", 'text33', null, function () {
             }, null);
             return;
         }

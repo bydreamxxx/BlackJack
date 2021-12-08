@@ -195,13 +195,13 @@ cc.Class({
         }
         if (event.target.shopType != 1) {
             if (!CommonData.telNum) {
-                cc.dd.DialogBoxUtil.show(0, '绑定手机才能兑换实物奖励', '去绑定', '取消', function () {
+                cc.dd.DialogBoxUtil.show(0, '绑定手机才能兑换实物奖励', '去绑定', 'Cancel', function () {
                     cc.dd.UIMgr.openUI(hall_prefab.BIND_PHONE);
                 }, null, '');
                 return
             }
             if (!CommonData.idNum) {
-                cc.dd.DialogBoxUtil.show(0, '实名认证才能兑换实物奖励', '去认证', '取消', function () {
+                cc.dd.DialogBoxUtil.show(0, '实名认证才能兑换实物奖励', '去认证', 'Cancel', function () {
                     cc.dd.UIMgr.openUI(hall_prefab.CERTIFICATION, (ui) => {
                         ui.getComponent('klb_hall_Certification').setBindFunc(this._changeScen.bind(this), () => {
                             cc.game.end();
@@ -215,7 +215,7 @@ cc.Class({
                 cc.dd.PromptBoxUtil.show('VIP等级不足');
                 return
             }
-            cc.dd.DialogBoxUtil.show(0, '是否确认兑换？', '确定', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, '是否确认兑换？', 'text33', 'Cancel', function () {
                 //京东卡
                 if (event.target.shopType == 3) {
                     cc.find('editAddress/bydr_store_bg/title', self.node).getComponent(cc.Label).string = '请填写收货联系方式'
@@ -233,7 +233,7 @@ cc.Class({
 
             }, null, '');
         } else {
-            cc.dd.DialogBoxUtil.show(0, '是否确认兑换？', '确定', '取消', function () {
+            cc.dd.DialogBoxUtil.show(0, '是否确认兑换？', 'text33', 'Cancel', function () {
                 //兑换金币
                 let params = {
                     id: event.target.tag,

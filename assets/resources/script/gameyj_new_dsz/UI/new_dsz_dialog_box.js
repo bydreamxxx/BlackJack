@@ -54,7 +54,7 @@ cc.Class({
         NetWaitUtil.Instance().close();
 
         this.content_text.string = contentStr;
-        this.ok_text.string = this._isValidStr(okStr) ? okStr : '确定';
+        this.ok_text.string = this._isValidStr(okStr) ? okStr : 'text33';
         this.ok_func = okHandler;
         this.cancel_func = cancelHandler;
         this.node.active = true;

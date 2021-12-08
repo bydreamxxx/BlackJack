@@ -301,7 +301,7 @@ cc.Class({
                         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
-                                cpt.show(0, '您的金币不足，是否立刻充值？', '确定', '取消', this.sendQuickRecharge, null);
+                                cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
                         }.bind(this));
                     }
                 }else
@@ -341,7 +341,7 @@ cc.Class({
                         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
-                                cpt.show(0, '您的金币不足，是否立刻充值？', '确定', '取消', this.sendQuickRecharge, null);
+                                cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
                         }.bind(this));
                     }
                 }else{
@@ -424,7 +424,7 @@ cc.Class({
                         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
-                                cpt.show(0, '您的金币不足，是否立刻充值？', '确定', '取消', this.sendQuickRecharge, null);
+                                cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
                         }.bind(this));
                     }
                 }else{

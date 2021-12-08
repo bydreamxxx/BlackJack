@@ -231,13 +231,13 @@ cc.Class({
                     this.sendLeaveRoom();
                 }
                 else if (nn_data.Instance().isResult) {
-                    cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', '确定', '取消', this.sendLeaveRoom, null, '退出游戏');
+                    cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', 'text33', 'Cancel', this.sendLeaveRoom, null, '退出游戏');
                 }
                 else {
                     // cc.dd.UIMgr.openUI(jlmj_prefab.JLMJ_TANCHUANG, function (ui) {
                     //     ui.getComponent("jlmj_popup_view").show('正在游戏中，退出后系统自动出牌，是否退出?', this.sendLeaveRoom, 1);
                     // }.bind(this));
-                    cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', '下局退出', '确定', this.sendLeaveRoomPlan, this.sendLeaveRoom, '退出游戏');
+                    cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', '下局退出', 'text33', this.sendLeaveRoomPlan, this.sendLeaveRoom, '退出游戏');
                     cc.dd.DialogBoxUtil.setBgCancel();
                 }
             } else {
@@ -288,7 +288,7 @@ cc.Class({
                 else {
                     cc.dd.PromptBoxUtil.show('换桌成功，本局结束后将为您自动换桌');
                     this._nextHuanZhuo = true;
-                    //cc.dd.DialogBoxUtil.show(0, '游戏中不能换桌，请您等待本局结束', '确定', null, null, null, '换桌失败');
+                    //cc.dd.DialogBoxUtil.show(0, '游戏中不能换桌，请您等待本局结束', 'text33', null, null, null, '换桌失败');
                 }
             } else {
                 this.sendReplaceRoom();

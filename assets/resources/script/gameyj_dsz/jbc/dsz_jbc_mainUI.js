@@ -799,7 +799,7 @@ cc.Class({
         if (playerData) {
             var curScore = playerData.curScore;
             if (curScore != null && curScore < data.entermin) {
-                cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能匹配新的房间，是否前往商城购买！', "确定", '退出', function () {
+                cc.dd.DialogBoxUtil.show(1, '您的金币不足，不能匹配新的房间，是否前往商城购买！', "text33", 'text31', function () {
                     self.clear();
                     cc.dd.SceneManager.enterHallRecharge();
                 },
@@ -1048,7 +1048,7 @@ cc.Class({
         if (gamedata && gamedata.userState == config_state.UserStateWait) {
             this.sendLeaveRoom();
         } else {
-            cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', '确定', '取消', this.sendLeaveRoom, null, '退出游戏');
+            cc.dd.DialogBoxUtil.show(0, '正在游戏中，退出后系统自动操作，是否退出', 'text33', 'Cancel', this.sendLeaveRoom, null, '退出游戏');
         }
     },
 
@@ -1758,7 +1758,7 @@ cc.Class({
                                 break;
                         }
 
-                        cc.dd.DialogBoxUtil.show(0, str, "确定", null, function () {
+                        cc.dd.DialogBoxUtil.show(0, str, "text33", null, function () {
                             // this.node.stopAllActions();
                             this.clear();
                             this.backToHall();

@@ -578,7 +578,7 @@ cc.Class({
         }
         else {
             if (data.userId == RoomMgr.Instance().roomerId) {
-                cc.dd.DialogBoxUtil.show(0, "房主已解散房间,请重新加入房间", '确定', null, function () {
+                cc.dd.DialogBoxUtil.show(0, "房主已解散房间,请重新加入房间", 'text33', null, function () {
                     // 返回大厅
                     cc.dd.SceneManager.enterHall();
                 }, function () {
@@ -588,7 +588,7 @@ cc.Class({
     },
 
     popupOKcancel: function (text, callfunc) {
-        // cc.dd.DialogBoxUtil.show(0, text, '确定', '取消', function () {
+        // cc.dd.DialogBoxUtil.show(0, text, 'text33', 'Cancel', function () {
         //     callfunc();
         // }, function () { });
 
