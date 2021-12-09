@@ -22,24 +22,31 @@ let RummyRoomMgr = cc.Class({
         this.playerNum = 0;
     },
 
-    updatePlayerNum: function () {
-        this.gamePlayerNum = 5;
-        if (this.playerList && this.playerList.length) {
-            for (let i = 0; i < this.playerList.length; i++) {
-                if (this.playerList[i] && this.playerList[i].userId) {
-                    this.playerExit(this.playerList[i].userId);
-                }
-            }
-        }
-        this.playerList = new Array(this.gamePlayerNum);
+
+    getPlayer(id){
+        return this.getPlayerById(id);
     },
 
-    playerEnter(player){
-        let data = new RummyPlayerData();
-        data.init(player);
-        this.playerList[player.seat] = data;
-        this.playerNum++;
+    getPlayerById(id){
+        let player = null;
+        for(let i = 0; i < this.playerList.length; i++){
+            if(this.playerList[i] && this.playerList[i].userId == id){
+                player = this.playerList[i];
+                break;
+            }
+        }
+        return player;
     },
+
+    isUserPlaying(){
+        let player = this.getPlayerById(cc.dd.user.id);
+        if(player){
+            return player.userState !== 3;
+        }else{
+            return false;
+        }
+    },
+
 
     otherPlayerEnter(playerId){
         let mainUser =  this.getPlayerById(cc.dd.user.id);
@@ -54,6 +61,13 @@ let RummyRoomMgr = cc.Class({
         }else{
             player.playerEnter();
         }
+    },
+
+    playerEnter(player){
+        let data = new RummyPlayerData();
+        data.init(player);
+        this.playerList[player.seat] = data;
+        this.playerNum++;
     },
 
     playerEnterGame(){
@@ -96,19 +110,20 @@ let RummyRoomMgr = cc.Class({
         // this.playerNumChanged();
     },
 
-    getPlayer(id){
-        return this.getPlayerById(id);
-    },
-
-    getPlayerById(id){
-        let player = null;
-        for(let i = 0; i < this.playerList.length; i++){
-            if(this.playerList[i] && this.playerList[i].userId == id){
-                player = this.playerList[i];
-                break;
-            }
+    /**
+     * 注册房间内语音玩家
+     */
+    requesYuYinUserData: function () {
+        cc.dd.AudioChat.clearUsers();
+        if (this.playerList) {
+            this.playerList.forEach(function (player) {
+                if (player) {
+                    if (player.userId != cc.dd.user.id) { // && player.isOnLine
+                        cc.dd.AudioChat.addUser(player.userId);
+                    }
+                }
+            }, this);
         }
-        return player;
     },
 
     updatePlayerGameInfo(list, banker){
@@ -126,29 +141,16 @@ let RummyRoomMgr = cc.Class({
         });
     },
 
-    isUserPlaying(){
-        let player = this.getPlayerById(cc.dd.user.id);
-        if(player){
-            return player.userState !== 3;
-        }else{
-            return false;
-        }
-    },
-
-    /**
-     * 注册房间内语音玩家
-     */
-    requesYuYinUserData: function () {
-        cc.dd.AudioChat.clearUsers();
-        if (this.playerList) {
-            this.playerList.forEach(function (player) {
-                if (player) {
-                    if (player.userId != cc.dd.user.id) { // && player.isOnLine
-                        cc.dd.AudioChat.addUser(player.userId);
-                    }
+    updatePlayerNum: function () {
+        this.gamePlayerNum = 5;
+        if (this.playerList && this.playerList.length) {
+            for (let i = 0; i < this.playerList.length; i++) {
+                if (this.playerList[i] && this.playerList[i].userId) {
+                    this.playerExit(this.playerList[i].userId);
                 }
-            }, this);
+            }
         }
+        this.playerList = new Array(this.gamePlayerNum);
     },
 });
 

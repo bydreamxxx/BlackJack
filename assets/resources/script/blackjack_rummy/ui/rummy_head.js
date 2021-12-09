@@ -55,6 +55,37 @@ cc.Class({
         cc.dd.native_gvoice_ed.removeObserver(this);
     },
 
+    clear(){
+        cc.Tween.stopAllByTarget(this.duanyu_node);
+
+        this.nameLabel.string = '';
+        this.coin.string = '0';
+        this.score.string = '';
+        this.score.node.active = false;
+
+        this.tuo_guan.active = false;
+        this.stop_chupai_ani();
+
+        this.weak.active = false;
+        this.offline.active = false;
+        this.standNode.active = true;
+
+        this.playerData = null;
+
+        this.banker.active = false;
+
+        if(this.point){
+            this.point.string = "0";
+        }
+    },
+
+    changeCoin(coin){
+        if( this.playerData){
+            this.playerData.score = coin;
+        }
+        this.coin.string = coin;
+    },
+
     init(data){
         this.playerData = data;
 
@@ -84,43 +115,12 @@ cc.Class({
         }
     },
 
-    clear(){
-        cc.Tween.stopAllByTarget(this.duanyu_node);
-
-        this.nameLabel.string = '';
-        this.coin.string = '0';
-        this.score.string = '';
-        this.score.node.active = false;
-
-        this.tuo_guan.active = false;
-        this.stop_chupai_ani();
-
-        this.weak.active = false;
-        this.offline.active = false;
-        this.standNode.active = true;
-
-        this.playerData = null;
-
-        this.banker.active = false;
-
-        if(this.point){
-            this.point.string = "0";
-        }
-    },
-
     sit(){
         this.standNode.active = false;
     },
 
     stand(){
         this.standNode.active = true;
-    },
-
-    changeCoin(coin){
-        if( this.playerData){
-            this.playerData.score = coin;
-        }
-        this.coin.string = coin;
     },
 
     showCoin(data){

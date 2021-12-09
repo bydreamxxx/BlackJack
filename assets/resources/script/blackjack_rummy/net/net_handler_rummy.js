@@ -24,47 +24,120 @@ var handler = {
     },
 
     on_msg_rm_poker_ack(msg) {
-
+        if(msg.ret === 0){
+        }else{
+            let str = msg.ret;
+            switch (msg.ret){
+                case 1:
+                    str = '没有找到用户';
+                    break;
+                case 2:
+                    str = '不是该玩家的回合';
+                    break;
+                case 3:
+                    str = '不能拿这张牌';
+                    break;
+            }
+            cc.dd.PromptBoxUtil.show(str);
+        }
     },
 
     on_msg_rm_deal_poker(msg) {
-
+        RummyGameMgr.faPai(msg);
     },
 
     on_msg_rm_deal_poker_broadcast(msg) {
-
+        RummyGameMgr.dealPoker(msg);
     },
 
     on_msg_rm_give_up_poker_ack(msg) {
-
+        if(msg.ret === 0){
+            RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: msg.card});
+        }else{
+            let str = msg.ret;
+            switch (msg.ret){
+                case 1:
+                    str = '没有找到用户';
+                    break;
+                case 2:
+                    str = '不是该玩家的回合';
+                    break;
+                case 3:
+                    str = '没有这张牌';
+                    break;
+            }
+            cc.dd.PromptBoxUtil.show(str);
+        }
     },
 
     on_msg_rm_give_up_poker_broadcast(msg) {
-
+        RummyGameMgr.giveUpPoker(msg);
     },
 
     on_msg_rm_syn_giveup_poker(msg) {
-
+        RummyGameMgr.synGiveupPoker(msg);
     },
 
     on_msg_rm_show_ack(msg) {
-
+        if(msg.ret === 0){
+        }else{
+            let str = msg.ret;
+            switch (msg.ret){
+                case -1:
+                    str = '错误的show';
+                    break;
+                case 1:
+                    str = '没有找到用户';
+                    break;
+                case 2:
+                    str = '不是该玩家的回合';
+                    break;
+                case 3:
+                    str = '没有这张牌';
+                    break;
+                case 4:
+                    str = '牌组不对';
+                    break;
+            }
+            cc.dd.PromptBoxUtil.show(str);
+        }
     },
 
     on_msg_rm_commit_ack(msg) {
-
+        if(msg.ret === 0) {
+        }
     },
 
     on_msg_rm_sort_ack(msg) {
-
+        if(msg.ret === 0){
+            RummyGameMgr.updatePoker(msg.groupsList);
+        }else{
+            let str = msg.ret;
+            switch (msg.ret){
+                case 1:
+                    str = '没有找到用户';
+                    break;
+                case 2:
+                    str = '请求过于频繁';
+                    break;
+                case 3:
+                    str = '非法用户';
+                    break;
+                case 4:
+                    str = '已经结算';
+                    break;
+            }
+            cc.dd.PromptBoxUtil.show(str);
+        }
     },
 
     on_msg_rm_drop_ack(msg) {
-
+        if(msg.ret === 0) {
+        }
     },
 
     on_msg_rm_result(msg) {
-
+        RummyGameMgr.gameResult(msg);
     },
 };
 

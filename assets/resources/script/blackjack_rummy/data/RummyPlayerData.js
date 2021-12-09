@@ -2,6 +2,9 @@ let RummyPlayerEvent = cc.Enum({
     PLAYER_ENTER: "PLAYER_ENTER",
     PLAYER_EXIT: "PLAYER_EXIT",
     PLAYER_RESET_CD: "PLAYER_RESET_CD",
+    GIVE_UP_POKER: "GIVE_UP_POKER",
+    DEAL_POKER: "DEAL_POKER",
+    FA_PAI: "FA_PAI",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -26,6 +29,48 @@ let RummyPlayerData = cc.Class({
         this.vipLevel =0;
 
         this.viewIdx =0;
+
+        this.playerData = null;
+
+        this.pokersList = [];
+        this.userState = 0;
+        this.dropCoin = 0;
+
+        this.isBanker = false;
+    },
+
+    dealPoker(type, cardList){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.DEAL_POKER, [this, type, cardList]);
+    },
+
+    faPai(cardList){
+        //降维打击
+        let myList = [].concat(...this.pokersList);
+        let newList = [].concat(...cardList);
+
+        //找不同
+        let paiList = myList.concat(newList).filter(function(v, i, arr) {
+            return arr.indexOf(v) === arr.lastIndexOf(v);
+        });
+
+        if(paiList.length !== 1){
+            cc.error(`发牌数量不对 ${paiList.length} ${newList}`);
+            return;
+        }
+
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, paiList[0]]);
+    },
+
+    giveUpPoker(card){
+        for(let i = 0; i < this.pokersList.length; i++){
+            let group = this.pokersList[i];
+            let index = group.indexOf(card);
+            if(index != -1){
+                group.splice(index, 1);
+                break;
+            }
+        }
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card]);
     },
 
     init(data){
@@ -52,17 +97,23 @@ let RummyPlayerData = cc.Class({
     },
 
     playerEnter(){
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_ENTER, this);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_ENTER, [this]);
     },
 
     playerExit(){
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_EXIT, this);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_EXIT, [this]);
 
     },
 
     resetCD(){
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, this);
-    }
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, [this]);
+    },
+
+    updatePoker(pokersList){
+        this.pokersList = pokersList.concat();
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
+    },
+
 });
 
 module.exports = {

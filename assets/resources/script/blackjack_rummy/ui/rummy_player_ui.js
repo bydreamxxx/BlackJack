@@ -30,23 +30,30 @@ let rummy_player_ui = cc.Class({
     },
 
     onEventMessage: function (event, data) {
-        let data1 = null;
-        if(cc.dd._.isArray(data)){
-            data1 = data[1];
-            data = data[0];
-        }
-        if(data && data.viewIdx !== this.viewIdx){
+        if(data[0] && data[0].viewIdx !== this.viewIdx){
             return;
         }
-        this.playerData = data;
+        this.playerData = data[0];
 
         switch (event) {
             case RummyPlayerEvent.PLAYER_ENTER:
-                this.playerEnter(data);
+                this.playerEnter(data[0]);
                 break;
             case RummyPlayerEvent.PLAYER_EXIT:
                 this.clear();
                 this.node.active = false;
+                break;
+            case RummyPlayerEvent.GIVE_UP_POKER:
+                this.giveUpPoker(data[1]);
+                break;
+            case RummyPlayerEvent.UPDATE_POKER:
+                this.updatePoker();
+                break;
+            case RummyPlayerEvent.DEAL_POKER:
+                this.dealPoker(data[1], data[2]);
+                break;
+            case RummyPlayerEvent.FA_PAI:
+                this.faPai(data[1])
                 break;
             default:
                 break;
@@ -71,6 +78,30 @@ let rummy_player_ui = cc.Class({
         this.playerData = null;
     },
 
+    /**
+     * 摸牌
+     * @param type
+     * @param cardList
+     */
+    dealPoker(type, cardList){
+      //TODO
+    },
+
+    /**
+     * 自己摸牌
+     */
+    faPai(card){
+
+    },
+
+    /**
+     * 打牌
+     * @param card
+     */
+    giveUpPoker(card){
+        //TODO
+    },
+
     playerEnter(data) {
         this.clear();
 
@@ -78,13 +109,27 @@ let rummy_player_ui = cc.Class({
         this.node.active = true;
     },
 
+    /**
+     * 倒计时
+     * @param cd
+     */
     play_chupai_ani(cd){
         this.head.play_chupai_ani(cd);
     },
 
+    /**
+     * 停止倒计时
+     */
     stop_chupai_ani(){
         this.head.stop_chupai_ani();
     },
+
+    /**
+     * 更新手牌
+     */
+    updatePoker(){
+        //TODO
+    }
 });
 
 module.exports = rummy_player_ui;

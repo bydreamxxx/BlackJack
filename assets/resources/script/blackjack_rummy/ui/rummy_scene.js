@@ -111,6 +111,12 @@ cc.Class({
             case RummyEvent.UPDATE_STATE:
                 this.updateState();
                 break;
+            case RummyEvent.SYN_DESK:
+                this.updateDesk();
+                break;
+            case RummyEvent.SHOW_RESULT:
+                this.showResult(data);
+                break;
             default:
                 break;
         }
@@ -157,6 +163,13 @@ cc.Class({
         }
     },
 
+    showResult(data){
+      //TODO
+    },
+
+    /**
+     * 初始化桌子
+     */
     updateUI(){
         this.clear();
 
@@ -211,6 +224,9 @@ cc.Class({
         }
     },
 
+    /**
+     * 更新状态
+     */
     updateState(){
         this.bottomNode.active = false;
         this.tipsNode.active = false;
@@ -266,5 +282,37 @@ cc.Class({
             case GAME_STATE.RESULTING:
                 break;
         }
+    },
+
+    /**
+     * 同步牌堆、弃牌
+     */
+    updateDesk(){
+        this.cardsNode.removeAllChildren();
+        this.discardNode.removeAllChildren();
+
+        let discard = cc.instantiate(this.cardPrefab);
+        discard.scaleX = 0.538;
+        discard.scaleY= 0.538;
+        this.discardNode.addChild(discard);
+
+        let cardID = RummyData.giveUp;
+        if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
+            cardID = 172;
+        }
+
+        discard.getComponent("blackjack_card").init(cardID);
+
+        let node = cc.instantiate(this.cardPrefab);
+        node.scaleX = 0.538;
+        node.scaleY= 0.538;
+        this.cardsNode.addChild(node);
+
+        cardID = RummyData.xcard;
+        if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
+            cardID = 172;
+        }
+
+        node.getComponent("blackjack_card").init(cardID);
     },
 });

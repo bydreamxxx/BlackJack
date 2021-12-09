@@ -2,6 +2,7 @@ let RummyEvent = cc.Enum({
     UPDATE_UI: "UPDATE_UI",
     UPDATE_STATE: "UPDATE_STATE",
     PLAYER_TURN: "PLAYER_TURN",
+    SYN_DESK: "SYN_DESK",
 });
 
 let RummyED = new cc.dd.EventDispatcher();
@@ -62,8 +63,10 @@ let RummyData = cc.Class({
         this.roomInfo = null;
     },
 
-    setRoomInfo(info){
-        this.roomInfo = info;
+    changeState(msg){
+        this.lastState = this.state;
+        this.state = msg.roomState;
+        this.banker = msg.banker;
     },
 
     setGameInfo(data){
@@ -80,10 +83,8 @@ let RummyData = cc.Class({
         this.selfState = data.selfState;
     },
 
-    changeState(msg){
-        this.lastState = this.state;
-        this.state = msg.roomState;
-        this.banker = msg.banker;
+    setRoomInfo(info){
+        this.roomInfo = info;
     },
 });
 
