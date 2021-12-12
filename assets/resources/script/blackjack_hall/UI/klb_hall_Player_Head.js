@@ -26,6 +26,7 @@ cc.Class({
 
     initHead:function (openId, headUrl, fromFileName) {
         this.openId = openId;
+        this.headSp.node.active = true;
         cc.dd.SysTools.loadWxheadH5(this.headSp, cc.dd.Utils.getWX64Url(headUrl));
     },
 

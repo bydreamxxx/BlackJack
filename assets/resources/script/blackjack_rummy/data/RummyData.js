@@ -9,9 +9,19 @@ let RummyED = new cc.dd.EventDispatcher();
 
 const GAME_STATE = cc.Enum({
     WAITING:1,//等待玩家状态
+    DEALING:2,//发牌状态
+    WAITING:1,//等待玩家状态
     PLAYING:2,//牌局进行状态
     GROUPING:3,//已经有赢家，但是还可以组牌
     RESULTING:4,//显示结果状态
+});
+
+const GROUP_STATE = cc.Enum({
+    PURE_STRAIGHT: 1,
+    IMPURE_STRAIGHT: 2,
+    SET: 3,
+    NOT_CORRECT: 4,
+    NO_GROUP: 5
 });
 
 
@@ -34,8 +44,8 @@ let RummyData = cc.Class({
     },
 
     ctor() {
-        this.state = 1;
-        this.lastState = 1;
+        this.state = -1;
+        this.lastState = -1;
         this.lastTime = 0;
         this.roomConfigId = 0;
         this.turn = 0;
@@ -44,23 +54,26 @@ let RummyData = cc.Class({
         this.xcard = -1;
         this.giveUp =-1;
         this.dropCoin = 0;
-        this.selfState = 3;
+        // this.selfState = 3;
         this.roomInfo = null;
     },
 
     clear(){
-        this.state = 1;
-        this.lastState = 1;
+        this.clearGameInfo();
+        this.roomInfo = null;
+    },
+
+    clearGameInfo(){
+        this.state = -1;
+        this.lastState = -1;
         this.lastTime = 0;
         this.roomConfigId = 0;
         this.turn = 0;
         this.turnLeftTime = 0;
         this.banker = 0;
         this.xcard = -1;
-        this.giveUp =-1;
+        this.giveUp = -1;
         this.dropCoin = 0;
-        this.selfState = 3;
-        this.roomInfo = null;
     },
 
     changeState(msg){
@@ -71,7 +84,7 @@ let RummyData = cc.Class({
 
     setGameInfo(data){
         this.lastState = this.state;
-        this.state = data.state;
+        this.state = data.bjState;
         this.lastTime = data.lastTime;
         this.roomConfigId = data.roomConfigId;
         this.turn = data.turn;
@@ -79,8 +92,8 @@ let RummyData = cc.Class({
         this.banker = data.banker;
         this.xcard = data.xcard;
         this.giveUp = data.giveUp;
-        this.dropCoin = data.diropCoin;
-        this.selfState = data.selfState;
+        // this.dropCoin = data.diropCoin;
+        // this.selfState = data.selfState;
     },
 
     setRoomInfo(info){
@@ -93,4 +106,5 @@ module.exports = {
     RummyED: RummyED,
     RummyData: RummyData,
     GAME_STATE: GAME_STATE,
+    GROUP_STATE: GROUP_STATE,
 };

@@ -42,11 +42,12 @@ let RummyGameMgr = cc.Class({
     faPai(msg){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
-            player.faPai(msg.cardsList);
+            player.faPai(RummyData.cardType, msg);
         }
     },
 
     gameResult(msg){
+        RummyData.clearGameInfo();
         RummyED.notifyEvent(RummyEvent.SHOW_RESULT, msg);
     },
 

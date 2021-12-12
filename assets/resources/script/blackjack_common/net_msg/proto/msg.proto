@@ -2506,6 +2506,34 @@ message g2h_sync_room_score{
 	repeated 	sync_room_role_score_info scores = 4;	//分数情况
 }
 
+// 转轮赛协议
+//cmd_start_index=2300
+//cmd_name=race
+
+message match_race_info {
+	required int32 match_id = 1;					
+	repeated match_reward_item sign_fee = 2;		// 报名费用
+	required bool is_sign = 3;						// 是否报名
+	required int32 open_sign_num = 4;				// 开赛条件（报名人数）
+	required string name = 5;						// 比赛名
+	required string openTime = 6;					// 比赛开放时间（描述时间）
+	required string describe = 7;					// 描述 
+	optional int64 pool_num = 8;					// 当前奖池
+	optional int32 join_num = 9;				 	// 当前参与人数
+	optional int64 min_coin_num = 10;				// 允许进入的最小携带金币
+	optional string icon = 11;						// 比赛icon
+	optional int32 game_type = 12;					// 游戏类型 见 data_game_type配置表
+}
+
+message msg_match_race_list_req {
+}
+
+message msg_match_race_list_ret {
+	repeated		role_rank_info 		rank_list = 1;	// 排行榜 
+	optional		int32 				rank = 2; 		// 当前名次
+	repeated		match_race_info 	race_list = 3;	// 比赛列表
+}
+
 //房间管理通用协议
 //cmd_start_index=2200
 //cmd_name=room_mgr
@@ -2614,7 +2642,7 @@ message msg_stand_game_req{
 }
 
 message msg_stand_game_ret{
-	optional int32      ret_code       		  = 1[default=0];// 1 房间不存在 2 不在此房间内 3 朋友场不能离开 
+	optional int32      ret_code       		  = 1[default=0];// 1 房间不存在 2 不在此房间内 3 朋友场不能离开 4 还没有弃牌，不能离开
 	optional common_game_header game_info     = 2;
 	optional int32      user_id               = 3;
 }
@@ -8715,7 +8743,9 @@ message msg_rm_poker_ack{
 //发牌(第一次发牌和后面单独请求都用这个)
 message msg_rm_deal_poker{
 	optional uint32			user_id 	= 1;
-	repeated int32			cards 		= 2;//客户端本地记录用户组牌结果， 恢复的时候使用
+	repeated rm_group		cards 		= 2;//客户端本地记录用户组牌结果， 恢复的时候使用
+	optional int32			card		= 3; //当前请求的牌
+	repeated int32			hand_cards	= 4; //手牌
 }
 
 //广播摸牌情况, 此条消息只针对非摸牌玩家

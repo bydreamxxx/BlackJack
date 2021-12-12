@@ -43,22 +43,25 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.DEAL_POKER, [this, type, cardList]);
     },
 
-    faPai(cardList){
+    faPai(type, data){
+        this.pokersList.push([data.card]);
+
         //降维打击
         let myList = [].concat(...this.pokersList);
-        let newList = [].concat(...cardList);
+        // let newList = [].concat(...cardList);
+        //
+        // //找不同
+        // let paiList = myList.concat(data.handCardsList).filter(function(v, i, arr) {
+        //     return arr.indexOf(v) === arr.lastIndexOf(v);
+        // });
 
-        //找不同
-        let paiList = myList.concat(newList).filter(function(v, i, arr) {
-            return arr.indexOf(v) === arr.lastIndexOf(v);
-        });
-
-        if(paiList.length !== 1){
-            cc.error(`发牌数量不对 ${paiList.length} ${newList}`);
+        if(myList.sort().toString() !== data.handCardsList.sort().toString()){
+            cc.error('手牌不正确，重置手牌');
+            this.pokersList = data.cardsList.concat();
             return;
         }
 
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, paiList[0]]);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, type, data.card]);
     },
 
     giveUpPoker(card){

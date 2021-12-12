@@ -153,7 +153,7 @@ module.exports = {
         texas_Data.Instance().clearBetRound();
 
         var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if (selfplayer.joinGame) {
+        if (selfplayer && selfplayer.joinGame) {
             selfplayer.winRate = msg.winRate;
         }
 
@@ -174,8 +174,8 @@ module.exports = {
         let cardInfoList = msg.cardsList;
         if (cardInfoList.length) {
             var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
-            selfplayer.joinGame = 1;
             if (selfplayer) {
+                selfplayer.joinGame = 1;
                 selfplayer.cardsList = cardInfoList;
                 selfplayer.winRate = msg.winRate;
             }

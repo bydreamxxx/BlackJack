@@ -11,6 +11,13 @@ let rummy_player_ui = cc.Class({
 
         _fixedTimeStep: 1/30,
         _lastTime: 0,
+
+        cardNode: cc.Node,
+        showCardNode: cc.Node,
+        discardNode: cc.Node,
+        shoupaiNode: cc.Node,
+
+        card: cc.Prefab,
     },
 
     editor:{
@@ -53,7 +60,10 @@ let rummy_player_ui = cc.Class({
                 this.dealPoker(data[1], data[2]);
                 break;
             case RummyPlayerEvent.FA_PAI:
-                this.faPai(data[1])
+                this.faPai(data[1], data[2]);
+                break;
+            case RummyPlayerEvent.PLAYER_RESET_CD:
+                this.play_chupai_ani();
                 break;
             default:
                 break;
@@ -84,14 +94,61 @@ let rummy_player_ui = cc.Class({
      * @param cardList
      */
     dealPoker(type, cardList){
-      //TODO
+        let cardNode = null;
+
+        let worldPos = this.shoupaiNode.convertToWorldSpace(cc.v2(0, 0));
+        let endPos = cc.v2(0, 0);
+
+        if(type === "0"){
+            cardNode = cc.instantiate(this.card);
+            cardNode.getComponent("blackjack_card").init(cardList[0]);
+
+            cardNode.scaleX = 0.538;
+            cardNode.scaleY= 0.538;
+            this.cardNode.addChild(cardNode);
+
+            endPos = this.cardNode.convertToNodeSpace(worldPos);
+
+        }else{
+            cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
+            if(cardNode){
+                if(cardNode.getComponent("blackjack_card").getCard() !== cardList[0]){
+                    cc.error(`弃牌堆错误 ${cardNode.getComponent("blackjack_card").getCard()} ${cardList[0]}`)
+                    return;
+                }
+            }else{
+                cc.error(`弃牌堆错误 弃牌堆无牌 ${cardList[0]}`)
+                return;
+            }
+
+            endPos = this.discardNode.convertToNodeSpace(worldPos);
+        }
+
+        if(cardNode){
+            cc.tween(cardNode)
+                .to(0.3, {scale: 0.385, position: endPos}, { easing: 'quartOut'})
+                .delay(0.5)
+                .call(()=>{
+                    cardNode.destroy();
+                })
+                .start();
+        }
     },
 
     /**
      * 自己摸牌
      */
-    faPai(card){
+    faPai(type, card){
+        if(!cc.dd._.isString(type)){
+            cc.error('发牌错误');
+            return;
+        }
 
+        if(type === "0"){
+
+        }else{
+
+        }
     },
 
     /**
@@ -99,7 +156,46 @@ let rummy_player_ui = cc.Class({
      * @param card
      */
     giveUpPoker(card){
-        //TODO
+        if(this.viewIdx !== 0){
+            let worldPos = this.shoupaiNode.convertToWorldSpace(cc.v2(0, 0));
+            let startPos = this.discardNode.convertToNodeSpace(worldPos);
+
+            let cardNode = cc.instantiate(this.card);
+            cardNode.getComponent("blackjack_card").init(card);
+            cardNode.scaleX =  0.385;
+            cardNode.scaleY=  0.385;
+
+            this.discardNode.addChild(cardNode);
+            cardNode.position = startPos;
+
+            cc.tween(cardNode)
+                .delay(0.4)
+                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartIn'})
+                .start();
+        }else{
+            let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
+            if(cardNode){
+                if(cardNode.getComponent("blackjack_card").getCard() !== card){
+                    cc.error(`打牌错误 ${cardNode.getComponent("blackjack_card").getCard()} ${card}`)
+
+                    let cardNode = cc.instantiate(this.card);
+                    cardNode.getComponent("blackjack_card").init(card);
+                    cardNode.scaleX =  0.538;
+                    cardNode.scaleY=  0.538;
+
+                    this.discardNode.addChild(cardNode);
+                }
+            }else{
+                cc.error(`打牌错误 没有弃牌堆 ${card}`)
+
+                let cardNode = cc.instantiate(this.card);
+                cardNode.getComponent("blackjack_card").init(card);
+                cardNode.scaleX =  0.538;
+                cardNode.scaleY=  0.538;
+
+                this.discardNode.addChild(cardNode);
+            }
+        }
     },
 
     playerEnter(data) {
@@ -107,6 +203,10 @@ let rummy_player_ui = cc.Class({
 
         this.head.init(data);
         this.node.active = true;
+
+        if(this.viewIdx === 0 && data.pokersList.length !== 0){
+            //TODO
+        }
     },
 
     /**

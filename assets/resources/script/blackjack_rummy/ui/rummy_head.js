@@ -86,11 +86,55 @@ cc.Class({
         this.coin.string = coin;
     },
 
+    /**
+     * 筹码数字转换
+     */
+    changeNumToCHN: function (num) {
+        var str = '';
+        if(LanguageMgr.getKind() == "ZH"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '亿';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千万';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '万';
+            } else {
+                str = num;
+            }
+        }else if(LanguageMgr.getKind() == "TC"){
+            if (num >= 100000000) {
+                str = (num / 100000000.00).toFixed(1) + '億';
+            } else if (num >= 10000000) {
+                str = (num / 10000000.00).toFixed(1) + '千萬';
+            } else if (num >= 100000) {
+                str = (num / 10000.00).toFixed(1) + '萬';
+            } else {
+                str = num;
+            }
+        }else{
+            if (num >= 1000000000) {
+                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
+            } else if (num >= 10000000) {
+                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
+            } else if (num >= 10000) {
+                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
+            } else {
+                str = num.toLocaleString('en-US');
+            }
+        }
+
+        return str;
+    },
+
     init(data){
         this.playerData = data;
 
         this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 12);
-        this.coin.string = data.score;
+        if(this.viewIdx === 0){
+            this.coin.string = this.changeNumToCHN(data.score);
+        }else{
+            this.coin.string = data.score;
+        }
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
         this.score.string = '';
         this.score.node.active = false;
@@ -124,7 +168,11 @@ cc.Class({
     },
 
     showCoin(data){
-        this.coin.string = data.allCoin;
+        if(this.viewIdx === 0){
+            this.coin.string = this.changeNumToCHN(data.allCoin);
+        }else{
+            this.coin.string = data.allCoin;
+        }
         let win = parseInt(data.coin)+parseInt(data.insure);
         cc.error(`${this.nameLabel} result ${win}`);
         this.score.string = win > 0 ? `+${win}` : win;

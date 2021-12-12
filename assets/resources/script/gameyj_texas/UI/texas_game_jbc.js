@@ -90,7 +90,7 @@ cc.Class({
         firstBet: true,
         m_oChangeBtn: cc.Node,
 
-        wheelView: require('texas_wheel')
+        //wheelView: require('texas_wheel')
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -157,6 +157,11 @@ cc.Class({
         this.roomMangLb.string = parseInt(texas_Data.Instance().m_nBaseScore / 2) + '/' + (texas_Data.Instance().m_nBaseScore);
     },
 
+    updatePlayerInfo(player){
+        if(player.seat != 100 && this.head_list[player.seat])
+            this.head_list[player.seat].updateUI()        
+    },
+
     initCardPosition() {
         this.cardPosition = [];
         this.cardRotation = [];
@@ -168,7 +173,6 @@ cc.Class({
             } else {
                 cardParent = cc.find('card_display', this.head_list[i].node)
             }
-
 
             var card = cc.find('card0', cardParent)
 
@@ -271,18 +275,9 @@ cc.Class({
         var msg = new cc.pb.room_mgr.msg_stand_game_req();
         var gameInfoPB = new cc.pb.room_mgr.common_game_header();
         gameInfoPB.setGameType(RoomMgr.Instance().gameId);
-        gameInfoPB.setRoomId(BlackJackData.roomConfigId);
+        gameInfoPB.setRoomId(texas_Data.Instance().getConfigId());
         msg.setGameInfo(gameInfoPB);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_stand_game_req, msg, "msg_stand_game_req", true);
-    },
-
-    onClickSitDown(event, data){
-        hall_audio_mgr.com_btn_click();
-
-        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
-        msg.setGameType(RoomMgr.Instance().gameId);
-        msg.setRoomId(texas_Data.Instance().getConfigId());
-        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
     },
 
     start() {
@@ -387,6 +382,9 @@ cc.Class({
             case Texas_Event.DEAL_SINGLE_COMMON_CARD:
                 this.showCommonCards(data);
                 break;
+            case Texas_Event.PLAYER_JOIN:  //玩家加入
+                //this.updatePlayerInfo(data)
+                break;
             case RoomEvent.on_room_leave:
                 this.playerLeave(data[0]);
                 break;
@@ -424,7 +422,16 @@ cc.Class({
                     this.resetGameUI();
                 } 
                 break;
+            case RoomEvent.on_player_stand:  //站起消息处理
+                if(data[0].retCode == 0 && data[0].userId == cc.dd.user.id){
+                    texas_Data.Instance().stand = true;
 
+                    for(var i = 0; i < this.head_list.length; i++){
+                        if(texas_Data.Instance().getPlayerByViewIdx(i) == null)
+                            this.head_list[i].showSofa();
+                    }
+                }
+                break; 
         }
     },
 
@@ -486,9 +493,9 @@ cc.Class({
         if (view == 0) this.texas_op.hideOp();
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
         let player = texas_Data.Instance().getPlayerById(userId);
-        if (player)
+        if (player){
             this.head_list[view].setTurnBet(player.turnBet);
-        else
+        }else
             cc.log("null player");
         this.playChips(view, data.bet);
         // if (texas_Data.Instance().getMaxCurBetWithout(userId) > 0) {
@@ -544,11 +551,11 @@ cc.Class({
         let userId = data.userId;
         cc.find('add', this.node).active = false;
         let view = texas_Data.Instance().getViewById(userId);
-        if (view == 0)
+        if (view == 0 && texas_Data.Instance().stand == false )
             this.texas_op.showOp(OP_TYPE.EXCHANGE);
         this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
         cc.find('bet', this.head_list[view].node).active = false;
-        if (view == 0) {
+        if (view == 0 && texas_Data.Instance().stand == false) {
 
         } else {
             var card_display = cc.find('card_display', this.head_list[view].node)
@@ -563,7 +570,7 @@ cc.Class({
         //     var node = cc.find('card/card' + i, this.head_list[view].node);
         //     node.getComponent('texas_card').updateMoveCard();
         // }
-        this.head_list[view].showDiscard(true, view == 0);
+        this.head_list[view].showDiscard(true, (view == 0 && texas_Data.Instance().stand == false));
         this.allStopSay();
         // this.head_list[view].say('弃牌');
         if (texas_Data.Instance().getPlayerById(userId).sex == 1)
@@ -639,13 +646,15 @@ cc.Class({
         const durTime = 0.5;
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
         var cardInfoList = [];
-        if (selfPlayer.joinGame) {
+        if (selfPlayer && selfPlayer.joinGame && texas_Data.Instance().stand == false) {
             cardInfoList = msg.cardsList;
             this.head_list[0].node.opacity = 255;
             this.head_list[0].showWait(false);
         } else {
-            this.head_list[0].node.opacity = 180;
-            this.head_list[0].showWait(true);
+            if(texas_Data.Instance().stand == false){
+                this.head_list[0].node.opacity = 180;
+                this.head_list[0].showWait(true);
+            }
         }
 
         var bankerView = texas_Data.Instance().getViewById(texas_Data.Instance().bankerId);
@@ -689,7 +698,7 @@ cc.Class({
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node0.x += (cardpos0.x - nodepos0.x);
             node0.y += (cardpos0.y - nodepos0.y);
-            if (i == 0 && selfPlayer.joinGame)
+            if (i == 0 && selfPlayer && selfPlayer.joinGame)
                 this.setPokerBack(node0, cardInfoList[0]);
             node0.getComponent('texas_card').sendCard(card, delay, durTime, toPosition0, toScale, toRotation0, i == 0);//明牌 后面改回来
         }
@@ -724,7 +733,7 @@ cc.Class({
             var cardpos0 = card.convertToWorldSpaceAR(cc.v2(0, 0));
             node1.x += (cardpos0.x - nodepos0.x);
             node1.y += (cardpos0.y - nodepos0.y);
-            if (i == 0 && selfPlayer.joinGame)
+            if (i == 0 && selfPlayer && selfPlayer.joinGame)
                 this.setPokerBack(node1, cardInfoList[1]);
             node1.getComponent('texas_card').sendCard(card, delay, durTime, toPosition1, toScale, toRotation1, i == 0);//明牌 后面改回来
         }
@@ -735,7 +744,7 @@ cc.Class({
                 this.heguanSk.clearTracks();
                 this.heguanSk.setAnimation(0, 'dz_hg_standby', true);
 
-                if (selfPlayer.joinGame) {
+                if (selfPlayer && selfPlayer.joinGame && texas_Data.Instance().stand == false) {
                     this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(cardInfoList)[0]);
                     this.head_list[0].showMyWinRate(myWinRate);
 
@@ -749,7 +758,7 @@ cc.Class({
 
     onShowMyCard(msg) {
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if (selfPlayer) {
+        if (selfPlayer && selfPlayer.joinGame && texas_Data.Instance().stand == false) {
             var cardnode = cc.find('card', this.head_list[0].node);
             for (var j = 0; j < 2; j++) {
                 this.setPokerBack(cardnode.children[j], selfPlayer.cardsList[j]);
@@ -882,7 +891,7 @@ cc.Class({
 
             var view = texas_Data.Instance().getViewById(msg.resultList[i].playerId);
 
-            if (view != null) {
+            if (view != null && view != 100) {
                 cc.find('allin', this.head_list[view].node).active = false;
                 this.head_list[view].node.getComponentInChildren('texas_timer').setActive(false);
                 var score = cc.find('score/txt', this.head_list[view].node);
@@ -931,7 +940,7 @@ cc.Class({
             var msg = this._resultMSG;
             for (var i = 0; i < msg.resultList.length; i++) {
                 var view = texas_Data.Instance().getViewById(msg.resultList[i].playerId);
-                if (view != null) {
+                if (view != null && view != 100) {
                     var score = cc.find('score', this.head_list[view].node);
                     score.active = true;
                     score.y = -44.3;
@@ -1033,7 +1042,7 @@ cc.Class({
                     cardnode = cc.find('card_display', this.head_list[i].node);
                 }
 
-                if (i == 0 && player.joinGame == 1) {
+                if (i == 0 && player.joinGame == 1 && texas_Data.Instance().stand == false) {
                     this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(player.cardsList, msg.commonCardsList)[0]);
                     if (texas_Data.Instance().haveWinRateCard()) {
                         if (msg.commonCardsList.length > 0) {
@@ -1087,13 +1096,15 @@ cc.Class({
 
                 cc.find('bet', this.head_list[i].node).active = player.joinGame != 0;
                 this.head_list[i].setTurnBet(player.turnBet);
-
+                this.head_list[i].updateUI();
             }
         }
         // this._fapaiqi.resumeCard(totalCardNum);//发牌器重置
-        var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)) {
-            this.texas_op.showOp(OP_TYPE.EXCHANGE);
+        if(texas_Data.Instance().stand){
+            var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
+            if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5)) {
+                this.texas_op.showOp(OP_TYPE.EXCHANGE);
+            }
         }
         switch (texas_Data.Instance().roomStatus) {
             case 3:
@@ -1229,7 +1240,7 @@ cc.Class({
             cNode.getComponent('texas_card').sendCard(card, (j - idx) * stepTime, durTime, toPosition0, toScale, 0, true);
         }
         var selfPlayer = texas_Data.Instance().getPlayerByViewIdx(0);
-        if (selfPlayer.joinGame && selfPlayer.state != 3) {
+        if (selfPlayer && selfPlayer.joinGame && selfPlayer.state != 3 && texas_Data.Instance().stand == false) {
             if (msg.cardType != null)//服务器发了牌类型
             {
                 this.head_list[0].showMyCardType(msg.pokerType);
@@ -1277,15 +1288,20 @@ cc.Class({
         switch (status) {
             case 0://等待
                 this._fapaiqi.resetCards();
+                if(texas_Data.Instance().stand){
+                    for(var i = 0; i < this.head_list.length; i++){
+                        this.head_list[i].updateUI();
+                    }
+                }
                 // this.updateRoundScore();
                 break;
             case 1://开始
                 //this.resetGameUI();
                 this.showChangeDeskBtn(false);
-                var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
-                if (!selfplayer.joinGame) {
+                //var selfplayer = texas_Data.Instance().getPlayerByViewIdx(0);
+                //if (selfplayer && !selfplayer.joinGame) {
                     this.onDealCard();
-                }
+                //}
                 break;
 
         }
@@ -1321,7 +1337,7 @@ cc.Class({
         }
         let curBet = texas_Data.Instance().getMaxCurBet();
         let turnBet = texas_Data.Instance().getMaxTurnBet();
-        if (view == 0) {//自己
+        if (view == 0 &&  texas_Data.Instance().stand == false ){//自己
 
             let optype = 0;
             // let max = texas_Data.Instance().getMaxAllBet();
@@ -1392,24 +1408,31 @@ cc.Class({
             }
 
             AudioManager.playSound(texas_audio_cfg.Talk_own, false);
-        } else if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5))//旁观
+        } 
+        else if (selfPlayer && (selfPlayer.joinGame != 1 || selfPlayer.state == 3 || selfPlayer.state == 5))//旁观
         {
             this.showChangeDeskBtn(true) //设置显示换桌按钮
             this.texas_op.showOp(OP_TYPE.WATCH);
         }
         else {//其他人
-            let optype = 0;
-            optype |= OP_TYPE.discard;
-            var canFollow = playGold >= curBet
-            //玩家all in后服务器不会让此玩家表态
-            if (canFollow) {
-                optype |= OP_TYPE.follow;
-                if (selfPlayer.curBet == curBet)
-                    optype |= OP_TYPE.pass;
+            if(texas_Data.Instance().stand == false){
+                let optype = 0;
+                optype |= OP_TYPE.discard;
+                var canFollow = playGold >= curBet
+                var trunBetSelf = 0;
+                //玩家all in后服务器不会让此玩家表态
+                if (canFollow) {
+                    optype |= OP_TYPE.follow;
+                    if (selfPlayer && selfPlayer.curBet == curBet)
+                        optype |= OP_TYPE.pass;
+                }
+                if(selfPlayer && selfPlayer.trunBet)
+                    trunBetSelf = selfPlayer.trunBet
+                this.texas_op.showOp(OP_TYPE.NOT_MY_TURN, optype, turnBet, null, trunBetSelf);
             }
-            this.texas_op.showOp(OP_TYPE.NOT_MY_TURN, optype, turnBet, null, selfPlayer.turnBet);
         }
-        this.head_list[view].say("wait");
+        if(this.head_list[view])
+            this.head_list[view].say("wait");
         if (noTime) {
 
         } else {

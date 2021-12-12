@@ -5,6 +5,7 @@ let com_game_head = require('com_game_head');
 let RoomEvent = require("jlmj_room_mgr").RoomEvent;
 let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 let texas_Data = require('texas_data').texas_Data;
+let hall_audio_mgr = require('hall_audio_mgr').Instance();
 
 const CARD_TYPE_STR=[
     '',
@@ -52,7 +53,7 @@ cc.Class({
         var res = cc.dd.Utils.getNumToWordTransform(num);
         // cc.log('res:'+res);
         cc.find('bet/num', this.node).getComponent(cc.Label).string = res
-        this.updateUI();
+        //this.updateUI();
         // cc.log('bet active:',cc.find('bet', this.node).active);
         // cc.log('bet/num active:',cc.find('bet/num', this.node).active);
         
@@ -227,7 +228,7 @@ cc.Class({
             var player = RoomMgr.Instance().player_mgr.getPlayerByViewIdx(this.view_idx);
             if(player)
             {
-                this._des.string = cc.dd.Utils.substr(player.name, 0, 4)
+                this._des.setText(cc.dd.Utils.substr(player.name, 0, 4)) 
                 this._des.node.active = true;
             }
         }
@@ -265,6 +266,30 @@ cc.Class({
         winnode.removeAllChildren(true);
     },
 
+    showSofa(){
+        this.resetUI()
+        this.node.active = true;
+        this.head.node.active = true;
+        cc.find('mask/shafa', this.head.node).active = true;
+        cc.find('mask/icon', this.head.node).active = false;
+        this.coin.string = 0;
+    },
+
+    updateUI(){
+        this._super()
+        cc.find('mask/icon', this.head.node).active = true;
+        cc.find('mask/shafa', this.head.node).active = false;
+        var player = RoomMgr.Instance().player_mgr.getPlayerByViewIdx(this.view_idx);
+        if(player){
+            let coin = this.player.score != null ? this.player.score : this.player.coin;
+            this.coin.string = cc.dd.Utils.getNumToWordTransform(coin);
+            }
+        if(RoomMgr.Instance().player_mgr && RoomMgr.Instance().player_mgr.stand && RoomMgr.Instance().player_mgr.getPlayerByViewIdx){
+            if(player == null)
+                this.showSofa()
+        }
+    },
+
     resetUI() {
         var player = RoomMgr.Instance().player_mgr.getPlayerByViewIdx(this.view_idx);
         if(player)
@@ -298,6 +323,8 @@ cc.Class({
         cc.find('allin', this.node).active = false;
         cc.find('winRate',this.node).active = false;
         cc.find('banker',this.node).active = false;
+        if(RoomMgr.Instance().player_mgr.stand == false)
+            cc.find('mask/shafa', this.head.node).active = false;
 
         this.ready.active = false
         var myType = cc.find('handType', this.node)
@@ -308,36 +335,43 @@ cc.Class({
         // this.tryShowPlayerName();
     },
 
+    onClickSitDown(event, data){
+        hall_audio_mgr.com_btn_click();
 
+        var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setGameType(RoomMgr.Instance().gameId);
+        msg.setRoomId(RoomMgr.Instance().player_mgr.getRoomId());
+        var selfSeat = RoomMgr.Instance().player_mgr.selfSeat;
+        if(selfSeat == 100)
+            msg.setSeat(this.view_idx);
+        else
+            msg.setSeat((selfSeat + this.view_idx) % 9)
+        msg.setDeskId(RoomMgr.Instance().deskId);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
+    },
     
     onEventMessage(event, data) {
-        switch (event) {
-            // case RoomEvent.on_room_create:
-            // case RoomEvent.on_room_enter:
-            case RoomEvent.on_room_join:
-            // case RoomEvent.on_room_leave:
-            // case RoomEvent.on_room_ready:
-            // case RoomEvent.on_room_replace:
-            // case RoomEvent.on_room_player_online:
-            // case RoomEvent.on_room_game_start:
-
-            var player = RoomMgr.Instance().player_mgr.getPlayerByViewIdx(this.view_idx);
-            if(player && (player.userId == data[0].roleInfo.userId))
-            {
-                if(player  && player.joinGame)
-                {
-
-                }else
-                {
-                    this.resetUI();
-                }
-                this.showWait(true);
-            }
-            
-                
-            break;     
-        }
-
         this._super(event, data);
+        if(RoomMgr.Instance().player_mgr.stand)
+            this.node.active = true;
+        switch (event) {
+            case RoomEvent.on_room_join:
+                var player = RoomMgr.Instance().player_mgr.getPlayerByViewIdx(this.view_idx);
+                if(player && (player.userId == data[0].roleInfo.userId))
+                {
+                    if(player  && player.joinGame)
+                    {
+
+                    }else
+                    {
+                        this.resetUI();
+                    }
+                    this.showWait(true);
+                }
+                break;
+            case RoomEvent.on_room_game_start:
+                this.updateUI()
+                break;
+        }
     },
 });

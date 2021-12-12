@@ -113,6 +113,7 @@ var texas_Data = cc.Class({
         this.m_opflag =0;
         this.m_bAutoPickMoney = 0;
         this.curPlayerTime = 0;
+        this.stand = false;
     },
 
     //重置游戏数据
@@ -148,7 +149,6 @@ var texas_Data = cc.Class({
         this.m_totalRoundBet= 0;
         this.m_lastBet = 0;
         this.m_opflag = 0;
-        
     },
 
     /**
@@ -285,18 +285,21 @@ var texas_Data = cc.Class({
         if (this.selfSeat > -1) {
             for (var i = 0; i < this.playerList.length; i++) {
                 var pview = -1;
-                if (this.playerList[i].seat >= this.selfSeat) {
+                if (this.playerList[i].seat >= this.selfSeat && this.selfSeat != 100) {
                     pview = this.playerList[i].seat - this.selfSeat;
                 }
                 else {
-                    pview = this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
+                    if(this.selfSeat == 100)
+                        pview = this.playerList[i].seat
+                    else
+                        pview = this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
                 }
                 if (view == pview)
                     return this.playerList[i];
             }
         }
         return null;
-    },
+    },  
 
     getPlayerList() {
         return this.playerList;
@@ -334,7 +337,10 @@ var texas_Data = cc.Class({
                     return this.playerList[i].seat - this.selfSeat;
                 }
                 else {
-                    return this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
+                    if(this.selfSeat >= 100)
+                        return this.playerList[i].seat
+                    else
+                        return this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
                 }
             }
         }
@@ -373,6 +379,10 @@ var texas_Data = cc.Class({
         player.joinGame = joinGame;
         if (player.userId == cc.dd.user.id) {
             this.selfSeat = player.seat;
+            if(player.seat == 100)
+                this.stand = true;
+            else
+                this.stand = false;
         }
         for (var i = 0; i < this.playerList.length; i++) {
             if (this.playerList[i].userId == player.userId) {
@@ -390,7 +400,12 @@ var texas_Data = cc.Class({
      */
     playerExit(userId) {
         if (userId == cc.dd.user.id) {
-            return;
+            var own = this.getPlayerById(userId);
+            if(own){
+                own.joinGame = 0;
+                own.seat = 100;
+                return;
+            }
         }
         if(this.roomStatus == 2){ //结算状态，不处理玩家退出
             for (var i = 0; i < this.playerList.length; i++) {

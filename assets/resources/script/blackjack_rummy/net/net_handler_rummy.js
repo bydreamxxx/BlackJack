@@ -8,7 +8,7 @@ var handler = {
     },
 
     on_msg_rm_action_change(msg) {
-
+        RummyGameMgr.actionChange(msg);
     },
 
     on_msg_rm_state_change_2c(msg) {
@@ -26,6 +26,8 @@ var handler = {
     on_msg_rm_poker_ack(msg) {
         if(msg.ret === 0){
         }else{
+            RummyData.cardType = null;
+
             let str = msg.ret;
             switch (msg.ret){
                 case 1:

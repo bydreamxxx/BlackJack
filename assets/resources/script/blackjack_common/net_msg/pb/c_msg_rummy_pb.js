@@ -189,6 +189,8 @@ let msg_rm_deal_poker = cc.Class({
         let content = {};
         content.userId = this.userId;
         content.cardsList = this.cardsList;
+        content.card = this.card;
+        content.handCardsList = this.handCardsList;
 
         return content;
     },
@@ -197,6 +199,12 @@ let msg_rm_deal_poker = cc.Class({
     },
     setCardsList(cardsList){
         this.cardsList = cardsList;
+    },
+    setCard(card){
+        this.card = card;
+    },
+    setHandCardsList(handCardsList){
+        this.handCardsList = handCardsList;
     },
 
 });
