@@ -1,8 +1,9 @@
-const { ccclass, menu, property, requireComponent } = cc._decorator;
+const { ccclass, menu, property, requireComponent, executeInEditMode } = cc._decorator;
 import LanguageComponent from './LanguageComponent';
 
 @ccclass
 @menu("多语言/label")
+@executeInEditMode(true)
 @requireComponent(cc.Label)
 export default class LanguageLabel extends LanguageComponent {
     @property({tooltip:"前缀(非多语言)"})

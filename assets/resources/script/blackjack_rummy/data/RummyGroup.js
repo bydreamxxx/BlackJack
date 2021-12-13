@@ -1,7 +1,7 @@
 const GROUP_STATE = require("RummyData").GROUP_STATE;
 const RummyData = require("RummyData").RummyData.Instance();
 
-let RumyGroup = cc.Class({
+let RummyGroup = cc.Class({
     ctor(){
         this.cardList = [];
         this.state = GROUP_STATE.NO_GROUP;
@@ -286,4 +286,4 @@ let RumyGroup = cc.Class({
     }
 });
 
-module.exports = RumyGroup;
+module.exports = RummyGroup;

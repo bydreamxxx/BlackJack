@@ -1,4 +1,4 @@
-const RumyGroup = require("RumyGroup");
+const RummyGroup = require("RummyGroup");
 
 cc.Class({
     extends: cc.Component,
@@ -40,7 +40,7 @@ cc.Class({
             this.node.addChild(node);
 
             let cardList = groupList[i];
-            let group = new RumyGroup();
+            let group = new RummyGroup();
             group.init(cardList);
 
             let groupInfo = {data: group, view: node};
