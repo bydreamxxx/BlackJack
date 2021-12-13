@@ -5,6 +5,7 @@ let RummyPlayerEvent = cc.Enum({
     GIVE_UP_POKER: "GIVE_UP_POKER",
     DEAL_POKER: "DEAL_POKER",
     FA_PAI: "FA_PAI",
+    MO_PAI: "MO_PAI",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -55,7 +56,27 @@ let RummyPlayerData = cc.Class({
         //     return arr.indexOf(v) === arr.lastIndexOf(v);
         // });
 
-        if(myList.sort().toString() !== data.handCardsList.sort().toString()){
+        myList.sort(function (x, y) {
+            if (x < y) {
+                return -1;
+            }
+            if (x > y) {
+                return 1;
+            }
+            return 0;
+        });
+
+        data.handCardsList.sort(function (x, y) {
+            if (x < y) {
+                return -1;
+            }
+            if (x > y) {
+                return 1;
+            }
+            return 0;
+        });
+
+        if(myList.toString() !== data.handCardsList.toString()){
             cc.error('手牌不正确，重置手牌');
             this.pokersList = data.cardsList.concat();
             return;
@@ -97,6 +118,27 @@ let RummyPlayerData = cc.Class({
         this.viewIdx = data.seat;
 
         this.playerData = data;
+    },
+
+    moPai(type, data){
+        this.pokersList.push([data.card]);
+
+        //降维打击
+        let myList = [].concat(...this.pokersList);
+        // let newList = [].concat(...cardList);
+        //
+        // //找不同
+        // let paiList = myList.concat(data.handCardsList).filter(function(v, i, arr) {
+        //     return arr.indexOf(v) === arr.lastIndexOf(v);
+        // });
+
+        if(myList.sort().toString() !== data.handCardsList.sort().toString()){
+            cc.error('手牌不正确，重置手牌');
+            this.pokersList = data.cardsList.concat();
+            return;
+        }
+
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.MO_PAI, [this, type, data.card]);
     },
 
     playerEnter(){

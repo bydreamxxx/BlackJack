@@ -62,6 +62,9 @@ let rummy_player_ui = cc.Class({
             case RummyPlayerEvent.FA_PAI:
                 this.faPai(data[1], data[2]);
                 break;
+            case RummyPlayerEvent.MO_PAI:
+                this.moPai(data[1], data[2]);
+                break;
             case RummyPlayerEvent.PLAYER_RESET_CD:
                 this.play_chupai_ani();
                 break;
@@ -195,6 +198,19 @@ let rummy_player_ui = cc.Class({
 
                 this.discardNode.addChild(cardNode);
             }
+        }
+    },
+
+    moPai(type, card){
+        if(!cc.dd._.isString(type)){
+            cc.error('发牌错误');
+            return;
+        }
+
+        if(type === "0"){
+
+        }else{
+
         }
     },
 

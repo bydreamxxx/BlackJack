@@ -8,9 +8,8 @@ let RummyEvent = cc.Enum({
 let RummyED = new cc.dd.EventDispatcher();
 
 const GAME_STATE = cc.Enum({
-    WAITING:1,//等待玩家状态
-    DEALING:2,//发牌状态
-    WAITING:1,//等待玩家状态
+    WAITING:0,//等待玩家状态
+    DEALING:1,//发牌状态
     PLAYING:2,//牌局进行状态
     GROUPING:3,//已经有赢家，但是还可以组牌
     RESULTING:4,//显示结果状态
@@ -19,9 +18,10 @@ const GAME_STATE = cc.Enum({
 const GROUP_STATE = cc.Enum({
     PURE_STRAIGHT: 1,
     IMPURE_STRAIGHT: 2,
-    SET: 3,
-    NOT_CORRECT: 4,
-    NO_GROUP: 5
+    STRAIGHT: 3,
+    SET: 4,
+    NOT_CORRECT: 5,
+    NO_GROUP: 6
 });
 
 
@@ -80,6 +80,10 @@ let RummyData = cc.Class({
         this.lastState = this.state;
         this.state = msg.roomState;
         this.banker = msg.banker;
+    },
+
+    isBaida(card){
+        return Math.floor(card / 10) === Math.floor(this.xcard / 10) || card === 172;
     },
 
     setGameInfo(data){
