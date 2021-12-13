@@ -60,7 +60,7 @@ let rummy_player_ui = cc.Class({
                 this.dealPoker(data[1], data[2]);
                 break;
             case RummyPlayerEvent.FA_PAI:
-                this.faPai(data[1], data[2]);
+                this.faPai();
                 break;
             case RummyPlayerEvent.MO_PAI:
                 this.moPai(data[1], data[2]);
@@ -89,6 +89,10 @@ let rummy_player_ui = cc.Class({
     clear(){
         this.head.clear();
         this.playerData = null;
+
+        if(this.viewIdx == 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").clear();
+        }
     },
 
     /**
@@ -139,18 +143,11 @@ let rummy_player_ui = cc.Class({
     },
 
     /**
-     * 自己摸牌
+     * 发牌
      */
-    faPai(type, card){
-        if(!cc.dd._.isString(type)){
-            cc.error('发牌错误');
-            return;
-        }
-
-        if(type === "0"){
-
-        }else{
-
+    faPai(){
+        if(this.viewIdx == 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.card, this.showCardNode);
         }
     },
 
@@ -201,6 +198,11 @@ let rummy_player_ui = cc.Class({
         }
     },
 
+    /**
+     * 摸牌
+     * @param type
+     * @param card
+     */
     moPai(type, card){
         if(!cc.dd._.isString(type)){
             cc.error('发牌错误');
@@ -221,7 +223,7 @@ let rummy_player_ui = cc.Class({
         this.node.active = true;
 
         if(this.viewIdx === 0 && data.pokersList.length !== 0){
-            //TODO
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList, this.card);
         }
     },
 

@@ -260,6 +260,30 @@ let RumyGroup = cc.Class({
         }
         this.checkState();
     },
+
+    isPure(){
+        return this.state === GROUP_STATE.PURE_STRAIGHT;
+    },
+
+    isImPure(){
+        return this.state === GROUP_STATE.IMPURE_STRAIGHT;
+    },
+
+    isStraight(){
+        return this.state === GROUP_STATE.STRAIGHT;
+    },
+
+    isSet(){
+        return this.state === GROUP_STATE.SET;
+    },
+
+    isNoCorrect(){
+        return this.state === GROUP_STATE.NOT_CORRECT;
+    },
+
+    isNoGroup(){
+        return this.state === GROUP_STATE.NO_GROUP;
+    }
 });
 
 module.exports = RumyGroup;

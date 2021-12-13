@@ -43,7 +43,7 @@ let RummyGameMgr = cc.Class({
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
             if(RummyData.state === 1){
-                player.faPai(RummyData.cardType, msg);
+                player.faPai(msg);
             }else{
                 player.moPai(RummyData.cardType, msg);
             }
