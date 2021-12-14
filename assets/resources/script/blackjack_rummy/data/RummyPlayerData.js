@@ -47,7 +47,7 @@ let RummyPlayerData = cc.Class({
     faPai(data){
         this.pokersList = data.cardsList.concat();
 
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this]);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },
 
     giveUpPoker(card){

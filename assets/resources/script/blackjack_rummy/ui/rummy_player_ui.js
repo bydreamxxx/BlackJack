@@ -60,7 +60,7 @@ let rummy_player_ui = cc.Class({
                 this.dealPoker(data[1], data[2]);
                 break;
             case RummyPlayerEvent.FA_PAI:
-                this.faPai();
+                this.faPai(data[1]);
                 break;
             case RummyPlayerEvent.MO_PAI:
                 this.moPai(data[1], data[2]);
@@ -145,9 +145,9 @@ let rummy_player_ui = cc.Class({
     /**
      * 发牌
      */
-    faPai(){
+    faPai(handCardList){
         if(this.viewIdx == 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.card, this.showCardNode);
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.card, this.showCardNode, handCardList);
         }
     },
 

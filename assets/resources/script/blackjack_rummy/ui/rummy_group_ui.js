@@ -1,5 +1,5 @@
 const RummyGroup = require("RummyGroup");
-
+const faPaiPos = [];
 cc.Class({
     extends: cc.Component,
 
@@ -17,14 +17,117 @@ cc.Class({
         this.node.width = 0;
     },
 
-    showFapai(groupList, cardPrefab, startNode){
+    showFapai(groupList, cardPrefab, startNode, handCardList){
         this.showFapaiDirect(groupList, cardPrefab);
-        // this.groupList.forEach(group=>{
-        //     group.view.active = false;
-        // })
+
+        if(handCardList.length !== faPaiPos.length){
+            cc.error(`手牌数量错误 ${handCardList}`);
+            return;
+        }
+
+        this.groupList.forEach(group=>{
+            group.view.active = false;
+            group.bottom.active = false;
+        });
+
+        this.playList = [];
 
         let worldPos = startNode.convertToWorldSpace(cc.v2(0, 0));
         let startPos = this.node.convertToNodeSpace(worldPos);
+
+        for(let i = handCardList.length - 1; i >= 0; i--){
+            for(let j = 0; j < this.groupList.length; j++){
+                let group = this.groupList[j].view;
+                let node = null;
+                for(let k = 0; k < group.childrenCount; k++){
+                    let card = group.children[k].getComponent("blackjack_card");
+                    if(card && card.getCard() === handCardList[i]){
+                        node = group.children[k];
+                        card.setTargetPos(node.position);
+
+                        let group_worldPos = this.node.convertToWorldSpace(faPaiPos[i]);
+                        let group_startPos = group.convertToNodeSpace(group_worldPos);
+                        node.position = group_startPos;
+
+
+                        let playCard = cc.instantiate(cardPrefab);
+                        playCard.getComponent("blackjack_card").init(0);
+                        this.node.addChild(playCard);
+                        playCard.position = startPos;
+                        playCard.scaleX = 0.717;
+                        playCard.scaleY= 0.717;
+                        playCard.getComponent("blackjack_card").setTargetValue(handCardList[i]);
+                        playCard.getComponent("blackjack_card").setTargetPos(faPaiPos[i]);
+
+                        this.playList.unshift(playCard);
+                        break;
+                    }
+                }
+
+                if(node !== null){
+                    break;
+                }
+            }
+        }
+
+        let index = 0;
+
+        let endFunc = ()=>{
+            this.playList.forEach(node=>{
+                node.destroy();
+            })
+
+            this.groupList.forEach(group=>{
+                group.view.active = true;
+                for(let k = 0; k < group.view.childrenCount; k++){
+                    let card = group.view.children[k].getComponent("blackjack_card");
+                    if(card){
+                        let node = group.view.children[k];
+                        cc.tween(node)
+                            .to(0.5, {position: card.targetPos}, { easing: 'expoOut'})
+                            .call(()=>{
+                                group.bottom.active = !group.data.isNoGroup();
+                            })
+                            .start();
+                    }
+                }
+            });
+        }
+
+        this.schedule(()=>{
+            let node = this.playList[index];
+            index++;
+
+            if(index >= this.playList.length){
+                cc.tween(node)
+                    .to(0.5, {position: node.getComponent("blackjack_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(0.5)
+                    .to(0.2, {scale: 1.1}, { easing: 'quintIn'})
+                    .to(0.25, {scaleX: 0})
+                    .call(()=> {
+                        node.getComponent("blackjack_card").init(node.getComponent("blackjack_card").targetValue);
+                    })
+                    .to(0.25, {scaleX: 1.1})
+                    .to(0.2, {scale: 1}, { easing: 'quintOut'})
+                    .delay(0.5)
+                    .call(endFunc)
+                    .start();
+            }else{
+                cc.tween(node)
+                    .to(0.5, {position: node.getComponent("blackjack_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(0.5)
+                    .to(0.2, {scale: 1.1}, { easing: 'quintIn'})
+                    .to(0.25, {scaleX: 0})
+                    .call(()=> {
+                        node.getComponent("blackjack_card").init(node.getComponent("blackjack_card").targetValue);
+                    })
+                    .to(0.25, {scaleX: 1.1})
+                    .to(0.2, {scale: 1}, { easing: 'quintOut'})
+                    .start();
+            }
+
+
+        }, 0.5, this.playList.length - 1);
     },
 
     showFapaiDirect(groupList, cardPrefab){
@@ -43,7 +146,7 @@ cc.Class({
             let group = new RummyGroup();
             group.init(cardList);
 
-            let groupInfo = {data: group, view: node};
+            let groupInfo = {data: group, view: node, bottom:null};
             this.groupList.push(groupInfo);
 
             let showList = group.getShowList();
@@ -63,18 +166,19 @@ cc.Class({
 
             let bottom = cc.instantiate(this.bottomNode);
             node.addChild(bottom);
+            groupInfo.bottom = bottom;
             bottom.width = node.width;
             bottom.y = -109;
             bottom.x = 0;
             bottom.scale = 1;
-            bottom.active = !groupInfo.isNoGroup();
+            bottom.active = !group.isNoGroup();
             let frame = bottom.getComponent(cc.Sprite);
             let label = bottom.getComponentInChildren(cc.Label);
 
-            if(!groupInfo.isNoGroup() && !groupInfo.isNoCorrect()){
+            if(!group.isNoGroup() && !group.isNoCorrect()){
                 if(first === -1){
                     first = i;
-                    if(groupInfo.isPure()){
+                    if(group.isPure()){
                         frame.spriteFrame = this.bottomColor[0];
                         label.string = '1st Life';
                     }else{
@@ -83,7 +187,7 @@ cc.Class({
                     }
                 }else if(second === -1){
                     second = i;
-                    if(groupInfo.isImPure()){
+                    if(group.isImPure()){
                         frame.spriteFrame = this.bottomColor[0];
                         label.string = '2nd Life';
                     }else{
@@ -93,11 +197,11 @@ cc.Class({
                 }else{
                     frame.spriteFrame = this.bottomColor[0];
 
-                    if(groupInfo.isPure()) {
+                    if(group.isPure()) {
                         label.string = 'Pure';
-                    }else if(groupInfo.isImPure()){
+                    }else if(group.isImPure()){
                         label.string = 'Impure';
-                    }else if(groupInfo.isStraight()){
+                    }else if(group.isStraight()){
                         label.string = 'Straight';
                     }else{
                         label.string = 'Set';

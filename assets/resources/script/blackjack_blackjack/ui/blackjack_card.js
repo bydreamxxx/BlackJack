@@ -50,5 +50,24 @@ cc.Class({
     setShow(){
         this.node.active = true;
         this.isActive = true;
+    },
+
+    savePos(){
+        this.position = this.node.position;
+    },
+
+    getSavePos(){
+       if(!this.position){
+           this.savePos();
+       }
+       return this.position;
+    },
+
+    setTargetPos(pos){
+        this.targetPos = pos;
+    },
+
+    setTargetValue(card){
+        this.targetValue = card;
     }
 });
