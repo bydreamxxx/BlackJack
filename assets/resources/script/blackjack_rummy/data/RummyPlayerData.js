@@ -6,6 +6,8 @@ let RummyPlayerEvent = cc.Enum({
     DEAL_POKER: "DEAL_POKER",
     FA_PAI: "FA_PAI",
     MO_PAI: "MO_PAI",
+    UPDATE_POKER: "UPDATE_POKER",
+    UPDATE_BAIDA: "UPDATE_BAIDA",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -148,6 +150,9 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
     },
 
+    updateBaida(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_BAIDA, [this]);
+    }
 });
 
 module.exports = {

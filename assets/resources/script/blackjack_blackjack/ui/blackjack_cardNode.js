@@ -84,7 +84,7 @@ cc.Class({
             this.cardList.push(node.getComponent("blackjack_card"));
 
             if(this.cardList.length == 3 && isDouble){
-                node.rotation = 90;
+                node.angle = 90;
                 node.x += 40
                 node.y = 42;
                 // node.y = 42 + 40 * (this.cardList.length - 1);
@@ -423,7 +423,7 @@ cc.Class({
                 this.cardList.push(node.getComponent("blackjack_card"));
 
                 if(this.cardList.length == 3 && isDouble){
-                    node.rotation = 90;
+                    node.angle = 90;
                     node.x += 40;
                     node.y = 42;
                     // node.y = 42 + 40 * (this.cardList.length - 1);
@@ -493,8 +493,8 @@ cc.Class({
         if(card){
             let node = cc.instantiate(this.cardPrefab);
             this.cardZone.addChild(node);
-            let worldPos = startNode.convertToWorldSpace(cc.v2(0, 0));
-            let startPos = this.cardZone.convertToNodeSpace(worldPos);
+            let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
+            let startPos = this.cardZone.convertToNodeSpaceAR(worldPos);
             let endPos = card.node.position
             node.position = startPos;
             node.opacity = 0;
@@ -587,8 +587,8 @@ cc.Class({
     },
 
     loseChip(isDouble, bankerNode){
-        let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
-        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+        let worldPos = bankerNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpaceAR(worldPos);
 
         if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
             AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
@@ -622,8 +622,8 @@ cc.Class({
     },
 
     winChip(isDouble, headNode, num){
-        let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
-        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+        let worldPos = headNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpaceAR(worldPos);
         if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
             AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
         }
@@ -707,8 +707,8 @@ cc.Class({
     },
 
     loseInsure(bankerNode){
-        let worldPos = bankerNode.convertToWorldSpace(cc.v2(0, 0));
-        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+        let worldPos = bankerNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpaceAR(worldPos);
 
         if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1) {
             AudioManager.playSound("blackjack_blackjack/audio/chips_collect");
@@ -724,8 +724,8 @@ cc.Class({
     },
 
     winInsure(headNode){
-        let worldPos = headNode.convertToWorldSpace(cc.v2(0, 0));
-        let endPos = this.chipZone.convertToNodeSpace(worldPos);
+        let worldPos = headNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let endPos = this.chipZone.convertToNodeSpaceAR(worldPos);
 
         if(AudioManager.getAudioID("blackjack_blackjack/audio/chips_collect") == -1){
             AudioManager.playSound("blackjack_blackjack/audio/chips_collect");

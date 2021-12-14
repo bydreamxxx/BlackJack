@@ -241,10 +241,10 @@ cc.Class({
         let to_pos = cc.v2(0,0);
         heads.forEach(function (head) {
             if(head.playerData && head.playerData.userId==fromId){
-                from_pos = magic_prop.node.convertToNodeSpace(head.node.parent.convertToWorldSpace(head.head_node.position));
+                from_pos = magic_prop.node.convertToNodeSpaceAR(head.node.parent.convertToWorldSpaceAR(head.head_node.position));
             }
             if(head.playerData && head.playerData.userId==toId){
-                to_pos = magic_prop.node.convertToNodeSpace(head.node.parent.convertToWorldSpace(head.head_node.position));
+                to_pos = magic_prop.node.convertToNodeSpaceAR(head.node.parent.convertToWorldSpaceAR(head.head_node.position));
             }
         });
         magic_prop.playMagicPropAni(idx,from_pos,to_pos);

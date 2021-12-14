@@ -56,6 +56,55 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
+    start(){
+        let handler = require("net_handler_rummy");
+        cc.tween(this.node)
+            .delay(1)
+            .call(()=>{
+                console.error('on_msg_rm_info')
+                handler.on_msg_rm_info({ usersList:
+                        [ { pokersList: [],
+                            userId: cc.dd.user.id,
+                            userState: 1,
+                            dropCoin: 1000 } ],
+                    bjState: 0,
+                    lastTime: 5,
+                    roomConfigId: 18501,
+                    turn: 1639315697,
+                    turnLeftTime: 5,
+                    banker: cc.dd.user.id,
+                    xcard: 0,
+                    giveUp: 0 });
+            })
+            .delay(5)
+            .call(()=>{
+                console.error('on_msg_rm_info')
+                handler.on_msg_rm_info({ usersList: [],
+                    bjState: 1,
+                    lastTime: 10,
+                    roomConfigId: 18502,
+                    turn: 1638971058,
+                    turnLeftTime: 15,
+                    banker: cc.dd.user.id,
+                    xcard: 11,
+                    giveUp: 103 });
+            })
+            .delay(0.1)
+            .call(()=>{
+                console.error('on_msg_rm_deal_poker')
+                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44] ],
+                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
+                    userId: cc.dd.user.id });
+            })
+            .delay(10)
+            .call(()=>{
+                console.error('msg_rm_state_change_2c')
+                handler.on_msg_rm_state_change_2c({ roomState: 2, curRound: 0, banker: cc.dd.user.id });
+            })
+            .start()
+    },
+
+
     onLoad() {
         RoomED.addObserver(this);
         RummyED.addObserver(this);
@@ -85,7 +134,7 @@ cc.Class({
             if(this.lastTime >= 0){
                 this.lastTime -= dt;
 
-                this.tipsLabel.setText('GAMESTARTIN', '', '', Math.floor(RummyData.lastTime));
+                this.tipsLabel.setText('GAMESTARTIN', '', '', Math.floor(this.lastTime));
             }
         }
     },
@@ -333,7 +382,7 @@ cc.Class({
                     node.scaleY= 0.538;
                     node.name = "baida";
                     this.cardsNode.addChild(node);
-                    node.getComponent("blackjack_card").init(0);
+                    node.getComponent("rummy_card").init(0);
 
                     let paidui2 = cc.instantiate(this.cardListNode);
                     this.cardsNode.addChild(paidui2);
@@ -342,17 +391,17 @@ cc.Class({
                     discard.scaleX = 0.538;
                     discard.scaleY= 0.538;
                     this.discardNode.addChild(discard);
-                    discard.getComponent("blackjack_card").init(0);
+                    discard.getComponent("rummy_card").init(0);
 
-                    let worldPos = this.showcardNode.convertToWorldSpace(cc.v2(0, 0));
-                    let startPos = this.discardNode.convertToNodeSpace(worldPos);
+                    let worldPos = this.showcardNode.convertToWorldSpaceAR(cc.v2(0, 0));
+                    let startPos = this.discardNode.convertToNodeSpaceAR(worldPos);
                     discard.position = startPos;
 
                     let discardTween = cc.tween(discard)
                         .parallel(
                             cc.tween().to(0.5, {position: cc.v2(0, 0)}, { easing: 'quadOut'}),
                             cc.tween().to(0.25, {scaleX: 0, scaleY: 0.5918}).call(()=>{
-                                discard.getComponent("blackjack_card").init(11);
+                                discard.getComponent("rummy_card").init(RummyData.giveUp);
                             }).to(0.25, {scaleX: 0.538, scaleY: 0.538})
                         );
 
@@ -368,12 +417,13 @@ cc.Class({
                         .to(0.2, {scale: 0.5918}, { easing: 'quintIn'})
                         .to(0.25, {scaleX: 0})
                         .call(()=> {
-                            node.getComponent("blackjack_card").init(12);
+                            node.getComponent("rummy_card").init(RummyData.xcard);
+                            node.getComponent("rummy_card").showMask();
                         })
                         .to(0.25, {scaleX: 0.5918})
                         .to(0.2, {scale: 0.538}, { easing: 'quintOut'})
                         .delay(0.3)
-                        .to(0.6, {position: cc.v2(-28.66, -1.144), rotation: -11.5}, { easing: 'sineInOut'});
+                        .to(0.6, {position: cc.v2(-28.66, -1.144), angle: 11.5}, { easing: 'sineInOut'})
 
                     cc.tween(this.showcardNode)
                         .delay(5)
@@ -395,7 +445,7 @@ cc.Class({
                     discard.scaleY= 0.538;
                     this.discardNode.addChild(discard);
 
-                    discard.getComponent("blackjack_card").init(RummyData.giveUp);
+                    discard.getComponent("rummy_card").init(RummyData.giveUp);
 
                     let node = cc.instantiate(this.cardPrefab);
                     this.cardsNode.addChild(node);
@@ -403,10 +453,11 @@ cc.Class({
                     node.scaleY= 0.538;
                     node.x = -28.66;
                     node.y = -1.144;
-                    node.rotation = -11.5;
+                    node.angle = -11.5;
                     node.name = "baida";
 
-                    node.getComponent("blackjack_card").init(RummyData.xcard);
+                    node.getComponent("rummy_card").init(RummyData.xcard);
+                    node.getComponent("rummy_card").showMask();
 
                     let paidui1 = cc.instantiate(this.cardListNode);
                     this.cardsNode.addChild(paidui1);
@@ -424,14 +475,14 @@ cc.Class({
                 discard.scaleY= 0.538;
                 this.discardNode.addChild(discard);
 
-                discard.getComponent("blackjack_card").init(172);
+                discard.getComponent("rummy_card").init(172);
 
                 let node = cc.instantiate(this.cardPrefab);
                 node.scaleX = 0.538;
                 node.scaleY= 0.538;
                 this.cardsNode.addChild(node);
 
-                node.getComponent("blackjack_card").init(172);
+                node.getComponent("rummy_card").init(172);
             }
         }
     },
@@ -452,7 +503,7 @@ cc.Class({
         // this.showcardNode.active = false;
         // this.discardNode.active = false;
         //
-        // switch(RummyData.state){
+        switch(RummyData.state){
         //     case GAME_STATE.WAITING:
         //         this.bottomNode.active = false;
         //
@@ -469,7 +520,8 @@ cc.Class({
         //         this.lastTime = RummyData.lastTime;
         //         this.switchButtonNode.active = true;
         //         break;
-        //     case GAME_STATE.PLAYING:
+            case GAME_STATE.PLAYING:
+                RummyGameMgr.updateBaida();
         //         this.bottomNode.active = false;
         //         this.tipsNode.active = false;
         //         this.switchButtonNode.active = false;
@@ -488,12 +540,12 @@ cc.Class({
         //         this.cardsNode.active = true;
         //         this.showcardNode.active = true;
         //         this.discardNode.active = true;
-        //         break;
+                break;
         //     case GAME_STATE.GROUPING:
         //         break;
         //     case GAME_STATE.RESULTING:
         //         break;
-        // }
+        }
     },
 
     /**
@@ -509,7 +561,7 @@ cc.Class({
             discard.scaleY= 0.538;
             this.discardNode.addChild(discard);
 
-            discard.getComponent("blackjack_card").init(RummyData.giveUp);
+            discard.getComponent("rummy_card").init(RummyData.giveUp);
 
             let node = cc.instantiate(this.cardPrefab);
             this.cardsNode.addChild(node);
@@ -517,9 +569,10 @@ cc.Class({
             node.scaleY= 0.538;
             node.x = -28.66;
             node.y = -1.144;
-            node.rotation = -11.5;
+            node.angle = -11.5;
 
-            node.getComponent("blackjack_card").init(RummyData.xcard);
+            node.getComponent("rummy_card").init(RummyData.xcard);
+            node.getComponent("rummy_card").showMask();
 
             let paidui1 = cc.instantiate(this.cardListNode);
             this.cardsNode.addChild(paidui1);
@@ -533,14 +586,14 @@ cc.Class({
             discard.scaleY= 0.538;
             this.discardNode.addChild(discard);
 
-            discard.getComponent("blackjack_card").init(172);
+            discard.getComponent("rummy_card").init(172);
 
             let node = cc.instantiate(this.cardPrefab);
             node.scaleX = 0.538;
             node.scaleY= 0.538;
             this.cardsNode.addChild(node);
 
-            node.getComponent("blackjack_card").init(172);
+            node.getComponent("rummy_card").init(172);
         }
 
     },

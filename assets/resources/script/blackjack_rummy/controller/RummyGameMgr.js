@@ -62,6 +62,13 @@ let RummyGameMgr = cc.Class({
         }
     },
 
+
+    synGiveupPoker(msg){
+        RummyData.xcard = msg.xcard;
+        RummyData.giveUp = msg.giveupCard;
+        RummyED.notifyEvent(RummyEvent.SYN_DESK);
+    },
+
     updateUI(){
         if(cc.dd.SceneManager.isGameSceneExit(cc.dd.Define.GameType.RUMMY)){
             RummyED.notifyEvent(RummyEvent.UPDATE_UI);
@@ -70,16 +77,17 @@ let RummyGameMgr = cc.Class({
         }
     },
 
-    synGiveupPoker(msg){
-        RummyData.xcard = msg.xcard;
-        RummyData.giveUp = msg.giveupCard;
-        RummyED.notifyEvent(RummyEvent.SYN_DESK);
-    },
-
     updatePoker(groupList){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player){
             player.updatePoker(groupList);
+        }
+    },
+
+    updateBaida(){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            player.updateBaida();
         }
     },
 });

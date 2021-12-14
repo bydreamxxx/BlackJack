@@ -9,6 +9,8 @@ var AppConfig = require('AppConfig');
 var game_duli = require('game_duli');
 var Platform = require('Platform');
 var LoginData = require('jlmj_login_data');
+const roomMgr = require("jlmj_net_handler_roomMgr");
+const hall = require("jlmj_net_handler_hall");
 
 var loginModle = cc.Class({
     extends: cc.Component,
@@ -44,6 +46,114 @@ var loginModle = cc.Class({
 
         languageNode: cc.Node,
         languageArrow: cc.Node,
+    },
+
+
+    start(){
+        let roomMgr = require("jlmj_net_handler_roomMgr")
+        let hall = require("jlmj_net_handler_hall")
+        cc.tween(this.node)
+            .delay(1)
+            .call(()=>{
+                console.error('on_msg_enter_coin_game_ret')
+                roomMgr.on_msg_enter_coin_game_ret({ retCode: 0, rate: 0 });
+            })
+            .delay(0.5)
+            .call(()=>{
+                console.error('on_msg_player_property_update')
+                hall.on_msg_player_property_update({ type: 1, value: 185 });
+            })
+            .delay(0.5)
+            .call(()=>{
+                console.error('on_msg_room_user_info')
+                roomMgr.on_msg_room_user_info({ roleInfosList:
+                        [ { userId: cc.dd.user.id,
+                            name: 'guest1639315697',
+                            sex: 1,
+                            headUrl: '',
+                            openId: '',
+                            isReady: true,
+                            seat: 0,
+                            state: 1,
+                            coin: 4000,
+                            robot: false,
+                            aiLevel: 0,
+                            winTimes: 0,
+                            totalTimes: 0,
+                            level: 1,
+                            exp: 0,
+                            vipLevel: 0,
+                            lucky: 0,
+                            isSwitch: false,
+                            netState: 4,
+                            cheatRate: 0,
+                            cheatScore: 0,
+                            cheatState: 0,
+                            score: 4000,
+                            robotLevel: 0,
+                            ip: '125.70.179.172',
+                            rate: 0,
+                            itemNum: 0,
+                            autoFlag: false,
+                            fishBetId: 0,
+                            loginIntervalTime: 71501,
+                            lookPlayer: 0 } ],
+                    gameInfo: { gameType: 185, roomId: 1854901 } });
+            })
+            .delay(0.5)
+            .call(()=>{
+                console.error('on_msg_enter_game_ret')
+                roomMgr.on_msg_enter_game_ret({ otherInfosList: [],
+                    retCode: 0,
+                    gameInfo:
+                        { gameType: 185,
+                            roomId: 1854901,
+                            userId: 1639315697,
+                            clubId: 0,
+                            recordId: 639479316185492,
+                            clubCreateType: 1,
+                            bloodLevel: 0,
+                            bloodRate: 0,
+                            firstBankerId: 0,
+                            lastWinnerId: 0,
+                            multiple: 0 },
+                    selfInfo:
+                        { userId: cc.dd.user.id,
+                            name: 'guest1639315697',
+                            sex: 1,
+                            headUrl: '',
+                            openId: '',
+                            isReady: false,
+                            seat: 0,
+                            state: 1,
+                            coin: 4000,
+                            robot: false,
+                            aiLevel: 0,
+                            winTimes: 0,
+                            totalTimes: 0,
+                            level: 1,
+                            exp: 0,
+                            vipLevel: 0,
+                            lucky: 0,
+                            isSwitch: false,
+                            netState: 4,
+                            cheatRate: 0,
+                            cheatScore: 0,
+                            cheatState: 0,
+                            score: 4000,
+                            robotLevel: 0,
+                            ip: '125.70.179.172',
+                            rate: 0,
+                            itemNum: 0,
+                            autoFlag: false,
+                            fishBetId: 0,
+                            loginIntervalTime: 71501,
+                            lookPlayer: 0 },
+                    isGetOthers: false,
+                    othersNum: 1,
+                    deskId: 1 });
+            })
+            .start()
     },
 
     // use this for initialization

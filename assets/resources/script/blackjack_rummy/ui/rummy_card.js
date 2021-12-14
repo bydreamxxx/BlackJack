@@ -9,20 +9,32 @@ cc.Class({
     extends: require("com_card"),
 
     properties: {
-        isActive: true,
+        mask: cc.Node,
     },
 
     editor:{
-        menu:"BlackJack/blackjack_card"
+        menu:"Rummy/rummy_card"
     },
 
-    setHide(){
-        this.node.active = false;
-        this.isActive = false;
+    onLoad(){
+        this.hideMask();
     },
 
-    setShow(){
-        this.node.active = true;
-        this.isActive = true;
+    setTargetPos(pos){
+        this.targetPos = pos;
     },
+
+    setTargetValue(card){
+        this.targetValue = card;
+    },
+
+    showMask(){
+        this.mask.active = true;
+
+    },
+
+    hideMask(){
+        this.mask.active = false;
+    }
+
 });

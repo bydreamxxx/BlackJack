@@ -296,7 +296,8 @@ var data_language =
       { key:292,keyword:"text70",en:"GROUP",tc:"團體",in:"समूह",zh:"组合" },
       { key:293,keyword:"text71",en:"DISCARD",tc:"丟棄",in:"डिस्कार्ड",zh:"丢弃" },
       { key:294,keyword:"text72",en:"DROP",tc:"放棄",in:"छोड़ें",zh:"放弃" },
-      { key:295,keyword:"text73",en:"Please wait for other players to join",tc:"請等待其他玩家加入",in:"कृपया अन्य खेलाड़ी के लिए जोड़ने के लिए इंतजार करें",zh:"请等待其他玩家加入" }
+      { key:295,keyword:"text73",en:"Please wait for other players to join",tc:"請等待其他玩家加入",in:"कृपया अन्य खेलाड़ी के लिए जोड़ने के लिए इंतजार करें",zh:"请等待其他玩家加入" },
+      { key:295,keyword:"GAMESTARTIN",en:"GAMESTARTIN {0}...",tc:"請等待其他玩家加入",in:"कृपया अन्य खेलाड़ी के लिए जोड़ने के लिए इंतजार करें",zh:"GAMESTARTIN {0}..." }
     ],
 
     /**

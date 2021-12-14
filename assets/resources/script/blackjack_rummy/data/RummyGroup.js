@@ -157,21 +157,28 @@ let RummyGroup = cc.Class({
         let sortFunc = (a, b)=>{
             let valueA = Math.floor(a / 10);
             let valueB = Math.floor(b / 10);
-            if (valueA < valueB) {
-                return -1;
-            }
-            if (valueA > valueB) {
-                return 1;
-            }
 
-            let colorA = a % 10;
-            let colorB = b % 10;
-
-            if (colorA < colorB) {
+            if(valueA !== 1 && valueB === 1){
                 return -1;
-            }
-            if (colorA > colorB) {
+            }else if(valueA === 1 && valueB !== 1){
                 return 1;
+            }else{
+                if (valueA < valueB) {
+                    return -1;
+                }
+                if (valueA > valueB) {
+                    return 1;
+                }
+
+                let colorA = a % 10;
+                let colorB = b % 10;
+
+                if (colorA < colorB) {
+                    return -1;
+                }
+                if (colorA > colorB) {
+                    return 1;
+                }
             }
 
             return 0;

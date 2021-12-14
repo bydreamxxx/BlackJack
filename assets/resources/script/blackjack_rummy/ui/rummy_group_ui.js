@@ -1,5 +1,7 @@
 const RummyGroup = require("RummyGroup");
-const faPaiPos = [];
+const RummyData = require("RummyData").RummyData.Instance();
+
+const faPaiPos = [cc.v2(-528, 0), cc.v2(-440, 0), cc.v2(-352, 0), cc.v2(-264, 0), cc.v2(-176, 0), cc.v2(-88, 0), cc.v2(0, 0), cc.v2(88, 0), cc.v2(176, 0), cc.v2(264, 0), cc.v2(352, 0), cc.v2(440, 0), cc.v2(528, 0)];
 cc.Class({
     extends: cc.Component,
 
@@ -12,9 +14,15 @@ cc.Class({
         menu:"Rummy/rummy_group_ui"
     },
 
+
+    onLoad(){
+      this.clear();
+    },
+
     clear(){
         this.node.removeAllChildren();
         this.node.width = 0;
+        this.groupList = [];
     },
 
     showFapai(groupList, cardPrefab, startNode, handCardList){
@@ -32,32 +40,33 @@ cc.Class({
 
         this.playList = [];
 
-        let worldPos = startNode.convertToWorldSpace(cc.v2(0, 0));
-        let startPos = this.node.convertToNodeSpace(worldPos);
+        let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let startPos = this.node.convertToNodeSpaceAR(worldPos);
 
         for(let i = handCardList.length - 1; i >= 0; i--){
             for(let j = 0; j < this.groupList.length; j++){
                 let group = this.groupList[j].view;
                 let node = null;
                 for(let k = 0; k < group.childrenCount; k++){
-                    let card = group.children[k].getComponent("blackjack_card");
-                    if(card && card.getCard() === handCardList[i]){
+                    let card = group.children[k].getComponent("rummy_card");
+                    if(card && card.getCard() === handCardList[i] && !card.targetPos){//通过有没有设置过pos去重
                         node = group.children[k];
                         card.setTargetPos(node.position);
 
-                        let group_worldPos = this.node.convertToWorldSpace(faPaiPos[i]);
-                        let group_startPos = group.convertToNodeSpace(group_worldPos);
+                        let group_worldPos = this.node.convertToWorldSpaceAR(faPaiPos[i]);
+                        let group_startPos = group.convertToNodeSpaceAR(group_worldPos);
                         node.position = group_startPos;
 
 
                         let playCard = cc.instantiate(cardPrefab);
-                        playCard.getComponent("blackjack_card").init(0);
+                        playCard.getComponent("rummy_card").init(0);
                         this.node.addChild(playCard);
                         playCard.position = startPos;
                         playCard.scaleX = 0.717;
                         playCard.scaleY= 0.717;
-                        playCard.getComponent("blackjack_card").setTargetValue(handCardList[i]);
-                        playCard.getComponent("blackjack_card").setTargetPos(faPaiPos[i]);
+                        playCard.getComponent("rummy_card").setTargetValue(handCardList[i]);
+                        playCard.getComponent("rummy_card").setTargetPos(faPaiPos[i]);
+                        playCard.zIndex = i;
 
                         this.playList.unshift(playCard);
                         break;
@@ -80,13 +89,17 @@ cc.Class({
             this.groupList.forEach(group=>{
                 group.view.active = true;
                 for(let k = 0; k < group.view.childrenCount; k++){
-                    let card = group.view.children[k].getComponent("blackjack_card");
+                    let card = group.view.children[k].getComponent("rummy_card");
                     if(card){
                         let node = group.view.children[k];
                         cc.tween(node)
-                            .to(0.5, {position: card.targetPos}, { easing: 'expoOut'})
+                            .to(0.4, {position: card.targetPos}, { easing: 'expoOut'})
                             .call(()=>{
                                 group.bottom.active = !group.data.isNoGroup();
+                                group.bottom.scaleY = 0;
+                                cc.tween(group.bottom)
+                                    .to(0.3, {scaleY: 1}, { easing: 'quintOut'})
+                                    .start()
                             })
                             .start();
                     }
@@ -100,34 +113,30 @@ cc.Class({
 
             if(index >= this.playList.length){
                 cc.tween(node)
-                    .to(0.5, {position: node.getComponent("blackjack_card").targetPos, scale: 1}, { easing: 'expoOut'})
-                    .delay(0.5)
-                    .to(0.2, {scale: 1.1}, { easing: 'quintIn'})
-                    .to(0.25, {scaleX: 0})
+                    .delay(0.3)
+                    .to(1, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(1)
+                    .to(0.25, {scaleX: 0}, { easing: 'sineOut'})
                     .call(()=> {
-                        node.getComponent("blackjack_card").init(node.getComponent("blackjack_card").targetValue);
+                        node.getComponent("rummy_card").init(node.getComponent("rummy_card").targetValue);
                     })
-                    .to(0.25, {scaleX: 1.1})
-                    .to(0.2, {scale: 1}, { easing: 'quintOut'})
+                    .to(0.25, {scaleX: 1}, { easing: 'sineIn'})
                     .delay(0.5)
                     .call(endFunc)
                     .start();
             }else{
                 cc.tween(node)
-                    .to(0.5, {position: node.getComponent("blackjack_card").targetPos, scale: 1}, { easing: 'expoOut'})
-                    .delay(0.5)
-                    .to(0.2, {scale: 1.1}, { easing: 'quintIn'})
-                    .to(0.25, {scaleX: 0})
+                    .delay(0.3)
+                    .to(1, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(1)
+                    .to(0.25, {scaleX: 0}, { easing: 'sineOut'})
                     .call(()=> {
-                        node.getComponent("blackjack_card").init(node.getComponent("blackjack_card").targetValue);
+                        node.getComponent("rummy_card").init(node.getComponent("rummy_card").targetValue);
                     })
-                    .to(0.25, {scaleX: 1.1})
-                    .to(0.2, {scale: 1}, { easing: 'quintOut'})
+                    .to(0.25, {scaleX: 1}, { easing: 'sineIn'})
                     .start();
             }
-
-
-        }, 0.5, this.playList.length - 1);
+        }, 0.05, this.playList.length - 1);
     },
 
     showFapaiDirect(groupList, cardPrefab){
@@ -154,12 +163,12 @@ cc.Class({
             let middle = isOdd ? Math.floor(showList.length / 2) : showList.length / 2;
             for(let j = 0; j < showList.length; j++){
                 let card = cc.instantiate(cardPrefab);
-                card.getComponent("blackjack_card").init(showList[j]);
+                card.getComponent("rummy_card").init(showList[j]);
                 node.addChild(card);
                 if(isOdd){
-                    card.x = (card.width - 60) * (i - middle);
+                    card.x = (card.width - 60) * (j - middle);
                 }else{
-                    card.x = (card.width - 60) * (i - middle + 0.5);
+                    card.x = (card.width - 60) * (j - middle + 0.5);
                 }
             }
             node.width = 208 * showList.length - 60 * (showList.length - 1);
@@ -215,9 +224,27 @@ cc.Class({
             width += node.width;
         }
 
-        this.node.width = width - 30 * (groupList.length - 1);
+        this.node.width = width + 30 * (groupList.length - 1);
+        let start = -this.node.width / 2;
         for(let i = 0; i < this.groupList.length; i++){
-            this.groupList[i].view.x = -this.node.width / 2 + this.groupList[i].view.width / 2 + (this.groupList[i].view.width + 30) * i;
+            this.groupList[i].view.x = start + this.groupList[i].view.width / 2;
+            start += this.groupList[i].view.width + 30;
+        }
+    },
+
+    updateBaida(){
+        for(let j = 0; j < this.groupList.length; j++){
+            let group = this.groupList[j].view;
+            for(let k = 0; k < group.childrenCount; k++){
+                let card = group.children[k].getComponent("rummy_card");
+                if(card){//通过有没有设置过pos去重
+                    if(RummyData.isBaida(card.getCard())){
+                        card.showMask();
+                    }else{
+                        card.hideMask();
+                    }
+                }
+            }
         }
     }
 });
