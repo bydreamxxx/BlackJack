@@ -16,6 +16,18 @@ cc.Class({
         menu:"BlackJack/blackjack_card"
     },
 
+    init(card, isWaitforFapai){
+        this._super(card);
+
+        if(!cc.dd._.isUndefined(isWaitforFapai)){
+            if(!isWaitforFapai){
+                this.setShow();
+            }else{
+                this.setHide();
+            }
+        }
+    },
+
     setHide(){
         this.node.active = false;
         this.isActive = false;

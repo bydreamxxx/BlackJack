@@ -8,6 +8,7 @@ var handler = {
     },
 
     on_msg_rm_action_change(msg) {
+        RummyData.turn = msg.userid;
         RummyGameMgr.actionChange(msg);
     },
 

@@ -26,6 +26,7 @@ let RummyGameMgr = cc.Class({
             player.resetCD();
         }
         RummyED.notifyEvent(RummyEvent.PLAYER_TURN);
+        RummyED.notifyEvent(RummyEvent.CHECK_BUTTON);
     },
 
     changeState(){
@@ -48,6 +49,8 @@ let RummyGameMgr = cc.Class({
                 player.moPai(RummyData.cardType, msg);
             }
         }
+
+        RummyED.notifyEvent(RummyEvent.CHECK_BUTTON);
     },
 
     gameResult(msg){

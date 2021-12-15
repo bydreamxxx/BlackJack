@@ -3,6 +3,7 @@ let RummyEvent = cc.Enum({
     UPDATE_STATE: "UPDATE_STATE",
     PLAYER_TURN: "PLAYER_TURN",
     SYN_DESK: "SYN_DESK",
+    CHECK_BUTTON: "CHECK_BUTTON",
 });
 
 let RummyED = new cc.dd.EventDispatcher();

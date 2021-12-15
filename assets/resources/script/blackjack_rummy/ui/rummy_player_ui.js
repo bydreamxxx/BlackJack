@@ -211,7 +211,7 @@ let rummy_player_ui = cc.Class({
             cc.error('发牌错误');
             return;
         }
-
+//TODO
         if(type === "0"){
 
         }else{
@@ -249,7 +249,10 @@ let rummy_player_ui = cc.Class({
      * 更新手牌
      */
     updatePoker(){
-        //TODO
+        if(this.viewIdx === 0 && data.pokersList.length !== 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").clear();
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList, this.card);
+        }
     },
 
     /**

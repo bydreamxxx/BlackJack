@@ -7,7 +7,7 @@ let com_card = cc.Class({
         frame: cc.Sprite,
     },
 
-    init(card, isWaitforFapai){
+    init(card){
         this.card = card;
         // let bundle = cc.assetManager.getBundle("blackjack_blackjack");
         // if(bundle){
@@ -19,14 +19,6 @@ let com_card = cc.Class({
         // }
         if(AppCfg.IS_DEBUG)
             cc.find("Label", this.node).getComponent(cc.Label).string = card;
-
-        if(!cc.dd._.isUndefined(isWaitforFapai)){
-            if(!isWaitforFapai){
-                this.setShow();
-            }else{
-                this.setHide();
-            }
-        }
     },
 
     getCard(){
@@ -36,6 +28,23 @@ let com_card = cc.Class({
     change(card){
         this.init(card);
     },
+
+    //针对自己手牌，特殊处理
+    isTouchDown:function (event) {
+        if(!this.node.active || !this._isTouch){
+            return false;
+        }
+        var tmpRect = this.node.getBoundingBoxToWorld();
+        if(tmpRect.contains(event.touch.getLocation())){
+            return true;
+        }
+        return false;
+    },
+
+    setTouchAble(enable){
+        this._isTouch = enable;
+    },
+
 });
 
 module.exports = com_card;

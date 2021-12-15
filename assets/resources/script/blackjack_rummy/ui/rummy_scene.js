@@ -40,8 +40,7 @@ cc.Class({
         dropButton: cc.Button,
         dropLabel: cc.Label,
         showButton: cc.Button,
-        groupButton: cc.Button,
-        discardButton: cc.Button,
+
 
         cardPrefab: cc.Prefab,
         cardListNode: cc.Prefab,
@@ -172,6 +171,11 @@ cc.Class({
             case RummyEvent.SHOW_RESULT:
                 this.showResult(data);
                 break;
+            case RummyEvent.PLAYER_TURN:
+                break;
+            case RummyEvent.CHECK_BUTTON:
+                this.checkButton();
+                break;
             default:
                 break;
         }
@@ -198,6 +202,18 @@ cc.Class({
         this.dropNode.active = false;
         this.invalidShowNode.active = false;
         this.showNode.active = false;
+    },
+
+    checkButton(){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player && RummyData.turn === cc.dd.user.id){
+            let handCards = [].concat(...player.pokersList);
+            this.dropButton.interactable = handCards.length === 13 && RummyData.state === GAME_STATE.PLAYING;
+            this.showButton.interactable = handCards.length === 14 && RummyData.state === GAME_STATE.PLAYING;
+        }else{
+            this.dropButton.interactable = false;
+            this.showButton.interactable = false;
+        }
     },
 
     onClickRule(event, data){
@@ -580,6 +596,8 @@ cc.Class({
 
             let paidui2 = cc.instantiate(this.cardListNode);
             this.cardsNode.addChild(paidui2);
+
+            RummyGameMgr.updateBaida();
         }else{
             let discard = cc.instantiate(this.cardPrefab);
             discard.scaleX = 0.538;

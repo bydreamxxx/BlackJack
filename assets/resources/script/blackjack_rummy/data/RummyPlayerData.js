@@ -122,6 +122,7 @@ let RummyPlayerData = cc.Class({
         if(myList.toString() !== data.handCardsList.toString()){
             cc.error('手牌不正确，重置手牌');
             this.pokersList = data.cardsList.concat();
+            RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
             return;
         }
 
