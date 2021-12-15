@@ -71,6 +71,9 @@ let rummy_player_ui = cc.Class({
             case RummyPlayerEvent.UPDATE_BAIDA:
                 this.updateBaida();
                 break;
+            case RummyPlayerEvent.SET_PAI_TOUCH:
+                this.setPaiTouch(data[1]);
+                break;
             default:
                 break;
         }
@@ -207,16 +210,19 @@ let rummy_player_ui = cc.Class({
      * @param card
      */
     moPai(type, card){
-        if(!cc.dd._.isString(type)){
-            cc.error('发牌错误');
-            return;
-        }
-//TODO
-        if(type === "0"){
+        if(this.viewIdx == 0){
+            if(!cc.dd._.isString(type)){
+                cc.error('发牌错误');
+                return;
+            }
 
-        }else{
-
+            if(type === "0"){
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.card, this.cardNode);
+            }else{
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.card, this.discardNode);
+            }
         }
+
     },
 
     playerEnter(data) {
@@ -238,6 +244,12 @@ let rummy_player_ui = cc.Class({
         this.head.play_chupai_ani(cd);
     },
 
+    setPaiTouch(enable){
+        if(this.viewIdx === 0 && this.playerData.pokersList.length !== 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").setPaiTouch(enable);
+        }
+    },
+
     /**
      * 停止倒计时
      */
@@ -249,7 +261,7 @@ let rummy_player_ui = cc.Class({
      * 更新手牌
      */
     updatePoker(){
-        if(this.viewIdx === 0 && data.pokersList.length !== 0){
+        if(this.viewIdx === 0 && this.playerData.pokersList.length !== 0){
             this.shoupaiNode.getComponent("rummy_group_ui").clear();
             this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList, this.card);
         }

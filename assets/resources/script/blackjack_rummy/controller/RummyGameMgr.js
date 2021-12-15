@@ -30,6 +30,11 @@ let RummyGameMgr = cc.Class({
     },
 
     changeState(){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            player.setPaiTouch(RummyData.state === 2 || RummyData.state === 3)
+        }
+
         RummyED.notifyEvent(RummyEvent.UPDATE_STATE);
     },
 

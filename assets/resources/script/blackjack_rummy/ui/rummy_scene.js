@@ -65,11 +65,23 @@ cc.Class({
                         [ { pokersList: [],
                             userId: cc.dd.user.id,
                             userState: 1,
-                            dropCoin: 1000 } ],
+                            dropCoin: 1000 },
+                            { pokersList: [],
+                                userId: 419432432,
+                                userState: 1,
+                                dropCoin: 1000 },
+                            { pokersList: [],
+                                userId: 704645120,
+                                userState: 1,
+                                dropCoin: 1000 },
+                            { pokersList: [],
+                                userId: 553651326,
+                                userState: 1,
+                                dropCoin: 1000 }],
                     bjState: 0,
                     lastTime: 5,
                     roomConfigId: 18501,
-                    turn: 1639315697,
+                    turn: cc.dd.user.id,
                     turnLeftTime: 5,
                     banker: cc.dd.user.id,
                     xcard: 0,
@@ -78,11 +90,26 @@ cc.Class({
             .delay(5)
             .call(()=>{
                 console.error('on_msg_rm_info')
-                handler.on_msg_rm_info({ usersList: [],
+                handler.on_msg_rm_info({ usersList: [ { pokersList: [],
+                        userId: cc.dd.user.id,
+                        userState: 1,
+                        dropCoin: 1000 },
+                        { pokersList: [],
+                            userId: 419432432,
+                            userState: 1,
+                            dropCoin: 1000 },
+                        { pokersList: [],
+                            userId: 704645120,
+                            userState: 1,
+                            dropCoin: 1000 },
+                        { pokersList: [],
+                            userId: 553651326,
+                            userState: 1,
+                            dropCoin: 1000 }],
                     bjState: 1,
                     lastTime: 10,
                     roomConfigId: 18502,
-                    turn: 1638971058,
+                    turn: cc.dd.user.id,
                     turnLeftTime: 15,
                     banker: cc.dd.user.id,
                     xcard: 11,
@@ -99,6 +126,20 @@ cc.Class({
             .call(()=>{
                 console.error('msg_rm_state_change_2c')
                 handler.on_msg_rm_state_change_2c({ roomState: 2, curRound: 0, banker: cc.dd.user.id });
+            })
+            .delay(0.1)
+            .call(()=>{
+                console.error('msg_rm_action_change')
+                handler.on_msg_rm_action_change({ userId: cc.dd.user.id });
+            })
+            .delay(1)
+            .call(()=>{
+                RummyData.cardType="0";
+                console.error('on_msg_rm_deal_poker')
+                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44], [54] ],
+                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
+                    card: 54,
+                    userId: cc.dd.user.id });
             })
             .start()
     },
@@ -291,16 +332,6 @@ cc.Class({
         this.showNode.active = true;
     },
 
-    onClickGroup(event, data){
-        hall_audio_mgr.com_btn_click();
-
-    },
-
-    onClickDiscard(event, data){
-        hall_audio_mgr.com_btn_click();
-
-    },
-
     onClickCloseDrop(event, data){
         hall_audio_mgr.com_btn_click();
         this.dropNode.active = false;
@@ -481,6 +512,11 @@ cc.Class({
 
                     let paidui2 = cc.instantiate(this.cardListNode);
                     this.cardsNode.addChild(paidui2);
+
+                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                    if(player){
+                        player.setPaiTouch(RummyData.state === 2 || RummyData.state === 3)
+                    }
                 }
             }else{
                 this.tipsNode.active = true;
@@ -538,24 +574,24 @@ cc.Class({
         //         break;
             case GAME_STATE.PLAYING:
                 RummyGameMgr.updateBaida();
-        //         this.bottomNode.active = false;
-        //         this.tipsNode.active = false;
-        //         this.switchButtonNode.active = false;
-        //
-        //         this.dropNode.active = false;
-        //         this.invalidShowNode.active = false;
-        //         this.showNode.active = false;
-        //
-        //         if(RoomMgr.Instance().player_mgr.isUserPlaying()){
-        //             this.bottomNode.active = true;
-        //         }else{
-        //             this.tipsNode.active = true;
-        //             this.tipsLabel.setText('WAITING');
-        //         }
-        //
-        //         this.cardsNode.active = true;
-        //         this.showcardNode.active = true;
-        //         this.discardNode.active = true;
+                this.bottomNode.active = false;
+                this.tipsNode.active = false;
+                this.switchButtonNode.active = false;
+
+                this.dropNode.active = false;
+                this.invalidShowNode.active = false;
+                this.showNode.active = false;
+
+                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+                    this.bottomNode.active = true;
+                }else{
+                    this.tipsNode.active = true;
+                    this.tipsLabel.setText('WAITING');
+                }
+
+                this.cardsNode.active = true;
+                this.showcardNode.active = true;
+                this.discardNode.active = true;
                 break;
         //     case GAME_STATE.GROUPING:
         //         break;

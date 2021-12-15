@@ -8,6 +8,7 @@ let RummyPlayerEvent = cc.Enum({
     MO_PAI: "MO_PAI",
     UPDATE_POKER: "UPDATE_POKER",
     UPDATE_BAIDA: "UPDATE_BAIDA",
+    SET_PAI_TOUCH: "SET_PAI_TOUCH",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -144,6 +145,10 @@ let RummyPlayerData = cc.Class({
 
     setReady(ready){
 
+    },
+
+    setPaiTouch(enable){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_PAI_TOUCH, [this, enable]);
     },
 
     updatePoker(pokersList){

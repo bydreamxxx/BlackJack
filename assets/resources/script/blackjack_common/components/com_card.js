@@ -30,12 +30,12 @@ let com_card = cc.Class({
     },
 
     //针对自己手牌，特殊处理
-    isTouchDown:function (event) {
+    isTouchDown:function (location) {
         if(!this.node.active || !this._isTouch){
             return false;
         }
         var tmpRect = this.node.getBoundingBoxToWorld();
-        if(tmpRect.contains(event.touch.getLocation())){
+        if(tmpRect.contains(location)){
             return true;
         }
         return false;
