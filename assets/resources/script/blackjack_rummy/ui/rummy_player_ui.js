@@ -74,6 +74,8 @@ let rummy_player_ui = cc.Class({
             case RummyPlayerEvent.SET_PAI_TOUCH:
                 this.setPaiTouch(data[1]);
                 break;
+            case RummyPlayerEvent.CHECK_CAN_MOPAI:
+                this.checkCanMopai();
             default:
                 break;
         }
@@ -98,6 +100,12 @@ let rummy_player_ui = cc.Class({
 
         if(this.viewIdx == 0){
             this.shoupaiNode.getComponent("rummy_group_ui").clear();
+        }
+    },
+
+    checkCanMopai(){
+        if(this.viewIdx == 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").checkCanMopai(this.playerData.pokersList);
         }
     },
 
@@ -161,15 +169,15 @@ let rummy_player_ui = cc.Class({
      * 打牌
      * @param card
      */
-    giveUpPoker(card){
+    giveUpPoker(card, playerHasCard){
         if(this.viewIdx !== 0){
             let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
             let startPos = this.discardNode.convertToNodeSpaceAR(worldPos);
 
             let cardNode = cc.instantiate(this.card);
             cardNode.getComponent("rummy_card").init(card);
-            cardNode.scaleX =  0.385;
-            cardNode.scaleY=  0.385;
+            cardNode.scaleX = 0.385;
+            cardNode.scaleY = 0.385;
 
             this.discardNode.addChild(cardNode);
             cardNode.position = startPos;
@@ -180,26 +188,20 @@ let rummy_player_ui = cc.Class({
                 .start();
         }else{
             let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
-            if(cardNode){
-                if(cardNode.getComponent("rummy_card").getCard() !== card){
-                    cc.error(`打牌错误 ${cardNode.getComponent("rummy_card").getCard()} ${card}`)
+            if(cardNode && cardNode.getComponent("rummy_card").getCard() === card){
+            }else{
+                if(playerHasCard){
+                    this.shoupaiNode.getComponent("rummy_group_ui").giveUpPoker(card, this.card, this.discardNode);
+                }else{
+                    cc.error(`打牌错误 ${card}`)
 
                     let cardNode = cc.instantiate(this.card);
                     cardNode.getComponent("rummy_card").init(card);
-                    cardNode.scaleX =  0.538;
-                    cardNode.scaleY=  0.538;
+                    cardNode.scaleX = 0.538;
+                    cardNode.scaleY = 0.538;
 
                     this.discardNode.addChild(cardNode);
                 }
-            }else{
-                cc.error(`打牌错误 没有弃牌堆 ${card}`)
-
-                let cardNode = cc.instantiate(this.card);
-                cardNode.getComponent("rummy_card").init(card);
-                cardNode.scaleX =  0.538;
-                cardNode.scaleY=  0.538;
-
-                this.discardNode.addChild(cardNode);
             }
         }
     },

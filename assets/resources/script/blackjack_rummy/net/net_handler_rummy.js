@@ -70,6 +70,10 @@ var handler = {
                     break;
             }
             cc.dd.PromptBoxUtil.show(str);
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player){
+                player.updatePoker();
+            }
         }
     },
 

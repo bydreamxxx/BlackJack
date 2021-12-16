@@ -24,6 +24,7 @@ let RummyGameMgr = cc.Class({
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
             player.resetCD();
+            player.checkCanMoPai();
         }
         RummyED.notifyEvent(RummyEvent.PLAYER_TURN);
         RummyED.notifyEvent(RummyEvent.CHECK_BUTTON);

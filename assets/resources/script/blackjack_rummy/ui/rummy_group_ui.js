@@ -14,6 +14,9 @@ cc.Class({
         groupButton: cc.Button,
         discardButton: cc.Button,
 
+        cardsNodeButton: cc.Node,
+        discardNodeButton: cc.Node,
+
         touchNode: cc.Node,
     },
 
@@ -36,6 +39,12 @@ cc.Class({
         this.node.width = 0;
         this.groupList = [];
         this.touchList = [];
+        this.first = -1;
+        this.second = -1;
+
+        this.cardsNodeButton.active = false;
+        this.discardNodeButton.active = false;
+
         this.checkButton();
     },
 
@@ -44,12 +53,78 @@ cc.Class({
         this.discardButton.interactable = this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
     },
 
+    checkCanMopai(cardList){
+        let list = [].concat(...cardList)
+
+        this.cardsNodeButton.active = list.length === 13;
+        this.discardNodeButton.active = list.length === 13;
+    },
+
+    giveUpPoker(cardId, cardPrefab, endNode){
+        let findCard = null;
+        for(let j = 0; j < this.groupList.length; j++){
+            let group = this.groupList[j].view;
+            for(let k = 0; k < group.childrenCount; k++){
+                let card = group.children[k].getComponent("rummy_card");
+                if(card && card.getCard() === cardId){
+                    this.groupList[j].data.delCard(cardId);
+                    findCard = group.children[k];
+                    break;
+                }
+            }
+
+            if(findCard){
+                this.updateGroupBottom(this.groupList[j], j);
+                break;
+            }
+        }
+
+        if(findCard){
+            findCard.active = false;
+            let playCard = cc.instantiate(cardPrefab);
+            playCard.getComponent("rummy_card").init(cardId);
+            endNode.addChild(playCard);
+
+            let worldPos = findCard.parent.convertToWorldSpaceAR(findCard.position);
+            let startPos = endNode.convertToNodeSpaceAR(worldPos);
+
+            playCard.position = startPos;
+            playCard.scaleX = 0.75;
+            playCard.scaleY= 0.75;
+            playCard.zIndex = 0;
+
+            cc.tween(playCard)
+                .to(0.1, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
+                .call(()=>{
+                    findCard.destroy();
+                })
+        }
+    },
+
     onClickGroup(event, data){
         hall_audio_mgr.com_btn_click();
 
     },
 
     onClickDiscard(event, data){
+        hall_audio_mgr.com_btn_click();
+
+    },
+
+    onClickGetCard(event, data){
+        hall_audio_mgr.com_btn_click();
+
+        RummyData.cardType = data;
+
+        var msg = new cc.pb.rummy.msg_rm_poker_req();
+        msg.setType(data);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_poker_req, msg, "msg_rm_poker_req", true);
+
+        this.cardsNodeButton.active = false;
+        this.discardNodeButton.active = false;
+    },
+
+    onClickShow(event, data){
         hall_audio_mgr.com_btn_click();
 
     },
@@ -184,9 +259,6 @@ cc.Class({
         this.groupList = [];
         let width = 0;
 
-        let first = -1;
-        let second = -1;
-
         for(let i = 0; i < groupList.length; i++){
             let node = new cc.Node(`RummyGroup_${i}`);
             node.height = 288;
@@ -221,46 +293,8 @@ cc.Class({
             bottom.y = -109;
             bottom.x = 0;
             bottom.scale = 1;
-            bottom.active = !group.isNoGroup();
-            let frame = bottom.getComponent(cc.Sprite);
-            let label = bottom.getComponentInChildren(cc.Label);
 
-            if(!group.isNoGroup() && !group.isNoCorrect()){
-                if(first === -1){
-                    first = i;
-                    if(group.isPure()){
-                        frame.spriteFrame = this.bottomColor[0];
-                        label.string = '1st Life';
-                    }else{
-                        frame.spriteFrame = this.bottomColor[1];
-                        label.string = '1st Life Needed';
-                    }
-                }else if(second === -1){
-                    second = i;
-                    if(group.isImPure()){
-                        frame.spriteFrame = this.bottomColor[0];
-                        label.string = '2nd Life';
-                    }else{
-                        frame.spriteFrame = this.bottomColor[1];
-                        label.string = '2nd Life Needed';
-                    }
-                }else{
-                    frame.spriteFrame = this.bottomColor[0];
-
-                    if(group.isPure()) {
-                        label.string = 'Pure';
-                    }else if(group.isImPure()){
-                        label.string = 'Impure';
-                    }else if(group.isStraight()){
-                        label.string = 'Straight';
-                    }else{
-                        label.string = 'Set';
-                    }
-                }
-            }else{
-                frame.spriteFrame = this.bottomColor[2];
-                label.string = 'Not Correct';
-            }
+            this.updateGroupBottom(groupInfo, i);
 
             width += node.width;
         }
@@ -274,49 +308,78 @@ cc.Class({
     },
 
     showMoPai(cardId, cardPrefab, startNode){
-        let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
-        node.height = 288;
-        this.node.addChild(node);
-
-        let cardList = [cardId];
-        let group = new RummyGroup();
-        group.init(cardList);
-
-        let groupInfo = {data: group, view: node, bottom:null};
-        this.groupList.push(groupInfo);
+        let lastGroup = this.groupList[this.groupList.length - 1];
+        let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let startPos = this.node.convertToNodeSpaceAR(worldPos);
 
         let card = cc.instantiate(cardPrefab);
         card.getComponent("rummy_card").init(cardId);
         card.active = false;
-        node.addChild(card);
 
-        node.width = 208;
-        node.x = this.node.width / 2 + 30 + 104;
+        let offset = 0;
+        let node = null;
 
-        this.node.width += 238;
+        if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
+            lastGroup.data.addCard(cardId);
 
-        let bottom = cc.instantiate(this.bottomNode);
-        node.addChild(bottom);
-        groupInfo.bottom = bottom;
-        bottom.width = node.width;
-        bottom.y = -109;
-        bottom.x = 0;
-        bottom.scale = 1;
-        bottom.active = false;
-        let frame = bottom.getComponent(cc.Sprite);
-        let label = bottom.getComponentInChildren(cc.Label);
+            this.updateGroupBottom(lastGroup, this.groupList.length - 1);
 
-        frame.spriteFrame = this.bottomColor[2];
-        label.string = 'Not Correct';
+            node = lastGroup.view;
+            node.addChild(card);
+            node.width += 148;
+            node.x += 74;
+
+            let isOdd = node.childrenCount % 2 === 1;
+            let middle = isOdd ? Math.floor(node.childrenCount / 2) : node.childrenCount / 2;
+            for(let j = 0; j < node.childrenCount; j++){
+                let _card = node.children[j];
+                if(isOdd){
+                    _card.x = (_card.width - 60) * (j - middle);
+                }else{
+                    _card.x = (_card.width - 60) * (j - middle + 0.5);
+                }
+            }
+
+            this.node.width += 148;
+
+            offset = 74;
+        }else{
+            node = new cc.Node(`RummyGroup_${this.groupList.length}`);
+            node.height = 288;
+            this.node.addChild(node);
+
+            let cardList = [cardId];
+            let group = new RummyGroup();
+            group.init(cardList);
+
+            let groupInfo = {data: group, view: node, bottom:null};
+            this.groupList.push(groupInfo);
 
 
-        let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
-        let startPos = this.node.convertToNodeSpaceAR(worldPos);
+            node.addChild(card);
 
-        node.x -= 119;
-        worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
+            node.width = 208;
+            node.x = this.node.width / 2 + 30 + 104;
+
+            this.node.width += 238;
+
+            let bottom = cc.instantiate(this.bottomNode);
+            node.addChild(bottom);
+            groupInfo.bottom = bottom;
+            bottom.width = node.width;
+            bottom.y = -109;
+            bottom.x = 0;
+            bottom.scale = 1;
+
+            this.updateGroupBottom(groupInfo, this.groupList.length - 1);
+
+            offset = 119;
+        }
+
+        node.x -= offset;
+        worldPos = node.convertToWorldSpaceAR(card.position);
         let endPos = this.node.convertToNodeSpaceAR(worldPos);
-        node.x += 119;
+        node.x += offset;
 
         let playCard = cc.instantiate(cardPrefab);
         if(RummyData.cardType === "0"){
@@ -346,7 +409,7 @@ cc.Class({
         for(let j = 0; j < this.groupList.length; j++) {
             let group = this.groupList[j].view;
             cc.tween(group)
-                .by(0.3, {x: -119}, { easing: 'quartOut'})
+                .by(0.3, {x: -offset}, { easing: 'quartOut'})
                 .start()
         }
 
@@ -368,6 +431,51 @@ cc.Class({
         }
     },
 
+    updateGroupBottom(groupInfo, idx){
+        let group = groupInfo.data;
+        let bottom = groupInfo.bottom;
+
+        bottom.active = !group.isNoGroup();
+        let frame = bottom.getComponent(cc.Sprite);
+        let label = bottom.getComponentInChildren(cc.Label);
+
+        if(!group.isNoGroup() && !group.isNoCorrect()){
+            if(this.first === -1){
+                this.first = idx;
+                if(group.isPure()){
+                    frame.spriteFrame = this.bottomColor[0];
+                    label.string = '1st Life';
+                }else{
+                    frame.spriteFrame = this.bottomColor[1];
+                    label.string = '1st Life Needed';
+                }
+            }else if(this.second === -1){
+                this.second = idx;
+                if(group.isImPure()){
+                    frame.spriteFrame = this.bottomColor[0];
+                    label.string = '2nd Life';
+                }else{
+                    frame.spriteFrame = this.bottomColor[1];
+                    label.string = '2nd Life Needed';
+                }
+            }else{
+                frame.spriteFrame = this.bottomColor[0];
+
+                if(group.isPure()) {
+                    label.string = 'Pure';
+                }else if(group.isImPure()){
+                    label.string = 'Impure';
+                }else if(group.isStraight()){
+                    label.string = 'Straight';
+                }else{
+                    label.string = 'Set';
+                }
+            }
+        }else{
+            frame.spriteFrame = this.bottomColor[2];
+            label.string = 'Not Correct';
+        }
+    },
 
     regTouchEvent: function () {
         this.touchNode.on(cc.Node.EventType.TOUCH_START, this.touchStart.bind(this));

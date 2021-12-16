@@ -9,6 +9,7 @@ let RummyPlayerEvent = cc.Enum({
     UPDATE_POKER: "UPDATE_POKER",
     UPDATE_BAIDA: "UPDATE_BAIDA",
     SET_PAI_TOUCH: "SET_PAI_TOUCH",
+    CHECK_CAN_MOPAI: "CHECK_CAN_MOPAI",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -43,6 +44,10 @@ let RummyPlayerData = cc.Class({
         this.isBanker = false;
     },
 
+    checkCanMoPai(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.CHECK_CAN_MOPAI, [this]);
+    },
+
     dealPoker(type, cardList){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.DEAL_POKER, [this, type, cardList]);
     },
@@ -54,15 +59,17 @@ let RummyPlayerData = cc.Class({
     },
 
     giveUpPoker(card){
+        let playerHasCard = false;
         for(let i = 0; i < this.pokersList.length; i++){
             let group = this.pokersList[i];
             let index = group.indexOf(card);
             if(index != -1){
                 group.splice(index, 1);
+                playerHasCard = true;
                 break;
             }
         }
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card]);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card, playerHasCard]);
     },
 
     init(data){
@@ -152,7 +159,9 @@ let RummyPlayerData = cc.Class({
     },
 
     updatePoker(pokersList){
-        this.pokersList = pokersList.concat();
+        if(pokersList){
+            this.pokersList = pokersList.concat();
+        }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
     },
 

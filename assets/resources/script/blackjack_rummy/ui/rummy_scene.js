@@ -30,9 +30,6 @@ cc.Class({
         cardsNode: cc.Node,
         discardNode: cc.Node,
 
-        cardsNodeButton: cc.Node,
-        discardNodeButton: cc.Node,
-
         dropNode: cc.Node,
         invalidShowNode: cc.Node,
         showNode: cc.Node,
@@ -136,7 +133,7 @@ cc.Class({
             .call(()=>{
                 RummyData.cardType="0";
                 console.error('on_msg_rm_deal_poker')
-                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44], [54] ],
+                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44, 54] ],
                     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
                     card: 54,
                     userId: cc.dd.user.id });
@@ -230,9 +227,6 @@ cc.Class({
         this.showcardNode.active = false;
         this.discardNode.active = false;
 
-        this.cardsNodeButton.active = false;
-        this.discardNodeButton.active = false;
-
         this.bottomNode.active = false;
         this.tipsNode.active = false;
         this.switchButtonNode.active = false;
@@ -312,16 +306,6 @@ cc.Class({
 
     },
 
-    onClickGetCard(event, data){
-        hall_audio_mgr.com_btn_click();
-
-        RummyData.cardType = data;
-
-        var msg = new cc.pb.rummy.msg_rm_poker_req();
-        msg.setType(data);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_poker_req, msg, "msg_rm_poker_req", true);
-    },
-
     onClickShowDrop(event, data){
         hall_audio_mgr.com_btn_click();
         this.dropNode.active = true;
@@ -352,12 +336,6 @@ cc.Class({
         var msg = new cc.pb.rummy.msg_rm_drop_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_drop_req, msg, "msg_rm_drop_req", true);
     },
-
-    onClickShow(event, data){
-        hall_audio_mgr.com_btn_click();
-
-    },
-
 
     playerJoin(data){
         RoomMgr.Instance().player_mgr.otherPlayerEnter(data.roleInfo.userId);
