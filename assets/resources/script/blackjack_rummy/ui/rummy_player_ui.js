@@ -51,7 +51,7 @@ let rummy_player_ui = cc.Class({
                 this.node.active = false;
                 break;
             case RummyPlayerEvent.GIVE_UP_POKER:
-                this.giveUpPoker(data[1]);
+                this.giveUpPoker(data[1], data[2]);
                 break;
             case RummyPlayerEvent.UPDATE_POKER:
                 this.updatePoker();
@@ -67,6 +67,9 @@ let rummy_player_ui = cc.Class({
                 break;
             case RummyPlayerEvent.PLAYER_RESET_CD:
                 this.play_chupai_ani();
+                break;
+            case RummyPlayerEvent.PLAYER_STOP_CD:
+                this.stop_chupai_ani();
                 break;
             case RummyPlayerEvent.UPDATE_BAIDA:
                 this.updateBaida();
@@ -120,7 +123,9 @@ let rummy_player_ui = cc.Class({
         let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
         let endPos = cc.v2(0, 0);
 
-        if(type === "0"){
+        type = parseInt(type);
+
+        if(type === 0){
             cardNode = cc.instantiate(this.card);
             cardNode.getComponent("rummy_card").init(cardList[0]);
 
@@ -161,7 +166,7 @@ let rummy_player_ui = cc.Class({
      */
     faPai(handCardList){
         if(this.viewIdx == 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.card, this.showCardNode, handCardList);
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.showCardNode, handCardList);
         }
     },
 
@@ -184,14 +189,14 @@ let rummy_player_ui = cc.Class({
 
             cc.tween(cardNode)
                 .delay(0.4)
-                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartIn'})
+                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
                 .start();
         }else{
             let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
             if(cardNode && cardNode.getComponent("rummy_card").getCard() === card){
             }else{
                 if(playerHasCard){
-                    this.shoupaiNode.getComponent("rummy_group_ui").giveUpPoker(card, this.card, this.discardNode);
+                    this.shoupaiNode.getComponent("rummy_group_ui").giveUpPoker(card, this.discardNode);
                 }else{
                     cc.error(`打牌错误 ${card}`)
 
@@ -219,9 +224,9 @@ let rummy_player_ui = cc.Class({
             }
 
             if(type === "0"){
-                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.card, this.cardNode);
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.cardNode);
             }else{
-                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.card, this.discardNode);
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.discardNode);
             }
         }
 
@@ -234,7 +239,7 @@ let rummy_player_ui = cc.Class({
         this.node.active = true;
 
         if(this.viewIdx === 0 && data.pokersList.length !== 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList, this.card);
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList);
         }
     },
 
@@ -265,7 +270,7 @@ let rummy_player_ui = cc.Class({
     updatePoker(){
         if(this.viewIdx === 0 && this.playerData.pokersList.length !== 0){
             this.shoupaiNode.getComponent("rummy_group_ui").clear();
-            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList, this.card);
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList);
         }
     },
 

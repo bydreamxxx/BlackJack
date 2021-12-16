@@ -76,15 +76,15 @@ cc.Class({
                                 userState: 1,
                                 dropCoin: 1000 }],
                     bjState: 0,
-                    lastTime: 5,
+                    lastTime: 1,
                     roomConfigId: 18501,
                     turn: cc.dd.user.id,
-                    turnLeftTime: 5,
+                    turnLeftTime: 1,
                     banker: cc.dd.user.id,
                     xcard: 0,
                     giveUp: 0 });
             })
-            .delay(5)
+            .delay(1)
             .call(()=>{
                 console.error('on_msg_rm_info')
                 handler.on_msg_rm_info({ usersList: [ { pokersList: [],
@@ -115,7 +115,10 @@ cc.Class({
             .delay(0.1)
             .call(()=>{
                 console.error('on_msg_rm_deal_poker')
-                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44] ],
+                // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103] ],
+                //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103 ],
+                //     userId: cc.dd.user.id });
+                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83] ,[44] ],
                     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
                     userId: cc.dd.user.id });
             })
@@ -133,11 +136,63 @@ cc.Class({
             .call(()=>{
                 RummyData.cardType="0";
                 console.error('on_msg_rm_deal_poker')
-                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83], [44, 54] ],
+                // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103],  [54] ],
+                //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103, 54 ],
+                //     card: 54,
+                //     userId: cc.dd.user.id });
+                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83],  [44, 54] ],
                     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
                     card: 54,
                     userId: cc.dd.user.id });
             })
+            // .delay(3)
+            // .call(()=>{
+            //     console.error('on_msg_rm_give_up_poker_ack')
+            //     handler.on_msg_rm_give_up_poker_ack({ ret: 0,
+            //         card: 132});
+            // })
+            // .delay(0.4)
+            // .call(()=>{
+            //     console.error('msg_rm_action_change')
+            //     handler.on_msg_rm_action_change({ userId: 419432432 });
+            // })
+            // .delay(1)
+            // .call(()=>{
+            //     console.error('msg_rm_deal_poker_broadcast')
+            //     handler.on_msg_rm_deal_poker_broadcast({ userId: 419432432,
+            //         type: 0,
+            //         cardList: [0]
+            //     });
+            // })
+            // .delay(3)
+            // .call(()=>{
+            //     console.error('msg_rm_give_up_poker_broadcast')
+            //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 419432432,
+            //         type: 0,
+            //         card: 64,
+            //     });
+            // })
+            // .delay(0.4)
+            // .call(()=>{
+            //     console.error('msg_rm_action_change')
+            //     handler.on_msg_rm_action_change({ userId: 704645120 });
+            // })
+            // .delay(1)
+            // .call(()=>{
+            //     console.error('msg_rm_deal_poker_broadcast')
+            //     handler.on_msg_rm_deal_poker_broadcast({ userId: 704645120,
+            //         type: 1,
+            //         cardList: [64]
+            //     });
+            // })
+            // .delay(3)
+            // .call(()=>{
+            //     console.error('msg_rm_give_up_poker_broadcast')
+            //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 704645120,
+            //         type: 0,
+            //         card: 64,
+            //     });
+            // })
             .start()
     },
 

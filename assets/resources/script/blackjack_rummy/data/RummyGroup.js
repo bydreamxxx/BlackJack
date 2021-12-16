@@ -8,7 +8,7 @@ let RummyGroup = cc.Class({
     },
 
     addCard(card, notCheckState){
-        this.cardsList.add(card);
+        this.cardsList.push(card);
         this.cardsList.sort(function (x, y) {
             if (x < y) {
                 return -1;

@@ -2,6 +2,8 @@ const RummyGroup = require("RummyGroup");
 const RummyData = require("RummyData").RummyData.Instance();
 const GAME_STATE = require("RummyData").GAME_STATE;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
+const RummyGameMgr = require("RummyGameMgr");
+const RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 const faPaiPos = [cc.v2(-528, 0), cc.v2(-440, 0), cc.v2(-352, 0), cc.v2(-264, 0), cc.v2(-176, 0), cc.v2(-88, 0), cc.v2(0, 0), cc.v2(88, 0), cc.v2(176, 0), cc.v2(264, 0), cc.v2(352, 0), cc.v2(440, 0), cc.v2(528, 0)];
 cc.Class({
@@ -18,6 +20,8 @@ cc.Class({
         discardNodeButton: cc.Node,
 
         touchNode: cc.Node,
+
+        cardPrefab: cc.Prefab
     },
 
     editor:{
@@ -49,7 +53,7 @@ cc.Class({
     },
 
     checkButton(){
-        this.groupButton.interactable = this.touchList.length > 2 && (RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+        this.groupButton.interactable = this.touchList.length > 1 && (RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
         this.discardButton.interactable = this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
     },
 
@@ -60,7 +64,7 @@ cc.Class({
         this.discardNodeButton.active = list.length === 13;
     },
 
-    giveUpPoker(cardId, cardPrefab, endNode){
+    giveUpPoker(cardId, endNode){
         let findCard = null;
         for(let j = 0; j < this.groupList.length; j++){
             let group = this.groupList[j].view;
@@ -81,7 +85,7 @@ cc.Class({
 
         if(findCard){
             findCard.active = false;
-            let playCard = cc.instantiate(cardPrefab);
+            let playCard = cc.instantiate(this.cardPrefab);
             playCard.getComponent("rummy_card").init(cardId);
             endNode.addChild(playCard);
 
@@ -93,22 +97,167 @@ cc.Class({
             playCard.scaleY= 0.75;
             playCard.zIndex = 0;
 
+            this.removeCardFromGroup(findCard);
+
             cc.tween(playCard)
-                .to(0.1, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
+                .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
                 .call(()=>{
-                    findCard.destroy();
+                    if(cc.dd._.isNumber(this.giveUpCard)){
+                        var msg = new cc.pb.rummy.msg_rm_give_up_poker_req();
+                        msg.setCard(this.giveUpCard);
+                        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_give_up_poker_req, msg, "msg_rm_give_up_poker_req", true);
+
+                        // let temp = this.giveUpCard;
+                        // cc.tween(this.node)
+                        //     .delay(0.01)
+                        //     .call(()=>{
+                        //         let handler = require("net_handler_rummy");
+                        //         handler.on_msg_rm_give_up_poker_ack({ ret: 0,
+                        //             card: temp});
+                        //     })
+                        //     .start()
+
+                        this.giveUpCard = null;
+                    }
                 })
+                .start();
+        }
+    },
+
+    removeCardFromGroup(delCard){
+        let group = delCard.parent;
+        delCard.removeFromParent();
+        delCard.destroy();
+
+        group.width -= 148;
+        let childrenCount = group.childrenCount - 1;
+
+        let isOdd = childrenCount % 2 === 1;
+        let middle = isOdd ? Math.floor(childrenCount / 2) : childrenCount / 2;
+        let i = 0;
+        for(let j = 0; j < group.childrenCount; j++){
+            let _card = group.children[j];
+            if(_card.getComponent("rummy_card")){
+                if(isOdd){
+                    _card.x = (_card.width - 60) * (i - middle);
+                }else{
+                    _card.x = (_card.width - 60) * (i - middle + 0.5);
+                }
+                i++;
+            }else{
+                _card.width = group.width;//这个是底
+            }
+        }
+
+        this.node.width -= 148;
+
+        if(group.childrenCount === 1){
+            this.node.width -= 90;
+            for(let j = this.groupList.length - 1; j >= 0; j--){
+                if(this.groupList[j].view === group){
+                    this.groupList.splice(j, 1);
+                    break;
+                }
+            }
+            group.destroy();
+        }
+
+        let start = -this.node.width / 2;
+        for(let i = 0; i < this.groupList.length; i++){
+            this.groupList[i].view.x = start + this.groupList[i].view.width / 2;
+            start += this.groupList[i].view.width + 30;
         }
     },
 
     onClickGroup(event, data){
         hall_audio_mgr.com_btn_click();
+        if(this.touchList.length > 1){
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player){
+                let list = []
+                this.touchList.forEach(card=>{
+                    let cardID = card.getCard();
+                    list.push(cardID);
 
+                    for(let j = this.groupList.length - 1; j >= 0; j--){
+                        if(this.groupList[j].view === card.node){
+                            this.groupList[j].data.delCard(cardID);
+
+                            let index = player.pokersList[j].indexOf(cardID);
+                            if(index !== -1) {
+                                player.pokersList[j].splice(index, 1);
+                            }
+                            break;
+                        }
+                    }
+
+                    this.removeCardFromGroup(card.node);
+                })
+
+                player.pokersList.unshift(list);
+
+                let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
+                node.height = 288;
+                this.node.addChild(node);
+
+                let group = new RummyGroup();
+                group.init(list);
+
+                let groupInfo = {data: group, view: node, bottom:null};
+                this.groupList.unshift(groupInfo);
+
+                let showList = group.getShowList();
+                let isOdd = showList.length % 2 === 1;
+                let middle = isOdd ? Math.floor(showList.length / 2) : showList.length / 2;
+                for(let j = 0; j < showList.length; j++){
+                    let card = cc.instantiate(this.cardPrefab);
+                    card.getComponent("rummy_card").init(showList[j]);
+                    node.addChild(card);
+                    if(isOdd){
+                        card.x = (card.width - 60) * (j - middle);
+                    }else{
+                        card.x = (card.width - 60) * (j - middle + 0.5);
+                    }
+                }
+                node.width = 208 * showList.length - 60 * (showList.length - 1);
+
+                let bottom = cc.instantiate(this.bottomNode);
+                node.addChild(bottom);
+                groupInfo.bottom = bottom;
+                bottom.width = node.width;
+                bottom.y = -109;
+                bottom.x = 0;
+                bottom.scale = 1;
+
+                this.updateGroupBottom(groupInfo, i);
+
+                this.node.width += node.width + 30;
+                let start = -this.node.width / 2;
+                for(let i = 0; i < this.groupList.length; i++){
+                    this.groupList[i].view.x = start + this.groupList[i].view.width / 2;
+                    start += this.groupList[i].view.width + 30;
+                }
+
+                this.resetSelected();
+
+                this.updateBaida();
+
+                var msg = new cc.pb.rummy.msg_rm_commit_req();
+                msg.setType(player.pokersList);
+                cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
+            }
+        }
     },
 
     onClickDiscard(event, data){
         hall_audio_mgr.com_btn_click();
 
+        if(this.touchList.length === 1){
+            this.giveUpCard = this.touchList[0].getCard();
+            RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: this.giveUpCard});
+
+            this.resetSelected();
+        }
     },
 
     onClickGetCard(event, data){
@@ -141,13 +290,15 @@ cc.Class({
         }
     },
 
-    showFapai(groupList, cardPrefab, startNode, handCardList){
-        this.showFapaiDirect(groupList, cardPrefab);
+    showFapai(groupList, startNode, handCardList){
+        this.showFapaiDirect(groupList);
 
         if(handCardList.length !== faPaiPos.length){
             cc.error(`手牌数量错误 ${handCardList}`);
             return;
         }
+
+        this.isFaPai = true;
 
         this.groupList.forEach(group=>{
             group.view.active = false;
@@ -174,7 +325,7 @@ cc.Class({
                         node.position = group_startPos;
 
 
-                        let playCard = cc.instantiate(cardPrefab);
+                        let playCard = cc.instantiate(this.cardPrefab);
                         playCard.getComponent("rummy_card").init(0);
                         this.node.addChild(playCard);
                         playCard.position = startPos;
@@ -221,6 +372,8 @@ cc.Class({
                     }
                 }
             });
+
+            this.isFaPai = false;
         }
 
         this.schedule(()=>{
@@ -255,7 +408,7 @@ cc.Class({
         }, 0.05, this.playList.length - 1);
     },
 
-    showFapaiDirect(groupList, cardPrefab){
+    showFapaiDirect(groupList){
         this.groupList = [];
         let width = 0;
 
@@ -275,7 +428,7 @@ cc.Class({
             let isOdd = showList.length % 2 === 1;
             let middle = isOdd ? Math.floor(showList.length / 2) : showList.length / 2;
             for(let j = 0; j < showList.length; j++){
-                let card = cc.instantiate(cardPrefab);
+                let card = cc.instantiate(this.cardPrefab);
                 card.getComponent("rummy_card").init(showList[j]);
                 node.addChild(card);
                 if(isOdd){
@@ -307,73 +460,88 @@ cc.Class({
         }
     },
 
-    showMoPai(cardId, cardPrefab, startNode){
+    showMoPai(cardId, startNode){
         let lastGroup = this.groupList[this.groupList.length - 1];
         let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
         let startPos = this.node.convertToNodeSpaceAR(worldPos);
 
-        let card = cc.instantiate(cardPrefab);
+        let card = cc.instantiate(this.cardPrefab);
         card.getComponent("rummy_card").init(cardId);
         card.active = false;
 
         let offset = 0;
         let node = null;
 
-        if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
-            lastGroup.data.addCard(cardId);
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
+                player.pokersList[player.pokersList.length - 1].push(cardId);
+                lastGroup.data.addCard(cardId);
 
-            this.updateGroupBottom(lastGroup, this.groupList.length - 1);
+                this.updateGroupBottom(lastGroup, this.groupList.length - 1);
 
-            node = lastGroup.view;
-            node.addChild(card);
-            node.width += 148;
-            node.x += 74;
+                lastGroup.bottom.removeFromParent(false);
+                node = lastGroup.view;
+                node.addChild(card);
+                node.width += 148;
+                node.x += 74;
+                node.addChild(lastGroup.bottom);
 
-            let isOdd = node.childrenCount % 2 === 1;
-            let middle = isOdd ? Math.floor(node.childrenCount / 2) : node.childrenCount / 2;
-            for(let j = 0; j < node.childrenCount; j++){
-                let _card = node.children[j];
-                if(isOdd){
-                    _card.x = (_card.width - 60) * (j - middle);
-                }else{
-                    _card.x = (_card.width - 60) * (j - middle + 0.5);
+                let childrenCount = node.childrenCount - 1;
+
+                let isOdd = childrenCount % 2 === 1;
+                let middle = isOdd ? Math.floor(childrenCount / 2) : childrenCount / 2;
+                let i = 0;
+                for(let j = 0; j < node.childrenCount; j++){
+                    let _card = node.children[j];
+                    if(_card.getComponent("rummy_card")){
+                        if(isOdd){
+                            _card.x = (_card.width - 60) * (i - middle);
+                        }else{
+                            _card.x = (_card.width - 60) * (i - middle + 0.5);
+                        }
+                        i++;
+                    }else{
+                        _card.width = node.width;//这个是底
+                    }
                 }
+
+                this.node.width += 148;
+
+                offset = 74;
+            }else{
+                player.pokersList.push([cardId]);
+                node = new cc.Node(`RummyGroup_${this.groupList.length}`);
+                node.height = 288;
+                this.node.addChild(node);
+
+                let cardList = [cardId];
+                let group = new RummyGroup();
+                group.init(cardList);
+
+                let groupInfo = {data: group, view: node, bottom:null};
+                this.groupList.push(groupInfo);
+
+
+                node.addChild(card);
+
+                node.width = 208;
+                node.x = this.node.width / 2 + 30 + 104;
+
+                this.node.width += 238;
+
+                let bottom = cc.instantiate(this.bottomNode);
+                node.addChild(bottom);
+                groupInfo.bottom = bottom;
+                bottom.width = node.width;
+                bottom.y = -109;
+                bottom.x = 0;
+                bottom.scale = 1;
+
+                this.updateGroupBottom(groupInfo, this.groupList.length - 1);
+
+                offset = 119;
             }
-
-            this.node.width += 148;
-
-            offset = 74;
-        }else{
-            node = new cc.Node(`RummyGroup_${this.groupList.length}`);
-            node.height = 288;
-            this.node.addChild(node);
-
-            let cardList = [cardId];
-            let group = new RummyGroup();
-            group.init(cardList);
-
-            let groupInfo = {data: group, view: node, bottom:null};
-            this.groupList.push(groupInfo);
-
-
-            node.addChild(card);
-
-            node.width = 208;
-            node.x = this.node.width / 2 + 30 + 104;
-
-            this.node.width += 238;
-
-            let bottom = cc.instantiate(this.bottomNode);
-            node.addChild(bottom);
-            groupInfo.bottom = bottom;
-            bottom.width = node.width;
-            bottom.y = -109;
-            bottom.x = 0;
-            bottom.scale = 1;
-
-            this.updateGroupBottom(groupInfo, this.groupList.length - 1);
-
-            offset = 119;
         }
 
         node.x -= offset;
@@ -381,7 +549,7 @@ cc.Class({
         let endPos = this.node.convertToNodeSpaceAR(worldPos);
         node.x += offset;
 
-        let playCard = cc.instantiate(cardPrefab);
+        let playCard = cc.instantiate(this.cardPrefab);
         if(RummyData.cardType === "0"){
             playCard.getComponent("rummy_card").init(0);
         }else{
@@ -403,6 +571,7 @@ cc.Class({
             .call(()=>{
                 card.active = true;
                 playCard.destroy();
+                card.getComponent("rummy_card").setTouchAble(true);
             })
             .start()
 
@@ -412,7 +581,6 @@ cc.Class({
                 .by(0.3, {x: -offset}, { easing: 'quartOut'})
                 .start()
         }
-
     },
 
     updateBaida(){
@@ -485,6 +653,10 @@ cc.Class({
     },
 
     touchStart: function (event) {
+        if(this.isFaPai){
+            return;
+        }
+
         this.isCanMove = new Date().getTime();
         var pai_touched = this.getTouchPai(event.touch.getLocation());
         if(pai_touched){
@@ -492,7 +664,7 @@ cc.Class({
 
             if(!pai_touched.selected){
                 pai_touched.selected = true;
-                pai_touched.node.y = 144;
+                pai_touched.node.y = 48;
                 this.touchList.push(pai_touched);
             }else{
                 pai_touched.selected = false;

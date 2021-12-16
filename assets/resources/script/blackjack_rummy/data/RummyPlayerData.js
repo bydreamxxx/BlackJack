@@ -2,6 +2,7 @@ let RummyPlayerEvent = cc.Enum({
     PLAYER_ENTER: "PLAYER_ENTER",
     PLAYER_EXIT: "PLAYER_EXIT",
     PLAYER_RESET_CD: "PLAYER_RESET_CD",
+    PLAYER_STOP_CD: "PLAYER_STOP_CD",
     GIVE_UP_POKER: "GIVE_UP_POKER",
     DEAL_POKER: "DEAL_POKER",
     FA_PAI: "FA_PAI",
@@ -60,12 +61,16 @@ let RummyPlayerData = cc.Class({
 
     giveUpPoker(card){
         let playerHasCard = false;
-        for(let i = 0; i < this.pokersList.length; i++){
+        for(let i = this.pokersList.length - 1; i >= 0; i--){
             let group = this.pokersList[i];
             let index = group.indexOf(card);
             if(index != -1){
                 group.splice(index, 1);
                 playerHasCard = true;
+
+                if(group.length === 0){
+                    this.pokersList.splice(i, 1);
+                }
                 break;
             }
         }
@@ -96,8 +101,6 @@ let RummyPlayerData = cc.Class({
     },
 
     moPai(type, data){
-        this.pokersList.push([data.card]);
-
         //降维打击
         let myList = [].concat(...this.pokersList);
         // let newList = [].concat(...cardList);
@@ -106,7 +109,7 @@ let RummyPlayerData = cc.Class({
         // let paiList = myList.concat(data.handCardsList).filter(function(v, i, arr) {
         //     return arr.indexOf(v) === arr.lastIndexOf(v);
         // });
-
+        myList.push(data.card);
         myList.sort(function (x, y) {
             if (x < y) {
                 return -1;
@@ -156,6 +159,10 @@ let RummyPlayerData = cc.Class({
 
     setPaiTouch(enable){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_PAI_TOUCH, [this, enable]);
+    },
+
+    stopCD(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_STOP_CD, [this]);
     },
 
     updatePoker(pokersList){

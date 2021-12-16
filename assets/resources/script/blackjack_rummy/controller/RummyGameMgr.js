@@ -21,6 +21,9 @@ let RummyGameMgr = cc.Class({
     },
 
     actionChange(msg){
+        RoomMgr.Instance().player_mgr.playerList.forEach(player=>{
+            player.stopCD();
+        })
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
             player.resetCD();
