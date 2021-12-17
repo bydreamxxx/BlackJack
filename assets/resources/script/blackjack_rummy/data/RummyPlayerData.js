@@ -11,6 +11,9 @@ let RummyPlayerEvent = cc.Enum({
     UPDATE_BAIDA: "UPDATE_BAIDA",
     SET_PAI_TOUCH: "SET_PAI_TOUCH",
     CHECK_CAN_MOPAI: "CHECK_CAN_MOPAI",
+    SHOW_CARD: "SHOW_CARD",
+    SHOW_INVALIDSHOW: "SHOW_INVALIDSHOW",
+    LOSE_GAME: "LOSE_GAME",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -39,6 +42,7 @@ let RummyPlayerData = cc.Class({
         this.playerData = null;
 
         this.pokersList = [];
+        this.handsList = [];
         this.userState = 0;
         this.dropCoin = 0;
 
@@ -55,7 +59,7 @@ let RummyPlayerData = cc.Class({
 
     faPai(data){
         this.pokersList = data.cardsList.concat();
-
+        this.handsList = [].concat(...this.pokersList);
         RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },
 
@@ -73,6 +77,11 @@ let RummyPlayerData = cc.Class({
                 }
                 break;
             }
+        }
+
+        let index = this.handsList.indexOf(card);
+        if(index != -1){
+            this.handsList.splice(index, 1);
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card, playerHasCard]);
     },
@@ -100,17 +109,21 @@ let RummyPlayerData = cc.Class({
         this.playerData = data;
     },
 
+    loseGame(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
+    },
+
     moPai(type, data){
         //降维打击
-        let myList = [].concat(...this.pokersList);
+        // let myList = [].concat(...this.pokersList);
         // let newList = [].concat(...cardList);
         //
         // //找不同
         // let paiList = myList.concat(data.handCardsList).filter(function(v, i, arr) {
         //     return arr.indexOf(v) === arr.lastIndexOf(v);
         // });
-        myList.push(data.card);
-        myList.sort(function (x, y) {
+        this.handsList.push(data.card);
+        this.handsList.sort(function (x, y) {
             if (x < y) {
                 return -1;
             }
@@ -130,9 +143,10 @@ let RummyPlayerData = cc.Class({
             return 0;
         });
 
-        if(myList.toString() !== data.handCardsList.toString()){
+        if(this.handsList.toString() !== data.handCardsList.toString()){
             cc.error('手牌不正确，重置手牌');
             this.pokersList = data.cardsList.concat();
+            this.handsList = data.handCardsList;
             RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
             return;
         }
@@ -161,13 +175,22 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_PAI_TOUCH, [this, enable]);
     },
 
+    showCard(cardID){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.SHOW_CARD, [this, cardID]);
+    },
+
     stopCD(){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_STOP_CD, [this]);
+    },
+
+    showInvalidShow(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.SHOW_INVALIDSHOW, [this]);
     },
 
     updatePoker(pokersList){
         if(pokersList){
             this.pokersList = pokersList.concat();
+            this.handsList = [].concat(...this.pokersList);
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
     },

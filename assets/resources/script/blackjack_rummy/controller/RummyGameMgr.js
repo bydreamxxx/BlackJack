@@ -74,6 +74,27 @@ let RummyGameMgr = cc.Class({
         }
     },
 
+    loseGame(){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            player.loseGame();
+        }
+        RummyED.notifyEvent(RummyEvent.LOSE_GAME);
+    },
+
+    showCard(msg){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
+        if(player){
+            player.showCard(msg.showCard);
+        }
+    },
+
+    showInvalidShow(){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            player.showInvalidShow();
+        }
+    },
 
     synGiveupPoker(msg){
         RummyData.xcard = msg.xcard;

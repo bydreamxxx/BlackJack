@@ -4,6 +4,7 @@ let RummyEvent = cc.Enum({
     PLAYER_TURN: "PLAYER_TURN",
     SYN_DESK: "SYN_DESK",
     CHECK_BUTTON: "CHECK_BUTTON",
+    LOSE_GAME: "LOSE_GAME",
 });
 
 let RummyED = new cc.dd.EventDispatcher();

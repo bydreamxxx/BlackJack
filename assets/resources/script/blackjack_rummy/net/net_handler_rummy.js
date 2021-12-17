@@ -87,12 +87,16 @@ var handler = {
 
     on_msg_rm_show_ack(msg) {
         if(msg.ret === 0){
+            RummyGameMgr.showCard(msg);
         }else{
             let str = msg.ret;
             switch (msg.ret){
                 case -1:
-                    str = '错误的show';
-                    break;
+                    if(msg.userId === cc.dd.user.id){
+                        RummyGameMgr.showInvalidShow();
+                        RummyGameMgr.loseGame();
+                    }
+                    return;
                 case 1:
                     str = '没有找到用户';
                     break;
@@ -140,6 +144,7 @@ var handler = {
 
     on_msg_rm_drop_ack(msg) {
         if(msg.ret === 0) {
+            RummyGameMgr.loseGame();
         }
     },
 

@@ -79,6 +79,16 @@ let rummy_player_ui = cc.Class({
                 break;
             case RummyPlayerEvent.CHECK_CAN_MOPAI:
                 this.checkCanMopai();
+                break;
+            case RummyPlayerEvent.SHOW_CARD:
+                this.showCard(data[1]);
+                break;
+            case RummyPlayerEvent.SHOW_INVALIDSHOW:
+                this.showInvalidShow();
+                break;
+            case RummyPlayerEvent.LOSE_GAME:
+                this.loseGame();
+                break;
             default:
                 break;
         }
@@ -108,7 +118,7 @@ let rummy_player_ui = cc.Class({
 
     checkCanMopai(){
         if(this.viewIdx == 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").checkCanMopai(this.playerData.pokersList);
+            this.shoupaiNode.getComponent("rummy_group_ui").checkCanMopai(this.playerData.handsList);
         }
     },
 
@@ -211,6 +221,14 @@ let rummy_player_ui = cc.Class({
         }
     },
 
+    loseGame(){
+        if(this.viewIdx === 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").resetSelected();
+            this.shoupaiNode.getComponent("rummy_group_ui").mask.active = true;
+            this.shoupaiNode.getComponent("rummy_group_ui").setPaiTouch(false);
+        }
+    },
+
     /**
      * 摸牌
      * @param type
@@ -254,6 +272,34 @@ let rummy_player_ui = cc.Class({
     setPaiTouch(enable){
         if(this.viewIdx === 0 && this.playerData.pokersList.length !== 0){
             this.shoupaiNode.getComponent("rummy_group_ui").setPaiTouch(enable);
+        }
+    },
+
+    showCard(card){
+        if(this.viewIdx === 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").showCard(card, this.showCardNode);
+        }else{
+            let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
+            let startPos = this.showCardNode.convertToNodeSpaceAR(worldPos);
+
+            let cardNode = cc.instantiate(this.card);
+            cardNode.getComponent("rummy_card").init(card);
+            cardNode.scaleX = 0.385;
+            cardNode.scaleY = 0.385;
+
+            this.showCardNode.addChild(cardNode);
+            cardNode.position = startPos;
+
+            cc.tween(cardNode)
+                .delay(0.4)
+                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
+                .start();
+        }
+    },
+
+    showInvalidShow(){
+        if(this.viewIdx === 0){
+            this.shoupaiNode.getComponent("rummy_group_ui").showInvalidShow();
         }
     },
 

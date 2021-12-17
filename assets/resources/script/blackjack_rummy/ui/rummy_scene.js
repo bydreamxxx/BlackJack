@@ -36,8 +36,6 @@ cc.Class({
 
         dropButton: cc.Button,
         dropLabel: cc.Label,
-        showButton: cc.Button,
-
 
         cardPrefab: cc.Prefab,
         cardListNode: cc.Prefab,
@@ -252,6 +250,13 @@ cc.Class({
             case RoomEvent.on_player_stand:
                 this.playerStand(data[0]);
                 break;
+            case RoomEvent.on_room_replace:
+                if(data[0].retCode === 0){
+                    RummyData.clear();
+                    RoomMgr.Instance().player_mgr.updatePlayerNum();
+                    this.clear();
+                }
+                break;
             case RummyEvent.UPDATE_UI:
                 this.updateUI();
                 break;
@@ -268,6 +273,10 @@ cc.Class({
                 break;
             case RummyEvent.CHECK_BUTTON:
                 this.checkButton();
+                break;
+            case RummyEvent.LOSE_GAME:
+                this.bottomNode.active = false;
+                this.switchButtonNode.active = true;
                 break;
             default:
                 break;
@@ -297,12 +306,9 @@ cc.Class({
     checkButton(){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player && RummyData.turn === cc.dd.user.id){
-            let handCards = [].concat(...player.pokersList);
-            this.dropButton.interactable = handCards.length === 13 && RummyData.state === GAME_STATE.PLAYING;
-            this.showButton.interactable = handCards.length === 14 && RummyData.state === GAME_STATE.PLAYING;
+            this.dropButton.interactable = player.handsList.length === 13 && RummyData.state === GAME_STATE.PLAYING;
         }else{
             this.dropButton.interactable = false;
-            this.showButton.interactable = false;
         }
     },
 
@@ -359,6 +365,11 @@ cc.Class({
     onClickSwitch(event, data){
         hall_audio_mgr.com_btn_click();
 
+        var pbData = new cc.pb.room_mgr.msg_change_room_req();
+        pbData.setGameType(RoomMgr.Instance().gameId);
+        pbData.setRoomCoinId(RummyData.roomConfigId);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_change_room_req, pbData, 'msg_change_room_req', true);
+
     },
 
     onClickShowDrop(event, data){
@@ -379,11 +390,6 @@ cc.Class({
     onClickCloseShow(event, data){
         hall_audio_mgr.com_btn_click();
         this.showNode.active = false;
-    },
-
-    onClickCloseInvalidShow(event, data){
-        hall_audio_mgr.com_btn_click();
-        this.invalidShowNode.active = true;
     },
 
     onClickDrop(event, data){
