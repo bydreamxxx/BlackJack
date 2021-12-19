@@ -110,6 +110,9 @@ let RummyPlayerData = cc.Class({
     },
 
     loseGame(){
+        if(this.userId === cc.dd.user.id){
+            this.playerExit();
+        }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
     },
 

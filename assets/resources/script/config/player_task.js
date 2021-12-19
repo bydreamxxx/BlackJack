@@ -3,8 +3,10 @@ var data_player_task =
     items:
     [
       { key:1,title:"shareTitle",desc:"shareTask",finish_type:1,trigger_num:1,reward_times:1,reward_item:"1001,500",active_num:-1,transition:"gameyj_hall/prefabs/klb_hall_share" },
-      { key:2,title:"blackjackTitle",desc:"blackjackTask",finish_type:2,trigger_num:5,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" },
-      { key:3,title:"TexasHoldemTitle",desc:"TexasHoldemTask",finish_type:2,trigger_num:5,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" }
+      { key:2,title:"blackjackTitle",desc:"blackjackTask",finish_type:2,trigger_num:3,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" },
+      { key:3,title:"TexasHoldemTitle",desc:"TexasHoldemTask",finish_type:2,trigger_num:3,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" },
+      { key:4,title:"TeenpattiTitle",desc:"TeenpattiTask",finish_type:2,trigger_num:3,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" },
+      { key:5,title:"RummyTitle",desc:"RummyTask",finish_type:2,trigger_num:3,reward_times:1,reward_item:"1001,5000",active_num:-1,transition:"" }
     ],
 
     /**

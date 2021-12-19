@@ -25,8 +25,11 @@
         [9820]:{ package_name:'msg', msg_name:'msg_rm_sort_ack', name:msg.msg_rm_sort_ack, func:handler.on_msg_rm_sort_ack, func_name:'on_msg_rm_sort_ack', logtag:'[9820:msg_rm_sort_ack]' },
         [9821]:{ package_name:'msg', msg_name:'msg_rm_drop_req', name:msg.msg_rm_drop_req, func:handler.on_msg_rm_drop_req, func_name:'on_msg_rm_drop_req', logtag:'[9821:msg_rm_drop_req]' },
         [9822]:{ package_name:'msg', msg_name:'msg_rm_drop_ack', name:msg.msg_rm_drop_ack, func:handler.on_msg_rm_drop_ack, func_name:'on_msg_rm_drop_ack', logtag:'[9822:msg_rm_drop_ack]' },
-        [9823]:{ package_name:'msg', msg_name:'rm_result_info', name:msg.rm_result_info, func:handler.on_rm_result_info, func_name:'on_rm_result_info', logtag:'[9823:rm_result_info]' },
-        [9824]:{ package_name:'msg', msg_name:'msg_rm_result', name:msg.msg_rm_result, func:handler.on_msg_rm_result, func_name:'on_msg_rm_result', logtag:'[9824:msg_rm_result]' },
+        [9823]:{ package_name:'msg', msg_name:'msg_drop_score', name:msg.msg_drop_score, func:handler.on_msg_drop_score, func_name:'on_msg_drop_score', logtag:'[9823:msg_drop_score]' },
+        [9824]:{ package_name:'msg', msg_name:'rm_result_info', name:msg.rm_result_info, func:handler.on_rm_result_info, func_name:'on_rm_result_info', logtag:'[9824:rm_result_info]' },
+        [9825]:{ package_name:'msg', msg_name:'msg_rm_result', name:msg.msg_rm_result, func:handler.on_msg_rm_result, func_name:'on_msg_rm_result', logtag:'[9825:msg_rm_result]' },
+        [9826]:{ package_name:'msg', msg_name:'rm_tips_req', name:msg.rm_tips_req, func:handler.on_rm_tips_req, func_name:'on_rm_tips_req', logtag:'[9826:rm_tips_req]' },
+        [9827]:{ package_name:'msg', msg_name:'rm_tips_ack', name:msg.rm_tips_ack, func:handler.on_rm_tips_ack, func_name:'on_rm_tips_ack', logtag:'[9827:rm_tips_ack]' },
 
     };
     module.exports = {

@@ -151,6 +151,19 @@ let RummyGroup = cc.Class({
         this.checkState();
     },
 
+    getPoint(){
+        let point = 0;
+        this.normalList.forEach(card=>{
+            let num = Math.floor(card / 10);
+            if(num === 1 || num >= 10){
+                point += 10;
+            }else{
+                point += num;
+            }
+        });
+        return point;
+    },
+
     getShowList(){
         tempList = [];
 

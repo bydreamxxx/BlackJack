@@ -24,6 +24,8 @@ cc.Class({
         // cc.dd.ResLoader.loadPrefab("gameyj_texas/prefab/texas_wheel_num", function (prefab) {
             
         // }.bind(this));
+        this.numList = []
+        this.bgNode.removeAllChildren()
         for (let i = 0; i < num; i++) {
             let item = cc.instantiate(this.numItem);
             item.active=true

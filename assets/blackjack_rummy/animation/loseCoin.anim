@@ -1,0 +1,79 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "loseCoin",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.5,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "ProgressBar": {
+        "comps": {
+          "cc.ProgressBar": {
+            "progress": [
+              {
+                "frame": 0,
+                "value": 0
+              },
+              {
+                "frame": 0.2,
+                "value": 0
+              },
+              {
+                "frame": 0.5,
+                "value": 1
+              }
+            ]
+          }
+        }
+      },
+      "num": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.35,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "Slider": {
+        "comps": {
+          "cc.Slider": {
+            "progress": [
+              {
+                "frame": 0,
+                "value": 0
+              },
+              {
+                "frame": 0.2,
+                "value": 0
+              },
+              {
+                "frame": 0.5,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "frame": 0.5,
+      "func": "onPlayFinished",
+      "params": []
+    }
+  ]
+}

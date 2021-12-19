@@ -23,9 +23,8 @@ cc.Class({
         tipsLabel: require('LanguageLabel'),
         tipsNode: cc.Node,
         switchButtonNode: cc.Node,
-        betNode: cc.Node,
-        betLabel: cc.Label,
 
+        showcard: cc.Node,
         showcardNode: cc.Node,
         cardsNode: cc.Node,
         discardNode: cc.Node,
@@ -40,6 +39,8 @@ cc.Class({
         cardPrefab: cc.Prefab,
         cardListNode: cc.Prefab,
 
+        centerChipNode: cc.Node,
+
         _fixedTimeStep: 1/30,
         _lastTime: 0,
     },
@@ -51,147 +52,157 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     start(){
-        let handler = require("net_handler_rummy");
-        cc.tween(this.node)
-            .delay(1)
-            .call(()=>{
-                console.error('on_msg_rm_info')
-                handler.on_msg_rm_info({ usersList:
-                        [ { pokersList: [],
-                            userId: cc.dd.user.id,
-                            userState: 1,
-                            dropCoin: 1000 },
-                            { pokersList: [],
-                                userId: 419432432,
-                                userState: 1,
-                                dropCoin: 1000 },
-                            { pokersList: [],
-                                userId: 704645120,
-                                userState: 1,
-                                dropCoin: 1000 },
-                            { pokersList: [],
-                                userId: 553651326,
-                                userState: 1,
-                                dropCoin: 1000 }],
-                    bjState: 0,
-                    lastTime: 1,
-                    roomConfigId: 18501,
-                    turn: cc.dd.user.id,
-                    turnLeftTime: 1,
-                    banker: cc.dd.user.id,
-                    xcard: 0,
-                    giveUp: 0 });
-            })
-            .delay(1)
-            .call(()=>{
-                console.error('on_msg_rm_info')
-                handler.on_msg_rm_info({ usersList: [ { pokersList: [],
-                        userId: cc.dd.user.id,
-                        userState: 1,
-                        dropCoin: 1000 },
-                        { pokersList: [],
-                            userId: 419432432,
-                            userState: 1,
-                            dropCoin: 1000 },
-                        { pokersList: [],
-                            userId: 704645120,
-                            userState: 1,
-                            dropCoin: 1000 },
-                        { pokersList: [],
-                            userId: 553651326,
-                            userState: 1,
-                            dropCoin: 1000 }],
-                    bjState: 1,
-                    lastTime: 10,
-                    roomConfigId: 18502,
-                    turn: cc.dd.user.id,
-                    turnLeftTime: 15,
-                    banker: cc.dd.user.id,
-                    xcard: 11,
-                    giveUp: 103 });
-            })
-            .delay(0.1)
-            .call(()=>{
-                console.error('on_msg_rm_deal_poker')
-                // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103] ],
-                //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103 ],
-                //     userId: cc.dd.user.id });
-                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83] ,[44] ],
-                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
-                    userId: cc.dd.user.id });
-            })
-            .delay(10)
-            .call(()=>{
-                console.error('msg_rm_state_change_2c')
-                handler.on_msg_rm_state_change_2c({ roomState: 2, curRound: 0, banker: cc.dd.user.id });
-            })
-            .delay(0.1)
-            .call(()=>{
-                console.error('msg_rm_action_change')
-                handler.on_msg_rm_action_change({ userId: cc.dd.user.id });
-            })
-            .delay(1)
-            .call(()=>{
-                RummyData.cardType="0";
-                console.error('on_msg_rm_deal_poker')
-                // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103],  [54] ],
-                //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103, 54 ],
-                //     card: 54,
-                //     userId: cc.dd.user.id });
-                handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83],  [44, 54] ],
-                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
-                    card: 54,
-                    userId: cc.dd.user.id });
-            })
-            // .delay(3)
-            // .call(()=>{
-            //     console.error('on_msg_rm_give_up_poker_ack')
-            //     handler.on_msg_rm_give_up_poker_ack({ ret: 0,
-            //         card: 132});
-            // })
-            // .delay(0.4)
-            // .call(()=>{
-            //     console.error('msg_rm_action_change')
-            //     handler.on_msg_rm_action_change({ userId: 419432432 });
-            // })
-            // .delay(1)
-            // .call(()=>{
-            //     console.error('msg_rm_deal_poker_broadcast')
-            //     handler.on_msg_rm_deal_poker_broadcast({ userId: 419432432,
-            //         type: 0,
-            //         cardList: [0]
-            //     });
-            // })
-            // .delay(3)
-            // .call(()=>{
-            //     console.error('msg_rm_give_up_poker_broadcast')
-            //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 419432432,
-            //         type: 0,
-            //         card: 64,
-            //     });
-            // })
-            // .delay(0.4)
-            // .call(()=>{
-            //     console.error('msg_rm_action_change')
-            //     handler.on_msg_rm_action_change({ userId: 704645120 });
-            // })
-            // .delay(1)
-            // .call(()=>{
-            //     console.error('msg_rm_deal_poker_broadcast')
-            //     handler.on_msg_rm_deal_poker_broadcast({ userId: 704645120,
-            //         type: 1,
-            //         cardList: [64]
-            //     });
-            // })
-            // .delay(3)
-            // .call(()=>{
-            //     console.error('msg_rm_give_up_poker_broadcast')
-            //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 704645120,
-            //         type: 0,
-            //         card: 64,
-            //     });
-            // })
-            .start()
+        // let handler = require("net_handler_rummy");
+        // cc.tween(this.node)
+        //     .delay(1)
+        //     .call(()=>{
+        //         console.error('on_msg_rm_info')
+        //         handler.on_msg_rm_info({ usersList:
+        //                 [ { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: cc.dd.user.id,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 419432432,
+        //                         userState: 1,
+        //                         dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 704645120,
+        //                         userState: 1,
+        //                         dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 553651326,
+        //                         userState: 1,
+        //                         dropCoin: 1000 }],
+        //             bjState: 0,
+        //             lastTime: 1,
+        //             roomConfigId: 18501,
+        //             turn: cc.dd.user.id,
+        //             turnLeftTime: 1,
+        //             banker: cc.dd.user.id,
+        //             dropScores: 0,
+        //             xcard: 0,
+        //             giveUp: 0 });
+        //     })
+        //     .delay(1)
+        //     .call(()=>{
+        //         console.error('on_msg_rm_info')
+        //         handler.on_msg_rm_info({ usersList: [ { pokersList: [],
+        //                 groupsList: [],
+        //                 userId: cc.dd.user.id,
+        //                 userState: 1,
+        //                 dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 419432432,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 704645120,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 553651326,
+        //                     userState: 1,
+        //                     dropCoin: 1000 }],
+        //             bjState: 1,
+        //             lastTime: 10,
+        //             roomConfigId: 18502,
+        //             turn: cc.dd.user.id,
+        //             turnLeftTime: 15,
+        //             banker: cc.dd.user.id,
+        //             dropScores: 0,
+        //             xcard: 11,
+        //             giveUp: 103 });
+        //     })
+        //     .delay(0.1)
+        //     .call(()=>{
+        //         console.error('on_msg_rm_deal_poker')
+        //         // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103] ],
+        //         //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103 ],
+        //         //     userId: cc.dd.user.id });
+        //         handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83] ,[44] ],
+        //             handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
+        //             userId: cc.dd.user.id });
+        //     })
+        //     .delay(10)
+        //     .call(()=>{
+        //         console.error('msg_rm_state_change_2c')
+        //         handler.on_msg_rm_state_change_2c({ roomState: 2, curRound: 0, banker: cc.dd.user.id });
+        //     })
+        //     .delay(0.1)
+        //     .call(()=>{
+        //         console.error('msg_rm_action_change')
+        //         handler.on_msg_rm_action_change({ userId: cc.dd.user.id });
+        //     })
+        //     .delay(1)
+        //     .call(()=>{
+        //         RummyData.cardType="0";
+        //         console.error('on_msg_rm_deal_poker')
+        //         // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103],  [54] ],
+        //         //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103, 54 ],
+        //         //     card: 54,
+        //         //     userId: cc.dd.user.id });
+        //         handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 83],  [44, 54] ],
+        //             handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
+        //             card: 54,
+        //             userId: cc.dd.user.id });
+        //     })
+        //     // .delay(3)
+        //     // .call(()=>{
+        //     //     console.error('on_msg_rm_give_up_poker_ack')
+        //     //     handler.on_msg_rm_give_up_poker_ack({ ret: 0,
+        //     //         card: 132});
+        //     // })
+        //     // .delay(0.4)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_action_change')
+        //     //     handler.on_msg_rm_action_change({ userId: 419432432 });
+        //     // })
+        //     // .delay(1)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_deal_poker_broadcast')
+        //     //     handler.on_msg_rm_deal_poker_broadcast({ userId: 419432432,
+        //     //         type: 0,
+        //     //         cardList: [0]
+        //     //     });
+        //     // })
+        //     // .delay(3)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_give_up_poker_broadcast')
+        //     //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 419432432,
+        //     //         type: 0,
+        //     //         card: 64,
+        //     //     });
+        //     // })
+        //     // .delay(0.4)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_action_change')
+        //     //     handler.on_msg_rm_action_change({ userId: 704645120 });
+        //     // })
+        //     // .delay(1)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_deal_poker_broadcast')
+        //     //     handler.on_msg_rm_deal_poker_broadcast({ userId: 704645120,
+        //     //         type: 1,
+        //     //         cardList: [64]
+        //     //     });
+        //     // })
+        //     // .delay(3)
+        //     // .call(()=>{
+        //     //     console.error('msg_rm_give_up_poker_broadcast')
+        //     //     handler.on_msg_rm_give_up_poker_broadcast({ userId: 704645120,
+        //     //         type: 0,
+        //     //         card: 64,
+        //     //     });
+        //     // })
+        //     .start()
     },
 
 
@@ -278,6 +289,9 @@ cc.Class({
                 this.bottomNode.active = false;
                 this.switchButtonNode.active = true;
                 break;
+            case RummyEvent.UPDATE_DROP_COIN:
+                this.updateDropCoin();
+                break;
             default:
                 break;
         }
@@ -286,8 +300,10 @@ cc.Class({
     clear(){
         this.cardsNode.removeAllChildren();
         this.discardNode.removeAllChildren();
+        this.showcardNode.removeAllChildren();
 
         this.cardsNode.active = false;
+        this.showcard.active = false;
         this.showcardNode.active = false;
         this.discardNode.active = false;
 
@@ -295,8 +311,7 @@ cc.Class({
         this.tipsNode.active = false;
         this.switchButtonNode.active = false;
 
-        this.betNode.active = false;
-        this.betLabel.string = '0';
+        this.centerChipNode.active = false;
 
         this.dropNode.active = false;
         this.invalidShowNode.active = false;
@@ -434,10 +449,11 @@ cc.Class({
         this.perPointLabel.string = "";
         this.maxWinLabel.string = "";
 
-        let user = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-        if(user){
-            this.dropLabel.string = user.dropCoin;
-        }
+        this.updateDropCoin();
+
+        this.centerChipNode.active = RummyData.dropScores !== 0;
+        this.centerChipNode.getComponentInChildren(cc.Label).string = RummyData.dropScores;
+
 
         if(RummyData.state === GAME_STATE.WAITING) {
             this.tipsNode.active = true;
@@ -446,6 +462,7 @@ cc.Class({
             this.switchButtonNode.active = true;
         }else{
             this.cardsNode.active = true;
+            this.showcard.active = true;
             this.showcardNode.active = true;
             this.discardNode.active = true;
 
@@ -591,6 +608,7 @@ cc.Class({
         // this.showNode.active = false;
         //
         // this.cardsNode.active = false;
+        // this.showcard.active = false;
         // this.showcardNode.active = false;
         // this.discardNode.active = false;
         //
@@ -603,6 +621,7 @@ cc.Class({
         //         this.showNode.active = false;
         //
         //         this.cardsNode.active = false;
+        //         this.showcard.active = false;
         //         this.showcardNode.active = false;
         //         this.discardNode.active = false;
         //
@@ -629,6 +648,7 @@ cc.Class({
                 }
 
                 this.cardsNode.active = true;
+                this.showcard.active = true;
                 this.showcardNode.active = true;
                 this.discardNode.active = true;
                 break;
@@ -690,4 +710,11 @@ cc.Class({
         }
 
     },
+
+    updateDropCoin(){
+        let user = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(user){
+            this.dropLabel.string = user.dropCoin;
+        }
+    }
 });

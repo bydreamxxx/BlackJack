@@ -5,7 +5,7 @@ cc.Class({
 
     properties: {
         coinLabel: cc.Label,
-        headIcon: cc.Sprite,
+        headIcon: require('klb_hall_Player_Head'),
         nameLabel: cc.Label,
     },
 
@@ -21,19 +21,14 @@ cc.Class({
 
     setData(data) {
         if(this.coinLabel) {
-            this.coinLabel.string = data.score
+            this.coinLabel.string = cc.dd.Utils.getNumToWordTransform(data.score)
         }
         if(this.headIcon) {
-            this.headIcon.string = data.head_url
+            this.headIcon.initHead (0, data.head_url)
         }
         if(this.nameLabel) {
             this.nameLabel.string = data.name
         }
     },
     
-    initHead:function (openId, headUrl, fromFileName) {
-        this.openId = openId;
-        this.headSp.node.active = true;
-        cc.dd.SysTools.loadWxheadH5(this.headSp, cc.dd.Utils.getWX64Url(headUrl));
-    },
 });

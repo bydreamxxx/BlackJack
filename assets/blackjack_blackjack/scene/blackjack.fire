@@ -758,6 +758,18 @@
     "loadTips": {
       "__id__": 571
     },
+    "minBetButton": {
+      "__id__": 392
+    },
+    "maxBetButton": {
+      "__id__": 401
+    },
+    "betButton": {
+      "__id__": 410
+    },
+    "repeatButton": {
+      "__id__": 418
+    },
     "_id": "2f+UmxyuxF0b6eBryX0JhK"
   },
   {
@@ -1182,7 +1194,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 40,
       "height": 130
     },
     "_anchorPoint": {
@@ -1247,7 +1259,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 0,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1259,7 +1271,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        100,
+        20,
         0,
         0,
         0,
@@ -1299,8 +1311,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "短语内容",
-    "_N$string": "短语内容",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1372,7 +1384,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 40,
       "height": 130
     },
     "_resize": 1,
@@ -19127,8 +19139,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19193,8 +19205,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19357,7 +19369,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -19381,8 +19393,12 @@
       "__id__": 386
     },
     "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
+    "_grayMaterial": {
+      "__uuid__": "3a7bb79f-32fd-422e-ada2-96f518fed422"
+    },
     "duration": 0.1,
     "zoomScale": 1.1,
     "clickEvents": [
@@ -19391,7 +19407,7 @@
       }
     ],
     "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
+    "_N$enableAutoGrayEffect": true,
     "_N$transition": 3,
     "transition": 3,
     "_N$normalColor": {
@@ -19512,8 +19528,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19578,8 +19594,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19742,7 +19758,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -19766,8 +19782,12 @@
       "__id__": 395
     },
     "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
+    "_grayMaterial": {
+      "__uuid__": "3a7bb79f-32fd-422e-ada2-96f518fed422"
+    },
     "duration": 0.1,
     "zoomScale": 1.1,
     "clickEvents": [
@@ -19776,7 +19796,7 @@
       }
     ],
     "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
+    "_N$enableAutoGrayEffect": true,
     "_N$transition": 3,
     "transition": 3,
     "_N$normalColor": {
@@ -19894,8 +19914,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -19960,8 +19980,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -20124,7 +20144,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -20148,8 +20168,12 @@
       "__id__": 404
     },
     "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
+    "_grayMaterial": {
+      "__uuid__": "3a7bb79f-32fd-422e-ada2-96f518fed422"
+    },
     "duration": 0.1,
     "zoomScale": 1.1,
     "clickEvents": [
@@ -20158,7 +20182,7 @@
       }
     ],
     "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
+    "_N$enableAutoGrayEffect": true,
     "_N$transition": 3,
     "transition": 3,
     "_N$normalColor": {
@@ -20268,8 +20292,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -20334,8 +20358,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -20498,7 +20522,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -20525,7 +20549,9 @@
     "_normalMaterial": {
       "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
     },
-    "_grayMaterial": null,
+    "_grayMaterial": {
+      "__uuid__": "3a7bb79f-32fd-422e-ada2-96f518fed422"
+    },
     "duration": 0.1,
     "zoomScale": 1.1,
     "clickEvents": [
@@ -21831,8 +21857,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -21897,8 +21923,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -22061,7 +22087,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -22216,8 +22242,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -22282,8 +22308,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -22446,7 +22472,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -22807,7 +22833,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77.81,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -22859,8 +22885,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Split",
-    "_N$string": "Split",
+    "_string": "分牌",
+    "_N$string": "分牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -23271,7 +23297,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 126.76,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -23323,8 +23349,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Double",
-    "_N$string": "Double",
+    "_string": "双倍",
+    "_N$string": "双倍",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -23735,7 +23761,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48.89,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -23787,8 +23813,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Hit",
-    "_N$string": "Hit",
+    "_string": "要牌",
+    "_N$string": "要牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -24197,7 +24223,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 104.53,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -24249,8 +24275,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Stand",
-    "_N$string": "Stand",
+    "_string": "停牌",
+    "_N$string": "停牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -24611,8 +24637,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -24677,8 +24703,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -24742,7 +24768,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77.81,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -24794,8 +24820,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Split",
-    "_N$string": "Split",
+    "_string": "分牌",
+    "_N$string": "分牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -24841,10 +24867,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -24998,8 +25024,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25064,8 +25090,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25129,7 +25155,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 126.76,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -25181,8 +25207,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Double",
-    "_N$string": "Double",
+    "_string": "双倍",
+    "_N$string": "双倍",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -25228,10 +25254,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -25385,8 +25411,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25451,8 +25477,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25516,7 +25542,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48.89,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -25568,8 +25594,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Hit",
-    "_N$string": "Hit",
+    "_string": "要牌",
+    "_N$string": "要牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -25615,10 +25641,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -25770,8 +25796,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25836,8 +25862,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 80
+      "width": 320,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25901,7 +25927,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 104.53,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -25953,8 +25979,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Stand",
-    "_N$string": "Stand",
+    "_string": "停牌",
+    "_N$string": "停牌",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -26000,10 +26026,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "49473e06-eeea-4aab-94a3-26f855ad838c"
+      "__uuid__": "a5415ee5-f6e7-4f3c-8c64-b8020c36e474"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -26878,8 +26904,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Max Bet:",
-    "_N$string": "Max Bet:",
+    "_string": "最大下注:",
+    "_N$string": "最大下注:",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -26951,8 +26977,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Min Bet:",
-    "_N$string": "Min Bet:",
+    "_string": "最小下注:",
+    "_N$string": "最小下注:",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

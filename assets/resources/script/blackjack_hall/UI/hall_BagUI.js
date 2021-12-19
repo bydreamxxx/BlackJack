@@ -165,9 +165,13 @@ cc.Class({
                     }
                 }
             }else{
-                if(data.dataId == 1004 || data.dataId == 1099 || (data.dataId >= 1007 && data.dataId <= 1013 ) || (data.dataId >= 1020 && data.dataId <= 1030) || (data.dataId >= 1036 && data.dataId <= 1043)){//屏蔽魔法表情
+                if(data.dataId == 1004 || data.dataId == 1099 ){
                     continue;
                 }
+                //屏蔽魔法表情
+                // if((data.dataId >= 1007 && data.dataId <= 1013 ) || (data.dataId >= 1020 && data.dataId <= 1030) || (data.dataId >= 1036 && data.dataId <= 1043)){
+                //     continue
+                // }
 
                 if(cc._applyForPayment){
                     if(data.dataId == 1003 || (data.dataId >= 10055 && data.dataId <= 10063) || data.dataId == 1004 || data.dataId == 1099){

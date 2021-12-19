@@ -18,6 +18,9 @@ let rummy_player_ui = cc.Class({
         shoupaiNode: cc.Node,
 
         card: cc.Prefab,
+        chip: cc.Prefab,
+
+        centerChipNode: cc.Node,
     },
 
     editor:{
@@ -227,6 +230,27 @@ let rummy_player_ui = cc.Class({
             this.shoupaiNode.getComponent("rummy_group_ui").mask.active = true;
             this.shoupaiNode.getComponent("rummy_group_ui").setPaiTouch(false);
         }
+
+        let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
+        let endPos = this.node.convertToNodeSpaceAR(worldPos);
+
+        let loseChip = cc.instantiate(this.chip);
+        this.node.addChild(loseChip);
+        loseChip.getComponent("rummy_loseChip").play(this.playerData.dropCoin, ()=>{
+            cc.tween(loseChip)
+                .delay(0.2)
+                .to(0.4, {position: endPos})
+                .call(()=>{
+                    loseChip.destroy();
+
+                    let centerLabel = this.centerChipNode.getComponentInChildren(cc.Label);
+                    if(centerLabel.string === "0"){
+                        this.centerChipNode.active = true;
+                    }
+                    centerLabel.string = parseInt(centerLabel.string) + this.playerData.dropCoin;
+                })
+                .start();
+        });
     },
 
     /**

@@ -1,7 +1,5 @@
 
 
-const data_reward = require('reward')
-// var TaskED = new cc.dd.EventDispatcher();
 var hallData = require('hall_common_data').HallCommonData.getInstance();
 var TaskED = require('hall_task').TaskED;
 

@@ -11,13 +11,14 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        this.show_text = cc.find("label",this.node).getComponent(cc.Label);
+        this.show_text = cc.find("LanguageLabel",this.node).getComponent(cc.Label);
     },
 
     setData: function (data, callback) {
         this.data = data;
         this.call_back = callback;
-        this.show_text.string = cc.dd.Utils.substr(data.text, 0, 12);
+        this.show_text.setText(data.text);
+        this.show_text.setSubstr(0, 12);
     },
 
     intervalTimeCallBack:function (interval) {

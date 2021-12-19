@@ -12,7 +12,6 @@ cc.Class({
         headSp: cc.Node,
         nameLabel: cc.Label,
         coin: cc.Label,
-        point: cc.Label,
         score: cc.Label,
 
         chupai_ani: cc.Node,
@@ -73,10 +72,6 @@ cc.Class({
         this.playerData = null;
 
         this.banker.active = false;
-
-        if(this.point){
-            this.point.string = "0";
-        }
     },
 
     changeCoin(coin){

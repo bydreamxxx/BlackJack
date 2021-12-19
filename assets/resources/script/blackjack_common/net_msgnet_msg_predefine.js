@@ -46,6 +46,7 @@ netCmd.texas = require('c_msg_texas_cmd');
 netCmd.douniu = require('c_msg_douniu_cmd');
 netCmd.slot = require('c_msg_slot_cmd');
 netCmd.activity_collect = require('c_msg_activity_collect_cmd');
+netCmd.race = require('c_msg_race_cmd');
 
 pb.activity_collect = require('c_msg_activity_collect_pb');
 pb.club_1 = require('c_msg_club_1_pb');
@@ -88,5 +89,6 @@ pb.baoxianxiang = require('c_msg_baoxianxiang_pb');
 pb.pk = require('c_msg_pk_pb');
 pb.suoha = require('c_msg_suoha_pb');
 pb.bisai = require('c_msg_bisai_pb');
+pb.race = require('c_msg_race_pb');
 
     

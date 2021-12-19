@@ -86,9 +86,9 @@ cc.Class({
             if (index < 0 || index >= normalTask.length)
                 return;
             var element = normalTask[index];
-            itemNode.tag = element.taskId;
+            itemNode.name = element.taskId.toString();
             itemNode.getChildByName('title').active = false;
-            itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.title);
+            itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.desc);
             itemNode.getChildByName('gold').getComponent(cc.Label).string = element.reward_item.split(',')[1];
             //itemNode.getChildByName('active').getComponent(cc.Label).string = 'X' + element.active_num;
             itemNode.getChildByName('jindu').getComponent(cc.Label).string = element.curNum + '/' + element.trigger_num;
@@ -138,7 +138,7 @@ cc.Class({
             if (index < 0 || index >= normalTask.length)
                 return;
             var element = normalTask[index];
-            itemNode.tag = element.taskId;
+            itemNode.name = element.taskId.toString();
             //itemNode.getChildByName('title').getComponent(cc.Label).string = element.title;
             itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.title);
             itemNode.getChildByName('gold').getComponent(cc.Label).string = element.reward_item.split(',')[1];
@@ -151,7 +151,7 @@ cc.Class({
     },
 
     onClickFinish(event, custom) {
-        var taskId = event.target.parent.tag;
+        var taskId = event.target.parent.name;
         var pObj = new cc.pb.hall.hall_req_draw_task();
         pObj.setTaskId(taskId);
         cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_hall_req_draw_task, pObj,

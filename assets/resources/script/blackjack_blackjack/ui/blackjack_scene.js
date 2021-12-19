@@ -57,6 +57,11 @@ cc.Class({
         startTips: cc.Node,
         stopTips: cc.Node,
         loadTips: cc.Node,
+
+        minBetButton: cc.Button,
+        maxBetButton: cc.Button,
+        betButton: cc.Button,
+        repeatButton: cc.Button,
     },
 
     editor:{
@@ -316,12 +321,22 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         this.sliderNode.active = true;
+
+        this.minBetButton.interactable = false;
+        this.maxBetButton.interactable = false;
+        this.betButton.interactable = false;
+        this.repeatButton.interactable = false;
     },
 
     onClickCloseSlider(){
         hall_audio_mgr.com_btn_click();
 
-        this.sliderNode.active = true;
+        this.sliderNode.active = false;
+
+        this.minBetButton.interactable = true;
+        this.maxBetButton.interactable = true;
+        this.betButton.interactable = true;
+        this.repeatButton.interactable = true;
     },
 
     onClickRepeatBet(event, data){

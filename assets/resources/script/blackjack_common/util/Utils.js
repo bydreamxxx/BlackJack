@@ -282,9 +282,10 @@ var Utils = {
      * @param num
      * @returns {string}
      */
-    getNumToWordTransform: function (num) {
+    getNumToWordTransform: function (num, isMoney) {
         var str = '';
-        if(LanguageMgr.getKind() == "ZH"){
+        let prefix = ''
+        if(LanguageMgr.getKind().toLocaleUpperCase() == "ZH"){
             if (num >= 100000000) {
                 str = (num / 100000000.00).toFixed(1) + '亿';
             } else if (num >= 10000000) {
@@ -294,7 +295,7 @@ var Utils = {
             } else {
                 str = num;
             }
-        }else if(LanguageMgr.getKind() == "TC"){
+        }else if(LanguageMgr.getKind().toLocaleUpperCase() == "TC"){
             if (num >= 100000000) {
                 str = (num / 100000000.00).toFixed(1) + '億';
             } else if (num >= 10000000) {
@@ -303,6 +304,17 @@ var Utils = {
                 str = (num / 10000.00).toFixed(1) + '萬';
             } else {
                 str = num;
+            }
+        }else if(LanguageMgr.getKind().toLocaleUpperCase() == "IN"){
+            if(isMoney) {
+                prefix = '₹'
+            }
+            if (num >= 10000000) {
+                str = prefix + parseFloat((num / 10000000.00).toFixed(1)).toLocaleString('en-IN') + 'Crore'
+            } else if (num >= 100000) {
+                str = prefix + parseFloat((num / 100000.00).toFixed(1)).toLocaleString('en-IN') + 'Lakn'
+            } else {
+                str = prefix + num.toLocaleString('en-IN');
             }
         }else{
             if (num >= 1000000000) {

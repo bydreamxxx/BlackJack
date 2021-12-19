@@ -77,8 +77,9 @@ let rm_user_info = cc.Class({
         let content = {};
         content.userId = this.userId;
         content.userState = this.userState;
-        content.pokersList = this.pokersList;
+        content.groupsList = this.groupsList;
         content.dropCoin = this.dropCoin;
+        content.pokersList = this.pokersList;
 
         return content;
     },
@@ -88,11 +89,14 @@ let rm_user_info = cc.Class({
     setUserState(userState){
         this.userState = userState;
     },
-    setPokersList(pokersList){
-        this.pokersList = pokersList;
+    setGroupsList(groupsList){
+        this.groupsList = groupsList;
     },
     setDropCoin(dropCoin){
         this.dropCoin = dropCoin;
+    },
+    setPokersList(pokersList){
+        this.pokersList = pokersList;
     },
 
 });
@@ -113,6 +117,7 @@ let msg_rm_info = cc.Class({
         content.xcard = this.xcard;
         content.giveUp = this.giveUp;
         content.usersList = this.usersList;
+        content.dropScores = this.dropScores;
 
         return content;
     },
@@ -142,6 +147,9 @@ let msg_rm_info = cc.Class({
     },
     setUsersList(usersList){
         this.usersList = usersList;
+    },
+    setDropScores(dropScores){
+        this.dropScores = dropScores;
     },
 
 });
@@ -361,6 +369,7 @@ let msg_rm_show_ack = cc.Class({
         let content = {};
         content.ret = this.ret;
         content.uid = this.uid;
+        content.showCard = this.showCard;
 
         return content;
     },
@@ -369,6 +378,9 @@ let msg_rm_show_ack = cc.Class({
     },
     setUid(uid){
         this.uid = uid;
+    },
+    setShowCard(showCard){
+        this.showCard = showCard;
     },
 
 });
@@ -462,16 +474,37 @@ let msg_rm_drop_ack = cc.Class({
     getContent(){
         let content = {};
         content.ret = this.ret;
+        content.userId = this.userId;
 
         return content;
     },
     setRet(ret){
         this.ret = ret;
     },
+    setUserId(userId){
+        this.userId = userId;
+    },
 
 });
 
 module.exports.msg_rm_drop_ack = msg_rm_drop_ack;
+
+let msg_drop_score = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.score = this.score;
+
+        return content;
+    },
+    setScore(score){
+        this.score = score;
+    },
+
+});
+
+module.exports.msg_drop_score = msg_drop_score;
 
 let rm_result_info = cc.Class({
     ctor(){
@@ -538,4 +571,38 @@ let msg_rm_result = cc.Class({
 });
 
 module.exports.msg_rm_result = msg_rm_result;
+
+let rm_tips_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.rm_tips_req = rm_tips_req;
+
+let rm_tips_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.result = this.result;
+        content.userId = this.userId;
+
+        return content;
+    },
+    setResult(result){
+        this.result = result;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+
+});
+
+module.exports.rm_tips_ack = rm_tips_ack;
 

@@ -23,8 +23,11 @@ cc.Class({
         touchNode: cc.Node,
         mask: cc.Node,
         invalidShowNode: cc.Node,
+        showNode: cc.Node,
 
-        cardPrefab: cc.Prefab
+        cardPrefab: cc.Prefab,
+
+        point: cc.Label,
     },
 
     editor:{
@@ -52,6 +55,8 @@ cc.Class({
 
         this.cardsNodeButton.active = false;
         this.discardNodeButton.active = false;
+
+        this.point.string = '0';
 
         this.checkButton();
     },
@@ -109,6 +114,8 @@ cc.Class({
 
             this.removeCardFromGroup(findCard);
 
+            this.updatePoint();
+
             cc.tween(playCard)
                 .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
                 .call(()=>{
@@ -159,6 +166,22 @@ cc.Class({
                     this.removeCardFromGroup(card.node);
                 })
 
+                if(this.first !== -1){
+                    if(!this.groupList[this.first].data.isPure()){
+                        this.first = -1;
+                    }
+                }
+
+                if(this.second !== -1){
+                    if(!this.groupList[this.second].data.isImPure()){
+                        this.first = -1;
+                    }
+                }
+
+                for(let j = this.groupList.length - 1; j >= 0; j--){
+                    this.updateGroupBottom(this.groupList[j], j);
+                }
+
                 player.pokersList.unshift(list);
 
                 let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
@@ -189,7 +212,7 @@ cc.Class({
                 bottom.x = 0;
                 bottom.scale = 1;
 
-                this.updateGroupBottom(groupInfo, i);
+                this.updateGroupBottom(groupInfo, 0);
 
                 this.node.width += node.width + 30;
                 this.updateGroupPos();
@@ -197,6 +220,7 @@ cc.Class({
                 this.resetSelected();
 
                 this.updateBaida();
+                this.updatePoint();
 
                 var msg = new cc.pb.rummy.msg_rm_commit_req();
                 msg.setType(player.pokersList);
@@ -236,6 +260,8 @@ cc.Class({
             RummyGameMgr.showCard({userId: cc.dd.user.id, showCard: this.showCardID});
 
             this.resetSelected();
+
+            this.showNode.active = false;
         }
     },
 
@@ -299,6 +325,8 @@ cc.Class({
             }
         }
 
+        this.updatePoint();
+
         if(findCard){
             findCard.active = false;
             let playCard = cc.instantiate(this.cardPrefab);
@@ -336,7 +364,7 @@ cc.Class({
 
                             let index = player.handsList.indexOf(this.showCardID);
                             if(index != -1){
-                                this.handsList.splice(index, 1);
+                                player.handsList.splice(index, 1);
                             }
 
                             var msg = new cc.pb.rummy.msg_rm_show_req();
@@ -351,7 +379,7 @@ cc.Class({
                         //     .delay(0.01)
                         //     .call(()=>{
                         //         let handler = require("net_handler_rummy");
-                        //         handler.on_msg_rm_show_ack({ ret: 0,
+                        //         handler.on_msg_rm_show_ack({ ret: -1,
                         //             userId: cc.dd.user.id,
                         //             showCard: temp});
                         //     })
@@ -365,7 +393,7 @@ cc.Class({
     },
 
     showFapai(groupList, startNode, handCardList){
-        this.showFapaiDirect(groupList);
+        this.showFapaiDirect(groupList, true);
 
         if(handCardList.length !== faPaiPos.length){
             cc.error(`手牌数量错误 ${handCardList}`);
@@ -447,6 +475,7 @@ cc.Class({
                 }
             });
 
+            this.updatePoint();
             this.isFaPai = false;
         }
 
@@ -482,7 +511,7 @@ cc.Class({
         }, 0.05, this.playList.length - 1);
     },
 
-    showFapaiDirect(groupList){
+    showFapaiDirect(groupList, notShowPoint){
         this.groupList = [];
         let width = 0;
 
@@ -523,10 +552,15 @@ cc.Class({
 
         this.node.width = width + 30 * (groupList.length - 1);
         this.updateGroupPos();
+
+        if(!notShowPoint){
+            this.updatePoint();
+        }
     },
 
     showInvalidShow(){
         this.invalidShowNode.active = true;
+        this.invalidShowNode.getComponent("rummy_invalid_show").show(this.first !== -1, this.second !== -1, this.point.string === '0');
     },
 
     showMoPai(cardId, startNode){
@@ -624,6 +658,8 @@ cc.Class({
                 card.active = true;
                 playCard.destroy();
                 card.getComponent("rummy_card").setTouchAble(true);
+
+                this.updatePoint();
             })
             .start()
 
@@ -717,6 +753,16 @@ cc.Class({
             frame.spriteFrame = this.bottomColor[2];
             label.string = 'Not Correct';
         }
+    },
+
+    updatePoint(){
+        let point = 0;
+        this.groupList.forEach(info=>{
+            if(info.data.isNoGroup() || info.data.isNoCorrect()){
+                point += info.data.getPoint();
+            }
+        })
+        this.point.string = point.toString();
     },
 
     regTouchEvent: function () {

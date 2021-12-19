@@ -74,12 +74,15 @@ let RummyGameMgr = cc.Class({
         }
     },
 
-    loseGame(){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+    loseGame(userId){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(userId);
         if(player){
             player.loseGame();
+            RummyData.dropScores += player.dropCoin;
         }
-        RummyED.notifyEvent(RummyEvent.LOSE_GAME);
+        if(userId === cc.dd.user.id){
+            RummyED.notifyEvent(RummyEvent.LOSE_GAME);
+        }
     },
 
     showCard(msg){
@@ -123,6 +126,13 @@ let RummyGameMgr = cc.Class({
             player.updateBaida();
         }
     },
+
+    updateDropCoin(score){
+        RoomMgr.Instance().player_mgr.playerList.forEach(player=>{
+            player.dropCoin = score;
+        });
+        RummyED.notifyEvent(RummyEvent.UPDATE_DROP_COIN);
+    }
 });
 
 module.exports = RummyGameMgr.Instance();

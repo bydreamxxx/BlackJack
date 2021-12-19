@@ -23,8 +23,11 @@
         cmd_msg_rm_sort_ack:9820,
         cmd_msg_rm_drop_req:9821,
         cmd_msg_rm_drop_ack:9822,
-        cmd_rm_result_info:9823,
-        cmd_msg_rm_result:9824,
+        cmd_msg_drop_score:9823,
+        cmd_rm_result_info:9824,
+        cmd_msg_rm_result:9825,
+        cmd_rm_tips_req:9826,
+        cmd_rm_tips_ack:9827,
 
     };
 

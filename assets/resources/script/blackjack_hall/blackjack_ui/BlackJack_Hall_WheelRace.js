@@ -12,15 +12,17 @@ cc.Class({
         rankContext: cc.Node,
         rankItem: cc.Node,
         coinLabel: cc.Label,
+        rulePanel: cc.Node,
 
-        competeList: cc.Node
+        competeList: [cc.Node],
+        rankItemHeight: 100,
     },
 
     // 请求转轮赛数据
     requestWheelRaceInfo() {
-        var msg = new cc.pb.room_mgr.msg_match_race_list_req();
+        var msg = new cc.pb.race.msg_match_race_list_req();
         // msg.setGameType(data.hallGameid);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_match_race_list_req, msg, "msg_match_race_list_req", true);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.race.cmd_msg_match_race_list_req, msg, "msg_match_race_list_req", true);
     },
     // 关闭
     onClose() {
@@ -30,76 +32,110 @@ cc.Class({
     },
     // 打开规则
     onOpenRule() {
-
+        hall_audio_mgr.com_btn_click();
+        this.rulePanel.active = true
+    },
+    onCloseRule() {
+        hall_audio_mgr.com_btn_click();
+        this.rulePanel.active = false;
     },
     loadData() {
         wheelRaceED.addObserver(this);
-        this.coinLabel.string = this.changeNumToCHN(HallPropData.getCoin()) || 0
+        this.coinLabel.string = cc.dd.Utils.getNumToWordTransform(HallPropData.getCoin()) || 0
     },
     loadRank(rank_list) {
         for(let i=0; i<rank_list.length; i++) {
             let item = cc.instantiate(this.rankItem);
-            item.active=true
+            item.active = true;
             item.parent = this.rankContext;
             item.x = 0;
-            item.y = i*100; 
+            // item.y = -i*this.rankItemHeight - this.rankItemHeight/2; 
             let header = item.getComponent('BlakJack_Hall_Race_Header')
             header.setData(rank_list[i])
         }
+        this.rankContext.height = rank_list.length*this.rankItemHeight
     },
     loadCompete(race_list) {
         for(let i=0; i<race_list.length; i++) {
-            let item = this.competeList[i].getComponent('BlackJack_Hall_Weel_item')
+            let item = this.competeList[i].getComponent('BlackJack_Hall_Wheel_item')
             item.setData(race_list[i])
         }
     },
     refreshUI () {
         let raceData = wheelRaceData.getRaceByGameType(0)
+        // raceData = {
+        //     rank_list:[
+        //         {
+        //             rank: 1,
+        //             user_id: 1,
+        //             name: 'jack',
+        //             head_url: '3099.png',
+        //             score: 147
+        //         },
+        //         {
+        //             rank: 2,
+        //             user_id: 2,
+        //             name: 'tom',
+        //             head_url: '3098.png',
+        //             score: 234
+        //         },
+        //         {
+        //             rank: 2,
+        //             user_id: 2,
+        //             name: 'tom',
+        //             head_url: '3097.png',
+        //             score: 234
+        //         },
+        //         {
+        //             rank: 2,
+        //             user_id: 2,
+        //             name: 'tom',
+        //             head_url: '3096.png',
+        //             score: 234
+        //         },
+        //         {
+        //             rank: 2,
+        //             user_id: 2,
+        //             name: 'tom',
+        //             head_url: '3095.png',
+        //             score: 234
+        //         },
+        //         {
+        //             rank: 2,
+        //             user_id: 2,
+        //             name: 'tom',
+        //             head_url: '3094.png',
+        //             score: 234
+        //         }
+        //     ],
+        //     race_list:[{
+        //         sign_fee: {type:0, num: 100},
+        //         pool_num: 777,
+        //         join_num: 845,
+        //         game_type: 0
+        //     },
+        //     {
+        //         sign_fee: {type:0, num: 200},
+        //         pool_num: 888,
+        //         join_num: 845,
+        //         game_type: 1
+        //     },
+        //     {
+        //         sign_fee: {type:0, num: 300},
+        //         pool_num: 999,
+        //         join_num: 845,
+        //         game_type: 2
+        //     }]
+        // }
         this.loadRank(raceData.rank_list)
         this.loadCompete(raceData.race_list)
-    },
-
-    changeNumToCHN: function (num) {
-        var str = '';
-        if (LanguageMgr.getKind() == "ZH") {
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '亿';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千万';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '万';
-            } else {
-                str = num;
-            }
-        } else if (LanguageMgr.getKind() == "TC") {
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '億';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千萬';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '萬';
-            } else {
-                str = num;
-            }
-        } else {
-            if (num >= 1000000000) {
-                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
-            } else if (num >= 10000000) {
-                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
-            } else if (num >= 10000) {
-                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
-            } else {
-                str = num.toLocaleString('en-US');
-            }
-        }
-
-        return str;
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
         this.loadData()
+        // this.refreshUI()
     },
     /**
      * 事件处理

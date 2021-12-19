@@ -1257,6 +1257,7 @@ let xl_game_rule = cc.Class({
         content.yqPin3Rule = this.yqPin3Rule;
         content.xyDdzRule = this.xyDdzRule;
         content.paodekuaiRule = this.paodekuaiRule;
+        content.teenpattiRule = this.teenpattiRule;
 
         return content;
     },
@@ -1298,6 +1299,9 @@ let xl_game_rule = cc.Class({
     },
     setPaodekuaiRule(paodekuaiRule){
         this.paodekuaiRule = paodekuaiRule;
+    },
+    setTeenpattiRule(teenpattiRule){
+        this.teenpattiRule = teenpattiRule;
     },
 
 });

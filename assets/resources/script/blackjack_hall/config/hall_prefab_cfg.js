@@ -208,4 +208,6 @@ module.exports = {
     BJ_HALL_SHOP:"blackjack_hall/prefabs/blackjack/hall/BlackJack_hall_Shop",
     // 转轮赛报名
     BJ_HALL_WHEELRACE_APPLY: "blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_WheelRace",
+    // VIP
+    BJ_HALL_VIP: "blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_VIP",
 };

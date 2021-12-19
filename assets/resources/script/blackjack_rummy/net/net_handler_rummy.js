@@ -144,13 +144,21 @@ var handler = {
 
     on_msg_rm_drop_ack(msg) {
         if(msg.ret === 0) {
-            RummyGameMgr.loseGame();
+            RummyGameMgr.loseGame(msg.userId);
         }
+    },
+
+    on_msg_drop_score(msg){
+        RummyGameMgr.updateDropCoin(msg.score);
     },
 
     on_msg_rm_result(msg) {
         RummyGameMgr.gameResult(msg);
     },
+
+    on_rm_tips_ack(msg){
+
+    }
 };
 
 module.exports = handler;

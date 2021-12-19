@@ -90,7 +90,9 @@ cc.Class({
         firstBet: true,
         m_oChangeBtn: cc.Node,
 
-        //wheelView: require('texas_wheel')
+        wheelView: require('texas_wheel'),
+        wheelRaceResult: require('wheel_race_result'),
+        wheelHeadList: [texas_game_head]
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -113,10 +115,15 @@ cc.Class({
         // cc.gateNet.Instance().startDispatch();
         // this.test();
 
-        // this.wheelView.node.active=true
-        // this.wheelView.setRange(3000, 50000)
-        // this.wheelView.onRunCode(['1','3','7','6','2'])
     },
+    // 加载转轮赛头像
+    loadWheelHead() {
+        this.head_list = []
+        for(let i=0; i<this.wheelHeadList.length; i++) {
+            this.head_list.push(this.wheelHeadList[i])
+        }
+    },
+    
     onDestroy() {
         TEXAS_ED.removeObserver(this);
         RoomED.removeObserver(this);
@@ -282,6 +289,18 @@ cc.Class({
 
     start() {
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
+    },
+
+    playWheelAnim() {
+        this.wheelView.node.active=true
+        // this.wheelView.setRange(3000, 50000)
+        this.wheelView.onRunCode(['1','3','7','6','2'], this.wheelEnd)
+    },
+    wheelEnd() {
+        console.log('wheelEnd')
+        setTimeout(()=>{
+            this.wheelView.node.active = false
+        }, 3000)
     },
 
     /**
@@ -857,6 +876,10 @@ cc.Class({
         //客户端做一个延迟，等待公共牌发完再结算
         this.node.runAction(cc.sequence(cc.delayTime(1), cc.callFunc(function () {
             this.onResultFinish(msg, noCards);
+            // this.showWheelResult({
+            //     rank:2,
+            //     coin:98174151
+            // })
         }.bind(this))));
 
     },
@@ -952,6 +975,12 @@ cc.Class({
         }
         if (!this._totalResult)
             this.texas_op.showOp(OP_TYPE.EXCHANGE);//RESULT);
+    },
+
+    // 显示转轮赛结果 
+    showWheelResult(data) {
+        this.wheelRaceResult.node.active = true
+        this.wheelRaceResult.setResult(data, this.onExit)
     },
 
     showMiddleWinEffect(cardType) {
@@ -1302,6 +1331,7 @@ cc.Class({
                 //if (selfplayer && !selfplayer.joinGame) {
                     this.onDealCard();
                 //}
+                // this.playWheelAnim()
                 break;
 
         }

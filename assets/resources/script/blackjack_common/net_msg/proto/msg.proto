@@ -2534,6 +2534,11 @@ message msg_match_race_list_ret {
 	repeated		match_race_info 	race_list = 3;	// 比赛列表
 }
 
+
+message msg_match_race_reward {
+	repeated match_reward_info reward_list = 1;		// 奖励列表
+}
+
 //房间管理通用协议
 //cmd_start_index=2200
 //cmd_name=room_mgr
@@ -2861,6 +2866,7 @@ message xl_game_rule{
 	optional    yq_pin3_rule_info   yq_pin3_rule = 11;
 	optional	xy_ddz_rule_info	 xy_ddz_rule = 12;
 	optional	paodekuai_rule_info 	paodekuai_rule = 13;
+	optional	teenpatti_rule_info		teenpatti_rule = 14;
 }
 
 //三打一朋友场创建
@@ -8714,8 +8720,9 @@ message msg_rm_state_change_2c{
 message rm_user_info{
 	optional uint32	user_id = 1;
 	optional int32	user_state = 2; //1:正常在玩 2:弃牌  3:围观
-	repeated rm_group	pokers = 3; //手牌
+	repeated rm_group	groups = 3; //手牌
 	optional int32 drop_coin = 4; //drop需要的代价
+	repeated int32	pokers = 5; //手牌
 }
 
 //同步房间信息，用于断线重连
@@ -8729,6 +8736,7 @@ message msg_rm_info{
 	optional int32									xcard				= 7; //百搭牌是那一张
 	optional int32									give_up				= 8; //弃牌堆的第一张牌
 	repeated rm_user_info 							users				= 9;
+	optional int32									drop_scores			= 10; //弃牌玩家的分数
 }
 
 //请求一张牌
@@ -8790,6 +8798,7 @@ message msg_rm_show_req{
 message msg_rm_show_ack{
 	optional int32 		ret = 1; //0:成功， -1:错误的show, 1：没有找到用户 2：不是该用户的轮次 3：没有这张牌 4:groups的牌不是他自己的
 	optional uint32		uid = 2;
+	optional int32		show_card = 3;
 }
 
 message msg_rm_commit_req{
@@ -8799,7 +8808,6 @@ message msg_rm_commit_req{
 message msg_rm_commit_ack{
 	optional int32 		ret = 1; //0:成功
 }
-
 
 //请求自动排序
 message msg_rm_sort_req{
@@ -8816,6 +8824,11 @@ message msg_rm_drop_req{
 
 message msg_rm_drop_ack{
 	optional int32	ret = 1; //0 成功
+	optional uint32	user_id = 2;
+}
+
+message msg_drop_score{
+	optional int32 score = 1;
 }
 
 
@@ -8835,6 +8848,15 @@ message rm_result_info{
 message msg_rm_result{
 	repeated rm_result_info 	results		= 1;
 }
+
+message rm_tips_req{
+}
+
+message rm_tips_ack{
+	optional int32 result = 1[default=0]; //1 没有该用户   2 钱不够
+	optional uint32 user_id = 2;
+}
+
 //-----------------------------rummy------------------ end
 
 //-------------------------------teenpatti--------------------------

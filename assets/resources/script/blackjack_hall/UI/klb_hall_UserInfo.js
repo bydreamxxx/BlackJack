@@ -448,8 +448,11 @@ let userInfo = cc.Class({
         cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.ACTIVITY);
         /************************游戏统计   end************************/
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_DAILY_ACTIVITY, function (prefab) {
-            prefab.getComponent('klb_hall_daily_activeUI').showUI(1);
+        // cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_DAILY_ACTIVITY, function (prefab) {
+        //     prefab.getComponent('klb_hall_daily_activeUI').showUI(1);
+        // });
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_VIP, function (prefab) {
+            // prefab.getComponent('BlackJack_Hall_VIP').showUI(1);
         });
     },
 
@@ -550,6 +553,7 @@ let userInfo = cc.Class({
                 ui.getComponent('klb_hall_ShopLayer').gotoPage(type);
                 // ui.setLocalZOrder(5000);
             }.bind(this));
+            // cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_APPLY);
         }
 
     },
@@ -561,13 +565,16 @@ let userInfo = cc.Class({
     //玩家信息
     userBtnCallBack: function () {
         hall_audio_mgr.com_btn_click();
-        if (cc._useChifengUI || cc._useCardUI) {
-            cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_USERINFO);
-        } else {
-            cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_USERINFO, function (ui) {
-                ui.getComponent('klb_hall_user_info').setData(HallCommonData.getInstance());
-            }.bind(this));
-        }
+        // if (cc._useChifengUI || cc._useCardUI) {
+        //     cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_USERINFO);
+        // } else {
+        //     cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_USERINFO, function (ui) {
+        //         ui.getComponent('klb_hall_user_info').setData(HallCommonData.getInstance());
+        //     }.bind(this));
+        // }
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_VIP, function (prefab) {
+            // prefab.getComponent('BlackJack_Hall_VIP').showUI(1);
+        }.bind(this));
     },
 
     clickWelfareBag: function () {

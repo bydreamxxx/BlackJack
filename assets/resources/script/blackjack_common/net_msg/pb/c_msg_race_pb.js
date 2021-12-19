@@ -97,3 +97,20 @@ let msg_match_race_list_ret = cc.Class({
 
 module.exports.msg_match_race_list_ret = msg_match_race_list_ret;
 
+let msg_match_race_reward = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.rewardListList = this.rewardListList;
+
+        return content;
+    },
+    setRewardListList(rewardListList){
+        this.rewardListList = rewardListList;
+    },
+
+});
+
+module.exports.msg_match_race_reward = msg_match_race_reward;
+

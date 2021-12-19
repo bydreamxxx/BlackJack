@@ -127,14 +127,14 @@ cc.Class({
             this.setItemData(this.itemList[i], i + firstShowIndex);
             // cc.log("this.itemList.x" + i,this.itemList[i].x )
         }
-        let contentPos = this.node.getComponent("cc.ScrollView").getContentPosition();
-        if (this.direction === 0) {
-            contentPos.y = this.node.height / 2 + firstShowIndex * this.itemTemplate.height;
-            this.node.getComponent("cc.ScrollView").setContentPosition(contentPos)
-        } else {
-            contentPos.x = -this.node.width / 2 - firstShowIndex * this.itemTemplate.width;
-            this.node.getComponent("cc.ScrollView").setContentPosition(contentPos)
-        }
+        // let contentPos = this.node.getComponent("cc.ScrollView").getContentPosition();
+        // if (this.direction === 0) {
+        //     contentPos.y = this.node.height / 2 + firstShowIndex * this.itemTemplate.height;
+        //     this.node.getComponent("cc.ScrollView").setContentPosition(contentPos)
+        // } else {
+        //     contentPos.x = -this.node.width / 2 - firstShowIndex * this.itemTemplate.width;
+        //     this.node.getComponent("cc.ScrollView").setContentPosition(contentPos)
+        // }
         this._offset = this.node.getComponent("cc.ScrollView").getScrollOffset();
     },
 

@@ -5,6 +5,7 @@ let RummyEvent = cc.Enum({
     SYN_DESK: "SYN_DESK",
     CHECK_BUTTON: "CHECK_BUTTON",
     LOSE_GAME: "LOSE_GAME",
+    UPDATE_DROP_COIN: "UPDATE_DROP_COIN",
 });
 
 let RummyED = new cc.dd.EventDispatcher();
@@ -58,6 +59,7 @@ let RummyData = cc.Class({
         this.dropCoin = 0;
         // this.selfState = 3;
         this.roomInfo = null;
+        this.dropScores = 0;
     },
 
     clear(){
@@ -76,6 +78,7 @@ let RummyData = cc.Class({
         this.xcard = -1;
         this.giveUp = -1;
         this.dropCoin = 0;
+        this.dropScores = 0;
     },
 
     changeState(msg){
@@ -100,6 +103,7 @@ let RummyData = cc.Class({
         this.giveUp = data.giveUp;
         // this.dropCoin = data.diropCoin;
         // this.selfState = data.selfState;
+        this.dropScores = data.dropScores;
     },
 
     setRoomInfo(info){

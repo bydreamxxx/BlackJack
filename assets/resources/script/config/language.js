@@ -73,7 +73,7 @@ var data_language =
       { key:69,keyword:"trailorset",en:"TRAIL OR SET",tc:"三條",in:"तीन",zh:"三条" },
       { key:70,keyword:"chaal",en:"CHAAL",tc:"下注",in:"शर्त",zh:"下注" },
       { key:71,keyword:"blackjackTitle",en:"BLACKJACK",tc:"21點",in:"BLACKJACK",zh:"21点" },
-      { key:72,keyword:"blackjackTask",en:"Complete 3 games of Blackjack",tc:"完成3局21點遊戲",in:"3 बूर्स Blackjack",zh:"完成3局21点游戏" },
+      { key:72,keyword:"blackjackTask",en:"Complete 3 games of Blackjack",tc:"完成3局21點遊戲",in:"3 खेल खेलें Blackjack",zh:"完成3局21点游戏" },
       { key:73,keyword:"pots",en:"POTS",tc:"底池",in:"पाट",zh:"底池" },
       { key:74,keyword:"call",en:"CALL",tc:"跟註",in:"अनुसरण",zh:"跟注" },
       { key:75,keyword:"fold",en:"FOLD",tc:"棄牌",in:"छोड़ें",zh:"弃牌" },
@@ -136,7 +136,7 @@ var data_language =
       { key:132,keyword:"notbetstatus",en:"Not betting status",tc:"不是下注狀態",in:"बेटिंग स्थिति नहीं",zh:"不是下注状态" },
       { key:133,keyword:"collect",en:"COLLECT",tc:"領取",in:"कलेक्ट",zh:"领取" },
       { key:134,keyword:"TexasHoldemTitle",en:"Texas Holdem",tc:"德州撲克",in:"Texas Holdem",zh:"德州扑克" },
-      { key:135,keyword:"TexasHoldemTask",en:"Complete 3 games of Texas Holdem",tc:"完成3局德州撲克",in:"3 बूर्स Texas Holdem",zh:"完成3局德州扑克" },
+      { key:135,keyword:"TexasHoldemTask",en:"Complete 3 games of Texas Holdem",tc:"完成3局德州撲克",in:"3 खेल खेलें Texas Holdem",zh:"完成3局德州扑克" },
       { key:136,keyword:"share",en:"SHARE",tc:"分享",in:"साझेदार",zh:"分享" },
       { key:137,keyword:"shareTitle",en:"Share tasks",tc:"分享任務",in:"कार्य साझा करें",zh:"分享任务" },
       { key:138,keyword:"shareTask",en:"Share a game with friends",tc:"分享一次遊戲給好友",in:"मित्रों के साथ खेल साझा करें",zh:"分享一次游戏给好友" },
@@ -297,7 +297,12 @@ var data_language =
       { key:293,keyword:"text71",en:"DISCARD",tc:"丟棄",in:"डिस्कार्ड",zh:"丢弃" },
       { key:294,keyword:"text72",en:"DROP",tc:"放棄",in:"छोड़ें",zh:"放弃" },
       { key:295,keyword:"text73",en:"Please wait for other players to join",tc:"請等待其他玩家加入",in:"कृपया अन्य खेलाड़ी के लिए जोड़ने के लिए इंतजार करें",zh:"请等待其他玩家加入" },
-      { key:295,keyword:"GAMESTARTIN",en:"GAMESTARTIN {0}...",tc:"請等待其他玩家加入",in:"कृपया अन्य खेलाड़ी के लिए जोड़ने के लिए इंतजार करें",zh:"GAMESTARTIN {0}..." }
+      { key:296,keyword:"compete",en:"Join",tc:"參賽",in:"जोड़ें",zh:"参赛" },
+      { key:297,keyword:"peoplebattle",en:"{} people in battle",tc:"{}人激戰中",in:"युद्ध में {} लोग",zh:"{}人激战中" },
+      { key:298,keyword:"TeenpattiTitle",en:"Teenpatti",tc:"Teenpatti",in:"Teenpatti",zh:"Teenpatti" },
+      { key:299,keyword:"RummyTitle",en:"Complete 3 games of Teenpatti",tc:"玩3局Teenpatti",in:"3 खेल खेलें Teenpatti",zh:"玩3局Teenpatti" },
+      { key:300,keyword:"TeenpattiTask",en:"Rummy",tc:"Rummy",in:"Rummy",zh:"Rummy" },
+      { key:301,keyword:"RummyTask",en:"Complete 3 games of Rummy",tc:"玩3局Rummy",in:"3 खेल खेलें Rummy",zh:"玩3局Rummy" }
     ],
 
     /**

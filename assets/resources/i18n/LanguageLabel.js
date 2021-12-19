@@ -43,4 +43,11 @@ export default class LanguageLabel extends LanguageComponent {
             }
         }
     }
+
+    setSubstr(start, len) {
+        let label = this.getComponent(cc.Label);
+        if (label) {
+            label.string = cc.dd.Utils.substr(label.string, start, len);
+        }
+    }
 }
