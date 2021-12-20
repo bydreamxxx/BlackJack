@@ -410,6 +410,48 @@ let msg_rm_commit_ack = cc.Class({
     getContent(){
         let content = {};
         content.ret = this.ret;
+        content.uid = this.uid;
+        content.coin = this.coin;
+
+        return content;
+    },
+    setRet(ret){
+        this.ret = ret;
+    },
+    setUid(uid){
+        this.uid = uid;
+    },
+    setCoin(coin){
+        this.coin = coin;
+    },
+
+});
+
+module.exports.msg_rm_commit_ack = msg_rm_commit_ack;
+
+let msg_rm_group_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.groupsList = this.groupsList;
+
+        return content;
+    },
+    setGroupsList(groupsList){
+        this.groupsList = groupsList;
+    },
+
+});
+
+module.exports.msg_rm_group_req = msg_rm_group_req;
+
+let msg_rm_group_ack = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.ret = this.ret;
 
         return content;
     },
@@ -419,7 +461,7 @@ let msg_rm_commit_ack = cc.Class({
 
 });
 
-module.exports.msg_rm_commit_ack = msg_rm_commit_ack;
+module.exports.msg_rm_group_ack = msg_rm_group_ack;
 
 let msg_rm_sort_req = cc.Class({
     ctor(){

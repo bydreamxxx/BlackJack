@@ -141,6 +141,14 @@ cc.Class({
         }
     },
 
+    onClickConfirm(event, data){
+        hall_audio_mgr.com_btn_click();
+
+        var msg = new cc.pb.rummy.msg_rm_commit_req();
+        msg.setType(player.pokersList);
+        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
+    },
+
     onClickGroup(event, data){
         hall_audio_mgr.com_btn_click();
         if(this.touchList.length > 1){
@@ -222,9 +230,9 @@ cc.Class({
                 this.updateBaida();
                 this.updatePoint();
 
-                var msg = new cc.pb.rummy.msg_rm_commit_req();
+                var msg = new cc.pb.rummy.msg_rm_group_req();
                 msg.setType(player.pokersList);
-                cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
+                cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
             }
         }
     },
@@ -581,7 +589,7 @@ cc.Class({
                 player.pokersList[player.pokersList.length - 1].push(cardId);
                 lastGroup.data.addCard(cardId);
 
-                this.updateGroupBottom(lastGroup, this.groupList.length - 1);
+                // this.updateGroupBottom(lastGroup, this.groupList.length - 1);
 
                 lastGroup.bottom.removeFromParent(false);
                 node = lastGroup.view;
@@ -624,7 +632,7 @@ cc.Class({
                 bottom.x = 0;
                 bottom.scale = 1;
 
-                this.updateGroupBottom(groupInfo, this.groupList.length - 1);
+                // this.updateGroupBottom(groupInfo, this.groupList.length - 1);
 
                 offset = 119;
             }
@@ -636,32 +644,42 @@ cc.Class({
         node.x += offset;
 
         let playCard = cc.instantiate(this.cardPrefab);
-        if(RummyData.cardType === "0"){
-            playCard.getComponent("rummy_card").init(0);
-        }else{
-            playCard.getComponent("rummy_card").init(cardId);
-        }
         this.node.addChild(playCard);
         playCard.position = startPos;
         playCard.scaleX = 0.717;
         playCard.scaleY= 0.717;
         playCard.zIndex = 0;
 
-        cc.tween(playCard)
-            .to(0.3, {scale: 1, position: endPos}, { easing: 'expoOut'})
-            .to(0.3, {scaleX: 0}, { easing: 'sineOut'})
-            .call(()=>{
-                playCard.getComponent("rummy_card").init(cardId);
-            })
-            .to(0.3, {scaleX: 1}, { easing: 'sineIn'})
-            .call(()=>{
-                card.active = true;
-                playCard.destroy();
-                card.getComponent("rummy_card").setTouchAble(true);
 
-                this.updatePoint();
-            })
-            .start()
+        let endCall = ()=>{
+            card.active = true;
+            playCard.destroy();
+            card.getComponent("rummy_card").setTouchAble(true);
+
+            this.updateGroupBottom(this.groupList[this.groupList.length - 1], this.groupList.length - 1);
+            this.updatePoint();
+        };
+
+        if(RummyData.cardType === "0"){
+            playCard.getComponent("rummy_card").init(0);
+
+            cc.tween(playCard)
+                .to(0.3, {scale: 1, position: endPos}, { easing: 'expoOut'})
+                .to(0.3, {scaleX: 0}, { easing: 'sineOut'})
+                .call(()=>{
+                    playCard.getComponent("rummy_card").init(cardId);
+                })
+                .to(0.3, {scaleX: 1}, { easing: 'sineIn'})
+                .call(endCall)
+                .start()
+        }else{
+            playCard.getComponent("rummy_card").init(cardId);
+
+            cc.tween(playCard)
+                .to(0.3, {scale: 1, position: endPos}, { easing: 'expoOut'})
+                .call(endCall)
+                .start()
+        }
 
         for(let j = 0; j < this.groupList.length; j++) {
             let group = this.groupList[j].view;

@@ -114,8 +114,14 @@ var handler = {
         }
     },
 
+    on_msg_rm_group_ack(msg) {
+        if(msg.ret === 0) {
+        }
+    },
+
     on_msg_rm_commit_ack(msg) {
         if(msg.ret === 0) {
+            RummyGameMgr.commit(msg);
         }
     },
 

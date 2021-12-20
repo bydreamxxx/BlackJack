@@ -6,6 +6,7 @@ let RummyEvent = cc.Enum({
     CHECK_BUTTON: "CHECK_BUTTON",
     LOSE_GAME: "LOSE_GAME",
     UPDATE_DROP_COIN: "UPDATE_DROP_COIN",
+    PLAYER_COMMIT: "PLAYER_COMMIT",
 });
 
 let RummyED = new cc.dd.EventDispatcher();

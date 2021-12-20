@@ -219,6 +219,7 @@ let nested_texas_user_info = cc.Class({
         content.autoFlag = this.autoFlag;
         content.joinGame = this.joinGame;
         content.winRate = this.winRate;
+        content.wheelRank = this.wheelRank;
 
         return content;
     },
@@ -266,6 +267,9 @@ let nested_texas_user_info = cc.Class({
     },
     setWinRate(winRate){
         this.winRate = winRate;
+    },
+    setWheelRank(wheelRank){
+        this.wheelRank = wheelRank;
     },
 
 });

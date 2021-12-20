@@ -42,6 +42,18 @@ let RummyGameMgr = cc.Class({
         RummyED.notifyEvent(RummyEvent.UPDATE_STATE);
     },
 
+    commit(msg){
+        if(msg.uid === cc.dd.user.id){
+            RummyED.notifyEvent(RummyEvent.PLAYER_COMMIT);
+        }
+
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.uid);
+        if(player) {
+            player.lostCoin(msg.coin);
+            RummyData.dropScores += Math.abs(msg.coin);
+        }
+    },
+
     dealPoker(msg){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
@@ -64,6 +76,21 @@ let RummyGameMgr = cc.Class({
 
     gameResult(msg){
         RummyData.clearGameInfo();
+        msg.resultsList.forEach(result=>{
+            if(!result.isdrop){
+                let player = RoomMgr.Instance().player_mgr.getPlayerById(result.userId);
+                if(player){
+                    if(result.coin > 0){
+                        player.winCoin(result.coin);
+                    }else if(result.coin < 0){
+                        player.lostCoin(result.coin);
+                        if(!player.hasLostCoin){
+                            RummyData.dropScores += Math.abs(result.coin);
+                        }
+                    }
+                }
+            }
+        })
         RummyED.notifyEvent(RummyEvent.SHOW_RESULT, msg);
     },
 
@@ -78,7 +105,7 @@ let RummyGameMgr = cc.Class({
         let player = RoomMgr.Instance().player_mgr.getPlayerById(userId);
         if(player){
             player.loseGame();
-            RummyData.dropScores += player.dropCoin;
+            RummyData.dropScores += Math.abs(player.dropCoin);
         }
         if(userId === cc.dd.user.id){
             RummyED.notifyEvent(RummyEvent.LOSE_GAME);
@@ -86,7 +113,7 @@ let RummyGameMgr = cc.Class({
     },
 
     showCard(msg){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.uid);
         if(player){
             player.showCard(msg.showCard);
         }

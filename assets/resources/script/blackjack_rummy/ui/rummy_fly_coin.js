@@ -14,20 +14,24 @@ cc.Class({
     },
 
     editor:{
-        menu:"Rummy/rummy_loseCoin"
+        menu:"Rummy/rummy_fly_coin"
     },
 
-    play(coin, func){
+    play(coin, func, isWin){
         this.coin.string = coin;
 
         this.func = func;
 
-        this.animation.play();
-        this.animation.setCurrentTime(0);
+        if(isWin){
+            this.func();
+        }else{
+            this.animation.play();
+            this.animation.setCurrentTime(0);
+        }
     },
 
     onPlayFinished(){
-        if(func){
+        if(this.func){
             this.func();
         }
     },

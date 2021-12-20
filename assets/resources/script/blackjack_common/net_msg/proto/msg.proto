@@ -8585,7 +8585,7 @@ message msg_texas_auto_ret {
 
 message nested_texas_user_info {
 	optional int32     	player_id    = 1;
-	optional int32     	seat_id      = 2;
+	optional int32     	seat_id      = 2; //100表示围观， 在转轮赛中也表示淘汰
 	optional string     name 	     = 3;
 	optional string   	open_id      = 4;
 	optional string   	head_url     = 5;
@@ -8599,6 +8599,7 @@ message nested_texas_user_info {
 	optional bool       auto_flag    = 13; //自动设置状态
 	optional int32      join_game    = 14; //1:游戏中, 0:观望
 	optional int32      win_rate     = 15; //胜率
+	optional int32		wheel_rank	 = 16; //转轮赛名次
 }
 
 //房间信息
@@ -8807,7 +8808,18 @@ message msg_rm_commit_req{
 
 message msg_rm_commit_ack{
 	optional int32 		ret = 1; //0:成功
+	optional uint32		uid = 2;
+	optional int32		coin = 3;
 }
+
+message msg_rm_group_req{
+	repeated rm_group	groups = 1;
+}
+
+message msg_rm_group_ack{
+	optional int32 		ret = 1; //0:成功
+}
+
 
 //请求自动排序
 message msg_rm_sort_req{

@@ -129,11 +129,11 @@ let RummyGroup = cc.Class({
             this.cardsList.splice(index, 1);
 
             if(RummyData.isBaida(card)){
-                this.baidaList.indexOf(card);
+                index = this.baidaList.indexOf(card);
                 this.baidaList.splice(index, 1);
             }else{
                 this.colorList[card % 10]--;
-                this.normalList.indexOf(card);
+                index = this.normalList.indexOf(card);
                 this.normalList.splice(index, 1);
             }
         }

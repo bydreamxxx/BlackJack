@@ -14,6 +14,8 @@ let RummyPlayerEvent = cc.Enum({
     SHOW_CARD: "SHOW_CARD",
     SHOW_INVALIDSHOW: "SHOW_INVALIDSHOW",
     LOSE_GAME: "LOSE_GAME",
+    LOST_COIN: "LOST_COIN",
+    WIN_COIN: "WIN_COIN",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -47,6 +49,8 @@ let RummyPlayerData = cc.Class({
         this.dropCoin = 0;
 
         this.isBanker = false;
+
+        this.hasLostCoin = false;
     },
 
     checkCanMoPai(){
@@ -107,12 +111,18 @@ let RummyPlayerData = cc.Class({
         this.viewIdx = data.seat;
 
         this.playerData = data;
+
+        this.hasLostCoin = false;
+    },
+
+    lostCoin(coin){
+        if(!this.hasLostCoin){
+            this.hasLostCoin = true;
+            RummyPlayerED.notifyEvent(RummyPlayerEvent.LOST_COIN, [this, coin]);
+        }
     },
 
     loseGame(){
-        if(this.userId === cc.dd.user.id){
-            this.playerExit();
-        }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
     },
 
@@ -200,6 +210,10 @@ let RummyPlayerData = cc.Class({
 
     updateBaida(){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_BAIDA, [this]);
+    },
+
+    winCoin(coin){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.WIN_COIN, [this, coin]);
     }
 });
 

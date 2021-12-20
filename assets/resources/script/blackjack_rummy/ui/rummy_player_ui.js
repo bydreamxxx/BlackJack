@@ -92,6 +92,12 @@ let rummy_player_ui = cc.Class({
             case RummyPlayerEvent.LOSE_GAME:
                 this.loseGame();
                 break;
+            case RummyPlayerEvent.LOST_COIN:
+                this.flyCoin(data[1], false);
+                break;
+            case RummyPlayerEvent.WIN_COIN:
+                this.flyCoin(data[1], true);
+                break;
             default:
                 break;
         }
@@ -146,7 +152,7 @@ let rummy_player_ui = cc.Class({
             cardNode.scaleY= 0.538;
             this.cardNode.addChild(cardNode);
 
-            endPos = this.cardNode.convertToNodeSpace(worldPos);
+            endPos = this.cardNode.convertToNodeSpaceAR(worldPos);
 
         }else{
             cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
@@ -160,7 +166,7 @@ let rummy_player_ui = cc.Class({
                 return;
             }
 
-            endPos = this.discardNode.convertToNodeSpace(worldPos);
+            endPos = this.discardNode.convertToNodeSpaceAR(worldPos);
         }
 
         if(cardNode){
@@ -180,6 +186,62 @@ let rummy_player_ui = cc.Class({
     faPai(handCardList){
         if(this.viewIdx == 0){
             this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.showCardNode, handCardList);
+        }
+    },
+
+    flyCoin(coin, win){
+        if(win){
+            cc.tween(this.node)
+                .delay(1.2)
+                .call(()=> {
+                    let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
+                    let startPos = this.node.convertToNodeSpaceAR(worldPos);
+
+                    let loseChip = cc.instantiate(this.chip);
+                    this.node.addChild(loseChip);
+                    loseChip.position = startPos;
+
+                    let centerLabel = this.centerChipNode.getComponentInChildren(cc.Label);
+                    let coin = parseInt(centerLabel.string);
+                    centerLabel.string = "";
+
+                    loseChip.getComponent("rummy_fly_coin").play(coin, () => {
+                        cc.tween(loseChip)
+                            .delay(0.2)
+                            .to(0.4, {position: cc.v2(0, 0)}, {easing: 'circOut'})
+                            .call(() => {
+                                this.centerChipNode.active = false;
+                            })
+                            .delay(1.5)
+                            .call(() => {
+                                loseChip.destroy();
+                            })
+                            .start();
+                    }, true);
+
+                })
+                .start();
+        }else{
+            let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
+            let endPos = this.node.convertToNodeSpaceAR(worldPos);
+
+            let loseChip = cc.instantiate(this.chip);
+            this.node.addChild(loseChip);
+            loseChip.getComponent("rummy_fly_coin").play(Math.abs(coin), ()=>{
+                cc.tween(loseChip)
+                    .delay(0.2)
+                    .to(0.4, {position: endPos}, { easing: 'circOut'})
+                    .call(()=>{
+                        loseChip.destroy();
+
+                        let centerLabel = this.centerChipNode.getComponentInChildren(cc.Label);
+                        if(centerLabel.string === "0"){
+                            this.centerChipNode.active = true;
+                        }
+                        centerLabel.string = parseInt(centerLabel.string) + Math.abs(coin);
+                    })
+                    .start();
+            });
         }
     },
 
@@ -236,10 +298,13 @@ let rummy_player_ui = cc.Class({
 
         let loseChip = cc.instantiate(this.chip);
         this.node.addChild(loseChip);
-        loseChip.getComponent("rummy_loseChip").play(this.playerData.dropCoin, ()=>{
+
+        let coin = this.playerData.dropCoin;
+
+        loseChip.getComponent("rummy_fly_coin").play(coin, ()=>{
             cc.tween(loseChip)
                 .delay(0.2)
-                .to(0.4, {position: endPos})
+                .to(0.4, {position: endPos}, { easing: 'circOut'})
                 .call(()=>{
                     loseChip.destroy();
 
@@ -247,7 +312,11 @@ let rummy_player_ui = cc.Class({
                     if(centerLabel.string === "0"){
                         this.centerChipNode.active = true;
                     }
-                    centerLabel.string = parseInt(centerLabel.string) + this.playerData.dropCoin;
+                    centerLabel.string = parseInt(centerLabel.string) + coin;
+
+                    if(this.playerData.userId !== cc.dd.user.id){
+                        this.head.stand();
+                    }
                 })
                 .start();
         });
@@ -268,6 +337,17 @@ let rummy_player_ui = cc.Class({
             if(type === "0"){
                 this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.cardNode);
             }else{
+                let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
+                if(cardNode){
+                    if(cardNode.getComponent("rummy_card").getCard() !== card){
+                        cc.error(`弃牌堆错误 ${cardNode.getComponent("rummy_card").getCard()} ${card}`)
+                        return;
+                    }
+                }else{
+                    cc.error(`弃牌堆错误 弃牌堆无牌 ${card}`)
+                    return;
+                }
+                cardNode.destroy();
                 this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.discardNode);
             }
         }
