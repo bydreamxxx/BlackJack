@@ -20,7 +20,7 @@ const LanguageMgr = cc.Class({
     kind: '',
 
     ctor() {
-        let kind = "zh";
+        let kind = "en";
 
         if (cc.sys.localStorage.getItem("lanAndCountry")) {
             kind = cc.sys.localStorage.getItem("lanAndCountry");

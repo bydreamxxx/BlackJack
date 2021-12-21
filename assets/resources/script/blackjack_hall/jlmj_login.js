@@ -1006,15 +1006,15 @@ var loginModle = cc.Class({
             case "EN":
                 LanguageMgr.changeLanguage("en");
                 break;
-            case "TC":
-                LanguageMgr.changeLanguage("tc");
-                break;
+            // case "TC":
+            //     LanguageMgr.changeLanguage("tc");
+            //     break;
             case "IN":
                 LanguageMgr.changeLanguage("in");
                 break;
-            case "ZH":
-                LanguageMgr.changeLanguage("zh");
-                break;
+            // case "ZH":
+            //     LanguageMgr.changeLanguage("zh");
+            //     break;
         }
 
         this.languageNode.active = false;

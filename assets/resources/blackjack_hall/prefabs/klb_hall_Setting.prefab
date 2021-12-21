@@ -512,7 +512,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 100,
       "height": 68.04
     },
     "_anchorPoint": {
@@ -564,8 +564,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "设置",
+    "_N$string": "设置",
     "_fontSize": 50,
     "_lineHeight": 54,
     "_enableWrapText": true,
@@ -879,7 +879,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 100,
       "height": 65.52
     },
     "_anchorPoint": {
@@ -1038,8 +1038,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "音乐",
+    "_N$string": "音乐",
     "_fontSize": 50,
     "_lineHeight": 52,
     "_enableWrapText": true,
@@ -1116,7 +1116,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 100,
       "height": 65.52
     },
     "_anchorPoint": {
@@ -1275,8 +1275,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "音效",
+    "_N$string": "音效",
     "_fontSize": 50,
     "_lineHeight": 52,
     "_enableWrapText": true,
@@ -2383,7 +2383,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 120,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -2435,8 +2435,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "联系客服",
+    "_N$string": "联系客服",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3149,7 +3149,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 120,
       "height": 44.1
     },
     "_anchorPoint": {
@@ -3201,8 +3201,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "注销登录",
+    "_N$string": "注销登录",
     "_fontSize": 30,
     "_lineHeight": 35,
     "_enableWrapText": false,
@@ -5656,7 +5656,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 142.48,
+      "width": 130,
       "height": 52.4
     },
     "_anchorPoint": {
@@ -5708,8 +5708,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ENGLISH",
-    "_N$string": "ENGLISH",
+    "_string": "简体中文",
+    "_N$string": "简体中文",
     "_fontSize": 32,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -6093,7 +6093,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 234,
-      "height": 224
+      "height": 112
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6104,8 +6104,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -299.818,
-        75.543,
+        -301.187,
+        130.878,
         0,
         0,
         0,
@@ -6173,7 +6173,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        84,
+        28,
         0,
         0,
         0,
@@ -6586,7 +6586,7 @@
         "__id__": 176
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 184
@@ -7031,7 +7031,7 @@
         "__id__": 188
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 196
@@ -7508,7 +7508,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -84,
+        -28,
         0,
         0,
         0,
@@ -7920,7 +7920,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 234,
-      "height": 224
+      "height": 112
     },
     "_resize": 1,
     "_N$layoutType": 2,

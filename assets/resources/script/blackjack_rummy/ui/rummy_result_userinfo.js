@@ -15,16 +15,59 @@ cc.Class({
         score: cc.Label,
         state: cc.Label,
         content: cc.Node,
+        winBG: cc.Node,
         card: cc.Prefab
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {},
-
-    start () {
-
+    editor:{
+        menu:"Rummy/rummy_result_userinfo"
     },
 
-    // update (dt) {},
+    clear(){
+        this.headSp.getComponent('klb_hall_Player_Head').headSp.spriteFrame = null;
+        this.nameLabel.string = '';
+        this.point.string = '';
+        this.score.string = '';
+        this.state.string = '';
+        this.content.removeAllChildren();
+        this.winBG.active = false;
+
+        this.node.active = false;
+    },
+
+    setData(info){
+        this.headSp.getComponent('klb_hall_Player_Head').initHead('', info.headUrl);
+        this.nameLabel.string = cc.dd.Utils.substr(info.userName, 0, 8);
+        this.point.string = info.score;
+        this.score.string = cc.dd.Utils.getNumToWordTransform(info.coin);
+        if(info.coin > 0){
+            this.state.node.color = cc.Color.YELLOW;
+            this.state.string = "WINNER";
+            this.winBG.active = true;
+        }else{
+            this.state.node.color = new cc.Color(151, 130, 150);
+            this.state.string = "LOST";
+            this.winBG.active = false;
+        }
+
+        info.groupsList.forEach(group=>{
+            let node = new cc.Node(`RummyGroup_${i}`);
+            node.height = 288;
+            this.content.addChild(node);
+            let layout = node.addComponent(cc.Layout);
+            layout.type = cc.Layout.Type.HORIZONTAL
+            layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+            layout.spacingX = -145;
+
+            group.forEach(cardID=>{
+                let card = cc.instantiate(this.card);
+                node.addChild(card);
+                card.getComponent("rummy_card").init(cardID);
+            })
+
+            layout.updateLayout();
+        })
+
+        this.node.active = true;
+    }
 });

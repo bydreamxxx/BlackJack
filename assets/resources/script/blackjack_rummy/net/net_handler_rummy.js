@@ -163,7 +163,9 @@ var handler = {
     },
 
     on_rm_tips_ack(msg){
-
+        if(msg.result === 0){
+            RummyGameMgr.giveTips(msg);
+        }
     }
 };
 

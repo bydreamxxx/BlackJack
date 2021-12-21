@@ -16,6 +16,7 @@ let RummyPlayerEvent = cc.Enum({
     LOSE_GAME: "LOSE_GAME",
     LOST_COIN: "LOST_COIN",
     WIN_COIN: "WIN_COIN",
+    GIVE_TIPS: "GIVE_TIPS",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -67,6 +68,10 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },
 
+    giveTips(){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_TIPS, [this]);
+    },
+
     giveUpPoker(card){
         let playerHasCard = false;
         for(let i = this.pokersList.length - 1; i >= 0; i--){
@@ -99,7 +104,6 @@ let RummyPlayerData = cc.Class({
 
         this.seat = data.seat;
         this.state = data.state;
-        this.coin = data.coin;
 
         this.netState = data.netState;
         this.score = data.score;
@@ -210,6 +214,10 @@ let RummyPlayerData = cc.Class({
 
     updateBaida(){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_BAIDA, [this]);
+    },
+
+    updateCoin(allCoin){
+        this.score = allCoin;
     },
 
     winCoin(coin){

@@ -75,14 +75,15 @@ let RummyGameMgr = cc.Class({
     },
 
     gameResult(msg){
-        RummyData.clearGameInfo();
+        // RummyData.clearGameInfo();
         msg.resultsList.forEach(result=>{
             if(!result.isdrop){
                 let player = RoomMgr.Instance().player_mgr.getPlayerById(result.userId);
                 if(player){
+                    player.updateCoin(result.allCoin);
                     if(result.coin > 0){
                         player.winCoin(result.coin);
-                    }else if(result.coin < 0){
+                    }else{
                         player.lostCoin(result.coin);
                         if(!player.hasLostCoin){
                             RummyData.dropScores += Math.abs(result.coin);
@@ -92,6 +93,13 @@ let RummyGameMgr = cc.Class({
             }
         })
         RummyED.notifyEvent(RummyEvent.SHOW_RESULT, msg);
+    },
+
+    giveTips(msg){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
+        if(player){
+            player.giveTips();
+        }
     },
 
     giveUpPoker(msg){

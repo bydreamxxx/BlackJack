@@ -32,6 +32,7 @@ cc.Class({
         dropNode: cc.Node,
         invalidShowNode: cc.Node,
         showNode: cc.Node,
+        resultNode: cc.Node,
 
         dropButton: cc.Button,
         dropLabel: cc.Label,
@@ -42,6 +43,7 @@ cc.Class({
         cardListNode: cc.Prefab,
 
         centerChipNode: cc.Node,
+        dropDes: require('LanguageLabel'),
 
         _fixedTimeStep: 1/30,
         _lastTime: 0,
@@ -281,6 +283,73 @@ cc.Class({
         //                 {userId:553651326, userName:'Xavier', headUrl:'3198.png', score:65, coin:-1000, allCoin:3000, groupsList:[[21, 31, 81, 101, 121], [72, 112, 12], [73, 83],  [44, 54, 64]], xcard:11, isdrop:true},
         //             ] });
         //     })
+        //     .delay(2)
+        //     .call(()=>{
+        //         console.error('on_msg_rm_info')
+        //         handler.on_msg_rm_info({ usersList:
+        //                 [ { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: cc.dd.user.id,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 419432432,
+        //                         userState: 1,
+        //                         dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 704645120,
+        //                         userState: 1,
+        //                         dropCoin: 1000 },
+        //                     { pokersList: [],
+        //                         groupsList: [],
+        //                         userId: 553651326,
+        //                         userState: 1,
+        //                         dropCoin: 1000 }],
+        //             bjState: 0,
+        //             lastTime: 5,
+        //             roomConfigId: 18501,
+        //             turn: cc.dd.user.id,
+        //             turnLeftTime: 5,
+        //             banker: cc.dd.user.id,
+        //             dropScores: 0,
+        //             xcard: 0,
+        //             giveUp: 0 });
+        //     })
+        //     .delay(5)
+        //     .call(()=>{
+        //         console.error('on_msg_rm_info')
+        //         handler.on_msg_rm_info({ usersList: [ { pokersList: [],
+        //                 groupsList: [],
+        //                 userId: cc.dd.user.id,
+        //                 userState: 1,
+        //                 dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 419432432,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 704645120,
+        //                     userState: 1,
+        //                     dropCoin: 1000 },
+        //                 { pokersList: [],
+        //                     groupsList: [],
+        //                     userId: 553651326,
+        //                     userState: 1,
+        //                     dropCoin: 1000 }],
+        //             bjState: 1,
+        //             lastTime: 10,
+        //             roomConfigId: 18502,
+        //             turn: cc.dd.user.id,
+        //             turnLeftTime: 15,
+        //             banker: cc.dd.user.id,
+        //             dropScores: 0,
+        //             xcard: 11,
+        //             giveUp: 103 });
+        //     })
         //     .start()
     },
 
@@ -314,7 +383,7 @@ cc.Class({
             if(this.lastTime >= 0){
                 this.lastTime -= dt;
 
-                this.tipsLabel.setText('GAMESTARTIN', '', '', Math.floor(this.lastTime));
+                this.tipsLabel.setText('rummy_text25', '', '', Math.floor(this.lastTime));
             }
         }
     },
@@ -357,7 +426,8 @@ cc.Class({
                 this.updateDesk();
                 break;
             case RummyEvent.SHOW_RESULT:
-                this.showResult(data);
+                this.resultInfo = data;
+                this.scheduleOnce(this.showResult.bind(this), 2)
                 break;
             case RummyEvent.PLAYER_TURN:
                 break;
@@ -380,6 +450,8 @@ cc.Class({
     },
 
     clear(){
+        cc.Tween.stopAllByTarget(this.showcardNode);
+
         this.cardsNode.removeAllChildren();
         this.discardNode.removeAllChildren();
         this.showcardNode.removeAllChildren();
@@ -399,10 +471,14 @@ cc.Class({
         this.invalidShowNode.active = false;
         this.showNode.active = false;
 
+        if(RummyData.state === GAME_STATE.WAITING && RummyData.lastState === GAME_STATE.RESULTING){
+        }else{
+            this.unschedule(this.showResult.bind(this));
+            this.resultNode.active = false;
+        }
+
         this.showButton.active = true;
         this.confirmButton.active = false;
-
-        cc.dd.UIMgr.destroyUI("blackjack_rummy/prefab/resultNode");
     },
 
     checkButton(){
@@ -462,6 +538,8 @@ cc.Class({
     onClickBet(event, data){
         hall_audio_mgr.com_btn_click();
 
+        var msg = new cc.pb.rummy.rm_tips_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_rm_tips_req, msg, "rm_tips_req", true);
     },
 
     onClickSwitch(event, data){
@@ -523,14 +601,9 @@ cc.Class({
         }
     },
 
-    showResult(data){
-      //TODO
-        cc.tween(this.node)
-            .delay(2)
-            .call(()=>{
-                cc.dd.UIMgr.openUI("blackjack_rummy/prefab/resultNode");
-            })
-            .start()
+    showResult(){
+        this.resultNode.active = true;
+        this.resultNode.getComponent("rummy_result").setData(this.resultInfo.resultsList);
     },
 
     /**
@@ -552,7 +625,7 @@ cc.Class({
 
         if(RummyData.state === GAME_STATE.WAITING) {
             this.tipsNode.active = true;
-            this.tipsLabel.setText('GAMESTARTIN', '', '', RummyData.lastTime);
+            this.tipsLabel.setText('rummy_text25', '', '', RummyData.lastTime);
             this.lastTime = RummyData.lastTime;
             this.switchButtonNode.active = true;
         }else{
@@ -724,7 +797,7 @@ cc.Class({
         //         this.discardNode.active = false;
         //
         //         this.tipsNode.active = true;
-        //         this.tipsLabel.setText('GAMESTARTIN', '', '', RummyData.lastTime);
+        //         this.tipsLabel.setText('rummy_text25', '', '', RummyData.lastTime);
         //         this.lastTime = RummyData.lastTime;
         //         this.switchButtonNode.active = true;
         //         break;
@@ -814,6 +887,7 @@ cc.Class({
         let user = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(user){
             this.dropLabel.string = user.dropCoin;
+            this.dropDes.setText('rummy_text23', '', '', user.dropCoin);
         }
     }
 });

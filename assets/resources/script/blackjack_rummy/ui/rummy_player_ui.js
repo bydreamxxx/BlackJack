@@ -21,6 +21,7 @@ let rummy_player_ui = cc.Class({
         chip: cc.Prefab,
 
         centerChipNode: cc.Node,
+        heguan: cc.Node,
     },
 
     editor:{
@@ -97,6 +98,9 @@ let rummy_player_ui = cc.Class({
                 break;
             case RummyPlayerEvent.WIN_COIN:
                 this.flyCoin(data[1], true);
+                break;
+            case RummyPlayerEvent.GIVE_TIPS:
+                this.giveTips();
                 break;
             default:
                 break;
@@ -211,6 +215,7 @@ let rummy_player_ui = cc.Class({
                             .to(0.4, {position: cc.v2(0, 0)}, {easing: 'circOut'})
                             .call(() => {
                                 this.centerChipNode.active = false;
+                                this.head.changeCoin(this.playerData.score);
                             })
                             .delay(1.5)
                             .call(() => {
@@ -222,27 +227,49 @@ let rummy_player_ui = cc.Class({
                 })
                 .start();
         }else{
-            let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
-            let endPos = this.node.convertToNodeSpaceAR(worldPos);
+            if(coin !== 0){
+                let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
+                let endPos = this.node.convertToNodeSpaceAR(worldPos);
 
-            let loseChip = cc.instantiate(this.chip);
-            this.node.addChild(loseChip);
-            loseChip.getComponent("rummy_fly_coin").play(Math.abs(coin), ()=>{
-                cc.tween(loseChip)
-                    .delay(0.2)
-                    .to(0.4, {position: endPos}, { easing: 'circOut'})
-                    .call(()=>{
-                        loseChip.destroy();
+                let loseChip = cc.instantiate(this.chip);
+                this.node.addChild(loseChip);
+                loseChip.getComponent("rummy_fly_coin").play(Math.abs(coin), ()=>{
+                    cc.tween(loseChip)
+                        .delay(0.2)
+                        .to(0.4, {position: endPos}, { easing: 'circOut'})
+                        .call(()=>{
+                            loseChip.destroy();
+                            this.head.changeCoin(this.playerData.score);
 
-                        let centerLabel = this.centerChipNode.getComponentInChildren(cc.Label);
-                        if(centerLabel.string === "0"){
-                            this.centerChipNode.active = true;
-                        }
-                        centerLabel.string = parseInt(centerLabel.string) + Math.abs(coin);
-                    })
-                    .start();
-            });
+                            let centerLabel = this.centerChipNode.getComponentInChildren(cc.Label);
+                            if(centerLabel.string === "0"){
+                                this.centerChipNode.active = true;
+                            }
+                            centerLabel.string = parseInt(centerLabel.string) + Math.abs(coin);
+                        })
+                        .start();
+                });
+            }else{
+                this.head.changeCoin(this.playerData.score);
+            }
         }
+    },
+
+    giveTips(){
+        let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.heguan.position);
+        let endPos = this.node.convertToNodeSpaceAR(worldPos);
+
+        let loseChip = cc.instantiate(this.chip);
+        this.node.addChild(loseChip);
+
+        loseChip.getComponent("rummy_fly_coin").play(100, () => {
+            cc.tween(loseChip)
+                .to(0.4, {position: endPos}, {easing: 'circOut'})
+                .call(() => {
+                    loseChip.destroy();
+                })
+                .start();
+        }, true);
     },
 
     /**

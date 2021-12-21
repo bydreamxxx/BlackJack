@@ -27,7 +27,8 @@ var data_matchRobotRoom =
       { key:122,game_type:510,win_prop:5000,min_win_num:1,max_win_num:3,win_score_dist:"1,1;6,2;8,4;8,8;6,16;2,32;1,64;1,128",room_time:"70000,140000" },
       { key:123,game_type:575,win_prop:5000,min_win_num:1,max_win_num:3,win_score_dist:"1000,1;800,2;100,4;20,8;10,16;1,32",room_time:"80000,160000" },
       { key:200,game_type:563,win_prop:10000,min_win_num:0,max_win_num:0,win_score_dist:"1000,1;800,2;100,4;20,8;10,16;1,32",room_time:"500,700" },
-      { key:124,game_type:510,win_prop:5000,min_win_num:1,max_win_num:3,win_score_dist:"1,1;6,2;8,4;8,8;6,16;2,32;1,64;1,128",room_time:"70000,140000" }
+      { key:124,game_type:510,win_prop:5000,min_win_num:1,max_win_num:3,win_score_dist:"1,1;6,2;8,4;8,8;6,16;2,32;1,64;1,128",room_time:"70000,140000" },
+      { key:125,game_type:502,win_prop:5000,min_win_num:1,max_win_num:3,win_score_dist:"1,1;6,2;8,4;8,8;6,16;2,32;1,64;1,128",room_time:"70000,140000" }
     ],
 
     /**

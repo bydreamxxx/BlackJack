@@ -12,7 +12,6 @@ cc.Class({
         headSp: cc.Node,
         nameLabel: cc.Label,
         coin: cc.Label,
-        score: cc.Label,
 
         chupai_ani: cc.Node,
         headAni: cc.Node,
@@ -59,8 +58,6 @@ cc.Class({
 
         this.nameLabel.string = '';
         this.coin.string = '0';
-        this.score.string = '';
-        this.score.node.active = false;
 
         this.tuo_guan.active = false;
         this.stop_chupai_ani();
@@ -75,9 +72,6 @@ cc.Class({
     },
 
     changeCoin(coin){
-        if( this.playerData){
-            this.playerData.score = coin;
-        }
         this.coin.string = coin;
     },
 
@@ -131,8 +125,6 @@ cc.Class({
             this.coin.string = data.score;
         }
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
-        this.score.string = '';
-        this.score.node.active = false;
 
         if(cc.dd._.isNumber(data.userState) && data.userState !== 3){
             this.sit();
@@ -160,25 +152,6 @@ cc.Class({
 
     stand(){
         this.standNode.active = true;
-    },
-
-    showCoin(data){
-        if(this.viewIdx === 0){
-            this.coin.string = this.changeNumToCHN(data.allCoin);
-        }else{
-            this.coin.string = data.allCoin;
-        }
-        let win = parseInt(data.coin)+parseInt(data.insure);
-        cc.error(`${this.nameLabel} result ${win}`);
-        this.score.string = win > 0 ? `+${win}` : win;
-        this.score.node.active = true;
-        this.score.node.opacity = 0;
-        this.score.node.y = 85.311;
-        cc.tween(this.score.node)
-            .to(1, {y: 134.112, opacity: 255}, { easing: 'quintOut'})
-            .delay(4)
-            .to(0.5, {y: 85.311, opacity: 0}, { easing: 'quintIn'})
-            .start()
     },
 
     onEventMessage: function (event, data) {
