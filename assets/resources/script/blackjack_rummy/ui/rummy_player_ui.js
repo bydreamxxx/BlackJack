@@ -189,7 +189,7 @@ let rummy_player_ui = cc.Class({
      */
     faPai(handCardList){
         if(this.viewIdx == 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, this.showCardNode, handCardList);
+            this.shoupaiNode.getComponent("rummy_group_ui").showFapai(this.playerData.pokersList, handCardList);
         }
     },
 
@@ -298,7 +298,7 @@ let rummy_player_ui = cc.Class({
             if(cardNode && cardNode.getComponent("rummy_card").getCard() === card){
             }else{
                 if(playerHasCard){
-                    this.shoupaiNode.getComponent("rummy_group_ui").giveUpPoker(card, this.discardNode);
+                    this.shoupaiNode.getComponent("rummy_group_ui").giveUpPoker(card);
                 }else{
                     cc.error(`打牌错误 ${card}`)
 
@@ -362,7 +362,7 @@ let rummy_player_ui = cc.Class({
             }
 
             if(type === "0"){
-                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.cardNode);
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, type);
             }else{
                 let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
                 if(cardNode){
@@ -375,7 +375,7 @@ let rummy_player_ui = cc.Class({
                     return;
                 }
                 cardNode.destroy();
-                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, this.discardNode);
+                this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, type);
             }
         }
 
@@ -408,7 +408,7 @@ let rummy_player_ui = cc.Class({
 
     showCard(card){
         if(this.viewIdx === 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showCard(card, this.showCardNode);
+            this.shoupaiNode.getComponent("rummy_group_ui").showCard(card);
         }else{
             let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
             let startPos = this.showCardNode.convertToNodeSpaceAR(worldPos);

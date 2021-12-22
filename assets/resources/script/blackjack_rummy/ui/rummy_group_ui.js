@@ -20,6 +20,10 @@ cc.Class({
         cardsNodeButton: cc.Node,
         discardNodeButton: cc.Node,
 
+        cardNode: cc.Node,
+        showcardNode: cc.Node,
+        discardNode: cc.Node,
+
         touchNode: cc.Node,
         mask: cc.Node,
         invalidShowNode: cc.Node,
@@ -79,7 +83,98 @@ cc.Class({
         this.discardNodeButton.active = cardList.length === 13;
     },
 
-    giveUpPoker(cardId, endNode){
+    checkIsInShow(){
+        return false;
+    },
+
+    checkIsInDiscard(){
+        return false;
+    },
+
+    commitGroup(selectedlist){
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player){
+            let list = []
+            selectedlist.forEach(card=>{
+                let cardID = card.getCard();
+                list.push(cardID);
+
+                for(let j = this.groupList.length - 1; j >= 0; j--){
+                    if(this.groupList[j].view === card.node.parent){
+                        this.groupList[j].data.delCard(cardID);
+
+                        let index = player.pokersList[j].indexOf(cardID);
+                        if(index !== -1) {
+                            player.pokersList[j].splice(index, 1);
+                        }
+                        break;
+                    }
+                }
+
+                this.removeCardFromGroup(card.node);
+            })
+
+            if(this.first !== -1){
+                if(!this.groupList[this.first].data.isPure()){
+                    this.first = -1;
+                }
+            }
+
+            if(this.second !== -1){
+                if(!this.groupList[this.second].data.isImPure()){
+                    this.first = -1;
+                }
+            }
+
+            for(let j = this.groupList.length - 1; j >= 0; j--){
+                this.updateGroupBottom(this.groupList[j], j);
+            }
+
+            player.pokersList.unshift(list);
+
+            let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
+            node.height = 288;
+            this.node.addChild(node);
+
+            let group = new RummyGroup();
+            group.init(list);
+
+            let groupInfo = {data: group, view: node, bottom:null};
+            this.groupList.unshift(groupInfo);
+
+            let showList = group.getShowList();
+            for(let j = 0; j < showList.length; j++){
+                let card = cc.instantiate(this.cardPrefab);
+                card.getComponent("rummy_card").init(showList[j]);
+                node.addChild(card);
+            }
+            node.width = 208 * showList.length - 60 * (showList.length - 1);
+
+            this.updateCardPos(node);
+
+            let bottom = cc.instantiate(this.bottomNode);
+            node.addChild(bottom);
+            groupInfo.bottom = bottom;
+            bottom.width = node.width;
+            bottom.y = -109;
+            bottom.x = 0;
+            bottom.scale = 1;
+
+            this.updateGroupBottom(groupInfo, 0);
+
+            this.node.width += node.width + 30;
+            this.updateGroupPos();
+
+            this.updateBaida();
+            this.updatePoint();
+
+            var msg = new cc.pb.rummy.msg_rm_group_req();
+            msg.setGroupsList(player.pokersList);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+        }
+    },
+
+    giveUpPoker(cardId){
         let findCard = null;
         for(let j = 0; j < this.groupList.length; j++){
             let group = this.groupList[j].view;
@@ -102,10 +197,10 @@ cc.Class({
             findCard.active = false;
             let playCard = cc.instantiate(this.cardPrefab);
             playCard.getComponent("rummy_card").init(cardId);
-            endNode.addChild(playCard);
+            this.discardNode.addChild(playCard);
 
             let worldPos = findCard.parent.convertToWorldSpaceAR(findCard.position);
-            let startPos = endNode.convertToNodeSpaceAR(worldPos);
+            let startPos = this.discardNode.convertToNodeSpaceAR(worldPos);
 
             playCard.position = startPos;
             playCard.scaleX = 0.75;
@@ -152,88 +247,8 @@ cc.Class({
     onClickGroup(event, data){
         hall_audio_mgr.com_btn_click();
         if(this.touchList.length > 1){
-            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-            if(player){
-                let list = []
-                this.touchList.forEach(card=>{
-                    let cardID = card.getCard();
-                    list.push(cardID);
-
-                    for(let j = this.groupList.length - 1; j >= 0; j--){
-                        if(this.groupList[j].view === card.node){
-                            this.groupList[j].data.delCard(cardID);
-
-                            let index = player.pokersList[j].indexOf(cardID);
-                            if(index !== -1) {
-                                player.pokersList[j].splice(index, 1);
-                            }
-                            break;
-                        }
-                    }
-
-                    this.removeCardFromGroup(card.node);
-                })
-
-                if(this.first !== -1){
-                    if(!this.groupList[this.first].data.isPure()){
-                        this.first = -1;
-                    }
-                }
-
-                if(this.second !== -1){
-                    if(!this.groupList[this.second].data.isImPure()){
-                        this.first = -1;
-                    }
-                }
-
-                for(let j = this.groupList.length - 1; j >= 0; j--){
-                    this.updateGroupBottom(this.groupList[j], j);
-                }
-
-                player.pokersList.unshift(list);
-
-                let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
-                node.height = 288;
-                this.node.addChild(node);
-
-                let group = new RummyGroup();
-                group.init(list);
-
-                let groupInfo = {data: group, view: node, bottom:null};
-                this.groupList.unshift(groupInfo);
-
-                let showList = group.getShowList();
-                for(let j = 0; j < showList.length; j++){
-                    let card = cc.instantiate(this.cardPrefab);
-                    card.getComponent("rummy_card").init(showList[j]);
-                    node.addChild(card);
-                }
-                node.width = 208 * showList.length - 60 * (showList.length - 1);
-
-                this.updateCardPos(node);
-
-                let bottom = cc.instantiate(this.bottomNode);
-                node.addChild(bottom);
-                groupInfo.bottom = bottom;
-                bottom.width = node.width;
-                bottom.y = -109;
-                bottom.x = 0;
-                bottom.scale = 1;
-
-                this.updateGroupBottom(groupInfo, 0);
-
-                this.node.width += node.width + 30;
-                this.updateGroupPos();
-
-                this.resetSelected();
-
-                this.updateBaida();
-                this.updatePoint();
-
-                var msg = new cc.pb.rummy.msg_rm_group_req();
-                msg.setType(player.pokersList);
-                cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
-            }
+            this.commitGroup(this.touchList);
+            this.resetSelected();
         }
     },
 
@@ -314,7 +329,7 @@ cc.Class({
         }
     },
 
-    showCard(cardId, endNode){
+    showCard(cardId){
         let findCard = null;
         for(let j = 0; j < this.groupList.length; j++){
             let group = this.groupList[j].view;
@@ -339,10 +354,10 @@ cc.Class({
             findCard.active = false;
             let playCard = cc.instantiate(this.cardPrefab);
             playCard.getComponent("rummy_card").init(cardId);
-            endNode.addChild(playCard);
+            this.showcardNode.addChild(playCard);
 
             let worldPos = findCard.parent.convertToWorldSpaceAR(findCard.position);
-            let startPos = endNode.convertToNodeSpaceAR(worldPos);
+            let startPos = this.showcardNode.convertToNodeSpaceAR(worldPos);
 
             playCard.position = startPos;
             playCard.scaleX = 0.75;
@@ -400,7 +415,7 @@ cc.Class({
         }
     },
 
-    showFapai(groupList, startNode, handCardList){
+    showFapai(groupList, handCardList){
         this.showFapaiDirect(groupList, true);
 
         if(handCardList.length !== faPaiPos.length){
@@ -417,7 +432,7 @@ cc.Class({
 
         this.playList = [];
 
-        let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
+        let worldPos = this.cardNode.convertToWorldSpaceAR(cc.v2(0, 0));
         let startPos = this.node.convertToNodeSpaceAR(worldPos);
 
         for(let i = handCardList.length - 1; i >= 0; i--){
@@ -571,7 +586,8 @@ cc.Class({
         this.invalidShowNode.getComponent("rummy_invalid_show").show(this.first !== -1, this.second !== -1, this.point.string === '0');
     },
 
-    showMoPai(cardId, startNode){
+    showMoPai(cardId, type){
+        let startNode = type === "0" ? this.cardNode : this.discardNode;
         let lastGroup = this.groupList[this.groupList.length - 1];
         let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
         let startPos = this.node.convertToNodeSpaceAR(worldPos);
@@ -796,24 +812,13 @@ cc.Class({
         }
 
         this.isCanMove = new Date().getTime();
-        var pai_touched = this.getTouchPai(event.touch.getLocation());
+        let pai_touched = this.getTouchPai(event.touch.getLocation());
         if(pai_touched){
-            this.yd_y = event.touch.getLocationY();
+            this.touch_pos = event.touch.getLocation();
 
-            if(!pai_touched.selected){
-                pai_touched.selected = true;
-                pai_touched.node.y = 48;
-                this.touchList.push(pai_touched);
-            }else{
-                pai_touched.selected = false;
-                pai_touched.node.y = 0;
-                let index = this.touchList.indexOf(pai_touched);
-                if(index !== -1){
-                    this.touchList.splice(index, 1);
-                }
-            }
+            pai_touched.tag = "move";
+            this.pai_touched = pai_touched;
 
-            // this.pai_touched = pai_touched;
             // if(this.pai_touched.selected){
             //     this.pai_touched.doubleSelected = true;
             // }else{
@@ -835,12 +840,99 @@ cc.Class({
                 //     }
                 // }
             // }
-        }else{
-            this.resetSelected();
         }
     },
 
     touchMove: function (event) {
+        if (this.pai_touched){
+            let pai_touched = this.getTouchPai(event.touch.getLocation());
+            if(pai_touched){
+                if(pai_touched.tag !== "move"){
+                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                    if(player){
+                        let cardID = this.pai_touched.getCard();
+                        let touch_group_index1 = -1;
+                        let touch_card_index1 = this.pai_touched.node.getSiblingIndex();
+                        let touch_group_index2 = -1;
+                        let touch_card_index2 = pai_touched.node.getSiblingIndex();
+                        for(let j = this.groupList.length - 1; j >= 0; j--){
+                            if(this.groupList[j].view === this.pai_touched.node.parent){
+                                touch_group_index1 = j;
+                            }
+
+                            if(this.groupList[j].view === pai_touched.node.parent){
+                                touch_group_index2 = j;
+                            }
+                        }
+
+                        this.groupList[touch_group_index1].data.delCard(cardID);
+                        this.groupList[touch_group_index2].data.addCard(cardID);
+
+                        let index = player.pokersList[touch_group_index1].indexOf(cardID);
+                        if(index !== -1) {
+                            player.pokersList[touch_group_index1].splice(index, 1);
+                        }
+
+                        this.pai_touched.node.removeFromParent(false);
+                        this.groupList[touch_group_index1].view.width -= 148;
+                        this.updateCardPos(this.groupList[touch_group_index1].view);
+
+                        let parent = this.groupList[touch_group_index2].view;
+                        if(event.touch.getLocationX() < this.pai_touched.node.x){
+                            //插到左边
+                            player.pokersList[touch_group_index2].splice(touch_card_index2, 0, cardID);
+                            for(let i = 0; i < parent.childrenCount; i++){
+                                if(parent.children[i].getComponent("rummy_card")){
+                                    if(parent.children[i].getSiblingIndex() >= touch_card_index2){
+                                        parent.children[i].setSiblingIndex(parent.children[i].getSiblingIndex()+1);
+                                    }
+                                }else{
+                                    parent.children[i].setSiblingIndex(parent.childrenCount);
+                                }
+                            }
+                            parent.addChild(this.pai_touched.node);
+                            this.pai_touched.node.setSiblingIndex(touch_card_index2);
+                        }else {
+                            //插到右边
+                            player.pokersList[touch_group_index2].splice(touch_card_index2+1, 0, cardID);
+                            for(let i = 0; i < parent.childrenCount; i++){
+                                if(parent.children[i].getComponent("rummy_card")){
+                                    if(parent.children[i].getSiblingIndex() > touch_card_index2){
+                                        parent.children[i].setSiblingIndex(parent.children[i].getSiblingIndex()+1);
+                                    }
+                                }else{
+                                    parent.children[i].setSiblingIndex(parent.childrenCount);
+                                }
+                            }
+                            parent.addChild(this.pai_touched.node);
+                            this.pai_touched.node.setSiblingIndex(touch_card_index2+1);
+                        }
+                        parent.width += 148;
+                        this.updateCardPos(this.groupList[touch_group_index2].view);
+                        this.updateGroupPos();
+
+                    }
+                }
+            }
+
+            if(new Date().getTime() - this.isCanMove > 50 || this.isCanMove == null) {
+                this.isCanMove = null;
+
+                if(this.yidong_pai){
+                    this.yidong_pai.node.position = this.node.convertToNodeSpaceAR(event.touch.getLocation());
+                }else if(cc.Vec2.distance(event.touch.getLocation(), this.touch_pos) >= 144){
+                    let node = cc.instantiate(this.pai_touched.node);
+                    this.yidong_pai = node.getComponent("rummy_card");
+                    this.node.addChild(node);
+                    let worldPos = this.pai_touched.node.parent.convertToWorldSpaceAR(this.pai_touched.node.position);
+                    let startPos = this.node.convertToNodeSpaceAR(worldPos);
+                    node.position = startPos;
+
+                    this.yidong_pai.node.active = true;
+                    this.pai_touched.node.active = false;
+                }
+            }
+        }
         // if (this.require_DeskData.Instance().isHu) {
         //     return;
         // }
@@ -872,6 +964,60 @@ cc.Class({
     },
 
     touchEnd: function (event) {
+        if(!this.pai_touched){
+            this.resetSelected();
+            return;
+        }
+
+        this.pai_touched.tag = '';
+
+        if(!this.yidong_pai){
+            if(!this.pai_touched.selected){
+                this.pai_touched.selected = true;
+                this.pai_touched.node.y = 48;
+                this.touchList.push(this.pai_touched);
+            }else{
+                this.pai_touched.selected = false;
+                this.pai_touched.node.y = 0;
+                let index = this.touchList.indexOf(this.pai_touched);
+                if(index !== -1){
+                    this.touchList.splice(index, 1);
+                }
+            }
+        }else{
+            if(this.checkIsInShow()){
+
+            }else if(this.checkIsInDiscard()){
+
+            }else{
+                let pai_touched = this.getTouchPai(event.touch.getLocation());
+                if(pai_touched){
+                    // this.commitGroup([this.yidong_pai]);
+                }
+                this.yidong_pai.node.destroy();
+                this.yidong_pai = null;
+                this.pai_touched.node.active = true;
+            }
+
+            // if(this.first !== -1){
+            //     if(!this.groupList[this.first].data.isPure()){
+            //         this.first = -1;
+            //     }
+            // }
+            //
+            // if(this.second !== -1){
+            //     if(!this.groupList[this.second].data.isImPure()){
+            //         this.first = -1;
+            //     }
+            // }
+            //
+            // for(let j = this.groupList.length - 1; j >= 0; j--){
+            //     this.updateGroupBottom(this.groupList[j], j);
+            // }
+        }
+
+        this.pai_touched = null;
+
         // if (this.require_DeskData.Instance().isHu) {
         //     this.yidong_pai.node.active = false;
         //     return;

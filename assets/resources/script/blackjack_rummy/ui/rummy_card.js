@@ -10,6 +10,7 @@ cc.Class({
 
     properties: {
         mask: cc.Node,
+        tag:'',
     },
 
     editor:{
