@@ -31,7 +31,7 @@ let com_card = cc.Class({
 
     //针对自己手牌，特殊处理
     isTouchDown:function (location) {
-        if(!this.node.active || !this._isTouch){
+        if(!this._isTouch){
             return false;
         }
         var tmpRect = this.node.getBoundingBoxToWorld();

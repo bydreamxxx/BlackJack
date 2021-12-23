@@ -131,6 +131,12 @@ cc.Class({
             }
 
             player.pokersList.unshift(list);
+            for(let i = player.pokersList.length - 1; i >= 0; i--){
+                let group = player.pokersList[i];
+                if(group.length === 0){
+                    player.pokersList.splice(i, 1);
+                }
+            }
 
             let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
             node.height = 288;
@@ -172,6 +178,29 @@ cc.Class({
             msg.setGroupsList(player.pokersList);
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
         }
+    },
+
+    getTouchPai: function (location, reverse) {
+        for(let j = 0; j < this.groupList.length; j++){
+            let group = this.groupList[j].view;
+            if(reverse){
+                for (let k = 0; k < group.childrenCount; k++) {
+                    let card = group.children[k].getComponent("rummy_card");
+                    if (card && card.isTouchDown(location)) {//通过有没有设置过pos去重
+                        return card;
+                    }
+                }
+            }else {
+                for (let k = group.childrenCount - 1; k >= 0; k--) {
+                    let card = group.children[k].getComponent("rummy_card");
+                    if (card && card.isTouchDown(location)) {//通过有没有设置过pos去重
+                        return card;
+                    }
+                }
+            }
+        }
+
+        return null;
     },
 
     giveUpPoker(cardId){
@@ -315,6 +344,30 @@ cc.Class({
         }
 
         this.updateGroupPos();
+    },
+
+    regTouchEvent: function () {
+        this.touchNode.on(cc.Node.EventType.TOUCH_START, this.touchStart.bind(this));
+        this.touchNode.on(cc.Node.EventType.TOUCH_MOVE, this.touchMove.bind(this));
+        this.touchNode.on(cc.Node.EventType.TOUCH_END, this.touchEnd.bind(this));
+        this.touchNode.on(cc.Node.EventType.TOUCH_CANCEL, this.touchCancel.bind(this));
+    },
+
+    /**
+     * 恢复所有牌的初始化位置
+     */
+    resetSelected: function () {
+        this.touchList = [];
+        for(let j = 0; j < this.groupList.length; j++){
+            let group = this.groupList[j].view;
+            for(let k = 0; k < group.childrenCount; k++){
+                let card = group.children[k].getComponent("rummy_card");
+                if(card){//通过有没有设置过pos去重
+                    card.selected = false;
+                    group.children[k].y = 0;
+                }
+            }
+        }
     },
 
     setPaiTouch(enable){
@@ -705,6 +758,177 @@ cc.Class({
         }
     },
 
+
+    touchStart: function (event) {
+        if(this.isFaPai){
+            return;
+        }
+
+        this.isCanMove = new Date().getTime();
+        let pai_touched = this.getTouchPai(event.touch.getLocation());
+        if(pai_touched){
+            this.touch_pos = event.touch.getLocation();
+
+            pai_touched.tag = "move";
+            this.pai_touched = pai_touched;
+        }
+    },
+
+    touchMove: function (event) {
+        if (this.pai_touched){
+            if(new Date().getTime() - this.isCanMove > 50 || this.isCanMove == null) {
+                this.isCanMove = null;
+
+                if(this.yidong_pai){
+                    this.yidong_pai.node.position = this.node.convertToNodeSpaceAR(event.touch.getLocation());
+                }else if(cc.Vec2.distance(event.touch.getLocation(), this.touch_pos) >= 50){
+                    let node = cc.instantiate(this.pai_touched.node);
+                    this.yidong_pai = node.getComponent("rummy_card");
+                    this.node.addChild(node);
+                    let worldPos = this.pai_touched.node.parent.convertToWorldSpaceAR(this.pai_touched.node.position);
+                    let startPos = this.node.convertToNodeSpaceAR(worldPos);
+                    node.position = startPos;
+
+                    this.yidong_pai.node.active = true;
+                    this.pai_touched.node.active = false;
+                }
+
+                if(this.yidong_pai){
+                    let pai_touched = this.getTouchPai(event.touch.getLocation(), event.touch.getLocationX() >= this.pai_touched.node.x);
+                    if(pai_touched){
+                        if(pai_touched.tag !== "move"){
+                            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                            if(player){
+                                let cardID1 = this.pai_touched.getCard();
+                                let cardID2 = pai_touched.getCard();
+                                let touch_group_index1 = -1;
+                                let touch_card_index1 = this.pai_touched.node.getSiblingIndex();
+                                let touch_group_index2 = -1;
+                                let touch_card_index2 = pai_touched.node.getSiblingIndex();
+                                for(let j = this.groupList.length - 1; j >= 0; j--){
+                                    if(this.groupList[j].view === this.pai_touched.node.parent){
+                                        touch_group_index1 = j;
+                                    }
+
+                                    if(this.groupList[j].view === pai_touched.node.parent){
+                                        touch_group_index2 = j;
+                                    }
+                                }
+
+                                this.groupList[touch_group_index1].data.delCard(cardID1);
+                                this.groupList[touch_group_index2].data.addCard(cardID1);
+
+                                this.pai_touched.node.removeFromParent(false);
+                                this.groupList[touch_group_index1].view.width -= 148;
+                                this.updateCardPos(this.groupList[touch_group_index1].view);
+
+                                let parent = this.groupList[touch_group_index2].view;
+                                parent.addChild(this.pai_touched.node);
+                                this.pai_touched.node.setSiblingIndex(touch_card_index2);
+                                this.groupList[touch_group_index2].bottom.setSiblingIndex(parent.childrenCount);
+
+                                parent.width += 148;
+                                this.updateCardPos(this.groupList[touch_group_index2].view);
+                                this.updateGroupPos();
+
+
+                                let index1 = player.pokersList[touch_group_index1].indexOf(cardID1);
+                                if(index1 !== -1) {
+                                    player.pokersList[touch_group_index1].splice(index1, 1);
+                                }
+
+                                if(event.touch.getLocationX() < this.pai_touched.node.x){
+                                    //插到左边
+                                    player.pokersList[touch_group_index2].splice(touch_card_index2-1, 0, cardID1);
+                                }else {
+                                    //插到右边
+                                    player.pokersList[touch_group_index2].splice(touch_card_index2, 0, cardID1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    touchEnd: function (event) {
+        if(!this.pai_touched){
+            this.resetSelected();
+            return;
+        }
+
+        this.pai_touched.tag = '';
+
+        if(!this.yidong_pai){
+            if(!this.pai_touched.selected){
+                this.pai_touched.selected = true;
+                this.pai_touched.node.y = 48;
+                this.touchList.push(this.pai_touched);
+            }else{
+                this.pai_touched.selected = false;
+                this.pai_touched.node.y = 0;
+                let index = this.touchList.indexOf(this.pai_touched);
+                if(index !== -1){
+                    this.touchList.splice(index, 1);
+                }
+            }
+        }else{
+            if(this.checkIsInShow()){
+
+            }else if(this.checkIsInDiscard()){
+
+            }else{
+                let pai_touched = this.getTouchPai(event.touch.getLocation());
+                if(pai_touched){
+                    for(let j = this.groupList.length - 1; j >= 0; j--){
+                        if(this.groupList[j].view.childrenCount === 1){
+                            this.groupList[j].view.destroy();
+                            this.groupList.splice(j, 1);
+                            this.node.width -= 90;
+                        }
+                    }
+
+                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                    if(player) {
+                        for(let i = player.pokersList.length - 1; i >= 0; i--){
+                            let group = player.pokersList[i];
+                            if(group.length === 0){
+                                player.pokersList.splice(i, 1);
+                            }
+                        }
+                        cc.error(player.pokersList);
+                    }
+
+                    this.commitGroup([this.yidong_pai]);
+                }
+                this.yidong_pai.node.destroy();
+                this.yidong_pai = null;
+                this.pai_touched.node.active = true;
+            }
+        }
+
+        this.pai_touched = null;
+
+        this.checkButton();
+    },
+
+    touchCancel: function (event) {
+        this.resetSelected();
+
+        if(this.yidong_pai){
+            this.yidong_pai.node.destroy();
+            this.yidong_pai = null;
+        }
+        if(this.pai_touched){
+            this.pai_touched.tag = '';
+            this.pai_touched.node.active = true;
+        }
+        this.pai_touched = null;
+
+        this.checkButton();
+    },
+
     updateBaida(){
         for(let j = 0; j < this.groupList.length; j++){
             let group = this.groupList[j].view;
@@ -797,488 +1021,5 @@ cc.Class({
             }
         })
         this.point.string = point.toString();
-    },
-
-    regTouchEvent: function () {
-        this.touchNode.on(cc.Node.EventType.TOUCH_START, this.touchStart.bind(this));
-        this.touchNode.on(cc.Node.EventType.TOUCH_MOVE, this.touchMove.bind(this));
-        this.touchNode.on(cc.Node.EventType.TOUCH_END, this.touchEnd.bind(this));
-        this.touchNode.on(cc.Node.EventType.TOUCH_CANCEL, this.touchCancel.bind(this));
-    },
-
-    touchStart: function (event) {
-        if(this.isFaPai){
-            return;
-        }
-
-        this.isCanMove = new Date().getTime();
-        let pai_touched = this.getTouchPai(event.touch.getLocation());
-        if(pai_touched){
-            this.touch_pos = event.touch.getLocation();
-
-            pai_touched.tag = "move";
-            this.pai_touched = pai_touched;
-
-            // if(this.pai_touched.selected){
-            //     this.pai_touched.doubleSelected = true;
-            // }else{
-            //     this.resetSelected();
-            //     this.pai_touched.selected = true;
-            //     this.pai_touched.node.y = this.restPt_y() + this.chupai_offset;
-
-
-                // if (this.yidong_pai.node.active == false) {
-                //     if (!this.yidong_pai.cloned || this.yidong_pai.cardId != this.pai_touched.cardId) {
-                //         this.yidong_pai.clone(this.pai_touched);
-                //         this.yidong_pai.node.parent = cc.find('Canvas');
-                //         this.yidong_pai.node.active = false;
-                //         this.yidong_pai.cloned = true;
-                //         this.yidong_pai.node.scaleX = this.yidong_pai.node.scaleX * this._node_scale_x;
-                //         this.yidong_pai.node.scaleY = this.yidong_pai.node.scaleY * this._node_scale_y;
-                //         this.yidong_pai.node.x = event.touch.getLocationX() - this._offsetX;
-                //         this.yidong_pai.node.y = event.touch.getLocationY() - this._offsetY;
-                //     }
-                // }
-            // }
-        }
-    },
-
-    touchMove: function (event) {
-        if (this.pai_touched){
-            let pai_touched = this.getTouchPai(event.touch.getLocation());
-            if(pai_touched){
-                if(pai_touched.tag !== "move"){
-                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-                    if(player){
-                        let cardID = this.pai_touched.getCard();
-                        let touch_group_index1 = -1;
-                        let touch_card_index1 = this.pai_touched.node.getSiblingIndex();
-                        let touch_group_index2 = -1;
-                        let touch_card_index2 = pai_touched.node.getSiblingIndex();
-                        for(let j = this.groupList.length - 1; j >= 0; j--){
-                            if(this.groupList[j].view === this.pai_touched.node.parent){
-                                touch_group_index1 = j;
-                            }
-
-                            if(this.groupList[j].view === pai_touched.node.parent){
-                                touch_group_index2 = j;
-                            }
-                        }
-
-                        this.groupList[touch_group_index1].data.delCard(cardID);
-                        this.groupList[touch_group_index2].data.addCard(cardID);
-
-                        let index = player.pokersList[touch_group_index1].indexOf(cardID);
-                        if(index !== -1) {
-                            player.pokersList[touch_group_index1].splice(index, 1);
-                        }
-
-                        this.pai_touched.node.removeFromParent(false);
-                        this.groupList[touch_group_index1].view.width -= 148;
-                        this.updateCardPos(this.groupList[touch_group_index1].view);
-
-                        let parent = this.groupList[touch_group_index2].view;
-                        if(event.touch.getLocationX() < this.pai_touched.node.x){
-                            //插到左边
-                            player.pokersList[touch_group_index2].splice(touch_card_index2, 0, cardID);
-                            for(let i = 0; i < parent.childrenCount; i++){
-                                if(parent.children[i].getComponent("rummy_card")){
-                                    if(parent.children[i].getSiblingIndex() >= touch_card_index2){
-                                        parent.children[i].setSiblingIndex(parent.children[i].getSiblingIndex()+1);
-                                    }
-                                }else{
-                                    parent.children[i].setSiblingIndex(parent.childrenCount);
-                                }
-                            }
-                            parent.addChild(this.pai_touched.node);
-                            this.pai_touched.node.setSiblingIndex(touch_card_index2);
-                        }else {
-                            //插到右边
-                            player.pokersList[touch_group_index2].splice(touch_card_index2+1, 0, cardID);
-                            for(let i = 0; i < parent.childrenCount; i++){
-                                if(parent.children[i].getComponent("rummy_card")){
-                                    if(parent.children[i].getSiblingIndex() > touch_card_index2){
-                                        parent.children[i].setSiblingIndex(parent.children[i].getSiblingIndex()+1);
-                                    }
-                                }else{
-                                    parent.children[i].setSiblingIndex(parent.childrenCount);
-                                }
-                            }
-                            parent.addChild(this.pai_touched.node);
-                            this.pai_touched.node.setSiblingIndex(touch_card_index2+1);
-                        }
-                        parent.width += 148;
-                        this.updateCardPos(this.groupList[touch_group_index2].view);
-                        this.updateGroupPos();
-
-                    }
-                }
-            }
-
-            if(new Date().getTime() - this.isCanMove > 50 || this.isCanMove == null) {
-                this.isCanMove = null;
-
-                if(this.yidong_pai){
-                    this.yidong_pai.node.position = this.node.convertToNodeSpaceAR(event.touch.getLocation());
-                }else if(cc.Vec2.distance(event.touch.getLocation(), this.touch_pos) >= 144){
-                    let node = cc.instantiate(this.pai_touched.node);
-                    this.yidong_pai = node.getComponent("rummy_card");
-                    this.node.addChild(node);
-                    let worldPos = this.pai_touched.node.parent.convertToWorldSpaceAR(this.pai_touched.node.position);
-                    let startPos = this.node.convertToNodeSpaceAR(worldPos);
-                    node.position = startPos;
-
-                    this.yidong_pai.node.active = true;
-                    this.pai_touched.node.active = false;
-                }
-            }
-        }
-        // if (this.require_DeskData.Instance().isHu) {
-        //     return;
-        // }
-        //
-        // if(this.fenpai_touched){
-        //     return;
-        // }
-        //
-        // this.changePaiMove(event);
-        //
-        // if (this.pai_touched &&                          //没有选择牌
-        //     // this.touchCardMode == TouchCardMode.CHU_PAI && //非出牌模式的时候不能滑动
-        //     !this.require_UserPlayer.canhu) {                          //胡牌的时候不能滑动
-        //
-        //     if(new Date().getTime() - this.isCanMove > 50 || this.isCanMove == null) {
-        //         this.isCanMove = null;
-        //
-        //         this.yidong_pai.node.x = event.touch.getLocationX() - this._offsetX;
-        //         this.yidong_pai.node.y = event.touch.getLocationY() - this._offsetY;
-        //         if (this.yidong_pai.node.y > this.pai_move_offset * this._node_scale_y) {
-        //             this.cloneYiDongPai();
-        //             this.yidong_pai.node.active = true;
-        //             this.pai_touched.node.active = false;
-        //             //滑动显示标记牌
-        //             this.biaojiPai(this.pai_touched.cardId);
-        //         }
-        //     }
-        // }
-    },
-
-    touchEnd: function (event) {
-        if(!this.pai_touched){
-            this.resetSelected();
-            return;
-        }
-
-        this.pai_touched.tag = '';
-
-        if(!this.yidong_pai){
-            if(!this.pai_touched.selected){
-                this.pai_touched.selected = true;
-                this.pai_touched.node.y = 48;
-                this.touchList.push(this.pai_touched);
-            }else{
-                this.pai_touched.selected = false;
-                this.pai_touched.node.y = 0;
-                let index = this.touchList.indexOf(this.pai_touched);
-                if(index !== -1){
-                    this.touchList.splice(index, 1);
-                }
-            }
-        }else{
-            if(this.checkIsInShow()){
-
-            }else if(this.checkIsInDiscard()){
-
-            }else{
-                let pai_touched = this.getTouchPai(event.touch.getLocation());
-                if(pai_touched){
-                    // this.commitGroup([this.yidong_pai]);
-                }
-                this.yidong_pai.node.destroy();
-                this.yidong_pai = null;
-                this.pai_touched.node.active = true;
-            }
-
-            // if(this.first !== -1){
-            //     if(!this.groupList[this.first].data.isPure()){
-            //         this.first = -1;
-            //     }
-            // }
-            //
-            // if(this.second !== -1){
-            //     if(!this.groupList[this.second].data.isImPure()){
-            //         this.first = -1;
-            //     }
-            // }
-            //
-            // for(let j = this.groupList.length - 1; j >= 0; j--){
-            //     this.updateGroupBottom(this.groupList[j], j);
-            // }
-        }
-
-        this.pai_touched = null;
-
-        // if (this.require_DeskData.Instance().isHu) {
-        //     this.yidong_pai.node.active = false;
-        //     return;
-        // }
-        //
-        // if(this.require_DeskData.Instance().waitForSendOutCard){
-        //     this.resetSelected();
-        //     return;
-        // }
-        //
-        // if(this.fenpai_touched){
-        //     return;
-        // }
-        //
-        // if (this.require_UserPlayer.canhu) {
-        //     return;
-        // }
-        //
-        // if(!this.pai_touched){
-        //     return;
-        // }else{
-        //     if(this.touchCardMode == this.TingPaiTouchMode){
-        //         this.closeJiaoInfo();
-        //         this.openJiaoInfo(this.pai_touched.cardId);
-        //     }
-        // }
-        //
-        // this.pai_touched = null;
-        // this.isCanMove = null;
-        //
-        // if (this.yidong_pai.node.active) {
-        //     if (this.yidong_pai.node.y > this.pai_move_offset * this._node_scale_y) {
-        //         //出牌
-        //         // this.resetSelected();
-        //
-        //         this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK, [this.require_UserPlayer, false, null, 1]);
-        //
-        //         var jlmj_pai = this.getShouPai(this.yidong_pai.cardId);
-        //         if (this.require_UserPlayer.isTempBaoTing) {
-        //             var tingType = this.getTingType();
-        //             this.require_UserPlayer.setJiaoInfo(this.yidong_pai.cardId);
-        //             this.sendTingPai(this.yidong_pai.cardId, tingType);
-        //         } else {
-        //             if(this.require_UserPlayer.hasMoPai()){
-        //                 this.sendOutCard(this.yidong_pai.cardId);
-        //                 this.setShoupaiTingbiaoji(false);
-        //                 this.yidong_pai_show = true;
-        //                 // this.yidong_pai.node.runAction(cc.moveTo(0.05,cc.p(0,-142)));
-        //             }else{
-        //                 this.yidong_pai.node.active = false;
-        //                 this.updateSelectedPai(this.require_UserPlayer);
-        //             }
-        //         }
-        //     }
-        //     else {
-        //         this.quxiaoBiaoji();
-        //         this.yidong_pai.node.active = false;
-        //         this.updateSelectedPai(this.require_UserPlayer);
-        //
-        //         if(this.touchCardMode == 3){
-        //             var arr = [];
-        //             var list = this.require_UserPlayer.jiaoInfo_list;
-        //             for(var i=0; i<list.length; ++i ){
-        //                 arr.push(list[i].out_id);
-        //             }
-        //
-        //             this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK,[this.require_UserPlayer, true, arr, 3]);
-        //         }
-        //     }
-        // } else {
-        //     var pai_touched = this.getTouchPai(event);
-        //
-        //     if(!pai_touched){
-        //         this.resetSelected();
-        //         if(this.touchCardMode == 3){
-        //             var arr = [];
-        //             var list = this.require_UserPlayer.jiaoInfo_list;
-        //             for(var i=0; i<list.length; ++i ){
-        //                 arr.push(list[i].out_id);
-        //             }
-        //
-        //             this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK,[this.require_UserPlayer, true, arr, 3]);
-        //         }
-        //         return;
-        //     }
-        //     if (this.require_DeskData.Instance().sendCard && this.require_DeskData.Instance().sendCard == pai_touched.cardId) {
-        //         this.resetSelected();
-        //         if(this.touchCardMode == 3){
-        //             var arr = [];
-        //             var list = this.require_UserPlayer.jiaoInfo_list;
-        //             for(var i=0; i<list.length; ++i ){
-        //                 arr.push(list[i].out_id);
-        //             }
-        //
-        //             this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK,[this.require_UserPlayer, true, arr, 3]);
-        //         }
-        //         return;
-        //     }
-        //
-        //     if(!pai_touched.doubleSelected){
-        //         if(event.touch.getLocationY() - this.yd_y > this.chupai_offset){
-        //
-        //         }else{
-        //             if(this.touchCardMode == 3){
-        //                 var arr = [];
-        //                 var list = this.require_UserPlayer.jiaoInfo_list;
-        //                 for(var i=0; i<list.length; ++i ){
-        //                     arr.push(list[i].out_id);
-        //                 }
-        //
-        //                 this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK,[this.require_UserPlayer, true, arr, 3]);
-        //             }
-        //             return;
-        //         }
-        //     }
-        //
-        //     //出牌
-        //     this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK, [this.require_UserPlayer, false, null, 1]);
-        //     if (this.require_UserPlayer.isTempBaoTing) {
-        //         var tingType = this.getTingType();
-        //         this.require_UserPlayer.setJiaoInfo(pai_touched.cardId);
-        //         this.sendTingPai(pai_touched.cardId, tingType);
-        //         this.da_pai = true;
-        //         /*if(!this.yidong_pai.cloned || this.yidong_pai.cardId != pai_touched.cardId){
-        //             this.yidong_pai.clone(pai_touched);
-        //             this.yidong_pai.node.parent = cc.find('Canvas');
-        //             this.yidong_pai.node.active = true;
-        //             this.pai_touched.node.active = false;
-        //             this.yidong_pai.node.x = pai_touched.node.x;
-        //             this.yidong_pai.node.y = pai_touched.node.y;
-        //             this.yidong_pai_show = true;
-        //             this.yidong_pai.node.runAction(cc.moveTo(0.05,cc.p(0,-142)));
-        //         }*/
-        //     } else {
-        //         if(this.require_UserPlayer.hasMoPai()){
-        //             this.customTouchEndSendOutCard();
-        //             this.sendOutCard(pai_touched.cardId);
-        //             this.setShoupaiTingbiaoji(false);
-        //             this.da_pai = true;
-        //             if(!this.yidong_pai.cloned || this.yidong_pai.cardId != pai_touched.cardId){
-        //                 this.yidong_pai.clone(pai_touched);
-        //                 this.yidong_pai.node.parent = cc.find('Canvas');
-        //                 this.yidong_pai.node.active = true;
-        //                 pai_touched.node.active = false;
-        //                 this.yidong_pai.node.x = pai_touched.node.x;
-        //                 this.yidong_pai.node.y = pai_touched.node.y;
-        //                 this.yidong_pai_show = true;
-        //                 // this.yidong_pai.node.runAction(cc.moveTo(0.05,cc.p(0,-142)));
-        //             }
-        //         }
-        //     }
-        //
-        // }
-        //
-        // this.resetSelected();
-        // if(this.da_pai){
-        //     pai_touched.node.y += this.chupai_offset;
-        //     this.da_pai = false;
-        // }
-        //
-        // this.touchDapai();
-
-        this.checkButton();
-    },
-
-    touchCancel: function (event) {
-        // if(this.pai_touched){
-        //     this.pai_touched.node.active = true;
-        // }
-        // this.pai_touched = null;
-        // this.isCanMove = null;
-        // this.yidong_pai.node.active = false;
-        // this.resetSelected();
-        // this.updateShouPai();
-        // if(this.touchCardMode == 3){
-        //     var arr = [];
-        //     var list = this.require_UserPlayer.jiaoInfo_list;
-        //     for(var i=0; i<list.length; ++i ){
-        //         arr.push(list[i].out_id);
-        //     }
-        //
-        //     this.require_playerED.notifyEvent(this.require_PlayerEvent.SHOW_CLICK,[this.require_UserPlayer, true, arr, 3]);
-        // }
-
-        this.checkButton();
-    },
-
-    /**
-     * 移动手牌时经过其他手牌，换成该手牌
-     * @param event
-     */
-    changePaiMove(event){
-        // var pai_touched = this.getTouchPai(event);
-        // if (pai_touched) {//找到选择的牌
-        //     //this.updateSelectedPai(this.require_UserPlayer);
-        //     if(this.pai_touched){
-        //         this.pai_touched.node.active = true;
-        //         this.yidong_pai.node.active = false
-        //     }
-        //     this.pai_touched = pai_touched;
-        //
-        //
-        //     if(!this.pai_touched.selected){
-        //         this.resetSelected();
-        //         this.pai_touched.selected = true;
-        //         this.pai_touched.node.y = this.restPt_y() + this.chupai_offset;
-        //         this.require_mj_audio.playAduio("select.mp3");
-        //         this.biaojiPai(this.pai_touched.cardId);
-        //         if(this.yidong_pai.node.active == true)
-        //             this.isCanMove = new Date().getTime();
-        //     }
-        //     if(pai_touched && this.touchCardMode == this.TingPaiTouchMode){
-        //         this.closeJiaoInfo();
-        //         this.openJiaoInfo(this.pai_touched.cardId);
-        //     }
-        // }
-    },
-
-    cloneYiDongPai(){
-        // if(this.yidong_pai.node.active == false){
-        //     if(!this.yidong_pai.cloned || this.yidong_pai.cardId != this.pai_touched.cardId){
-        //         this.yidong_pai.clone(this.pai_touched);
-        //         this.yidong_pai.node.parent = cc.find('Canvas');
-        //         this.yidong_pai.node.active = false;
-        //         this.yidong_pai.cloned = true;
-        //         this.yidong_pai.node.scaleX = this.yidong_pai.node.scaleX * this._node_scale_x;
-        //         this.yidong_pai.node.scaleY = this.yidong_pai.node.scaleY * this._node_scale_y;
-        //         this.yidong_pai.node.x = event.touch.getLocationX()-this._offsetX;
-        //         this.yidong_pai.node.y = event.touch.getLocationY()-this._offsetY;
-        //     }
-        // }
-    },
-
-    getTouchPai: function (location) {
-        for(let j = 0; j < this.groupList.length; j++){
-            let group = this.groupList[j].view;
-            for(let k = group.childrenCount - 1; k >= 0; k--){
-                let card = group.children[k].getComponent("rummy_card");
-                if(card && card.isTouchDown(location)){//通过有没有设置过pos去重
-                    return card;
-                }
-            }
-        }
-
-        return null;
-    },
-
-    /**
-     * 恢复所有牌的初始化位置
-     */
-    resetSelected: function () {
-        this.touchList = [];
-        for(let j = 0; j < this.groupList.length; j++){
-            let group = this.groupList[j].view;
-            for(let k = 0; k < group.childrenCount; k++){
-                let card = group.children[k].getComponent("rummy_card");
-                if(card){//通过有没有设置过pos去重
-                    card.selected = false;
-                    group.children[k].y = 0;
-                }
-            }
-        }
     },
 });
