@@ -569,10 +569,6 @@ cc.Class({
         this.dropNode.active = false;
     },
 
-    onClickCloseShow(event, data){
-        hall_audio_mgr.com_btn_click();
-        this.showNode.active = false;
-    },
 
     onClickDrop(event, data){
         hall_audio_mgr.com_btn_click();
