@@ -70,10 +70,9 @@ var handler = {
                     break;
             }
             cc.dd.PromptBoxUtil.show(str);
-            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-            if(player){
-                player.updatePoker();
-            }
+
+            var msg = new cc.pb.rummy.msg_rm_sort_req();
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
         }
     },
 
@@ -111,6 +110,9 @@ var handler = {
                     break;
             }
             cc.dd.PromptBoxUtil.show(str);
+
+            var msg = new cc.pb.rummy.msg_rm_sort_req();
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
         }
     },
 
@@ -144,7 +146,8 @@ var handler = {
                     str = '已经结算';
                     break;
             }
-            cc.dd.PromptBoxUtil.show(str);
+            // cc.dd.PromptBoxUtil.show(str);
+            cc.error(`on_msg_rm_sort_ack ${str}`);
         }
     },
 

@@ -430,6 +430,8 @@ cc.Class({
                 this.scheduleOnce(this.showResult.bind(this), 2)
                 break;
             case RummyEvent.PLAYER_TURN:
+                this.dropNode.active = false;
+                this.showNode.active = false;
                 break;
             case RummyEvent.CHECK_BUTTON:
                 this.checkButton();

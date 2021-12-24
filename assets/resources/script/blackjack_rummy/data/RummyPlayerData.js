@@ -93,6 +93,12 @@ let RummyPlayerData = cc.Class({
             this.handsList.splice(index, 1);
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card, playerHasCard]);
+
+        if(!playerHasCard){
+            var msg = new cc.pb.rummy.msg_rm_group_req();
+            msg.setGroupsList(this.pokersList);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+        }
     },
 
     init(data){
