@@ -41,7 +41,7 @@ let RummyRoomMgr = cc.Class({
     isUserPlaying(){
         let player = this.getPlayerById(cc.dd.user.id);
         if(player){
-            return player.userState !== 3;
+            return player.userState === 1;
         }else{
             return false;
         }

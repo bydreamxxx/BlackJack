@@ -553,9 +553,12 @@ let userInfo = cc.Class({
                 ui.getComponent('klb_hall_ShopLayer').gotoPage(type);
                 // ui.setLocalZOrder(5000);
             }.bind(this));
-            // cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_APPLY);
         }
 
+    },
+    // 点击转轮赛
+    clickWheelRace() {
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_APPLY);
     },
 
     chickShopDL() {

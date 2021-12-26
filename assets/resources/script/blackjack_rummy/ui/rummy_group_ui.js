@@ -183,7 +183,13 @@ cc.Class({
             this.updatePoint();
 
             var msg = new cc.pb.rummy.msg_rm_group_req();
-            msg.setGroupsList(player.pokersList);
+            let groupsList = []
+            player.pokersList.forEach(group=>{
+                let groupmsg = new cc.pb.rummy.rm_group();
+                groupmsg.setCardsList(group);
+                groupsList.push(groupmsg);
+            });
+            msg.setGroupsList(groupsList);
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
         }
     },
@@ -471,7 +477,13 @@ cc.Class({
 
                             var msg = new cc.pb.rummy.msg_rm_show_req();
                             msg.setCard(this.showCardID);
-                            msg.setGroupsList(player.pokersList);
+                            let groupsList = []
+                            player.pokersList.forEach(group=>{
+                                let groupmsg = new cc.pb.rummy.rm_group();
+                                groupmsg.setCardsList(group);
+                                groupsList.push(groupmsg);
+                            });
+                            msg.setGroupsList(groupsList);
                             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
                         }
 
@@ -908,11 +920,11 @@ cc.Class({
                 }
             }
         }else{
-            let cardId = this.yidong_pai.getCard();
-            if(this.checkIsInShow(event.touch.getLocation())){
-                this.showFunc = ()=>{
-                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-                    if(player) {
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player) {
+                let cardId = this.yidong_pai.getCard();
+                if(this.checkIsInShow(event.touch.getLocation()) && player.handsList.length === 14 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING){
+                    this.showFunc = ()=>{
                         let findCard = null;
                         for (let j = 0; j < this.groupList.length; j++) {
                             let group = this.groupList[j].view;
@@ -973,28 +985,27 @@ cc.Class({
 
                                     var msg = new cc.pb.rummy.msg_rm_show_req();
                                     msg.setCard(cardId);
-                                    msg.setGroupsList(player.pokersList);
+                                    let groupsList = []
+                                    player.pokersList.forEach(group=>{
+                                        let groupmsg = new cc.pb.rummy.rm_group();
+                                        groupmsg.setCardsList(group);
+                                        groupsList.push(groupmsg);
+                                    });
+                                    msg.setGroupsList(groupsList);
                                     cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
                                 })
                                 .start();
                         }
-                    }else{
+                    };
+
+                    this.cancelShowFunc = ()=>{
                         this.yidong_pai.node.destroy();
                         this.yidong_pai = null;
                         this.pai_touched.node.active = true;
                     }
-                };
 
-                this.cancelShowFunc = ()=>{
-                    this.yidong_pai.node.destroy();
-                    this.yidong_pai = null;
-                    this.pai_touched.node.active = true;
-                }
-
-                this.showNode.active = true;
-            }else if(this.checkIsInDiscard(event.touch.getLocation())){
-                let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-                if(player) {
+                    this.showNode.active = true;
+                }else if(this.checkIsInDiscard(event.touch.getLocation()) && player.handsList.length === 14 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING){
                     for(let i = player.pokersList.length - 1; i >= 0; i--){
                         let group = player.pokersList[i];
                         let index = group.indexOf(cardId);
@@ -1061,34 +1072,30 @@ cc.Class({
                             .start();
                     }
                 }else{
-                    this.yidong_pai.node.destroy();
-                    this.yidong_pai = null;
-                    this.pai_touched.node.active = true;
-                }
-
-            }else{
-                let pai_touched = this.getTouchPai(event.touch.getLocation());
-                if(pai_touched){
-                    for(let j = this.groupList.length - 1; j >= 0; j--){
-                        if(this.groupList[j].view.childrenCount === 1){
-                            this.groupList[j].view.destroy();
-                            this.groupList.splice(j, 1);
-                            this.node.width -= 90;
+                    let pai_touched = this.getTouchPai(event.touch.getLocation());
+                    if(pai_touched){
+                        for(let j = this.groupList.length - 1; j >= 0; j--){
+                            if(this.groupList[j].view.childrenCount === 1){
+                                this.groupList[j].view.destroy();
+                                this.groupList.splice(j, 1);
+                                this.node.width -= 90;
+                            }
                         }
-                    }
 
-                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-                    if(player) {
                         for(let i = player.pokersList.length - 1; i >= 0; i--){
                             let group = player.pokersList[i];
                             if(group.length === 0){
                                 player.pokersList.splice(i, 1);
                             }
                         }
-                    }
 
-                    this.commitGroup([this.yidong_pai]);
+                        this.commitGroup([this.yidong_pai]);
+                    }
+                    this.yidong_pai.node.destroy();
+                    this.yidong_pai = null;
+                    this.pai_touched.node.active = true;
                 }
+            }else{
                 this.yidong_pai.node.destroy();
                 this.yidong_pai = null;
                 this.pai_touched.node.active = true;

@@ -63,7 +63,10 @@ let RummyPlayerData = cc.Class({
     },
 
     faPai(data){
-        this.pokersList = data.cardsList.concat();
+        this.pokersList = [];
+        data.cardsList.forEach(list=>{
+            this.pokersList.push(list.cardsList);
+        });
         this.handsList = [].concat(...this.pokersList);
         RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },
@@ -94,7 +97,7 @@ let RummyPlayerData = cc.Class({
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card, playerHasCard]);
 
-        if(!playerHasCard){
+        if(!playerHasCard && this.pokersList.length > 0 && this.userId === cc.dd.user.id){
             var msg = new cc.pb.rummy.msg_rm_group_req();
             msg.setGroupsList(this.pokersList);
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
@@ -168,7 +171,10 @@ let RummyPlayerData = cc.Class({
 
         if(this.handsList.toString() !== data.handCardsList.toString()){
             cc.error('手牌不正确，重置手牌');
-            this.pokersList = data.cardsList.concat();
+            this.pokersList = [];
+            data.cardsList.forEach(list=>{
+                this.pokersList.push(list.cardsList);
+            });
             this.handsList = data.handCardsList;
             RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
             return;
@@ -212,7 +218,10 @@ let RummyPlayerData = cc.Class({
 
     updatePoker(pokersList){
         if(pokersList){
-            this.pokersList = pokersList.concat();
+            this.pokersList = [];
+            pokersList.forEach(list=>{
+                this.pokersList.push(list.cardsList);
+            });
             this.handsList = [].concat(...this.pokersList);
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);

@@ -42,6 +42,7 @@ cc.Class({
     loadData() {
         wheelRaceED.addObserver(this);
         this.coinLabel.string = cc.dd.Utils.getNumToWordTransform(HallPropData.getCoin()) || 0
+        this.requestWheelRaceInfo()
     },
     loadRank(rank_list) {
         for(let i=0; i<rank_list.length; i++) {
@@ -56,79 +57,20 @@ cc.Class({
         this.rankContext.height = rank_list.length*this.rankItemHeight
     },
     loadCompete(race_list) {
+        for(let i=0; i<this.competeList.length; i++) {
+            this.competeList[i].active = false
+        }
         for(let i=0; i<race_list.length; i++) {
             let item = this.competeList[i].getComponent('BlackJack_Hall_Wheel_item')
+            item.node.active = true
             item.setData(race_list[i])
         }
     },
     refreshUI () {
-        let raceData = wheelRaceData.getRaceByGameType(0)
-        // raceData = {
-        //     rank_list:[
-        //         {
-        //             rank: 1,
-        //             user_id: 1,
-        //             name: 'jack',
-        //             head_url: '3099.png',
-        //             score: 147
-        //         },
-        //         {
-        //             rank: 2,
-        //             user_id: 2,
-        //             name: 'tom',
-        //             head_url: '3098.png',
-        //             score: 234
-        //         },
-        //         {
-        //             rank: 2,
-        //             user_id: 2,
-        //             name: 'tom',
-        //             head_url: '3097.png',
-        //             score: 234
-        //         },
-        //         {
-        //             rank: 2,
-        //             user_id: 2,
-        //             name: 'tom',
-        //             head_url: '3096.png',
-        //             score: 234
-        //         },
-        //         {
-        //             rank: 2,
-        //             user_id: 2,
-        //             name: 'tom',
-        //             head_url: '3095.png',
-        //             score: 234
-        //         },
-        //         {
-        //             rank: 2,
-        //             user_id: 2,
-        //             name: 'tom',
-        //             head_url: '3094.png',
-        //             score: 234
-        //         }
-        //     ],
-        //     race_list:[{
-        //         sign_fee: {type:0, num: 100},
-        //         pool_num: 777,
-        //         join_num: 845,
-        //         game_type: 0
-        //     },
-        //     {
-        //         sign_fee: {type:0, num: 200},
-        //         pool_num: 888,
-        //         join_num: 845,
-        //         game_type: 1
-        //     },
-        //     {
-        //         sign_fee: {type:0, num: 300},
-        //         pool_num: 999,
-        //         join_num: 845,
-        //         game_type: 2
-        //     }]
-        // }
-        this.loadRank(raceData.rank_list)
-        this.loadCompete(raceData.race_list)
+        let raceData = wheelRaceData.getWheelRaceList()
+        let rankData = wheelRaceData.getWheelRankList()
+        this.loadRank(rankData)
+        this.loadCompete(raceData)
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -143,7 +85,7 @@ cc.Class({
      * @param data
      */
      onEventMessage: function (event, data) {
-        dd.NetWaitUtil.close();
+        cc.dd.NetWaitUtil.close();
         switch (event) {
             case wheelRaceEvent.WHEEL_RACE_REFRESH: // 转轮赛数据更新
                 this.refreshUI();

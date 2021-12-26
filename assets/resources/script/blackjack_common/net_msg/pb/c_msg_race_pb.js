@@ -15,6 +15,7 @@ let match_race_info = cc.Class({
         content.minCoinNum = this.minCoinNum;
         content.icon = this.icon;
         content.gameType = this.gameType;
+        content.roomCoinId = this.roomCoinId;
 
         return content;
     },
@@ -53,6 +54,9 @@ let match_race_info = cc.Class({
     },
     setGameType(gameType){
         this.gameType = gameType;
+    },
+    setRoomCoinId(roomCoinId){
+        this.roomCoinId = roomCoinId;
     },
 
 });

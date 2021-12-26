@@ -59,7 +59,7 @@ cc.Class({
             layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
             layout.spacingX = -145;
 
-            group.forEach(cardID=>{
+            group.cardsList.forEach(cardID=>{
                 let card = cc.instantiate(this.card);
                 node.addChild(card);
                 card.getComponent("rummy_card").init(cardID);

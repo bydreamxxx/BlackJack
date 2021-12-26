@@ -2523,6 +2523,7 @@ message match_race_info {
 	optional int64 min_coin_num = 10;				// 允许进入的最小携带金币
 	optional string icon = 11;						// 比赛icon
 	optional int32 game_type = 12;					// 游戏类型 见 data_game_type配置表
+	optional int32 room_coin_id = 13;				// 场次
 }
 
 message msg_match_race_list_req {

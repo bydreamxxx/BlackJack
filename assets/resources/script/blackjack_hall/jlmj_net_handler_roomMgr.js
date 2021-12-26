@@ -526,6 +526,7 @@ var handler = {
                 });
                 break;
             case 202: //德州
+            case define.GameType.TEXAS_WHEEL:
                 var mgr = require('texas_data').texas_Data.Instance();
                 RoomMgr.Instance().setPlayerMgr();
                 mgr.updatePlayerNum();

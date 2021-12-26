@@ -43,6 +43,8 @@ var RoomEvent = cc.Enum({
     room_create_by_self: 'room_create_by_self', //自建房列表发送
 
     daikai_list_ret: 'daikai_room_list', //代开列表
+
+    on_match_race_reward: 'on_match_race_reward', //转轮赛奖励
 });
 
 /**
@@ -392,7 +394,13 @@ var RoomMgr = cc.Class({
                 this.player_mgr = require('horse_racing_Data').Horse_Racing_Data.Instance();
                 break;
             case Define.GameType.TEXAS:
+            case Define.GameType.TEXAS_WHEEL:
                 this.player_mgr = require('texas_data').texas_Data.Instance();
+                if(Define.GameType.TEXAS_WHEEL===this.gameId) {
+                    this.player_mgr.PLAYER_NUM = 3
+                } else {
+                    this.player_mgr.PLAYER_NUM = 9
+                }
                 break;
             case Define.GameType.MOUSE:
                 break;

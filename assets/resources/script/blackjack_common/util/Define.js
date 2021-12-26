@@ -162,7 +162,8 @@ var GameType = {
     BLACKJACK_GOLD: 203,
     BLACKJACK_FRIEND: 85,
     TEXAS: 202, //德州
-    RUMMY: 185
+    RUMMY: 185,
+    TEXAS_WHEEL: 502, // 德州转轮
 };
 
 /**
@@ -401,6 +402,9 @@ var GameId = {
     202:'texas_jbc',
 
     185: 'rummy',
+
+    //------------德州转轮赛--------------
+    502: 'texas_jbc'
 };
 
 /**

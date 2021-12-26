@@ -51,7 +51,7 @@ const CardType = {  //牌类型
     THS: 9,                     //同花顺
 };
 
-const PLAYER_NUM = 9;           //玩家人数
+// const PLAYER_NUM = 9;           //玩家人数
 
 const POKER_LIST = [
     21, 22, 23, 24,     // 2    方块   梅花   红桃   黑桃
@@ -114,6 +114,8 @@ var texas_Data = cc.Class({
         this.m_bAutoPickMoney = 0;
         this.curPlayerTime = 0;
         this.stand = false;
+
+        this.PLAYER_NUM = 9;           //玩家人数
     },
 
     //重置游戏数据
@@ -292,7 +294,7 @@ var texas_Data = cc.Class({
                     if(this.selfSeat == 100)
                         pview = this.playerList[i].seat
                     else
-                        pview = this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
+                        pview = this.playerList[i].seat - this.selfSeat + this.PLAYER_NUM;
                 }
                 if (view == pview)
                     return this.playerList[i];
@@ -340,7 +342,7 @@ var texas_Data = cc.Class({
                     if(this.selfSeat >= 100)
                         return this.playerList[i].seat
                     else
-                        return this.playerList[i].seat - this.selfSeat + PLAYER_NUM;
+                        return this.playerList[i].seat - this.selfSeat + this.PLAYER_NUM;
                 }
             }
         }

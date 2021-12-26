@@ -137,7 +137,7 @@ let RummyGameMgr = cc.Class({
     synGiveupPoker(msg){
         RummyData.xcard = msg.xcard;
         RummyData.giveUp = msg.giveupCard;
-        RummyED.notifyEvent(RummyEvent.SYN_DESK);
+        // RummyED.notifyEvent(RummyEvent.SYN_DESK);
     },
 
     updateUI(){

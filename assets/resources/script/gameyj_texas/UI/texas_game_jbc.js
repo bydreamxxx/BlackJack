@@ -21,6 +21,7 @@ var Platform = require('Platform');
 var AppConfig = require('AppConfig');
 let sender = require('net_sender_texas');
 var hall_prefab = require('hall_prefab_cfg');
+const game_type = require('game_type');
 
 var ChatEd = require('jlmj_chat_data').ChatEd;
 var ChatEvent = require('jlmj_chat_data').ChatEvent;
@@ -92,12 +93,15 @@ cc.Class({
 
         wheelView: require('texas_wheel'),
         wheelRaceResult: require('wheel_race_result'),
-        wheelHeadList: [texas_game_head]
+        wheelHeadList: [cc.Node],
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        // 转轮赛
+        this.loadWheelHead()
+
         cc.dd.SysTools.setLandscape();
         TEXAS_ED.addObserver(this);
         ChatEd.addObserver(this);
@@ -114,13 +118,18 @@ cc.Class({
         this.updateDeskScore();
         // cc.gateNet.Instance().startDispatch();
         // this.test();
-
     },
     // 加载转轮赛头像
     loadWheelHead() {
-        this.head_list = []
-        for(let i=0; i<this.wheelHeadList.length; i++) {
-            this.head_list.push(this.wheelHeadList[i])
+        this.isWheelRace = false
+        let config = game_type.getItem((_item) => {
+            return _item.key == RoomMgr.Instance().gameId;
+        })
+        if(config.room_type === 10) {
+            this.isWheelRace = true
+            for(let i=0; i<this.wheelHeadList.length; i++) {
+                this.head_list[i].node.setPosition(this.wheelHeadList[i].getPosition())
+            }
         }
     },
     
@@ -291,13 +300,13 @@ cc.Class({
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
     },
 
-    playWheelAnim() {
+    playWheelAnim(coin) {
+        let numArray = coin.toString().split('')
         this.wheelView.node.active=true
         // this.wheelView.setRange(3000, 50000)
-        this.wheelView.onRunCode(['1','3','7','6','2'], this.wheelEnd)
+        this.wheelView.onRunCode(numArray, this.wheelEnd.bind(this))
     },
     wheelEnd() {
-        console.log('wheelEnd')
         setTimeout(()=>{
             this.wheelView.node.active = false
         }, 3000)
@@ -451,6 +460,9 @@ cc.Class({
                     }
                 }
                 break; 
+            case RoomEvent.on_match_race_reward: //转轮赛奖励
+                this.playWheelAnim(data.rewardListList[0].rewardListList[0].num)
+                break;
         }
     },
 
@@ -1331,7 +1343,6 @@ cc.Class({
                 //if (selfplayer && !selfplayer.joinGame) {
                     this.onDealCard();
                 //}
-                // this.playWheelAnim()
                 break;
 
         }

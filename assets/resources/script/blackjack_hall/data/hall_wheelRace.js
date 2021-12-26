@@ -22,20 +22,34 @@ var wheelRaceData = cc.Class({
         },
     },
     properties: {
-        _wheelRaceList:[]
+        // 比赛列表
+        _wheelRaceList:[],
+        // 排行榜列表
+        _wheelRankList:[],
+        // 自己排名
+        _selfRank: -1,
     },
 
-    initData: function (list) {
+    initData: function (data) {
         var self = this;
         self._wheelRaceList.splice(0, self._wheelRaceList.length);
-        list.forEach(function (item) {
+        data.raceListList.forEach(function (item) {
             self._wheelRaceList.push(item)
         });
+        self._wheelRankList.splice(0, self._wheelRankList.length);
+        data.rankListList.forEach(function (item) {
+            self._wheelRankList.push(item)
+        });
+        this._selfRank = data.rank
         wheelRaceED.notifyEvent(wheelRaceEvent.WHEEL_RACE_REFRESH, null);
     },
 
     getWheelRaceList: function () {
         return this._wheelRaceList;
+    },
+
+    getWheelRankList: function () {
+        return this._wheelRankList;
     },
 
     // 根据游戏类型获取转轮赛数据

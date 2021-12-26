@@ -191,6 +191,7 @@ cc.Class({
                     this.checkIsEnterCommon(this.gameid, this.sendSuohaEnterMsg.bind(this));
                     break;
                 case 202:
+                case Define.GameType.TEXAS_WHEEL:
                     this.checkIsEnterCommon(this.gameid, this.sendTexasEnter.bind(this))
                     break;
                 case Define.GameType.XZMJ_GOLD:
