@@ -729,7 +729,10 @@ cc.Class({
                             baidaNodeTween.start()
                         })
                         .start();
-                }else if(this.discardNode.childrenCount === 0 && this.cardsNode.childrenCount === 0){
+                }else{
+                    this.discardNode.removeAllChildren();
+                    this.cardsNode.removeAllChildren();
+
                     let discard = cc.instantiate(this.cardPrefab);
                     discard.scaleX = 0.538;
                     discard.scaleY= 0.538;
@@ -760,8 +763,14 @@ cc.Class({
                     if(player){
                         player.setPaiTouch(RummyData.state === 2 || RummyData.state === 3)
                     }
+
+                    RummyGameMgr.updateBaida();
                 }
             }else{
+                this.cardsNode.removeAllChildren();
+                this.discardNode.removeAllChildren();
+                this.showcardNode.removeAllChildren();
+
                 this.tipsNode.active = true;
                 this.tipsLabel.setText('WAITING');
 
@@ -778,6 +787,25 @@ cc.Class({
                 this.cardsNode.addChild(node);
 
                 node.getComponent("rummy_card").init(172);
+
+                if(RummyData.state === GAME_STATE.PLAYING){
+                    node.x = -28.66;
+                    node.y = -1.144;
+                    node.angle = 11.5;
+
+                    let paidui1 = cc.instantiate(this.cardListNode);
+                    this.cardsNode.addChild(paidui1);
+                    paidui1.y = -4;
+
+                    let paidui2 = cc.instantiate(this.cardListNode);
+                    this.cardsNode.addChild(paidui2);
+
+                }else{
+                    let showcard = cc.instantiate(this.cardPrefab);
+                    showcard.scaleX = 0.538;
+                    showcard.scaleY= 0.538;
+                    this.showcardNode.addChild(showcard);
+                }
             }
         }
     },

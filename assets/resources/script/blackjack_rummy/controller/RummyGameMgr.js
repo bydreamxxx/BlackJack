@@ -142,6 +142,10 @@ let RummyGameMgr = cc.Class({
 
     updateUI(){
         if(cc.dd.SceneManager.isGameSceneExit(cc.dd.Define.GameType.RUMMY)){
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(RummyData.turn);
+            if(player){
+                player.resetCD(RummyData.turnLeftTime);
+            }
             RummyED.notifyEvent(RummyEvent.UPDATE_UI);
         }else{
             this.needUpdateUI = true;

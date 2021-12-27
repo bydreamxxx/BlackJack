@@ -28,7 +28,7 @@ cc.Class({
         offline: cc.Node,
         standNode: cc.Node,
 
-        CDTime: 10,
+        CDTime: 20,
         viewIdx: 0,
 
         banker: cc.Node,

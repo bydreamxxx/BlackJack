@@ -32,6 +32,8 @@ cc.Class({
         cardPrefab: cc.Prefab,
 
         point: cc.Label,
+
+        testLabel: cc.Label,
     },
 
     editor:{
@@ -45,7 +47,12 @@ cc.Class({
     },
 
     update(dt){
-
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player) {
+            this.testLabel.string = `手牌数量：${player.handsList.length}
+手牌：${player.handsList.toString()}
+牌组：${player.pokersList.toString()}`;
+        }
     },
 
     clear(){
@@ -382,6 +389,7 @@ cc.Class({
         this.touchNode.on(cc.Node.EventType.TOUCH_MOVE, this.touchMove.bind(this));
         this.touchNode.on(cc.Node.EventType.TOUCH_END, this.touchEnd.bind(this));
         this.touchNode.on(cc.Node.EventType.TOUCH_CANCEL, this.touchCancel.bind(this));
+        this.touchNode._touchListener.setSwallowTouches(false);
     },
 
     /**
@@ -513,6 +521,7 @@ cc.Class({
             cc.error(`手牌数量错误 ${handCardList}`);
             return;
         }
+        this.setPaiTouch(false);
 
         this.isFaPai = true;
 
@@ -670,6 +679,8 @@ cc.Class({
         if(!notShowPoint){
             this.updatePoint();
         }
+
+        this.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
     },
 
     showInvalidShow(){
@@ -798,7 +809,7 @@ cc.Class({
 
 
     touchStart: function (event) {
-        if(this.isFaPai || RummyData.turn !== cc.dd.user.id){
+        if(this.isFaPai){
             return;
         }
 
@@ -813,7 +824,7 @@ cc.Class({
     },
 
     touchMove: function (event) {
-        if(this.isFaPai || RummyData.turn !== cc.dd.user.id){
+        if(this.isFaPai){
             return;
         }
 
@@ -895,7 +906,7 @@ cc.Class({
     },
 
     touchEnd: function (event) {
-        if(this.isFaPai || RummyData.turn !== cc.dd.user.id){
+        if(this.isFaPai){
             return;
         }
         

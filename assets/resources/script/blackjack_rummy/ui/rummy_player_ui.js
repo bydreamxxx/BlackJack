@@ -1,5 +1,6 @@
 const RummyPlayerED = require("RummyPlayerData").RummyPlayerED;
 const RummyPlayerEvent = require("RummyPlayerData").RummyPlayerEvent;
+let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 
 let rummy_player_ui = cc.Class({
     extends: cc.Component,
@@ -70,7 +71,7 @@ let rummy_player_ui = cc.Class({
                 this.moPai(data[1], data[2]);
                 break;
             case RummyPlayerEvent.PLAYER_RESET_CD:
-                this.play_chupai_ani();
+                this.play_chupai_ani(data[1]);
                 break;
             case RummyPlayerEvent.PLAYER_STOP_CD:
                 this.stop_chupai_ani();
@@ -159,6 +160,10 @@ let rummy_player_ui = cc.Class({
             endPos = this.cardNode.convertToNodeSpaceAR(worldPos);
 
         }else{
+            if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
+                cardList[0] = 172;
+            }
+
             cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
             if(cardNode){
                 if(cardNode.getComponent("rummy_card").getCard() !== cardList[0]){
@@ -278,6 +283,10 @@ let rummy_player_ui = cc.Class({
      */
     giveUpPoker(card, playerHasCard){
         if(this.viewIdx !== 0){
+            if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
+                card = 172;
+            }
+
             let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
             let startPos = this.discardNode.convertToNodeSpaceAR(worldPos);
 
@@ -383,11 +392,12 @@ let rummy_player_ui = cc.Class({
 
     playerEnter(data) {
         this.clear();
+        this.playerData = data;
 
         this.head.init(data);
         this.node.active = true;
 
-        if(this.viewIdx === 0 && data.pokersList.length !== 0){
+        if(this.viewIdx === 0 && this.playerData.pokersList.length !== 0){
             this.shoupaiNode.getComponent("rummy_group_ui").showFapaiDirect(this.playerData.pokersList);
         }
     },

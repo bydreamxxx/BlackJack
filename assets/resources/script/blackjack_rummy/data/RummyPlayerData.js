@@ -192,8 +192,8 @@ let RummyPlayerData = cc.Class({
 
     },
 
-    resetCD(){
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, [this]);
+    resetCD(cd){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, [this, cd]);
     },
 
     setReady(ready){

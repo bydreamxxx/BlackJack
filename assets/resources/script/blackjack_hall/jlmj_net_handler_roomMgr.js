@@ -465,7 +465,11 @@ var handler = {
                 tipsText = '该房间鱼潮进行中，请等待' + msg.arg + '秒后再尝试加入';
                 break;
         }
-        cc.dd.DialogBoxUtil.show(0, tipsText, "OK");
+        cc.dd.DialogBoxUtil.show(0, tipsText, "OK", null, ()=>{
+            if(cc.director.getScene().name !== AppCfg.HALL_NAME){
+                cc.dd.SceneManager.enterHall();
+            }
+        });
         RoomED.notifyEvent(RoomEvent.check_is_in_game, [msg]);
     },
 
