@@ -103,6 +103,9 @@ let rummy_player_ui = cc.Class({
             case RummyPlayerEvent.GIVE_TIPS:
                 this.giveTips();
                 break;
+            case RummyPlayerEvent.SET_ON_LINE:
+                this.head.offline.active = !data[1];
+                break;
             default:
                 break;
         }

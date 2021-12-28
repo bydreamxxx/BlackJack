@@ -534,7 +534,6 @@ cc.Class({
         gameInfoPB.setRoomId(RummyData.roomConfigId);
         msg.setGameInfo(gameInfoPB);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
-        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_leave_game_req');
     },
 
     onClickChat(event, data){
@@ -574,7 +573,6 @@ cc.Class({
         pbData.setGameType(RoomMgr.Instance().gameId);
         pbData.setRoomCoinId(RummyData.roomConfigId);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_change_room_req, pbData, 'msg_change_room_req', true);
-        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_change_room_req');
     },
 
     onClickShowDrop(event, data){

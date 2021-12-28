@@ -17,6 +17,7 @@ let RummyPlayerEvent = cc.Enum({
     LOST_COIN: "LOST_COIN",
     WIN_COIN: "WIN_COIN",
     GIVE_TIPS: "GIVE_TIPS",
+    SET_ON_LINE: "SET_ON_LINE",
 });
 
 let RummyPlayerED = new cc.dd.EventDispatcher();
@@ -80,7 +81,7 @@ let RummyPlayerData = cc.Class({
                 }
             });
 
-            for(let i = 3; i >= 0; i++){
+            for(let i = 3; i >= 0; i--){
                 if(cardlist[i].length === 0){
                     cardlist.splice(i, 1);
                 }
@@ -238,6 +239,11 @@ let RummyPlayerData = cc.Class({
 
     setPaiTouch(enable){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_PAI_TOUCH, [this, enable]);
+    },
+
+
+    setOnLine(online){
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_ON_LINE, [this, online]);
     },
 
     showCard(cardID){

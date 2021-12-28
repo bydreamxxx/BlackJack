@@ -18,7 +18,7 @@ export default class LanguageLabel extends LanguageComponent {
         if (label) {
             label.string = LanguageMgr.getText(this.prefix) + LanguageMgr.getText(this.text) + LanguageMgr.getText(this.suffix);
         } else {
-            cc.log(`${this.node.name}挂载的节点没有label组件！`);
+            cc.warn(`${this.node.name}挂载的节点没有label组件！`);
         }
     }
 
