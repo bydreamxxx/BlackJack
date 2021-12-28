@@ -64,9 +64,45 @@ let RummyPlayerData = cc.Class({
 
     faPai(data){
         this.pokersList = [];
-        data.cardsList.forEach(list=>{
-            this.pokersList.push(list.cardsList);
-        });
+        if(data.cardsList.length === 1){
+            let templist = data.cardsList[0].cardsList;
+            let cardlist = [];
+            for(let i = 0; i < 4; i++){
+                cardlist.push([]);
+            }
+
+            templist.forEach(card=>{
+                if(card === 172){
+                    cardlist[3].push(card);
+                }else{
+                    let color = card % 10;
+                    cardlist[color - 1].push(card);
+                }
+            });
+
+            for(let i = 3; i >= 0; i++){
+                if(cardlist[i].length === 0){
+                    cardlist.splice(i, 1);
+                }
+            }
+
+            this.pokersList = cardlist.concat();
+
+            var msg = new cc.pb.rummy.msg_rm_group_req();
+            let groupsList = []
+            this.pokersList.forEach(group=>{
+                let groupmsg = new cc.pb.rummy.rm_group();
+                groupmsg.setCardsList(group);
+                groupsList.push(groupmsg);
+            });
+            msg.setGroupsList(groupsList);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+        }else{
+            data.cardsList.forEach(list=>{
+                this.pokersList.push(list.cardsList);
+            });
+        }
+
         this.handsList = [].concat(...this.pokersList);
         RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },

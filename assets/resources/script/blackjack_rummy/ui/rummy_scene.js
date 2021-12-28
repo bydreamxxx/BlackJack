@@ -534,6 +534,7 @@ cc.Class({
         gameInfoPB.setRoomId(RummyData.roomConfigId);
         msg.setGameInfo(gameInfoPB);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_leave_game_req');
     },
 
     onClickChat(event, data){
@@ -563,6 +564,7 @@ cc.Class({
 
         var msg = new cc.pb.rummy.rm_tips_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_rm_tips_req, msg, "rm_tips_req", true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'rm_tips_req');
     },
 
     onClickSwitch(event, data){
@@ -572,7 +574,7 @@ cc.Class({
         pbData.setGameType(RoomMgr.Instance().gameId);
         pbData.setRoomCoinId(RummyData.roomConfigId);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_change_room_req, pbData, 'msg_change_room_req', true);
-
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_change_room_req');
     },
 
     onClickShowDrop(event, data){
@@ -595,6 +597,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         var msg = new cc.pb.rummy.msg_rm_drop_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_drop_req, msg, "msg_rm_drop_req", true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_drop_req');
     },
 
     playerJoin(data){

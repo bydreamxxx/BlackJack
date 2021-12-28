@@ -25,6 +25,8 @@ var handler = {
     },
 
     on_msg_rm_poker_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_poker_req');
+
         if(msg.ret === 0){
         }else{
             RummyData.cardType = null;
@@ -54,6 +56,8 @@ var handler = {
     },
 
     on_msg_rm_give_up_poker_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_give_up_poker_req');
+
         if(msg.ret === 0){
             RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: msg.card});
         }else{
@@ -73,6 +77,7 @@ var handler = {
 
             var msg = new cc.pb.rummy.msg_rm_sort_req();
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
+            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
         }
     },
 
@@ -85,6 +90,8 @@ var handler = {
     },
 
     on_msg_rm_show_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_show_req');
+
         if(msg.ret === 0){
             RummyGameMgr.showCard(msg);
         }else{
@@ -113,21 +120,27 @@ var handler = {
 
             var msg = new cc.pb.rummy.msg_rm_sort_req();
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
+            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
         }
     },
 
     on_msg_rm_group_ack(msg) {
-        if(msg.ret === 0) {
-        }
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_group_req');
+
+        RummyGameMgr.resetGroup(msg.ret !== 0);
     },
 
     on_msg_rm_commit_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_commit_req');
+
         if(msg.ret === 0) {
             RummyGameMgr.commit(msg);
         }
     },
 
     on_msg_rm_sort_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_sort_req');
+
         if(msg.ret === 0){
             RummyGameMgr.updatePoker(msg.groupsList);
         }else{
@@ -152,6 +165,8 @@ var handler = {
     },
 
     on_msg_rm_drop_ack(msg) {
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_drop_req');
+
         if(msg.ret === 0) {
             RummyGameMgr.loseGame(msg.userId);
         }
@@ -166,6 +181,8 @@ var handler = {
     },
 
     on_rm_tips_ack(msg){
+        cc.dd.NetWaitUtil.net_wait_end('rm_tips_req');
+
         if(msg.result === 0){
             RummyGameMgr.giveTips(msg);
         }

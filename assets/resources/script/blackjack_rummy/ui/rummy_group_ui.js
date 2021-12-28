@@ -109,6 +109,8 @@ cc.Class({
     commitGroup(selectedlist){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player){
+            player.pokersList_bak = player.pokersList.concat();
+
             let list = []
             selectedlist.forEach(card=>{
                 let cardID = card.getCard();
@@ -198,6 +200,7 @@ cc.Class({
             });
             msg.setGroupsList(groupsList);
             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_group_req');
         }
     },
 
@@ -268,6 +271,7 @@ cc.Class({
                         var msg = new cc.pb.rummy.msg_rm_give_up_poker_req();
                         msg.setCard(this.giveUpCard);
                         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_give_up_poker_req, msg, "msg_rm_give_up_poker_req", true);
+                        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_give_up_poker_req');
 
                         // let temp = this.giveUpCard;
                         // cc.tween(this.node)
@@ -301,6 +305,7 @@ cc.Class({
         var msg = new cc.pb.rummy.msg_rm_commit_req();
         msg.setType(player.pokersList);
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_commit_req');
     },
 
     onClickGroup(event, data){
@@ -330,6 +335,7 @@ cc.Class({
         var msg = new cc.pb.rummy.msg_rm_poker_req();
         msg.setType(data);
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_poker_req, msg, "msg_rm_poker_req", true);
+        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_poker_req');
 
         this.cardsNodeButton.active = false;
         this.discardNodeButton.active = false;
@@ -493,6 +499,7 @@ cc.Class({
                             });
                             msg.setGroupsList(groupsList);
                             cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
+                            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
                         }
 
 
@@ -703,7 +710,8 @@ cc.Class({
 
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player){
-            if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
+            // if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
+            if(this.groupList.length >= 5){
                 player.pokersList[player.pokersList.length - 1].push(cardId);
                 lastGroup.data.addCard(cardId);
 
@@ -1004,6 +1012,7 @@ cc.Class({
                                     });
                                     msg.setGroupsList(groupsList);
                                     cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
+                                    cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
                                 })
                                 .start();
                         }
@@ -1078,7 +1087,7 @@ cc.Class({
                                 var msg = new cc.pb.rummy.msg_rm_give_up_poker_req();
                                 msg.setCard(cardId);
                                 cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_give_up_poker_req, msg, "msg_rm_give_up_poker_req", true);
-
+                                cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_give_up_poker_req');
                             })
                             .start();
                     }
