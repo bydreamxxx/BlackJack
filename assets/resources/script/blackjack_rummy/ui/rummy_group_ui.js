@@ -20,6 +20,9 @@ cc.Class({
         cardsNodeButton: cc.Node,
         discardNodeButton: cc.Node,
 
+        cardsNodeLight: cc.Node,
+        discardNodeLight: cc.Node,
+
         cardNode: cc.Node,
         showcardNode: cc.Node,
         discardNode: cc.Node,
@@ -47,12 +50,15 @@ cc.Class({
     },
 
     update(dt){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-        if(player) {
-            this.testLabel.string = `手牌数量：${player.handsList.length}
+        if(RoomMgr.Instance().player_mgr){
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player) {
+                this.testLabel.string = `手牌数量：${player.handsList.length} 牌组数量:${[].concat(...player.pokersList).length}
 手牌：${player.handsList.toString()}
-牌组：${player.pokersList.toString()}`;
+牌组：${player.pokersList}`;
+            }
         }
+
     },
 
     clear(){
@@ -67,17 +73,26 @@ cc.Class({
         this.cardsNodeButton.active = false;
         this.discardNodeButton.active = false;
 
+        this.cardsNodeLight.active = false;
+        this.discardNodeLight.active = false;
+
         this.point.string = '0';
 
         this.checkButton();
     },
 
     checkButton(){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-        if(player) {
-            this.groupButton.interactable = this.touchList.length > 1 && (RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
-            this.discardButton.interactable = player.handsList.length === 14 && this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
-            this.showButton.interactable = player.handsList.length === 14 && this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
+        if(RoomMgr.Instance().player_mgr){
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player) {
+                this.groupButton.interactable = this.touchList.length > 1 && (RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+                this.discardButton.interactable = player.handsList.length === 14 && this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
+                this.showButton.interactable = player.handsList.length === 14 && this.touchList.length === 1 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING;
+            }else{
+                this.groupButton.interactable = false;
+                this.discardButton.interactable = false;
+                this.showButton.interactable = false;
+            }
         }else{
             this.groupButton.interactable = false;
             this.discardButton.interactable = false;
@@ -85,9 +100,12 @@ cc.Class({
         }
     },
 
-    checkCanMopai(cardList){
-        this.cardsNodeButton.active = cardList.length === 13;
-        this.discardNodeButton.active = cardList.length === 13;
+    checkCanMopai(active){
+        this.cardsNodeButton.active = active;
+        this.discardNodeButton.active = active;
+
+        this.cardsNodeLight.active = active;
+        this.discardNodeLight.active = active;
     },
 
     checkIsInShow(location){
@@ -104,104 +122,6 @@ cc.Class({
             return true;
         }
         return false;
-    },
-
-    commitGroup(selectedlist){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-        if(player){
-            player.pokersList_bak = player.pokersList.concat();
-
-            let list = []
-            selectedlist.forEach(card=>{
-                let cardID = card.getCard();
-                list.push(cardID);
-
-                for(let j = this.groupList.length - 1; j >= 0; j--){
-                    if(this.groupList[j].view === card.node.parent){
-                        this.groupList[j].data.delCard(cardID);
-
-                        let index = player.pokersList[j].indexOf(cardID);
-                        if(index !== -1) {
-                            player.pokersList[j].splice(index, 1);
-                        }
-                        break;
-                    }
-                }
-
-                this.removeCardFromGroup(card.node);
-            })
-
-            if(this.first !== -1){
-                if(!this.groupList[this.first].data.isPure()){
-                    this.first = -1;
-                }
-            }
-
-            if(this.second !== -1){
-                if(!this.groupList[this.second].data.isImPure()){
-                    this.first = -1;
-                }
-            }
-
-            for(let j = this.groupList.length - 1; j >= 0; j--){
-                this.updateGroupBottom(this.groupList[j], j);
-            }
-
-            player.pokersList.unshift(list);
-            for(let i = player.pokersList.length - 1; i >= 0; i--){
-                let group = player.pokersList[i];
-                if(group.length === 0){
-                    player.pokersList.splice(i, 1);
-                }
-            }
-
-            let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
-            node.height = 288;
-            this.node.addChild(node);
-
-            let group = new RummyGroup();
-            group.init(list);
-
-            let groupInfo = {data: group, view: node, bottom:null};
-            this.groupList.unshift(groupInfo);
-
-            let showList = group.getShowList();
-            for(let j = 0; j < showList.length; j++){
-                let card = cc.instantiate(this.cardPrefab);
-                card.getComponent("rummy_card").init(showList[j]);
-                node.addChild(card);
-            }
-            node.width = 208 * showList.length - 60 * (showList.length - 1);
-
-            this.updateCardPos(node);
-
-            let bottom = cc.instantiate(this.bottomNode);
-            node.addChild(bottom);
-            groupInfo.bottom = bottom;
-            bottom.width = node.width;
-            bottom.y = -109;
-            bottom.x = 0;
-            bottom.scale = 1;
-
-            this.updateGroupBottom(groupInfo, 0);
-
-            this.node.width += node.width + 30;
-            this.updateGroupPos();
-
-            this.updateBaida();
-            this.updatePoint();
-
-            var msg = new cc.pb.rummy.msg_rm_group_req();
-            let groupsList = []
-            player.pokersList.forEach(group=>{
-                let groupmsg = new cc.pb.rummy.rm_group();
-                groupmsg.setCardsList(group);
-                groupsList.push(groupmsg);
-            });
-            msg.setGroupsList(groupsList);
-            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
-            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_group_req');
-        }
     },
 
     getTouchPai: function (location, reverse) {
@@ -311,7 +231,93 @@ cc.Class({
     onClickGroup(event, data){
         hall_audio_mgr.com_btn_click();
         if(this.touchList.length > 1){
-            this.commitGroup(this.touchList);
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player){
+                let list = []
+                this.touchList.forEach(card=>{
+                    let cardID = card.getCard();
+                    list.push(cardID);
+
+                    for(let j = this.groupList.length - 1; j >= 0; j--){
+                        if(this.groupList[j].view === card.node.parent){
+                            this.groupList[j].data.delCard(cardID);
+
+                            let index = player.pokersList[j].indexOf(cardID);
+                            if(index !== -1) {
+                                player.pokersList[j].splice(index, 1);
+                            }
+                            break;
+                        }
+                    }
+
+                    this.removeCardFromGroup(card.node);
+                })
+
+                if(this.first !== -1){
+                    if(!this.groupList[this.first].data.isPure()){
+                        this.first = -1;
+                    }
+                }
+
+                if(this.second !== -1){
+                    if(!this.groupList[this.second].data.isImPure()){
+                        this.first = -1;
+                    }
+                }
+
+                for(let j = this.groupList.length - 1; j >= 0; j--){
+                    this.updateGroupBottom(this.groupList[j], j);
+                }
+
+                player.pokersList.unshift(list);
+                for(let i = player.pokersList.length - 1; i >= 0; i--){
+                    let group = player.pokersList[i];
+                    if(group.length === 0){
+                        player.pokersList.splice(i, 1);
+                    }
+                }
+
+                let node = new cc.Node(`RummyGroup_${this.groupList.length}`);
+                node.height = 288;
+                this.node.addChild(node);
+
+                let group = new RummyGroup();
+                group.init(list);
+
+                let groupInfo = {data: group, view: node, bottom:null};
+                this.groupList.unshift(groupInfo);
+
+                let showList = group.getShowList();
+                for(let j = 0; j < showList.length; j++){
+                    let card = cc.instantiate(this.cardPrefab);
+                    card.getComponent("rummy_card").init(showList[j]);
+                    node.addChild(card);
+                }
+                node.width = 208 * showList.length - 60 * (showList.length - 1);
+
+                this.updateCardPos(node);
+
+                let bottom = cc.instantiate(this.bottomNode);
+                node.addChild(bottom);
+                groupInfo.bottom = bottom;
+                bottom.width = node.width;
+                bottom.y = -109;
+                bottom.x = 0;
+                bottom.scale = 1;
+
+                this.updateGroupBottom(groupInfo, 0);
+
+                this.node.width += node.width + 30;
+                this.updateGroupPos();
+
+                this.updateBaida();
+                this.updatePoint();
+
+                this.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+
+                player.saveGroups();
+            }
+
             this.resetSelected();
         }
     },
@@ -329,8 +335,6 @@ cc.Class({
 
     onClickGetCard(event, data){
         hall_audio_mgr.com_btn_click();
-
-        RummyData.cardType = data;
 
         var msg = new cc.pb.rummy.msg_rm_poker_req();
         msg.setType(data);
@@ -696,7 +700,7 @@ cc.Class({
     },
 
     showMoPai(cardId, type){
-        let startNode = type === "0" ? this.cardNode : this.discardNode;
+        let startNode = type === 0 ? this.cardNode : this.discardNode;
         let lastGroup = this.groupList[this.groupList.length - 1];
         let worldPos = startNode.convertToWorldSpaceAR(cc.v2(0, 0));
         let startPos = this.node.convertToNodeSpaceAR(worldPos);
@@ -786,7 +790,7 @@ cc.Class({
             this.updatePoint();
         };
 
-        if(RummyData.cardType === "0"){
+        if(type === 0){
             playCard.getComponent("rummy_card").init(0);
 
             cc.tween(playCard)
@@ -1109,7 +1113,30 @@ cc.Class({
                             }
                         }
 
-                        this.commitGroup([this.yidong_pai]);
+                        if(this.first !== -1){
+                            if(!this.groupList[this.first].data.isPure()){
+                                this.first = -1;
+                            }
+                        }
+
+                        if(this.second !== -1){
+                            if(!this.groupList[this.second].data.isImPure()){
+                                this.first = -1;
+                            }
+                        }
+
+                        for(let j = this.groupList.length - 1; j >= 0; j--){
+                            this.updateGroupBottom(this.groupList[j], j);
+                            this.updateCardPos(this.groupList[j].view);
+                        }
+
+                        this.updateGroupPos();
+                        this.updateBaida();
+                        this.updatePoint();
+
+                        this.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+
+                        player.saveGroups();
                     }
                     this.yidong_pai.node.destroy();
                     this.yidong_pai = null;

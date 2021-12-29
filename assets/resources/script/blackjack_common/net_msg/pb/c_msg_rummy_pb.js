@@ -199,6 +199,7 @@ let msg_rm_deal_poker = cc.Class({
         content.cardsList = this.cardsList;
         content.card = this.card;
         content.handCardsList = this.handCardsList;
+        content.type = this.type;
 
         return content;
     },
@@ -213,6 +214,9 @@ let msg_rm_deal_poker = cc.Class({
     },
     setHandCardsList(handCardsList){
         this.handCardsList = handCardsList;
+    },
+    setType(type){
+        this.type = type;
     },
 
 });

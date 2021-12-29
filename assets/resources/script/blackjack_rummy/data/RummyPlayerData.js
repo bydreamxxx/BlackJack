@@ -64,47 +64,7 @@ let RummyPlayerData = cc.Class({
     },
 
     faPai(data){
-        this.pokersList = [];
-        if(data.cardsList.length === 1){
-            let templist = data.cardsList[0].cardsList;
-            let cardlist = [];
-            for(let i = 0; i < 4; i++){
-                cardlist.push([]);
-            }
-
-            templist.forEach(card=>{
-                if(card === 172){
-                    cardlist[3].push(card);
-                }else{
-                    let color = card % 10;
-                    cardlist[color - 1].push(card);
-                }
-            });
-
-            for(let i = 3; i >= 0; i--){
-                if(cardlist[i].length === 0){
-                    cardlist.splice(i, 1);
-                }
-            }
-
-            this.pokersList = cardlist.concat();
-
-            var msg = new cc.pb.rummy.msg_rm_group_req();
-            let groupsList = []
-            this.pokersList.forEach(group=>{
-                let groupmsg = new cc.pb.rummy.rm_group();
-                groupmsg.setCardsList(group);
-                groupsList.push(groupmsg);
-            });
-            msg.setGroupsList(groupsList);
-            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
-        }else{
-            data.cardsList.forEach(list=>{
-                this.pokersList.push(list.cardsList);
-            });
-        }
-
-        this.handsList = [].concat(...this.pokersList);
+        this.setCards(data.handCardsList)
         RummyPlayerED.notifyEvent(RummyPlayerEvent.FA_PAI, [this, data.handCardsList]);
     },
 
@@ -134,11 +94,7 @@ let RummyPlayerData = cc.Class({
         }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_UP_POKER, [this, card, playerHasCard]);
 
-        if(!playerHasCard && this.pokersList.length > 0 && this.userId === cc.dd.user.id){
-            var msg = new cc.pb.rummy.msg_rm_group_req();
-            msg.setGroupsList(this.pokersList);
-            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
-        }
+        this.saveGroups();
     },
 
     init(data){
@@ -176,7 +132,7 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
     },
 
-    moPai(type, data){
+    moPai(data){
         //降维打击
         // let myList = [].concat(...this.pokersList);
         // let newList = [].concat(...cardList);
@@ -186,38 +142,18 @@ let RummyPlayerData = cc.Class({
         //     return arr.indexOf(v) === arr.lastIndexOf(v);
         // });
         this.handsList.push(data.card);
-        this.handsList.sort(function (x, y) {
-            if (x < y) {
-                return -1;
-            }
-            if (x > y) {
-                return 1;
-            }
-            return 0;
-        });
+        this.handsList.sort(this.sortFunc.bind(this));
 
-        data.handCardsList.sort(function (x, y) {
-            if (x < y) {
-                return -1;
-            }
-            if (x > y) {
-                return 1;
-            }
-            return 0;
-        });
+        data.handCardsList.sort(this.sortFunc.bind(this));
 
         if(this.handsList.toString() !== data.handCardsList.toString()){
             cc.error('手牌不正确，重置手牌');
-            this.pokersList = [];
-            data.cardsList.forEach(list=>{
-                this.pokersList.push(list.cardsList);
-            });
-            this.handsList = data.handCardsList;
+            this.setCards(data.handCardsList)
             RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
             return;
         }
 
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.MO_PAI, [this, type, data.card]);
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.MO_PAI, [this, data.type, data.card]);
     },
 
     playerEnter(){
@@ -231,6 +167,58 @@ let RummyPlayerData = cc.Class({
 
     resetCD(cd){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, [this, cd]);
+    },
+
+    saveGroups(){
+        if(this.handsList && this.handsList.length === 13 && this.userId === cc.dd.user.id){
+            cc.sys.localStorage.setItem(`RUMMY_GROUP${cc.dd.user.id}`, JSON.stringify(this.pokersList));
+        }
+    },
+
+    setCards(handList){
+        this.handsList = handList.concat();
+
+        this.pokersList = [];
+
+        let noNeedInit = false;
+        if(this.userId === cc.dd.user.id){
+            let pokersList = JSON.parse(cc.sys.localStorage.getItem(`RUMMY_GROUP${cc.dd.user.id}`));
+            if(pokersList){
+                let tempList = [].concat(...pokersList).sort(this.sortFunc.bind(this)).toString();
+                let handsList = handList.sort(this.sortFunc.bind(this)).toString();
+                if(tempList === handsList){
+                    this.pokersList = pokersList;
+                    noNeedInit = true;
+                }
+            }
+        }
+
+        if(!noNeedInit){
+            let templist = handList;
+            let cardlist = [];
+            for(let i = 0; i < 4; i++){
+                cardlist.push([]);
+            }
+
+            templist.forEach(card=>{
+                if(card === 172){
+                    cardlist[3].push(card);
+                }else{
+                    let color = card % 10;
+                    cardlist[color - 1].push(card);
+                }
+            });
+
+            for(let i = 3; i >= 0; i--){
+                if(cardlist[i].length === 0){
+                    cardlist.splice(i, 1);
+                }
+            }
+
+            this.pokersList = cardlist.concat();
+        }
+
+        this.saveGroups();
     },
 
     setReady(ready){
@@ -250,6 +238,16 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.SHOW_CARD, [this, cardID]);
     },
 
+    sortFunc(x, y) {
+        if (x < y) {
+            return -1;
+        }
+        if (x > y) {
+            return 1;
+        }
+        return 0;
+    },
+
     stopCD(){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_STOP_CD, [this]);
     },
@@ -259,13 +257,13 @@ let RummyPlayerData = cc.Class({
     },
 
     updatePoker(pokersList){
-        if(pokersList){
-            this.pokersList = [];
-            pokersList.forEach(list=>{
-                this.pokersList.push(list.cardsList);
-            });
-            this.handsList = [].concat(...this.pokersList);
-        }
+        // if(pokersList){
+        //     this.pokersList = [];
+        //     pokersList.forEach(list=>{
+        //         this.pokersList.push(list.cardsList);
+        //     });
+        //     this.handsList = [].concat(...this.pokersList);
+        // }
         RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
     },
 

@@ -344,6 +344,7 @@ let texas_table_result = cc.Class({
         content.pokerList = this.pokerList;
         content.type = this.type;
         content.realPokerList = this.realPokerList;
+        content.wheelRank = this.wheelRank;
 
         return content;
     },
@@ -364,6 +365,9 @@ let texas_table_result = cc.Class({
     },
     setRealPokerList(realPokerList){
         this.realPokerList = realPokerList;
+    },
+    setWheelRank(wheelRank){
+        this.wheelRank = wheelRank;
     },
 
 });
@@ -618,4 +622,46 @@ let texas_tips_ack = cc.Class({
 });
 
 module.exports.texas_tips_ack = texas_tips_ack;
+
+let texas_wheel_user = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.userId = this.userId;
+        content.rank = this.rank;
+        content.score = this.score;
+
+        return content;
+    },
+    setUserId(userId){
+        this.userId = userId;
+    },
+    setRank(rank){
+        this.rank = rank;
+    },
+    setScore(score){
+        this.score = score;
+    },
+
+});
+
+module.exports.texas_wheel_user = texas_wheel_user;
+
+let msg_texas_wheel_result = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.usersList = this.usersList;
+
+        return content;
+    },
+    setUsersList(usersList){
+        this.usersList = usersList;
+    },
+
+});
+
+module.exports.msg_texas_wheel_result = msg_texas_wheel_result;
 

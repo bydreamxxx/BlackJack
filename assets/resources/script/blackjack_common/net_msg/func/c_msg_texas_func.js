@@ -27,6 +27,8 @@
         [9722]:{ package_name:'msg', msg_name:'texas_player_list', name:msg.texas_player_list, func:handler.on_texas_player_list, func_name:'on_texas_player_list', logtag:'[9722:texas_player_list ]' },
         [9723]:{ package_name:'msg', msg_name:'texas_tips_req', name:msg.texas_tips_req, func:handler.on_texas_tips_req, func_name:'on_texas_tips_req', logtag:'[9723:texas_tips_req]' },
         [9724]:{ package_name:'msg', msg_name:'texas_tips_ack', name:msg.texas_tips_ack, func:handler.on_texas_tips_ack, func_name:'on_texas_tips_ack', logtag:'[9724:texas_tips_ack]' },
+        [9725]:{ package_name:'msg', msg_name:'texas_wheel_user', name:msg.texas_wheel_user, func:handler.on_texas_wheel_user, func_name:'on_texas_wheel_user', logtag:'[9725:texas_wheel_user]' },
+        [9726]:{ package_name:'msg', msg_name:'msg_texas_wheel_result', name:msg.msg_texas_wheel_result, func:handler.on_msg_texas_wheel_result, func_name:'on_msg_texas_wheel_result', logtag:'[9726:msg_texas_wheel_result]' },
 
     };
     module.exports = {

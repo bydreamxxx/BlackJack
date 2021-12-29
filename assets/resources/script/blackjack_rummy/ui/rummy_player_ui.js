@@ -1,6 +1,7 @@
 const RummyPlayerED = require("RummyPlayerData").RummyPlayerED;
 const RummyPlayerEvent = require("RummyPlayerData").RummyPlayerEvent;
 let RoomMgr = require("jlmj_room_mgr").RoomMgr;
+const RummyData = require("RummyData").RummyData.Instance();
 
 let rummy_player_ui = cc.Class({
     extends: cc.Component,
@@ -135,7 +136,7 @@ let rummy_player_ui = cc.Class({
 
     checkCanMopai(){
         if(this.viewIdx == 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").checkCanMopai(this.playerData.handsList);
+            this.shoupaiNode.getComponent("rummy_group_ui").checkCanMopai(this.playerData.handsList.length === 13 && this.playerData.userId === RummyData.turn);
         }
     },
 
@@ -322,6 +323,7 @@ let rummy_player_ui = cc.Class({
                     this.discardNode.addChild(cardNode);
                 }
             }
+            this.shoupaiNode.getComponent("rummy_group_ui").checkButton();
         }
     },
 
@@ -368,12 +370,7 @@ let rummy_player_ui = cc.Class({
      */
     moPai(type, card){
         if(this.viewIdx == 0){
-            if(!cc.dd._.isString(type)){
-                cc.error('发牌错误');
-                return;
-            }
-
-            if(type === "0"){
+            if(type === 0){
                 this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, type);
             }else{
                 let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
@@ -390,7 +387,6 @@ let rummy_player_ui = cc.Class({
                 this.shoupaiNode.getComponent("rummy_group_ui").showMoPai(card, type);
             }
         }
-
     },
 
     playerEnter(data) {

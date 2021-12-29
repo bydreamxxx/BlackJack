@@ -25,6 +25,8 @@
         cmd_texas_player_list :9722,
         cmd_texas_tips_req:9723,
         cmd_texas_tips_ack:9724,
+        cmd_texas_wheel_user:9725,
+        cmd_msg_texas_wheel_result:9726,
 
     };
 

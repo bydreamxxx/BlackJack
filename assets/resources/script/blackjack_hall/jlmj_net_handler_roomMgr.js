@@ -466,7 +466,7 @@ var handler = {
                 break;
         }
         cc.dd.DialogBoxUtil.show(0, tipsText, "OK", null, ()=>{
-            if(cc.director.getScene().name !== AppCfg.HALL_NAME){
+            if(cc.director.getScene().name !== AppConfig.HALL_NAME){
                 cc.dd.SceneManager.enterHall();
             }
         });

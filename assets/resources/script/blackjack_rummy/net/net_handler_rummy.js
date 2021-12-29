@@ -29,8 +29,6 @@ var handler = {
 
         if(msg.ret === 0){
         }else{
-            RummyData.cardType = null;
-
             let str = msg.ret;
             switch (msg.ret){
                 case 1:
@@ -75,9 +73,9 @@ var handler = {
             }
             cc.dd.PromptBoxUtil.show(str);
 
-            var msg = new cc.pb.rummy.msg_rm_sort_req();
-            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
-            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
+            // var msg = new cc.pb.rummy.msg_rm_sort_req();
+            // cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
+            // cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
         }
     },
 
@@ -118,16 +116,16 @@ var handler = {
             }
             cc.dd.PromptBoxUtil.show(str);
 
-            var msg = new cc.pb.rummy.msg_rm_sort_req();
-            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
-            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
+            // var msg = new cc.pb.rummy.msg_rm_sort_req();
+            // cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
+            // cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
         }
     },
 
     on_msg_rm_group_ack(msg) {
-        cc.dd.NetWaitUtil.net_wait_end('msg_rm_group_req');
-
-        RummyGameMgr.resetGroup(msg.ret !== 0);
+        // cc.dd.NetWaitUtil.net_wait_end('msg_rm_group_req');
+        //
+        // RummyGameMgr.resetGroup(msg.ret !== 0);
     },
 
     on_msg_rm_commit_ack(msg) {
@@ -139,29 +137,29 @@ var handler = {
     },
 
     on_msg_rm_sort_ack(msg) {
-        cc.dd.NetWaitUtil.net_wait_end('msg_rm_sort_req');
-
-        if(msg.ret === 0){
-            RummyGameMgr.updatePoker(msg.groupsList);
-        }else{
-            let str = msg.ret;
-            switch (msg.ret){
-                case 1:
-                    str = '没有找到用户';
-                    break;
-                case 2:
-                    str = '请求过于频繁';
-                    break;
-                case 3:
-                    str = '非法用户';
-                    break;
-                case 4:
-                    str = '已经结算';
-                    break;
-            }
-            // cc.dd.PromptBoxUtil.show(str);
-            cc.error(`on_msg_rm_sort_ack ${str}`);
-        }
+        // cc.dd.NetWaitUtil.net_wait_end('msg_rm_sort_req');
+        //
+        // if(msg.ret === 0){
+        //     RummyGameMgr.updatePoker(msg.groupsList);
+        // }else{
+        //     let str = msg.ret;
+        //     switch (msg.ret){
+        //         case 1:
+        //             str = '没有找到用户';
+        //             break;
+        //         case 2:
+        //             str = '请求过于频繁';
+        //             break;
+        //         case 3:
+        //             str = '非法用户';
+        //             break;
+        //         case 4:
+        //             str = '已经结算';
+        //             break;
+        //     }
+        //     // cc.dd.PromptBoxUtil.show(str);
+        //     cc.error(`on_msg_rm_sort_ack ${str}`);
+        // }
     },
 
     on_msg_rm_drop_ack(msg) {

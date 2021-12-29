@@ -8625,6 +8625,7 @@ message texas_table_result{
 	repeated int32 poker 			= 4; // 牌
 	optional int32 type             = 5; // 组合后牌型(10:皇家同花顺, 9:同花顺, 8:四条, 7:葫芦, 6:同花, 5:顺子, 4:三条, 3:二对, 2:一对, 1:高牌)
 	repeated int32 real_poker 		= 6; // 组合后的牌
+	optional int32	wheel_rank		= 7; //转轮赛的名次
 }
 
 // 战绩结算通报
@@ -8689,6 +8690,16 @@ message texas_tips_req{
 message texas_tips_ack{
 	optional int32 result = 1[default=0]; //1 没有该用户   2 钱不够
 	optional uint32 user_id = 2;
+}
+
+message texas_wheel_user{
+	optional uint32	user_id = 1;
+	optional int32 rank	= 2;
+	optional int32	score = 3;
+}
+
+message msg_texas_wheel_result{
+	repeated texas_wheel_user users = 1;
 }
 
 //----------------------------------德州扑克 end------------------------------
@@ -8756,6 +8767,7 @@ message msg_rm_deal_poker{
 	repeated rm_group		cards 		= 2;//客户端本地记录用户组牌结果， 恢复的时候使用
 	optional int32			card		= 3; //当前请求的牌
 	repeated int32			hand_cards	= 4; //手牌
+	optional int32			type 		= 5; //0:随机取， 1：弃牌堆第一张
 }
 
 //广播摸牌情况, 此条消息只针对非摸牌玩家

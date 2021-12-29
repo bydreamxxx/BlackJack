@@ -67,7 +67,7 @@ let RummyGameMgr = cc.Class({
             if(RummyData.state === 1){
                 player.faPai(msg);
             }else{
-                player.moPai(RummyData.cardType, msg);
+                player.moPai(msg);
             }
         }
 
@@ -120,18 +120,18 @@ let RummyGameMgr = cc.Class({
         }
     },
 
-    resetGroup(needreset){
-        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-        if(player){
-            if(needreset){
-                if(player.pokersList_bak && player.pokersList_bak.length > 0){
-                    player.pokersList = player.pokersList_bak.concat();
-                    player.updatePoker();
-                }
-            }
-            player.pokersList_bak = null;
-        }
-    },
+    // resetGroup(needreset){
+    //     let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+    //     if(player){
+    //         if(needreset){
+    //             if(player.pokersList_bak && player.pokersList_bak.length > 0){
+    //                 player.pokersList = player.pokersList_bak.concat();
+    //                 player.updatePoker();
+    //             }
+    //         }
+    //         player.pokersList_bak = null;
+    //     }
+    // },
 
     showCard(msg){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.uid);

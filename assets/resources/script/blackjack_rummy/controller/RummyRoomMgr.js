@@ -131,14 +131,15 @@ let RummyRoomMgr = cc.Class({
             let player = this.getPlayerById(userInfo.userId);
             if(player){
                 player.userState = userInfo.userState;
-                player.pokersList = [];
-                userInfo.groupsList.forEach(list=>{
-                    player.pokersList.push(list.cardsList);
-                });
-                player.handsList = userInfo.pokersList.concat();
+                player.setCards(userInfo.pokersList);
+
                 player.dropCoin = userInfo.dropCoin;
 
                 player.isBanker = userInfo.userId === banker;
+
+                if(userInfo.userId === cc.dd.user.id){
+                    player.checkCanMoPai();
+                }
             }else{
                 cc.error(`玩家${userInfo.userId}并没有进入房间`);
             }
