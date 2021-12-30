@@ -254,11 +254,15 @@ let msg_rm_give_up_poker_req = cc.Class({
     getContent(){
         let content = {};
         content.card = this.card;
+        content.groupId = this.groupId;
 
         return content;
     },
     setCard(card){
         this.card = card;
+    },
+    setGroupId(groupId){
+        this.groupId = groupId;
     },
 
 });
@@ -272,6 +276,7 @@ let msg_rm_give_up_poker_ack = cc.Class({
         let content = {};
         content.ret = this.ret;
         content.card = this.card;
+        content.groupId = this.groupId;
 
         return content;
     },
@@ -280,6 +285,9 @@ let msg_rm_give_up_poker_ack = cc.Class({
     },
     setCard(card){
         this.card = card;
+    },
+    setGroupId(groupId){
+        this.groupId = groupId;
     },
 
 });
@@ -351,12 +359,16 @@ let msg_rm_show_req = cc.Class({
     getContent(){
         let content = {};
         content.card = this.card;
+        content.groupId = this.groupId;
         content.groupsList = this.groupsList;
 
         return content;
     },
     setCard(card){
         this.card = card;
+    },
+    setGroupId(groupId){
+        this.groupId = groupId;
     },
     setGroupsList(groupsList){
         this.groupsList = groupsList;
@@ -374,6 +386,7 @@ let msg_rm_show_ack = cc.Class({
         content.ret = this.ret;
         content.uid = this.uid;
         content.showCard = this.showCard;
+        content.groupId = this.groupId;
 
         return content;
     },
@@ -385,6 +398,9 @@ let msg_rm_show_ack = cc.Class({
     },
     setShowCard(showCard){
         this.showCard = showCard;
+    },
+    setGroupId(groupId){
+        this.groupId = groupId;
     },
 
 });

@@ -8767,7 +8767,7 @@ message msg_rm_deal_poker{
 	repeated rm_group		cards 		= 2;//客户端本地记录用户组牌结果， 恢复的时候使用
 	optional int32			card		= 3; //当前请求的牌
 	repeated int32			hand_cards	= 4; //手牌
-	optional int32			type 		= 5; //0:随机取， 1：弃牌堆第一张
+	optional int32			type 		= 5; //0:随机取， 1：弃牌堆第一张, 2: 第一次发牌
 }
 
 //广播摸牌情况, 此条消息只针对非摸牌玩家
@@ -8780,11 +8780,13 @@ message msg_rm_deal_poker_broadcast{
 //弃一张牌
 message msg_rm_give_up_poker_req{
 	optional int32			card = 1;
+	optional int32			group_id = 2;
 }
 
 message msg_rm_give_up_poker_ack{
 	optional int32			ret = 1; //0:成功， 1：没有找到用户 2：不是该用户的轮次 3：没有这张牌
 	optional int32			card = 2;
+	optional int32			group_id = 3;//服务器自动棋牌，-1
 }
 
 //广播弃牌情况
@@ -8806,13 +8808,15 @@ message rm_group{
 //show牌请求
 message msg_rm_show_req{
 	optional int32 		card = 1; //打出去的那张poker
-	repeated rm_group	groups = 2;
+	optional int32		group_id = 2;
+	repeated rm_group	groups = 3;
 }
 
 message msg_rm_show_ack{
 	optional int32 		ret = 1; //0:成功， -1:错误的show, 1：没有找到用户 2：不是该用户的轮次 3：没有这张牌 4:groups的牌不是他自己的
 	optional uint32		uid = 2;
 	optional int32		show_card = 3;
+	optional int32		group_id = 4;
 }
 
 message msg_rm_commit_req{

@@ -87,7 +87,7 @@ let rummy_player_ui = cc.Class({
                 this.checkCanMopai();
                 break;
             case RummyPlayerEvent.SHOW_CARD:
-                this.showCard(data[1]);
+                this.showCard(data[1], data[2]);
                 break;
             case RummyPlayerEvent.SHOW_INVALIDSHOW:
                 this.showInvalidShow();
@@ -415,12 +415,18 @@ let rummy_player_ui = cc.Class({
         }
     },
 
-    showCard(card){
+    showCard(card, playerHasCard){
         if(this.viewIdx === 0){
-            this.shoupaiNode.getComponent("rummy_group_ui").showCard(card);
+            if(playerHasCard){
+                this.shoupaiNode.getComponent("rummy_group_ui").showCard(card);
+            }
         }else{
             let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
             let startPos = this.showCardNode.convertToNodeSpaceAR(worldPos);
+
+            if(!RoomMgr.Instance().player_mgr.isUserPlaying()){
+                card = 172;
+            }
 
             let cardNode = cc.instantiate(this.card);
             cardNode.getComponent("rummy_card").init(card);

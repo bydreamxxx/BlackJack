@@ -72,19 +72,34 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.GIVE_TIPS, [this]);
     },
 
-    giveUpPoker(card){
+    giveUpPoker(card, idx){
         let playerHasCard = false;
-        for(let i = this.pokersList.length - 1; i >= 0; i--){
-            let group = this.pokersList[i];
-            let index = group.indexOf(card);
-            if(index != -1){
-                group.splice(index, 1);
-                playerHasCard = true;
+        if(cc.dd._.isNumber(idx) && idx !== -1){
+            let group = this.pokersList[idx];
+            if(group){
+                let index = group.indexOf(card);
+                if(index != -1){
+                    group.splice(index, 1);
+                    playerHasCard = true;
 
-                if(group.length === 0){
-                    this.pokersList.splice(i, 1);
+                    if(group.length === 0){
+                        this.pokersList.splice(idx, 1);
+                    }
                 }
-                break;
+            }
+        }else{
+            for(let i = this.pokersList.length - 1; i >= 0; i--){
+                let group = this.pokersList[i];
+                let index = group.indexOf(card);
+                if(index != -1){
+                    group.splice(index, 1);
+                    playerHasCard = true;
+
+                    if(group.length === 0){
+                        this.pokersList.splice(i, 1);
+                    }
+                    break;
+                }
             }
         }
 
@@ -152,7 +167,7 @@ let RummyPlayerData = cc.Class({
             RummyPlayerED.notifyEvent(RummyPlayerEvent.UPDATE_POKER, [this]);
             return;
         }
-
+        this.checkCanMoPai();
         RummyPlayerED.notifyEvent(RummyPlayerEvent.MO_PAI, [this, data.type, data.card]);
     },
 
@@ -165,9 +180,46 @@ let RummyPlayerData = cc.Class({
 
     },
 
+    // playerGiveUpPoker(groupIdx, cardId){
+    //     this.pokersList_bak = this.pokersList.concat();
+    //     this.handsList_bak = this.handsList.concat();
+    //
+    //     let group = this.pokersList[groupIdx];
+    //     if(group){
+    //         let index = group.indexOf(cardId);
+    //         if(index != -1){
+    //             group.splice(index, 1);
+    //
+    //             if(group.length === 0){
+    //                 this.pokersList.splice(groupIdx, 1);
+    //             }
+    //         }
+    //     }
+    //
+    //     let index = this.handsList.indexOf(cardId);
+    //     if(index != -1){
+    //         this.handsList.splice(index, 1);
+    //     }
+    //
+    //     this.saveGroups();
+    // },
+
     resetCD(cd){
         RummyPlayerED.notifyEvent(RummyPlayerEvent.PLAYER_RESET_CD, [this, cd]);
     },
+
+    // resetGroup(){
+    //     if(this.pokersList_bak){
+    //         this.pokersList = this.pokersList_bak.concat();
+    //     }
+    //     if(this.handsList_bak){
+    //         this.handsList = this.handsList_bak.concat();
+    //     }
+    //     this.pokersList_bak = null;
+    //     this.handsList_bak = null;
+    //
+    //     this.updatePoker();
+    // },
 
     saveGroups(){
         if(this.handsList && this.handsList.length === 13 && this.userId === cc.dd.user.id){
@@ -218,6 +270,9 @@ let RummyPlayerData = cc.Class({
             this.pokersList = cardlist.concat();
         }
 
+        // this.pokersList_bak = null;
+        // this.handsList_bak = null;
+
         this.saveGroups();
     },
 
@@ -234,8 +289,44 @@ let RummyPlayerData = cc.Class({
         RummyPlayerED.notifyEvent(RummyPlayerEvent.SET_ON_LINE, [this, online]);
     },
 
-    showCard(cardID){
-        RummyPlayerED.notifyEvent(RummyPlayerEvent.SHOW_CARD, [this, cardID]);
+    showCard(cardID, idx){
+        let playerHasCard = false;
+        if(cc.dd._.isNumber(idx) && idx !== -1){
+            let group = this.pokersList[idx];
+            if(group){
+                let index = group.indexOf(cardID);
+                if(index != -1){
+                    group.splice(index, 1);
+                    playerHasCard = true;
+
+                    if(group.length === 0){
+                        this.pokersList.splice(idx, 1);
+                    }
+                }
+            }
+        }else{
+            for(let i = this.pokersList.length - 1; i >= 0; i--){
+                let group = this.pokersList[i];
+                let index = group.indexOf(cardID);
+                if(index != -1){
+                    group.splice(index, 1);
+                    playerHasCard = true;
+
+                    if(group.length === 0){
+                        this.pokersList.splice(i, 1);
+                    }
+                    break;
+                }
+            }
+        }
+
+        let index = this.handsList.indexOf(cardID);
+        if(index != -1){
+            this.handsList.splice(index, 1);
+        }
+        RummyPlayerED.notifyEvent(RummyPlayerEvent.SHOW_CARD, [this, cardID, playerHasCard]);
+
+        this.saveGroups();
     },
 
     sortFunc(x, y) {

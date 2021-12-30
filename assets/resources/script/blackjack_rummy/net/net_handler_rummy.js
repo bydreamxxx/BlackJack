@@ -57,7 +57,7 @@ var handler = {
         cc.dd.NetWaitUtil.net_wait_end('msg_rm_give_up_poker_req');
 
         if(msg.ret === 0){
-            RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: msg.card});
+            RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: msg.card, groupId: msg.groupId});
         }else{
             let str = msg.ret;
             switch (msg.ret){
@@ -72,7 +72,7 @@ var handler = {
                     break;
             }
             cc.dd.PromptBoxUtil.show(str);
-
+            RummyGameMgr.updatePoker();
             // var msg = new cc.pb.rummy.msg_rm_sort_req();
             // cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
             // cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');
@@ -115,7 +115,7 @@ var handler = {
                     break;
             }
             cc.dd.PromptBoxUtil.show(str);
-
+            RummyGameMgr.updatePoker();
             // var msg = new cc.pb.rummy.msg_rm_sort_req();
             // cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_sort_req, msg, "msg_rm_sort_req", true);
             // cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_sort_req');

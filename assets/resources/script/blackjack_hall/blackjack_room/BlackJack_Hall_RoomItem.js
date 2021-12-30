@@ -208,7 +208,7 @@ cc.Class({
             msg.setRoomId(data.roomid);
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
-        cc.dd.SceneManager.enterGame(gameid, func, null);
+        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
     },
 
     sendRummy(gameid){
@@ -224,6 +224,6 @@ cc.Class({
             msg.setRoomId(data.roomid);
             cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
         }
-        cc.dd.SceneManager.enterGame(gameid, func, null);
+        cc.dd.SceneManager.enterGame(gameid, func, [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)]);
     }
 });
