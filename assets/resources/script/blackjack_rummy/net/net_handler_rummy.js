@@ -123,7 +123,10 @@ var handler = {
     },
 
     on_msg_rm_group_ack(msg) {
-        // cc.dd.NetWaitUtil.net_wait_end('msg_rm_group_req');
+        cc.dd.NetWaitUtil.net_wait_end('msg_rm_group_req');
+        if(msg.ret !== 0){
+            cc.error(`group failed ${msg.ret}`);
+        }
         //
         // RummyGameMgr.resetGroup(msg.ret !== 0);
     },

@@ -148,6 +148,10 @@ cc.Class({
     },
 
     giveUpPoker(cardId){
+        this.moveCardToNode(cardId, this.discardNode);
+    },
+
+    moveCardToNode(cardId, node){
         let findCard = null;
         for(let j = this.groupList.length - 1; j >= 0; j--){
             let group = this.groupList[j].view;
@@ -161,7 +165,6 @@ cc.Class({
             }
 
             if(findCard){
-                this.updateGroupBottom(this.groupList[j], j);
                 break;
             }
         }
@@ -170,10 +173,10 @@ cc.Class({
             findCard.active = false;
             let playCard = cc.instantiate(this.cardPrefab);
             playCard.getComponent("rummy_card").init(cardId);
-            this.discardNode.addChild(playCard);
+            node.addChild(playCard);
 
             let worldPos = findCard.parent.convertToWorldSpaceAR(findCard.position);
-            let startPos = this.discardNode.convertToNodeSpaceAR(worldPos);
+            let startPos = node.convertToNodeSpaceAR(worldPos);
 
             playCard.position = startPos;
             playCard.scaleX = 0.75;
@@ -181,11 +184,16 @@ cc.Class({
             playCard.zIndex = 0;
 
             this.removeCardFromGroup(findCard);
+            this.updateGroupBottomAll();
 
             this.updatePoint();
 
             cc.tween(playCard)
                 .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
+                .call(()=>{
+                    this.resetSelected();
+                    this.checkButton();
+                })
                 .start();
         }
     },
@@ -233,22 +241,6 @@ cc.Class({
                     this.removeCardFromGroup(card.node);
                 })
 
-                if(this.first !== -1){
-                    if(!this.groupList[this.first].data.isPure()){
-                        this.first = -1;
-                    }
-                }
-
-                if(this.second !== -1){
-                    if(!this.groupList[this.second].data.isImPure()){
-                        this.second = -1;
-                    }
-                }
-
-                for(let j = this.groupList.length - 1; j >= 0; j--){
-                    this.updateGroupBottom(this.groupList[j], j);
-                }
-
                 player.pokersList.unshift(list);
                 for(let i = player.pokersList.length - 1; i >= 0; i--){
                     let group = player.pokersList[i];
@@ -285,7 +277,7 @@ cc.Class({
                 bottom.x = 0;
                 bottom.scale = 1;
 
-                this.updateGroupBottom(groupInfo, 0);
+                this.updateGroupBottomAll();
 
                 this.node.width += node.width + 30;
                 this.updateGroupPos();
@@ -294,6 +286,19 @@ cc.Class({
                 this.updatePoint();
 
                 this.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+
+                if(player.handsList.length === 13){
+                    var msg = new cc.pb.rummy.msg_rm_group_req();
+                    let groupsList = []
+                    player.pokersList.forEach(group=>{
+                        let groupmsg = new cc.pb.rummy.rm_group();
+                        groupmsg.setCardsList(group);
+                        groupsList.push(groupmsg);
+                    });
+                    msg.setGroupsList(groupsList);
+                    cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+                    cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_group_req');
+                }
 
                 player.saveGroups();
             }
@@ -313,7 +318,6 @@ cc.Class({
                 let group = this.groupList[j].view;
                 if(group === this.touchList[0].node.parent){
                     this.groupList[j].data.delCard(cardId);
-                    this.updateGroupBottom(this.groupList[j], j);
                     groupId = j;
                     break;
                 }
@@ -333,6 +337,7 @@ cc.Class({
             playCard.zIndex = 0;
 
             this.removeCardFromGroup(this.touchList[0].node);
+            this.updateGroupBottomAll();
 
             this.updatePoint();
 
@@ -391,7 +396,6 @@ cc.Class({
                 let group = this.groupList[j].view;
                 if(group === this.touchList[0].node.parent){
                     this.groupList[j].data.delCard(cardId);
-                    this.updateGroupBottom(this.groupList[j], j);
                     groupId = j;
                     break;
                 }
@@ -413,6 +417,7 @@ cc.Class({
             playCard.zIndex = 0;
 
             this.removeCardFromGroup(this.touchList[0].node);
+            this.updateGroupBottomAll();
 
             cc.tween(playCard)
                 .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
@@ -521,46 +526,7 @@ cc.Class({
     },
 
     showCard(cardId){
-        let findCard = null;
-        for(let j = this.groupList.length - 1; j >= 0; j--){
-            let group = this.groupList[j].view;
-            for(let k = group.childrenCount - 1; k >= 0; k--){
-                let card = group.children[k].getComponent("rummy_card");
-                if(card && card.getCard() === cardId){
-                    this.groupList[j].data.delCard(cardId);
-                    findCard = group.children[k];
-                    break;
-                }
-            }
-
-            if(findCard){
-                this.updateGroupBottom(this.groupList[j], j);
-                break;
-            }
-        }
-
-        this.updatePoint();
-
-        if(findCard){
-            findCard.active = false;
-            let playCard = cc.instantiate(this.cardPrefab);
-            playCard.getComponent("rummy_card").init(cardId);
-            this.showcardNode.addChild(playCard);
-
-            let worldPos = findCard.parent.convertToWorldSpaceAR(findCard.position);
-            let startPos = this.showcardNode.convertToNodeSpaceAR(worldPos);
-
-            playCard.position = startPos;
-            playCard.scaleX = 0.75;
-            playCard.scaleY= 0.75;
-            playCard.zIndex = 0;
-
-            this.removeCardFromGroup(findCard);
-
-            cc.tween(playCard)
-                .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
-                .start();
-        }
+        this.moveCardToNode(cardId, this.showcardNode);
     },
 
     showFapai(groupList, handCardList){
@@ -824,7 +790,7 @@ cc.Class({
             playCard.destroy();
             card.getComponent("rummy_card").setTouchAble(true);
 
-            this.updateGroupBottom(this.groupList[this.groupList.length - 1], this.groupList.length - 1);
+            this.updateGroupBottomAll();
             this.updatePoint();
             this.updateBaida();
         };
@@ -948,6 +914,8 @@ cc.Class({
                                     //插到右边
                                     player.pokersList[touch_group_index2].splice(touch_card_index2, 0, cardID1);
                                 }
+
+                                this.updateGroupBottomAll();
                             }
                         }
                     }
@@ -992,7 +960,6 @@ cc.Class({
                             let group = this.groupList[j].view;
                             if(this.pai_touched.node.parent === group){
                                 this.groupList[j].data.delCard(cardId);
-                                this.updateGroupBottom(this.groupList[j], j);
                                 groupId = j;
                                 break;
 
@@ -1007,6 +974,7 @@ cc.Class({
                         let endPos = this.node.convertToNodeSpaceAR(worldPos);
 
                         this.removeCardFromGroup(this.pai_touched.node);
+                        this.updateGroupBottomAll();
 
                         cc.tween(this.yidong_pai.node)
                             .to(0.4, {position: endPos, scale: 0.717}, {easing: 'expoOut'})
@@ -1048,7 +1016,6 @@ cc.Class({
                         let group = this.groupList[j].view;
                         if(this.pai_touched.node.parent === group){
                             this.groupList[j].data.delCard(cardId);
-                            this.updateGroupBottom(this.groupList[j], j);
                             groupId = j;
                             break;
 
@@ -1061,6 +1028,7 @@ cc.Class({
                     let endPos = this.node.convertToNodeSpaceAR(worldPos);
 
                     this.removeCardFromGroup(this.pai_touched.node);
+                    this.updateGroupBottomAll();
 
                     this.updatePoint();
 
@@ -1101,20 +1069,9 @@ cc.Class({
                             }
                         }
 
-                        if(this.first !== -1){
-                            if(!this.groupList[this.first].data.isPure()){
-                                this.first = -1;
-                            }
-                        }
-
-                        if(this.second !== -1){
-                            if(!this.groupList[this.second].data.isImPure()){
-                                this.second = -1;
-                            }
-                        }
+                        this.updateGroupBottomAll();
 
                         for(let j = this.groupList.length - 1; j >= 0; j--){
-                            this.updateGroupBottom(this.groupList[j], j);
                             this.updateCardPos(this.groupList[j].view);
                         }
 
@@ -1123,6 +1080,19 @@ cc.Class({
                         this.updatePoint();
 
                         this.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING);
+
+                        if(player.handsList.length === 13){
+                            var msg = new cc.pb.rummy.msg_rm_group_req();
+                            let groupsList = []
+                            player.pokersList.forEach(group=>{
+                                let groupmsg = new cc.pb.rummy.rm_group();
+                                groupmsg.setCardsList(group);
+                                groupsList.push(groupmsg);
+                            });
+                            msg.setGroupsList(groupsList);
+                            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_group_req, msg, "msg_rm_group_req", true);
+                            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_group_req');
+                        }
 
                         player.saveGroups();
                     }
@@ -1205,32 +1175,40 @@ cc.Class({
         let label = bottom.getComponentInChildren(cc.Label);
 
         if(!group.isNoGroup() && !group.isNoCorrect()){
-            if(this.first === -1){
-                if(group.isPure()){
-                    frame.spriteFrame = this.bottomColor[0];
+
+            if(group.isPure()) {
+                frame.spriteFrame = this.bottomColor[0];
+                if(this.first === -1){
                     label.string = '1st Life';
                     this.first = idx;
+                }else if(this.second === -1){
+                    label.string = '2nd Life';
+                    this.second = idx;
                 }else{
+                    label.string = 'Pure';
+                }
+            }
+
+            if(group.isImPure()){
+                if(this.first === -1){
                     frame.spriteFrame = this.bottomColor[1];
                     label.string = '1st Life Needed';
-                }
-            }else if(this.second === -1){
-                if(group.isImPure()){
+                }else if(this.second === -1){
                     frame.spriteFrame = this.bottomColor[0];
                     label.string = '2nd Life';
                     this.second = idx;
                 }else{
-                    frame.spriteFrame = this.bottomColor[1];
-                    label.string = '2nd Life Needed';
+                    frame.spriteFrame = this.bottomColor[0];
+                    label.string = 'Impure';
                 }
+            }
+
+            if(this.second === -1){
+                frame.spriteFrame = this.bottomColor[1];
+                label.string = '2nd Life Needed';
             }else{
                 frame.spriteFrame = this.bottomColor[0];
-
-                if(group.isPure()) {
-                    label.string = 'Pure';
-                }else if(group.isImPure()){
-                    label.string = 'Impure';
-                }else if(group.isStraight()){
+                if(group.isStraight()){
                     label.string = 'Straight';
                 }else{
                     label.string = 'Set';
@@ -1239,6 +1217,24 @@ cc.Class({
         }else{
             frame.spriteFrame = this.bottomColor[2];
             label.string = 'Not Correct';
+        }
+    },
+
+    updateGroupBottomAll(){
+        if(this.first !== -1){
+            if(!this.groupList[this.first].data.isPure()){
+                this.first = -1;
+            }
+        }
+
+        if(this.second !== -1){
+            if(!this.groupList[this.second].data.isImPure() && !this.groupList[this.second].data.isPure()){
+                this.second = -1;
+            }
+        }
+
+        for(let j = 0; j < this.groupList.length; j++){
+            this.updateGroupBottom(this.groupList[j], j);
         }
     },
 
