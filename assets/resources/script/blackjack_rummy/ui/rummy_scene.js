@@ -141,8 +141,11 @@ cc.Class({
                 // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103] ],
                 //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103 ],
                 //     userId: cc.dd.user.id });
-                handler.on_msg_rm_deal_poker({ cardsList: [{cardsList: [21, 31, 81, 101, 121]}, {cardsList:[72, 112, 132, 12]}, {cardsList:[73, 83, 83]} ,{cardsList:[44]} ],
-                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
+                // handler.on_msg_rm_deal_poker({ cardsList: [{cardsList: [21, 31, 81, 101, 121]}, {cardsList:[72, 112, 132, 12]}, {cardsList:[73, 83, 83]} ,{cardsList:[44]} ],
+                //     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
+                //     userId: cc.dd.user.id });
+                handler.on_msg_rm_deal_poker({ cardsList: [],
+                    handCardsList: [ 21, 31 ],
                     userId: cc.dd.user.id });
             })
             .delay(0.01)
@@ -162,19 +165,19 @@ cc.Class({
                 handler.on_msg_rm_action_change({ userId: cc.dd.user.id });
             })
             .delay(1)
-            .call(()=>{
-                console.error('on_msg_rm_deal_poker')
-                // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103],  [54] ],
-                //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103, 54 ],
-                //     card: 54,
-                //     userId: cc.dd.user.id });
-                handler.on_msg_rm_deal_poker({ cardsList: [ {cardsList: [21, 31, 81, 101, 121]}, {cardsList: [72, 112, 132, 12]},{cardsList:  [73, 83, 83]}, {cardsList:  [44, 54]} ],
-                    handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
-                    card: 54,
-                    userId: cc.dd.user.id,
-                    type: 0
-                });
-            })
+            // .call(()=>{
+            //     console.error('on_msg_rm_deal_poker')
+            //     // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103],  [54] ],
+            //     //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103, 54 ],
+            //     //     card: 54,
+            //     //     userId: cc.dd.user.id });
+            //     handler.on_msg_rm_deal_poker({ cardsList: [ {cardsList: [21, 31, 81, 101, 121]}, {cardsList: [72, 112, 132, 12]},{cardsList:  [73, 83, 83]}, {cardsList:  [44, 54]} ],
+            //         handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44, 54 ],
+            //         card: 54,
+            //         userId: cc.dd.user.id,
+            //         type: 0
+            //     });
+            // })
             // .delay(3)
             // .call(()=>{
             //     console.error('on_msg_rm_give_up_poker_ack')

@@ -64,13 +64,17 @@ let RummyGroup = cc.Class({
         //     }
         // }
 
-        if(!this.cardsList.every(item => this.cardsList[0] % 10 === item % 10)){
+        if(this.baidaList.length > 0){
+            return false;
+        }
+
+        if(!this.normalList.every(item => this.normalList[0] % 10 === item % 10)){
             return false;
         }
 
         let numArr = []
-        for (let i=0 ;i < this.cardsList.length-1; i++) {
-            numArr.push(Math.floor(this.cardsList[i+1] / 10) - Math.floor(this.cardsList[i] / 10))
+        for (let i=0 ;i < this.normalList.length-1; i++) {
+            numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
         }
         //判断是否等差
         return numArr.every(item => numArr[0] === item) && numArr[0] === 1;
@@ -165,7 +169,7 @@ let RummyGroup = cc.Class({
     },
 
     getShowList(){
-        tempList = [];
+        let tempList = [];
 
         let sortFunc = (a, b)=>{
             let valueA = Math.floor(a / 10);
@@ -303,6 +307,10 @@ let RummyGroup = cc.Class({
 
     isNoGroup(){
         return this.state === GROUP_STATE.NO_GROUP;
+    },
+
+    toString(){
+        return `cardList = ${this.cardsList.toString()}  normalList = ${this.normalList.toString()}  baidaList = ${this.baidaList.toString()}  state = ${this.state}`
     }
 });
 

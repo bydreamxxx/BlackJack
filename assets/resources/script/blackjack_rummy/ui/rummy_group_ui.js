@@ -53,9 +53,19 @@ cc.Class({
         if(RoomMgr.Instance().player_mgr){
             let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
             if(player) {
-                this.testLabel.string = `手牌数量：${player.handsList.length} 牌组数量:${[].concat(...player.pokersList).length}
+                this.testLabel.string = `手牌数量：${player.handsList.length} 牌组数量:${[].concat(...player.pokersList).length} first ${this.first} second ${this.second} xcard ${RummyData.xcard}
 手牌：${player.handsList.toString()}
-牌组：${player.pokersList}`;
+牌组：`;
+                for(let i = 0; i < player.pokersList.length; i++){
+                    this.testLabel.string += `[${player.pokersList[i].toString()}] `
+                }
+
+                this.testLabel.string += `
+`;
+                for(let i = 0; i < this.groupList.length; i++){
+                    this.testLabel.string += `${this.groupList[i].data.toString()}
+`
+                }
             }
         }
 
@@ -209,11 +219,19 @@ cc.Class({
 
     onClickConfirm(event, data){
         hall_audio_mgr.com_btn_click();
-
-        var msg = new cc.pb.rummy.msg_rm_commit_req();
-        msg.setType(player.pokersList);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
-        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_commit_req');
+        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+        if(player) {
+            var msg = new cc.pb.rummy.msg_rm_commit_req();
+            let groupsList = []
+            player.pokersList.forEach(group => {
+                let groupmsg = new cc.pb.rummy.rm_group();
+                groupmsg.setCardsList(group);
+                groupsList.push(groupmsg);
+            });
+            msg.setGroupsList(groupsList);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_commit_req, msg, "msg_rm_commit_req", true);
+            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_commit_req');
+        }
     },
 
     onClickGroup(event, data){
@@ -419,15 +437,27 @@ cc.Class({
             this.removeCardFromGroup(this.touchList[0].node);
             this.updateGroupBottomAll();
 
+
             cc.tween(playCard)
                 .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
                 .call(()=>{
                     let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
                     if(player){
+                        let tempList = player.pokersList.concat();
+                        if(tempList[groupId]){
+                            let index = tempList[groupId].indexOf(cardId);
+                            tempList[groupId].splice(index, 1);
+                            if(tempList[groupId].length === 0){
+                                tempList.splice(groupId, 1);
+                            }
+                        }else{
+                            cc.error(`show groupId error ${groupId} ${cardId} ${player.pokersList.toString()}`);
+                        }
+
                         var msg = new cc.pb.rummy.msg_rm_show_req();
                         msg.setCard(cardId);
                         let groupsList = []
-                        player.pokersList.forEach(group=>{
+                        tempList.forEach(group=>{
                             let groupmsg = new cc.pb.rummy.rm_group();
                             groupmsg.setCardsList(group);
                             groupsList.push(groupmsg);
@@ -1178,22 +1208,20 @@ cc.Class({
 
             if(group.isPure()) {
                 frame.spriteFrame = this.bottomColor[0];
-                if(this.first === -1){
+                if(this.first === -1 || this.first === idx){
                     label.string = '1st Life';
                     this.first = idx;
-                }else if(this.second === -1){
+                }else if(this.second === -1 || this.second === idx){
                     label.string = '2nd Life';
                     this.second = idx;
                 }else{
                     label.string = 'Pure';
                 }
-            }
-
-            if(group.isImPure()){
+            }else if(group.isImPure()){
                 if(this.first === -1){
                     frame.spriteFrame = this.bottomColor[1];
                     label.string = '1st Life Needed';
-                }else if(this.second === -1){
+                }else if(this.second === -1 || this.second === idx){
                     frame.spriteFrame = this.bottomColor[0];
                     label.string = '2nd Life';
                     this.second = idx;
@@ -1201,17 +1229,17 @@ cc.Class({
                     frame.spriteFrame = this.bottomColor[0];
                     label.string = 'Impure';
                 }
-            }
-
-            if(this.second === -1){
-                frame.spriteFrame = this.bottomColor[1];
-                label.string = '2nd Life Needed';
             }else{
-                frame.spriteFrame = this.bottomColor[0];
-                if(group.isStraight()){
-                    label.string = 'Straight';
+                if(this.second === -1){
+                    frame.spriteFrame = this.bottomColor[1];
+                    label.string = '2nd Life Needed';
                 }else{
-                    label.string = 'Set';
+                    frame.spriteFrame = this.bottomColor[0];
+                    if(group.isStraight()){
+                        label.string = 'Straight';
+                    }else{
+                        label.string = 'Set';
+                    }
                 }
             }
         }else{
