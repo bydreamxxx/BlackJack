@@ -45,6 +45,8 @@ cc.Class({
         centerChipNode: cc.Node,
         dropDes: require('LanguageLabel'),
 
+        bankerHead: require('rummy_head'),
+
         _fixedTimeStep: 1/30,
         _lastTime: 0,
     },
@@ -145,14 +147,14 @@ cc.Class({
                 //     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
                 //     userId: cc.dd.user.id });
                 handler.on_msg_rm_deal_poker({ cardsList: [],
-                    handCardsList: [ 21, 31 ],
+                    handCardsList: [ 12,24,32,34,41,54,61,63,71,81,91,114,124,172 ],
                     userId: cc.dd.user.id });
             })
             .delay(0.01)
             .call(()=>{
                 console.error('on_msg_rm_syn_giveup_poker')
                 handler.on_msg_rm_syn_giveup_poker({ giveupCard: 103,
-                    xcard: 11});
+                    xcard: 94});
             })
             .delay(10)
             .call(()=>{
@@ -455,6 +457,15 @@ cc.Class({
             case RummyEvent.PLAYER_TURN:
                 this.dropNode.active = false;
                 this.showNode.active = false;
+                this.bankerHead.cleanBanker();
+                let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                if(player && RummyData.turn === cc.dd.user.id){
+                    if(player.handsList.length === 13){
+                        this.bankerHead.play_banker_duanyu("rummy_text29");
+                    }else{
+                        this.bankerHead.play_banker_duanyu("rummy_text30");
+                    }
+                }
                 break;
             case RummyEvent.CHECK_BUTTON:
                 this.checkButton();
@@ -469,6 +480,21 @@ cc.Class({
             case RummyEvent.PLAYER_COMMIT:
                 this.bottomNode.active = false;
                 break;
+            case RummyEvent.PLAYER_WIN:
+                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+                    this.tipsNode.active = true;
+                    this.tipsLabel.setText('rummy_text31', '', '', data);
+                    this.scheduleOnce(()=>{
+                        this.tipsNode.active = false;
+                    }, 3);
+                }
+
+                break;
+            case RummyEvent.PLAYER_LOST:
+                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+                    this.bankerHead.play_banker_duanyu("rummy_text34", 3, data[0], data[1])
+                }
+                break;
             default:
                 break;
         }
@@ -476,6 +502,8 @@ cc.Class({
 
     clear(cleanUp){
         cc.Tween.stopAllByTarget(this.showcardNode);
+
+        this.bankerHead.cleanBanker();
 
         if(cleanUp){
             this.cardsNode.removeAllChildren();
@@ -516,6 +544,12 @@ cc.Class({
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player && RummyData.turn === cc.dd.user.id){
             this.dropButton.interactable = player.handsList.length === 13 && RummyData.state === GAME_STATE.PLAYING;
+
+            if(player.handsList.length === 13){
+                this.bankerHead.play_banker_duanyu("rummy_text29");
+            }else{
+                this.bankerHead.play_banker_duanyu("rummy_text30");
+            }
         }else{
             this.dropButton.interactable = false;
         }
@@ -667,7 +701,7 @@ cc.Class({
                     this.bottomNode.active = true;
                 }
 
-                if(RummyData.lastState === GAME_STATE.WAITING && RummyData.state === GAME_STATE.DEALING){
+                if(RummyData.lastState === GAME_STATE.WAITING && RummyData.state === GAME_STATE.DEALING) {
                     this.cardsNode.removeAllChildren();
                     this.discardNode.removeAllChildren();
                     this.showcardNode.removeAllChildren();
@@ -682,7 +716,7 @@ cc.Class({
 
                     let node = cc.instantiate(this.cardPrefab);
                     node.scaleX = 0.538;
-                    node.scaleY= 0.538;
+                    node.scaleY = 0.538;
                     node.name = "baida";
                     this.cardsNode.addChild(node);
                     node.getComponent("rummy_card").init(0);
@@ -692,7 +726,7 @@ cc.Class({
 
                     let discard = cc.instantiate(this.cardPrefab);
                     discard.scaleX = 0.538;
-                    discard.scaleY= 0.538;
+                    discard.scaleY = 0.538;
                     this.discardNode.addChild(discard);
                     discard.getComponent("rummy_card").init(0);
 
@@ -702,46 +736,60 @@ cc.Class({
 
                     let discardTween = cc.tween(discard)
                         .parallel(
-                            cc.tween().to(0.5, {position: cc.v2(0, 0)}, { easing: 'quadOut'}),
-                            cc.tween().to(0.25, {scaleX: 0, scaleY: 0.5918}).call(()=>{
+                            cc.tween().to(0.5, {position: cc.v2(0, 0)}, {easing: 'quadOut'}),
+                            cc.tween().to(0.25, {scaleX: 0, scaleY: 0.5918}).call(() => {
                                 discard.getComponent("rummy_card").init(RummyData.giveUp);
                             }).to(0.25, {scaleX: 0.538, scaleY: 0.538})
                         );
 
                     let cardsNodeTween = cc.tween(this.cardsNode)
-                        .to(0.5, {position: cardsPos}, { easing: 'quadOut'});
+                        .to(0.5, {position: cardsPos}, {easing: 'quadOut'});
 
                     let baidaNodeTween = cc.tween(node)
-                        .to(0.5, {position: cc.v2(-130, 0)}, { easing: 'expoOut'})
-                        .call(()=>{
+                        .to(0.5, {position: cc.v2(-130, 0)}, {easing: 'expoOut'})
+                        .call(() => {
                             node.zIndex = 0;
                         })
                         .delay(0.5)
-                        .to(0.2, {scale: 0.5918}, { easing: 'quintIn'})
+                        .to(0.2, {scale: 0.5918}, {easing: 'quintIn'})
                         .to(0.25, {scaleX: 0})
-                        .call(()=> {
+                        .call(() => {
                             node.getComponent("rummy_card").init(RummyData.xcard);
                             node.getComponent("rummy_card").showMask();
                         })
                         .to(0.25, {scaleX: 0.5918})
-                        .to(0.2, {scale: 0.538}, { easing: 'quintOut'})
+                        .to(0.2, {scale: 0.538}, {easing: 'quintOut'})
                         .delay(0.3)
-                        .to(0.6, {position: cc.v2(-28.66, -1.144), angle: 11.5}, { easing: 'sineInOut'})
+                        .to(0.6, {position: cc.v2(-28.66, -1.144), angle: 11.5}, {easing: 'sineInOut'})
 
                     cc.tween(this.showcardNode)
                         .delay(5)
-                        .call(()=>{
+                        .call(() => {
                             discardTween.start()
                         })
                         .delay(0.8)
-                        .call(()=>{
+                        .call(() => {
                             cardsNodeTween.start()
                         })
                         .delay(1)
-                        .call(()=>{
+                        .call(() => {
+                            this.bankerHead.play_banker_duanyu("rummy_text28", 1);
+
                             baidaNodeTween.start()
                         })
                         .start();
+
+                    this.bankerHead.play_banker_duanyu("rummy_text27", 5);
+                }else if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
+                    let baida = this.cardsNode.getChildByName("baida");
+                    cc.tween(baida)
+                        .to(0.6, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
+                        .delay(0.3)
+                        .call(() => {
+                            baida.zIndex = this.cardsNode.childrenCount;
+                        })
+                        .to(0.5, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
+                        .start()
                 }else{
                     this.discardNode.removeAllChildren();
                     this.cardsNode.removeAllChildren();
@@ -753,72 +801,109 @@ cc.Class({
 
                     discard.getComponent("rummy_card").init(RummyData.giveUp);
 
-                    let node = cc.instantiate(this.cardPrefab);
-                    this.cardsNode.addChild(node);
-                    node.scaleX = 0.538;
-                    node.scaleY= 0.538;
-                    node.x = -28.66;
-                    node.y = -1.144;
-                    node.angle = 11.5;
-                    node.name = "baida";
+                    if(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.DEALING){
+                        let node = cc.instantiate(this.cardPrefab);
+                        this.cardsNode.addChild(node);
+                        node.scaleX = 0.538;
+                        node.scaleY= 0.538;
+                        node.x = -28.66;
+                        node.y = -1.144;
+                        node.angle = 11.5;
+                        node.name = "baida";
 
-                    node.getComponent("rummy_card").init(RummyData.xcard);
-                    node.getComponent("rummy_card").showMask();
+                        node.getComponent("rummy_card").init(RummyData.xcard);
+                        node.getComponent("rummy_card").showMask();
 
-                    let paidui1 = cc.instantiate(this.cardListNode);
-                    this.cardsNode.addChild(paidui1);
-                    paidui1.y = -4;
+                        let paidui1 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui1);
+                        paidui1.y = -4;
 
-                    let paidui2 = cc.instantiate(this.cardListNode);
-                    this.cardsNode.addChild(paidui2);
+                        let paidui2 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui2);
+                    }else{
+                        let node = cc.instantiate(this.cardPrefab);
+                        this.cardsNode.addChild(node);
+                        node.scaleX = 0.538;
+                        node.scaleY= 0.538;
+                        node.name = "baida";
+
+                        node.getComponent("rummy_card").init(RummyData.xcard);
+                        node.getComponent("rummy_card").showMask();
+                    }
 
                     let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
                     if(player){
                         player.setPaiTouch(RummyData.state === 2 || RummyData.state === 3)
+
+                        if(RummyData.turn === cc.dd.user.id){
+                            player.checkCanMoPai();
+                        }
                     }
 
+                    this.checkButton();
                     RummyGameMgr.updateBaida();
                 }
             }else{
-                this.cardsNode.removeAllChildren();
-                this.discardNode.removeAllChildren();
-                this.showcardNode.removeAllChildren();
-
                 this.tipsNode.active = true;
-                this.tipsLabel.setText('WAITING');
+                this.tipsLabel.setText('rummy_text32');
 
-                let discard = cc.instantiate(this.cardPrefab);
-                discard.scaleX = 0.538;
-                discard.scaleY= 0.538;
-                this.discardNode.addChild(discard);
-
-                discard.getComponent("rummy_card").init(172);
-
-                let node = cc.instantiate(this.cardPrefab);
-                node.scaleX = 0.538;
-                node.scaleY= 0.538;
-                this.cardsNode.addChild(node);
-
-                node.getComponent("rummy_card").init(172);
-
-                if(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.DEALING){
-                    node.x = -28.66;
-                    node.y = -1.144;
-                    node.angle = 11.5;
-
-                    let paidui1 = cc.instantiate(this.cardListNode);
-                    this.cardsNode.addChild(paidui1);
-                    paidui1.y = -4;
-
-                    let paidui2 = cc.instantiate(this.cardListNode);
-                    this.cardsNode.addChild(paidui2);
-
+                if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
+                    let baida = this.cardsNode.getChildByName("baida");
+                    cc.tween(baida)
+                        .to(0.6, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
+                        .delay(0.3)
+                        .call(() => {
+                            baida.zIndex = this.cardsNode.childrenCount;
+                        })
+                        .to(0.5, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
+                        .start()
                 }else{
-                    let showcard = cc.instantiate(this.cardPrefab);
-                    showcard.scaleX = 0.538;
-                    showcard.scaleY= 0.538;
-                    showcard.getComponent("rummy_card").init(172);
-                    this.showcardNode.addChild(showcard);
+                    this.cardsNode.removeAllChildren();
+                    this.discardNode.removeAllChildren();
+                    this.showcardNode.removeAllChildren();
+
+                    let discard = cc.instantiate(this.cardPrefab);
+                    discard.scaleX = 0.538;
+                    discard.scaleY= 0.538;
+                    this.discardNode.addChild(discard);
+
+                    discard.getComponent("rummy_card").init(172);
+
+                    let node = cc.instantiate(this.cardPrefab);
+                    node.scaleX = 0.538;
+                    node.scaleY= 0.538;
+                    node.name = "baida";
+                    node.getComponent("rummy_card").init(172);
+
+                    if(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.DEALING){
+                        node.x = -28.66;
+                        node.y = -1.144;
+                        node.angle = 11.5;
+
+                        this.cardsNode.addChild(node);
+
+                        let paidui1 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui1);
+                        paidui1.y = -4;
+
+                        let paidui2 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui2);
+                    }else{
+                        let paidui1 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui1);
+                        paidui1.y = -4;
+
+                        let paidui2 = cc.instantiate(this.cardListNode);
+                        this.cardsNode.addChild(paidui2);
+
+                        this.cardsNode.addChild(node);
+
+                        let showcard = cc.instantiate(this.cardPrefab);
+                        showcard.scaleX = 0.538;
+                        showcard.scaleY= 0.538;
+                        showcard.getComponent("rummy_card").init(172);
+                        this.showcardNode.addChild(showcard);
+                    }
                 }
             }
         }

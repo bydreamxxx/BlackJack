@@ -332,7 +332,15 @@ var data_language =
       { key:328,keyword:"rummy_text23",en:"You Will lose {0} Chips.. Are you sure you want to drop from the game?",tc:"您將遺失{0}個籌碼，你確定要退出遊戲嗎？",in:"आप {0} चिप्स हराएगा. क्या आप सच्चे है कि आप खेल से बाहर होना चाहते हैं?",zh:"您将丢失{0}个筹码，你确定要退出游戏吗？" },
       { key:329,keyword:"rummy_text24",en:"Drop",tc:"放弃",in:"छोड़ें",zh:"放弃" },
       { key:330,keyword:"rummy_text25",en:"GAME STARTING IN {0}S…",tc:"遊戲從{0}開始…",in:"खेल शुरू होता है {0}",zh:"游戏从{0}开始…" },
-      { key:331,keyword:"rummy_text26",en:"Tips",tc:"小費",in:"सूचना",zh:"小费" }
+      { key:331,keyword:"rummy_text26",en:"Tips",tc:"小費",in:"सूचना",zh:"小费" },
+      { key:332,keyword:"rummy_text27",en:"Dealing Cards",tc:"",in:"",zh:"" },
+      { key:333,keyword:"rummy_text28",en:"Dealing Wild Joker",tc:"",in:"",zh:"" },
+      { key:334,keyword:"rummy_text29",en:"It's your turn to Pick",tc:"",in:"",zh:"" },
+      { key:335,keyword:"rummy_text30",en:"It's your turn to Discard",tc:"",in:"",zh:"" },
+      { key:336,keyword:"rummy_text31",en:"{0} has won the game!\nArrange your cards for lowest points and confirm",tc:"",in:"",zh:"" },
+      { key:337,keyword:"rummy_text32",en:"WAITTING",tc:"",in:"",zh:"" },
+      { key:338,keyword:"rummy_text33",en:"RESULT",tc:"",in:"",zh:"" },
+      { key:339,keyword:"rummy_text34",en:"{0} lost at {1}",tc:"",in:"",zh:"" },
     ],
 
     /**

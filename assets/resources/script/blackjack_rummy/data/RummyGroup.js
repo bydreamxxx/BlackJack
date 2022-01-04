@@ -216,7 +216,7 @@ let RummyGroup = cc.Class({
             let baidaIndex = 0;
 
             if(this.state === GROUP_STATE.IMPURE_STRAIGHT){
-                if(Math.floor(tempNormalList[i] / 10) === 2){
+                if(Math.floor(tempNormalList[0] / 10) === 2){
                     tempList.push(0);
                 }
 
@@ -224,11 +224,12 @@ let RummyGroup = cc.Class({
                     tempList.push(tempNormalList[i]);
                     let count = Math.floor(tempNormalList[i+1] / 10) - Math.floor(tempNormalList[i] / 10);
                     if(count > 1){
-                        for(let j = 1; j < count; j++){
+                        for(let j = 0; j < count; j++){
                             tempList.push(0);
                         }
                     }
                 }
+                tempList.push(tempNormalList[tempNormalList.length-1]);
 
                 if(Math.floor(tempNormalList[tempNormalList.length-1] / 10) !== 1){
                     tempList.push(0);
@@ -256,6 +257,13 @@ let RummyGroup = cc.Class({
                             normalIndex++;
                         }
                     }
+                }
+
+                for(let i = normalIndex; i < tempNormalList.length; i++){
+                    tempList.push(tempNormalList[i]);
+                }
+                for(let i = baidaIndex; i < tempBaidaList.length; i++){
+                    tempList.push(tempBaidaList[i]);
                 }
             }
         }else{

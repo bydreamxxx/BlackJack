@@ -41,16 +41,21 @@ cc.Class({
     onLoad(){
         this.duanyu_node.active = false;
         this.duanyu_arrow.active = false;
-        this.biaoqing.node.active = false;
-        // this.yuyin_laba.node.active = false;
+        if(this.viewIdx !== -1){
+            this.biaoqing.node.active = false;
+            // this.yuyin_laba.node.active = false;
 
-        ChatEd.addObserver(this);
-        cc.dd.native_gvoice_ed.addObserver(this);
+            ChatEd.addObserver(this);
+            cc.dd.native_gvoice_ed.addObserver(this);
+        }
+
     },
 
     onDestroy(){
-        ChatEd.removeObserver(this);
-        cc.dd.native_gvoice_ed.removeObserver(this);
+        if(this.viewIdx !== -1) {
+            ChatEd.removeObserver(this);
+            cc.dd.native_gvoice_ed.removeObserver(this);
+        }
     },
 
     clear(){
@@ -392,4 +397,29 @@ cc.Class({
         }
         return cc.v2(x, y);
     },
+
+    play_banker_duanyu: function (text, time, ...args) {
+        this.duanyu_node.active = true;
+        this.duanyu_arrow.active = true;
+        this.duanyu_label.node.getComponent("LanguageLabel").setText(text, '', '', ...args);
+        // this.duanyu_label.string = text;
+
+        cc.Tween.stopAllByTarget(this.duanyu_node);
+
+        if(cc.dd._.isNumber(time)){
+            cc.tween(this.duanyu_node)
+                .delay(time)
+                .call(()=>{
+                    this.duanyu_node.active = false;
+                    this.duanyu_arrow.active = false;
+                })
+                .start()
+        }
+    },
+
+    cleanBanker(){
+        cc.Tween.stopAllByTarget(this.duanyu_node);
+        this.duanyu_node.active = false;
+        this.duanyu_arrow.active = false;
+    }
 });

@@ -51,6 +51,8 @@ let RummyGameMgr = cc.Class({
         if(player) {
             player.lostCoin(msg.coin);
             RummyData.dropScores += Math.abs(msg.coin);
+
+            RummyED.notifyEvent(RummyEvent.PLAYER_LOST, [player.playerName, msg.coin]);
         }
     },
 
@@ -131,6 +133,7 @@ let RummyGameMgr = cc.Class({
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.uid);
         if(player){
             player.showCard(msg.showCard, msg.groupId);
+            RummyED.notifyEvent(RummyEvent.PLAYER_WIN, player.playerName);
         }
     },
 

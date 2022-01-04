@@ -225,7 +225,7 @@ cc.Class({
             this.touchList[0].node.active = false;
             let playCard = cc.instantiate(this.cardPrefab);
             playCard.getComponent("rummy_card").init(cardId);
-            this.showcardNode.addChild(playCard);
+            node.addChild(playCard);
 
             let worldPos = this.touchList[0].node.parent.convertToWorldSpaceAR(this.touchList[0].node.position);
             let startPos = node.convertToNodeSpaceAR(worldPos);
