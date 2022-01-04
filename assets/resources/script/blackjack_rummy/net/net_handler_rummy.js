@@ -57,6 +57,7 @@ var handler = {
         cc.dd.NetWaitUtil.net_wait_end('msg_rm_give_up_poker_req');
 
         if(msg.ret === 0){
+            RummyData.giveUp = msg.card;
             RummyGameMgr.giveUpPoker({userId: cc.dd.user.id, card: msg.card, groupId: msg.groupId});
         }else{
             let str = msg.ret;
@@ -80,6 +81,7 @@ var handler = {
     },
 
     on_msg_rm_give_up_poker_broadcast(msg) {
+        RummyData.giveUp = msg.card;
         RummyGameMgr.giveUpPoker(msg);
     },
 

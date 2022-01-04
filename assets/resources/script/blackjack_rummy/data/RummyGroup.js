@@ -84,6 +84,11 @@ let RummyGroup = cc.Class({
         if(this.baidaList.length <= 0){
             return false;
         }
+
+        if(this.baidaList.length >= 3 && this.normalList.length === 0){
+            return true;
+        }
+
         let baidaCount = this.baidaList.length;
         for (let i=0 ;i < this.normalList.length-1; i++) {
             let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);

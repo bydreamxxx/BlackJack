@@ -164,6 +164,7 @@ let RummyGameMgr = cc.Class({
         if(player){
             player.updatePoker(groupList);
         }
+        RummyED.notifyEvent(RummyEvent.SYN_DESK);
     },
 
     updateBaida(){

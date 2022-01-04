@@ -801,7 +801,7 @@ cc.Class({
 
                 node.getComponent("rummy_card").init(172);
 
-                if(RummyData.state === GAME_STATE.PLAYING){
+                if(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.DEALING){
                     node.x = -28.66;
                     node.y = -1.144;
                     node.angle = 11.5;
@@ -817,6 +817,7 @@ cc.Class({
                     let showcard = cc.instantiate(this.cardPrefab);
                     showcard.scaleX = 0.538;
                     showcard.scaleY= 0.538;
+                    showcard.getComponent("rummy_card").init(172);
                     this.showcardNode.addChild(showcard);
                 }
             }
@@ -826,77 +827,78 @@ cc.Class({
     /**
      * 更新状态
      */
-    updateState(){
-        // this.bottomNode.active = false;
-        // this.tipsNode.active = false;
-        // this.switchButtonNode.active = false;
-        //
-        // this.dropNode.active = false;
-        // this.invalidShowNode.active = false;
-        // this.showNode.active = false;
-        //
-        // this.cardsNode.active = false;
-        // this.showcard.active = false;
-        // this.showcardNode.active = false;
-        // this.discardNode.active = false;
-
-        this.showButton.active = RummyData.state !== GAME_STATE.GROUPING && RoomMgr.Instance().player_mgr.isUserPlaying();
-        this.confirmButton.active = RummyData.state === GAME_STATE.GROUPING && RoomMgr.Instance().player_mgr.isUserPlaying();
-
-        switch(RummyData.state){
-        //     case GAME_STATE.WAITING:
-        //         this.bottomNode.active = false;
-        //
-        //         this.dropNode.active = false;
-        //         this.invalidShowNode.active = false;
-        //         this.showNode.active = false;
-        //
-        //         this.cardsNode.active = false;
-        //         this.showcard.active = false;
-        //         this.showcardNode.active = false;
-        //         this.discardNode.active = false;
-        //
-        //         this.tipsNode.active = true;
-        //         this.tipsLabel.setText('rummy_text25', '', '', RummyData.lastTime);
-        //         this.lastTime = RummyData.lastTime;
-        //         this.switchButtonNode.active = true;
-        //         break;
-            case GAME_STATE.PLAYING:
-                RummyGameMgr.updateBaida();
-                this.bottomNode.active = false;
-                this.tipsNode.active = false;
-                this.switchButtonNode.active = false;
-
-                this.dropNode.active = false;
-                this.invalidShowNode.active = false;
-                this.showNode.active = false;
-
-                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
-                    this.bottomNode.active = true;
-                }else{
-                    this.tipsNode.active = true;
-                    this.tipsLabel.setText('WAITING');
-                }
-
-                this.cardsNode.active = true;
-                this.showcard.active = true;
-                this.showcardNode.active = true;
-                this.discardNode.active = true;
-                break;
-        //     case GAME_STATE.GROUPING:
-        //         break;
-            case GAME_STATE.RESULTING:
-                this.bottomNode.active = false;
-                break;
-        }
-    },
+    // updateState(){
+    //     // this.bottomNode.active = false;
+    //     // this.tipsNode.active = false;
+    //     // this.switchButtonNode.active = false;
+    //     //
+    //     // this.dropNode.active = false;
+    //     // this.invalidShowNode.active = false;
+    //     // this.showNode.active = false;
+    //     //
+    //     // this.cardsNode.active = false;
+    //     // this.showcard.active = false;
+    //     // this.showcardNode.active = false;
+    //     // this.discardNode.active = false;
+    //
+    //     this.showButton.active = RummyData.state !== GAME_STATE.GROUPING && RoomMgr.Instance().player_mgr.isUserPlaying();
+    //     this.confirmButton.active = RummyData.state === GAME_STATE.GROUPING && RoomMgr.Instance().player_mgr.isUserPlaying();
+    //
+    //     switch(RummyData.state){
+    //     //     case GAME_STATE.WAITING:
+    //     //         this.bottomNode.active = false;
+    //     //
+    //     //         this.dropNode.active = false;
+    //     //         this.invalidShowNode.active = false;
+    //     //         this.showNode.active = false;
+    //     //
+    //     //         this.cardsNode.active = false;
+    //     //         this.showcard.active = false;
+    //     //         this.showcardNode.active = false;
+    //     //         this.discardNode.active = false;
+    //     //
+    //     //         this.tipsNode.active = true;
+    //     //         this.tipsLabel.setText('rummy_text25', '', '', RummyData.lastTime);
+    //     //         this.lastTime = RummyData.lastTime;
+    //     //         this.switchButtonNode.active = true;
+    //     //         break;
+    //         case GAME_STATE.PLAYING:
+    //             RummyGameMgr.updateBaida();
+    //             this.bottomNode.active = false;
+    //             this.tipsNode.active = false;
+    //             this.switchButtonNode.active = false;
+    //
+    //             this.dropNode.active = false;
+    //             this.invalidShowNode.active = false;
+    //             this.showNode.active = false;
+    //
+    //             if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+    //                 this.bottomNode.active = true;
+    //             }else{
+    //                 this.tipsNode.active = true;
+    //                 this.tipsLabel.setText('WAITING');
+    //             }
+    //
+    //             this.cardsNode.active = true;
+    //             this.showcard.active = true;
+    //             this.showcardNode.active = true;
+    //             this.discardNode.active = true;
+    //             break;
+    //     //     case GAME_STATE.GROUPING:
+    //     //         break;
+    //         case GAME_STATE.RESULTING:
+    //             this.bottomNode.active = false;
+    //             break;
+    //     }
+    // },
 
     /**
-     * 同步牌堆、弃牌
+     * 更新牌堆、弃牌
      */
     updateDesk(){
         this.cardsNode.removeAllChildren();
         this.discardNode.removeAllChildren();
+        this.showcardNode.removeAllChildren();
 
         if(RoomMgr.Instance().player_mgr.isUserPlaying()){
             let discard = cc.instantiate(this.cardPrefab);
