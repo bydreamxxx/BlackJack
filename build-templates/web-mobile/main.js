@@ -107,6 +107,7 @@ window.boot = function () {
     cc.open_debug = false;
     cc.pid = 1;
     cc.game_pid = 0;
+    cc.angle_game_version = '1.0.0.1'
 
     var count = 0;
     function cb (err) {

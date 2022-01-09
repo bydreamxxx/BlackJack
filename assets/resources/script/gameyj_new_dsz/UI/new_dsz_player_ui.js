@@ -1,7 +1,7 @@
 // create by wj 2019/04/02
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
 const config_data = require('dsz_config').DSZ_UserState;
-var dsz_send_msg = require('new_dsz_send_msg');
+var dsz_send_msg = require('teenpatti_send_msg');
 
 cc.Class({
     extends: cc.Component,
@@ -9,22 +9,27 @@ cc.Class({
     properties: {
         m_tPlayerData: null,
         m_oPokerInfo: [],
-        playerStateAtlas: cc.SpriteAtlas,
-        pokerAtlas: cc.SpriteAtlas,
-        pokerTypeAtlas: cc.SpriteAtlas,
+
         emoji_node: cc.Node,
         yuyin_laba: { default: null, type: require('jlmj_yuyin_laba'), tooltip: '语音组件', },
         m_bShowHuaXiao: true,
     },
 
     ctor: function () {
+        this.playerStateAtlas= {
+            state1 : 'Lose',
+            state2 : 'Recharge',
+            state3 : 'pack',
+            state4 : 'Watch',
+            state5 : 'OffLine',
+        };
         this.typeName = [
-            'dsz_sanpai_zi',
-            'dsz_duizi_zi',
-            'dsz_shunzi_zi',
-            'dsz_tonghua_zi',
-            'dsz_tonghuashun_zi',
-            'dsz_baozi_zi',
+            'gaopai',
+            'yidui',
+            'shunzi',
+            'tonhua',
+            'tonghuashun',
+            'Leopard',
         ];
     },
 
@@ -41,7 +46,7 @@ cc.Class({
         this.m_oWatchDescBg.active = false;
         this.m_oWatchDescNode = cc.dd.Utils.seekNodeByName(this.m_oWatchDescBg, 'desc_watch');
         if (this.m_oWatchDescNode)
-            this.m_oWatchDesc = this.m_oWatchDescNode.getComponent(cc.Label);
+            this.m_oWatchDesc = this.m_oWatchDescNode.getComponent("LanguageLabel");
         //状态
         this.m_oStateSp = cc.dd.Utils.seekNodeByName(this.node, "state");
         //对话框
@@ -119,22 +124,22 @@ cc.Class({
                         if ((bWatchOwn && deskData.getCurOpUser() == cc.dd.user.id) || (!bWatchOwn)) {//轮到自己
                             this.m_oWatchDescBg.active = true;
                             this.m_oWatchBtn.interactable = true;
-                            this.m_oWatchDesc.string = '点击看牌';
+                            this.m_oWatchDesc.setText('ClickSee');
                         } else if (bWatchOwn && deskData.getCurOpUser() != cc.dd.user.id) {
                             this.m_oWatchDescBg.active = true;
-                            this.m_oWatchDesc.string = '自己回合可看';
+                            this.m_oWatchDesc.setText('WatchOwn');
                         }
                     } else if (deskData.getCurCircle() <= limitWatch) {
                         this.m_oWatchDescBg.active = true;
-                        this.m_oWatchDesc.string = '必闷' + limitWatch + '轮';
+                        this.m_oWatchDesc.setText('LimitCircle','', '',limitWatch );
                     } else if (deskData.getCurCircle() > limitWatch) {//必闷几轮可看牌
                         if ((bWatchOwn && deskData.getCurOpUser() == cc.dd.user.id) || (!bWatchOwn)) {//轮到自己
                             this.m_oWatchDescBg.active = true;
                             this.m_oWatchBtn.interactable = true;
-                            this.m_oWatchDesc.string = '点击看牌';
+                            this.m_oWatchDesc.setText('ClickSee');
                         } else if (bWatchOwn && deskData.getCurOpUser() != cc.dd.user.id) {
                             this.m_oWatchDescBg.active = true;
-                            this.m_oWatchDesc.string = '自己回合可看';
+                            this.m_oWatchDesc.setText('WatchOwn');
                         }
                     }
                 }
@@ -149,7 +154,7 @@ cc.Class({
         if (playerData.userState == config_data.UserStateWait)
             return;
         //已下注
-        this.m_oBetTxt.string = this.convertChipNum(parseInt(playerData.curBetScore));
+        this.m_oBetTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(playerData.curBetScore));
         // //庄家标记
         // if(playerData.isBanker)
         //     this.m_oBankerTag.active = true;
@@ -166,13 +171,13 @@ cc.Class({
             }
             if (playerData.pokersState == 2) {//弃牌
                 this.m_oStateSp.active = true;
-                var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-                stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame('state' + 3);
+                var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+                stateSp.setText(this.playerStateAtlas['state' + 3]);
                 this.setPlayerFail(true);
             } else if (playerData.userState == config_data.UserStateLost) {//比牌输掉
                 this.m_oStateSp.active = true;
-                var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-                stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame('state' + 1);
+                var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+                stateSp.setText(this.playerStateAtlas['state' + 1]);
                 this.setPlayerFail(true);
 
             }
@@ -194,8 +199,8 @@ cc.Class({
             } else if (playerData.userState == config_data.UserStateWait) {
                 this.setPlayerPokerState(4);
             }
-            var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-            stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+            var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+            stateSp.setText(this.playerStateAtlas[spName]);
 
             this.m_oDescBg.active = false;
         }
@@ -224,8 +229,8 @@ cc.Class({
     //刷新玩家下注额/身上分值
     freshPlayerChip: function () {
         this.chipBg.active = true;
-        this.m_oBetTxt.string = this.convertChipNum(parseInt(this.m_tPlayerData.betScore)); //设置玩家下注筹码
-        this.m_oplayerCoinTxt.string = this.convertChipNum(parseInt(this.m_tPlayerData.curScore)); //玩家身上筹码值
+        this.m_oBetTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.betScore)); //设置玩家下注筹码
+        this.m_oplayerCoinTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.curScore)); //玩家身上筹码值
     },
 
     //检测玩家是否为庄家
@@ -261,8 +266,8 @@ cc.Class({
         pb.getComponent('new_dsz_progressBar').playTimer(duration, null, duration);
         var spName = 'state2'
         this.m_oStateSp.active = true;
-        var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-        stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+        var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+        stateSp.setText(this.playerStateAtlas[spName]);
     },
 
     //玩家断线重连倒计时
@@ -277,8 +282,8 @@ cc.Class({
             pb.getComponent('new_dsz_progressBar').playTimer(120, null, duration);
             var spName = 'state2'
             this.m_oStateSp.active = true;
-            var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-            stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+            var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+            stateSp.setText(this.playerStateAtlas[spName]);
 
         }
     },
@@ -291,8 +296,8 @@ cc.Class({
         } else {
             var spName = 'state' + state
             this.m_oStateSp.active = true;
-            var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-            stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+            var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+            stateSp.setText(this.playerStateAtlas[spName]);
             if (state == 3 || state == 1) //弃牌和比牌输，需要阴影扣牌
                 this.setPlayerFail(true);
             else if (state == 4) {
@@ -321,8 +326,8 @@ cc.Class({
     //弃牌
     fold: function () {
         this.m_oStateSp.active = true;
-        var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-        stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame('state3');//设置弃牌文字
+        var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+        stateSp.setText(this.playerStateAtlas['state3']);//设置弃牌文字
 
         //this.m_oDescBg.active = false;//隐藏牌类型
         if (cc.dd.user.id == this.m_tPlayerData.userId)
@@ -335,8 +340,8 @@ cc.Class({
     //回放中弃牌
     foldRecord: function () {
         this.m_oStateSp.active = true;
-        var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-        stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame('state3');//设置弃牌文字
+        var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+        stateSp.setText(this.playerStateAtlas['state3']);//设置弃牌文字
 
         this.m_oDescBg.active = true;//隐藏牌类型
         //this.m_oWatchDescBg.active = false;
@@ -419,14 +424,14 @@ cc.Class({
                 if (this.m_tPlayerData.pokersState == 2) {//弃牌
                     var spName = 'state' + 3;
                     this.m_oStateSp.active = true;
-                    var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-                    stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+                    var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+                    stateSp.setText(this.playerStateAtlas[spName]);
 
                 } else if (this.m_tPlayerData.userState == config_data.UserStateLost) {//输掉
                     var spName = 'state' + 1;
                     this.m_oStateSp.active = true;
-                    var stateSp = this.m_oStateSp.getComponent(cc.Sprite);
-                    stateSp.spriteFrame = this.playerStateAtlas.getSpriteFrame(spName);
+                    var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
+                    stateSp.setText(this.playerStateAtlas[spName]);
 
                 }
             }
@@ -458,8 +463,8 @@ cc.Class({
             this.m_tPlayerData.pokers.type = 2
         var typeIndex = this.m_tPlayerData.pokers.type - 2;
 
-        var typeSp = this.m_oDescBg.getChildByName('type').getComponent(cc.Sprite);
-        typeSp.spriteFrame = this.pokerTypeAtlas.getSpriteFrame(this.typeName[typeIndex]);
+        var typeSp = this.m_oDescBg.getChildByName('typedesc').getComponent('LanguageLabel');
+        typeSp.setText(this.typeName[typeIndex]);
     },
 
     //盖牌

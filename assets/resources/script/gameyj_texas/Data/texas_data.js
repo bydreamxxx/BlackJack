@@ -32,6 +32,7 @@ var Texas_Event = cc.Enum({
     UPDATE_PLAYER_GOLD:'UPDATE_PLAYER_GOLD',   //更新玩家金币
     UPDATE_TITTLE:'UPDATE_TITTLE',   //更新标题
     CHANGE_ROOM_STATE_TO_RESULT_STATE:'CHANGE_ROOM_STATE_TO_RESULT_STATE',   //改变房间状态到结算， 服务器没有发送该状态下来
+    TEXAS_WHEEL_RESULT: 'TEXAS_WHEEL_RESULT',  // 转轮赛结果
     //////////////////////////////test
     SHOW_TEST_CARD: 'TEXAS_SHOW_TEST_CARD',    //test
     SHOW_TEST_RATE: 'SHOW_TEST_RATE',    //test
@@ -102,6 +103,8 @@ var texas_Data = cc.Class({
         this.m_lastBet = 0;
         this.m_opflag = 0;
         this.curPlayerTime = 0;
+        
+        this.PLAYER_NUM = 9;           //玩家人数
     },
 
     ctor() {
@@ -614,6 +617,9 @@ var texas_Data = cc.Class({
                 cardType = 2;
             }
             return cardType;
+        } else if(cards.length!==5){
+            cc.log('牌参数不对');
+            return cardType
         }
 
 
@@ -621,11 +627,15 @@ var texas_Data = cc.Class({
         cards.sort(function (a, b) { return a - b });
 
         var cardsValue = [];
-        cardsValue.push( Math.floor(cards[0] / 10));
-        cardsValue.push( Math.floor(cards[1] / 10));
-        cardsValue.push( Math.floor(cards[2] / 10));
-        cardsValue.push( Math.floor(cards[3] / 10));
-        cardsValue.push( Math.floor(cards[4] / 10));
+        for(let i=0; i<cards.length; i++) 
+        {
+            cardsValue.push( Math.floor(cards[i] / 10));
+        }
+        // cardsValue.push( Math.floor(cards[0] / 10));
+        // cardsValue.push( Math.floor(cards[1] / 10));
+        // cardsValue.push( Math.floor(cards[2] / 10));
+        // cardsValue.push( Math.floor(cards[3] / 10));
+        // cardsValue.push( Math.floor(cards[4] / 10));
 
         //同花色
         if(this.isSameCardFlower(cards))

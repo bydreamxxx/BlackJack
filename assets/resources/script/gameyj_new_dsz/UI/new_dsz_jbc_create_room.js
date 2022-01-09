@@ -1,5 +1,5 @@
 // create by wj 2019/04/17
-var new_dsz_send_msg = require('new_dsz_send_msg');
+var new_dsz_send_msg = require('teenpatti_send_msg');
 var config = require('yq_pin3');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 

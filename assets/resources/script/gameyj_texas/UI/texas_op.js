@@ -241,6 +241,7 @@ cc.Class({
 
     setCanAdd(canAdd,minbet)
     {
+        // console.log('minbet==============',minbet)
         this.canAdd = canAdd;
         this.minBet = minbet
     },

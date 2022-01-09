@@ -49,7 +49,7 @@ var New_DSZ_Desk_Data = cc.Class({
         curGameState: 3,//当前桌子状态，默认为：0 游戏中， 1 结束， 3 未开始
         curRound: 0, //当前桌子局数
         configId: 0, //桌子配置表id
-        playerCount: 6, //玩家人数
+        playerCount: 9, //玩家人数
         roundTotalCount: 0, //总局数
         circleTotalCount: 0, //总轮数
         isReconnectTag: false, //是否断线重连
@@ -145,7 +145,7 @@ var New_DSZ_Desk_Data = cc.Class({
 
     //金币场初始化
     initCoin: function(roomId){
-        this.playerCount = 6;
+        this.playerCount = 9;
         this.configId = 13600 + roomId;
         this.coinRoomId = roomId;
         this.circleTotalCount = this.getConfigData().limit_circle;
@@ -177,7 +177,7 @@ var New_DSZ_Desk_Data = cc.Class({
      */
     initDeskData: function(data){
         var roomMgr = require('jlmj_room_mgr').RoomMgr.Instance();
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
 
         //桌子基础信息
         this.curBet = data.curBet;
@@ -228,7 +228,7 @@ var New_DSZ_Desk_Data = cc.Class({
      * 断线重连数据
      */
     initDeskReconnectData:function(){
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
         //玩家游戏数据信息
         var userInfo = playerMgr.findPlayerByUserId(this.m_oReconnectData.userInfo.userId);
         if(userInfo)
@@ -268,7 +268,7 @@ var New_DSZ_Desk_Data = cc.Class({
         this.roomId = roomMgr.roomId;
         this.dissolvesList = data.dissolvesList;
         this.dissolveTime = data.disvotetime;
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
 
         //玩家游戏数据信息
         var userInfo = playerMgr.findPlayerByUserId(data.userInfo.userId);
@@ -597,7 +597,7 @@ var New_DSZ_Desk_Data = cc.Class({
      * 玩家比牌下注操作 
      */
     playerCmpOp: function(userId, bet){
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
         playerMgr.playerUpdateChip(userId, bet);
     },
 
@@ -605,7 +605,7 @@ var New_DSZ_Desk_Data = cc.Class({
      * 玩家比牌胜负
      */
     playerCmpResult: function(userId, cmpUserId, winnerId, bet){
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
         playerMgr.playerUpdateChip(userId, bet);
 
         if(userId != winnerId)
@@ -618,7 +618,7 @@ var New_DSZ_Desk_Data = cc.Class({
      * 玩家跟注/加注/弃牌
      */
     playerNormalOp: function(userId, bet, opType){
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
         playerMgr.playerUpdateChip(userId, bet);
         playerMgr.updatePlayerState(userId, opType);
     },
@@ -627,7 +627,7 @@ var New_DSZ_Desk_Data = cc.Class({
      * 结算设置玩家的poker数据
      */
     setPlayerPokers: function(pokerList){
-        var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+        var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
         pokerList.forEach(function(infos){
             playerMgr.playerResutPokerInfo(infos);
         });

@@ -235,7 +235,7 @@ cc.Class({
     //加入金币场房间
     sendDSZEnterMsg: function (gameid) {
         cc.dd.AppCfg.GAME_ID = gameid;
-        var scriptData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
+        var scriptData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
         scriptData.initCoin(this.m_nRoomId);
         this.gameId = gameid;
         var self = this;

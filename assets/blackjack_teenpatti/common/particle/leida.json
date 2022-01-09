@@ -1,0 +1,75 @@
+{
+"skeleton": { "hash": "O/I5X8aUC1t1y8vou87v5J/9ayg", "spine": "3.4.02", "width": 160, "height": 161, "images": "" },
+"bones": [
+	{ "name": "leidaZT" },
+	{ "name": "zhuan", "parent": "leidaZT" }
+],
+"slots": [
+	{ "name": "dsz_hudun_01", "bone": "leidaZT", "attachment": "dsz_hudun_01" },
+	{ "name": "dsz_hudun_02", "bone": "zhuan", "attachment": "dsz_hudun_02" }
+],
+"skins": {
+	"default": {
+		"dsz_hudun_01": {
+			"dsz_hudun_01": { "width": 160, "height": 161 }
+		},
+		"dsz_hudun_02": {
+			"dsz_hudun_02": { "x": -40, "y": 10.19, "width": 80, "height": 140 }
+		}
+	}
+},
+"animations": {
+	"saomiao": {
+		"slots": {
+			"dsz_hudun_01": {
+				"attachment": [
+					{ "time": 0, "name": "dsz_hudun_01" },
+					{ "time": 0.5, "name": "dsz_hudun_01" },
+					{ "time": 1, "name": "dsz_hudun_01" }
+				]
+			},
+			"dsz_hudun_02": {
+				"attachment": [
+					{ "time": 0, "name": "dsz_hudun_02" },
+					{ "time": 1, "name": "dsz_hudun_02" }
+				]
+			}
+		},
+		"bones": {
+			"leidaZT": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.5, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.5, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.5, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			},
+			"zhuan": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": 192 },
+					{ "time": 0.5333, "angle": 180 },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

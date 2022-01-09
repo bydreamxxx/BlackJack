@@ -9,6 +9,7 @@ var scene_dir_cfg = {
      "rummy":"blackjack_rummy",
      "blackjack":"blackjack_blackjack",
      "texas_jbc":"gameyj_texas",
+     "blackjack_teenpatti_scene":"blackjack_teenpatti",
 
 }
 module.exports = scene_dir_cfg;

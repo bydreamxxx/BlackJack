@@ -1,5 +1,5 @@
 // create by wj 2019/04/02
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
 
 cc.Class({
     extends: cc.Component,

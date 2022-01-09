@@ -384,6 +384,10 @@ module.exports = {
         // TEXAS_ED.notifyEvent(Texas_Event.UPDATE_PLAYER_GOLD, msg);
     },
     
+    // 转轮赛结算
+    on_msg_texas_wheel_result(msg) {
+        TEXAS_ED.notifyEvent(Texas_Event.TEXAS_WHEEL_RESULT, msg);
+    }
 
     //////////////////////////测试代码用///////////////////
     // on_msg_texas_other_player_poker_notify(msg) {

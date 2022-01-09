@@ -1,10 +1,10 @@
 // create by wj 2019/03/28
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
-var playerEd = require('new_dsz_player_manager').New_DSZ_PlayerED;
-var playerEvent = require('new_dsz_player_manager').New_DSZ_PlayerEvent;
-var deskEd = require('new_dsz_desk').New_DSZ_Desk_Ed;
-var deskEvent = require('new_dsz_desk').New_DSZ_Desk_Event;
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
+var playerEd = require('teenpatti_player_manager').Teenpatti_PlayerED;
+var playerEvent = require('teenpatti_player_manager').Teenpatti_PlayerEvent;
+var deskEd = require('teenpatti_desk').Teenpatti_Desk_Ed;
+var deskEvent = require('teenpatti_desk').Teenpatti_Desk_Event;
 
 var HallCommonObj = require('hall_common_data');
 var HallCommonEd = HallCommonObj.HallCommonEd;
@@ -59,7 +59,7 @@ cc.Class({
         m_tReadyPlayer: [],
         m_bRoundResult: false,
         m_bCheckGps: false,
-        m_oVioceNode: cc.Node,
+        //m_oVioceNode: cc.Node,
         bgNode: cc.Node,
         sendpokerAct: false,
         m_bReconnect: false,
@@ -82,8 +82,8 @@ cc.Class({
         cc.dd.native_gvoice_ed.addObserver(this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 
-        if (roomMgr.gameId == 136)
-            this.m_oVioceNode.active = false;
+        // if (roomMgr.gameId == 136)
+        //     this.m_oVioceNode.active = false;
 
         this.m_nBaskChip = 0;
         //总筹码
@@ -143,11 +143,11 @@ cc.Class({
 
         this.m_oPrepareDesc = cc.dd.Utils.seekNodeByName(this.node, 'preparedesc');
 
-        cc.find('chat', this.node).getComponent(cc.Animation).on('play', function () { this.chatAni = true; }.bind(this), this);
-        cc.find('chat', this.node).getComponent(cc.Animation).on('finished', function () { this.chatAni = false; }.bind(this), this);
+        // cc.find('chat', this.node).getComponent(cc.Animation).on('play', function () { this.chatAni = true; }.bind(this), this);
+        // cc.find('chat', this.node).getComponent(cc.Animation).on('finished', function () { this.chatAni = false; }.bind(this), this);
 
         this.initPlayer();//初始化玩家数据
-        this.initChat();
+        //this.initChat();
         var music = AudioManager.getInstance()._getLocalMusicSwitch();
         if (music)
             AudioManager.getInstance().onMusic(Prefix + 'yqp3_bgm');
@@ -370,10 +370,11 @@ cc.Class({
         var self = this;
         if (playerMgr.playerInfo) {
             playerMgr.playerInfo.forEach(function (player) {
-                if (player)
+                if (player){
                     var player_common_data = player.getPlayerCommonInfo();
-                if (player_common_data.seat != -1)
-                    self.playerEnter(player.userId);
+                    if (player_common_data.seat != -1)
+                        self.playerEnter(player.userId);
+                }
             });
             if (deskData.checkGameIsFriendType())
                 this.updateDeskData();
@@ -670,20 +671,20 @@ cc.Class({
             if (!player) {
                 this.m_tPlayerList[i].getComponent('new_dsz_player_ui').clearUI();
                 this.m_tPlayerList[i].active = true;
-                this.m_tPlayerList[i].getChildByName('invitePlayer').active = true;
+                //this.m_tPlayerList[i].getChildByName('invitePlayer').active = true;
                 return;
             } else {
-                this.m_tPlayerList[i].getChildByName('invitePlayer').active = false;
+                //this.m_tPlayerList[i].getChildByName('invitePlayer').active = false;
             }
         }
     },
 
     //隐藏所有邀请按钮
     hideEmptySeat: function () {
-        var playercount = deskData.getPlayerCount();
-        for (var i = 1; i < playercount; i++) {
-            this.m_tPlayerList[i].getChildByName('invitePlayer').active = false;
-        }
+        // var playercount = deskData.getPlayerCount();
+        // for (var i = 1; i < playercount; i++) {
+        //     this.m_tPlayerList[i].getChildByName('invitePlayer').active = false;
+        // }
     },
 
     //朋友场玩家按钮切换
@@ -2064,6 +2065,57 @@ cc.Class({
         }
     },
 
+        //退出游戏
+    onClickLeave: function (event, data) {
+        if (deskData.checkGameIsFriendType()) {
+            var content = "";
+            var callfunc = null;
+            //已经结束
+            if (deskData.isEnd == true) {
+                this.sendLeaveRoom();
+                return;
+            }
+            // 已经开始
+            if (deskData.isStart || deskData.getIsReconnectTag()) {
+                var player = playerMgr.findPlayerByUserId(cc.dd.user.id)
+                if (player) {
+                    content = cc.dd.Text.TEXT_LEAVE_ROOM_2;
+                    callfunc = this.reqSponsorDissolveRoom;
+                } else {//旁观者离开
+                    this.sendLeaveRoom();
+                    this.onClose();
+                    return;
+                }
+            }
+            else {
+                if (playerMgr.findPlayerByUserId(cc.dd.user.id) && playerMgr.findPlayerByUserId(cc.dd.user.id).isRoomer) {
+                    content = cc.dd.Text.TEXT_LEAVE_ROOM_1;
+                    callfunc = this.sendLeaveRoom;
+                } else {
+                    content = cc.dd.Text.TEXT_LEAVE_ROOM_3;
+                    callfunc = this.sendLeaveRoom;
+                }
+            }
+            this.popupOKcancel(content, callfunc);
+            this.onClose();
+        } else {
+            var selfInfo = playerMgr.findPlayerByUserId(cc.dd.user.id);
+            var gamedata = selfInfo.getPlayerGameInfo();
+            if (gamedata && (gamedata.userState == config_state.UserStateWait || gamedata.userState != config_state.UserStateFold || gamedata.userState != config_state.UserStateLost || gamedata.userState == 0)) {
+                this.sendLeaveRoom();
+            } else if (!gamedata) {
+                this.sendLeaveRoom();
+            } else {
+                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                    var cpt = prefab.getComponent('new_dsz_dialog_box');
+                    if (cpt)
+                        cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", 'text33', 'Cancel', this.sendLeaveRoom, null);
+                }.bind(this));
+            }
+            this.onClose();
+        }
+    },
+
     /////////////////////////////////////////gps定位处理begin//////////////////////////////////
     //更新经纬度
     sendLocationInfo() {
@@ -2124,66 +2176,66 @@ cc.Class({
     },
 
     refreshGPSWarn: function () {
-        cc.log('refreshGPSWarn=================')
-        if (roomMgr._Rule.isGps) {
-            cc.log('checkGps=================')
-            var gpsList = [];
-            for (var i = 0; i < playerMgr.playerInfo.length; i++) {
-                var player = playerMgr.playerInfo[i];
-                if (player) {
-                    var commonData = player.getPlayerCommonInfo(); //通用数据
-                    if (commonData) {
-                        gpsList.push({ userId: player.userId, location: commonData.latlngInfo, ip: commonData.ip });
-                    }
-                }
-            }
-            cc.log('pushGpsList=================')
-            var gpsRepeatGroup = [];
-            var ipRepeatGroup = [];
-            var warnGroup = [];
-            for (var i = 0; i < gpsList.length; i++) {
-                var temp = [];
-                var temp1 = [];
-                for (var j = 0; j < gpsList.length; j++) {
-                    if (cc.dd._.isUndefined(gpsList[i].location) || cc.dd._.isUndefined(gpsList[i].location.latitude) || cc.dd._.isUndefined(gpsList[i].location.longitude))
-                        warnGroup.push(gpsList[i].userId)
-                    else if (cc.dd._.isUndefined(gpsList[j].location) || cc.dd._.isUndefined(gpsList[j].location.latitude) || cc.dd._.isUndefined(gpsList[j].location.longitude)) {
-                        warnGroup.push(gpsList[j].userId)
-                    } else {
-                        if (i != j && this.getDistance(gpsList[i].location, gpsList[j].location) < 100) {//检查距离太近
-                            temp.push(gpsList[j].userId); //保存异常位置的id
-                        }
+        // cc.log('refreshGPSWarn=================')
+        // if (roomMgr._Rule.isGps) {
+        //     cc.log('checkGps=================')
+        //     var gpsList = [];
+        //     for (var i = 0; i < playerMgr.playerInfo.length; i++) {
+        //         var player = playerMgr.playerInfo[i];
+        //         if (player) {
+        //             var commonData = player.getPlayerCommonInfo(); //通用数据
+        //             if (commonData) {
+        //                 gpsList.push({ userId: player.userId, location: commonData.latlngInfo, ip: commonData.ip });
+        //             }
+        //         }
+        //     }
+        //     cc.log('pushGpsList=================')
+        //     var gpsRepeatGroup = [];
+        //     var ipRepeatGroup = [];
+        //     var warnGroup = [];
+        //     for (var i = 0; i < gpsList.length; i++) {
+        //         var temp = [];
+        //         var temp1 = [];
+        //         for (var j = 0; j < gpsList.length; j++) {
+        //             if (cc.dd._.isUndefined(gpsList[i].location) || cc.dd._.isUndefined(gpsList[i].location.latitude) || cc.dd._.isUndefined(gpsList[i].location.longitude))
+        //                 warnGroup.push(gpsList[i].userId)
+        //             else if (cc.dd._.isUndefined(gpsList[j].location) || cc.dd._.isUndefined(gpsList[j].location.latitude) || cc.dd._.isUndefined(gpsList[j].location.longitude)) {
+        //                 warnGroup.push(gpsList[j].userId)
+        //             } else {
+        //                 if (i != j && this.getDistance(gpsList[i].location, gpsList[j].location) < 100) {//检查距离太近
+        //                     temp.push(gpsList[j].userId); //保存异常位置的id
+        //                 }
 
-                        if (i != j && gpsList[i].ip == gpsList[j].ip && gpsList[i].ip != '') //检测ip是否一样
-                            temp1.push(gpsList[j].userId);
-                    }
-                }
-                if (temp.length != 0) {
-                    temp.push(gpsList[i].userId);
-                    gpsRepeatGroup.push(temp);
-                }
+        //                 if (i != j && gpsList[i].ip == gpsList[j].ip && gpsList[i].ip != '') //检测ip是否一样
+        //                     temp1.push(gpsList[j].userId);
+        //             }
+        //         }
+        //         if (temp.length != 0) {
+        //             temp.push(gpsList[i].userId);
+        //             gpsRepeatGroup.push(temp);
+        //         }
 
-                if (temp1.length != 0) { //如果ip有异常
-                    temp1.push(gpsList[i].userId);
-                    ipRepeatGroup.push(temp1);
-                }
-            }
-            cc.log('ipRepeatGroup=================' + ipRepeatGroup.length)
-            cc.log('gpsRepeatGroup=================' + gpsRepeatGroup.length)
-            cc.log('warnGroup=================' + warnGroup.length)
+        //         if (temp1.length != 0) { //如果ip有异常
+        //             temp1.push(gpsList[i].userId);
+        //             ipRepeatGroup.push(temp1);
+        //         }
+        //     }
+        //     cc.log('ipRepeatGroup=================' + ipRepeatGroup.length)
+        //     cc.log('gpsRepeatGroup=================' + gpsRepeatGroup.length)
+        //     cc.log('warnGroup=================' + warnGroup.length)
 
-            this.playerGpsCheckAnim(warnGroup, gpsRepeatGroup, ipRepeatGroup);
-            if (warnGroup.length == 0 && gpsRepeatGroup.length == 0 && ipRepeatGroup.length == 0) {
-                this.m_oGpsWarnNode.getChildByName('warnSp').active = false;
-                this.m_oGpsWarnNode.getChildByName('saveSp').active = true;
-            } else {
-                var warnNode = this.m_oGpsWarnNode.getChildByName('warnSp');
-                warnNode.active = true;
-                var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
-                warnNode.runAction(cc.repeatForever(seq));
-                this.m_oGpsWarnNode.getChildByName('saveSp').active = false;
-            }
-        }
+        //     this.playerGpsCheckAnim(warnGroup, gpsRepeatGroup, ipRepeatGroup);
+        //     if (warnGroup.length == 0 && gpsRepeatGroup.length == 0 && ipRepeatGroup.length == 0) {
+        //         this.m_oGpsWarnNode.getChildByName('warnSp').active = false;
+        //         this.m_oGpsWarnNode.getChildByName('saveSp').active = true;
+        //     } else {
+        //         var warnNode = this.m_oGpsWarnNode.getChildByName('warnSp');
+        //         warnNode.active = true;
+        //         var seq = cc.sequence(cc.fadeIn(0.8), cc.fadeOut(0.8));
+        //         warnNode.runAction(cc.repeatForever(seq));
+        //         this.m_oGpsWarnNode.getChildByName('saveSp').active = false;
+        //     }
+        // }
     },
     getDistance(locA, locB) {
         if (!cc.sys.isNative) {
@@ -2534,10 +2586,10 @@ cc.Class({
     /////////////////////////////////////////消息通讯///////////////////////////////////
     onEventMessage: function (event, data) {
         switch (event) {
-            case playerEvent.New_DSZ_PLAYER_ENTER: //玩家进入
+            case playerEvent.TEENPATTI_PLAYER_ENTER: //玩家进入
                 this.playerEnter(data);
                 break;
-            case playerEvent.New_DSZ_PLAYER_READY: //玩家准备
+            case playerEvent.TEENPATTI_PLAYER_READY: //玩家准备
                 if (!this.m_bRoundResult) {
                     this.playerReady_Rsp(data, true);
                     if (deskData.checkGameIsFriendType()) {//如果为朋友场
@@ -2555,48 +2607,48 @@ cc.Class({
                     this.m_tReadyPlayer.push(data);
                 }
                 break;
-            case playerEvent.New_DSZ_PLAYER_INIT_DATA: //玩家数据实例化
+            case playerEvent.TEENPATTI_PLAYER_INIT_DATA: //玩家数据实例化
                 this.initPlayerGameData(data);
                 this.m_bChangeDesk = false;
                 break;
             case playerEvent.New_PLAYER_ISONLINE: //玩家在线状态
                 this.playerOnline(data);
                 break;
-            case playerEvent.New_DSZ_PLAYER_COME_BACK: //玩家断线重连回来
+            case playerEvent.TEENPATTI_PLAYER_COME_BACK: //玩家断线重连回来
                 cc.log('playercombackenter=============' + data);
                 this.playerCombackEnter(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_CALL: //跟注
+            case deskEvent.TEENPATTI_DEDSK_CALL: //跟注
                 this.sendpokerAct = true;
                 this.m_tPlayerOp.push(1);
                 cc.log('push==============1')
                 this.playerAddChip_Rsp(data, true);
                 break;
-            case deskEvent.New_DSZ_DEDSK_FOLD: //弃牌
+            case deskEvent.TEENPATTI_DEDSK_FOLD: //弃牌
                 this.sendpokerAct = true;
                 this.m_tPlayerOp.push(3);
                 cc.log('push==============3')
                 this.playerFold_Rsp(data);
                 break;
-            // case deskEvent.New_DSZ_RESETPLAYERUI://重新设置界面
+            // case deskEvent.TEENPATTI_RESETPLAYERUI://重新设置界面
             //     this.resetPlayerUI();
             //     break;
-            case playerEvent.New_DSZ_PLAYER_WATCH_POKER: //玩家看牌
+            case playerEvent.TEENPATTI_PLAYER_WATCH_POKER: //玩家看牌
                 this.sendpokerAct = true;
                 this.m_tPlayerOp.push(4);
                 cc.log('push==============4')
                 this.playerWatch_Rsp(data);
                 break;
-            case playerEvent.New_DSZ_PLYER_EXIT: //玩家离开
+            case playerEvent.TEENPATTI_PLYER_EXIT: //玩家离开
                 this.sendpokerAct = true;
                 this.m_tPlayerOp.push(5);
                 cc.log('push==============5')
                 this.playerLeave_Rsp(data);
                 break;
-            case playerEvent.New_DSZ_PLAYER_AUTO_CHANGE://玩家托管状态切换
+            case playerEvent.TEENPATTI_PLAYER_AUTO_CHANGE://玩家托管状态切换
                 this.changePlayerAutoState(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_SEND_POKER: //发牌
+            case deskEvent.TEENPATTI_DEDSK_SEND_POKER: //发牌
                 this.resetPlayerUI();
                 if (!this.m_bRoundResult && !this.sendpokerAct && !deskData.getIsReconnectTag()) {//玩家不切换后台或者断线重连
                     var player = playerMgr.findPlayerByUserId(cc.dd.user.id);
@@ -2625,27 +2677,27 @@ cc.Class({
                     this.initPlayerDefaultData();
                 }
                 break;
-            case deskEvent.New_DSZ_DEDSK_COMPARE: //比牌
+            case deskEvent.TEENPATTI_DEDSK_COMPARE: //比牌
                 this.playerCmp_Rsp();
                 break;
-            case deskEvent.New_DSZ_DEDSK_COMPARE_RESULT: //比牌结果
+            case deskEvent.TEENPATTI_DEDSK_COMPARE_RESULT: //比牌结果
                 this.playerCmpResult_Rsp(data.userId, data.cmpId, data.winner);
                 break;
-            case deskEvent.New_DSZ_DEDSK_SHOW_ROUND_RESULE: //单局结算
+            case deskEvent.TEENPATTI_DEDSK_SHOW_ROUND_RESULE: //单局结算
                 cc.log('result=================');
                 this.roundResut_Rsp(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_SHOW_RESULE: //总结算
+            case deskEvent.TEENPATTI_DEDSK_SHOW_RESULE: //总结算
                 this.showResultTotal_Rsp(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_DISSOVlE: //解散消息
+            case deskEvent.TEENPATTI_DEDSK_DISSOVlE: //解散消息
                 if (playerMgr.findPlayerByUserId(cc.dd.user.id))
                     this.showDissolve(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_DISSOVLE_RESULT: //解散结果
+            case deskEvent.TEENPATTI_DEDSK_DISSOVLE_RESULT: //解散结果
                 this.showDissolveResult(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_UPDATE_CIRCLE: //更新轮数
+            case deskEvent.TEENPATTI_DEDSK_UPDATE_CIRCLE: //更新轮数
                 this.updateDeskCircle(true);
                 break;
             case deskEvent.New_CHECK_PLAYER_ALL_READY: //检测玩家是否全部准备，断线重连检测
@@ -2656,10 +2708,10 @@ cc.Class({
                         this.playerAllReady_Rsp();
                 }
                 break;
-            case deskEvent.New_DSZ_DEDSK_QUICK_RECHARGE://快速充值
+            case deskEvent.TEENPATTI_DEDSK_QUICK_RECHARGE://快速充值
                 this.playerRechargeState(data);
                 break;
-            case deskEvent.New_DSZ_DEDSK_RECONNECT: //断线重连
+            case deskEvent.TEENPATTI_DEDSK_RECONNECT: //断线重连
                 this.reconnectClearAllUI();
                 break;
             case ChatEvent.CHAT:
@@ -2675,7 +2727,7 @@ cc.Class({
                     this.backToHall();
                 }
                 break;
-            case playerEvent.New_DSZ_PLAYER_COIN_CHANGE:
+            case playerEvent.TEENPATTI_PLAYER_COIN_CHANGE:
                 this.updatePlayerCoin(data);
                 break;
             case RoomEvent.on_room_replace: //换桌成功

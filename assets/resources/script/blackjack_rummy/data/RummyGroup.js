@@ -73,9 +73,19 @@ let RummyGroup = cc.Class({
         }
 
         let numArr = []
-        for (let i=0 ;i < this.normalList.length-1; i++) {
-            numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
+
+        if(Math.floor(this.normalList[0] / 10) === 1 && Math.floor(this.normalList[1] / 10) !== 2){//特殊处理QKA的情况
+            for (let i=1 ;i < this.normalList.length-1; i++) {
+                numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
+            }
+
+            numArr.push(Math.floor(this.normalList[0] / 10) + 13 - Math.floor(this.normalList[this.normalList.length-1] / 10));
+        }else{
+            for (let i=0 ;i < this.normalList.length-1; i++) {
+                numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
+            }
         }
+
         //判断是否等差
         return numArr.every(item => numArr[0] === item) && numArr[0] === 1;
     },
@@ -89,18 +99,72 @@ let RummyGroup = cc.Class({
             return true;
         }
 
-        let baidaCount = this.baidaList.length;
-        for (let i=0 ;i < this.normalList.length-1; i++) {
-            let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);
-            if(count > 1){
-                baidaCount -= (count - 1);
+        if(Math.floor(this.normalList[0] / 10) === 1){
+            let result = true;
+            let baidaCount = this.baidaList.length;
+            for (let i=0 ;i < this.normalList.length-1; i++) {//先判断是不是A23
+                let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);
+                if(count > 1){
+                    baidaCount -= (count - 1);
 
-                if(baidaCount < 0){//癞子牌用完了还没能成顺
+                    if(baidaCount < 0){//癞子牌用完了还没能成顺
+                        result = false;
+                        break;
+                    }
+                }
+
+                if(this.normalList[0] % 10 !== this.normalList[i] % 10){//不同色
+                    result = false;
+                    break;
+                }
+            }
+
+            if(this.normalList[0] % 10 !== this.normalList[this.normalList.length-1] % 10){//不同色
+                result = false;
+            }
+
+            if(!result){//再判断QKA
+                baidaCount = this.baidaList.length;
+                let tempList = this.normalList.concat();
+                let first = tempList.shift();
+                tempList.push(first+130);
+                for (let i=0 ;i < tempList.length-1; i++) {
+                    let count = Math.floor(tempList[i+1] / 10) - Math.floor(tempList[i] / 10);
+                    if(count > 1){
+                        baidaCount -= (count - 1);
+
+                        if(baidaCount < 0){//癞子牌用完了还没能成顺
+                            return false;
+                        }
+                    }
+
+                    if(tempList[0] % 10 !== tempList[i] % 10){//不同色
+                        return false;
+                    }
+                }
+
+                if(tempList[0] % 10 !== tempList[tempList.length-1] % 10){//不同色
+                    return false;
+                }
+            }
+        }else{
+            let baidaCount = this.baidaList.length;
+            for (let i=0 ;i < this.normalList.length-1; i++) {
+                let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);
+                if(count > 1){
+                    baidaCount -= (count - 1);
+
+                    if(baidaCount < 0){//癞子牌用完了还没能成顺
+                        return false;
+                    }
+                }
+
+                if(this.normalList[0] % 10 !== this.normalList[i] % 10){//不同色
                     return false;
                 }
             }
 
-            if(this.normalList[0] % 10 !== this.normalList[i] % 10){//不同色
+            if(this.normalList[0] % 10 !== this.normalList[this.normalList.length-1] % 10){//不同色
                 return false;
             }
         }

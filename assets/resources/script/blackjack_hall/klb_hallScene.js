@@ -54,6 +54,10 @@ let hall = cc.Class({
         fkdlBtn: cc.Node,
 
         adspriteFrames: [cc.SpriteFrame],
+
+        raceView: cc.Node,
+        raceContent: cc.Node,
+        // racePrefab: cc.Prefab,
     },
 
 
@@ -868,6 +872,20 @@ let hall = cc.Class({
     onClickHall: function () {
         this.showHall();
         this.hallNode.active = false;
+    },
+
+    // 加载比赛场
+    loadRaces: function() {
+
+    },
+    onClickRace: function() {
+        hall_audio_mgr.com_btn_click();
+        this.raceView.active = !this.raceView.active
+    },
+    // 打开转轮赛
+    onClickRaceItem: function() {
+        hall_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_APPLY);
     },
 
     onEventMessage: function (event, data) {

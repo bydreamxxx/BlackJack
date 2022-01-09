@@ -91,6 +91,8 @@ cc.Class({
         firstBet: true,
         m_oChangeBtn: cc.Node,
 
+        coinPlayers: cc.Prefab,
+        wheelPlayers: cc.Prefab,
         wheelView: require('texas_wheel'),
         wheelRaceResult: require('wheel_race_result'),
         wheelHeadList: [cc.Node],
@@ -127,8 +129,36 @@ cc.Class({
         })
         if(config.room_type === 10) {
             this.isWheelRace = true
-            for(let i=0; i<this.wheelHeadList.length; i++) {
-                this.head_list[i].node.setPosition(this.wheelHeadList[i].getPosition())
+
+            let node = cc.instantiate(this.wheelPlayers);
+            node.parent = this.node
+            node.setSiblingIndex(10)
+            for(let i=0; i<node.children.length; i++) {
+                let com = node.children[i].getComponent('texas_game_head')
+                this.head_list.push(com)
+            }
+            // for(let i=0; i<this.wheelHeadList.length; i++) {
+            //     this.head_list[i].node.setPosition(this.wheelHeadList[i].getPosition())
+            // }
+
+            // for(let i=0; i<this.head_list.length; i++ ){
+            //     if(i===1){
+            //         this.head_list[i].view_idx = 7
+            //     }
+            //     if(i===2){
+            //         this.head_list[i].view_idx = 1
+            //     }
+            //     if(i===7){
+            //         this.head_list[i].view_idx = 2
+            //     }
+            // }
+        } else {
+            let node = cc.instantiate(this.coinPlayers);
+            node.parent = this.node
+            node.setSiblingIndex(10)
+            for(let i=0; i<node.children.length; i++) {
+                let com = node.children[i].getComponent('texas_game_head')
+                this.head_list.push(com)
             }
         }
     },
@@ -204,10 +234,13 @@ cc.Class({
 
             this.cardRotation[i][1] = card.rotation;
 
-            if (i < 5) {
-                this.commonCardPosition[i] = this.common_cards.children[i].position
-            }
+            // if (i < 5) {
+            //     this.commonCardPosition[i] = this.common_cards.children[i].position
+            // }
 
+        }
+        for(let i=0; i<this.common_cards.children.length; i++) {
+            this.commonCardPosition[i] = this.common_cards.children[i].position
         }
 
 
@@ -300,6 +333,14 @@ cc.Class({
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
     },
 
+    // 转轮赛奖励
+    updateWheelAward(data) {
+        this.wheelRaceAwardList = []
+        for(let i=0; i<data.rewardListList.length; i++) {
+            this.wheelRaceAwardList.push(data.rewardListList[i].rewardListList[0].num)
+        }
+        this.playWheelAnim(data.rewardListList[0].rewardListList[0].num)
+    },
     playWheelAnim(coin) {
         let numArray = coin.toString().split('')
         this.wheelView.node.active=true
@@ -461,8 +502,11 @@ cc.Class({
                 }
                 break; 
             case RoomEvent.on_match_race_reward: //转轮赛奖励
-                this.playWheelAnim(data.rewardListList[0].rewardListList[0].num)
+                this.updateWheelAward(data)
                 break;
+            case Texas_Event.TEXAS_WHEEL_RESULT:
+                this.showWheelResult(data)
+                break
         }
     },
 
@@ -888,10 +932,7 @@ cc.Class({
         //客户端做一个延迟，等待公共牌发完再结算
         this.node.runAction(cc.sequence(cc.delayTime(1), cc.callFunc(function () {
             this.onResultFinish(msg, noCards);
-            // this.showWheelResult({
-            //     rank:2,
-            //     coin:98174151
-            // })
+            
         }.bind(this))));
 
     },
@@ -945,6 +986,16 @@ cc.Class({
 
                 score.getComponent(cc.Label).string = ':' + Math.abs(msg.resultList[i].win);
 
+                // 转轮赛输光退出游戏
+                if(this.isWheelRace === true) {
+                    var player = texas_Data.Instance().getPlayerByViewIdx(view);
+                    if(player.score <= 0) {
+                        player.joinGame = 0
+                        this.head_list[view].showWait(true);
+                    }
+                    // console.error('play score---------',view, player.score)
+                }
+                // console.error(msg.resultList[i].playerId,'===============',player.score, player.gold)
             }
         }
 
@@ -991,8 +1042,15 @@ cc.Class({
 
     // 显示转轮赛结果 
     showWheelResult(data) {
-        this.wheelRaceResult.node.active = true
-        this.wheelRaceResult.setResult(data, this.onExit)
+        if(this.isWheelRace) {
+            for(let i=0; i<data.users.length; i++) {
+                if(data.users[i].userId === cc.dd.user.id){
+                    this.wheelRaceResult.node.active = true
+                    this.wheelRaceResult.setResult(data, this.onExit)
+                    break
+                }
+            }
+        }
     },
 
     showMiddleWinEffect(cardType) {
@@ -1352,7 +1410,12 @@ cc.Class({
     resetGameUI() {
         for (var i = 0; i < this.head_list.length; i++) {
             this.head_list[i].resetUI();
+            let player = texas_Data.Instance().getPlayerByViewIdx(i);
+            if(this.isWheelRace && player && player.joinGame!==1){
+                this.head_list[i].showWait(true);
+            }
         }
+        
         this.clearEffectNode();
         this.texas_op.resetOp();
         this.resetCommonCards();

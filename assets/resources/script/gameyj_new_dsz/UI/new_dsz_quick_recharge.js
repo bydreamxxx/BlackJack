@@ -4,7 +4,7 @@ var shop_cofig = require('shop');
 var HallCommonObj = require('hall_common_data');
 var hallData = HallCommonObj.HallCommonData.getInstance();
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
 
 cc.Class({
     extends: cc.Component,

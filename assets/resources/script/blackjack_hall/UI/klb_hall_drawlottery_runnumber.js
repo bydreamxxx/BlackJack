@@ -6,6 +6,7 @@ cc.Class({
         numList: [cc.Label],
         targetSpeed:32,
         needSlowDown: false,
+        endSprite: cc.Sprite
     },
 
     onLoad :function() {
@@ -170,6 +171,14 @@ cc.Class({
         this.startNum = this.numList[0].string;//设置开始停止的数字
         this.passOnce = 0;
         this.passOnceEnd = this.checkRunNum(parseInt(this.startNum), parseInt(this.endNum));//设置与this.startNum数字相同的数字经过了几次
+    },
+
+    showEndSprite(isShow) {
+        this.endSprite.node.active = isShow;
+        if(isShow){
+            this.numList[0].string = ''
+            this.numList[1].string = ''
+        }
     },
 
     /**

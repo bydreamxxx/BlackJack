@@ -98,9 +98,9 @@ var handler = {
             let str = msg.ret;
             switch (msg.ret){
                 case -1:
-                    if(msg.userId === cc.dd.user.id){
+                    if(msg.uid === cc.dd.user.id){
                         RummyGameMgr.showInvalidShow();
-                        RummyGameMgr.loseGame();
+                        RummyGameMgr.loseGame(msg.uid);
                     }
                     return;
                 case 1:

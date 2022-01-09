@@ -19,7 +19,7 @@ export default class LanguageComponent extends cc.Component {
     }
 
     changeLanguage() {
-        cc.log(`changeLanguage 需要被实现 ${this.node.name}`);
+        cc.warn(`changeLanguage 需要被实现 ${this.node.name}`);
     }
 
     onEventMessage(event, data) {

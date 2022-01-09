@@ -147,7 +147,7 @@ cc.Class({
                 //     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
                 //     userId: cc.dd.user.id });
                 handler.on_msg_rm_deal_poker({ cardsList: [],
-                    handCardsList: [ 12,24,32,34,41,54,61,63,71,81,91,114,124,172 ],
+                    handCardsList: [ 12,22,32,34,41,54,61,63,71,81,132,112,122,172 ],
                     userId: cc.dd.user.id });
             })
             .delay(0.01)
@@ -458,12 +458,17 @@ cc.Class({
                 this.dropNode.active = false;
                 this.showNode.active = false;
                 this.bankerHead.cleanBanker();
-                let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-                if(player && RummyData.turn === cc.dd.user.id){
-                    if(player.handsList.length === 13){
-                        this.bankerHead.play_banker_duanyu("rummy_text29");
-                    }else{
-                        this.bankerHead.play_banker_duanyu("rummy_text30");
+                if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+                    let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                    if(player && RummyData.turn === cc.dd.user.id){
+                        if(AudioManager.getAudioID("blackjack_rummy/audio/rummyMyturn") == -1) {
+                            AudioManager.playSound("blackjack_rummy/audio/rummyMyturn");
+                        }
+                        if(player.handsList.length === 13){
+                            this.bankerHead.play_banker_duanyu("rummy_text29");
+                        }else{
+                            this.bankerHead.play_banker_duanyu("rummy_text30");
+                        }
                     }
                 }
                 break;
@@ -482,13 +487,8 @@ cc.Class({
                 break;
             case RummyEvent.PLAYER_WIN:
                 if(RoomMgr.Instance().player_mgr.isUserPlaying()){
-                    this.tipsNode.active = true;
                     this.tipsLabel.setText('rummy_text31', '', '', data);
-                    this.scheduleOnce(()=>{
-                        this.tipsNode.active = false;
-                    }, 3);
                 }
-
                 break;
             case RummyEvent.PLAYER_LOST:
                 if(RoomMgr.Instance().player_mgr.isUserPlaying()){
@@ -622,11 +622,6 @@ cc.Class({
         this.dropNode.active = true;
     },
 
-    onClickShowShow(event, data){
-        hall_audio_mgr.com_btn_click();
-        this.showNode.active = true;
-    },
-
     onClickCloseDrop(event, data){
         hall_audio_mgr.com_btn_click();
         this.dropNode.active = false;
@@ -635,6 +630,11 @@ cc.Class({
 
     onClickDrop(event, data){
         hall_audio_mgr.com_btn_click();
+
+        if(RummyData.state !== GAME_STATE.GROUPING && RummyData.state !== GAME_STATE.PLAYING){
+            return;
+        }
+
         var msg = new cc.pb.rummy.msg_rm_drop_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_drop_req, msg, "msg_rm_drop_req", true);
         cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_drop_req');
@@ -766,6 +766,9 @@ cc.Class({
                         .delay(5)
                         .call(() => {
                             discardTween.start()
+                            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyFlip") == -1) {
+                                AudioManager.playSound("blackjack_rummy/audio/rummyFlip");
+                            }
                         })
                         .delay(0.8)
                         .call(() => {
@@ -774,13 +777,26 @@ cc.Class({
                         .delay(1)
                         .call(() => {
                             this.bankerHead.play_banker_duanyu("rummy_text28", 1);
-
+                            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyJokerSelect1") == -1) {
+                                AudioManager.playSound("blackjack_rummy/audio/rummyJokerSelect1");
+                            }
                             baidaNodeTween.start()
                         })
                         .start();
 
                     this.bankerHead.play_banker_duanyu("rummy_text27", 5);
                 }else if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
+                    this.tipsNode.active = true;
+                    this.scheduleOnce(()=>{
+                        this.tipsNode.active = false;
+                    }, 3);
+
+                    if(RummyData.selfWin){
+                        this.bottomNode.active = false;
+
+                    }
+                    RummyData.selfWin = null;
+
                     let baida = this.cardsNode.getChildByName("baida");
                     cc.tween(baida)
                         .to(0.6, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
@@ -833,7 +849,7 @@ cc.Class({
 
                     let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
                     if(player){
-                        player.setPaiTouch(RummyData.state === 2 || RummyData.state === 3)
+                        player.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING)
 
                         if(RummyData.turn === cc.dd.user.id){
                             player.checkCanMoPai();
@@ -846,6 +862,7 @@ cc.Class({
             }else{
                 this.tipsNode.active = true;
                 this.tipsLabel.setText('rummy_text32');
+                this.switchButtonNode.active = true;
 
                 if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
                     let baida = this.cardsNode.getChildByName("baida");

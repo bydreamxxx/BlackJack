@@ -1,9 +1,9 @@
 // create by wj 2019/03/28
 
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
-var deskEvent = require('new_dsz_desk').New_DSZ_Desk_Event;
-var deskEd = require('new_dsz_desk').New_DSZ_Desk_Ed;
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
+var deskEvent = require('teenpatti_desk').Teenpatti_Desk_Event;
+var deskEd = require('teenpatti_desk').Teenpatti_Desk_Ed;
 
 var hanlder = {
     //断线重连/创建房间信息

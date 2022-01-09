@@ -1,10 +1,10 @@
 // create by wj 2019/04/04
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
-var dsz_send_msg = require('new_dsz_send_msg');
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
+var dsz_send_msg = require('teenpatti_send_msg');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
-var deskEd = require('new_dsz_desk').New_DSZ_Desk_Ed;
-var deskEvent = require('new_dsz_desk').New_DSZ_Desk_Event;
+var deskEd = require('teenpatti_desk').Teenpatti_Desk_Ed;
+var deskEvent = require('teenpatti_desk').Teenpatti_Desk_Event;
 
 cc.Class({
     extends: cc.Component,
@@ -35,13 +35,6 @@ cc.Class({
             genzhuAuto: 4,//跟到底
             stopgenzhuAuto: 5, //取消跟到底
         };
-
-        this.spriteName = [
-            ['dsz_qipai_zi01', 'dsz_qipai_zi02'],
-            ['dsz_bipai_zi01', 'dsz_bipai_zi02'],
-            ['dsz_jiazhu_zi01', 'dsz_jiazhu_zi02'],
-            ['dsz_genzhu_zi01', 'dsz_genzhu_zi02'],
-        ]
     },
 
     setPath: function(ntype){
@@ -124,8 +117,8 @@ cc.Class({
                     advanceBtn0.active = true;
                     if(curBetLevel >= betLevelList.length){//达到最大档次
                         advanceBtn0.getComponent(cc.Button).interactable = false;
-                        var descSp = advanceBtn0.getChildByName('descSp').getComponent(cc.Sprite);
-                        descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.jiazhu][1]);    
+                        var descSp = advanceBtn0.getChildByName('descSp').getComponent(cc.LabelOutline);
+                        descSp.enabled = false  
             
                     }else{//可以继续加注
                         for(var i = 0; i < 4; i++){
@@ -158,33 +151,33 @@ cc.Class({
 
                 if(bWatchLimit && deskData.getCurCircle() < 3){//必须闷三轮
                     compBtn.getComponent(cc.Button).interactable = false;
-                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                    descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][1]);    
+                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                    descSp.enabled = false  
 
                 }else if(bWatchLimit && deskData.getCurCircle() >= 3){//必闷三轮可比牌
                     compBtn.getComponent(cc.Button).interactable = true;
-                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                    descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][0]);  
+                        var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                        descSp.enabled = true  
                 }else{
                     if(deskData.getConfigData().limit_cmp > deskData.getCurCircle()){ //根据配置显示比牌按钮功能
                         compBtn.getComponent(cc.Button).interactable = false;
-                        var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                        descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][1]);  
+                        var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                        descSp.enabled = false  
                     }else{
                         compBtn.getComponent(cc.Button).interactable = true;
-                        var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                        descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][0]);  
+                        var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                        descSp.enabled = true  
                     }
                 }
             }else{//金币场有比牌轮数限制
                 if(deskData.getConfigData().limit_cmp > deskData.getCurCircle()){ //根据配置显示比牌按钮功能
                     compBtn.getComponent(cc.Button).interactable = false;
-                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                    descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][1]);  
+                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                    descSp.enabled = false  
                 }else{
                     compBtn.getComponent(cc.Button).interactable = true;
-                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.Sprite);
-                    descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][0]);  
+                    var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                    descSp.enabled = true  
                 }
             }
         }
@@ -245,10 +238,9 @@ cc.Class({
             btn.active = true;
             btn.getComponent(cc.Button).interactable = enabled;
 
-            var descSp = btn.getChildByName('descSp').getComponent(cc.Sprite);
-            var index = enabled == true ? 0 : 1
-            descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[i][index]);    
-        }
+            var descSp = btn.getChildByName('descSp').getComponent(cc.LabelOutline);
+            descSp.enabled = enabled  
+}
     },
 
     //重置自动
@@ -430,9 +422,9 @@ cc.Class({
                 }else{
                     btn.getComponent(cc.Button).interactable = false;
 
-                    var descSp = btn.getChildByName('descSp').getComponent(cc.Sprite);
-                    descSp.spriteFrame = this.m_oOpAtals.getSpriteFrame(this.spriteName[this.btnTag.bipai][1]);  
-            
+                    var descSp = btn.getChildByName('descSp').getComponent(cc.LabelOutline);
+                    descSp.enabled = false  
+                    
                     deskEd.notifyEvent(deskEvent.New_DSZ_DEDSK_COMPARE);
                 }
             }

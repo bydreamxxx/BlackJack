@@ -164,6 +164,7 @@ var GameType = {
     TEXAS: 202, //德州
     RUMMY: 185,
     TEXAS_WHEEL: 502, // 德州转轮
+    TEENPATTI: 186,
 };
 
 /**
@@ -263,7 +264,7 @@ var GameId = {
     108: 'brnn_game_jlb',
     //---------------斗三张---------------
     35: 'dsz_game_pyc',
-    135: 'dsz_game_jbc',
+    135: 'blackjack_teenpatti_scene',
 
     //---------------梭哈---------------
     63: 'suoha_pyc',
@@ -402,6 +403,7 @@ var GameId = {
     202:'texas_jbc',
 
     185: 'rummy',
+    186: 'blackjack_teenpatti_scene',
 
     //------------德州转轮赛--------------
     502: 'texas_jbc'
@@ -494,6 +496,7 @@ var GetBundleNameByScene = {
 
     'loading': 'gameyj_loading',
     'texas_jbc':"gameyj_texas",
+    "blackjack_teenpatti_scene":"blackjack_teenpatti",
 }
 
 module.exports = {

@@ -402,6 +402,8 @@ var loginModle = cc.Class({
         if (cc.sys.isNative) {
             var platform_str = ["", "内网测试版本", "外网测试版本", "版本", "版本"];
             this.version.string = platform_str[AppCfg.PID] + ":" + AppCfg.VERSION;
+        }else if(cc.sys.isBrowser){
+            this.version.string = cc.angle_game_version;
         }
 
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);

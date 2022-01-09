@@ -153,6 +153,10 @@ let rummy_player_ui = cc.Class({
 
         type = parseInt(type);
 
+        if(AudioManager.getAudioID("blackjack_rummy/audio/rummyPickDiscard") == -1) {
+            AudioManager.playSound("blackjack_rummy/audio/rummyPickDiscard");
+        }
+
         if(type === 0){
             cardNode = cc.instantiate(this.card);
             cardNode.getComponent("rummy_card").init(cardList[0]);
@@ -416,10 +420,15 @@ let rummy_player_ui = cc.Class({
     },
 
     showCard(card, playerHasCard){
+        if(AudioManager.getAudioID("blackjack_rummy/audio/rummyWin") == -1) {
+            AudioManager.playSound("blackjack_rummy/audio/rummyWin");
+        }
+
         if(this.viewIdx === 0){
             if(playerHasCard){
                 this.shoupaiNode.getComponent("rummy_group_ui").showCard(card);
             }
+            this.shoupaiNode.getComponent("rummy_group_ui").setPaiTouch(false);
         }else{
             let worldPos = this.shoupaiNode.convertToWorldSpaceAR(cc.v2(0, 0));
             let startPos = this.showCardNode.convertToNodeSpaceAR(worldPos);

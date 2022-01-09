@@ -603,10 +603,13 @@ var handler = {
                 break;
             case cc.dd.Define.GameType.RUMMY:
                 RoomMgr.Instance().setPlayerMgr();
-                RoomMgr.Instance().player_mgr.updatePlayerNum();
-                msg.roleInfosList.forEach(player=>{
-                    RoomMgr.Instance().player_mgr.playerEnter(player);
-                });
+                let RummyData = require("RummyData").RummyData.Instance();
+                if(RummyData.state === -1){
+                    RoomMgr.Instance().player_mgr.updatePlayerNum();
+                    msg.roleInfosList.forEach(player=>{
+                        RoomMgr.Instance().player_mgr.playerEnter(player);
+                    });
+                }
                 break;
         }
     },

@@ -131,7 +131,9 @@ let RummyRoomMgr = cc.Class({
             let player = this.getPlayerById(userInfo.userId);
             if(player){
                 player.userState = userInfo.userState;
-                player.setCards(userInfo.pokersList);
+                if(player.userState === 1){
+                    player.setCards(userInfo.pokersList);
+                }
 
                 player.dropCoin = userInfo.dropCoin;
 

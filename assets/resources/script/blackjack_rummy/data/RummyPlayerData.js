@@ -144,6 +144,7 @@ let RummyPlayerData = cc.Class({
     },
 
     loseGame(){
+        this.userState = 2;
         RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
     },
 

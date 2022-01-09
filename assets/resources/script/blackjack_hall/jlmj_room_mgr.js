@@ -411,6 +411,9 @@ var RoomMgr = cc.Class({
             case Define.GameType.RUMMY:
                 this.player_mgr = require('RummyRoomMgr');
                 break;
+            case Define.GameType.TEENPATTI:
+                this.player_mgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
+                break;
             default:
                 break;
         }

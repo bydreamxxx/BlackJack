@@ -1,5 +1,5 @@
 // create by wj 2019/04/11
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
 var AudioManager = require('AudioManager');
 
 cc.Class({

@@ -1,6 +1,6 @@
 // create by wj 2019/03/28
 var club_Mgr = require('klb_Club_ClubMgr').klbClubMgr.Instance();
-var new_dsz_send_msg = require('new_dsz_send_msg');
+var new_dsz_send_msg = require('teenpatti_send_msg');
 const cost_card = require('cost_room_cards');
 /**
  * 选中 和 未选中 颜色定义

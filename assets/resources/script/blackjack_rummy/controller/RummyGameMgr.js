@@ -59,6 +59,8 @@ let RummyGameMgr = cc.Class({
     dealPoker(msg){
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
+            player.stopCD();
+            player.resetCD();
             player.dealPoker(msg.type, msg.cardList);
         }
     },
@@ -69,6 +71,8 @@ let RummyGameMgr = cc.Class({
             if(RummyData.state === 1){
                 player.faPai(msg);
             }else{
+                player.stopCD();
+                player.resetCD();
                 player.moPai(msg);
             }
         }
@@ -135,6 +139,7 @@ let RummyGameMgr = cc.Class({
             player.showCard(msg.showCard, msg.groupId);
             RummyED.notifyEvent(RummyEvent.PLAYER_WIN, player.playerName);
         }
+        RummyData.selfWin = msg.uid === cc.dd.user.id;
     },
 
     showInvalidShow(){

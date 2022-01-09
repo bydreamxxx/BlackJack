@@ -1,6 +1,6 @@
 // create by wj 2019/09/16
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var AppCfg = require('AppConfig');
 var Platform = require('Platform');

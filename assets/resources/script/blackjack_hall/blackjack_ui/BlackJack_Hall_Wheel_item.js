@@ -94,8 +94,10 @@ cc.Class({
             var tipsText = '金币不足' + entermin + ',不能进入';
             cc.dd.DialogBoxUtil.show(0, tipsText, "text33");
         }
+        
         var scriptData = require('texas_data').texas_Data.Instance();
         scriptData.setData(this.roomItem);
+        scriptData.configId = this.roomItem.key
 
         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
         msg.setGameType(this.rackData.gameType);

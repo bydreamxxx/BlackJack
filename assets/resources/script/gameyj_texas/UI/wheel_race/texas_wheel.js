@@ -62,12 +62,18 @@ cc.Class({
             this.numList[this.numList.length - this.runEndNum - 1].setRunEndNum(this.luckyScore[this.luckyScore.length - this.runEndNum - 1]);
         }
         if (this.runEndNum == this.numList.length) {
+            if(this.runEndNum-1 >= this.luckyScore.length) {
+                this.numList[this.numList.length - this.runEndNum].showEndSprite(true)
+            }
             this.runEndNum = 0;
             this.endCallBack && this.endCallBack();
             var self = this;
             this.scheduleOnce(function () {
                 self.node.active = false;
             }, 2);
+        }
+        if(this.runEndNum-1 >= this.luckyScore.length) {
+            this.numList[this.numList.length - this.runEndNum].showEndSprite(true)
         }
     },
     // LIFE-CYCLE CALLBACKS:

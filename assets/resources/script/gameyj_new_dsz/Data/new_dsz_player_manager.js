@@ -339,7 +339,7 @@ var New_DSZ_PlayerMgr = cc.Class({
      */
     updatePlayerNum: function () {
         var roomMgr = require('jlmj_room_mgr').RoomMgr.Instance();
-        var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
+        var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
 
         if (roomMgr.gameId == 36)
             deskData.initFRoom();

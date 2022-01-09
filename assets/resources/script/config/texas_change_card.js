@@ -6,7 +6,8 @@ var data_texas_change_card =
       { key:20202,cheat_bet_limit:200000,cheat_rate:20 },
       { key:20203,cheat_bet_limit:400000,cheat_rate:20 },
       { key:20204,cheat_bet_limit:800000,cheat_rate:20 },
-      { key:20205,cheat_bet_limit:2000000,cheat_rate:20 }
+      { key:20205,cheat_bet_limit:2000000,cheat_rate:20 },
+      { key:50201,cheat_bet_limit:10000,cheat_rate:20 }
     ],
 
     /**

@@ -66,6 +66,10 @@ cc.Class({
                     this.testLabel.string += `${this.groupList[i].data.toString()}
 `
                 }
+
+                if(this.yidong_pai){
+                    this.testLabel.string += `移动牌：${this.yidong_pai.getCard()}`
+                }
             }
         }
 
@@ -202,7 +206,6 @@ cc.Class({
                 .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
                 .call(()=>{
                     this.resetSelected();
-                    this.checkButton();
                 })
                 .start();
         }
@@ -247,7 +250,6 @@ cc.Class({
                     }
 
                     this.resetSelected();
-                    this.checkButton();
                 })
                 .start();
         }
@@ -298,14 +300,21 @@ cc.Class({
     onClickCloseShow(event, data){
         hall_audio_mgr.com_btn_click();
         this.showNode.active = false;
-        if(this.cancelShowFunc){
-            this.cancelShowFunc();
-            this.cancelShowFunc = null;
+        if(this.yidong_pai){
+            this.yidong_pai.node.destroy();
+            this.yidong_pai = null;
+            this.pai_touched.node.active = true;
         }
+        this.resetSelected();
     },
 
     onClickConfirm(event, data){
         hall_audio_mgr.com_btn_click();
+
+        if(RummyData.state !== GAME_STATE.GROUPING){
+            return;
+        }
+
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player) {
             var msg = new cc.pb.rummy.msg_rm_commit_req();
@@ -361,6 +370,12 @@ cc.Class({
                 let group = new RummyGroup();
                 group.init(list);
 
+                if(!group.isNoCorrect() && !group.isNoGroup()){
+                    if(AudioManager.getAudioID("blackjack_rummy/audio/rummyPositiveGroup") == -1) {
+                        AudioManager.playSound("blackjack_rummy/audio/rummyPositiveGroup");
+                    }
+                }
+
                 let groupInfo = {data: group, view: node, bottom:null};
                 this.groupList.unshift(groupInfo);
 
@@ -406,6 +421,10 @@ cc.Class({
                 }
 
                 player.saveGroups();
+
+                if(AudioManager.getAudioID("blackjack_rummy/audio/rummyGroup") == -1) {
+                    AudioManager.playSound("blackjack_rummy/audio/rummyGroup");
+                }
             }
 
             this.resetSelected();
@@ -414,6 +433,10 @@ cc.Class({
 
     onClickDiscard(event, data){
         hall_audio_mgr.com_btn_click();
+
+        if(RummyData.state !== GAME_STATE.PLAYING){
+            return;
+        }
 
         if(this.first !== -1 && this.second !== -1 && this.point.string === '0'){
             this.moveTouchCardToNode(this.showcardNode, (cardId, groupId)=>{
@@ -466,7 +489,11 @@ cc.Class({
     },
 
     onClickGetCard(event, data){
-        hall_audio_mgr.com_btn_click();
+        // hall_audio_mgr.com_btn_click();
+
+        if(RummyData.state !== GAME_STATE.PLAYING){
+            return;
+        }
 
         var msg = new cc.pb.rummy.msg_rm_poker_req();
         msg.setType(data);
@@ -479,55 +506,90 @@ cc.Class({
 
     onClickShow(event, data){
         hall_audio_mgr.com_btn_click();
-        this.showNode.active = false;
 
-        if(this.showFunc){
-            this.showFunc();
-            this.showFunc = null;
-            this.resetSelected();
+        if(RummyData.state !== GAME_STATE.PLAYING){
             return;
         }
 
-        this.moveTouchCardToNode(this.showcardNode, (cardId, groupId)=>{
-            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-            if(player){
-                let tempList = player.pokersList.concat();
-                if(tempList[groupId]){
-                    let index = tempList[groupId].indexOf(cardId);
-                    tempList[groupId].splice(index, 1);
-                    if(tempList[groupId].length === 0){
-                        tempList.splice(groupId, 1);
+        this.showNode.active = false;
+
+        if(this.yidong_pai){
+            this.moveYidongCardToNode(this.showcardNode, (cardId, groupId)=>{
+                let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                if(player) {
+                    var msg = new cc.pb.rummy.msg_rm_show_req();
+                    msg.setCard(cardId);
+                    let groupsList = []
+                    player.pokersList.forEach(group => {
+                        let groupmsg = new cc.pb.rummy.rm_group();
+                        groupmsg.setCardsList(group);
+                        groupsList.push(groupmsg);
+                    });
+                    msg.setGroupsList(groupsList);
+                    msg.setGroupId(groupId);
+                    cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
+                    cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
+                }
+                this.pai_touched = null;
+                this.checkButton();
+            })
+        }else{
+            this.moveTouchCardToNode(this.showcardNode, (cardId, groupId)=>{
+                let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                if(player){
+                    let tempList = player.pokersList.concat();
+                    if(tempList[groupId]){
+                        let index = tempList[groupId].indexOf(cardId);
+                        tempList[groupId].splice(index, 1);
+                        if(tempList[groupId].length === 0){
+                            tempList.splice(groupId, 1);
+                        }
+                    }else{
+                        cc.error(`show groupId error ${groupId} ${cardId} ${player.pokersList.toString()}`);
                     }
-                }else{
-                    cc.error(`show groupId error ${groupId} ${cardId} ${player.pokersList.toString()}`);
+
+                    var msg = new cc.pb.rummy.msg_rm_show_req();
+                    msg.setCard(cardId);
+                    let groupsList = []
+                    tempList.forEach(group=>{
+                        let groupmsg = new cc.pb.rummy.rm_group();
+                        groupmsg.setCardsList(group);
+                        groupsList.push(groupmsg);
+                    });
+                    msg.setGroupsList(groupsList);
+                    msg.setGroupId(groupId);
+                    cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
+                    cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
                 }
 
-                var msg = new cc.pb.rummy.msg_rm_show_req();
-                msg.setCard(cardId);
-                let groupsList = []
-                tempList.forEach(group=>{
-                    let groupmsg = new cc.pb.rummy.rm_group();
-                    groupmsg.setCardsList(group);
-                    groupsList.push(groupmsg);
-                });
-                msg.setGroupsList(groupsList);
-                msg.setGroupId(groupId);
-                cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
-                cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
-            }
 
+                // let temp = this.showCardID;
+                // cc.tween(this.node)
+                //     .delay(0.01)
+                //     .call(()=>{
+                //         let handler = require("net_handler_rummy");
+                //         handler.on_msg_rm_show_ack({ ret: -1,
+                //             userId: cc.dd.user.id,
+                //             showCard: temp});
+                //     })
+                //     .start()
+            })
+        }
+        this.resetSelected();
+    },
 
-            // let temp = this.showCardID;
-            // cc.tween(this.node)
-            //     .delay(0.01)
-            //     .call(()=>{
-            //         let handler = require("net_handler_rummy");
-            //         handler.on_msg_rm_show_ack({ ret: -1,
-            //             userId: cc.dd.user.id,
-            //             showCard: temp});
-            //     })
-            //     .start()
-        })
+    onClickShowShow(event, data){
+        if(RummyData.state !== GAME_STATE.PLAYING){
+            return;
+        }
+
+        // if(this.first !== -1 && this.second !== -1 && this.point.string === '0'){
+        //     this.onClickShow();
+        // }else{
+            hall_audio_mgr.com_btn_click();
+            this.showNode.active = true;
+        // }
+
     },
 
     onClickCloseInvalidShow(event, data){
@@ -571,6 +633,11 @@ cc.Class({
      * 恢复所有牌的初始化位置
      */
     resetSelected: function () {
+        if(this.touchList && this.touchList.length > 0){
+            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyCardDeselect") == -1) {
+                AudioManager.playSound("blackjack_rummy/audio/rummyCardDeselect");
+            }
+        }
         this.touchList = [];
         for(let j = 0; j < this.groupList.length; j++){
             let group = this.groupList[j].view;
@@ -583,6 +650,8 @@ cc.Class({
                 }
             }
         }
+
+        this.checkButton();
     },
 
     setPaiTouch(enable){
@@ -602,6 +671,24 @@ cc.Class({
     },
 
     showFapai(groupList, handCardList){
+        if(RummyData.lastState !== GAME_STATE.WAITING && RummyData.state === GAME_STATE.DEALING){
+            this.clear();
+            this.showFapaiDirect(groupList);
+
+            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+            if(player){
+                player.setPaiTouch(RummyData.state === GAME_STATE.PLAYING || RummyData.state === GAME_STATE.GROUPING)
+
+                if(RummyData.turn === cc.dd.user.id){
+                    player.checkCanMoPai();
+                }
+            }
+
+            this.checkButton();
+            RummyGameMgr.updateBaida();
+            return;
+        }
+
         this.showFapaiDirect(groupList, true);
 
         if(handCardList.length !== faPaiPos.length){
@@ -665,6 +752,10 @@ cc.Class({
                 node.destroy();
             })
 
+            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyGroup") == -1) {
+                AudioManager.playSound("blackjack_rummy/audio/rummyGroup");
+            }
+
             this.groupList.forEach(group=>{
                 group.view.active = true;
                 group.bottom.active = !group.data.isNoGroup();
@@ -688,6 +779,16 @@ cc.Class({
             this.updatePoint();
             this.isFaPai = false;
         }
+
+        if(AudioManager.getAudioID("blackjack_rummy/audio/rummyDeal") == -1) {
+            AudioManager.playSound("blackjack_rummy/audio/rummyDeal");
+        }
+
+        this.scheduleOnce(()=>{
+            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyDealFlip") == -1) {
+                AudioManager.playSound("blackjack_rummy/audio/rummyDealFlip");
+            }
+        }, 2.3)
 
         this.schedule(()=>{
             let node = this.playList[index];
@@ -790,6 +891,11 @@ cc.Class({
 
         let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
         if(player){
+
+            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyPickDiscard") == -1) {
+                AudioManager.playSound("blackjack_rummy/audio/rummyPickDiscard");
+            }
+
             // if(lastGroup.data.isNoGroup() || lastGroup.data.isNoCorrect()){
             if(this.groupList.length >= 5){
                 player.pokersList[player.pokersList.length - 1].push(cardId);
@@ -926,6 +1032,7 @@ cc.Class({
                 }else if(cc.Vec2.distance(event.touch.getLocation(), this.touch_pos) >= 50){
                     let node = cc.instantiate(this.pai_touched.node);
                     this.yidong_pai = node.getComponent("rummy_card");
+                    this.yidong_pai.init(this.pai_touched.getCard());
                     this.node.addChild(node);
                     let worldPos = this.pai_touched.node.parent.convertToWorldSpaceAR(this.pai_touched.node.position);
                     let startPos = this.node.convertToNodeSpaceAR(worldPos);
@@ -939,6 +1046,10 @@ cc.Class({
                     let pai_touched = this.getTouchPai(event.touch.getLocation(), event.touch.getLocationX() >= this.pai_touched.node.x);
                     if(pai_touched){
                         if(pai_touched.tag !== "move"){
+                            if(AudioManager.getAudioID("blackjack_rummy/audio/rummyCardSlide") == -1) {
+                                AudioManager.playSound("blackjack_rummy/audio/rummyCardSlide");
+                            }
+
                             let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
                             if(player){
                                 let cardID1 = this.pai_touched.getCard();
@@ -987,6 +1098,12 @@ cc.Class({
                                     player.pokersList[touch_group_index2].splice(touch_card_index2, 0, cardID1);
                                 }
 
+                                if(!this.groupList[touch_group_index2].data.isNoCorrect() && !this.groupList[touch_group_index2].data.isNoGroup()){
+                                    if(AudioManager.getAudioID("blackjack_rummy/audio/rummyPositiveGroup") == -1) {
+                                        AudioManager.playSound("blackjack_rummy/audio/rummyPositiveGroup");
+                                    }
+                                }
+
                                 this.updateGroupBottomAll();
                             }
                         }
@@ -1013,6 +1130,10 @@ cc.Class({
                 this.pai_touched.selected = true;
                 this.pai_touched.node.y = 48;
                 this.touchList.push(this.pai_touched);
+
+                if(AudioManager.getAudioID("blackjack_rummy/audio/rummyCardSelect") == -1) {
+                    AudioManager.playSound("blackjack_rummy/audio/rummyCardSelect");
+                }
             }else{
                 this.pai_touched.selected = false;
                 this.pai_touched.node.y = 0;
@@ -1020,35 +1141,16 @@ cc.Class({
                 if(index !== -1){
                     this.touchList.splice(index, 1);
                 }
+                if(AudioManager.getAudioID("blackjack_rummy/audio/rummyCardDeselect") == -1) {
+                    AudioManager.playSound("blackjack_rummy/audio/rummyCardDeselect");
+                }
             }
         }else{
             let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
             if(player) {
                 if(this.checkIsInShow(event.touch.getLocation()) && player.handsList.length === 14 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING){
-                    this.showFunc = ()=>{
-                        this.moveYidongCardToNode(this.showcardNode, (cardId, groupId)=>{
-                            var msg = new cc.pb.rummy.msg_rm_show_req();
-                            msg.setCard(cardId);
-                            let groupsList = []
-                            player.pokersList.forEach(group=>{
-                                let groupmsg = new cc.pb.rummy.rm_group();
-                                groupmsg.setCardsList(group);
-                                groupsList.push(groupmsg);
-                            });
-                            msg.setGroupsList(groupsList);
-                            msg.setGroupId(groupId);
-                            cc.gateNet.Instance().sendMsg(cc.netCmd.rummy.cmd_msg_rm_show_req, msg, "msg_rm_show_req", true);
-                            cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'msg_rm_show_req');
-                        })
-                    };
-
-                    this.cancelShowFunc = ()=>{
-                        this.yidong_pai.node.destroy();
-                        this.yidong_pai = null;
-                        this.pai_touched.node.active = true;
-                    }
-
                     this.showNode.active = true;
+                    return;
                 }else if(this.checkIsInDiscard(event.touch.getLocation()) && player.handsList.length === 14 && RummyData.turn === cc.dd.user.id && RummyData.state === GAME_STATE.PLAYING){
                     if(this.first !== -1 && this.second !== -1 && this.point.string === '0'){
                         this.moveYidongCardToNode(this.showcardNode, (cardId, groupId)=>{
@@ -1147,8 +1249,6 @@ cc.Class({
             this.pai_touched.node.active = true;
         }
         this.pai_touched = null;
-
-        this.checkButton();
     },
 
     updateBaida(){
@@ -1239,6 +1339,8 @@ cc.Class({
             frame.spriteFrame = this.bottomColor[2];
             label.string = 'Not Correct';
         }
+
+        return !group.isNoGroup() && !group.isNoCorrect();
     },
 
     updateGroupBottomAll(){
@@ -1266,6 +1368,9 @@ cc.Class({
                 point += info.data.getPoint();
             }
         })
+        if(point >= 80){
+            point = 80;
+        }
         this.point.string = point.toString();
     },
 });

@@ -1,11 +1,11 @@
 // create by wj 2019/04/28
 
-var deskData = require('new_dsz_desk').New_DSZ_Desk_Data.Instance();
-var playerMgr = require('new_dsz_player_manager').New_DSZ_PlayerMgr.Instance();
-var playerEd = require('new_dsz_player_manager').New_DSZ_PlayerED;
-var playerEvent = require('new_dsz_player_manager').New_DSZ_PlayerEvent;
-var deskEd = require('new_dsz_desk').New_DSZ_Desk_Ed;
-var deskEvent = require('new_dsz_desk').New_DSZ_Desk_Event;
+var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
+var playerMgr = require('teenpatti_player_manager').Teenpatti_PlayerMgr.Instance();
+var playerEd = require('teenpatti_player_manager').Teenpatti_PlayerED;
+var playerEvent = require('teenpatti_player_manager').Teenpatti_PlayerEvent;
+var deskEd = require('teenpatti_desk').Teenpatti_Desk_Ed;
+var deskEvent = require('teenpatti_desk').Teenpatti_Desk_Event;
 
 var HallCommonObj = require('hall_common_data');
 var HallCommonEd = HallCommonObj.HallCommonEd;

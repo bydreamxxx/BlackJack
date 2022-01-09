@@ -21,7 +21,11 @@ var data_texas_cheat =
       { key:17,roomid:20205,cheat_bet_limit:2000000,cheat_rate:25 },
       { key:18,roomid:20205,cheat_bet_limit:2000000,cheat_rate:25 },
       { key:19,roomid:20205,cheat_bet_limit:2000000,cheat_rate:25 },
-      { key:20,roomid:20205,cheat_bet_limit:2000000,cheat_rate:25 }
+      { key:20,roomid:20205,cheat_bet_limit:2000000,cheat_rate:25 },
+      { key:21,roomid:50201,cheat_bet_limit:10000,cheat_rate:0 },
+      { key:22,roomid:50201,cheat_bet_limit:10000,cheat_rate:0 },
+      { key:23,roomid:50201,cheat_bet_limit:10000,cheat_rate:0 },
+      { key:24,roomid:50201,cheat_bet_limit:10000,cheat_rate:0 }
     ],
 
     /**

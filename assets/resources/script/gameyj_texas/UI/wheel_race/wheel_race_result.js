@@ -12,12 +12,23 @@ cc.Class({
     setResult(data, onBack) {
         this.node.active = true
         this.onBackCall = onBack
-        this.coinLabel.string = data.coin
+        // 适应字体文件
+        let nm = this.chaneNumToStr(data.score)//cc.dd.Utils.getNumToWordTransform(data.score)
+        nm = nm.replace('.',':').replace('K',';')
+        this.coinLabel.string = nm
         this.rankLabel.string = data.rank
         for(let i=0; i<this.rankSprite.length; i++) {
             this.rankSprite[i].active = (i+1) === data.rank
         }
         
+    },
+    chaneNumToStr(num){
+        if (num >= 10000) {
+            str = (num / 1000.00).toFixed(2) + 'K';
+        } else {
+            str = num.toString();
+        }
+        return str
     },
 
     onShare() {
