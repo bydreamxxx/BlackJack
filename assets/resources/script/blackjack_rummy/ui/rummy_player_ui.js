@@ -24,6 +24,8 @@ let rummy_player_ui = cc.Class({
 
         centerChipNode: cc.Node,
         heguan: cc.Node,
+
+        winNode: cc.Node,
     },
 
     editor:{
@@ -128,6 +130,8 @@ let rummy_player_ui = cc.Class({
     clear(){
         this.head.clear();
         this.playerData = null;
+
+        this.winNode.active = false;
 
         if(this.viewIdx == 0){
             this.shoupaiNode.getComponent("rummy_group_ui").clear();
@@ -420,6 +424,10 @@ let rummy_player_ui = cc.Class({
     },
 
     showCard(card, playerHasCard){
+        this.winNode.active = true;
+        this.winNode.getComponent(cc.Animation).play('dzpk_js_nyl');
+        this.winNode.getComponent(cc.Animation).setCurrentTime(0);
+
         if(AudioManager.getAudioID("blackjack_rummy/audio/rummyWin") == -1) {
             AudioManager.playSound("blackjack_rummy/audio/rummyWin");
         }

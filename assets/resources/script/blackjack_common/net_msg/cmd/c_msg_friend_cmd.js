@@ -1,0 +1,37 @@
+
+    var proto_id = {
+        cmd_friend_info2 :3400,
+        cmd_friend_apply_info :3401,
+        cmd_friend_message_info :3402,
+        cmd_friend_game_info :3403,
+        cmd_friend_champion_info :3404,
+        cmd_friend_detail_info :3405,
+        cmd_msg_friend_list_req :3406,
+        cmd_msg_friend_list_ret :3407,
+        cmd_msg_friend_apply_list_req :3408,
+        cmd_msg_friend_apply_list_ret :3409,
+        cmd_msg_friend_detail_info_req :3410,
+        cmd_msg_friend_detail_info_ret :3411,
+        cmd_msg_lookup_friend_req :3412,
+        cmd_msg_lookup_friend_ret :3413,
+        cmd_msg_add_friend_req :3414,
+        cmd_msg_add_friend_ret :3415,
+        cmd_msg_be_add_friend :3416,
+        cmd_msg_reply_add_friend_req :3417,
+        cmd_msg_reply_add_friend_ret :3418,
+        cmd_msg_add_friend_succ :3419,
+        cmd_msg_del_friend_req :3420,
+        cmd_msg_del_friend_ret :3421,
+        cmd_msg_be_del_friend_ret :3422,
+        cmd_msg_send_friend_coin_req :3423,
+        cmd_msg_send_friend_coin_ret :3424,
+        cmd_msg_chat_friend_req :3425,
+        cmd_msg_chat_friend_ret :3426,
+        cmd_msg_friend_messages_list_req :3427,
+        cmd_msg_friend_messages_list_ret :3428,
+        cmd_msg_friend_modify_mood_req :3429,
+        cmd_msg_friend_modify_mood_ret :3430,
+
+    };
+
+    module.exports = proto_id;

@@ -304,6 +304,7 @@ let resLoad = cc.Class({
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_mask", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/com_smooth_mask", cc.Prefab));
         loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/commonNode", cc.Prefab));
+        loadCellList.push(new dd.ResLoadCell("blackjack_common/prefab/InputDialog", cc.Prefab));
         cc.dd.ResLoader.loadGameStaticResList(loadCellList, this.onProgress.bind(this), loadResEnd);
     },
 

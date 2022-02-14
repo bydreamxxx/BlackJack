@@ -22,7 +22,9 @@ let RummyGameMgr = cc.Class({
 
     actionChange(msg){
         RoomMgr.Instance().player_mgr.playerList.forEach(player=>{
-            player.stopCD();
+            if(player){
+                player.stopCD();
+            }
         })
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.userId);
         if(player){
@@ -106,6 +108,7 @@ let RummyGameMgr = cc.Class({
         if(player){
             player.giveTips();
         }
+        RummyED.notifyEvent(RummyEvent.GIVE_TIPS, msg);
     },
 
     giveUpPoker(msg){
@@ -134,12 +137,13 @@ let RummyGameMgr = cc.Class({
     },
 
     showCard(msg){
+        RummyData.selfWin = msg.uid === cc.dd.user.id;
+
         let player = RoomMgr.Instance().player_mgr.getPlayerById(msg.uid);
         if(player){
             player.showCard(msg.showCard, msg.groupId);
             RummyED.notifyEvent(RummyEvent.PLAYER_WIN, player.playerName);
         }
-        RummyData.selfWin = msg.uid === cc.dd.user.id;
     },
 
     showInvalidShow(){
@@ -184,7 +188,9 @@ let RummyGameMgr = cc.Class({
 
     updateDropCoin(score){
         RoomMgr.Instance().player_mgr.playerList.forEach(player=>{
-            player.dropCoin = score;
+            if(player){
+                player.dropCoin = score;
+            }
         });
         RummyED.notifyEvent(RummyEvent.UPDATE_DROP_COIN);
     }

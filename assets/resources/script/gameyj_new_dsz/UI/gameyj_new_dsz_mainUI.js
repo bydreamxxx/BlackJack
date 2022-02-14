@@ -25,6 +25,7 @@ var ChatEvent = require('jlmj_chat_data').ChatEvent;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var AudioManager = require('AudioManager');
 var jlmj_prefab = require('jlmj_prefab_cfg');
+var hall_prefab = require('hall_prefab_cfg');
 
 const RecordEd = require('AudioChat').RecordEd;
 const RecordEvent = require('AudioChat').RecordEvent;
@@ -34,6 +35,9 @@ let SysED = require("com_sys_data").SysED;
 
 var AppCfg = require('AppConfig');
 var Platform = require('Platform');
+
+var dsz_send_msg = require('teenpatti_send_msg');
+
 cc.Class({
     extends: cc.Component,
 
@@ -63,6 +67,7 @@ cc.Class({
         bgNode: cc.Node,
         sendpokerAct: false,
         m_bReconnect: false,
+        m_tChipIcon:[],
     },
 
 
@@ -90,24 +95,17 @@ cc.Class({
         this.m_oTotalChipsTxt = cc.dd.Utils.seekNodeByName(this.node, "totaleBet").getComponent(cc.Label);
         //轮数
         // this.m_oDescTxt = cc.dd.Utils.seekNodeByName(this.node, "round").getComponent(cc.Label);
-        //底注
-        this.m_oBaseBet = cc.dd.Utils.seekNodeByName(this.node, "baseBetdesc").getComponent(cc.Label);
+        //最低下注注
+        this.m_oMinBet = cc.dd.Utils.seekNodeByName(this.node, "baseBet").getComponent(cc.Label);
+        //最高下注
+        this.m_oMaxBet = cc.dd.Utils.seekNodeByName(this.node, "maxBet").getComponent(cc.Label);
         //游戏规则
         this.m_oRuleTxt = cc.dd.Utils.seekNodeByName(this.node, "ruleDesc").getComponent(cc.Label);
         //玩家列表/筹码起始点
         var playercount = deskData.getPlayerCount();
-        var index = playercount == 6 ? 0 : 1;
-        if (playercount == 6) {
-            this.m_tPlayerPanel[0].active = true;
-            this.m_tPlayerPanel[1].active = false;
-            this.m_tBtnPanel[0].active = true;
-            this.m_tBtnPanel[1].active = false;
-        } else {
-            this.m_tPlayerPanel[1].active = true;
-            this.m_tPlayerPanel[0].active = true;
-            this.m_tBtnPanel[1].active = true;
-            this.m_tBtnPanel[0].active = true;
-        }
+        var index = 0;
+        this.m_tPlayerPanel[0].active = true;
+        this.m_tBtnPanel[0].active = true;
 
         for (var i = 0; i < playercount; i++) {
             this.m_tPlayerList[i] = cc.dd.Utils.seekNodeByName(this.m_tPlayerPanel[index], "player" + i);
@@ -123,7 +121,7 @@ cc.Class({
             this.m_oChipAreaNode = cc.dd.Utils.seekNodeByName(this.node, 'chipArea_9');
         //按钮区域
         this.m_oMenuNode = cc.dd.Utils.seekNodeByName(this.node, 'btnPanel');
-        this.m_oMenuNode.active = true;
+        this.m_oMenuNode.active = false;
         this.m_oMenuNode.getComponent('new_dsz_menu').setPath(playercount == 6 ? 1 : 2);
         //准备按钮
         this.m_oPrepareBtn = cc.dd.Utils.seekNodeByName(this.node, "prepareBtn");
@@ -142,6 +140,11 @@ cc.Class({
         this.m_orePrepareBtn.active = false;
 
         this.m_oPrepareDesc = cc.dd.Utils.seekNodeByName(this.node, 'preparedesc');
+
+        for(var i = 0; i < 12; i++){
+            this.m_tChipIcon[i] = cc.dd.Utils.seekNodeByName(this.node, 'dsz_chouma_' + i);
+            this.m_tChipIcon[i].active = false;
+        }
 
         // cc.find('chat', this.node).getComponent(cc.Animation).on('play', function () { this.chatAni = true; }.bind(this), this);
         // cc.find('chat', this.node).getComponent(cc.Animation).on('finished', function () { this.chatAni = false; }.bind(this), this);
@@ -316,7 +319,11 @@ cc.Class({
             var list = configData.anzhu.split(';');
             var base = list[0].split(',');
             this.m_nBaskChip = parseInt(base[1]);
-            this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '/入场:' + this.convertChipNum(configData.add_limit) + '/' + '出场:' + this.convertChipNum(configData.leave_limit);
+            this.m_oMinBet.string = cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip)
+
+            var max = list[4].split(',');
+            this.m_nMaxChip = parseInt(max[1]);
+            this.m_oMaxBet.string = cc.dd.Utils.getNumToWordTransform(this.m_nMaxChip)
             // this.m_oDescTxt.node.active = false;
             // this.m_oDescTxt.node.parent.getChildByName('rounddesc').active = false;
         }
@@ -344,16 +351,22 @@ cc.Class({
             var list = configData.anzhu.split(';');
             var base = list[0].split(',');
             this.m_nBaskChip = parseInt(base[1]);
+            this.m_oMinBet.string = cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip)
+
+            var max = list[4].split(',');
+            this.m_nMaxChip = parseInt(max[1]);
+            this.m_oMaxBet.string = cc.dd.Utils.getNumToWordTransform(this.m_nMaxChip)
+
             // this.m_oDescTxt.node.active = true;
             // this.m_oDescTxt.node.parent.getChildByName('rounddesc').active = true;
-            if (!deskData.checkGameIsFriendType())
-                this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
-            else {
-                if (deskData.getCurDeskState() != 1)
-                    this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
-                else
-                    this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + '0/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
-            }
+            // if (!deskData.checkGameIsFriendType())
+            //     this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
+            // else {
+            //     if (deskData.getCurDeskState() != 1)
+            //         this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+            //     else
+            //         this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + '0/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+            // }
         }
         var ruleStr = '';
         //房间号
@@ -444,26 +457,26 @@ cc.Class({
         this.hideEmptySeat();
 
         if (userId == cc.dd.user.id) {
-            if (deskData.getGameId() == 36 && deskData.getCurRound() < 3) {//朋友场前2局检测
-                this.sendLocationInfo();
-            } else if (playerMgr.checkPlayerChanged()) { //有人员变动
-                if (deskData.getGameId() != 136) {
-                    this.sendLocationInfo();
-                }
-            }
+            // if (deskData.getGameId() == 36 && deskData.getCurRound() < 3) {//朋友场前2局检测
+            //     this.sendLocationInfo();
+            // } else if (playerMgr.checkPlayerChanged()) { //有人员变动
+            //     if (deskData.getGameId() != 136) {
+            //         this.sendLocationInfo();
+            //     }
+            // }
             this.m_oStartBtn.active = false;
             this.m_oPrepareBtn.active = false;
             this.m_oreStartBtn.active = false;
             this.m_orePrepareBtn.active = false;
         }
-        if (!deskData.checkGameIsFriendType()) {
-            this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
-        } else {
-            if (deskData.getCurDeskState() != 1)
-                this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
-            else
-                this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + '0/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
-        }
+        // if (!deskData.checkGameIsFriendType()) {
+        //     this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
+        // } else {
+        //     if (deskData.getCurDeskState() != 1)
+        //         this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+        //     else
+        //         this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + '0/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+        // }
         var player = playerMgr.findPlayerByUserId(userId); //获取玩家数据
         if (player) {
             var player_game_data = player.getPlayerGameInfo(); //游戏数据
@@ -514,7 +527,7 @@ cc.Class({
                     }
                     if (player_game_data.userState != config_state.UserStateWait && player_game_data.userState != 0) { //游戏中
                         var cpt = this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui');
-                        cpt.setPlayerData(player_game_data);
+                        cpt.initData(player_game_data);
                         var ownInfo = playerMgr.findPlayerByUserId(cc.dd.user.id);
                         if (ownInfo && ownInfo.getPlayerGameInfo().userState == config_state.UserStateWait) {//自己本身为观众
                             cpt.showPoker();
@@ -566,6 +579,7 @@ cc.Class({
     freshPlayerCostChipInfo: function (player, bet, isAct) {
         var pos = player.getPlayerCommonInfo().pos; //获取位置点
         this.m_oChipAreaNode.getComponent('new_dsz_chip_ui').bet(pos, bet, isAct); //下注筹码动画
+        cc.log("pos=====" + pos)
         this.m_tPlayerList[pos].getComponent('new_dsz_player_ui').freshPlayerChip();//玩家更新筹码数据/玩家身上筹码
     },
 
@@ -607,12 +621,16 @@ cc.Class({
     //更新桌子轮数
     updateDeskCircle: function (isUpdate) {
         //轮数
-        if (!deskData.checkGameIsFriendType())
-            this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
-        //this.m_oDescTxt.string = deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //轮数
-        else
-            this.m_oBaseBet.string = '底注：' + this.convertChipNum(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+        // if (!deskData.checkGameIsFriendType())
+        //     this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //底注
+        // //this.m_oDescTxt.string = deskData.getCurCircle() + '/' + deskData.getTotalCircleCount(); //轮数
+        // else
+        //     this.m_oBaseBet.string = '底注：' + cc.dd.Utils.getNumToWordTransform(this.m_nBaskChip) + '  轮数：' + deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '  局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
         //this.m_oDescTxt.string = deskData.getCurCircle() + '/' + deskData.getTotalCircleCount() + '    局数:' + deskData.getCurRound() + '/' + deskData.getTotalRoundCount(); //轮数
+        var iconCount = deskData.getCurCircle() * 3;
+        iconCount = iconCount > 12 ? 12 : iconCount;
+        for(var i = 0 ; i < iconCount; i++)
+            this.m_tChipIcon[i].active = true;
         var player = playerMgr.findPlayerByUserId(cc.dd.user.id);
         if (player) {
             var player_common_data = player.getPlayerCommonInfo();
@@ -783,9 +801,9 @@ cc.Class({
             headNode.getComponent('klb_hall_Player_Head').initHead(commonData.openId, commonData.headUrl, 'new_dsz_head_init');
             headNode.getChildByName('head').active = true;
 
-            cc.dd.Utils.seekNodeByName(playerNode, 'name').getComponent(cc.Label).string = cc.dd.Utils.substr(commonData.name, 0, 4); //玩家名字
+            cc.dd.Utils.seekNodeByName(playerNode, 'name').getComponent(cc.Label).string = cc.dd.Utils.substr(commonData.name, 0, 7); //玩家名字
             var coin = deskData.checkGameIsFriendType() ? 0 : commonData.coin; //朋友场默认为0， 金币场默认为玩家身上金币
-            cc.dd.Utils.seekNodeByName(playerNode, 'coin').getComponent(cc.Label).string = this.convertPlayerNum(coin); //玩家进入金币
+            cc.dd.Utils.seekNodeByName(playerNode, 'coin').getComponent(cc.Label).string = cc.dd.Utils.getNumToWordTransform(coin); //玩家进入金币
             playerNode.getComponent('new_dsz_player_ui').showPlayerIsAuto(commonData.autoFlag, cc.dd.user.id == userId);
 
             if (deskData.checkGameIsFriendType()) { //朋友场，进行按钮操作切换
@@ -873,7 +891,7 @@ cc.Class({
             if (player_common_data) {
                 this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').fold(); //玩家弃牌
             }
-            player.updatePlayerPokerState(3);
+            player.updatePlayerPokerState(3); //状态设置有问题-----
         }
         if (userId == deskData.getLastOpUser()) {
             this.changeActivePlayer(deskData.getLastOpUser(), deskData.getCurOpUser()); //更换操作玩家
@@ -910,46 +928,35 @@ cc.Class({
         }
     },
 
-
-    //是否剩余两个玩家，进行默认的选中
-    ckeckDefalutSelect: function () {
-        var playercount = playerMgr.getRealPlayerCount(); //桌子上的玩家数量
-        var leftPlayer = null;
-        playerMgr.playerInfo.forEach(function (player) {
-            if (player) {
-                var player_game_data = player.getPlayerGameInfo();
-                if (player_game_data.userState == config_state.UserStateFold || player_game_data.userState == config_state.UserStateLost || player_game_data.userState == config_state.UserStateWait)
-                    playercount = playercount - 1;
-                else {
-                    if (player.userId != cc.dd.user.id)
-                        leftPlayer = player;
-                }
+    //玩家操作show牌
+    playerShow_Rsp: function(data){
+        var player = playerMgr.findPlayerByUserId(cc.dd.user.id);
+        if (player) {
+            var player_common_data = player.getPlayerCommonInfo();
+            if (player_common_data) {
+                    this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').setPlayerPokerState(6); //玩家show牌
             }
-        });
-        if (playercount == 2) {
-            this.m_bIsCompare = true;
-            var player_common_data = leftPlayer.getPlayerCommonInfo();
-            this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').sendComp(null, null); //发送比牌消息
-            return true;
-        } else
-            return false;
+            var index = this.m_tPlayerOp.shift();
+            cc.log('===========6==' + index);
+            if (this.m_bNeedOpRoundCallBack)
+                this.roundResut_Rsp(this.m_oRoundData);
+        }
     },
-    //玩家比牌下注
-    playerCmp_Rsp: function () {
-        if (this.ckeckDefalutSelect())
-            return;
-        this.m_bIsSelectCmp = true;
-        playerMgr.playerInfo.forEach(function (player) {
-            if (player) {
-                if (player.userId != cc.dd.user.id) {
-                    var player_common_data = player.getPlayerCommonInfo();
-                    var player_game_data = player.getPlayerGameInfo();
-                    if (player_common_data && player_game_data && (player_game_data.userState != config_state.UserStateFold && player_game_data.userState != config_state.UserStateLost && player_game_data.userState != config_state.UserStateWait)) {
-                        this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').canSelectCmp(true); //玩家设置为可被选中
-                    }
-                }
-            }
-        }.bind(this))
+
+
+
+    //玩家比牌请求发送
+    playerCmp_Rsp: function (userId) {
+        var player = playerMgr.findPlayerByUserId(userId) //获取请求比牌的玩家
+        if(player){
+            dd.DialogBoxUtil.show(1, 'Cmpdesc', 'Agree', 'Disagree',
+            function () {
+                dsz_send_msg.sendCmpAgree(0)
+            }.bind(this),
+            function () {
+                dsz_send_msg.sendCmpAgree(1)
+            }.bind(this));
+        }
     },
 
     //玩家比牌结果
@@ -1059,20 +1066,11 @@ cc.Class({
                 clearTimeout(self.sendpokerTime);
             self.node.stopAllActions();
             self.node.runAction(cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
-                self.m_oStartParticle.node.active = true;
-                self.m_oStartParticle.setAnimation(0, 'kaishi', false);
-                self.m_oStartParticle.setCompleteListener(function () {
-                    self.m_oStartParticle.node.active = false;
-                    if (!deskData.getIsReconnectTag())
-                        self.betBaseBet();
+                    // if (!deskData.getIsReconnectTag())
+                    //     self.betBaseBet();
                     //总筹码
-                    self.m_oTotalChipsTxt.string = deskData.getCurBet();
-                    self.changeActivePlayer(deskData.getLastOpUser(), deskData.getCurOpUser()); //更换操作玩家
-                    self.showCurOperateBtns();
-                    self.m_bClearChip = false;
-                    self.m_oStartParticle.setCompleteListener(null);
-                });
-                AudioManager.getInstance().playSound(Prefix + 'yqp3_kaishi', false);
+                self.changeActivePlayer(deskData.getLastOpUser(), deskData.getCurOpUser()); //更换操作玩家
+                self.showCurOperateBtns();
             })))
         }.bind(this), 500);
 
@@ -1087,6 +1085,20 @@ cc.Class({
                     this.freshPlayerCostChipInfo(player, this.m_nBaskChip, true); //默认玩家下注
             }
         }.bind(this))
+        
+        var self = this;
+        self.m_oStartParticle.node.active = true;
+        self.m_oStartParticle.setAnimation(0, 'kaishi', false);
+        self.m_oStartParticle.setCompleteListener(function () {
+            self.m_oStartParticle.node.active = false;
+            var playercount = playerMgr.getRealPlayerCount();
+            self.sendPoker(playercount);
+
+            //总筹码
+            self.m_oTotalChipsTxt.string = deskData.getCurBet();
+            self.m_oStartParticle.setCompleteListener(null);
+        });
+        AudioManager.getInstance().playSound(Prefix + 'yqp3_kaishi', false);
     },
 
     //单局结算
@@ -1405,7 +1417,7 @@ cc.Class({
                     self.m_bContinue = true;
                     //self.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').resetPlayerUI(); //重置界面
                     if (player.userId == cc.dd.user.id) {
-                        self.m_oPrepareDesc.active = true;
+                        self.m_oPrepareDesc.active = false;
                         var setPrepareDescTime = function () {
                             if (self.m_oPrepareTimeOut)
                                 clearTimeout(self.m_oPrepareTimeOut);
@@ -1424,7 +1436,7 @@ cc.Class({
                         self.m_oPrepareTimeOut = setTimeout(function () {
                             setPrepareDescTime();
                         }, 1000);
-                        self.m_oPrepareBtn.active = true;
+                        self.m_oPrepareBtn.active = false;
                     }
                 }
             }
@@ -1433,6 +1445,9 @@ cc.Class({
             this.hideEmptySeat();
             this.checkEmptySeat();
         }
+
+        for(var i = 0 ; i < 12; i++)
+            this.m_tChipIcon[i].active = false;
     },
 
     //检查玩家的金币是否充足
@@ -1613,30 +1628,6 @@ cc.Class({
         cc.dd.SceneManager.enterHall();
     },
 
-    //转换筹码字
-    convertPlayerNum: function (num) {
-        var str = num;
-        if (num >= 10000 && num < 100000000) {
-            if (num >= 10000000)
-                str = (num / 10000).toFixed(0) + '万';
-            else
-                str = (num / 10000).toFixed(1) + '万';
-        } else if (num >= 100000000)
-            str = (num / 100000000).toFixed(1) + '亿';
-        return str
-    },
-
-
-    //转换筹码字
-    convertChipNum: function (num) {
-        var str = num;
-        if (num >= 10000 && num < 100000000) {
-            str = (num / 10000).toFixed(0) + '万';
-        } else if (num >= 100000000)
-            str = (num / 100000000).toFixed(0) + '亿';
-        return str
-    },
-
     /**
      * 准备 继续
      */
@@ -1703,40 +1694,47 @@ cc.Class({
         var path = '';
         switch (state) {
             case config_state.UserStateFollow: //跟注
+                text = config.speakText.GZ;
                 path = this.getSpeakVoice(userid, 'AUDIO_CALL');
                 break;
             case config_state.UserStateAdd: //加注
+                text = config.speakText.JZ;
                 path = this.getSpeakVoice(userid, 'AUDIO_ADD');
                 break;
             case config_state.UserStateFire:
+                text = config.speakText.HP;
                 path = this.getSpeakVoice(userid, 'AUDIO_FIRE');
                 break;
             case config_state.UserStateTry:
+                text = config.speakText.GZYZ;
                 path = this.getSpeakVoice(userid, 'AUDIO_ALLIN');
                 break;
             case config_state.UserStateCmp: //比牌
+                text = config.speakText.BP;
                 path = this.getSpeakVoice(userid, 'AUDIO_CMP');
                 break;
             case config_state.UserStateFold: //弃牌
+                text = config.speakText.QP;
                 path = this.getSpeakVoice(userid, 'AUDIO_FOLD');
                 break;
             case config_state.UserStateWacth: //看牌
+                text = config.speakText.KP;
                 path = this.getSpeakVoice(userid, 'AUDIO_WATCH');
                 break;
             default:
                 cc.error('dsz_coin_room_ui::synOtherPlayerOperate:为何没有上一个玩家状态！');
                 return;
         }
-        AudioManager.getInstance().playSound(Prefix + path + '', false);
+        //AudioManager.getInstance().playSound(Prefix + path + '', false);
         //tdk_am.playEffect(path);
-        //this.activePlayerSpeak(userid, text, state);
+        this.activePlayerSpeak(userid, text, state);
     },
 
     activePlayerSpeak: function (userid, text, state) {
         var player = playerMgr.findPlayerByUserId(userid);
         if (player) {
             var commonData = player.getPlayerCommonInfo();
-            // this.m_tPlayerList[commonData.pos].getComponent('new_dsz_player_ui').doSpeak(text, state); //显示操作文字
+            this.m_tPlayerList[commonData.pos].getComponent('new_dsz_player_ui').doSpeak(text, state); //显示操作文字
         }
     },
     //////////////////////////////////////////////////////////////////语音处理end////////////////////////////////////////
@@ -1940,7 +1938,8 @@ cc.Class({
 
     onClickSetting: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_setting', function (prefab) {
+        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_SHEZHI, function (prefab) {
+            prefab.getComponent("blackjack_setting").showBtn(false)
         });
     },
 
@@ -2083,7 +2082,6 @@ cc.Class({
                     callfunc = this.reqSponsorDissolveRoom;
                 } else {//旁观者离开
                     this.sendLeaveRoom();
-                    this.onClose();
                     return;
                 }
             }
@@ -2097,7 +2095,6 @@ cc.Class({
                 }
             }
             this.popupOKcancel(content, callfunc);
-            this.onClose();
         } else {
             var selfInfo = playerMgr.findPlayerByUserId(cc.dd.user.id);
             var gamedata = selfInfo.getPlayerGameInfo();
@@ -2112,7 +2109,6 @@ cc.Class({
                         cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", 'text33', 'Cancel', this.sendLeaveRoom, null);
                 }.bind(this));
             }
-            this.onClose();
         }
     },
 
@@ -2265,82 +2261,82 @@ cc.Class({
     },
 
     //播放动画
-    showActInfo: function (index, gpsWarn, ipWarn) {
-        cc.log('showActInfo=============' + index)
-        var node = this.m_oGpsNode.getChildByName('infoNode');
-        var cloneNode = cc.instantiate(node);
-        this.m_tNodeList.push(cloneNode);
-        cloneNode.active = true;
-        cloneNode.parent = this.m_oGpsNode;
-        var str = 'GPS检测中:'
-        if (index == 1)
-            str = 'IP检测中:'
-        else if (index == 2)
-            str = '外挂检测中'
-        cloneNode.getChildByName('info_desc').getComponent(cc.Label).string = str;
-        var moveTo = cc.moveTo(0.5, cc.v2(0, 90));
-        var self = this;
-        cloneNode.runAction(cc.sequence(moveTo, cc.callFunc(function () {
-            cloneNode.getChildByName('info').getComponent(cc.Label).string = '完成';
-            if ((index == 0 && gpsWarn) || (index == 1 && ipWarn))
-                cloneNode.getChildByName('warn').active = true;
-            index += 1;
-            if (index < 3)
-                self.showActInfo(index, gpsWarn, ipWarn);
-            var moveTo1 = cc.moveTo(0.8, cc.v2(0, 170));
-            cloneNode.runAction(cc.sequence(moveTo1, cc.callFunc(function () {
-                if (index == 3) {
-                    for (var i = 0; i < self.m_tNodeList.length; i++) {
-                        var node = self.m_tNodeList[i];
-                        node.active = false;
-                        node.removeFromParent(true);
-                        self.m_oGpsNode.active = false;
-                        if (i == self.m_tNodeList.length - 1)
-                            self.m_tNodeList.splice(0, self.m_tNodeList.length);
-                    }
-                }
-            })));
-        })))
-    },
+    // showActInfo: function (index, gpsWarn, ipWarn) {
+    //     cc.log('showActInfo=============' + index)
+    //     var node = this.m_oGpsNode.getChildByName('infoNode');
+    //     var cloneNode = cc.instantiate(node);
+    //     this.m_tNodeList.push(cloneNode);
+    //     cloneNode.active = true;
+    //     cloneNode.parent = this.m_oGpsNode;
+    //     var str = 'GPS检测中:'
+    //     if (index == 1)
+    //         str = 'IP检测中:'
+    //     else if (index == 2)
+    //         str = '外挂检测中'
+    //     cloneNode.getChildByName('info_desc').getComponent(cc.Label).string = str;
+    //     var moveTo = cc.moveTo(0.5, cc.v2(0, 90));
+    //     var self = this;
+    //     cloneNode.runAction(cc.sequence(moveTo, cc.callFunc(function () {
+    //         cloneNode.getChildByName('info').getComponent(cc.Label).string = '完成';
+    //         if ((index == 0 && gpsWarn) || (index == 1 && ipWarn))
+    //             cloneNode.getChildByName('warn').active = true;
+    //         index += 1;
+    //         if (index < 3)
+    //             self.showActInfo(index, gpsWarn, ipWarn);
+    //         var moveTo1 = cc.moveTo(0.8, cc.v2(0, 170));
+    //         cloneNode.runAction(cc.sequence(moveTo1, cc.callFunc(function () {
+    //             if (index == 3) {
+    //                 for (var i = 0; i < self.m_tNodeList.length; i++) {
+    //                     var node = self.m_tNodeList[i];
+    //                     node.active = false;
+    //                     node.removeFromParent(true);
+    //                     self.m_oGpsNode.active = false;
+    //                     if (i == self.m_tNodeList.length - 1)
+    //                         self.m_tNodeList.splice(0, self.m_tNodeList.length);
+    //                 }
+    //             }
+    //         })));
+    //     })))
+    // },
 
     //gps检测动画
-    playerGpsCheckAnim: function (twarnGroup, tGpsGroup, tIpGroup) {
-        cc.log('playerGpsCheckAnim=================')
-        this.m_oGpsWarnNode.active = true;
-        this.m_tGpsRepeatGroup.splice(0, this.m_tGpsRepeatGroup.length);
-        this.m_tIpRepeatGroup.splice(0, this.m_tIpRepeatGroup.length);
-        this.m_tWarnGroup.splice(0, this.m_tWarnGroup.length);
-        this.m_tNodeList.splice(0, this.m_tNodeList.length);
+    // playerGpsCheckAnim: function (twarnGroup, tGpsGroup, tIpGroup) {
+    //     cc.log('playerGpsCheckAnim=================')
+    //     this.m_oGpsWarnNode.active = true;
+    //     this.m_tGpsRepeatGroup.splice(0, this.m_tGpsRepeatGroup.length);
+    //     this.m_tIpRepeatGroup.splice(0, this.m_tIpRepeatGroup.length);
+    //     this.m_tWarnGroup.splice(0, this.m_tWarnGroup.length);
+    //     this.m_tNodeList.splice(0, this.m_tNodeList.length);
 
-        var gpsWarn = false;
-        var ipWarn = false;
-        if (tGpsGroup.length != 0) {
-            this.m_tGpsRepeatGroup = this.deleteRepeatArr(tGpsGroup);
-            gpsWarn = true;
-        }
+    //     var gpsWarn = false;
+    //     var ipWarn = false;
+    //     if (tGpsGroup.length != 0) {
+    //         this.m_tGpsRepeatGroup = this.deleteRepeatArr(tGpsGroup);
+    //         gpsWarn = true;
+    //     }
 
-        if (twarnGroup.length != 0) {
-            gpsWarn = true;
-            var delet = function (arr) {
-                var temp = [arr[0]];
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i] != temp[temp.length - 1]) {
-                        temp.push(arr[i]);
-                    }
-                }
-                return temp;
+    //     if (twarnGroup.length != 0) {
+    //         gpsWarn = true;
+    //         var delet = function (arr) {
+    //             var temp = [arr[0]];
+    //             for (var i = 0; i < arr.length; i++) {
+    //                 if (arr[i] != temp[temp.length - 1]) {
+    //                     temp.push(arr[i]);
+    //                 }
+    //             }
+    //             return temp;
 
-            }
-            this.m_tWarnGroup = delet(twarnGroup);
-        }
-        if (tIpGroup.length != 0) {
-            this.m_tIpRepeatGroup = this.deleteRepeatArr(tIpGroup);
-            ipWarn = true;
-        }
+    //         }
+    //         this.m_tWarnGroup = delet(twarnGroup);
+    //     }
+    //     if (tIpGroup.length != 0) {
+    //         this.m_tIpRepeatGroup = this.deleteRepeatArr(tIpGroup);
+    //         ipWarn = true;
+    //     }
 
-        this.m_oGpsNode.active = true;
-        this.showActInfo(0, gpsWarn, ipWarn);
-    },
+    //     this.m_oGpsNode.active = true;
+    //     this.showActInfo(0, gpsWarn, ipWarn);
+    // },
 
     //打开gps检测结果
     onClickGpsWarnUI: function (event, data) {
@@ -2422,9 +2418,9 @@ cc.Class({
             headNode.getComponent('klb_hall_Player_Head').initHead(commonData.openId, commonData.headUrl, 'new_dsz_head_init');
             headNode.getChildByName('head').active = true;
 
-            cc.dd.Utils.seekNodeByName(playerNode, 'name').getComponent(cc.Label).string = cc.dd.Utils.substr(commonData.name, 0, 4); //玩家名字
+            cc.dd.Utils.seekNodeByName(playerNode, 'name').getComponent(cc.Label).string = cc.dd.Utils.substr(commonData.name, 0, 7); //玩家名字
             var coin = deskData.checkGameIsFriendType() ? 0 : commonData.coin; //朋友场默认为0， 金币场默认为玩家身上金币
-            cc.dd.Utils.seekNodeByName(playerNode, 'coin').getComponent(cc.Label).string = this.convertPlayerNum(coin); //玩家进入金币
+            cc.dd.Utils.seekNodeByName(playerNode, 'coin').getComponent(cc.Label).string = cc.dd.Utils.getNumToWordTransform(coin); //玩家进入金币
 
             // if(deskData.checkGameIsFriendType()){ //朋友场，进行按钮操作切换
             //     this.playerCombackFBtnState(player);
@@ -2490,7 +2486,7 @@ cc.Class({
                     this.playerCombackFBtnState(player);
                     cpt.setPlayerReady(false);
                     var coin = player_game_data.curScore; //朋友场默认为0， 金币场默认为玩家身上金币
-                    cc.dd.Utils.seekNodeByName(this.m_tPlayerList[player_common_data.pos], 'coin').getComponent(cc.Label).string = this.convertPlayerNum(coin); //玩家进入金币
+                    cc.dd.Utils.seekNodeByName(this.m_tPlayerList[player_common_data.pos], 'coin').getComponent(cc.Label).string = cc.dd.Utils.getNumToWordTransform(coin); //玩家进入金币
 
                 } else {
                     cpt.setPlayerReady(true);
@@ -2645,6 +2641,11 @@ cc.Class({
                 cc.log('push==============5')
                 this.playerLeave_Rsp(data);
                 break;
+            case playerEvent.TEEENPATTI_PLAYER_SHOW_POKER: //玩家show牌
+                this.m_tPlayerOp.push(6);
+                cc.log('push==============6')
+                this.playerShow_Rsp(data);
+                break;
             case playerEvent.TEENPATTI_PLAYER_AUTO_CHANGE://玩家托管状态切换
                 this.changePlayerAutoState(data);
                 break;
@@ -2671,14 +2672,18 @@ cc.Class({
                             this.refreshGPSWarn(); //gps检测动画
                     }
                     cc.log('sendpoker=================');
-                    var playercount = playerMgr.getRealPlayerCount();
-                    this.sendPoker(playercount);
+                    if (!deskData.getIsReconnectTag())
+                        this.betBaseBet();
                 } else if (deskData.getIsReconnectTag()) {//玩家切后台或者断线重连
                     this.initPlayerDefaultData();
                 }
                 break;
             case deskEvent.TEENPATTI_DEDSK_COMPARE: //比牌
-                this.playerCmp_Rsp();
+                this.playerCmp_Rsp(data);
+                break;
+            case deskEvent.TEENPATTI_DEDSK_COMPARE_AGREE: //比牌请求消息返回
+                if(data.ret != 0)
+                cc.dd.PromptBoxUtil.show('CmpDisagree');
                 break;
             case deskEvent.TEENPATTI_DEDSK_COMPARE_RESULT: //比牌结果
                 this.playerCmpResult_Rsp(data.userId, data.cmpId, data.winner);

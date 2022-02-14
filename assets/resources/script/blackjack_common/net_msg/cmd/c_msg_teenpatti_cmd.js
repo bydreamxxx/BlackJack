@@ -24,7 +24,6 @@
         cmd_msg_teenpatti_auto_status :9921,
         cmd_msg_show_card_req:9922,
         cmd_msg_show_card_ack:9923,
-        cmd_msg_show_card_broadcast:9924,
 
     };
 

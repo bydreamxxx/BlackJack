@@ -38,7 +38,7 @@ cc.Class({
     },
 
     setPath: function(ntype){
-        this.m_sPath = ntype == 1 ?  'opBtnPanel_Six/' : 'opBtnPanel_Nine/';
+        this.m_sPath = 'opBtnPanel_Nine/';
     },
     setGenZhuNum: function(isShow){
         var callBtn =  cc.find(this.m_sPath + this.btnName[this.btnTag.genzhu], this.node);
@@ -115,22 +115,32 @@ cc.Class({
                     //加注按钮
                     var advanceBtn0 = cc.find(this.m_sPath +this.btnName[this.btnTag.jiazhu], this.node);
                     advanceBtn0.active = true;
+                    var gray = cc.Material.getBuiltinMaterial('2d-sprite')
+                    advanceBtn0.getComponent(cc.Sprite).setMaterial(0,gray)
+                    var addDesc = advanceBtn0.getChildByName('callBg');
+                    addDesc.active = false;
+            
                     if(curBetLevel >= betLevelList.length){//达到最大档次
                         advanceBtn0.getComponent(cc.Button).interactable = false;
+                        var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+                        advanceBtn0.getComponent(cc.Sprite).setMaterial(0,gray)    
+        
                         var descSp = advanceBtn0.getChildByName('descSp').getComponent(cc.LabelOutline);
                         descSp.enabled = false  
             
                     }else{//可以继续加注
-                        for(var i = 0; i < 4; i++){
-                            var btnNode = this.m_tPanel[1].getChildByName('addBtn' + (i+1));
-                            var numtext = btnNode.getChildByName('num');
-                            numtext.getComponent(cc.Label).string = this.convertChipNum(betLevelList[i+1].split(',')[1]);
+                        addDesc.active = true;
+                        addDesc.getChildByName('num').getComponent(cc.Label).string =  this.convertChipNum(betLevelList[curBetLevel].split(',')[1]);
+                        // for(var i = 0; i < 4; i++){
+                        //     var btnNode = this.m_tPanel[0].getChildByName('addBtn' + (i+1));
+                        //     var numtext = btnNode.getChildByName('num');
+                        //     numtext.getComponent(cc.Label).string = this.convertChipNum(betLevelList[i+1].split(',')[1]);
 
-                            if(curBetLevel - 1 >= i + 1)
-                                btnNode.getComponent(cc.Button).interactable = false;
-                            else
-                                btnNode.getComponent(cc.Button).interactable = true;
-                        }
+                        //     if(curBetLevel - 1 >= i + 1)
+                        //         btnNode.getComponent(cc.Button).interactable = false;
+                        //     else
+                        //         btnNode.getComponent(cc.Button).interactable = true;
+                        // }
                     }
                 }
             }
@@ -139,7 +149,7 @@ cc.Class({
         //比牌按钮判定
         var compBtn = cc.find(this.m_sPath +this.btnName[this.btnTag.bipai], this.node);
         if(compBtn){
-                compBtn.active = true;
+            compBtn.active = true;
 
             if(deskData.checkGameIsFriendType() || deskData.checkGameIsCoinCreateType()){//自建房有必闷三轮选项
                 var ruleList = deskData.getPlayRule(); //获取游戏规则
@@ -148,6 +158,11 @@ cc.Class({
                     if(rule == 1)
                         bWatchLimit = true;
                 })
+                var descSpTxt = compBtn.getChildByName('descSp').getComponent('LanguageLabel');
+                if(this.ckeckDefalutSelect())
+                    descSpTxt.setTxt('show')
+                else
+                    descSpTxt.setTxt('sideshow')
 
                 if(bWatchLimit && deskData.getCurCircle() < 3){//必须闷三轮
                     compBtn.getComponent(cc.Button).interactable = false;
@@ -172,15 +187,42 @@ cc.Class({
             }else{//金币场有比牌轮数限制
                 if(deskData.getConfigData().limit_cmp > deskData.getCurCircle()){ //根据配置显示比牌按钮功能
                     compBtn.getComponent(cc.Button).interactable = false;
+                    var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+                    compBtn.getComponent(cc.Sprite).setMaterial(0,gray)
+
                     var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
                     descSp.enabled = false  
                 }else{
                     compBtn.getComponent(cc.Button).interactable = true;
+                    var gray = cc.Material.getBuiltinMaterial('2d-sprite')
+                    compBtn.getComponent(cc.Sprite).setMaterial(0,gray)
+
                     var descSp = compBtn.getChildByName('descSp').getComponent(cc.LabelOutline);
                     descSp.enabled = true  
                 }
             }
         }
+    },
+
+    //是否剩余两个玩家，进行默认的选中
+    ckeckDefalutSelect: function () {
+        var playercount = playerMgr.getRealPlayerCount(); //桌子上的玩家数量
+        var leftPlayer = null;
+        playerMgr.playerInfo.forEach(function (player) {
+            if (player) {
+                var player_game_data = player.getPlayerGameInfo();
+                if (player_game_data.userState == config_state.UserStateFold || player_game_data.userState == config_state.UserStateLost || player_game_data.userState == config_state.UserStateWait)
+                    playercount = playercount - 1;
+                else {
+                    if (player.userId != cc.dd.user.id)
+                        leftPlayer = player;
+                }
+            }
+        });
+        if (playercount == 2) {
+            return true;
+        } else
+            return false;
     },
 
     //显示自动按钮
@@ -225,9 +267,6 @@ cc.Class({
 
     //是否启用按钮
     enabelAllBtn: function(enabled){
-        this.m_tPanel[0].active = true;
-        this.m_tPanel[1].active = false;
-
         this.setGenZhuNum(enabled);
         var foldBtn = cc.find(this.m_sPath +this.btnName[0], this.node);
         foldBtn.active = true;
@@ -237,6 +276,14 @@ cc.Class({
             var btn = cc.find(this.m_sPath +this.btnName[i], this.node);
             btn.active = true;
             btn.getComponent(cc.Button).interactable = enabled;
+            
+            if(enabled == false){
+                var gray = cc.Material.getBuiltinMaterial('2d-gray-sprite')
+                btn.getComponent(cc.Sprite).setMaterial(0,gray)    
+            }else{
+                var gray = cc.Material.getBuiltinMaterial('2d-sprite')
+                btn.getComponent(cc.Sprite).setMaterial(0,gray)
+            }
 
             var descSp = btn.getChildByName('descSp').getComponent(cc.LabelOutline);
             descSp.enabled = enabled  
@@ -308,7 +355,7 @@ cc.Class({
     advanceBtnCallBack: function(event, data){
         hall_audio_mgr.com_btn_click();
 
-        var index = parseInt(data) + 1;
+        var index = parseInt(this.curBetLevel) + 1;
         //获取下注档次数据
         var betLevelList = [];
         //获取自己的游戏数据
@@ -411,7 +458,7 @@ cc.Class({
                 if(!deskData.checkGameIsFriendType()){
                     var compPay = deskData.getDoubleCompare() ? betInfo[1] * 2 : betInfo[1];
                     if(compPay <= ownData.curScore)
-                        deskEd.notifyEvent(deskEvent.New_DSZ_DEDSK_COMPARE);
+                        dsz_send_msg.sendCmpOp(1, cc.dd.user.id);
                     else{
                         cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
@@ -424,8 +471,7 @@ cc.Class({
 
                     var descSp = btn.getChildByName('descSp').getComponent(cc.LabelOutline);
                     descSp.enabled = false  
-                    
-                    deskEd.notifyEvent(deskEvent.New_DSZ_DEDSK_COMPARE);
+                    dsz_send_msg.sendCmpOp(1,cc.dd.user.id)
                 }
             }
         }
@@ -560,31 +606,10 @@ cc.Class({
     //显示加注选项
     onClickShowAdd: function(event, data){
         this.m_tPanel[0].active = !this.m_tPanel[0].active;
-        this.m_tPanel[1].active = !this.m_tPanel[1].active;
     },
 
     //转换筹码字
     convertChipNum: function(num){
-        var str = num;
-        if(num >= 1000 && num < 10000){
-            var num_0 = (num / 1000).toFixed(1) * 10;
-            if(num_0 % 10 != 0)
-                str =  (num / 1000).toFixed(1) + '千';
-            else
-                str = Math.ceil(num / 1000) + '千';
-        }else if(num >= 10000 && num < 100000000){
-            var num_0 = (num / 10000).toFixed(1) * 10;
-            if(num_0 % 10 != 0)
-                str =  (num / 10000).toFixed(1) + '万';
-            else
-                str = Math.ceil(num / 10000) + '万';
-        }else if(num >= 100000000){
-            var num_0 = (num / 100000000).toFixed(1) * 10;
-            if(num_0 % 10 != 0)
-                str =  (num / 100000000).toFixed(1) + '亿';
-            else
-                str = Math.ceil(num / 100000000) + '亿';
-        }
-        return str 
+        return cc.dd.Utils.getNumToWordTransform(num)
     },
 });

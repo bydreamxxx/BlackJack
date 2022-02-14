@@ -70,7 +70,8 @@ cc.Class({
 
         middle_effect: [cc.Node],        //中间大动画特效0:你赢了 1:葫芦 2四条 3同花顺 4皇家同花顺
 
-        heguanSk: sp.Skeleton,
+        // heguanSk: sp.Skeleton,
+        heguanSk: require("com_actors"),
 
         player_state_type: [cc.SpriteFrame], //玩家表态显示（0:思考中 1:跟  2:过  3:弃牌(无)  4:加注  5:全压）
 
@@ -93,8 +94,7 @@ cc.Class({
 
         coinPlayers: cc.Prefab,
         wheelPlayers: cc.Prefab,
-        wheelView: require('texas_wheel'),
-        wheelRaceResult: require('wheel_race_result'),
+        // wheelRaceResult: require('wheel_race_result'),
         wheelHeadList: [cc.Node],
     },
 
@@ -164,6 +164,7 @@ cc.Class({
     },
     
     onDestroy() {
+        AudioManager.stopMusic();
         TEXAS_ED.removeObserver(this);
         RoomED.removeObserver(this);
 
@@ -331,6 +332,7 @@ cc.Class({
 
     start() {
         this._fapaiqi = cc.find('fapaiqi', this.node).getComponent('texas_fapaiqi');
+        AudioManager.playMusic(texas_audio_cfg.Background);
     },
 
     // 转轮赛奖励
@@ -343,14 +345,10 @@ cc.Class({
     },
     playWheelAnim(coin) {
         let numArray = coin.toString().split('')
-        this.wheelView.node.active=true
-        // this.wheelView.setRange(3000, 50000)
-        this.wheelView.onRunCode(numArray, this.wheelEnd.bind(this))
-    },
-    wheelEnd() {
-        setTimeout(()=>{
-            this.wheelView.node.active = false
-        }, 3000)
+
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_NUM, function (ui) {
+            ui.getComponent('texas_wheel').onRunCode(numArray);
+        }.bind(this));
     },
 
     /**
@@ -590,6 +588,8 @@ cc.Class({
         //         AudioManager.playSound(texas_audio_cfg.WOMAN.Xiazhu, false);
         // }
         // this.updateRoundScore();
+
+        this.head_list[view].updateUI()
     },
 
     //梭哈
@@ -619,6 +619,7 @@ cc.Class({
         else
             AudioManager.playSound(texas_audio_cfg.WOMAN.ShowHand, false);
         // this.updateRoundScore();
+        this.head_list[view].updateUI()
     },
 
     //弃牌
@@ -682,6 +683,7 @@ cc.Class({
                 AudioManager.playSound(texas_audio_cfg.WOMAN.Call, false);
         }
         // this.updateRoundScore();
+        this.head_list[view].updateUI()
     },
 
 
@@ -737,8 +739,9 @@ cc.Class({
         var delay = 0;
 
 
-        this.heguanSk.clearTracks();
-        this.heguanSk.setAnimation(0, 'dz_hg_deal', true);
+        // this.heguanSk.clearTracks();
+        // this.heguanSk.setAnimation(0, 'effect', true);
+        this.heguanSk.playShuohua()
         var playerNum = this.head_list.length;
         for (var j = bankerView; j > bankerView - playerNum; j--) {
             var i = j < 0 ? (j + playerNum) : j;
@@ -816,8 +819,9 @@ cc.Class({
         this.node.runAction(cc.sequence(
             cc.delayTime(delay + durTime),
             cc.callFunc(function () {
-                this.heguanSk.clearTracks();
-                this.heguanSk.setAnimation(0, 'dz_hg_standby', true);
+                // this.heguanSk.clearTracks();
+                // this.heguanSk.setAnimation(0, 'daiji', true);
+                this.heguanSk.playSpine('daiji')
 
                 if (selfPlayer && selfPlayer.joinGame && texas_Data.Instance().stand == false) {
                     this.head_list[0].showMyCardType(texas_Data.Instance().getCardType(cardInfoList)[0]);
@@ -984,18 +988,27 @@ cc.Class({
                     }
                 }
 
-                score.getComponent(cc.Label).string = ':' + Math.abs(msg.resultList[i].win);
+                
+                score.getComponent(cc.Label).string = '/' + Math.abs(msg.resultList[i].win);
 
+                // 更新金币
+                var player = texas_Data.Instance().getPlayerByViewIdx(view);
+                player.score = player.score + msg.resultList[i].win + msg.resultList[i].bet
+                this.head_list[view].updateUI();
                 // 转轮赛输光退出游戏
                 if(this.isWheelRace === true) {
-                    var player = texas_Data.Instance().getPlayerByViewIdx(view);
                     if(player.score <= 0) {
                         player.joinGame = 0
-                        this.head_list[view].showWait(true);
+                        this.head_list[view].showOut(true);
+                        if(player.userId===cc.dd.user.id && msg.resultList.length===3) {
+                            this.openWheelResult({
+                                score:0,
+                                rank:3
+                            })
+                        }
                     }
-                    // console.error('play score---------',view, player.score)
+                    // console.error('play score---------',view, player.score, player.userId, msg.resultList.length)
                 }
-                // console.error(msg.resultList[i].playerId,'===============',player.score, player.gold)
             }
         }
 
@@ -1043,14 +1056,21 @@ cc.Class({
     // 显示转轮赛结果 
     showWheelResult(data) {
         if(this.isWheelRace) {
-            for(let i=0; i<data.users.length; i++) {
-                if(data.users[i].userId === cc.dd.user.id){
-                    this.wheelRaceResult.node.active = true
-                    this.wheelRaceResult.setResult(data, this.onExit)
+            for(let i=0; i<data.usersList.length; i++) {
+                let user = data.usersList[i]
+                if(user.userId === cc.dd.user.id){
+                    // this.wheelRaceResult.node.active = true
+                    // this.wheelRaceResult.setResult(data, this.onExit)
+                    this.openWheelResult(user)
                     break
                 }
             }
         }
+    },
+    openWheelResult(data) {
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_RESULT, function (ui) {
+            ui.getComponent('wheel_race_result').setResult(data, this.sendLeaveRoom);
+        }.bind(this));
     },
 
     showMiddleWinEffect(cardType) {

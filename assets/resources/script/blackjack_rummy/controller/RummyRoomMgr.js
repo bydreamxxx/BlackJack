@@ -75,20 +75,24 @@ let RummyRoomMgr = cc.Class({
         if(mainUser){
             mainUser.viewIdx = 0;
             this.playerList.forEach(player=>{
-                if(player.userId !== mainUser.userId){
+                if(player){
+                    if(player.userId !== mainUser.userId){
 
-                    let offset = mainUser.seat;
-                    player.viewIdx = player.seat - offset;
-                    if(player.viewIdx < 0){
-                        player.viewIdx += 5;
+                        let offset = mainUser.seat;
+                        player.viewIdx = player.seat - offset;
+                        if(player.viewIdx < 0){
+                            player.viewIdx += 5;
+                        }
                     }
-                }
 
-                player.playerEnter();
+                    player.playerEnter();
+                }
             });
         }else{
             this.playerList.forEach(player=>{
-                player.playerEnter();
+                if(player){
+                    player.playerEnter();
+                }
             });
         }
     },

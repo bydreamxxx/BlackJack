@@ -611,7 +611,7 @@ var hanlder = {
 
     on_hall_update_task(msg) {
         if (msg.task.status == 2 && !cc.dd.UIMgr.getUI('BlackJack_Hall_Task') && !cc._chifengGame && !cc._isHuaweiGame && !cc._isBaiDuPingTaiGame)
-            cc.dd.PromptBoxUtil.show('有任务已完成，请前往领取奖励哦~');
+            cc.dd.PromptBoxUtil.show('rummy_text45');
         if (cc._taskDataList) {
             for (var i = 0; i < cc._taskDataList.length; i++) {
                 if (cc._taskDataList[i].taskId == msg.task.taskId) {

@@ -19,6 +19,15 @@ var hanlder = {
         playerMgr.playerPokerInfo(msg.poker);
     },
 
+    //请求比牌消息广播
+    on_msg_cmp_broadcast:function(msg){
+        deskEd.notifyEvent(deskEvent.TEENPATTI_DEDSK_COMPARE, msg.userId);
+    },
+
+    on_msg_cmp_agree_ack:function(msg){
+        deskEd.notifyEvent(deskEvent.TEENPATTI_DEDSK_COMPARE_AGREE, msg);
+    },
+
     //比牌消息返回
     on_msg_teenpatti_cmp_ret: function(msg){
         cc.dd.NetWaitUtil.net_wait_end('sendCmpOp');
@@ -147,6 +156,12 @@ var hanlder = {
         if (player) {
             player.setPlayerAutoState(msg.status);
         }
+    },
+
+    //预公布牌消息返回
+    on_msg_show_card_ack: function(msg){
+        if(msg.result == 0)
+            playerMgr.setPlayerShowPoker(cc.dd.user.id);
     },
 };
 module.exports = hanlder;

@@ -66,6 +66,7 @@ dd.RewardWndUtil = require('RewardWndUtil').Instance();
 dd.clientAction = require('clientAction').clientAction;
 dd.ButtonUtil = require("ButtonUtil").Instance();
 dd.CheckGames = require("CheckGames");
+dd.DialogInputUtil = require('DialogInputUtil').Instance();
 
 /** 更新器 */
 dd.UpdaterED = require('Updater').UpdaterEd;

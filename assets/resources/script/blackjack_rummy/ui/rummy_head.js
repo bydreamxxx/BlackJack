@@ -58,6 +58,47 @@ cc.Class({
         }
     },
 
+    update(dt){
+        if(this.startTime){
+            this.remain -= dt;
+            if(this.viewIdx === 0){
+                if(this.remain <= 2 && this.remain > 1){
+                    if(!this.playDing){
+                        this.playDing = true;
+                        AudioManager.playSound("blackjack_common/audio/ding");
+                    }
+                }
+                if(this.remain <= 1 && this.remain > 0){
+                    if(this.playDing){
+                        this.playDing = false;
+                        AudioManager.playSound("blackjack_common/audio/ding");
+                    }
+                }
+            }
+            if (this.remain <= 0) {
+                if(this.headAni) {
+                    this.headAni.getComponent(cc.Animation).stop();
+                    this.headAni.parent.active = false;
+                }
+                this.startTime = false;
+                // this.unscheduleAllCallbacks();
+                if (this.callback) {
+                    this.callback();
+                }
+            }
+            else {
+                var ratio = this.remain / this.time;
+                this.headQuanSpr.fillRange = ratio;
+                var pos = this.getPos(ratio);
+                if(this.headAni) {
+                    this.headAni.x = pos.x;
+                    this.headAni.y = pos.y;
+                }
+
+            }
+        }
+    },
+
     clear(){
         cc.Tween.stopAllByTarget(this.duanyu_node);
 
@@ -77,47 +118,12 @@ cc.Class({
     },
 
     changeCoin(coin){
-        this.coin.string = coin;
-    },
-
-    /**
-     * 筹码数字转换
-     */
-    changeNumToCHN: function (num) {
-        var str = '';
-        if(LanguageMgr.getKind() == "ZH"){
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '亿';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千万';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '万';
-            } else {
-                str = num;
-            }
-        }else if(LanguageMgr.getKind() == "TC"){
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '億';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千萬';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '萬';
-            } else {
-                str = num;
-            }
+        if(this.viewIdx === 0) {
+            this.coin.string = cc.dd.Utils.getNumToWordTransform(coin);
         }else{
-            if (num >= 1000000000) {
-                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
-            } else if (num >= 10000000) {
-                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
-            } else if (num >= 10000) {
-                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
-            } else {
-                str = num.toLocaleString('en-US');
-            }
+            this.coin.string = coin;
         }
-
-        return str;
+        this.playerData.score = coin;
     },
 
     init(data){
@@ -125,7 +131,7 @@ cc.Class({
 
         this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 12);
         if(this.viewIdx === 0){
-            this.coin.string = this.changeNumToCHN(data.score);
+            this.coin.string = cc.dd.Utils.getNumToWordTransform(data.score);
         }else{
             this.coin.string = data.score;
         }
@@ -294,6 +300,7 @@ cc.Class({
      */
     stop_chupai_ani: function () {
         this.chupai_ani.active = false;
+        this.startTime = false;
     },
 
     /**
@@ -303,12 +310,13 @@ cc.Class({
      * @param {Number} curtime   当前时间s(用于重连)
      */
     playTimer:function(duration, callback, curtime) {
+        this.startTime = false;
+
         if (curtime > duration) {
             curtime = duration;
         }
         // this.headQuanSpr.node.color = cc.color(0, 255, 0);
         var color_t = 255/duration;
-        this.unscheduleAllCallbacks();
         var stepTime = 0.05;
         this.time = duration;
         this.remain = curtime == null ? duration : curtime;
@@ -322,30 +330,8 @@ cc.Class({
             this.headAni.getComponent(cc.Animation).play();
             this.headAni.parent.active = true;
         }
-        this.schedule(function () {
-            this.remain -= stepTime;
-            if (this.remain <= 0) {
-                if(this.headAni) {
-                    this.headAni.getComponent(cc.Animation).stop();
-                    this.headAni.parent.active = false;
-                }
-                this.unscheduleAllCallbacks();
-                if (this.callback) {
-                    this.callback();
-                }
-            }
-            else {
-                var ratio = this.remain / this.time;
-                this.headQuanSpr.fillRange = ratio;
-                var pos = this.getPos(ratio);
-                if(this.headAni) {
-                    this.headAni.x = pos.x;
-                    this.headAni.y = pos.y;
-                }
-
-                // this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
-            }
-        }.bind(this), stepTime);
+        this.playDing = this.remain > 2 ? false : true;
+        this.startTime = true;
     },
 
     //计算位置

@@ -24,7 +24,7 @@ cc.Class({
         var pObj = new cc.pb.hall.hall_req_task();
         cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_hall_req_task, pObj,
             '发送协议[id: ${cmd_hall_req_task}],cmd_hall_req_task', true);
-        cc.dd.NetWaitUtil.net_wait_end('网络状况不佳...', 'hall_task');
+        cc.dd.NetWaitUtil.net_wait_end('Poornetwork', 'hall_task');
     },
 
     onDestroy: function () {
@@ -143,7 +143,7 @@ cc.Class({
             itemNode.getChildByName('desc').getComponent("LanguageLabel").setText(element.title);
             itemNode.getChildByName('gold').getComponent(cc.Label).string = element.reward_item.split(',')[1];
             //itemNode.getChildByName('active').getComponent(cc.Label).string = 'X' + element.active_num;
-            itemNode.getChildByName('jindu').getComponent(cc.Label).string = '进度' + element.curNum + '/' + element.trigger_num;
+            itemNode.getChildByName('jindu').getComponent(cc.Label).string = element.curNum + '/' + element.trigger_num;
             itemNode.getChildByName('ing').active = element.status == 1;
             itemNode.getChildByName('award').active = element.status == 2;
             itemNode.getChildByName('finish').active = element.status == 3;

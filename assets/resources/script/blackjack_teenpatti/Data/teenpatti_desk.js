@@ -7,6 +7,7 @@ var Teenpatti_DeskEvent = cc.Enum({
     TEENPATTI_DEDSK_CALL: 'dsz_desk_call', //跟注
     TEENPATTI_DEDSK_UPDATE_CIRCLE: 'dsz_desk_update_circle', //更新轮数
     TEENPATTI_DEDSK_COMPARE: 'dsz_desk_compare', //玩家比牌
+    TEENPATTI_DEDSK_COMPARE_AGREE: 'dsz_desk_compare_agree', //比牌接受反馈
     TEENPATTI_DEDSK_COMPARE_RESULT: 'dsz_desk_compare_result', //比牌结果
     TEENPATTI_DEDSK_FOLD: 'dsz_desk_fold', //弃牌
     TEENPATTI_DEDSK_SHOW_ROUND_RESULE: 'dsz_desk_show_round_result', //显示单局结算

@@ -6,6 +6,7 @@ cc.Class({
         numList: [cc.Label],
         targetSpeed:32,
         needSlowDown: false,
+        stopImmediate: false,
         endSprite: cc.Sprite
     },
 
@@ -43,7 +44,14 @@ cc.Class({
             this.nodeMove(this.runNum,this.runSpeed);
             this.checkNodeReset(this.runNum, this.numList);
             this.runTime += dt;
-            if(this.runTime >= 2 && this.hasResult){//转2秒后并且有结果
+            if(this.runTime >= 1 && this.hasResult){//转2秒后并且有结果
+                if(this.stopImmediate) { //  立即停止
+                    this.reset();
+                    if(this.runEndFunc){
+                        this.runEndFunc();
+                    }
+                    return
+                }
                 if(this.needSlowDown){
                     if(this.passOnce >= this.passOnceEnd && this.numList[0].string == this.endNum && !this.startSlowDow){
                         this.startSlowDow = true;

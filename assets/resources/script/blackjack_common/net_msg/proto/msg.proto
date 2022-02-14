@@ -2540,6 +2540,174 @@ message msg_match_race_reward {
 	repeated match_reward_info reward_list = 1;		// 奖励列表
 }
 
+// 朋友协议
+//cmd_start_index=2400
+//cmd_name=friend
+message friend_info2 {
+	required 	uint32		uid				= 1;
+	required	string 		name 		 	= 2;
+	required	string 		head			= 3;
+	optional 	int32  		sex            	= 4;
+	optional	int32 		cur_status 		= 5;				// -1:离线 0:大厅 1:游戏中
+}
+
+message friend_apply_info {
+	required		uint32 		friend_id 		= 1;		// 
+	required		string 		friend_name 	= 2;		// 
+	required		int32 		add_time 		= 3;		// 添加时间
+}
+
+message friend_message_info {
+	required		uint32 		friend_id 		= 1;		// 
+	required		string 		msg 		= 2;		// 
+	required		int32 		timestamp 		= 3;		// 发送时间
+}
+
+message friend_game_info {
+	required		int32 		game_type 		= 1;		// 游戏类型
+	required		int32 		played_times 	= 2;		// 玩过的局数
+}
+
+message friend_champion_info {
+	required		string			name		= 1;
+	required		int32 			time 		= 2;
+	optional		int32 			win_coin 	= 3;
+}
+
+message friend_detail_info {
+	required 	uint32		uid				= 1;
+	optional 	int64  		coin           	= 2; 				// 头像显示的金币
+	optional	int64 		first_play_time = 3;				// 第一次玩游戏时间
+	optional	int32 		favorite_game	= 4;				// 最近玩的20场游戏中那个游戏最多则是哪一个
+	optional	int32 		luckiest_wins 	= 5;				// 赢钱最多的一次是多少钱
+	optional	int32		in_game_type 	= 6[default=0];		// 当前所玩游戏类型(大厅为0，离线为-1)
+	optional	int32		in_room_cfg_id 	= 7;				// 当前所在游戏场次（金币场有效）
+	optional	int32		in_room_id 		= 8;				// 当前所在游戏房间
+	optional	string 		ip 				= 9;
+	optional	string 		mood 			= 10;				// 心情
+	repeated	friend_game_info	 games 	= 11;
+	repeated	friend_champion_info champs	= 12;
+}
+
+message msg_friend_list_req {
+}
+
+message msg_friend_list_ret {
+	repeated	friend_info2		list = 1;
+}
+
+// 好友请求列表
+message msg_friend_apply_list_req {
+}
+
+
+message msg_friend_apply_list_ret {
+	repeated	friend_apply_info		list = 1;
+}
+
+// 好友留言消息
+
+
+
+message msg_friend_detail_info_req {
+	required		uint32 			friend_id = 1;
+}
+
+message msg_friend_detail_info_ret {
+	required		int32 				code 	= 1;			// 0:成功   1:找不到此人
+	optional		friend_detail_info	detail 	= 2;
+}
+
+message msg_lookup_friend_req {
+	required 		string 			id_or_name	= 1;
+}
+
+message msg_lookup_friend_ret {
+	repeated	friend_info2		list = 1;
+}
+
+message msg_add_friend_req {
+	required		uint32 			friend_id = 1;
+}
+
+message msg_add_friend_ret {
+	required		int32 				code 	= 1;			// 0:发送请求成功   1:找不到此人  2:已经是好友  3:好友数量已达上限 4.对方好友数量已达上限
+}
+
+message msg_be_add_friend {
+	required		friend_apply_info 	info 	= 1;			// 
+}
+
+message msg_reply_add_friend_req {
+	required		uint32 			friend_id 	= 1;
+	required 		bool 			is_agree 	= 2;
+}
+
+message msg_reply_add_friend_ret {
+	required		int32 				code 	= 1;			// 0:成功 1:找不到此请求  2:已经是好友  3:好友数量已达上限 4,。对方好友数量已达上限
+}
+
+// 同意之后的广播消息，广播给双方
+message msg_add_friend_succ {
+	required	friend_info2		list = 1;
+}
+
+message msg_del_friend_req {
+	required		uint32 			friend_id = 1;
+}
+
+message msg_del_friend_ret {
+	required		int32 				code 	= 1;			// 0:成功
+}
+
+// 被谁删除了好友
+message msg_be_del_friend_ret {
+	required		uint32 			friend_id 	= 1;			// 
+}
+
+message msg_send_friend_coin_req {
+	required 		uint32			friend_id 		= 1;
+	required		int32 			coin 			= 2;
+}
+
+message msg_send_friend_coin_ret {
+	required		int32 				code 	= 1;			// 0:发成功   1:不是好友  2:金币不足  3:赠送金币数量错误（有限额区间）
+}
+
+message msg_chat_friend_req {
+	optional int32              msg_type      = 2;
+	optional int32              id            = 3;
+	optional string             msg           = 4;
+	optional int32 				time 		  = 5;
+	optional uint32             to_user_id    = 6;
+}
+
+message msg_chat_friend_ret {
+	optional int32              msg_type      = 2;
+	optional int32              id            = 3;
+	optional string             msg           = 4;
+	optional int32 				time 		  = 5;
+	optional uint32             from_user_id  = 6;
+}
+
+// 好友留言消息
+message msg_friend_messages_list_req {
+}
+
+
+message msg_friend_messages_list_ret {
+	repeated	msg_chat_friend_ret		list = 1;
+}
+
+message msg_friend_modify_mood_req {
+	required	string 		mood 	= 1;
+}
+
+
+message msg_friend_modify_mood_ret {
+	required		int32 				code 	= 1;			// 0:成功
+}
+
 //房间管理通用协议
 //cmd_start_index=2200
 //cmd_name=room_mgr
@@ -2751,6 +2919,7 @@ message coin_result{
 	optional int32  reward_type     = 9[default=0];     // 奖励的类型
 	optional int32  bouns           = 10[default=0];    // 红包(捕鱼专用)
 	repeated coin_result_item  item_list = 11;          // 物品奖励(捕鱼专用)
+	optional bool 	is_champ 		= 12;				// 是否是冠军(比赛专用)
 }
 
 message msg_g2h_coin_result{
@@ -8903,6 +9072,7 @@ message teenpatti_user_info{
 	optional bool        is_online   = 9;
 	optional int32       seat        = 10;
 	optional int64       cur_bet_score = 11;//当前手押注
+	optional int32		 is_show = 12;//当前是否已经show了。 1:show了 0：没有秀
 }
 
 message teenpatti_dissolve_info{
@@ -9045,11 +9215,6 @@ message msg_show_card_req{
 }
 
 message msg_show_card_ack{
-	optional int32	result =1[default=0]; //0:成功，1:当前不能show牌阶段 2:你没有这张牌
-}
-
-message msg_show_card_broadcast{
-	optional int32 	user_id = 1;
-	repeated int32	cards =	2;
+	optional int32	result =1[default=0]; //0:成功，1:系统错误，2：玩家状态不正确，当前状态不能show牌 3:玩家没有看牌， 不能show
 }
 //-----------------------------------------------------

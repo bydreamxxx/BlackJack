@@ -9,6 +9,7 @@ var Teenpatti_PlayerEvent = cc.Enum({
     TEENPATTI_PLAYER_INIT_DATA: 'dsz_player_init_data', //实例化玩家游戏数据
     TEENPATTI_PLAYER_OP_STATE: 'dsz_player_op_state', //玩家操作/状态更新
     TEENPATTI_PLAYER_WATCH_POKER: 'dsz_player_watch_poker', //玩家看牌
+    TEEENPATTI_PLAYER_SHOW_POKER: 'dsz_player_show_poker', //玩家show牌
     TEENPATTI_PLYER_EXIT: 'dsz_player_exit', //玩家离开房间
     New_PLAYER_ISONLINE: 'dsz_player_isonline', //玩家在线
     TEENPATTI_PLAYER_CLEAR: 'dsz_ player_clear', //游戏清除
@@ -62,6 +63,14 @@ var Teenpatti_PlayerData = cc.Class({
     setPlayerResultPokers: function (pokers) {
         this.dszPlayerInfo.pokers = pokers;
         this.dszPlayerInfo.pokersState = 1;
+    },
+
+    /**
+     * 玩家预show牌
+     */
+    setPlayerShowPokerState:function(isShow){
+        this.dszPlayerInfo.isShow = isShow;
+        Teenpatti_PlayerED.notifyEvent(Teenpatti_PlayerEvent.TEEENPATTI_PLAYER_SHOW_POKER, this.userId);
     },
 
     //更新玩家总下注
@@ -520,6 +529,15 @@ var Teenpatti_PlayerMgr = cc.Class({
         if (player)
             player.setPlayerResultPokers(poker)
     },
+
+    /**
+     * 设置玩家预show牌
+     */
+     setPlayerShowPoker: function(userId){
+        var player = this.findPlayerByUserId(userId);
+        if (player)
+            player.setPlayerShowPokerState(true)
+     },
 
     /**
      * 重置所有玩家的数据信息

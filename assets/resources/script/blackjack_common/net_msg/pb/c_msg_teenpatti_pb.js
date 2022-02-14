@@ -14,6 +14,7 @@ let teenpatti_user_info = cc.Class({
         content.isOnline = this.isOnline;
         content.seat = this.seat;
         content.curBetScore = this.curBetScore;
+        content.isShow = this.isShow;
 
         return content;
     },
@@ -49,6 +50,9 @@ let teenpatti_user_info = cc.Class({
     },
     setCurBetScore(curBetScore){
         this.curBetScore = curBetScore;
+    },
+    setIsShow(isShow){
+        this.isShow = isShow;
     },
 
 });
@@ -625,25 +629,4 @@ let msg_show_card_ack = cc.Class({
 });
 
 module.exports.msg_show_card_ack = msg_show_card_ack;
-
-let msg_show_card_broadcast = cc.Class({
-    ctor(){
-    },
-    getContent(){
-        let content = {};
-        content.userId = this.userId;
-        content.cardsList = this.cardsList;
-
-        return content;
-    },
-    setUserId(userId){
-        this.userId = userId;
-    },
-    setCardsList(cardsList){
-        this.cardsList = cardsList;
-    },
-
-});
-
-module.exports.msg_show_card_broadcast = msg_show_card_broadcast;
 

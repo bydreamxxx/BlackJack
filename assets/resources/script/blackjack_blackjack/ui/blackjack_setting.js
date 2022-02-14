@@ -38,12 +38,12 @@ cc.Class({
 
     sliderMusic(event, data) {
         this.musicProgerss.progress = event.progress;
-        AudioManager.getInstance().m_nMusicVolume = event.progress;
+        AudioManager.getInstance().setMusicVolume(event.progress);
     },
 
     sliderSound(event, custom) {
         this.soundProgress.progress = event.progress;
-        AudioManager.getInstance().m_nSoundVolume = event.progress;
+        AudioManager.getInstance().setSoundVolume(event.progress);
     },
 
     closeBtn() {

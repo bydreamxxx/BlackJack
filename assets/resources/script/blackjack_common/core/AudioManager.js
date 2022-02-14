@@ -144,7 +144,8 @@ var AudioManager = cc.Class({
             return;
         }
         cc.audioEngine.stop(this.m_musicId);
-        this.m_musicId = -1;
+        // this.m_musicId = -1;
+        this.m_music_path = null;
     },
 
     setMusicVolume: function (musicVolume) {

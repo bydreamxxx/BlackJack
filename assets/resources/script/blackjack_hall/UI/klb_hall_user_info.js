@@ -344,7 +344,7 @@ cc.Class({
         //     prefab.getComponent('klb_hall_daily_activeUI').showUI(1);
         // });
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_VIP_NEW, function (prefab) {
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_VIP, function (prefab) {
         });
     },
 

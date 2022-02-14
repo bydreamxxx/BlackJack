@@ -283,6 +283,9 @@ var Utils = {
      * @returns {string}
      */
     getNumToWordTransform: function (num, isMoney) {
+        if(num === undefined || num === null) {
+            return ''
+        }
         var str = '';
         let prefix = ''
         if(LanguageMgr.getKind().toLocaleUpperCase() == "ZH"){

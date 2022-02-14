@@ -1,3 +1,5 @@
+const rmBet = require("rm_bet");
+
 let RummyEvent = cc.Enum({
     UPDATE_UI: "UPDATE_UI",
     UPDATE_STATE: "UPDATE_STATE",
@@ -9,6 +11,7 @@ let RummyEvent = cc.Enum({
     PLAYER_COMMIT: "PLAYER_COMMIT",
     PLAYER_WIN: "PLAYER_WIN",
     PLAYER_LOST: "PLAYER_LOST",
+    GIVE_TIPS: "GIVE_TIPS",
 });
 
 let RummyED = new cc.dd.EventDispatcher();
@@ -107,6 +110,17 @@ let RummyData = cc.Class({
         // this.dropCoin = data.diropCoin;
         // this.selfState = data.selfState;
         this.dropScores = data.dropScores;
+
+        let betConfig = rmBet.getItem(function (item) {
+            return item.key == this.roomConfigId;
+        }.bind(this))
+        if(betConfig){
+            this.perPoint = 80;
+            this.maxWin = betConfig.bet * 80;
+        }else{
+            this.perPoint = 80;
+            this.maxWin = 8000;
+        }
     },
 
     setRoomInfo(info){

@@ -1,5 +1,6 @@
 const Prefix = 'gameyj_texas/audio/';
 module.exports = {
+    Background: Prefix + 'bmg',//背景音乐
     Deal: Prefix + 'Sound_Turn_card',//发牌
     Chip: Prefix + 'sound_slider',//筹码
     Win: Prefix + 'win',//胜利

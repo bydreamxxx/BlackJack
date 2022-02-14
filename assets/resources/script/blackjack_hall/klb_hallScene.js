@@ -81,7 +81,7 @@ let hall = cc.Class({
 
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 
-        //AudioManager.playMusic("blackjack_hall/audios/Hall_BGM");
+        AudioManager.playMusic("blackjack_hall/audios/lobby");
 
         this.initHall();
 

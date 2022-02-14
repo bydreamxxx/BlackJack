@@ -25,6 +25,7 @@ cc.Class({
     properties: {
         remindCardLabel: cc.Label,
         banker: require("blackjack_player_ui"),
+        bankerActor: require("com_actors"),
         playerList: [require("blackjack_player_ui")],
 
         sitBtn: cc.Node,
@@ -108,6 +109,8 @@ cc.Class({
         this.hitToggle.uncheck();
         this.standToggle.uncheck();
         this.autoToggle = null;
+
+        AudioManager.playMusic("blackjack_hall/audios/lobby");
     },
 
     onDestroy() {
@@ -266,6 +269,7 @@ cc.Class({
 
                 if(hasBJ){
                     this.banker.head.play_banker_duanyu("blackjack", 3);
+                    this.bankerActor.playShuohua();
                 }
                 break;
             case BlackJackEvent.SHOW_COIN:
@@ -625,6 +629,7 @@ cc.Class({
 
                 if(BlackJackData.hasUserPlayer){
                     this.banker.head.play_banker_duanyu("placeyourbets", 3);
+                    this.bankerActor.playShuohua();
                 }
 
                 this.betButtonNode.active = BlackJackData.hasUserPlayer;
@@ -712,6 +717,7 @@ cc.Class({
                 }
 
                 this.banker.head.play_banker_duanyu("dealerbust", 3);
+                this.bankerActor.playShuohua();
 
 
                 // this.sitBtn.active = !BlackJackData.hasUserPlayer;
@@ -740,6 +746,7 @@ cc.Class({
                     BlackJackData.fapai();
 
                     this.banker.head.play_banker_duanyu("headsup", BlackJackData.fapaiList.length * 2 * 1.4);
+                    this.bankerActor.playShuohua();
 
                     this.playerList.forEach(player => {
                         player.changeChipPos();

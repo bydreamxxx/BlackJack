@@ -9,10 +9,11 @@ cc.Class({
     properties: {
         m_tPlayerData: null,
         m_oPokerInfo: [],
-
+        pokerAtlas:cc.SpriteAtlas,
         emoji_node: cc.Node,
         yuyin_laba: { default: null, type: require('jlmj_yuyin_laba'), tooltip: '语音组件', },
         m_bShowHuaXiao: true,
+        m_oShowPokerBtn: cc.Node,
     },
 
     ctor: function () {
@@ -58,7 +59,7 @@ cc.Class({
 
 
         for (var i = 0; i < 3; i++) {
-            this.m_oPokerInfo[i] = cc.dd.Utils.seekNodeByName(this.node, "poker" + i)//.getComponent('');
+            this.m_oPokerInfo[i] = cc.dd.Utils.seekNodeByName(this.node, "card" + i)//.getComponent('');
         }
         //玩家身上筹码值
         this.m_oplayerCoinTxt = cc.dd.Utils.seekNodeByName(this.node, "coin").getComponent(cc.Label);
@@ -78,6 +79,8 @@ cc.Class({
 
         if (playerData.isBanker) //庄家标记
             this.m_oBankerTag.active = true;
+        if (playerData.isShow && cc.dd.user.id == playerData.userId)
+            this.m_oShowPokerBtn.active = false;
         //this.freshPlayerChip();
     },
 
@@ -93,7 +96,7 @@ cc.Class({
                 this.showPokerBack();
                 this.m_oDescBg.active = false;
 
-                if (cc.dd.AppCfg.GAME_ID == 136) {//金币场/自建房
+                if (cc.dd.AppCfg.GAME_ID == 186) {//金币场/自建房
                     var ruleList = deskData.getPlayRule(); //获取游戏规则
                     var bWatchLimit = false;
                     ruleList.forEach(function (rule) {
@@ -164,8 +167,8 @@ cc.Class({
             } else if (playerData.pokersState == 1) {//已看牌
                 this.showPokerFace();
                 this.m_tPlayerData.pokers.pokersList.forEach(function (poker, index) {
-                    var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + index);
-                    node.getChildByName('beimian').active = false;
+                    var node = cc.dd.Utils.seekNodeByName(this.node, "card" + (index - 1));
+                    node.getChildByName('dipai_1').active = false;
                 }.bind(this));
                 this.setPlayerFail(false);
             }
@@ -174,6 +177,11 @@ cc.Class({
                 var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
                 stateSp.setText(this.playerStateAtlas['state' + 3]);
                 this.setPlayerFail(true);
+                if(playerData.pokers && playerData.pokers.pokersList.length != 0 && playerData.isShow == 0){
+                    this.m_oShowPokerBtn.active = true
+                }else{
+                    this.m_oShowPokerBtn.active = false
+                }
             } else if (playerData.userState == config_data.UserStateLost) {//比牌输掉
                 this.m_oStateSp.active = true;
                 var stateSp = this.m_oStateSp.getComponent('LanguageLabel');
@@ -221,7 +229,9 @@ cc.Class({
         var readyNode = cc.dd.Utils.seekNodeByName(this.node, 'readyBg');//准备标记
         readyNode.active = true;
         readyNode.getChildByName('readyDesc').color = isReady ? cc.color(30, 150, 52) : cc.color(255, 255, 255);
-        readyNode.getChildByName('readyDesc').getComponent(cc.Label).string = isReady ? '已准备' : '未准备';
+        var text = readyNode.getChildByName('readyDesc').getComponent('LanguageLabel')
+        var info = isReady ? 'zhunbei' : '';
+        text.setText(info);
         this.m_oStateSp.active = false;
         this.setPlayerFail(false);
     },
@@ -229,8 +239,10 @@ cc.Class({
     //刷新玩家下注额/身上分值
     freshPlayerChip: function () {
         this.chipBg.active = true;
-        this.m_oBetTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.betScore)); //设置玩家下注筹码
-        this.m_oplayerCoinTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.curScore)); //玩家身上筹码值
+        if(this.m_tPlayerData && this.m_tPlayerData.betScore){
+            this.m_oBetTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.betScore)); //设置玩家下注筹码
+            this.m_oplayerCoinTxt.string = cc.dd.Utils.getNumToWordTransform(parseInt(this.m_tPlayerData.curScore)); //玩家身上筹码值
+        }
     },
 
     //检测玩家是否为庄家
@@ -305,6 +317,9 @@ cc.Class({
                 pokerNode.active = false;
                 this.setPlayerFail(true);
             }
+            else if(state == 6){  //已点击show牌
+                this.m_oShowPokerBtn.active = false
+            }
         }
     },
 
@@ -330,8 +345,13 @@ cc.Class({
         stateSp.setText(this.playerStateAtlas['state3']);//设置弃牌文字
 
         //this.m_oDescBg.active = false;//隐藏牌类型
-        if (cc.dd.user.id == this.m_tPlayerData.userId)
+        if (cc.dd.user.id == this.m_tPlayerData.userId){
             this.m_oWatchDescBg.active = false;
+            if(this.m_tPlayerData.pokersState == 1) //已看牌
+                this.m_oShowPokerBtn.active = true
+            else
+                this.m_oShowPokerBtn.active = false
+        }
         this.setPlayerFail(true);
         if (cc.dd.user.id != this.m_tPlayerData.userId)
             this.showPokerBack();//盖牌
@@ -401,8 +421,8 @@ cc.Class({
         this.node.runAction(cc.sequence(cc.delayTime(0.5), cc.callFunc(function () {
             this.showPokerFace();
             for (var i = 0; i < 3; i++) {
-                var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + i);
-                node.getChildByName('beimian').active = false;
+                var node = cc.dd.Utils.seekNodeByName(this.node, "card" + i);
+                node.getChildByName('dipai_1').active = false;
             }
         }.bind(this))));
     },
@@ -441,7 +461,7 @@ cc.Class({
     //显示玩家失败
     setPlayerFail: function (isFail) {
         for (var i = 0; i < 3; i++) {
-            var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + i);
+            var node = cc.dd.Utils.seekNodeByName(this.node, "card" + i);
             node.getChildByName('cover').active = isFail;
         }
         if (this.m_oHeadCoverSp)
@@ -454,25 +474,35 @@ cc.Class({
             return;
         cc.dd.Utils.seekNodeByName(this.node, 'pokerNode').active = true;
         this.m_tPlayerData.pokers.pokersList.forEach(function (poker, index) {
-            var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + index);
+            var node = cc.dd.Utils.seekNodeByName(this.node, "card" + index);
             this.setPoker(node, poker);
         }.bind(this));
-        this.m_oDescBg.active = true;
-        this.m_oWatchDescBg.active = false;
-        if (this.m_tPlayerData.pokers.type == 1)
-            this.m_tPlayerData.pokers.type = 2
-        var typeIndex = this.m_tPlayerData.pokers.type - 2;
-
-        var typeSp = this.m_oDescBg.getChildByName('typedesc').getComponent('LanguageLabel');
-        typeSp.setText(this.typeName[typeIndex]);
+        setTimeout(function(){
+            this.m_oDescBg.active = true;
+            this.m_oWatchDescBg.active = false;
+            if (this.m_tPlayerData.pokers.type == 1)
+                this.m_tPlayerData.pokers.type = 2
+            var typeIndex = this.m_tPlayerData.pokers.type - 2;
+    
+            var typeSp = this.m_oDescBg.getChildByName('typedesc').getComponent('LanguageLabel');
+            typeSp.setText(this.typeName[typeIndex]);
+    
+            for(var i = 0; i < this.typeName.length; i++){
+                var linetype = cc.dd.Utils.seekNodeByName(this.m_oDescBg, "type" + i);
+                if(linetype){
+                    linetype.active = i <= typeIndex ? true : false;
+                }
+            }
+        }.bind(this), 1000);
     },
 
     //盖牌
     showPokerBack: function () {
         //cc.dd.Utils.seekNodeByName(this.node, 'pokerNode').active = true;
         for (var i = 0; i < 3; i++) {
-            var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + i);
-            node.getChildByName('beimian').active = true;
+            var node = cc.dd.Utils.seekNodeByName(this.node, "card" + i);
+            node.getChildByName('dipai_1').active = true;
+            node.getChildByName('dipai_1').getChildByName('beimian').active = true;
         }
     },
 
@@ -526,65 +556,16 @@ cc.Class({
 
     //具体的牌数据设置
     setPoker: function (node, cardValue) {
-        if (cardValue < 500) {
-            var value = Math.floor(cardValue % 100); //点数
-            var flower = Math.floor(cardValue / 100); //花色
-            var hua_xiao = node.getChildByName('hua_xiao');
-            var hua_da = node.getChildByName('hua_da');
-            hua_da.scaleX = 1.2;
-            hua_da.scaleY = 1.2;
-            var num = node.getChildByName('num');
-            num.scaleX = 1;
-            num.scaleY = 1;
-            //node.getChildByName('beimian').active = false;
-
-            if (value == 14) value = 1;
-            if (value < 10)
-                value = '0' + value.toString();
-            if (flower % 2 != 0) {
-                num.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_r' + value.toString());
-            }
-            else {
-                num.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_b' + value.toString());
-            }
-            if (flower == 1)
-                flower = 4;
-            else if (flower == 2)
-                flower = 3;
-            else if (flower == 3)
-                flower = 2;
-            else if (flower == 4)
-                flower = 1;
-            hua_da.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_0' + flower.toString());
-            hua_da.active = true;
-            hua_xiao.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_0' + flower.toString());
-            hua_xiao.active = true;
-            this.m_bShowHuaXiao = true;
-        } else {
-            var value = Math.floor(cardValue % 500); //点数
-            var hua_xiao = cc.dd.Utils.seekNodeByName(node, 'hua_xiao');// node.getChildByName('hua_xiao');
-            var hua_da = cc.dd.Utils.seekNodeByName(node, 'hua_da');
-            hua_da.scaleX = 0.8;
-            hua_da.scaleY = 0.8;
-            var num = cc.dd.Utils.seekNodeByName(node, 'num');
-            num.scaleX = 0.8;
-            num.scaleY = 0.8;
-            //cc.dd.Utils.seekNodeByName(node,'beimian').active = false;
-
-
-            if (value == 1) {//小王
-                num.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_b14');
-                hua_da.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_b15');
-
-            }
-            else {//大王
-                num.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_r14');
-                hua_da.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame('dsz_pk_r15');
-
-            }
-
-            hua_xiao.active = false;
-            this.m_bShowHuaXiao = false;
+        var beimian = cc.dd.Utils.seekNodeByName(node, 'dipai_1');
+        if(beimian)
+            beimian.active = false
+        var pic = cc.dd.Utils.seekNodeByName(node, 'pic1');
+        if(pic){
+            var color_ = Math.ceil(cardValue / 100);
+            var value_ = cardValue % 100
+            if(value_ == 14)
+                value_ = 1
+            pic.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame(value_ * 10 + color_)
         }
     },
 
@@ -686,6 +667,8 @@ cc.Class({
             this.m_oStateSp.active = false;
         if (this.m_oDescBg)
             this.m_oDescBg.active = false;
+        if (this.m_oShowPokerBtn)
+            this.m_oShowPokerBtn.active = false;
         cc.dd.Utils.seekNodeByName(this.node, "luckfail").active = false;
         cc.dd.Utils.seekNodeByName(this.node, "luckwin").active = false;
 
@@ -694,8 +677,11 @@ cc.Class({
             recordWatch.active = false;
 
         for (var i = 0; i < 3; i++) {
-            var node = cc.dd.Utils.seekNodeByName(this.node, "poker" + i);
-            node.getChildByName('beimian').active = true;
+            var node = cc.dd.Utils.seekNodeByName(this.node, "card" + i);
+            node.getChildByName('dipai_1').active = true;
+            node.getChildByName('dipai_1').getChildByName('beimian').active = true;
+
+            node.getChildByName('pic1').active = false;
         }
         if (this.m_oWatchBtn)
             this.m_oWatchBtn.interactable = false;
@@ -737,7 +723,15 @@ cc.Class({
      * 发送比牌请求
      */
     sendComp: function (event, data) {
-        dsz_send_msg.sendCmpOp(2, cc.dd.user.id, this.m_tPlayerData.userId);
+        dsz_send_msg.sendCmpOp(1, cc.dd.user.id, this.m_tPlayerData.userId);
+    },
+
+    
+    /**
+     * 展示牌
+     */
+     onClickShowPoker: function(event, data){
+        dsz_send_msg.sendShowPokers(null)
     },
 
     /**
@@ -747,18 +741,5 @@ cc.Class({
         var gametype = cc.dd.AppCfg.GAME_ID;
         var roomId = deskData.getRoomId();
         dsz_send_msg.sendCancelAuto(gametype, roomId);
-    },
-
-    //转换筹码字
-    convertChipNum: function (num) {
-        var str = num;
-        if (num >= 10000 && num < 100000000) {
-            if (num > 10000000)
-                str = (num / 10000).toFixed(0) + '万';
-            else
-                str = (num / 10000).toFixed(1) + '万';
-        } else if (num >= 100000000)
-            str = (num / 100000000).toFixed(1) + '亿';
-        return str
     },
 });

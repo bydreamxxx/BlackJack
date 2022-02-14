@@ -27,7 +27,7 @@ cc.Class({
             this.headIcon.initHead (0, data.head_url)
         }
         if(this.nameLabel) {
-            this.nameLabel.string = data.name
+            this.nameLabel.string = cc.dd.Utils.subChineseStr(data.name, 0, 10);
         }
     },
     

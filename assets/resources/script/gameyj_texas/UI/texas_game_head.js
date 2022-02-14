@@ -135,6 +135,24 @@ cc.Class({
             mask.active = isShow
     },
 
+    showOut(isShow)
+    {
+        this._des.setText('out');
+        this._des.node.active = isShow;
+        var mask = cc.dd.Utils.seekNodeByName(this.node, "mask1")
+        if(mask)
+            mask.active = isShow
+    },
+
+    showWaiver(isShow)
+    {
+        this._des.setText('waiver');
+        this._des.node.active = isShow;
+        var mask = cc.dd.Utils.seekNodeByName(this.node, "mask1")
+        if(mask)
+            mask.active = isShow
+    },
+
     setCardSprite(sprite) {
         for (var i = 0; i < this._cardnode.children.length; i++) {
             cc.find('dipai_1/beimian',this._cardnode.children[i]).getComponent(cc.Sprite).spriteFrame = sprite;

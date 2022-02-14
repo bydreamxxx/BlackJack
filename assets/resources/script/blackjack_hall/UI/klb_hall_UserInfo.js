@@ -23,6 +23,7 @@ var AppConfig = require('AppConfig');
 var login_module = require('LoginModule');
 var game_channel_cfg = require('game_channel');
 const HallSendMsgCenter = require('HallSendMsgCenter');
+const FriendEvent = require('hall_friend').FriendEvent;
 
 let userInfo = cc.Class({
     extends: uiEvent,
@@ -65,6 +66,9 @@ let userInfo = cc.Class({
         firstBuy_SpriteFrame: [cc.SpriteFrame],
         fenxiangyouli: cc.Node,
 
+        // 好友红点
+        friendRedPointLabel: cc.Label,
+        friendRedPointNode: cc.Node,
     },
     onLoad: function () {
         Hall.HallED.addObserver(this);
@@ -494,6 +498,19 @@ let userInfo = cc.Class({
         HallSendMsgCenter.getInstance().sendBattleHistory(0);
     },
 
+    /**
+     * 朋友
+     */
+    clickFriend: function () {
+        /************************游戏统计 start************************/
+        // cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.RECORD);
+        /************************游戏统计   end************************/
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_FRIEND, function (ui) {
+            // ui.getComponent('BlackJack_Hall_Friend').showChat;
+        });
+        hall_audio_mgr.com_btn_click();
+    },
+
     clickFirstBuy() {
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_FIRST_BUY, function (ui) {
@@ -568,16 +585,15 @@ let userInfo = cc.Class({
     //玩家信息
     userBtnCallBack: function () {
         hall_audio_mgr.com_btn_click();
-        // if (cc._useChifengUI || cc._useCardUI) {
-        //     cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_USERINFO);
-        // } else {
-        //     cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_USERINFO, function (ui) {
-        //         ui.getComponent('klb_hall_user_info').setData(HallCommonData.getInstance());
-        //     }.bind(this));
-        // }
-        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_VIP, function (prefab) {
-            // prefab.getComponent('BlackJack_Hall_VIP').showUI(1);
-        }.bind(this));
+        if (cc._useChifengUI || cc._useCardUI) {
+            cc.dd.UIMgr.openUI(hall_prefab.CHIFENG_USERINFO);
+        } else {
+            cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_USERINFO, function (ui) {
+                ui.getComponent('klb_hall_user_info').setData(HallCommonData.getInstance());
+            }.bind(this));
+        }
+        // cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_VIP, function (prefab) {
+        // }.bind(this));
     },
 
     clickWelfareBag: function () {
@@ -623,40 +639,7 @@ let userInfo = cc.Class({
  * 筹码数字转换
  */
     changeNumToCHN: function (num) {
-        var str = '';
-        if(LanguageMgr.getKind() == "ZH"){
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '亿';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千万';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '万';
-            } else {
-                str = num;
-            }
-        }else if(LanguageMgr.getKind() == "TC"){
-            if (num >= 100000000) {
-                str = (num / 100000000.00).toFixed(1) + '億';
-            } else if (num >= 10000000) {
-                str = (num / 10000000.00).toFixed(1) + '千萬';
-            } else if (num >= 100000) {
-                str = (num / 10000.00).toFixed(1) + '萬';
-            } else {
-                str = num;
-            }
-        }else{
-            if (num >= 1000000000) {
-                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
-            } else if (num >= 10000000) {
-                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
-            } else if (num >= 10000) {
-                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
-            } else {
-                str = num.toLocaleString('en-US');
-            }
-        }
-
-        return str;
+        return cc.dd.Utils.getNumToWordTransform(num);
     },
 
     /**
@@ -849,6 +832,9 @@ let userInfo = cc.Class({
                     cc.dd.UIMgr.openUI('blackjack_hall/prefabs/daily_active/klb_hall_daily_active_TG');
                 }
                 break;
+            case FriendEvent.FRIEND_HALL_RED_POINT:  //  好友红点
+                this.setFriendRed(data)
+                break;
             // case Hall.HallEvent.DRAWLOTTERY_ACTIVITY_INFO:
             //     if (Hall.HallData.Instance().drawlotteryActiveOpen) {
             //         let active = Hall.HallData.Instance().getDrawLotterykActive();
@@ -868,6 +854,11 @@ let userInfo = cc.Class({
         }
     },
 
+    // 设置好友红点
+    setFriendRed(count){
+        this.friendRedPointLabel.string = '+'+count
+        this.friendRedPointNode.active = count > 0
+    },
     //刷新分享有礼按钮
     updateFxylBtn() {
         if (this.fenxiangyouli) {

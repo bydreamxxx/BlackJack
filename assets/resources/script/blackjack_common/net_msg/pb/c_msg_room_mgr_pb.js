@@ -819,6 +819,7 @@ let coin_result = cc.Class({
         content.rewardType = this.rewardType;
         content.bouns = this.bouns;
         content.itemListList = this.itemListList;
+        content.isChamp = this.isChamp;
 
         return content;
     },
@@ -854,6 +855,9 @@ let coin_result = cc.Class({
     },
     setItemListList(itemListList){
         this.itemListList = itemListList;
+    },
+    setIsChamp(isChamp){
+        this.isChamp = isChamp;
     },
 
 });

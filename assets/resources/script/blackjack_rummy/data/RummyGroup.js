@@ -20,16 +20,20 @@ let RummyGroup = cc.Class({
         });
 
         if(RummyData.isBaida(card)){
-            this.baidaList.push(card);
-            this.baidaList.sort(function (x, y) {
-                if (x < y) {
-                    return -1;
-                }
-                if (x > y) {
-                    return 1;
-                }
-                return 0;
-            });
+            if(card === 172){
+                this.baidaListJoker.push(card);
+            }else{
+                this.baidaList.push(card);
+                this.baidaList.sort(function (x, y) {
+                    if (x < y) {
+                        return -1;
+                    }
+                    if (x > y) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
         }else{
             this.normalList.push(card);
             this.normalList.sort(function (x, y) {
@@ -64,25 +68,25 @@ let RummyGroup = cc.Class({
         //     }
         // }
 
-        if(this.baidaList.length > 0){
-            return false;
-        }
+        // if(this.baidaList.length > 0){
+        //     return false;
+        // }
 
-        if(!this.normalList.every(item => this.normalList[0] % 10 === item % 10)){
+        if(!this.cardsList.every(item => this.cardsList[0] % 10 === item % 10)){
             return false;
         }
 
         let numArr = []
 
-        if(Math.floor(this.normalList[0] / 10) === 1 && Math.floor(this.normalList[1] / 10) !== 2){//特殊处理QKA的情况
-            for (let i=1 ;i < this.normalList.length-1; i++) {
-                numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
+        if(Math.floor(this.cardsList[0] / 10) === 1 && Math.floor(this.cardsList[1] / 10) !== 2){//特殊处理QKA的情况
+            for (let i=1 ;i < this.cardsList.length-1; i++) {
+                numArr.push(Math.floor(this.cardsList[i+1] / 10) - Math.floor(this.cardsList[i] / 10))
             }
 
-            numArr.push(Math.floor(this.normalList[0] / 10) + 13 - Math.floor(this.normalList[this.normalList.length-1] / 10));
+            numArr.push(Math.floor(this.cardsList[0] / 10) + 13 - Math.floor(this.cardsList[this.cardsList.length-1] / 10));
         }else{
-            for (let i=0 ;i < this.normalList.length-1; i++) {
-                numArr.push(Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10))
+            for (let i=0 ;i < this.cardsList.length-1; i++) {
+                numArr.push(Math.floor(this.cardsList[i+1] / 10) - Math.floor(this.cardsList[i] / 10))
             }
         }
 
@@ -90,20 +94,12 @@ let RummyGroup = cc.Class({
         return numArr.every(item => numArr[0] === item) && numArr[0] === 1;
     },
 
-    checkIsImpure(){
-        if(this.baidaList.length <= 0){
-            return false;
-        }
-
-        if(this.baidaList.length >= 3 && this.normalList.length === 0){
-            return true;
-        }
-
-        if(Math.floor(this.normalList[0] / 10) === 1){
+    _checkIsImpure(baidaCount, list){
+        let returnResult = true;
+        if(Math.floor(list[0] / 10) === 1){
             let result = true;
-            let baidaCount = this.baidaList.length;
-            for (let i=0 ;i < this.normalList.length-1; i++) {//先判断是不是A23
-                let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);
+            for (let i=0 ;i < list.length-1; i++) {//先判断是不是A23
+                let count = Math.floor(list[i+1] / 10) - Math.floor(list[i] / 10);
                 if(count > 1){
                     baidaCount -= (count - 1);
 
@@ -113,19 +109,18 @@ let RummyGroup = cc.Class({
                     }
                 }
 
-                if(this.normalList[0] % 10 !== this.normalList[i] % 10){//不同色
+                if(list[0] % 10 !== list[i] % 10){//不同色
                     result = false;
                     break;
                 }
             }
 
-            if(this.normalList[0] % 10 !== this.normalList[this.normalList.length-1] % 10){//不同色
+            if(list[0] % 10 !== list[list.length-1] % 10){//不同色
                 result = false;
             }
 
             if(!result){//再判断QKA
-                baidaCount = this.baidaList.length;
-                let tempList = this.normalList.concat();
+                let tempList = list.concat();
                 let first = tempList.shift();
                 tempList.push(first+130);
                 for (let i=0 ;i < tempList.length-1; i++) {
@@ -134,42 +129,74 @@ let RummyGroup = cc.Class({
                         baidaCount -= (count - 1);
 
                         if(baidaCount < 0){//癞子牌用完了还没能成顺
-                            return false;
+                            returnResult = false;
+                            break;
                         }
                     }
 
                     if(tempList[0] % 10 !== tempList[i] % 10){//不同色
-                        return false;
+                        returnResult = false;
+                        break;
                     }
                 }
 
                 if(tempList[0] % 10 !== tempList[tempList.length-1] % 10){//不同色
-                    return false;
+                    returnResult = false;
                 }
             }
         }else{
-            let baidaCount = this.baidaList.length;
-            for (let i=0 ;i < this.normalList.length-1; i++) {
-                let count = Math.floor(this.normalList[i+1] / 10) - Math.floor(this.normalList[i] / 10);
+            for (let i=0 ;i < list.length-1; i++) {
+                let count = Math.floor(list[i+1] / 10) - Math.floor(list[i] / 10);
                 if(count > 1){
                     baidaCount -= (count - 1);
 
-                    if(baidaCount < 0){//癞子牌用完了还没能成顺
-                        return false;
+                    if(baidaCount < 0) {//癞子牌用完了还没能成顺
+                        returnResult = false;
+                        break;
                     }
                 }
 
-                if(this.normalList[0] % 10 !== this.normalList[i] % 10){//不同色
-                    return false;
+                if(list[0] % 10 !== list[i] % 10){//不同色
+                    returnResult = false;
+                    break;
                 }
             }
 
-            if(this.normalList[0] % 10 !== this.normalList[this.normalList.length-1] % 10){//不同色
-                return false;
+            if(list[0] % 10 !== list[list.length-1] % 10){//不同色
+                returnResult = false;
             }
         }
 
-        return true;
+        return returnResult;
+    },
+
+    checkIsImpure(){
+        if(this.baidaList.length + this.baidaListJoker.length <= 0){
+            return false;
+        }
+
+        if(this.baidaList.length + this.baidaListJoker.length >= 3 && this.normalList.length === 0){
+            return true;
+        }
+
+        if(this.baidaList.length !== 0 && this.baidaListJoker.length !== 0){
+            let list = this.normalList.concat(this.baidaList);
+            list.sort(function (x, y) {
+                if (x < y) {
+                    return -1;
+                }
+                if (x > y) {
+                    return 1;
+                }
+                return 0;
+            });
+            let result = this._checkIsImpure(this.baidaListJoker.length, list);
+            if(result){
+                return true;
+            }
+        }
+
+        return this._checkIsImpure(this.baidaList.length + this.baidaListJoker.length, this.normalList);
     },
 
     checkIsSet(){
@@ -182,7 +209,21 @@ let RummyGroup = cc.Class({
         if(this.cardsList.length <= 2) {
             this.state = GROUP_STATE.NO_GROUP;
         }else if(this.normalList.length <= 1){
-            this.state = GROUP_STATE.STRAIGHT;
+            let list = this.normalList.concat(this.baidaList);
+            list.sort(function (x, y) {
+                if (x < y) {
+                    return -1;
+                }
+                if (x > y) {
+                    return 1;
+                }
+                return 0;
+            });
+            if(this._checkIsImpure(this.baidaListJoker.length, list)){//百搭有joker有普通百搭，普通百搭牌面能跟普通牌组成顺子
+                this.state = GROUP_STATE.IMPURE_STRAIGHT;
+            }else{
+                this.state = GROUP_STATE.STRAIGHT;
+            }
         }else if(this.checkIsPure()){
             this.state = GROUP_STATE.PURE_STRAIGHT;
         }else if(this.checkIsImpure()){
@@ -202,8 +243,12 @@ let RummyGroup = cc.Class({
             this.cardsList.splice(index, 1);
 
             if(RummyData.isBaida(card)){
-                index = this.baidaList.indexOf(card);
-                this.baidaList.splice(index, 1);
+                if(card === 172){
+                    this.baidaListJoker.pop();
+                }else{
+                    index = this.baidaList.indexOf(card);
+                    this.baidaList.splice(index, 1);
+                }
             }else{
                 this.colorList[card % 10]--;
                 index = this.normalList.indexOf(card);
@@ -272,7 +317,7 @@ let RummyGroup = cc.Class({
 
         if(this.state === GROUP_STATE.IMPURE_STRAIGHT || this.state === GROUP_STATE.SET) {
             let tempNormalList = this.normalList.concat();
-            let tempBaidaList = this.baidaList.concat();
+            let tempBaidaList = this.baidaList.concat(this.baidaListJoker);
             tempNormalList.sort(sortFunc);
             tempBaidaList.sort(sortFunc);
 
@@ -307,6 +352,10 @@ let RummyGroup = cc.Class({
                             tempList.splice(i, 1);
                         }
                     }
+                }
+
+                for(let i = 0; i < tempBaidaList.length; i++){
+                    tempList.push(tempBaidaList[i]);
                 }
             }else{
                 for(let i = 1; i < this.colorList.length; i++){
@@ -350,10 +399,15 @@ let RummyGroup = cc.Class({
         });
         this.normalList = [];
         this.baidaList = [];
+        this.baidaListJoker = [];
         this.colorList = [1, 0, 0, 0, 0];//花色判断
         for(let i = 0; i < this.cardsList.length; i++){
             if(RummyData.isBaida(this.cardsList[i])){
-                this.baidaList.push(this.cardsList[i]);
+                if(this.cardsList[i] === 172){
+                    this.baidaListJoker.push(this.cardsList[i]);
+                }else{
+                    this.baidaList.push(this.cardsList[i]);
+                }
             }else{
                 this.normalList.push(this.cardsList[i]);
                 this.colorList[this.cardsList[i] % 10]++;
@@ -387,7 +441,7 @@ let RummyGroup = cc.Class({
     },
 
     toString(){
-        return `cardList = ${this.cardsList.toString()}  normalList = ${this.normalList.toString()}  baidaList = ${this.baidaList.toString()}  state = ${this.state}`
+        return `cardList = ${this.cardsList.toString()}  normalList = ${this.normalList.toString()}  baidaList = ${this.baidaList.toString()} baidaListJoker = ${this.baidaListJoker.toString()} state = ${this.state}`
     }
 });
 

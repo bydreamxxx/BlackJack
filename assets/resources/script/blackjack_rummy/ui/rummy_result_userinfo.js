@@ -38,7 +38,7 @@ cc.Class({
     setData(info){
         this.headSp.getComponent('klb_hall_Player_Head').initHead('', info.headUrl);
         this.nameLabel.string = cc.dd.Utils.substr(info.userName, 0, 8);
-        this.point.string = info.score;
+        this.point.string = Math.abs(info.score);
         this.score.string = cc.dd.Utils.getNumToWordTransform(info.coin);
         if(info.coin > 0){
             this.state.node.color = cc.Color.YELLOW;

@@ -1,6 +1,6 @@
 
     const msg = {};
-    var handler = require('no_use');
+    var handler = require('net_handler_teenpatti');
     var recvFuncs = {
         [9900]:{ package_name:'msg', msg_name:'teenpatti_user_info', name:msg.teenpatti_user_info, func:handler.on_teenpatti_user_info, func_name:'on_teenpatti_user_info', logtag:'[9900:teenpatti_user_info]' },
         [9901]:{ package_name:'msg', msg_name:'teenpatti_dissolve_info', name:msg.teenpatti_dissolve_info, func:handler.on_teenpatti_dissolve_info, func_name:'on_teenpatti_dissolve_info', logtag:'[9901:teenpatti_dissolve_info]' },
@@ -26,7 +26,6 @@
         [9921]:{ package_name:'msg', msg_name:'msg_teenpatti_auto_status', name:msg.msg_teenpatti_auto_status, func:handler.on_msg_teenpatti_auto_status, func_name:'on_msg_teenpatti_auto_status', logtag:'[9921:msg_teenpatti_auto_status ]' },
         [9922]:{ package_name:'msg', msg_name:'msg_show_card_req', name:msg.msg_show_card_req, func:handler.on_msg_show_card_req, func_name:'on_msg_show_card_req', logtag:'[9922:msg_show_card_req]' },
         [9923]:{ package_name:'msg', msg_name:'msg_show_card_ack', name:msg.msg_show_card_ack, func:handler.on_msg_show_card_ack, func_name:'on_msg_show_card_ack', logtag:'[9923:msg_show_card_ack]' },
-        [9924]:{ package_name:'msg', msg_name:'msg_show_card_broadcast', name:msg.msg_show_card_broadcast, func:handler.on_msg_show_card_broadcast, func_name:'on_msg_show_card_broadcast', logtag:'[9924:msg_show_card_broadcast]' },
 
     };
     module.exports = {

@@ -46,6 +46,7 @@ cc.Class({
         dropDes: require('LanguageLabel'),
 
         bankerHead: require('rummy_head'),
+        banker: require('com_actors'),
 
         _fixedTimeStep: 1/30,
         _lastTime: 0,
@@ -139,6 +140,12 @@ cc.Class({
             })
             .delay(0.01)
             .call(()=>{
+                console.error('on_msg_rm_syn_giveup_poker')
+                handler.on_msg_rm_syn_giveup_poker({ giveupCard: 103,
+                    xcard: 114});
+            })
+            .delay(0.01)
+            .call(()=>{
                 console.error('on_msg_rm_deal_poker')
                 // handler.on_msg_rm_deal_poker({ cardsList: [ [21, 31, 81, 101, 121], [72, 112, 132, 12], [73, 83, 93, 103] ],
                 //     handCardsList: [ 132, 83, 72, 93, 101, 121, 81, 31, 21, 112, 73, 12, 103 ],
@@ -146,15 +153,12 @@ cc.Class({
                 // handler.on_msg_rm_deal_poker({ cardsList: [{cardsList: [21, 31, 81, 101, 121]}, {cardsList:[72, 112, 132, 12]}, {cardsList:[73, 83, 83]} ,{cardsList:[44]} ],
                 //     handCardsList: [ 132, 83, 72, 83, 101, 121, 81, 31, 21, 112, 73, 12, 44 ],
                 //     userId: cc.dd.user.id });
+                // handler.on_msg_rm_deal_poker({ cardsList: [],
+                //     handCardsList: [ 12,22,32,94,71,81,101,63,74,84,132,112,122,172 ],
+                //     userId: cc.dd.user.id });
                 handler.on_msg_rm_deal_poker({ cardsList: [],
-                    handCardsList: [ 12,22,32,34,41,54,61,63,71,81,132,112,122,172 ],
+                    handCardsList: [ 22,31,31,41,52,61,63,102,112,114,122,124,172 ],
                     userId: cc.dd.user.id });
-            })
-            .delay(0.01)
-            .call(()=>{
-                console.error('on_msg_rm_syn_giveup_poker')
-                handler.on_msg_rm_syn_giveup_poker({ giveupCard: 103,
-                    xcard: 94});
             })
             .delay(10)
             .call(()=>{
@@ -377,6 +381,10 @@ cc.Class({
 
 
     onLoad() {
+        cc.game.setFrameRate(60);
+
+        this.cardsPos = this.cardsNode.position;
+
         RoomED.addObserver(this);
         RummyED.addObserver(this);
         HallCommonEd.addObserver(this);
@@ -385,6 +393,8 @@ cc.Class({
         this.maxWinLabel.string = "";
 
         this.clear();
+
+        AudioManager.playMusic("blackjack_hall/audios/lobby");
     },
 
     onDestroy() {
@@ -469,6 +479,7 @@ cc.Class({
                         }else{
                             this.bankerHead.play_banker_duanyu("rummy_text30");
                         }
+                        this.banker.playShuohua();
                     }
                 }
                 break;
@@ -478,6 +489,7 @@ cc.Class({
             case RummyEvent.LOSE_GAME:
                 this.bottomNode.active = false;
                 this.switchButtonNode.active = true;
+                this.banker.playYihan();
                 break;
             case RummyEvent.UPDATE_DROP_COIN:
                 this.updateDropCoin();
@@ -488,12 +500,28 @@ cc.Class({
             case RummyEvent.PLAYER_WIN:
                 if(RoomMgr.Instance().player_mgr.isUserPlaying()){
                     this.tipsLabel.setText('rummy_text31', '', '', data);
+                    if(RummyData.selfWin){
+                        this.banker.playKaixin();
+                    }else{
+                        this.banker.playYihan();
+                    }
                 }
                 break;
             case RummyEvent.PLAYER_LOST:
                 if(RoomMgr.Instance().player_mgr.isUserPlaying()){
                     this.bankerHead.play_banker_duanyu("rummy_text34", 3, data[0], data[1])
                 }
+                this.banker.playShuohua();
+                break;
+            case RummyEvent.GIVE_TIPS:
+                this.scheduleOnce(()=>{
+                    let random = cc.dd.Utils.random(0, 10);
+                    if(random < 5){
+                        this.banker.playFeiwen();
+                    }else{
+                        this.banker.playZhayan();
+                    }
+                }, 0.7)
                 break;
             default:
                 break;
@@ -550,6 +578,7 @@ cc.Class({
             }else{
                 this.bankerHead.play_banker_duanyu("rummy_text30");
             }
+            this.banker.playShuohua();
         }else{
             this.dropButton.interactable = false;
         }
@@ -570,12 +599,23 @@ cc.Class({
     onClickExit(event, data){
         hall_audio_mgr.com_btn_click();
 
-        var msg = new cc.pb.room_mgr.msg_leave_game_req();
-        var gameInfoPB = new cc.pb.room_mgr.common_game_header();
-        gameInfoPB.setGameType(RoomMgr.Instance().gameId);
-        gameInfoPB.setRoomId(RummyData.roomConfigId);
-        msg.setGameInfo(gameInfoPB);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
+        if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+            cc.dd.DialogBoxUtil.show(0, 'sureexit', 'OK', 'CANCEL', function(){
+                var msg = new cc.pb.room_mgr.msg_leave_game_req();
+                var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+                gameInfoPB.setGameType(RoomMgr.Instance().gameId);
+                gameInfoPB.setRoomId(RummyData.roomConfigId);
+                msg.setGameInfo(gameInfoPB);
+                cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
+            }.bind(this), null, 'reminder');
+        }else{
+            var msg = new cc.pb.room_mgr.msg_leave_game_req();
+            var gameInfoPB = new cc.pb.room_mgr.common_game_header();
+            gameInfoPB.setGameType(RoomMgr.Instance().gameId);
+            gameInfoPB.setRoomId(RummyData.roomConfigId);
+            msg.setGameInfo(gameInfoPB);
+            cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_leave_game_req, msg, "msg_leave_game_req", true);
+        }
     },
 
     onClickChat(event, data){
@@ -613,7 +653,7 @@ cc.Class({
 
         var pbData = new cc.pb.room_mgr.msg_change_room_req();
         pbData.setGameType(RoomMgr.Instance().gameId);
-        pbData.setRoomCoinId(RummyData.roomConfigId);
+        pbData.setRoomCoinId(RummyData.roomConfigId - RoomMgr.Instance().gameId * 100);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_change_room_req, pbData, 'msg_change_room_req', true);
     },
 
@@ -647,6 +687,8 @@ cc.Class({
     playerLeave(data){
         if(data.userId == cc.dd.user.id || !data.hasOwnProperty("userId")){
             RummyData.clear();
+            cc.game.setFrameRate(40);
+
             cc.dd.SceneManager.enterHall();
         }
     },
@@ -673,9 +715,10 @@ cc.Class({
      */
     updateUI(){
         this.clear(RummyData.lastState === -1 || RummyData.lastState === GAME_STATE.RESULTING);
+        this.cardsNode.position = this.cardsPos;
 
-        this.perPointLabel.string = "";
-        this.maxWinLabel.string = "";
+        this.perPointLabel.string = RummyData.perPoint;
+        this.maxWinLabel.string = RummyData.maxWin;
 
         this.updateDropCoin();
 
@@ -697,6 +740,12 @@ cc.Class({
             this.discardNode.active = true;
 
             if(RoomMgr.Instance().player_mgr.isUserPlaying()){
+                RoomMgr.Instance().player_mgr.playerList.forEach(player=>{
+                    if(player){
+                        player.stopCD();
+                    }
+                })
+
                 if(RummyData.state !== GAME_STATE.DEALING && RummyData.state !== GAME_STATE.RESULTING){
                     this.bottomNode.active = true;
                 }
@@ -705,8 +754,6 @@ cc.Class({
                     this.cardsNode.removeAllChildren();
                     this.discardNode.removeAllChildren();
                     this.showcardNode.removeAllChildren();
-
-                    let cardsPos = this.cardsNode.position;
 
                     this.cardsNode.position = this.showcardNode.position;
 
@@ -743,7 +790,7 @@ cc.Class({
                         );
 
                     let cardsNodeTween = cc.tween(this.cardsNode)
-                        .to(0.5, {position: cardsPos}, {easing: 'quadOut'});
+                        .to(0.5, {position: this.cardsPos}, {easing: 'quadOut'});
 
                     let baidaNodeTween = cc.tween(node)
                         .to(0.5, {position: cc.v2(-130, 0)}, {easing: 'expoOut'})
@@ -777,6 +824,8 @@ cc.Class({
                         .delay(1)
                         .call(() => {
                             this.bankerHead.play_banker_duanyu("rummy_text28", 1);
+                            this.banker.playShuohua();
+
                             if(AudioManager.getAudioID("blackjack_rummy/audio/rummyJokerSelect1") == -1) {
                                 AudioManager.playSound("blackjack_rummy/audio/rummyJokerSelect1");
                             }
@@ -785,15 +834,21 @@ cc.Class({
                         .start();
 
                     this.bankerHead.play_banker_duanyu("rummy_text27", 5);
+                    this.banker.playShuohua();
+
                 }else if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
                     this.tipsNode.active = true;
-                    this.scheduleOnce(()=>{
-                        this.tipsNode.active = false;
-                    }, 3);
-
+                    // this.scheduleOnce(()=>{
+                    //     this.tipsNode.active = false;
+                    // }, 3);
                     if(RummyData.selfWin){
                         this.bottomNode.active = false;
 
+                    }else{
+                        let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+                        if(player){
+                            player.resetCD(15);
+                        }
                     }
                     RummyData.selfWin = null;
 

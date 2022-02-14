@@ -54,6 +54,42 @@ cc.Class({
         cc.dd.native_gvoice_ed.removeObserver(this);
     },
 
+    update(dt){
+        if(this.startTime) {
+            this.remain -= dt;
+            if (this.viewIdx === 0) {
+                if (this.remain <= 2 && this.remain > 1) {
+                    if (!this.playDing) {
+                        this.playDing = true;
+                        AudioManager.playSound("blackjack_common/audio/ding");
+                    }
+                }
+                if (this.remain <= 1 && this.remain > 0) {
+                    if (this.playDing) {
+                        this.playDing = false;
+                        AudioManager.playSound("blackjack_common/audio/ding");
+                    }
+                }
+            }
+            if (this.remain <= 0) {
+                this.headAni.getComponent(cc.Animation).stop();
+                this.headAni.parent.active = false;
+                this.startTime = false;
+                if (this.callback) {
+                    this.callback();
+                }
+            } else {
+                var ratio = this.remain / this.time;
+                this.headQuanSpr.fillRange = ratio;
+                var pos = this.getPos(ratio);
+                this.headAni.x = pos.x;
+                this.headAni.y = pos.y;
+
+                // this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
+            }
+        }
+    },
+
     init(data){
         this.playerData = data;
 
@@ -261,6 +297,7 @@ cc.Class({
      */
     stop_chupai_ani: function () {
         this.chupai_ani.active = false;
+        this.startTime = false;
     },
 
     /**
@@ -270,12 +307,12 @@ cc.Class({
      * @param {Number} curtime   当前时间s(用于重连)
      */
     playTimer:function(duration, callback, curtime) {
+        this.startTime = false;
         if (curtime > duration) {
             curtime = duration;
         }
         // this.headQuanSpr.node.color = cc.color(0, 255, 0);
         var color_t = 255/duration;
-        this.unscheduleAllCallbacks();
         var stepTime = 0.05;
         this.time = duration;
         this.remain = curtime == null ? duration : curtime;
@@ -287,26 +324,8 @@ cc.Class({
         this.headAni.y = p.y;
         this.headAni.getComponent(cc.Animation).play();
         this.headAni.parent.active = true;
-        this.schedule(function () {
-            this.remain -= stepTime;
-            if (this.remain <= 0) {
-                this.headAni.getComponent(cc.Animation).stop();
-                this.headAni.parent.active = false;
-                this.unscheduleAllCallbacks();
-                if (this.callback) {
-                    this.callback();
-                }
-            }
-            else {
-                var ratio = this.remain / this.time;
-                this.headQuanSpr.fillRange = ratio;
-                var pos = this.getPos(ratio);
-                this.headAni.x = pos.x;
-                this.headAni.y = pos.y;
-
-                // this.headQuanSpr.node.color = cc.color(255 - this.remain * color_t, this.remain * color_t, 0);
-            }
-        }.bind(this), stepTime);
+        this.playDing = this.remain > 2 ? false : true;
+        this.startTime = true;
     },
 
     //计算位置

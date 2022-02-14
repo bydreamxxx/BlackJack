@@ -8,6 +8,7 @@ var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 let game_room = require("game_room");
 var RoomMgr = require('jlmj_room_mgr').RoomMgr;
+var hall_prefab = require('hall_prefab_cfg');
 
 var BET_ERROR = {
     [-1]:'notturn',
@@ -387,6 +388,18 @@ module.exports = {
     // 转轮赛结算
     on_msg_texas_wheel_result(msg) {
         TEXAS_ED.notifyEvent(Texas_Event.TEXAS_WHEEL_RESULT, msg);
+        // function onBack() {
+        //     console.log('on_msg_texas_wheel_result back')
+        // }
+        // for(let i=0; i<msg.usersList.length; i++) {
+        //     let user = msg.usersList[i]
+        //     if(user.userId === cc.dd.user.id){
+        //         cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_WHEELRACE_RESULT, function (ui) {
+        //             ui.getComponent('wheel_race_result').setResult(user, onBack);
+        //         }.bind(this));
+        //         break
+        //     }
+        // }
     }
 
     //////////////////////////测试代码用///////////////////

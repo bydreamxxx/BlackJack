@@ -35,6 +35,7 @@ cc.Class({
             this.m_tChipStartPos[i] = cc.dd.Utils.seekNodeByName(this.node, "chipNode" + i);
         }
 
+        this.m_oEndNode = cc.dd.Utils.seekNodeByName(this.node, 'chipNodeEnd');
             
         //筹码分段数据配置
         var self = this;
@@ -81,49 +82,27 @@ cc.Class({
                 var chipNode = self.createChip();
                 chipNode.scale = 1.2;
                 chipNode.active = true;
-                var chipNumNode = cc.dd.Utils.seekNodeByName(chipNode,'num');
-                var numStr = this.convertChipNum(parseInt(item.type));
+                var chipNumNode = cc.dd.Utils.seekNodeByName(chipNode,'bet');
+                var numStr = cc.dd.Utils.getNumToWordTransform(parseInt(item.type));
                 // var numcpt = chipNumNode.getComponent(cc.LabelOutline);
                 // numcpt.color = item.color;
                 chipNumNode.getComponent(cc.Label).string = numStr;
                 //chipNumNode.setRotation(rotation);
                 self.chip_list.push(chipNode);
-                var sprite = this.chipAltas.getSpriteFrame('chip_btn_' + (item.index + 1));
-                var cpt = chipNode.getChildByName('chouma').getComponent(cc.Sprite);
-                cpt.spriteFrame = sprite;
                 chipNode.parent = this.node;
-                var randx = Math.floor(10 - Math.random() * (20 + 1)) / 10 * Math.random();
-                var randy = Math.floor(10 - Math.random() * (20 + 1)) / 10 * Math.random();
-                var x = randx * this.node.width / 2;
-                var y = randy * this.node.height / 2;
+                var x = this.m_oEndNode.getPosition().x;
+                var y = this.m_oEndNode.getPosition().y;
                 if (isAct) {
                     var startPt_x = this.m_tChipStartPos[pos].x;
                     var startPt_y = this.m_tChipStartPos[pos].y;
-                    var rotation = Math.random() * 360;
 
                     chipNode.setPosition(cc.v2(startPt_x, startPt_y));
-                    var q1_x = (Math.abs( x - startPt_x) / 8) * (( x - startPt_x) > 0 ? 1 : -1) + startPt_x;
-                    var q2_x = (Math.abs( x - startPt_x) / 6) * ((x - startPt_x) > 0 ? 1 : -1) + startPt_x;
-
-
-                    var end_posx = (Math.abs( x - startPt_x) / 5 * 2) * (( x - startPt_x) > 0 ? 1 : -1) + startPt_x
-                    var end_posy = (Math.abs( y - startPt_y) / 5 * 2) * (( y - startPt_y) > 0 ? 1 : -1) + startPt_y
-
-                    var q1_y =  startPt_y ;
-                    var q2_y = end_posy ;
-                    var q1 = cc.v2(q1_x, q1_y);
-                    var q2 = cc.v2(q2_x, q2_y);
-
-                    var coin_endPos = cc.v2(end_posx, end_posy);
-                    var bezier = [q1, q2, coin_endPos];
-
-                    var bezierTo = cc.bezierTo(0.1, bezier);
-                    var moveTo = cc.moveTo(0.12, cc.v2(x, y));
-                    var rotateTo = cc.rotateTo(0.2,rotation);
-                    chipNumNode.runAction(rotateTo);
-                    //var act = cc.spawn(moveTo, rotateTo);
-                    // act_map.push({node:chipNode, act:moveTo});
-                    chipNode.runAction(cc.sequence(moveTo, cc.delayTime(0.2), cc.callFunc(function () {})));
+                    var moveTo = cc.moveTo(0.24, cc.v2(x, y));
+                    chipNode.runAction(cc.sequence(moveTo, cc.callFunc(function () {
+                        self.chip_list.forEach(function(node){
+                            node.active = false;
+                        })
+                    })));
 
                     // if (totalChip < 2) {
                     //     tdk_am.playEffect(dd.tdk_resCfg.AUDIO_COMMON.AUDIO_BET);
@@ -132,6 +111,9 @@ cc.Class({
                     // }
                 } else {
                     chipNode.setPosition(cc.v2(x, y));
+                    self.chip_list.forEach(function(node){
+                        node.active = false;
+                    })
                 }
             }
         }

@@ -208,6 +208,16 @@ module.exports = {
     BJ_HALL_SHOP:"blackjack_hall/prefabs/blackjack/hall/BlackJack_hall_Shop",
     // 转轮赛报名
     BJ_HALL_WHEELRACE_APPLY: "blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_WheelRace",
+    BJ_HALL_WHEELRACE_NUM: "blackjack_hall/prefabs/blackjack/wheel_race/texas_wheel",
+    BJ_HALL_WHEELRACE_RESULT: "blackjack_hall/prefabs/blackjack/wheel_race/wheelRaceResult",
     // VIP
     BJ_HALL_VIP: "blackjack_hall/prefabs/blackjack/hall/BlackJack_Hall_VIP",
+    // 好友
+    BJ_HALL_FRIEND: "blackjack_hall/prefabs/blackjack/hall/Friend/BlackJack_Hall_Friend",
+    BJ_HALL_ADD_FRIEND: "blackjack_hall/prefabs/blackjack/hall/Friend/AddFriend",
+    BJ_HALL_FRIEND_REQUEST: "blackjack_hall/prefabs/blackjack/hall/Friend/FriendRequestList",
+    BJ_HALL_LOOKUP_FRIEND: "blackjack_hall/prefabs/blackjack/hall/Friend/LookupFriend",
+    BJ_HALL_FRIEND_ITEM: "blackjack_hall/prefabs/blackjack/hall/Friend/friendItem",
+    BJ_HALL_FRIEND_INFO: "blackjack_hall/prefabs/blackjack/hall/Friend/friendInfoPanel",
+    BJ_HALL_CHAT_EMOJI: "blackjack_hall/prefabs/blackjack/hall/Friend/emojiPanel",
 };

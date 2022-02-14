@@ -114,8 +114,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 208,
-      "height": 288
+      "width": 50,
+      "height": 48
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -126,8 +126,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        -71.03,
+        -42.497,
         0,
         0,
         0,
@@ -168,12 +168,12 @@
     "_prefab": {
       "__id__": 5
     },
-    "_opacity": 100,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 250,
-      "g": 165,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -190,8 +190,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        71.03,
+        42.497,
         0,
         0,
         0,
@@ -231,7 +231,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "d3e2df7e-4bd2-437e-8657-2391f7b1b665"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -255,11 +255,11 @@
     "asset": {
       "__uuid__": "4aec4031-373e-4662-9623-6afd767610ba"
     },
-    "fileId": "4dNnk8ZFlOvaoxl9vKOPz/",
+    "fileId": "86xcJ8iqpFiKRsndsLeSl3",
     "sync": false
   },
   {
-    "__type__": "cc.Mask",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -271,13 +271,23 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "cf44d31e-7873-477e-8baa-54fe85c02267"
+      "__uuid__": "40a32282-2198-4f61-b26c-7f2829c7de15"
     },
-    "_type": 2,
-    "_segments": 64,
-    "_N$alphaThreshold": 0.1,
-    "_N$inverted": false,
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -321,7 +331,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48.49,
+      "width": 4,
       "height": 54.4
     },
     "_anchorPoint": {
