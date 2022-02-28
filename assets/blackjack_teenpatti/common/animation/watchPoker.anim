@@ -2,69 +2,19 @@
   "__type__": "cc.AnimationClip",
   "_name": "watchPoker",
   "_objFlags": 0,
-  "_rawFiles": null,
-  "_duration": 1,
+  "_native": "",
+  "_duration": 1.1666666666666667,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
     "paths": {
-      "poker0": {
-        "props": {
-          "skewY": [
-            {
-              "frame": 0.3333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.5,
-              "value": 20
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 0
-            }
-          ],
-          "width": [
-            {
-              "frame": 0.3333333333333333,
-              "value": 155
-            },
-            {
-              "frame": 0.5,
-              "value": 0
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 155
-            }
-          ],
-          "angle": [
-            {
-              "frame": 0,
-              "value": 8
-            },
-            {
-              "frame": 0.25,
-              "value": 0
-            },
-            {
-              "frame": 0.75,
-              "value": 0
-            },
-            {
-              "frame": 1,
-              "value": 8
-            }
-          ]
-        }
-      },
-      "poker2": {
+      "card0/dipai_1/beimian": {
         "props": {
           "width": [
             {
               "frame": 0.3333333333333333,
-              "value": 155
+              "value": 164
             },
             {
               "frame": 0.5,
@@ -72,7 +22,7 @@
             },
             {
               "frame": 0.6666666666666666,
-              "value": 155
+              "value": 164
             }
           ],
           "skewY": [
@@ -92,79 +42,19 @@
           "angle": [
             {
               "frame": 0,
-              "value": -7
+              "value": 20
             },
             {
               "frame": 0.25,
+              "value": -20
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": -20
+            },
+            {
+              "frame": 1.1666666666666667,
               "value": 0
-            },
-            {
-              "frame": 0.75,
-              "value": 0
-            },
-            {
-              "frame": 1,
-              "value": -7
-            }
-          ]
-        }
-      },
-      "poker0/num": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 37
-            }
-          ]
-        }
-      },
-      "poker0/hua_xiao": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 34
-            }
-          ]
-        }
-      },
-      "poker0/hua_da": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 59
-            }
-          ]
-        }
-      },
-      "poker0/beimian": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.3333333333333333,
-              "value": 161
-            },
-            {
-              "frame": 0.5,
-              "value": 1
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 161
             }
           ],
           "active": [
@@ -179,8 +69,22 @@
           ]
         }
       },
-      "poker1": {
+      "card1/dipai_1/beimian": {
         "props": {
+          "width": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 164
+            },
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 164
+            }
+          ],
           "skewY": [
             {
               "frame": 0.3333333333333333,
@@ -195,10 +99,24 @@
               "value": 0
             }
           ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.5,
+              "value": false
+            }
+          ]
+        }
+      },
+      "card2/dipai_1/beimian": {
+        "props": {
           "width": [
             {
               "frame": 0.3333333333333333,
-              "value": 155
+              "value": 164
             },
             {
               "frame": 0.5,
@@ -206,67 +124,39 @@
             },
             {
               "frame": 0.6666666666666666,
-              "value": 155
+              "value": 164
             }
-          ]
-        }
-      },
-      "poker1/num": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 36
-            }
-          ]
-        }
-      },
-      "poker1/hua_xiao": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 34
-            }
-          ]
-        }
-      },
-      "poker1/hua_da": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 60
-            }
-          ]
-        }
-      },
-      "poker1/beimian": {
-        "props": {
-          "width": [
+          ],
+          "skewY": [
             {
               "frame": 0.3333333333333333,
-              "value": 161
+              "value": 0
             },
             {
               "frame": 0.5,
+              "value": 20
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 0
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0,
               "value": 0
             },
             {
-              "frame": 0.5833333333333334,
-              "value": 161
+              "frame": 0.25,
+              "value": 20
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": 20
+            },
+            {
+              "frame": 1.1666666666666667,
+              "value": 0
             }
           ],
           "active": [
@@ -281,64 +171,8 @@
           ]
         }
       },
-      "poker2/num": {
+      "card0/pic1": {
         "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 36
-            }
-          ]
-        }
-      },
-      "poker2/hua_xiao": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 34
-            }
-          ]
-        }
-      },
-      "poker2/hua_da": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.5333333333333333,
-              "value": 0
-            },
-            {
-              "frame": 0.7,
-              "value": 63
-            }
-          ]
-        }
-      },
-      "poker2/beimian": {
-        "props": {
-          "width": [
-            {
-              "frame": 0.3333333333333333,
-              "value": 161
-            },
-            {
-              "frame": 0.5,
-              "value": 0
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 161
-            }
-          ],
           "active": [
             {
               "frame": 0,
@@ -346,7 +180,115 @@
             },
             {
               "frame": 0.5,
-              "value": false
+              "value": true
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0.8333333333333334,
+              "value": -20
+            },
+            {
+              "frame": 1.1666666666666667,
+              "value": 0
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0.5,
+              "value": 20
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 0
+            }
+          ],
+          "width": [
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 164
+            }
+          ]
+        }
+      },
+      "card1/pic1": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.5,
+              "value": true
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0.5,
+              "value": 20
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 0
+            }
+          ],
+          "width": [
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 164
+            }
+          ]
+        }
+      },
+      "card2/pic1": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.5,
+              "value": true
+            }
+          ],
+          "angle": [
+            {
+              "frame": 0.8333333333333334,
+              "value": 20
+            },
+            {
+              "frame": 1.1666666666666667,
+              "value": 0
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0.5,
+              "value": 20
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 0
+            }
+          ],
+          "width": [
+            {
+              "frame": 0.5,
+              "value": 0
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": 164
             }
           ]
         }

@@ -1046,9 +1046,11 @@ cc.Class({
                     if (cpt) {
                         cpt.sendPoker(commonData.pos); //发牌
                         if (player.userId == cc.dd.user.id) {
-                            if (!commonData.autoFlag)
-                                this.m_tPlayerList[commonData.pos].getComponent('new_dsz_player_ui').showWatchPokerDesc();
-                            else
+                            if (!commonData.autoFlag){
+                                setTimeout(function(){
+                                    this.m_tPlayerList[commonData.pos].getComponent('new_dsz_player_ui').showWatchPokerDesc();
+                                }.bind(this), 1500);
+                            }else
                                 this.m_tPlayerList[commonData.pos].getComponent('new_dsz_player_ui').showPlayerIsAuto(commonData.autoFlag, true);
                         } else
                             cpt.showWatchPokerDesc();
@@ -1902,26 +1904,13 @@ cc.Class({
      */
     onClickChat: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        var player = playerMgr.findPlayerByUserId(cc.dd.user.id);
-        if (player) {
-            if (deskData.getCurDeskState() == 3 || deskData.getCurDeskState() == 1) {
-                cc.dd.PromptBoxUtil.show('游戏尚未开始，不能聊天');
-                return;
-            }
-            if (player.getPlayerGameInfo() && player.getPlayerGameInfo().userState == config_state.UserStateWait) {
-                cc.dd.PromptBoxUtil.show('观战状态不能聊天');
-                return;
-            } else if (!player.getPlayerGameInfo() || player.getPlayerGameInfo() == null) {
-                cc.dd.PromptBoxUtil.show('游戏尚未开始，不能聊天');
-                return;
-            }
-        }
-        if (!this.chatAni) {
-            cc.find('chat', this.node).getComponent(cc.Animation).play('chat_in');
-            this.m_bShowChat = true;
-        }
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_chat");
     },
 
+    onClickEmoj(event, data){
+        hall_audio_mgr.com_btn_click();
+        cc.dd.UIMgr.openUI("blackjack_common/prefab/chat/blackjack_biaoqing");
+    },
     //快捷聊天
     onChatToggle: function (event, data) {
         if (data == 'text') {

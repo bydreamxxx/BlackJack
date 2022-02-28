@@ -444,22 +444,22 @@ var handler = {
                 tipsText = cc.dd.Text.TEXT_POPUP_17;
                 break;
             case 4:
-                tipsText = '房间人数已满';
+                tipsText = 'enter_coin_game_text_4';
                 break;
             case 5:
-                tipsText = '其他游戏中，不能加入游戏';
+                tipsText = 'enter_coin_game_text_5';
                 break;
             case 10:
-                tipsText = '已报名活动赛，退赛可参加其他游戏';
+                tipsText = 'enter_coin_game_text_10';
                 break;
             case 11:
-                tipsText = '加入游戏过于频繁，请等15秒钟后再尝试加入';
+                tipsText = 'enter_coin_game_text_11';
                 break;
             case 14:
-                tipsText = '游戏房间不存在';
+                tipsText = 'enter_coin_game_text_14';
                 break;
             case 12:
-                tipsText = '游戏座位已有玩家，不能加入游戏';
+                tipsText = 'enter_coin_game_text_12';
                 break;
             case 13:
                 tipsText = '该房间鱼潮进行中，请等待' + msg.arg + '秒后再尝试加入';

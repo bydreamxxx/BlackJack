@@ -44,22 +44,43 @@ cc.Class({
     onDestroy: function () {
         FriendED.removeObserver(this);
     },
+    // 好友列表
     requestFriendList() {
         var msg = new cc.pb.friend.msg_friend_list_req();
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_list_req, msg, "msg_friend_list_req", true);
     },
+    // 请求列表 
+    requestApplyList () {
+        var msg = new cc.pb.friend.msg_friend_apply_list_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_apply_list_req, msg, "msg_friend_apply_list_req", true);
+    },
+    // 离线消息
+    requestMessage() {
+        var msg = new cc.pb.friend.msg_friend_messages_list_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_messages_list_req, msg, "msg_friend_messages_list_req", true);
+    },
     initData() {
         FriendED.addObserver(this);
-        this.loadFriendInfo()
+        // this.loadFriendInfo()
         this.requestFriendList()
+        this.requestApplyList()
+        this.requestMessage()
     },
     // 加载朋友列表
-    loadFriendList() {
-        let friends = FriendData.getFriendList()
+    loadFriendList(searchText) {
+        let friends = []
+        if(searchText) {
+            friends = FriendData.getFriendList().filter((item=>{
+                return (item.name.indexOf(searchText)>=0 || item.uid===searchText)
+            }))
+        } else {
+            friends = JSON.parse(JSON.stringify(FriendData.getFriendList()))
+        }
+        
         let startIndex = 0
         if(this.friendItemList && this.friendItemList.length>0) {
             for(let i=0; i<this.friendItemList.length; i++) {
-                if( i > friends.length) {
+                if( i < friends.length) {
                     this.friendItemList[i].setData(friends[i], 1)
                     this.friendItemList[i].node.active = true
                 } else  {
@@ -91,6 +112,9 @@ cc.Class({
         if(data.uid !== this.selectedUid) {
             return
         }
+        if(!this.friendInfo) {
+            this.loadFriendInfo()
+        }
         this.friendInfo.setData(data,1);
     },
     // 加载聊天信息
@@ -109,6 +133,9 @@ cc.Class({
         this.friendInfoPanel.active = false
 
         this.selectedUid = uid
+        for(let i=0; i<this.friendItemList.length; i++) {
+            this.friendItemList[i].setSelected(this.friendItemList[i].uid===this.selectedUid)
+        }
         this.loadChatInfo()
     },
     // 打开信息界面
@@ -126,7 +153,12 @@ cc.Class({
         this.redPointLabel.string = '+'+count
         this.redPointNode.active = count > 0
     },
-
+    // 更新申请列表
+    updateApplyList() {
+        let list = FriendData.getApplyList()
+        let count = list&&list.length >= 0 ? list.length: 0
+        this.setRedCound(count)
+    },
     /**
      * 事件处理
      * @param event
@@ -155,6 +187,10 @@ cc.Class({
                 break;
             case FriendEvent.FRIEND_SEND_EMOJI:     //发送表情
                 this.sendEmoji(data)
+                break;
+            case FriendEvent.FRIEND_APPLY_LIST:
+                this.updateApplyList(data)
+                break
             default:
                 break;
         }
@@ -195,17 +231,21 @@ cc.Class({
         }
         this.chatScrollview.scrollToBottom(0.5)
     },
+    onSearchMyFriends() {
+        let searchText = this.searchInputText.string
+        this.loadFriendList(searchText)
+    },
     // 打开搜索
     onOpenSearch() {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_ADD_FRIEND,  (prefab)=> {
-            prefab.getComponent('AddFriend').showUI(this.searchInputText.string);
-        });
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_ADD_FRIEND);
     },
     // 打开请求列表
     onOpenReqestList() {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_FRIEND_REQUEST);
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_FRIEND_REQUEST, (prefab)=>{
+            prefab.getComponent('FriendRequestList').showUI();
+        });
     },
     // 关闭
     onClose() {
@@ -219,16 +259,16 @@ cc.Class({
         // msg.id = this.id;
         msg.msg = this.chatMsgEdit.string;
         msg.time = Date.now();
-        msg.toUserId = this.uid;
+        msg.toUserId = this.selectedUid;
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_chat_friend_req, msg, "msg_chat_friend_req", true);
 
-        FriendData.addChatMsg(this.uid, msg)
+        FriendData.addChatMsg(this.selectedUid, msg)
     },
     // 表情
     onOpenEmoji() {
         hall_audio_mgr.com_btn_click();
-        this.emojiPanel.active = true
-        // cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_CHAT_EMOJI);
+        // this.emojiPanel.active = true
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_CHAT_EMOJI);
     },
     // 发生表情
     sendEmoji(data) {
@@ -237,10 +277,10 @@ cc.Class({
         msg.id = parseInt(data);
         // msg.msg = data.toString();
         msg.time = Date.now();
-        msg.toUserId = this.uid;
+        msg.toUserId = this.selectedUid;
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_chat_friend_req, msg, "msg_chat_friend_req", true);
 
-        FriendData.addChatMsg(this.uid, msg)
+        FriendData.addChatMsg(this.selectedUid, msg)
     },
     onEnable() {
         FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, 0);

@@ -11,7 +11,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        this.show_text = cc.find("LanguageLabel",this.node).getComponent(cc.Label);
+        this.show_text = cc.find("label",this.node).getComponent("LanguageLabel");
     },
 
     setData: function (data, callback) {

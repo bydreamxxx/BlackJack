@@ -200,6 +200,7 @@ const GateNet = cc.Class({
         this.handle_recvfunc_list.push(require('c_msg_rummy_func'))
         this.handle_recvfunc_list.push(require('c_msg_race_func'))
         this.handle_recvfunc_list.push(require('c_msg_teenpatti_func'))
+        this.handle_recvfunc_list.push(require('c_msg_friend_func'))
     },
 
     getHandlerFunc: function (id) {

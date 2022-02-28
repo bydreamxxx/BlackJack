@@ -14,8 +14,8 @@ cc.Class({
     // 关闭
     onClose() {
         hall_audio_mgr.com_btn_click();
-        // cc.dd.UIMgr.destroyUI(this.node);
-        this.node.active = false
+        cc.dd.UIMgr.destroyUI(this.node);
+        // this.node.active = false
     },
 
     onClickEmoji(event, data) {
@@ -30,9 +30,9 @@ cc.Class({
     onEventMessage: function (event, data) {
         cc.dd.NetWaitUtil.close();
         switch (event) {
-            case FriendEvent.FRIEND_SEARCH_RESULT: // 朋友搜索结果
-                this.loadSearchedList(data);
-                break;
+            // case FriendEvent.FRIEND_SEARCH_RESULT: // 朋友搜索结果
+            //     this.loadSearchedList(data);
+            //     break;
             default:
                 break;
         }

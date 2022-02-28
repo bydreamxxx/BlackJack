@@ -3,6 +3,7 @@ var hall_prefab = require('hall_prefab_cfg');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var hallData = require('hall_common_data').HallCommonData;
 var AppCfg = require('AppConfig');
+var item_cfg = require('item');
 
 const Hall = require('jlmj_halldata');
 var dd = cc.dd;
@@ -179,6 +180,15 @@ cc.Class({
         }
     },
 
+    removeItemById(mailId) {
+        for(let i=0; i<this.content_node.children.length; i++) {
+            var scp = this.content_node.children[i].getComponent('BlakJack_Hall_Mail_Item');
+            if(scp.mailId === mailId) {
+                scp.node.active = false
+            }
+        }
+    },
+
     showReward(data) {
         this.rewardShowing = true;
         this.scheduleOnce(function () {
@@ -244,7 +254,7 @@ cc.Class({
                 if(config){
                     desc = config.memo;
                 }
-                cc.find('dec', item).getComponent(cc.Label).string = desc;
+                // cc.find('dec', item).getComponent(cc.Label).string = desc;
                 item.active = true;
             }
         }

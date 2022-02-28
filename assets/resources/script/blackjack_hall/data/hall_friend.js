@@ -14,6 +14,7 @@ var FriendEvent = cc.Enum({
     FRIEND_CHAT_UPDATE: 'friend_chat_update',
     FRIEND_HALL_RED_POINT: 'friend_hall_red_point',
     FRIEND_SEND_EMOJI: 'friend_send_emoji',
+    FRIEND_APPLY_LIST: 'friend_apply_list',
 });
 
 // 聊天记录长度
@@ -41,6 +42,10 @@ var FriendData = cc.Class({
     properties: {
         // 朋友列表
         _friendList: [],
+        // 申请列表
+        _applyList: [],
+        // 搜索列表
+        _searchList: [],
         // 朋友详情
         _friendDetail: null,
         //聊天记录
@@ -78,19 +83,67 @@ var FriendData = cc.Class({
     // 初始化朋友信息
     initFriendList: function(data)  {
         this._friendList.splice(0, this._friendList.length);
-        data.friendInfo2.forEach( (item)=> {
+        data.listList.forEach( (item)=> {
             this._friendList.push(item)
         });
         FriendED.notifyEvent(FriendEvent.FRIEND_REFRESH, null);
     },
+    // 申请列表
+    setApplyList: function(data) {
+        this.hallRedCount = this.hallRedCount - this._applyList.length
+        if(this.hallRedCount < 0) {
+            this.hallRedCount = 0
+        }
+        this._applyList.splice(0, this._applyList.length);
+        data.listList.forEach( (item)=> {
+            this._applyList.push(item.info)
+        });
+        this.hallRedCount = this.hallRedCount + this._applyList.length
+        FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, this.hallRedCount);
+
+        FriendED.notifyEvent(FriendEvent.FRIEND_APPLY_LIST, null);
+    },
+    // 好友请求
+    beAddFriend: function(data) {
+        let index = this._applyList.indexOf(item=>{
+            return item.friendId === data.info.info.uid
+        })
+        if(index < 0) {
+            this.hallRedCount = this.hallRedCount+1
+            this._applyList.push(data.info.info)
+        }
+        // 未打开界面，红点提示
+        let friendUI = cc.dd.UIMgr.getUI(hall_prefab.BJ_HALL_FRIEND)
+        if(!friendUI) {
+            // this.hallRedCount = this.hallRedCount+1
+            FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, this.hallRedCount);
+        }
+        FriendED.notifyEvent(FriendEvent.FRIEND_APPLY_LIST, null);
+    },
+    // 移除申请列表
+    removeReplyFriend: function(uid) {
+        let index = this._applyList.findIndex((item)=>{
+            return item.uid === uid
+            // return item.friendId ===  uid
+        })
+        if(index>=0) {
+            this._applyList.splice(index, 1)
+            this.hallRedCount = this.hallRedCount - 1
+        }
+        FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, this.hallRedCount);
+    },
     // 朋友详情
     setFriendDetail: function(data)  {
-        this._friendDetail = data
+        this._friendDetail = data.detail
         FriendED.notifyEvent(FriendEvent.FRIEND_DETAIL, data);
     },
     // 查找结果
     setSearched:function(data)  {
-        FriendED.notifyEvent(FriendEvent.FRIEND_SEARCH_RESULT, data);
+        this._searchList.splice(0, this._searchList.length);
+        data.listList.forEach( (item)=> {
+            this._searchList.push(item)
+        });
+        FriendED.notifyEvent(FriendEvent.FRIEND_SEARCH_RESULT, data.listList);
     },
     // 添加好友
     onAddFriendItem(data) {
@@ -130,11 +183,25 @@ var FriendData = cc.Class({
     getFriendList() {
         return this._friendList
     },
+    // 获取申请列表
+    getApplyList() {
+        return this._applyList
+    },
     // 获取简要信息
     getFriendBriefInfo(uid) {
         for(let i=0; i<this._friendList.length;  i++) {
             if(this._friendList[i].uid===uid) {
                 return this._friendList[i]
+            }
+        }
+        for(let i=0; i<this._applyList.length;  i++) {
+            if(this._applyList[i].uid===uid) {
+                return this._applyList[i]
+            }
+        }
+        for(let i=0; i<this._searchList.length;  i++) {
+            if(this._searchList[i].uid===uid) {
+                return this._searchList[i]
             }
         }
     }

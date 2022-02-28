@@ -24,11 +24,16 @@ cc.Class({
 
     // 加载请求列表
     loadRequestList() {
-        for(let i=0; i<10; i++) {
+        this.friendListContent.removeAllChildren()
+        let datas = FriendData.getApplyList()
+        this.friendItemList = []
+        for(let i=0; i<datas.length; i++) {
             let node = cc.instantiate(this.friendItemPrefab);
             let friendItem = node.getComponent("FriendItem");
-            friendItem.setData(null, 2);
+            friendItem.setData(datas[i], 2);
             node.parent = this.friendListContent
+
+            this.friendItemList.push(friendItem)
         }
     },
     // 加载朋友信息
@@ -36,6 +41,7 @@ cc.Class({
         let node = cc.instantiate(this.friendInfoPrefab);
         this.friendInfo = node.getComponent("FriendInfo");
         node.parent = this.friendInfoPanel
+        this.friendInfoPanel.active = false
     },
     setFriendInfo(data){
         if(data.uid !== this.selectedUid) {
@@ -46,6 +52,14 @@ cc.Class({
     // 打开信息界面
     openInfo(id) {
         this.selectedUid  = id
+        let datas = FriendData.getApplyList()
+        for(let i=0; i<datas.length; i++) {
+            this.friendItemList[i].setSelected(datas[i].uid===this.selectedUid)
+        }
+        this.friendInfoPanel.active = !!this.selectedUid
+    },
+    showUI() {
+        this.loadRequestList()
     },
     /**
      * 事件处理
@@ -61,6 +75,9 @@ cc.Class({
             case FriendEvent.FRIEND_DETAIL: //更新朋友详细信息
                 this.setFriendInfo(data)
                 break;
+            case FriendEvent.FRIEND_APPLY_LIST:
+                this.loadRequestList()
+                break
             default:
                 break;
         }
@@ -69,7 +86,6 @@ cc.Class({
 
     onLoad () {
         FriendED.addObserver(this);
-        this.loadRequestList()
         this.loadFriendInfo()
     },
 

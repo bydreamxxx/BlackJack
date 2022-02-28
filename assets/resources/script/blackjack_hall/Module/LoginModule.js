@@ -757,7 +757,7 @@ var jlmj_login_module = cc.Class({
                 break;
             case cc.dd.NetEvent.KICK_BY_SERVER:
                 dd.DialogBoxUtil.clear();
-                const LogoutCodeStr = ['', cc.dd.Text.TEXT_NET_1, cc.dd.Text.TEXT_NET_2, cc.dd.Text.TEXT_NET_3,
+                const LogoutCodeStr = [cc.dd.Text.TEXT_NET_1, cc.dd.Text.TEXT_NET_1, cc.dd.Text.TEXT_NET_2, cc.dd.Text.TEXT_NET_3,
                     cc.dd.Text.TEXT_NET_4, cc.dd.Text.TEXT_NET_5, cc.dd.Text.TEXT_NET_6, cc.dd.Text.TEXT_NET_7,
                     cc.dd.Text.TEXT_NET_8, cc.dd.Text.TEXT_NET_9, cc.dd.Text.TEXT_NET_10, cc.dd.Text.TEXT_NET_11
                 ];

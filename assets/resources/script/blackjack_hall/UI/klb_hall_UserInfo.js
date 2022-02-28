@@ -24,6 +24,7 @@ var login_module = require('LoginModule');
 var game_channel_cfg = require('game_channel');
 const HallSendMsgCenter = require('HallSendMsgCenter');
 const FriendEvent = require('hall_friend').FriendEvent;
+const FriendED = require('hall_friend').FriendED;
 
 let userInfo = cc.Class({
     extends: uiEvent,
@@ -74,6 +75,7 @@ let userInfo = cc.Class({
         Hall.HallED.addObserver(this);
         HallCommonEd.addObserver(this);
         shopEd.addObserver(this);
+        FriendED.addObserver(this);
         if (this.welfareFlag) {
             this.welfareFlag.active = !cc.dd._welfareFlag;
         }
@@ -98,14 +100,13 @@ let userInfo = cc.Class({
         if (spreadActive && Hall.HallData.Instance().activitySpread) {
             spreadActive.active = Hall.HallData.Instance().activitySpread.state == 1
         }
-
-
     },
 
     onDestroy: function () {
         Hall.HallED.removeObserver(this);
         HallCommonEd.removeObserver(this);
         shopEd.removeObserver(this);
+        FriendED.removeObserver(this);
     },
     setData: function (userInfo, useShortName) {
         this.useShortName = useShortName;
@@ -258,6 +259,19 @@ let userInfo = cc.Class({
         this.updateChargeFlag();
         this.updateFalg();
         this.updateFirstBuy();
+        this.requestApplyList()
+        this.requestMessage()
+    },
+
+    // 好友请求列表 
+    requestApplyList () {
+        var msg = new cc.pb.friend.msg_friend_apply_list_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_apply_list_req, msg, "msg_friend_apply_list_req", true);
+    },
+    // 好友离线消息
+    requestMessage() {
+        var msg = new cc.pb.friend.msg_friend_messages_list_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_messages_list_req, msg, "msg_friend_messages_list_req", true);
     },
 
     updateChargeFlag: function () {
@@ -505,6 +519,7 @@ let userInfo = cc.Class({
         /************************游戏统计 start************************/
         // cc.dd.Utils.sendClientAction(cc.dd.clientAction.HALL, cc.dd.clientAction.T_HALL.RECORD);
         /************************游戏统计   end************************/
+        // cc.dd.NetWaitUtil.net_wait_start('resourceloading', 'onFriendLoaded');
         cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_FRIEND, function (ui) {
             // ui.getComponent('BlackJack_Hall_Friend').showChat;
         });

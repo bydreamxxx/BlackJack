@@ -3,6 +3,7 @@ var hall_prefab = require('hall_prefab_cfg');
 var FriendData = require('hall_friend').FriendData.Instance();
 var FriendED = require('hall_friend').FriendED;
 var FriendEvent = require('hall_friend').FriendEvent;
+let hall_common_data = require('hall_common_data').HallCommonData.getInstance();
 
 cc.Class({
     extends: cc.Component,
@@ -15,12 +16,12 @@ cc.Class({
         friendListContent: cc.Node,
 
         localLabel: require('LanguageLabel'),
+        myIdLabel: require('LanguageLabel'),
     },
 
     // 加载搜索结果列表
     loadSearchedList(friendList) {
         this.friendListContent.removeAllChildren()
-
         for(let i=0; i<friendList.length; i++) {
             let node = cc.instantiate(this.friendItemPrefab);
             let friendItem = node.getComponent("FriendItem");
@@ -40,7 +41,11 @@ cc.Class({
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_lookup_friend_req, msg, "msg_lookup_friend_req", true);
     },
 
-    showUI(searchText) {
+    onSearchPlayer() {
+        let searchText = this.searchInputText.string
+        if(!searchText) {
+            return
+        }
         this.requestSearch(searchText)
     },
     // 地理位置搜索
@@ -58,7 +63,15 @@ cc.Class({
     },
     //  普通邀请
     onInvite() {
+        hall_audio_mgr.com_btn_click();
 
+        if (cc.sys.OS_ANDROID == cc.sys.os || cc.sys.OS_IOS == cc.sys.os) {
+            let str = LanguageMgr.getText('invitefrinedtext')
+                .replace('{0}', 'blackjack')
+                .replace('{1}', cc.dd.user.id)
+            cc.dd.native_systool.SetClipBoardContent(str);
+            cc.dd.PromptBoxUtil.show('copysucceed');
+        }
     },
     /**
      * 事件处理
@@ -80,6 +93,8 @@ cc.Class({
 
     onLoad () {
         FriendED.addObserver(this);
+        this.myIdLabel.setText('myid', '', '', cc.dd.user.id)
+        this.localLabel.setText(hall_common_data.city)
     },
 
     start () {

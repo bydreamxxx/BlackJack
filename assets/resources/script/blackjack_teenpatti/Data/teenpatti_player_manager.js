@@ -51,9 +51,11 @@ var Teenpatti_PlayerData = cc.Class({
 
     //设置玩家的poker数据
     setPlayerPokers: function (pokers) {
-        this.dszPlayerInfo.pokers = pokers;
-        this.dszPlayerInfo.pokersState = 1;
-        Teenpatti_PlayerED.notifyEvent(Teenpatti_PlayerEvent.TEENPATTI_PLAYER_WATCH_POKER, this.userId);
+        if(this.dszPlayerInfo){
+            this.dszPlayerInfo.pokers = pokers;
+            this.dszPlayerInfo.pokersState = 1;
+            Teenpatti_PlayerED.notifyEvent(Teenpatti_PlayerEvent.TEENPATTI_PLAYER_WATCH_POKER, this.userId);
+        }
     },
 
     setPlayerRecordPokers: function (pokers) {

@@ -490,10 +490,10 @@ cc.Class({
             for(var i = 0; i < this.typeName.length; i++){
                 var linetype = cc.dd.Utils.seekNodeByName(this.m_oDescBg, "type" + i);
                 if(linetype){
-                    linetype.active = i <= typeIndex ? true : false;
+                    linetype.active = i == typeIndex ? true : false;
                 }
             }
-        }.bind(this), 1000);
+        }.bind(this), 1500);
     },
 
     //盖牌
@@ -561,11 +561,12 @@ cc.Class({
             beimian.active = false
         var pic = cc.dd.Utils.seekNodeByName(node, 'pic1');
         if(pic){
-            var color_ = Math.ceil(cardValue / 100);
+            var color_ = Math.floor(cardValue / 100);
             var value_ = cardValue % 100
             if(value_ == 14)
                 value_ = 1
             pic.getComponent(cc.Sprite).spriteFrame = this.pokerAtlas.getSpriteFrame(value_ * 10 + color_)
+            pic.active = true;
         }
     },
 
@@ -587,14 +588,14 @@ cc.Class({
 
     //操作文字
     doSpeak: function (text, state) {
-        this.m_oDuanyuNode.active = true;
-        var ani = this.m_oDuanyuNode.getComponent(cc.Animation);
-        ani.play();
-        this.m_oDuanyuTxt.string = text;
-        if (state == config_data.UserStateTry)
-            this.m_oDuanyuTxt.fontSize = 20;
-        else
-            this.m_oDuanyuTxt.fontSize = 28;
+        // this.m_oDuanyuNode.active = true;
+        // var ani = this.m_oDuanyuNode.getComponent(cc.Animation);
+        // ani.play();
+        // this.m_oDuanyuTxt.string = text;
+        // if (state == config_data.UserStateTry)
+        //     this.m_oDuanyuTxt.fontSize = 20;
+        // else
+        //     this.m_oDuanyuTxt.fontSize = 28;
     },
 
     /**
@@ -680,8 +681,6 @@ cc.Class({
             var node = cc.dd.Utils.seekNodeByName(this.node, "card" + i);
             node.getChildByName('dipai_1').active = true;
             node.getChildByName('dipai_1').getChildByName('beimian').active = true;
-
-            node.getChildByName('pic1').active = false;
         }
         if (this.m_oWatchBtn)
             this.m_oWatchBtn.interactable = false;

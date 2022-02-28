@@ -15,16 +15,17 @@ cc.Class({
         nameLabel: cc.Label,
         uidLabel: cc.Label,
         vipState: cc.Node,
+        vipLevel: cc.Label,
 
-        loginTimeLabel: cc.Label,
-        inGameLabel: cc.Label,
+        loginTimeLabel: require('LanguageLabel'),
+        inGameLabel: require('LanguageLabel'),
         inHallLabel: cc.Label,
         followBtn: cc.Node,
 
         gameNumLabel: cc.Label,
         bigWinLabel: cc.Label,
         joinTimeLabel: cc.Label,
-        addRessLabel: cc.Label,
+        addRessLabel: require('LanguageLabel'),
 
         signaLabel: cc.Label,
 
@@ -48,43 +49,61 @@ cc.Class({
         this.callRequestNode.active = type===3    //请求添加
 
         this.uid = data.uid
-        this.coinLabel.string = cc.dd.Utils.getNumToWordTransform(data.coin)
-        this.headIcon.initHead (0, data.head)
-        this.nameLabel.string = cc.dd.Utils.subChineseStr(data.name, 0, 10);
-        this.uidLabel.string = data.uid
-        this.vipState.active = true
 
-        this.loginTimeLabel.node.active = data.inGameType === -1
-        this.inHallLabel.node.active = data.inGameType === 0
-        this.inGameLabel.node.active = data.inGameType > 0
+        let userBriefData = FriendData.getFriendBriefInfo(this.uid)
+        if(userBriefData) {
+            this.headIcon.initHead (0, userBriefData.head)
+            this.nameLabel.string = cc.dd.Utils.subChineseStr(userBriefData.name, 0, 10);
+            // this.gameStateInHall.active = data.curStatus===0
+            // this.gameStateOffline.active = data.curStatus===-1
+            // this.gameStateGaming.active = data.curStatus===1
+            this.loginTimeLabel.node.active = userBriefData.curStatus===-1
+            this.inHallLabel.node.active = userBriefData.curStatus===0
+            this.inGameLabel.node.active = userBriefData.curStatus > 0
+            this.vipState.active = userBriefData.vipLevel > 0
+            this.vipLevel.string = userBriefData.vipLevel
+        }
+        if(data.remarks) {
+            this.nameLabel.string = cc.dd.Utils.subChineseStr(data.remarks, 0, 10);
+        }
+        // this.headIcon.initHead (0, data.head)
+        // this.nameLabel.string = cc.dd.Utils.subChineseStr(data.name, 0, 10);
+        this.coinLabel.string = cc.dd.Utils.getNumToWordTransform(data.coin)
+        this.uidLabel.string = data.uid
+
         this.followBtn.active = data.inGameType > 0
-        // this.loginTimeLabel.string = data.firstPlayTime
+        this.loginTimeLabel.setText('lastlogintime', '', '', cc.dd.Utils.timestampToTime(data.lastLoginTime, 'YYYY/mm/dd'))
         let inGameCfg = game_type.getItem((_item) => {
             return _item.key === data.inGameType;
         })
         if(inGameCfg){
-            this.inGameLabel.string = inGameCfg.name
+            this.inGameLabel.setText('ingaming', inGameCfg.name)
         }
         
-        // this.gameNumLabel.string = cc.dd.Utils.getNumToWordTransform(data.coin)
+        
         this.bigWinLabel.string = cc.dd.Utils.getNumToWordTransform(data.luckiestWins)
-        // this.joinTimeLabel.string = data.firstPlayTime
-        // this.addRessLabel.string = data.ip
+        this.joinTimeLabel.string = cc.dd.Utils.timestampToTime(data.firstPlayTime, 'YYYY/mm/dd')
+        this.addRessLabel.setText(data.city)
+        let gameNums = 0
+        for(let i=0; i<data.gamesList.length; i++) {
+            gameNums += data.gamesList[i].playedTimes
+        }
+        this.gameNumLabel.string = cc.dd.Utils.getNumToWordTransform(gameNums)
 
-        this.signaLabel.string = data.sign
+        this.signaLabel.string = data.mood
 
-        this.loadTrophy(data.chapsList)
+        this.loadTrophy(data.champsList)
         
     },
 
     //  加载奖杯 
-    loadTrophy(chapsList) {
+    loadTrophy(champsList) {
         this.trophyListContent.removeAllChildren()
-        for(let i=0; i<chapsList.length; i++){
+        for(let i=0; i<champsList.length; i++){
             let node = cc.instantiate(this.trophyItem);
             node.active =  true
             node.parent = this.trophyListContent
-            node.getComponent('LanguageLabel').setText(chapsList[i].name)
+            node.getComponent('LanguageLabel').setText(champsList[i].name)
         }
     },
 
@@ -105,7 +124,7 @@ cc.Class({
     onGiftCoin()  {
         cc.dd.DialogInputUtil.show('giftcoins', 'friend_text11', 'OK', (text)=>{
             let count = parseInt(text)
-            if(!isNaN(count)) {
+            if(isNaN(count)) {
                 cc.dd.PromptBoxUtil.show('friend_text12');
                 return
             }
@@ -117,7 +136,7 @@ cc.Class({
     },
     // 删除好友
     onDel() {
-        cc.dd.DialogBoxUtil.show(1, "friend_text13", "text30", "Cancel",()=>{
+        cc.dd.DialogBoxUtil.show(1, "friend_text13", "confirm", "Cancel",()=>{
             var msg = new cc.pb.friend.msg_del_friend_req();
             msg.friendId = this.uid
             cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_del_friend_req, msg, "msg_del_friend_req", true);
@@ -130,17 +149,18 @@ cc.Class({
     },
     // 修改备注
     onChangeRemark() {
-        cc.dd.DialogInputUtil.show('changeremarktitle', 'changeremark', 'OK', (count)=>{
-            // var msg = new cc.pb.friend.msg_send_friend_coin_req();
-            // msg.friendId = this.uid
-            // msg.coin = count
-            // cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_send_friend_coin_req, msg, "msg_send_friend_coin_req", true);
+        cc.dd.DialogInputUtil.show('changeremarktitle', 'changeremark', 'OK', (remarks)=>{
+            var msg = new cc.pb.friend.msg_friend_set_remarks_req();
+            msg.friendId = this.uid
+            msg.remarks = remarks
+            cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_set_remarks_req, msg, "msg_friend_set_remarks_req", true);
         })
     },
     //  请求添加
     onRequestFriend(){
         var msg = new cc.pb.friend.msg_add_friend_req();
         msg.friendId = this.uid
+        msg.captcha = this.callMessageEdit.string
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_add_friend_req, msg, "msg_add_friend_req", true);
     },
     // LIFE-CYCLE CALLBACKS:
