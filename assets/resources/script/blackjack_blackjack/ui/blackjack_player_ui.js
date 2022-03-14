@@ -1,5 +1,6 @@
 const BlackJackPlayerED = require("BlackJackPlayerData").BlackJackPlayerED;
 const BlackJackPlayerEvent = require("BlackJackPlayerData").BlackJackPlayerEvent;
+const BlackJackData = require("BlackJackData").BlackJackData.Instance();
 
 let blackjack_player_ui = cc.Class({
     extends: cc.Component,
@@ -212,6 +213,7 @@ let blackjack_player_ui = cc.Class({
             this.cardNodeList[1] = node.getComponent("blackjack_cardNode");
             node.getComponent("blackjack_cardNode").init(second, this.viewIdx == 3 || this.viewIdx == 4, this.isbanker, this.viewIdx == 0);
             node.getComponent("blackjack_cardNode").setSecondPos();
+            node.getComponent("blackjack_cardNode").hideChoose(BlackJackData.actionPlayer === this.playerData.userId);
 
             cc.gateNet.Instance().clearDispatchTimeout();
         }else{
@@ -267,16 +269,16 @@ let blackjack_player_ui = cc.Class({
         this.betIndex = index;
         this.cardNodeList.forEach(cardNode=>{
             if(cardNode.index == index){
-                cardNode.showChoose();
+                cardNode.showChoose(BlackJackData.actionPlayer === this.playerData.userId);
             }else{
-                cardNode.hideChoose();
+                cardNode.hideChoose(BlackJackData.actionPlayer === this.playerData.userId);
             }
         })
     },
 
     closeSplit(){
         this.cardNodeList.forEach(cardNode=>{
-            cardNode.hideChoose();
+            cardNode.hideChoose(BlackJackData.actionPlayer === this.playerData.userId);
         })
     },
 

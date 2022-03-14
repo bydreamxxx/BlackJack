@@ -1209,6 +1209,7 @@ let msg_enter_coin_game_req = cc.Class({
         let content = {};
         content.gameType = this.gameType;
         content.roomId = this.roomId;
+        content.roomIdReal = this.roomIdReal;
         content.ip = this.ip;
         content.rate = this.rate;
         content.seat = this.seat;
@@ -1222,6 +1223,9 @@ let msg_enter_coin_game_req = cc.Class({
     },
     setRoomId(roomId){
         this.roomId = roomId;
+    },
+    setRoomIdReal(roomIdReal){
+        this.roomIdReal = roomIdReal;
     },
     setIp(ip){
         this.ip = ip;

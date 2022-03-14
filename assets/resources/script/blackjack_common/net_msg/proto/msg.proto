@@ -2549,12 +2549,14 @@ message friend_info2 {
 	required	string 		head			= 3;
 	optional 	int32  		sex            	= 4;
 	optional	int32 		cur_status 		= 5;				// -1:离线 0:大厅 1:游戏中
+	optional 	int64  		coin            = 6;
+	optional 	int32  		vip_level       = 7;
 }
 
 message friend_apply_info {
-	required		uint32 		friend_id 		= 1;		// 
-	required		string 		friend_name 	= 2;		// 
-	required		int32 		add_time 		= 3;		// 添加时间
+	required 		friend_info2	info			= 1;
+	required		int32 			add_time 		= 2;		// 添加时间
+	optional		string 			captcha 		= 3;		// 验证码
 }
 
 message friend_message_info {
@@ -2585,8 +2587,12 @@ message friend_detail_info {
 	optional	int32		in_room_id 		= 8;				// 当前所在游戏房间
 	optional	string 		ip 				= 9;
 	optional	string 		mood 			= 10;				// 心情
-	repeated	friend_game_info	 games 	= 11;
-	repeated	friend_champion_info champs	= 12;
+	optional	int32 		last_login_time	= 11;				// 上次登录时间
+	optional	string		remarks			= 12;				// 备注
+	optional	string		city 			= 13;				// 
+	repeated	friend_game_info	 games 	= 14;				// 
+	repeated	friend_champion_info champs	= 15;
+	
 }
 
 message msg_friend_list_req {
@@ -2628,6 +2634,7 @@ message msg_lookup_friend_ret {
 
 message msg_add_friend_req {
 	required		uint32 			friend_id = 1;
+	optional		string 			captcha = 2;		// 验证码
 }
 
 message msg_add_friend_ret {
@@ -2706,6 +2713,23 @@ message msg_friend_modify_mood_req {
 
 message msg_friend_modify_mood_ret {
 	required		int32 				code 	= 1;			// 0:成功
+}
+
+message msg_friend_set_remarks_req {
+	required	uint32		friend_id 	= 1;
+	required	string 		remarks 	= 2;
+}
+
+
+message msg_friend_set_remarks_ret {
+	required		int32 				code 	= 1;			// 0:成功 	1.不是好友  2.修改太频繁
+}
+
+message msg_similar_friend_req {
+}
+
+message msg_similar_friend_ret {
+	repeated	friend_info2		list = 1;
 }
 
 //房间管理通用协议
@@ -3013,12 +3037,13 @@ message p16_ack_desk_rule{
 //金币场进入
 message msg_enter_coin_game_req{
 	optional int32           game_type     = 1;
-	optional int32           room_id       = 2;
-	optional string          ip            = 3;
-	optional int32           rate          = 4[default=0];
-	optional int32           seat          = 5;
-	optional int32           desk_id       = 6;
-	optional uint32			 look_player   = 7;
+	optional int32           room_id       = 2;  //房间类型， 1,2,3,4,5
+	optional int32           room_id_real  = 3[default=0]; //真实房间id
+	optional string          ip            = 4;
+	optional int32           rate          = 5[default=0];
+	optional int32           seat          = 6;
+	optional int32           desk_id       = 7;
+	optional uint32			 look_player   = 8;
 }
 
 //巷乐游戏规则

@@ -30,7 +30,7 @@ cc.Class({
         for(let i=0; i<datas.length; i++) {
             let node = cc.instantiate(this.friendItemPrefab);
             let friendItem = node.getComponent("FriendItem");
-            friendItem.setData(datas[i], 2);
+            friendItem.setData(datas[i].info, 2);
             node.parent = this.friendListContent
 
             this.friendItemList.push(friendItem)
@@ -54,7 +54,10 @@ cc.Class({
         this.selectedUid  = id
         let datas = FriendData.getApplyList()
         for(let i=0; i<datas.length; i++) {
-            this.friendItemList[i].setSelected(datas[i].uid===this.selectedUid)
+            this.friendItemList[i].setSelected(datas[i].info.uid===this.selectedUid)
+            if(datas[i].info.uid===this.selectedUid) {
+                this.friendInfo.setCaptcha(datas[i].captcha)
+            }
         }
         this.friendInfoPanel.active = !!this.selectedUid
     },

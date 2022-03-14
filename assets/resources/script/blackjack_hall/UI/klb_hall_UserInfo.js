@@ -259,10 +259,16 @@ let userInfo = cc.Class({
         this.updateChargeFlag();
         this.updateFalg();
         this.updateFirstBuy();
+        this.requestFriendList()
         this.requestApplyList()
         this.requestMessage()
     },
 
+    // 好友列表
+    requestFriendList() {
+        var msg = new cc.pb.friend.msg_friend_list_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_list_req, msg, "msg_friend_list_req", true);
+    },
     // 好友请求列表 
     requestApplyList () {
         var msg = new cc.pb.friend.msg_friend_apply_list_req();
@@ -871,6 +877,9 @@ let userInfo = cc.Class({
 
     // 设置好友红点
     setFriendRed(count){
+        if(!this.friendRedPointLabel) {
+            return
+        }
         this.friendRedPointLabel.string = '+'+count
         this.friendRedPointNode.active = count > 0
     },

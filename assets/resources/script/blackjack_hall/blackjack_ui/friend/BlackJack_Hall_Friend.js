@@ -11,13 +11,13 @@ cc.Class({
         searchInputText: cc.EditBox,
         searchNode: cc.Node,
 
-        friendItemPrefab: cc.Prefab,
+        // friendItemPrefab: cc.Prefab,
         // friendListNode: cc.Node,
         friendListContent: cc.Node,
 
         chatPanel: cc.Node,
         chatListContent: cc.Node,
-        chatItemPrefab: cc.Prefab,
+        // chatItemPrefab: cc.Prefab,
         chatScrollview: cc.ScrollView,
         emojiPanel: cc.Node,
 
@@ -61,7 +61,7 @@ cc.Class({
     },
     initData() {
         FriendED.addObserver(this);
-        // this.loadFriendInfo()
+        this.loadFriendInfo()
         this.requestFriendList()
         this.requestApplyList()
         this.requestMessage()
@@ -90,22 +90,29 @@ cc.Class({
             startIndex = this.friendItemList.length
         }
         
-        for(let i=startIndex; i<friends.length; i++) {
-            let node = cc.instantiate(this.friendItemPrefab);
-            let friendItem = node.getComponent("FriendItem");
-            friendItem.setData(friends[i], 1);
-            node.parent = this.friendListContent
-            if(!this.friendItemList) {
-                this.friendItemList = []
+        cc.dd.ResLoader.loadPrefab(hall_prefab.BJ_HALL_FRIEND_ITEM, prefab=>{
+            for(let i=startIndex; i<friends.length; i++) {
+                let node = cc.instantiate(prefab);
+                let friendItem = node.getComponent("FriendItem");
+                friendItem.setData(friends[i], 1);
+                node.parent = this.friendListContent
+                if(!this.friendItemList) {
+                    this.friendItemList = []
+                }
+                this.friendItemList.push(friendItem)
             }
-            this.friendItemList.push(friendItem)
-        }
+        })
+        
     },
     // 加载朋友信息
     loadFriendInfo() {
-        let node = cc.instantiate(this.friendInfoPrefab);
-        this.friendInfo = node.getComponent("FriendInfo");
-        node.parent = this.friendInfoPanel
+        cc.dd.ResLoader.loadPrefab(hall_prefab.BJ_HALL_FRIEND_INFO, prefab=>{
+            let node = cc.instantiate(prefab);
+            this.friendInfo = node.getComponent("FriendInfo");
+            node.parent = this.friendInfoPanel
+            this.friendInfoPanel.active = false
+        })
+        
     },
     //   设置朋友信息
     setFriendInfo(data){
@@ -129,19 +136,23 @@ cc.Class({
     },
     // 打开聊天界面
     openChat(uid) {
-        this.chatPanel.active = true
+        this.chatPanel.active = !!uid
         this.friendInfoPanel.active = false
 
         this.selectedUid = uid
         for(let i=0; i<this.friendItemList.length; i++) {
             this.friendItemList[i].setSelected(this.friendItemList[i].uid===this.selectedUid)
+            if(this.friendItemList[i].uid===this.selectedUid) {
+                this.friendItemList[i].setChatRedCound(0)
+            }
         }
+        this.friendInfo.setChatRedCound(0)
         this.loadChatInfo()
     },
     // 打开信息界面
     openInfo(uid) {
         this.chatPanel.active = false
-        this.friendInfoPanel.active = true
+        this.friendInfoPanel.active = !!uid
 
         this.selectedUid = uid
         for(let i=0; i<this.friendItemList.length; i++) {
@@ -149,7 +160,7 @@ cc.Class({
         }
     },
     // 设置红点
-    setRedCound(count) {
+    setApplyRedCound(count) {
         this.redPointLabel.string = '+'+count
         this.redPointNode.active = count > 0
     },
@@ -157,7 +168,7 @@ cc.Class({
     updateApplyList() {
         let list = FriendData.getApplyList()
         let count = list&&list.length >= 0 ? list.length: 0
-        this.setRedCound(count)
+        this.setApplyRedCound(count)
     },
     /**
      * 事件处理
@@ -203,8 +214,11 @@ cc.Class({
             for(let i=0; i<this.friendItemList.length; i++) { // 非聊天界面更新红点
                 // this.friendItemList[i].setSelected(this.friendItemList[i].uid===this.selectedUid)
                 if(this.friendItemList[i].uid === uid)  {
-                    this.friendItemList[i].addRedPoint()
+                    this.friendItemList[i].addChatRedPoint()
                 }
+            }
+            if(this.selectedUid === uid) {
+                this.friendInfo.updateChatRedCound()
             }
         }
     },
@@ -216,20 +230,30 @@ cc.Class({
             this.chatItemList=[]
         }
         chatItemLen = this.chatItemList.length
-        for(let i=chatItemLen; i<chatMsg.length; i++) {
-            let node = cc.instantiate(this.chatItemPrefab);
-            let uid = chatMsg[i].fromUserId ? chatMsg[i].fromUserId : chatMsg[i].toUserId
-            let userData = null
-            if(uid!==cc.dd.user.id) {
-                userData = FriendData.getFriendBriefInfo(uid)
-            }
-            let chatItem = node.getComponent("ChatItem");
-            chatItem.setData(chatMsg[i], userData);
-            node.parent = this.chatListContent
 
-            this.chatItemList.push(chatItem)
+        cc.dd.ResLoader.loadPrefab(hall_prefab.BJ_HALL_CHAT_ITEM, prefab=>{
+            for(let i=chatItemLen; i<chatMsg.length; i++) {
+                let node = cc.instantiate(prefab);
+                let uid = chatMsg[i].fromUserId ? chatMsg[i].fromUserId : chatMsg[i].toUserId
+                let userData = null
+                if(uid!==cc.dd.user.id) {
+                    userData = FriendData.getFriendBriefInfo(uid)
+                }
+                let chatItem = node.getComponent("ChatItem");
+                chatItem.setData(chatMsg[i], userData);
+                node.parent = this.chatListContent
+    
+                this.chatItemList.push(chatItem)
+            }
+            this.chatScrollview.scrollToBottom(0.5)
+        })
+
+        
+        //更新最后一条未读消息
+        if(chatMsg.length > 0) {
+            FriendData.saveUnreadChatTime(this.selectedUid, chatMsg[chatMsg.length-1].time)
         }
-        this.chatScrollview.scrollToBottom(0.5)
+        FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, FriendData.getHallRedCount());
     },
     onSearchMyFriends() {
         let searchText = this.searchInputText.string
@@ -263,6 +287,8 @@ cc.Class({
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_chat_friend_req, msg, "msg_chat_friend_req", true);
 
         FriendData.addChatMsg(this.selectedUid, msg)
+
+        this.chatMsgEdit.string = ''
     },
     // 表情
     onOpenEmoji() {
@@ -283,7 +309,7 @@ cc.Class({
         FriendData.addChatMsg(this.selectedUid, msg)
     },
     onEnable() {
-        FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, 0);
+        // FriendED.notifyEvent(FriendEvent.FRIEND_HALL_RED_POINT, 0);
     }
 
     // update (dt) {},

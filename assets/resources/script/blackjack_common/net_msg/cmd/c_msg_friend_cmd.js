@@ -31,6 +31,10 @@
         cmd_msg_friend_messages_list_ret :3428,
         cmd_msg_friend_modify_mood_req :3429,
         cmd_msg_friend_modify_mood_ret :3430,
+        cmd_msg_friend_set_remarks_req :3431,
+        cmd_msg_friend_set_remarks_ret :3432,
+        cmd_msg_similar_friend_req :3433,
+        cmd_msg_similar_friend_ret :3434,
 
     };
 

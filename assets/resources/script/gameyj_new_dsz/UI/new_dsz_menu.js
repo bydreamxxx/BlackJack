@@ -268,6 +268,11 @@ cc.Class({
     //是否启用按钮
     enabelAllBtn: function(enabled){
         this.setGenZhuNum(enabled);
+
+        var advanceBtn0 = cc.find(this.m_sPath +this.btnName[this.btnTag.jiazhu], this.node);
+        var addDesc = advanceBtn0.getChildByName('callBg');
+        addDesc.active = enabled;
+
         var foldBtn = cc.find(this.m_sPath +this.btnName[0], this.node);
         foldBtn.active = true;
         foldBtn.getComponent(cc.Button).interactable = true;
@@ -355,7 +360,7 @@ cc.Class({
     advanceBtnCallBack: function(event, data){
         hall_audio_mgr.com_btn_click();
 
-        var index = parseInt(this.curBetLevel) + 1;
+        var index = parseInt(deskData.getCurBetLevel());
         //获取下注档次数据
         var betLevelList = [];
         //获取自己的游戏数据

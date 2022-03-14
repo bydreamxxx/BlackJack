@@ -53,6 +53,7 @@ const HallCommonEvent = cc.Enum({
 
     LUCKY_STOP_TIMER: 'LUCKY_STOP_TIMER',            //红包暂停时间
     LUCKY_RESUME_TIMER: 'LUCKY_RESUME_TIMER',        //红包恢复时间
+    HALL_UPDATE_USERDATA: 'hall_update_userData',      // 更新用户信息
 });
 //玩家变量
 const PlayerVariantIndex = cc.Enum({
@@ -355,6 +356,11 @@ const HallCommonData = cc.Class({
         // } else {
         //     AudioChat.loginIm(imuserid, imtoken);
         // }
+    },
+
+    setUserData(data) {
+        this.userData = data
+        HallCommonEd.notifyEvent(HallCommonEvent.HALL_UPDATE_USERDATA);
     },
 
     isMemoryCard(gameid) {

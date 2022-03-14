@@ -14,9 +14,9 @@ cc.Class({
             var time = parseInt(cc.sys.localStorage.getItem( 'onlinetime' ));
             time += this.timer;
             if(time >= this.totalTimer){
-                if(!cc._chifengGame){
-                    cc.dd.PromptBoxUtil.show("您已经在线3小时了，请合理安排游戏时间!");
-                }
+                // if(!cc._chifengGame){
+                //     cc.dd.PromptBoxUtil.show("您已经在线3小时了，请合理安排游戏时间!");
+                // }
                 time = 0;
             }
             cc.sys.localStorage.setItem( 'onlinetime', time );

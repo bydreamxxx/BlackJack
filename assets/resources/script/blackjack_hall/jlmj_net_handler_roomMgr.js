@@ -464,6 +464,9 @@ var handler = {
             case 13:
                 tipsText = '该房间鱼潮进行中，请等待' + msg.arg + '秒后再尝试加入';
                 break;
+            default:
+                tipsText = 'enter_coin_game_text_15';
+                break;
         }
         cc.dd.DialogBoxUtil.show(0, tipsText, "OK", null, ()=>{
             if(cc.director.getScene().name !== AppConfig.HALL_NAME){

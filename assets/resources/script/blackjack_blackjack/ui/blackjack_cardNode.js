@@ -468,14 +468,32 @@ cc.Class({
             }
         })
         this.point.node.parent.active = point > 0 && cardShowNum >= 1;
+
+        if(!this.choose.active){
+            if(this.cardList[0] && this.cardList[0].mask.active){
+                this.cardList.forEach(card=>{
+                    card.showMask();
+                });
+            }
+        }
     },
 
-    showChoose(){
+    showChoose(hideMask){
         this.choose.active = true;
+        this.cardList.forEach(card=>{
+            card.hideMask();
+        });
     },
 
-    hideChoose(){
+    hideChoose(showMask){
         this.choose.active = false;
+        this.cardList.forEach(card=>{
+            if(showMask){
+                card.showMask();
+            }else{
+                card.hideMask();
+            }
+        });
     },
 
     fapai(startNode, func, isDouble){

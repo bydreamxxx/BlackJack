@@ -15,6 +15,7 @@ var handler = {
         }
     },
     on_msg_bj_action_change(msg) {
+        BlackJackData.actionPlayer = msg.userId;
         BlackJackED.notifyEvent(BlackJackEvent.PLAYER_TURN, msg);
     },
     on_msg_bj_state_change_2c(msg) {
@@ -79,8 +80,11 @@ var handler = {
             }
         }else{
             switch(msg.retCode){
-                case 3:
+                case 5:
                     cc.dd.PromptBoxUtil.show('coinenough');
+                    break;
+                default:
+                    cc.dd.PromptBoxUtil.show(`Error: ${msg.retCode}`);
                     break;
             }
         }

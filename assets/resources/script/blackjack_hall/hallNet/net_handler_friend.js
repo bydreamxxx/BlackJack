@@ -2,6 +2,7 @@
 var FriendData = require('hall_friend').FriendData.Instance();
 var FriendED = require('hall_friend').FriendED;
 var FriendEvent = require('hall_friend').FriendEvent;
+const hall_common_data = require('hall_common_data').HallCommonData;
  
 module.exports = {
     // 添加朋友成功
@@ -20,14 +21,18 @@ module.exports = {
     // 朋友详情
     on_msg_friend_detail_info_ret: function(msg) {
         if(msg.code===0){
-            FriendData.setFriendDetail(msg.detail)
+            if(msg.detail.uid===cc.dd.user.id) {
+                hall_common_data.getInstance().setUserData(msg.detail);
+            } else {
+                FriendData.setFriendDetail(msg.detail)
+            }
         } else if(msg.code===1){
             cc.dd.PromptBoxUtil.show('friend_text1');
         } 
     },
     // 查找朋友 
     on_msg_lookup_friend_ret: function(msg) {
-        FriendData.setSearched(msg)
+        FriendData.setSearched(msg, 0)
     },
     // 有好友请求
     on_msg_be_add_friend: function(msg) {
@@ -92,12 +97,16 @@ module.exports = {
     // 修改签名
     on_msg_friend_modify_mood_ret: function(msg) {
         if(msg.code===0){
-            cc.dd.PromptBoxUtil.show('friend_text12');
+            cc.dd.PromptBoxUtil.show('friend_text17');
+            
+            var msg = new cc.pb.friend.msg_friend_detail_info_req();
+            msg.friendId = cc.dd.user.id
+            cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_detail_info_req, msg, "msg_friend_detail_info_req", true);
         }
     },
     // 被好友删除
     on_msg_be_del_friend_ret: function(msg) {
-
+        FriendData.beDelFriend(msg)
     },
     // 修改好友备注返回
     on_msg_friend_set_remarks_ret: function(msg) {
@@ -108,6 +117,10 @@ module.exports = {
         } else if(msg.code===2){
             cc.dd.PromptBoxUtil.show('friend_text15');
         }
+    },
+    // 推荐好友返回
+    on_msg_similar_friend_ret: function(msg) {
+        FriendData.setSearched(msg, 1)
     }
  };
  

@@ -7,43 +7,20 @@ var hallData = require('hall_common_data').HallCommonData;
 var TaskED = require('hall_task').TaskED;
 var TaskEvent = require('hall_task').TaskEvent;
 var HallVip = require('hall_vip').VipData.Instance();
+let HallCommonEvent = require('hall_common_data').HallCommonEvent;
 
 cc.Class({
     extends: require('klb_hall_UserInfo'),
 
     properties: {
-        sexNodeArr: { default: [], type: [cc.Node], override: true, visible: false },  //性别
         fangKaTTF2: { default: null, type: cc.Label, override: true, visible: false },   //房卡
         gold: { default: null, type: cc.Label, override: true, visible: false },         //新钻石
         phoneTTF: { default: null, type: cc.Label, override: true, visible: false },     //手机号
         IDCardTTF: { default: null, type: cc.Label, override: true, visible: false },    //身份证号
-        isVipRoom: { default: false, override: true, visible: false },
-        bankChargeFlag: { default: null, type: cc.Node, override: true, visible: false },
-        bindIDCardBtn:  { default: null, type: cc.Button, override: true, visible: false },
 
-        idItemPrefab: { default: null, type: cc.Prefab, override: true, visible: false },
-        curPage: { default: 1, override: true, visible: false },//默认第二个标签
-
-        bagFlag: { default: null, type: cc.Node, override: true, visible: false }, //背包红点更新
-        welfareFlag: { default: null, type: cc.Node, override: true, visible: false },   //福袋红点
-
-        desc: { default: null, type: cc.Label, override: true, visible: false },
-        desc1: { default: null, type: cc.Label, override: true, visible: false },
-
-        firstBuySprite: { default: null, type: cc.Sprite, override: true, visible: false },
-        firstBuyAni: { default: null, type: sp.Skeleton, override: true, visible: false },
-        firstBuy_SpriteFrame: { default: [], type: [cc.SpriteFrame], override: true, visible: false },
-        fenxiangyouli: { default: null, type: cc.Node, override: true, visible: false },
-
-        level: cc.Sprite,
-        levelSP: [cc.SpriteFrame],
-        exp: cc.Label,
         honorUINode: cc.Node, //荣誉值详细界面
 
         accountType: cc.Label,
-        // changePasswordToggle: cc.Node,
-        // bindPhoneToggle: cc.Node,
-        // activeAccountToggle: cc.Node,
         bindPhoneButton: cc.Node,
         unBindPhoneButton: cc.Node,
 
@@ -53,7 +30,17 @@ cc.Class({
 
         vipLevel: cc.Sprite,
         vipLevelSP: [cc.SpriteFrame],
+        
+        vipLevelLabel: cc.Label,
+        gameNumLabel: cc.Label,
+        bigWinLabel: cc.Label,
+        joinTimeLabel: cc.Label,
+        addRessLabel: require('LanguageLabel'),
 
+        signaLabel: cc.Label,
+
+        trophyItem: cc.Node,
+        trophyListContent: cc.Node,
     },
 
     onLoad(){
@@ -80,6 +67,8 @@ cc.Class({
     },
 
     setData: function (userInfo, useShortName) {
+        this.reuqestUserInfo()
+
         this.useShortName = useShortName;
         this.isAccoutnReg = (userInfo.regChannel == cc.dd.jlmj_enum.Login_Type.ACCOUNT || userInfo.regChannel == cc.dd.jlmj_enum.Login_Type.WX) && !cc._chifengGame;
 
@@ -112,33 +101,8 @@ cc.Class({
         }
 
         //刷新网络头像 或者 本地图片
-        // if (userInfo && userInfo.openId) {
         this.initHead(this.headSp, userInfo.openId, userInfo.headUrl);
-        // } else {//设置默认图片
-        // var str = SDY.resPath.Texture_path+'common/hd_female.png';
-        // if(userInfo.sex==1){//男人
-        //     str = SDY.resPath.Texture_path+'common/hd_male.png';
-        // }
-        // var sp = new cc.SpriteFrame(cc.url.raw(str));
-        // if (sp) {
-        //     sp.width = 98;sp.height = 98;
-        //     this.headImage.spriteFrame = sp;
-        // }
-        // }
-        if (this.male != null && this.female != null) {
-            if (userInfo.sex == 1) {
-                this.male.isChecked = true;
-                this.female.isChecked = false;
-            } else {
-                this.male.isChecked = false;
-                this.female.isChecked = true;
-            }
 
-            this.male.interactable = this.isAccoutnReg;
-            this.male.node.getComponent(cc.Button).interactable = this.isAccoutnReg;
-            this.female.interactable = this.isAccoutnReg;
-            this.female.node.getComponent(cc.Button).interactable = this.isAccoutnReg;
-        }
         this.updateNick(userInfo.nick);
         if (this.ID_TTF) {
             this.ID_TTF.string = userInfo.userId || '0007';
@@ -158,47 +122,42 @@ cc.Class({
                     ani.play();
                 }
             }
-
-
-        }
-
-        if (this.bindPhoneButton && this.unBindPhoneButton) {
-            this.bindPhoneButton.active = userInfo.telNum == "" && login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.WX;
-            this.unBindPhoneButton.active = userInfo.telNum != "" && login_module.Instance().loginType == cc.dd.jlmj_enum.Login_Type.WX;
-        }
-
-
-        if (this.vipLv != null) {
-            this.vipLv.string = userInfo.vipLevel;
-
-            if(userInfo.vipLevel == 0){
-                this.vipLevel.node.active = false;
-            }else{
-                this.vipLevel.node.active = true;
-
-                this.vipLevel.spriteFrame = this.vipLevelSP[Math.floor((userInfo.vipLevel - 1) / 5)];
-            }
-        }
-
-        this.updateVip();
-
-        if (this.level != null) {
-            if(userInfo.level < 0){
-                userInfo.level = 0;
-            }else if(userInfo.level >= this.levelSP.length){
-                userInfo.level = this.levelSP.length - 1;
-            }
-            this.level.spriteFrame = this.levelSP[userInfo.level];
-        }
-
-        if (this.exp != null) {
-            // var exp_item = data_exp.getItem(function (item) {
-            //     return item.key == userInfo.level;
-            // })
-            this.exp.string = userInfo.exp;//'(' + userInfo.exp + '/' + exp_item.exp + ')';
         }
     },
 
+    setUserData(data) {
+        this.vipLevelLabel.string = hallData.getInstance().vipLevel
+        this.bigWinLabel.string = cc.dd.Utils.getNumToWordTransform(data.luckiestWins)
+        this.joinTimeLabel.string = cc.dd.Utils.timestampToTime(data.firstPlayTime, 'YYYY/mm/dd')
+        this.addRessLabel.setText(data.city)
+        let gameNums = 0
+        for(let i=0; i<data.gamesList.length; i++) {
+            gameNums += data.gamesList[i].playedTimes
+        }
+        this.gameNumLabel.string = cc.dd.Utils.getNumToWordTransform(gameNums)
+
+        this.signaLabel.string = data.mood ? data.mood : ''
+
+        this.loadTrophy(data.champsList)
+    },
+    //  加载奖杯 
+    loadTrophy(champsList) {
+        this.trophyListContent.removeAllChildren()
+        for(let i=0; i<champsList.length; i++){
+            let node = cc.instantiate(this.trophyItem);
+            node.active =  true
+            node.parent = this.trophyListContent
+            // cc.find('icon', node).getComponent(cc.Sprite)
+            cc.find('name', node).getComponent('LanguageLabel').setText(champsList[i].name)
+            cc.find('name', node).getComponent(cc.Label).setText(champsList[i].winCoin)
+        }
+    },
+
+    reuqestUserInfo() {
+        var msg = new cc.pb.friend.msg_friend_detail_info_req();
+        msg.friendId = cc.dd.user.id
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_detail_info_req, msg, "msg_friend_detail_info_req", true);
+    },
     onClickChangeHead() {
         hall_audio_mgr.com_btn_click();
 
@@ -316,6 +275,15 @@ cc.Class({
         cc.dd.UIMgr.openUI(hall_prefab.CHANGENAME);
     },
 
+    // 修改个性签名
+    onClickChangeSign: function() {
+        cc.dd.DialogInputUtil.show('changemoodtitle', 'changemoodinput', 'OK', (mood)=>{
+            var msg = new cc.pb.friend.msg_friend_modify_mood_req();
+            msg.mood = mood
+            cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_friend_modify_mood_req, msg, "msg_friend_modify_mood_req", true);
+        })
+    },
+
     onClickChangeSex: function (event, data) {
         hall_audio_mgr.com_btn_click();
 
@@ -373,6 +341,9 @@ cc.Class({
                     flag.active = HallVip.hasRewardNotRecive()[1];
                 }
                 return;
+            case HallCommonEvent.HALL_UPDATE_USERDATA:
+                this.setUserData(hallData.getInstance().userData)
+                return
         }
 
         this._super(event, data);

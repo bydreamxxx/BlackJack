@@ -15,12 +15,16 @@ cc.Class({
         // friendListNode: cc.Node,
         friendListContent: cc.Node,
 
+        addFriendBtns: cc.Node,
+
+        addFriendLabel: require('LanguageLabel'),
         localLabel: require('LanguageLabel'),
         myIdLabel: require('LanguageLabel'),
     },
 
-    // 加载搜索结果列表
-    loadSearchedList(friendList) {
+    // 加载搜索结果列表, type:0搜索好友，1推荐好友
+    loadSearchedList(type) {
+        let friendList = FriendData.getSearchList()
         this.friendListContent.removeAllChildren()
         for(let i=0; i<friendList.length; i++) {
             let node = cc.instantiate(this.friendItemPrefab);
@@ -28,22 +32,30 @@ cc.Class({
             friendItem.setData(friendList[i], 3);
             node.parent = this.friendListContent
         }
+        this.addFriendLabel.setText( type===0?'searchresult':'recommendedplayer')
+        this.addFriendBtns.active = type===1
     },
     // 关闭
     onClose() {
         hall_audio_mgr.com_btn_click();
         cc.dd.UIMgr.destroyUI(this.node);
     },
-
+    // 请求查找好友
     requestSearch(searchText) {
         var msg = new cc.pb.friend.msg_lookup_friend_req();
         msg.idOrName = searchText
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_lookup_friend_req, msg, "msg_lookup_friend_req", true);
     },
+    // 请求推荐好友
+    requestSimilarFriend() {
+        var msg = new cc.pb.friend.msg_similar_friend_req();
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_similar_friend_req, msg, "msg_similar_friend_req", true);
+    },
 
     onSearchPlayer() {
         let searchText = this.searchInputText.string
         if(!searchText) {
+            this.requestSimilarFriend()
             return
         }
         this.requestSearch(searchText)
@@ -54,7 +66,7 @@ cc.Class({
     },
     // 换一批
     onChangeRecommend() {
-
+        this.requestSimilarFriend()
     },
 
     // facebook 邀请

@@ -33,14 +33,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 213
+        "__id__": 214
       },
       {
-        "__id__": 214
+        "__id__": 215
       }
     ],
     "_prefab": {
-      "__id__": 215
+      "__id__": 216
     },
     "_opacity": 255,
     "_color": {
@@ -512,7 +512,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 212.75,
       "height": 68.04
     },
     "_anchorPoint": {
@@ -564,8 +564,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "设置",
-    "_N$string": "设置",
+    "_string": "SETTING",
+    "_N$string": "SETTING",
     "_fontSize": 50,
     "_lineHeight": 54,
     "_enableWrapText": true,
@@ -879,7 +879,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 162.85,
       "height": 65.52
     },
     "_anchorPoint": {
@@ -1038,8 +1038,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "音乐",
-    "_N$string": "音乐",
+    "_string": "MUSIC",
+    "_N$string": "MUSIC",
     "_fontSize": 50,
     "_lineHeight": 52,
     "_enableWrapText": true,
@@ -1116,7 +1116,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 179.75,
       "height": 65.52
     },
     "_anchorPoint": {
@@ -1275,8 +1275,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "音效",
-    "_N$string": "音效",
+    "_string": "SOUND",
+    "_N$string": "SOUND",
     "_fontSize": 50,
     "_lineHeight": 52,
     "_enableWrapText": true,
@@ -2383,7 +2383,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 251.1,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -2435,8 +2435,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "联系客服",
-    "_N$string": "联系客服",
+    "_string": "Customer Service",
+    "_N$string": "Customer Service",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3149,7 +3149,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 187.53,
       "height": 44.1
     },
     "_anchorPoint": {
@@ -3201,8 +3201,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "注销登录",
-    "_N$string": "注销登录",
+    "_string": "Logout Login",
+    "_N$string": "Logout Login",
     "_fontSize": 30,
     "_lineHeight": 35,
     "_enableWrapText": false,
@@ -5656,7 +5656,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 142.48,
       "height": 52.4
     },
     "_anchorPoint": {
@@ -5708,8 +5708,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "简体中文",
-    "_N$string": "简体中文",
+    "_string": "ENGLISH",
+    "_N$string": "ENGLISH",
     "_fontSize": 32,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -6077,17 +6077,20 @@
     "_components": [
       {
         "__id__": 211
+      },
+      {
+        "__id__": 212
       }
     ],
     "_prefab": {
-      "__id__": 212
+      "__id__": 213
     },
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_contentSize": {
@@ -7939,6 +7942,38 @@
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 162
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {

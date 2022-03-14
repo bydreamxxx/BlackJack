@@ -8,6 +8,8 @@ let friend_info2 = cc.Class({
         content.head = this.head;
         content.sex = this.sex;
         content.curStatus = this.curStatus;
+        content.coin = this.coin;
+        content.vipLevel = this.vipLevel;
 
         return content;
     },
@@ -26,6 +28,12 @@ let friend_info2 = cc.Class({
     setCurStatus(curStatus){
         this.curStatus = curStatus;
     },
+    setCoin(coin){
+        this.coin = coin;
+    },
+    setVipLevel(vipLevel){
+        this.vipLevel = vipLevel;
+    },
 
 });
 
@@ -36,20 +44,20 @@ let friend_apply_info = cc.Class({
     },
     getContent(){
         let content = {};
-        content.friendId = this.friendId;
-        content.friendName = this.friendName;
+        content.info = this.info;
         content.addTime = this.addTime;
+        content.captcha = this.captcha;
 
         return content;
     },
-    setFriendId(friendId){
-        this.friendId = friendId;
-    },
-    setFriendName(friendName){
-        this.friendName = friendName;
+    setInfo(info){
+        this.info = info;
     },
     setAddTime(addTime){
         this.addTime = addTime;
+    },
+    setCaptcha(captcha){
+        this.captcha = captcha;
     },
 
 });
@@ -142,6 +150,9 @@ let friend_detail_info = cc.Class({
         content.inRoomId = this.inRoomId;
         content.ip = this.ip;
         content.mood = this.mood;
+        content.lastLoginTime = this.lastLoginTime;
+        content.remarks = this.remarks;
+        content.city = this.city;
         content.gamesList = this.gamesList;
         content.champsList = this.champsList;
 
@@ -176,6 +187,15 @@ let friend_detail_info = cc.Class({
     },
     setMood(mood){
         this.mood = mood;
+    },
+    setLastLoginTime(lastLoginTime){
+        this.lastLoginTime = lastLoginTime;
+    },
+    setRemarks(remarks){
+        this.remarks = remarks;
+    },
+    setCity(city){
+        this.city = city;
     },
     setGamesList(gamesList){
         this.gamesList = gamesList;
@@ -326,11 +346,15 @@ let msg_add_friend_req = cc.Class({
     getContent(){
         let content = {};
         content.friendId = this.friendId;
+        content.captcha = this.captcha;
 
         return content;
     },
     setFriendId(friendId){
         this.friendId = friendId;
+    },
+    setCaptcha(captcha){
+        this.captcha = captcha;
     },
 
 });
@@ -644,4 +668,72 @@ let msg_friend_modify_mood_ret = cc.Class({
 });
 
 module.exports.msg_friend_modify_mood_ret = msg_friend_modify_mood_ret;
+
+let msg_friend_set_remarks_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.friendId = this.friendId;
+        content.remarks = this.remarks;
+
+        return content;
+    },
+    setFriendId(friendId){
+        this.friendId = friendId;
+    },
+    setRemarks(remarks){
+        this.remarks = remarks;
+    },
+
+});
+
+module.exports.msg_friend_set_remarks_req = msg_friend_set_remarks_req;
+
+let msg_friend_set_remarks_ret = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.code = this.code;
+
+        return content;
+    },
+    setCode(code){
+        this.code = code;
+    },
+
+});
+
+module.exports.msg_friend_set_remarks_ret = msg_friend_set_remarks_ret;
+
+let msg_similar_friend_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+
+        return content;
+    },
+
+});
+
+module.exports.msg_similar_friend_req = msg_similar_friend_req;
+
+let msg_similar_friend_ret = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.listList = this.listList;
+
+        return content;
+    },
+    setListList(listList){
+        this.listList = listList;
+    },
+
+});
+
+module.exports.msg_similar_friend_ret = msg_similar_friend_ret;
 

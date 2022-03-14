@@ -240,19 +240,21 @@ cc.Class({
 
                         this.betIndex = data.index;
 
-                        this.playerList[0].showSplit(this.betIndex);
+                        // this.playerList[0].showSplit(this.betIndex);
                     }else{
                         this.actionButtonNode.active = false;
-                        this.playerList[0].closeSplit();
+                        // this.playerList[0].closeSplit();
                     }
 
                     this.playerList.forEach(player=>{
                         player.stop_chupai_ani();
+                        player.closeSplit();
                     })
 
                     let player = BlackJackData.getPlayerById(data.userId);
                     if(player){
                         this.playerList[player.viewIdx].play_chupai_ani();
+                        this.playerList[player.viewIdx].showSplit(data.index);
                     }
                 }
                 break;
@@ -670,6 +672,12 @@ cc.Class({
                     // })
                     // .start();
 
+                if(BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0){
+                    this.playerList[0].head.sit()
+                }else{
+                    this.playerList[0].head.stand()
+                }
+
                 this.actionButtonNode.active = false;
                 this.toggleButtonNode.active = false;
                 this.sliderNode.active = false;
@@ -706,6 +714,13 @@ cc.Class({
                 this.insureNode.active = false;
                 this.actionButtonNode.active = false;
                 this.sliderNode.active = false;
+
+                if(BlackJackData.hasUserPlayer && this.playerList[0].cardNodeList.length > 0 && this.playerList[0].cardNodeList[0].cardList.length > 0){
+                    this.playerList[0].head.sit()
+                }else{
+                    this.playerList[0].head.stand()
+                }
+
                 break;
             case GAME_STATE.RESULTING:
                 cc.error(`结算`)

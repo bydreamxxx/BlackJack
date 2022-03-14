@@ -616,7 +616,7 @@ cc.Class({
         var chat_node = cc.find('chat', this.node);
         var lbl = chat_node.getChildByName('lbl');
         lbl.getComponent(cc.Label).string = str;
-        chat_node.width = lbl.width + 30;
+        //chat_node.width = lbl.width + 30;
         chat_node.getComponent(cc.Animation).play();
     },
 

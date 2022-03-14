@@ -192,11 +192,13 @@ cc.Class({
     showReward(data) {
         this.rewardShowing = true;
         this.scheduleOnce(function () {
-            cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
-                var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
-                cp.setData(data.itemDataId, data.cnt);
-                this.rewardShowing = false;
-            }.bind(this));
+            // cc.dd.UIMgr.openUI("blackjack_hall/prefabs/klb_hall_daily_lottery_get_award", function (prefab) {
+            //     var cp = prefab.getComponent('klb_hall_daily_lottery_get_award');
+            //     cp.setData(data.itemDataId, data.cnt);
+            //     this.rewardShowing = false;
+            // }.bind(this));
+            cc.dd.RewardWndUtil.show([{ id: data.itemDataId, num: data.cnt }]);
+            this.rewardShowing = false;
         }.bind(this), 0.5);
     },
 
@@ -239,16 +241,17 @@ cc.Class({
                 var item = cc.instantiate(this.item_node);
                 item.parent = this.reward_parent;
                 cc.find('icon', item).getComponent(cc.Sprite).spriteFrame = this.items_atlas.getSpriteFrame(rewardList[i].itemDataId);
-                if (rewardList[i].itemDataId == 1004 || rewardList[i].itemDataId == 1006 || rewardList[i].itemDataId == 1099) {
-                    rewardList[i].cnt = parseInt(rewardList[i].cnt / 100);
-                }
-                if (rewardList[i].cnt >= 10000) {
-                    var wan = Math.floor(rewardList[i].cnt / 100) / 100;
-                    cc.find('num_lbl', item).getComponent(cc.Label).string = wan + '万';
-                }
-                else {
-                    cc.find('num_lbl', item).getComponent(cc.Label).string = rewardList[i].cnt;
-                }
+                cc.find('num_lbl', item).getComponent(cc.Label).string = cc.dd.Utils.getNumToWordTransform(rewardList[i].cnt)
+                // if (rewardList[i].itemDataId == 1004 || rewardList[i].itemDataId == 1006 || rewardList[i].itemDataId == 1099) {
+                //     rewardList[i].cnt = parseInt(rewardList[i].cnt / 100);
+                // }
+                // if (rewardList[i].cnt >= 10000) {
+                //     var wan = Math.floor(rewardList[i].cnt / 100) / 100;
+                //     cc.find('num_lbl', item).getComponent(cc.Label).string = wan + '万';
+                // }
+                // else {
+                //     cc.find('num_lbl', item).getComponent(cc.Label).string = rewardList[i].cnt;
+                // }
                 let desc = ''
                 let config = item_cfg.getItem((x) => { return x.key == rewardList[i].itemDataId });
                 if(config){

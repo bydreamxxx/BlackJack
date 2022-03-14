@@ -33,6 +33,10 @@
         [3428]:{ package_name:'msg', msg_name:'msg_friend_messages_list_ret', name:msg.msg_friend_messages_list_ret, func:handler.on_msg_friend_messages_list_ret, func_name:'on_msg_friend_messages_list_ret', logtag:'[3428:msg_friend_messages_list_ret ]' },
         [3429]:{ package_name:'msg', msg_name:'msg_friend_modify_mood_req', name:msg.msg_friend_modify_mood_req, func:handler.on_msg_friend_modify_mood_req, func_name:'on_msg_friend_modify_mood_req', logtag:'[3429:msg_friend_modify_mood_req ]' },
         [3430]:{ package_name:'msg', msg_name:'msg_friend_modify_mood_ret', name:msg.msg_friend_modify_mood_ret, func:handler.on_msg_friend_modify_mood_ret, func_name:'on_msg_friend_modify_mood_ret', logtag:'[3430:msg_friend_modify_mood_ret ]' },
+        [3431]:{ package_name:'msg', msg_name:'msg_friend_set_remarks_req', name:msg.msg_friend_set_remarks_req, func:handler.on_msg_friend_set_remarks_req, func_name:'on_msg_friend_set_remarks_req', logtag:'[3431:msg_friend_set_remarks_req ]' },
+        [3432]:{ package_name:'msg', msg_name:'msg_friend_set_remarks_ret', name:msg.msg_friend_set_remarks_ret, func:handler.on_msg_friend_set_remarks_ret, func_name:'on_msg_friend_set_remarks_ret', logtag:'[3432:msg_friend_set_remarks_ret ]' },
+        [3433]:{ package_name:'msg', msg_name:'msg_similar_friend_req', name:msg.msg_similar_friend_req, func:handler.on_msg_similar_friend_req, func_name:'on_msg_similar_friend_req', logtag:'[3433:msg_similar_friend_req ]' },
+        [3434]:{ package_name:'msg', msg_name:'msg_similar_friend_ret', name:msg.msg_similar_friend_ret, func:handler.on_msg_similar_friend_ret, func_name:'on_msg_similar_friend_ret', logtag:'[3434:msg_similar_friend_ret ]' },
 
     };
     module.exports = {

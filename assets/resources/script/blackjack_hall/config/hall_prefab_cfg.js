@@ -220,4 +220,5 @@ module.exports = {
     BJ_HALL_FRIEND_ITEM: "blackjack_hall/prefabs/blackjack/hall/Friend/friendItem",
     BJ_HALL_FRIEND_INFO: "blackjack_hall/prefabs/blackjack/hall/Friend/friendInfoPanel",
     BJ_HALL_CHAT_EMOJI: "blackjack_hall/prefabs/blackjack/hall/Friend/emojiPanel",
+    BJ_HALL_CHAT_ITEM: "blackjack_hall/prefabs/blackjack/hall/Friend/chatItem",
 };

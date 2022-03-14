@@ -9,6 +9,7 @@ cc.Class({
     extends: require("com_card"),
 
     properties: {
+        mask: cc.Node,
         isActive: true,
     },
 
@@ -37,4 +38,13 @@ cc.Class({
         this.node.active = true;
         this.isActive = true;
     },
+
+    showMask(){
+        this.mask.active = true;
+
+    },
+
+    hideMask(){
+        this.mask.active = false;
+    }
 });

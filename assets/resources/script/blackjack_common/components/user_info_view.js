@@ -7,6 +7,7 @@ var RoomMgr = require("jlmj_room_mgr").RoomMgr;
 var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 const game_List = require('klb_gameList');
+var FriendData = require('hall_friend').FriendData.Instance();
 
 cc.Class({
     extends: cc.Component,
@@ -19,6 +20,10 @@ cc.Class({
         isFriend: true,
         btn_MagicProp: [],
         btn_MagicPropSum: [],
+
+        addFriendNode: cc.Node,
+        applyingFriendNode: cc.Node,
+        yourfrindeNode: cc.Node
     },
 
     onLoad: function () {
@@ -374,6 +379,15 @@ cc.Class({
         // this.gold_node.active = false;
         // this.silver_node.active = false;
         this.lab_adress.active = false;
+
+        // 添加好友按钮状态
+        let friendType = FriendData.isFriend(player.userId)?1:0
+        if(player.userId===cc.dd.user.id) {
+            friendType = 3
+        }
+        this.addFriendNode.active = friendType===0
+        this.applyingFriendNode.active = friendType===2
+        this.yourfrindeNode.active = friendType===1
     },
 
     /**
@@ -424,5 +438,15 @@ cc.Class({
     //踢人回调
     onClickKick() {
 
+    },
+    //  请求添加好友
+    onRequestFriend(){
+        if (this.userId === cc.dd.user.id) {
+            return;
+        }
+        var msg = new cc.pb.friend.msg_add_friend_req();
+        msg.friendId = this.userId
+        msg.captcha = ''
+        cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_add_friend_req, msg, "msg_add_friend_req", true);
     },
 });

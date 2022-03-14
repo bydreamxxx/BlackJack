@@ -1717,8 +1717,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "myfriends",
-    "_N$string": "myfriends",
+    "_string": "my good friend",
+    "_N$string": "my good friend",
     "_fontSize": 40,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -4909,7 +4909,7 @@
     "_enabled": true,
     "_string": "",
     "returnType": 0,
-    "maxLength": 200,
+    "maxLength": 128,
     "_tabIndex": 0,
     "editingDidBegan": [],
     "textChanged": [],
@@ -5644,9 +5644,6 @@
       "__id__": 45
     },
     "searchNode": null,
-    "friendItemPrefab": {
-      "__uuid__": "974b1e67-b732-4733-a9ef-20894c9259b3"
-    },
     "friendListContent": {
       "__id__": 82
     },
@@ -5655,9 +5652,6 @@
     },
     "chatListContent": {
       "__id__": 107
-    },
-    "chatItemPrefab": {
-      "__uuid__": "2e6e3573-4c47-419b-9503-b84ef68c2499"
     },
     "chatScrollview": {
       "__id__": 113

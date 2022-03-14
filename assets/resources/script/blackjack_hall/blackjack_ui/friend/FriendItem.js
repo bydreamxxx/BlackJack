@@ -66,11 +66,14 @@ cc.Class({
         this.gameStateGaming.active = data.curStatus > 0
         this.vipNode.active = data.vipLevel > 0
         this.vipLevel.string = data.vipLevel
+
+        let unreadChatCount = FriendData.getUnreadChatCount(this.uid)
+        this.setChatRedCound(unreadChatCount)
+        // this.setSelected(false)
     },
 
     onChat() {
         FriendED.notifyEvent(FriendEvent.OPEN_FRIEND_CHAT, this.uid);
-        this.setRedCound(0)
     },
 
     onLookup() {
@@ -119,19 +122,22 @@ cc.Class({
         // this.node.active = false
     },
 
-    // 设置红点
-    setRedCound(count) {
+    // 设置聊天红点
+    setChatRedCound(count) {
         this.count =  count
+        if(this.count > 99) {
+            this.count = 99
+        }
         this.redPointLabel.string = '+'+this.count
         this.redPointNode.active = this.count > 0
     },
     // 红点+1
-    addRedPoint() {
+    addChatRedPoint() {
         if(!this.count) {
             this.count = 0
         }
         this.count = this.count + 1
-        this.setRedCound(this.count)
+        this.setChatRedCound(this.count)
     },
 
     // LIFE-CYCLE CALLBACKS:

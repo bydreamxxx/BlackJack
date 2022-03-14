@@ -22,6 +22,8 @@ var roomMgr = require('jlmj_room_mgr').RoomMgr.Instance();
 
 var ChatEd = require('jlmj_chat_data').ChatEd;
 var ChatEvent = require('jlmj_chat_data').ChatEvent;
+var chat_duanyu_item = require('chat_duanyu_item');
+
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var AudioManager = require('AudioManager');
 var jlmj_prefab = require('jlmj_prefab_cfg');
@@ -1150,9 +1152,9 @@ cc.Class({
                 if (player) {
                     if (player.userId == cc.dd.user.id) {
                         if (info.isWin)
-                            cc.dd.PromptBoxUtil.show('胜利');
+                            cc.dd.PromptBoxUtil.show('win');
                         else
-                            cc.dd.PromptBoxUtil.show('失败');
+                            cc.dd.PromptBoxUtil.show('lose');
                     }
                     var player_common_data = player.getPlayerCommonInfo();
                     if (info.score < 0)
@@ -1842,7 +1844,7 @@ cc.Class({
                 var cfg = config.New_DSZ_Audio;
 
                 var path = Prefix + cfg[sex]['CHAT'][data.id] + '';
-                AudioManager.getInstance().playSound(path, false);
+               // AudioManager.getInstance().playSound(path, false);
                 var cfg1 = null;
                 if (sex == 1) {
                     cfg1 = dsz_chat_cfg.Man;
@@ -1850,7 +1852,8 @@ cc.Class({
                 else {
                     cfg1 = dsz_chat_cfg.Woman;
                 }
-                var str = cfg1[data.id];
+                let text = chat_duanyu_item.items.find(item => item.duanyu_id == data.id)
+                var str = text.text
                 this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').showChat(str);
             }
             // var view = this.idToView(data.sendUserId);

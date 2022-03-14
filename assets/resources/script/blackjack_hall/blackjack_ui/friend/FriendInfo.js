@@ -39,6 +39,9 @@ cc.Class({
 
         callRequestNode: cc.Node,
         callMessageEdit:  cc.EditBox,
+
+        redPointNode: cc.Node,
+        redPointLabel: cc.Label,
     },
 
     setData(data, type) {
@@ -77,7 +80,7 @@ cc.Class({
             return _item.key === data.inGameType;
         })
         if(inGameCfg){
-            this.inGameLabel.setText('ingaming', inGameCfg.name)
+            this.inGameLabel.setText('ingaming', '', '', inGameCfg.name)
         }
         
         
@@ -90,10 +93,29 @@ cc.Class({
         }
         this.gameNumLabel.string = cc.dd.Utils.getNumToWordTransform(gameNums)
 
-        this.signaLabel.string = data.mood
+        this.signaLabel.string = data.mood ? data.mood : ''
 
         this.loadTrophy(data.champsList)
         
+        if(type===1) {
+            let unreadChatCount = FriendData.getUnreadChatCount(this.uid)
+            this.setChatRedCound(unreadChatCount)
+        }
+    },
+
+    // 设置聊天红点
+    setChatRedCound(count) {
+        this.count =  count
+        if(this.count > 99) {
+            this.count = 99
+        }
+        this.redPointLabel.string = '+'+this.count
+        this.redPointNode.active = this.count > 0
+    },
+    // 更新红点数量
+    updateChatRedCound() {
+        let unreadChatCount = FriendData.getUnreadChatCount(this.uid)
+        this.setChatRedCound(unreadChatCount)
     },
 
     //  加载奖杯 
@@ -103,7 +125,9 @@ cc.Class({
             let node = cc.instantiate(this.trophyItem);
             node.active =  true
             node.parent = this.trophyListContent
-            node.getComponent('LanguageLabel').setText(champsList[i].name)
+            // cc.find('icon', node).getComponent(cc.Sprite)
+            cc.find('name', node).getComponent('LanguageLabel').setText(champsList[i].name)
+            cc.find('name', node).getComponent(cc.Label).setText(champsList[i].winCoin)
         }
     },
 
@@ -116,22 +140,26 @@ cc.Class({
         //     return
         // }
         var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();
+        msg.setRoomId(this.data.inRoomCfgId);
         msg.setGameType(this.data.inGameType);
-        msg.setRoomId(this.data.inRoomId);
+        msg.setRoomIdReal(this.data.inRoomId);
+        msg.setLookPlayer(this.uid);
         cc.gateNet.Instance().sendMsg(cc.netCmd.room_mgr.cmd_msg_enter_coin_game_req, msg, "msg_enter_coin_game_req", true);
     },
     // 赠送金币
     onGiftCoin()  {
         cc.dd.DialogInputUtil.show('giftcoins', 'friend_text11', 'OK', (text)=>{
-            let count = parseInt(text)
-            if(isNaN(count)) {
-                cc.dd.PromptBoxUtil.show('friend_text12');
-                return
-            }
-            var msg = new cc.pb.friend.msg_send_friend_coin_req();
-            msg.friendId = this.uid
-            msg.coin = count
-            cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_send_friend_coin_req, msg, "msg_send_friend_coin_req", true);
+            cc.dd.DialogBoxUtil.show(1, "friend_text13", "confirm", "Cancel",()=>{
+                let count = parseInt(text)
+                if(isNaN(count)) {
+                    cc.dd.PromptBoxUtil.show('friend_text12');
+                    return
+                }
+                var msg = new cc.pb.friend.msg_send_friend_coin_req();
+                msg.friendId = this.uid
+                msg.coin = count
+                cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_send_friend_coin_req, msg, "msg_send_friend_coin_req", true);
+            });
         })
     },
     // 删除好友
@@ -140,12 +168,13 @@ cc.Class({
             var msg = new cc.pb.friend.msg_del_friend_req();
             msg.friendId = this.uid
             cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_del_friend_req, msg, "msg_del_friend_req", true);
+
+            FriendED.notifyEvent(FriendEvent.OPEN_LOOKUP_FRIEND, undefined);
         });
     },
     // 聊天
     onChat() {
         FriendED.notifyEvent(FriendEvent.OPEN_FRIEND_CHAT, this.uid);
-        // this.setRedCound(0)
     },
     // 修改备注
     onChangeRemark() {
@@ -162,6 +191,10 @@ cc.Class({
         msg.friendId = this.uid
         msg.captcha = this.callMessageEdit.string
         cc.gateNet.Instance().sendMsg(cc.netCmd.friend.cmd_msg_add_friend_req, msg, "msg_add_friend_req", true);
+    },
+    // 设置打招呼信息
+    setCaptcha(text) {
+        this.callMessageLabel.string = text
     },
     // LIFE-CYCLE CALLBACKS:
 
