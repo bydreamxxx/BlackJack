@@ -18,9 +18,9 @@ var handler = {
     },
 
     on_msg_rm_info(msg) {
+        RummyData.setGameInfo(msg);
         RoomMgr.Instance().player_mgr.updatePlayerGameInfo(msg.usersList, msg.banker);
         RoomMgr.Instance().player_mgr.playerEnterGame();
-        RummyData.setGameInfo(msg);
         RummyGameMgr.updateUI();
     },
 

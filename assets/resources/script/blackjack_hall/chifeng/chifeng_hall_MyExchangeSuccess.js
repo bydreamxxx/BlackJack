@@ -49,7 +49,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         if (cc.sys.OS_ANDROID == cc.sys.os || cc.sys.OS_IOS == cc.sys.os) {
             cc.dd.native_systool.SetClipBoardContent(this.code.string);
-            cc.dd.PromptBoxUtil.show("复制成功");
+            cc.dd.PromptBoxUtil.show("Copy successfully");
         }
     },
 
@@ -57,7 +57,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         if (cc.sys.OS_ANDROID == cc.sys.os || cc.sys.OS_IOS == cc.sys.os) {
             cc.dd.native_systool.SetClipBoardContent(this.gongzhonghao.string);
-            cc.dd.PromptBoxUtil.show("复制成功");
+            cc.dd.PromptBoxUtil.show("Copy successfully");
         }
     },
 });

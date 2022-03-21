@@ -314,8 +314,8 @@ var data_language =
       { key:310,keyword:"wheelracerule",en:"Description Wheel Race Rules",tc:"轉輪賽規則說明",in:"व्हील रेस नियम का वर्णन",zh:"转轮赛规则说明" },
       { key:311,keyword:"rummy_text6",en:"Switch",tc:"換桌",in:"टेबल बदलें",zh:"换桌" },
       { key:312,keyword:"rummy_text7",en:"CONFIRM",tc:"確認",in:"पुष्टि करें",zh:"确认" },
-      { key:313,keyword:"rummy_text8",en:"PerPoint:",tc:"最大分數：",in:"अधिकतम अंक:",zh:"最大分数：" },
-      { key:314,keyword:"rummy_text9",en:"MaxWinnings:",tc:"最大贏分：",in:"अधिकतम जीते बिन्दु:",zh:"最大赢分：" },
+      { key:313,keyword:"rummy_text8",en:"Per Point:",tc:"最大分數：",in:"अधिकतम अंक:",zh:"最大分数：" },
+      { key:314,keyword:"rummy_text9",en:"Max Winnings:",tc:"最大贏分：",in:"अधिकतम जीते बिन्दु:",zh:"最大赢分：" },
       { key:315,keyword:"rummy_text10",en:"Chips",tc:"籌碼",in:"चिप",zh:"筹码" },
       { key:316,keyword:"rummy_text11",en:"Points",tc:"分數",in:"भाग",zh:"分数" },
       { key:317,keyword:"rummy_text12",en:"Show",tc:"秀牌",in:"कार्ड दिखाएँ",zh:"秀牌" },
@@ -421,7 +421,9 @@ var data_language =
       { key:417,keyword:"findmyfriends",en:"Find My Friends",tc:"搜索我的好友",in:"मेरे दोस्तों को खोजो",zh:"搜索我的好友" },
       { key:418,keyword:"applytoadd",en:"Apply To Add",tc:"加為好友",in:"दोस्तों से जुड़ें",zh:"加为好友" },
       { key:419,keyword:"applying",en:"Applying...",tc:"申請中...",in:"लागू किया जा रहा है...",zh:"申请中..." },
-      { key:420,keyword:"yourfriend",en:"Your Friend",tc:"你的好友",in:"तुम्हारा मित्र",zh:"你的好友" }
+      { key:420,keyword:"yourfriend",en:"Your Friend",tc:"你的好友",in:"तुम्हारा मित्र",zh:"你的好友" },
+      { key:421,keyword:"changemoodtitle",en:"Modify mood",tc:"修改心情",in:"संशोधन",zh:"修改心情" },
+      { key:422,keyword:"changemoodinput",en:"Click to enter mood",tc:"點擊輸入心情",in:"संशोधित करने के लिए क्लिक करें",zh:"点击输入心情" }
     ],
 
     /**

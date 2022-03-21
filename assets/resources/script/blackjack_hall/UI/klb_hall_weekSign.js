@@ -54,16 +54,16 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
         var index = parseInt(data);
         if(index != this.today){
-            cc.dd.PromptBoxUtil.show('条件不足,不可领取!');
+            cc.dd.PromptBoxUtil.show('Insufficient conditions, not available!');
             return;
         }else if(this.isget == true){
-            cc.dd.PromptBoxUtil.show('今日已签到已领取,不可重复领取!');
+            cc.dd.PromptBoxUtil.show('You have signed in today and received it, you cannot reclaim it!');
             return;
         }
         var msg = new cc.pb.hall.draw_seven_day_reward_req();
         msg.setIndex(index);
-        cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_draw_seven_day_reward_req, msg, "发送签到: index=" + data, true);
-        cc.dd.NetWaitUtil.net_wait_start('网络状况不佳...', 'draw_seven_day_reward_req');
+        cc.gateNet.Instance().sendMsg(cc.netCmd.hall.cmd_draw_seven_day_reward_req, msg, "send sign in: index=" + data, true);
+        cc.dd.NetWaitUtil.net_wait_start('Poor network condition...', 'draw_seven_day_reward_req');
     },
 
     //领取成功

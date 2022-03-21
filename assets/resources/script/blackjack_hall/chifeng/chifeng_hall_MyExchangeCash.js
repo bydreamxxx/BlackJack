@@ -47,12 +47,12 @@ cc.Class({
 
         if(cc.game_pid == 2){
             if(this.num != 1 && this.num != 5 && this.num != 10){
-                cc.dd.PromptBoxUtil.show('兑换金额有误!请重新选择');
+                cc.dd.PromptBoxUtil.show('Incorrect exchange amount! Please select again');
                 return;
             }
         }else{
             if(this.num != 25 && this.num != 50 && this.num != 100){
-                cc.dd.PromptBoxUtil.show('兑换金额有误!请重新选择');
+                cc.dd.PromptBoxUtil.show('Incorrect exchange amount! Please select again');
                 return;
             }
         }

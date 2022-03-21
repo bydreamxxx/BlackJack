@@ -399,7 +399,7 @@ const com_replay = cc.Class({
      */
     decodeRecordData(arrayBuffer) {
         if (!arrayBuffer || !arrayBuffer.byteLength) {
-            cc.dd.PromptBoxUtil.show('获取回放数据失败');
+            cc.dd.PromptBoxUtil.show('Failed to get playback data');
             this.clear();
             return false;
         }

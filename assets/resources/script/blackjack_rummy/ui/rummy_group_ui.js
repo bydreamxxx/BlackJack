@@ -203,7 +203,7 @@ cc.Class({
             this.updatePoint();
 
             cc.tween(playCard)
-                .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
+                .to(0.4 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0), scale: 0.538}, { easing: 'expoOut'})
                 .call(()=>{
                     this.resetSelected();
                 })
@@ -243,7 +243,7 @@ cc.Class({
             this.updatePoint();
 
             cc.tween(playCard)
-                .to(0.4, {position: cc.v2(0, 0), scale: 0.538}, {easing: 'expoOut'})
+                .to(0.4 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0), scale: 0.538}, {easing: 'expoOut'})
                 .call(() => {
                     if (callback) {
                         callback(cardId, groupId);
@@ -279,7 +279,7 @@ cc.Class({
         this.updatePoint();
 
         cc.tween(this.yidong_pai.node)
-            .to(0.4, {position: endPos, scale: 0.717}, {easing: 'expoOut'})
+            .to(0.4 * RummyData.PLAY_SPEED, {position: endPos, scale: 0.717}, {easing: 'expoOut'})
             .call(() => {
                 this.yidong_pai.node.destroy();
                 this.yidong_pai = null;
@@ -477,7 +477,7 @@ cc.Class({
 
                 // let temp = this.giveUpCard;
                 // cc.tween(this.node)
-                //     .delay(0.01)
+                //     .delay(0.01 * RummyData.PLAY_SPEED)
                 //     .call(()=>{
                 //         let handler = require("net_handler_rummy");
                 //         handler.on_msg_rm_give_up_poker_ack({ ret: 0,
@@ -565,7 +565,7 @@ cc.Class({
 
                 // let temp = this.showCardID;
                 // cc.tween(this.node)
-                //     .delay(0.01)
+                //     .delay(0.01 * RummyData.PLAY_SPEED)
                 //     .call(()=>{
                 //         let handler = require("net_handler_rummy");
                 //         handler.on_msg_rm_show_ack({ ret: -1,
@@ -761,8 +761,8 @@ cc.Class({
                 group.bottom.active = !group.data.isNoGroup();
                 group.bottom.scaleY = 0;
                 cc.tween(group.bottom)
-                    .delay(0.4)
-                    .to(0.3, {scaleY: 1}, { easing: 'quintOut'})
+                    .delay(0.4 * RummyData.PLAY_SPEED)
+                    .to(0.3 * RummyData.PLAY_SPEED, {scaleY: 1}, { easing: 'quintOut'})
                     .start()
 
                 for(let k = 0; k < group.view.childrenCount; k++){
@@ -770,7 +770,7 @@ cc.Class({
                     if(card){
                         let node = group.view.children[k];
                         cc.tween(node)
-                            .to(0.4, {position: card.targetPos}, { easing: 'expoOut'})
+                            .to(0.4 * RummyData.PLAY_SPEED, {position: card.targetPos}, { easing: 'expoOut'})
                             .start();
                     }
                 }
@@ -788,7 +788,7 @@ cc.Class({
             if(AudioManager.getAudioID("blackjack_rummy/audio/rummyDealFlip") == -1) {
                 AudioManager.playSound("blackjack_rummy/audio/rummyDealFlip");
             }
-        }, 2.3)
+        }, 2.3 * RummyData.PLAY_SPEED)
 
         this.schedule(()=>{
             let node = this.playList[index];
@@ -796,35 +796,38 @@ cc.Class({
 
             if(index >= this.playList.length){
                 cc.tween(node)
-                    .delay(0.3)
-                    .to(1, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
-                    .delay(1)
-                    .to(0.25, {scaleX: 0}, { easing: 'sineOut'})
+                    .delay(0.3 * RummyData.PLAY_SPEED)
+                    .to(1 * RummyData.PLAY_SPEED, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(1 * RummyData.PLAY_SPEED)
+                    .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0}, { easing: 'sineOut'})
                     .call(()=> {
                         node.getComponent("rummy_card").init(node.getComponent("rummy_card").targetValue);
                     })
-                    .to(0.25, {scaleX: 1}, { easing: 'sineIn'})
-                    .delay(0.5)
+                    .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 1}, { easing: 'sineIn'})
+                    .delay(0.5 * RummyData.PLAY_SPEED)
                     .call(endFunc)
                     .start();
             }else{
                 cc.tween(node)
-                    .delay(0.3)
-                    .to(1, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
-                    .delay(1)
-                    .to(0.25, {scaleX: 0}, { easing: 'sineOut'})
+                    .delay(0.3 * RummyData.PLAY_SPEED)
+                    .to(1 * RummyData.PLAY_SPEED, {position: node.getComponent("rummy_card").targetPos, scale: 1}, { easing: 'expoOut'})
+                    .delay(1 * RummyData.PLAY_SPEED)
+                    .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0}, { easing: 'sineOut'})
                     .call(()=> {
                         node.getComponent("rummy_card").init(node.getComponent("rummy_card").targetValue);
                     })
-                    .to(0.25, {scaleX: 1}, { easing: 'sineIn'})
+                    .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 1}, { easing: 'sineIn'})
                     .start();
             }
-        }, 0.05, this.playList.length - 1);
+        }, 0.05 * RummyData.PLAY_SPEED, this.playList.length - 1);
     },
 
     showFapaiDirect(groupList, notShowPoint){
         this.groupList = [];
         let width = 0;
+
+        this.first = -1;
+        this.second = -1;
 
         for(let i = 0; i < groupList.length; i++){
             let node = new cc.Node(`RummyGroup_${i}`);
@@ -856,10 +859,12 @@ cc.Class({
             bottom.x = 0;
             bottom.scale = 1;
 
-            this.updateGroupBottom(groupInfo, i);
+            // this.updateGroupBottom(groupInfo, i);
 
             width += node.width;
         }
+
+        this.updateGroupBottomAll();
 
         this.node.width = width + 30 * (groupList.length - 1);
         this.updateGroupPos();
@@ -977,19 +982,19 @@ cc.Class({
             playCard.getComponent("rummy_card").init(0);
 
             cc.tween(playCard)
-                .to(0.3, {scale: 1, position: endPos}, { easing: 'expoOut'})
-                .to(0.3, {scaleX: 0}, { easing: 'sineOut'})
+                .to(0.3 * RummyData.PLAY_SPEED, {scale: 1, position: endPos}, { easing: 'expoOut'})
+                .to(0.3 * RummyData.PLAY_SPEED, {scaleX: 0}, { easing: 'sineOut'})
                 .call(()=>{
                     playCard.getComponent("rummy_card").init(cardId);
                 })
-                .to(0.3, {scaleX: 1}, { easing: 'sineIn'})
+                .to(0.3 * RummyData.PLAY_SPEED, {scaleX: 1}, { easing: 'sineIn'})
                 .call(endCall)
                 .start()
         }else{
             playCard.getComponent("rummy_card").init(cardId);
 
             cc.tween(playCard)
-                .to(0.3, {scale: 1, position: endPos}, { easing: 'expoOut'})
+                .to(0.3 * RummyData.PLAY_SPEED, {scale: 1, position: endPos}, { easing: 'expoOut'})
                 .call(endCall)
                 .start()
         }
@@ -997,7 +1002,7 @@ cc.Class({
         for(let j = 0; j < this.groupList.length; j++) {
             let group = this.groupList[j].view;
             cc.tween(group)
-                .by(0.3, {x: -offset}, { easing: 'quartOut'})
+                .by(0.3 * RummyData.PLAY_SPEED, {x: -offset}, { easing: 'quartOut'})
                 .start()
         }
     },
@@ -1345,15 +1350,19 @@ cc.Class({
 
     updateGroupBottomAll(){
         if(this.first !== -1){
-            if(!this.groupList[this.first].data.isPure()){
+            if(!this.groupList[this.first] || !this.groupList[this.first].data.isPure()){
                 this.first = -1;
             }
         }
 
         if(this.second !== -1){
-            if(!this.groupList[this.second].data.isImPure() && !this.groupList[this.second].data.isPure()){
+            if(!this.groupList[this.second] || (!this.groupList[this.second].data.isImPure() && !this.groupList[this.second].data.isPure())){
                 this.second = -1;
             }
+        }
+
+        for(let j = 0; j < this.groupList.length; j++){
+            this.updateGroupBottom(this.groupList[j], j);
         }
 
         for(let j = 0; j < this.groupList.length; j++){

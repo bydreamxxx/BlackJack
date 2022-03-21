@@ -192,8 +192,8 @@ let rummy_player_ui = cc.Class({
 
         if(cardNode){
             cc.tween(cardNode)
-                .to(0.3, {scale: 0.385, position: endPos}, { easing: 'quartOut'})
-                .delay(0.5)
+                .to(0.3 * RummyData.PLAY_SPEED, {scale: 0.385, position: endPos}, { easing: 'quartOut'})
+                .delay(0.5 * RummyData.PLAY_SPEED)
                 .call(()=>{
                     cardNode.destroy();
                 })
@@ -213,7 +213,7 @@ let rummy_player_ui = cc.Class({
     flyCoin(coin, win){
         if(win){
             cc.tween(this.node)
-                .delay(1.2)
+                .delay(1.2 * RummyData.PLAY_SPEED)
                 .call(()=> {
                     let worldPos = this.centerChipNode.parent.convertToWorldSpaceAR(this.centerChipNode.position);
                     let startPos = this.node.convertToNodeSpaceAR(worldPos);
@@ -228,13 +228,13 @@ let rummy_player_ui = cc.Class({
 
                     loseChip.getComponent("rummy_fly_coin").play(coin, () => {
                         cc.tween(loseChip)
-                            .delay(0.2)
-                            .to(0.4, {position: cc.v2(0, 0)}, {easing: 'circOut'})
+                            .delay(0.2 * RummyData.PLAY_SPEED)
+                            .to(0.4 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0)}, {easing: 'circOut'})
                             .call(() => {
                                 this.centerChipNode.active = false;
                                 this.head.changeCoin(this.playerData.score);
                             })
-                            .delay(1.5)
+                            .delay(1.5 * RummyData.PLAY_SPEED)
                             .call(() => {
                                 loseChip.destroy();
                             })
@@ -252,8 +252,8 @@ let rummy_player_ui = cc.Class({
                 this.node.addChild(loseChip);
                 loseChip.getComponent("rummy_fly_coin").play(Math.abs(coin), ()=>{
                     cc.tween(loseChip)
-                        .delay(0.2)
-                        .to(0.4, {position: endPos}, { easing: 'circOut'})
+                        .delay(0.2 * RummyData.PLAY_SPEED)
+                        .to(0.4 * RummyData.PLAY_SPEED, {position: endPos}, { easing: 'circOut'})
                         .call(()=>{
                             loseChip.destroy();
                             this.head.changeCoin(this.playerData.score);
@@ -281,7 +281,7 @@ let rummy_player_ui = cc.Class({
 
         loseChip.getComponent("rummy_fly_coin").play(100, () => {
             cc.tween(loseChip)
-                .to(0.4, {position: endPos}, {easing: 'circOut'})
+                .to(0.4 * RummyData.PLAY_SPEED, {position: endPos}, {easing: 'circOut'})
                 .call(() => {
                     loseChip.destroy();
                 })
@@ -311,8 +311,8 @@ let rummy_player_ui = cc.Class({
             cardNode.position = startPos;
 
             cc.tween(cardNode)
-                .delay(0.4)
-                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
+                .delay(0.4 * RummyData.PLAY_SPEED)
+                .to(0.4 * RummyData.PLAY_SPEED, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
                 .start();
         }else{
             let cardNode = this.discardNode.children[this.discardNode.childrenCount - 1]
@@ -352,8 +352,8 @@ let rummy_player_ui = cc.Class({
 
         loseChip.getComponent("rummy_fly_coin").play(coin, ()=>{
             cc.tween(loseChip)
-                .delay(0.2)
-                .to(0.4, {position: endPos}, { easing: 'circOut'})
+                .delay(0.2 * RummyData.PLAY_SPEED)
+                .to(0.4 * RummyData.PLAY_SPEED, {position: endPos}, { easing: 'circOut'})
                 .call(()=>{
                     loseChip.destroy();
 
@@ -366,6 +366,8 @@ let rummy_player_ui = cc.Class({
                     if(this.playerData.userId !== cc.dd.user.id){
                         this.head.stand();
                     }
+
+                    this.head.changeCoin(this.playerData.score);
                 })
                 .start();
         });
@@ -454,8 +456,8 @@ let rummy_player_ui = cc.Class({
             cardNode.position = startPos;
 
             cc.tween(cardNode)
-                .delay(0.4)
-                .to(0.4, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
+                .delay(0.4 * RummyData.PLAY_SPEED)
+                .to(0.4 * RummyData.PLAY_SPEED, {scale:0.538, position: cc.v2(0, 0)}, { easing: 'quartOut'})
                 .start();
         }
     },

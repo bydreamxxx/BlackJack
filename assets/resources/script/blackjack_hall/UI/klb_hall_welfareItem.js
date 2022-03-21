@@ -97,12 +97,12 @@ cc.Class({
     onClick: function () {
         if (this.lock.active) {
             if (this.data.level > HallCommonData.getInstance().level) {
-                cc.dd.PromptBoxUtil.show('荣誉等级不足，请努力升级!');
+                cc.dd.PromptBoxUtil.show('Insufficient honor level, please try to upgrade!');
             } else {
                 var level = this.data.level;
                 var taskInfo = HallTask.Instance().getTask(level + 26);
                 if (taskInfo == null) {
-                    var str = '上等级福袋还有等级奖励未领取，领取后可开启新的福袋';
+                    var str = 'The upper-level lucky bag still has level rewards that have not yet been claimed. After receiving it, a new lucky bag can be opened.';
                     cc.dd.DialogBoxUtil.show(1, str, "text33");
                     return;
 

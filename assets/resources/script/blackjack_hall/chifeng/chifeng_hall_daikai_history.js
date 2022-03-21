@@ -142,12 +142,12 @@ cc.Class({
     onClickCheckRecord: function (event, data) {
         hall_audio_mgr.com_btn_click();
         if (this.editHistoryBox.string == '') {
-            cc.dd.PromptBoxUtil.show('请输入回放码');
+            cc.dd.PromptBoxUtil.show('Please enter the playback code');
             return;
         }
 
         if(isNaN(this.editHistoryBox.string)){
-            cc.dd.PromptBoxUtil.show('请输入正确的回放码');
+            cc.dd.PromptBoxUtil.show('Please enter the correct playback code');
             return;
         }
         var historyId = this.editHistoryBox.string;
@@ -179,7 +179,7 @@ cc.Class({
                 '发送协议[cmd_get_battle_record_req]', true);
         }
         else {
-            cc.dd.PromptBoxUtil.show('请输入正确的回放码');
+            cc.dd.PromptBoxUtil.show('Please enter the correct playback code');
         }
         // for (let i = 0; i < this.battleList.length; i++) {
         //     if (this.battleList[i].historyId == historyId) {

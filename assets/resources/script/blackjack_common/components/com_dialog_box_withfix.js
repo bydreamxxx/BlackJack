@@ -22,7 +22,7 @@ cc.Class({
     },
 
     close(){
-        cc.dd.DialogBoxUtil.setDialogType(0);
+        // cc.dd.DialogBoxUtil.setDialogType(0);
         this._super();
     }
 });

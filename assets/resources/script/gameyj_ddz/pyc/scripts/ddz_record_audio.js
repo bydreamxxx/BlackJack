@@ -41,7 +41,7 @@ cc.Class({
         var limitTalk = RoomMgr.Instance()._Rule.limitTalk;
         if (limitTalk) {
             if (!this.wordsCD) {
-                cc.dd.PromptBoxUtil.show('此房间不能语音');
+                cc.dd.PromptBoxUtil.show('No voice in this room');
                 this.wordsCD = true;
                 this.scheduleOnce(function () {
                     this.wordsCD = false;

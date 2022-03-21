@@ -644,14 +644,18 @@ cc.Class({
         var scoreNode = cc.dd.Utils.seekNodeByName(this.node, "winNum");
         if (scoreNode) {
             scoreNode.active = false;
-            scoreNode.setPosition(cc.v2(this.m_Oorigin_x, this.m_Oorigin_y));
+            if(this.m_Oorigin_x && this.m_Oorigin_y) {
+                scoreNode.setPosition(cc.v2(this.m_Oorigin_x, this.m_Oorigin_y));
+            }
             scoreNode.stopAllActions();
         }
 
         var scoreNode1 = cc.dd.Utils.seekNodeByName(this.node, "failNum");
         if (scoreNode1) {
             scoreNode1.active = false;
-            scoreNode1.setPosition(cc.v2(this.m_Oorigin_x, this.m_Oorigin_y));
+            if(this.m_Oorigin_x && this.m_Oorigin_y) {
+                scoreNode1.setPosition(cc.v2(this.m_Oorigin_x, this.m_Oorigin_y));
+            }
             scoreNode1.stopAllActions();
         }
 

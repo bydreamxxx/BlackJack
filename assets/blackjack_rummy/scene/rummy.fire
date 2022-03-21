@@ -2093,7 +2093,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        194.239,
+        0,
         0,
         0,
         0,
@@ -2155,14 +2155,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 1,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -386,
+        0,
         -58.947,
         0,
         0,
@@ -2268,7 +2268,7 @@
         "__id__": 51
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 53
@@ -2435,8 +2435,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "MaxWinnings:",
-    "_N$string": "MaxWinnings:",
+    "_string": "Max Winnings:",
+    "_N$string": "Max Winnings:",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2508,8 +2508,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PerPoint:",
-    "_N$string": "PerPoint:",
+    "_string": "Per Point:",
+    "_N$string": "Per Point:",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

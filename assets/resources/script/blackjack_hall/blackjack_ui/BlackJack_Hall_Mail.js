@@ -114,11 +114,11 @@ cc.Class({
                         }
                     }
                     else {
-                        cc.dd.PromptBoxUtil.show('邮件不存在');
+                        cc.dd.PromptBoxUtil.show('mail does not exist');
                     }
                 }
                 else {
-                    cc.dd.PromptBoxUtil.show('邮件不存在');
+                    cc.dd.PromptBoxUtil.show('mail does not exist');
                 }
                 break;
             case Hall.HallEvent.DRAW_MAIL_ACK:
@@ -145,11 +145,11 @@ cc.Class({
                         }
                     }
                     else {
-                        cc.dd.PromptBoxUtil.show('邮件不存在');
+                        cc.dd.PromptBoxUtil.show('mail does not exist');
                     }
                 }
                 else {
-                    cc.dd.PromptBoxUtil.show('邮件不存在');
+                    cc.dd.PromptBoxUtil.show('mail does not exist');
                 }
                 break;
             default:

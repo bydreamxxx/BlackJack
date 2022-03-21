@@ -85,7 +85,7 @@ let RummyGameMgr = cc.Class({
     gameResult(msg){
         // RummyData.clearGameInfo();
         msg.resultsList.forEach(result=>{
-            if(!result.isdrop){
+            if(result.isdrop === 1){
                 let player = RoomMgr.Instance().player_mgr.getPlayerById(result.userId);
                 if(player){
                     player.updateCoin(result.allCoin);

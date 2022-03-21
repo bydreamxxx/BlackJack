@@ -841,11 +841,11 @@ var handler = {
                 cc._joinUpdater = updater;
                 cc._joinUpdater.roomId = msg.roomId;
                 if (updater.updateing) {
-                    cc.dd.PromptBoxUtil.show('游戏正在下载中,请稍等!');
+                    cc.dd.PromptBoxUtil.show('The game is downloading, please wait!');
                     return;
                 }
                 if (updater.checking) {
-                    cc.log("正在检测更新中");
+                    cc.log("Checking for update");
                     return;
                 }
                 //设置游戏更新完成回调,游戏更新id

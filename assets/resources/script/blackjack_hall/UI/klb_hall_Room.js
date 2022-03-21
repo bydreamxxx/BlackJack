@@ -130,7 +130,7 @@ cc.Class({
                 }
             }
         }
-        cc.dd.PromptBoxUtil.show('比赛NOT YET OPEN');
+        cc.dd.PromptBoxUtil.show('Match NOT YET OPEN');
     },
 
     getMatchGameId(goldId) {
@@ -299,7 +299,7 @@ cc.Class({
                 //cc.dd.UIMgr.openUI(hall_prefab.KLB_HALL_WELFAREBAG);
                 break;
             case 'RANK'://排行榜
-                cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
+                cc.dd.PromptBoxUtil.show('NOT YET OPEN，Stay tuned');
                 break;
             case 'MORE'://更多
                 this.moreNode.active = true;
@@ -393,7 +393,7 @@ cc.Class({
         })
         hall_audio_mgr.com_btn_click();
         if (createGameInfo && createGameInfo.isopen == 0) {
-            cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
+            cc.dd.PromptBoxUtil.show('NOT YET OPEN，Stay tuned');
             return;
         }
         switch (data) {
@@ -424,7 +424,7 @@ cc.Class({
      */
     clickClub: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        // cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
+        // cc.dd.PromptBoxUtil.show('NOT YET OPEN，Stay tuned');
         // cc.dd.SceneManager.replaceScene('club_new');
         cc.dd.SceneManager.replaceScene('klb_friend_group_scene');
     },
@@ -486,7 +486,7 @@ cc.Class({
             case Hall.HallEvent.UPDATE_UNREAD_MAIL_NUM:
                 if (data > 0) {
                     AudioManager.playSound("blackjack_hall/audios/message");
-                    cc.dd.PromptBoxUtil.show("您有新邮件未阅读");
+                    cc.dd.PromptBoxUtil.show("You have unread new mail");
                 }
                 this.updateUnreadMail();
                 break;

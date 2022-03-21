@@ -367,7 +367,7 @@ cc.Class({
 
     requestEnterGame: function (deskId, seat) {
         if (RoomMgr.Instance().roomItem == null) {
-            cc.dd.PromptBoxUtil.show('房间信息错误:roomid==' + this.m_nRoomId);
+            cc.dd.PromptBoxUtil.show('wrong room information:roomid==' + this.m_nRoomId);
             return;
         }
 

@@ -462,7 +462,7 @@ cc.Class({
                 break;
             case RummyEvent.SHOW_RESULT:
                 this.resultInfo = data;
-                this.scheduleOnce(this.showResult.bind(this), 2)
+                this.scheduleOnce(this.showResult.bind(this), 2 * RummyData.PLAY_SPEED)
                 break;
             case RummyEvent.PLAYER_TURN:
                 this.dropNode.active = false;
@@ -521,7 +521,7 @@ cc.Class({
                     }else{
                         this.banker.playZhayan();
                     }
-                }, 0.7)
+                }, 0.7 * RummyData.PLAY_SPEED)
                 break;
             default:
                 break;
@@ -783,45 +783,45 @@ cc.Class({
 
                     let discardTween = cc.tween(discard)
                         .parallel(
-                            cc.tween().to(0.5, {position: cc.v2(0, 0)}, {easing: 'quadOut'}),
-                            cc.tween().to(0.25, {scaleX: 0, scaleY: 0.5918}).call(() => {
+                            cc.tween().to(0.5 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0)}, {easing: 'quadOut'}),
+                            cc.tween().to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0, scaleY: 0.5918}).call(() => {
                                 discard.getComponent("rummy_card").init(RummyData.giveUp);
-                            }).to(0.25, {scaleX: 0.538, scaleY: 0.538})
+                            }).to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0.538, scaleY: 0.538})
                         );
 
                     let cardsNodeTween = cc.tween(this.cardsNode)
-                        .to(0.5, {position: this.cardsPos}, {easing: 'quadOut'});
+                        .to(0.5 * RummyData.PLAY_SPEED, {position: this.cardsPos}, {easing: 'quadOut'});
 
                     let baidaNodeTween = cc.tween(node)
-                        .to(0.5, {position: cc.v2(-130, 0)}, {easing: 'expoOut'})
+                        .to(0.5 * RummyData.PLAY_SPEED, {position: cc.v2(-130, 0)}, {easing: 'expoOut'})
                         .call(() => {
                             node.zIndex = 0;
                         })
-                        .delay(0.5)
-                        .to(0.2, {scale: 0.5918}, {easing: 'quintIn'})
-                        .to(0.25, {scaleX: 0})
+                        .delay(0.5 * RummyData.PLAY_SPEED)
+                        .to(0.2 * RummyData.PLAY_SPEED, {scale: 0.5918}, {easing: 'quintIn'})
+                        .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0})
                         .call(() => {
                             node.getComponent("rummy_card").init(RummyData.xcard);
                             node.getComponent("rummy_card").showMask();
                         })
-                        .to(0.25, {scaleX: 0.5918})
-                        .to(0.2, {scale: 0.538}, {easing: 'quintOut'})
-                        .delay(0.3)
-                        .to(0.6, {position: cc.v2(-28.66, -1.144), angle: 11.5}, {easing: 'sineInOut'})
+                        .to(0.25 * RummyData.PLAY_SPEED, {scaleX: 0.5918})
+                        .to(0.2 * RummyData.PLAY_SPEED, {scale: 0.538}, {easing: 'quintOut'})
+                        .delay(0.3 * RummyData.PLAY_SPEED)
+                        .to(0.6 * RummyData.PLAY_SPEED, {position: cc.v2(-28.66, -1.144), angle: 11.5}, {easing: 'sineInOut'})
 
                     cc.tween(this.showcardNode)
-                        .delay(5)
+                        .delay(3 * RummyData.PLAY_SPEED)
                         .call(() => {
                             discardTween.start()
                             if(AudioManager.getAudioID("blackjack_rummy/audio/rummyFlip") == -1) {
                                 AudioManager.playSound("blackjack_rummy/audio/rummyFlip");
                             }
                         })
-                        .delay(0.8)
+                        .delay(0.8 * RummyData.PLAY_SPEED)
                         .call(() => {
                             cardsNodeTween.start()
                         })
-                        .delay(1)
+                        .delay(1 * RummyData.PLAY_SPEED)
                         .call(() => {
                             this.bankerHead.play_banker_duanyu("rummy_text28", 1);
                             this.banker.playShuohua();
@@ -840,7 +840,7 @@ cc.Class({
                     this.tipsNode.active = true;
                     // this.scheduleOnce(()=>{
                     //     this.tipsNode.active = false;
-                    // }, 3);
+                    // }, 3 * RummyData.PLAY_SPEED);
                     if(RummyData.selfWin){
                         this.bottomNode.active = false;
 
@@ -854,12 +854,12 @@ cc.Class({
 
                     let baida = this.cardsNode.getChildByName("baida");
                     cc.tween(baida)
-                        .to(0.6, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
-                        .delay(0.3)
+                        .to(0.6 * RummyData.PLAY_SPEED, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
+                        .delay(0.3 * RummyData.PLAY_SPEED)
                         .call(() => {
                             baida.zIndex = this.cardsNode.childrenCount;
                         })
-                        .to(0.5, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
+                        .to(0.5 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
                         .start()
                 }else{
                     this.discardNode.removeAllChildren();
@@ -922,12 +922,12 @@ cc.Class({
                 if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
                     let baida = this.cardsNode.getChildByName("baida");
                     cc.tween(baida)
-                        .to(0.6, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
-                        .delay(0.3)
+                        .to(0.6 * RummyData.PLAY_SPEED, {position: cc.v2(-130, 0), angle: 0}, {easing: 'sineInOut'})
+                        .delay(0.3 * RummyData.PLAY_SPEED)
                         .call(() => {
                             baida.zIndex = this.cardsNode.childrenCount;
                         })
-                        .to(0.5, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
+                        .to(0.5 * RummyData.PLAY_SPEED, {position: cc.v2(0, 0)}, {easing: 'expoIn'})
                         .start()
                 }else{
                     this.cardsNode.removeAllChildren();

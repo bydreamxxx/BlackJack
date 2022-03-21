@@ -320,14 +320,17 @@ var Utils = {
                 str = prefix + num.toLocaleString('en-IN');
             }
         }else{
+            if(isMoney) {
+                prefix = '$'
+            }
             if (num >= 1000000000) {
-                str = (num / 1000000000.00).toFixed(1).toLocaleString('en-US') + 'B';
+                str = prefix + parseFloat((num / 1000000000.00).toFixed(1)).toLocaleString('en-US') + 'B';
             } else if (num >= 10000000) {
-                str = (num / 1000000.00).toFixed(1).toLocaleString('en-US') + 'M';
+                str = prefix + parseFloat((num / 1000000.00).toFixed(1)).toLocaleString('en-US') + 'M';
             } else if (num >= 10000) {
-                str = (num / 1000.00).toFixed(1).toLocaleString('en-US') + 'K';
+                str = prefix + parseFloat((num / 1000.00).toFixed(1)).toLocaleString('en-US') + 'K';
             } else {
-                str = num.toLocaleString('en-US');
+                str = prefix + parseFloat(num).toLocaleString('en-US');
             }
         }
 

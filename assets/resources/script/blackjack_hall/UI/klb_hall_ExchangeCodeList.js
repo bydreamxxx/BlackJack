@@ -38,7 +38,7 @@ cc.Class({
 
         if (cc.sys.OS_ANDROID == cc.sys.os || cc.sys.OS_IOS == cc.sys.os) {
             cc.dd.native_systool.SetClipBoardContent(this.CodeTxt[data].string);
-            cc.dd.PromptBoxUtil.show("复制成功");
+            cc.dd.PromptBoxUtil.show("Copy successfully");
         }
     },
 

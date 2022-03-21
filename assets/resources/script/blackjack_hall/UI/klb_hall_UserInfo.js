@@ -343,7 +343,7 @@ let userInfo = cc.Class({
 
     // 打开商城（房卡）
     openShop: function (button, data) {
-        cc.dd.PromptBoxUtil.show('NOT YET OPEN，敬请期待');
+        cc.dd.PromptBoxUtil.show('NOT YET OPEN，Stay tuned');
         return;
         // cc.dd.UIMgr.openUI(hall_prefab.JLMJ_SHOP_LAYER,function (ui) {
         //     var type = data || "FK";
@@ -828,10 +828,10 @@ let userInfo = cc.Class({
                             ui.getComponent('klb_hall_spring_festival_activity').show(active);
                         });
                     } else {
-                        cc.dd.PromptBoxUtil.show('活动不存在');
+                        cc.dd.PromptBoxUtil.show('activity does not exist');
                     }
                 } else {
-                    cc.dd.PromptBoxUtil.show('活动还未开启');
+                    cc.dd.PromptBoxUtil.show('Event has not started');
                 }
                 break;
             case Hall.HallEvent.DUIJIANG_ACTIVITY_INFO:
@@ -866,10 +866,10 @@ let userInfo = cc.Class({
             //                 });
             //             }
             //         } else {
-            //             cc.dd.PromptBoxUtil.show('活动不存在');
+            //             cc.dd.PromptBoxUtil.show('activity does not exist');
             //         }
             //     } else {
-            //         cc.dd.PromptBoxUtil.show('活动还未开启');
+            //         cc.dd.PromptBoxUtil.show('Event has not started');
             //     }
             //     break;
         }
@@ -1038,7 +1038,7 @@ let userInfo = cc.Class({
 
     onClickCopyID() {
         cc.dd.native_systool.SetClipBoardContent(this.ID_TTF.string);
-        cc.dd.PromptBoxUtil.show("复制ID成功");
+        cc.dd.PromptBoxUtil.show("Copy ID succeeded");
     }
 });
 module.exports = userInfo;

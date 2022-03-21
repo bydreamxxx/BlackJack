@@ -16,6 +16,12 @@ cc.Class({
         m_oOpAtals: cc.SpriteAtlas,
         m_tPanel: {default: [], type: cc.Node, tooltip: '按钮panel'},
         m_sPath: '',
+
+        m_addBtn: cc.Button,
+        m_SubBtn: cc.Button,
+        m_followBtn: cc.Button,
+        m_followLabel: cc.Label,
+        m_isAdd: false
     },
 
     ctor: function(){
@@ -617,4 +623,22 @@ cc.Class({
     convertChipNum: function(num){
         return cc.dd.Utils.getNumToWordTransform(num)
     },
+
+    updateBet() {
+        this.m_addBtn.interactable = !this.m_isAdd
+        this.m_SubBtn.interactable = this.m_isAdd
+    },
+    onAddBet() {
+        hall_audio_mgr.com_btn_click();
+        this.m_isAdd = true
+        this.updateBet()
+    },
+    onSubBet() {
+        hall_audio_mgr.com_btn_click();
+        this.m_isAdd = false
+        this.updateBet()
+    },
+    onFollowBet() {
+        hall_audio_mgr.com_btn_click();
+    }
 });

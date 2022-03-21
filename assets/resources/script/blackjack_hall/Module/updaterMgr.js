@@ -68,7 +68,7 @@ var UpdateMgr = cc.Class({
             return cfg.game_id == game_id
         });
         if (!updater_cfg) {
-            cc.error("[更新] " + "没有该类型的更新器配置 game_id=" + game_id);
+            cc.error("[update] " + "No updater configuration of this type game_id=" + game_id);
             return null;
         }
 
@@ -98,7 +98,7 @@ var UpdateMgr = cc.Class({
             return cfg.game_id == game_id
         });
         if (!updater_cfg) {
-            cc.error("[更新] " + "没有该类型的更新器配置 game_id=" + game_id);
+            cc.error("[update] " + "No updater configuration of this type game_id=" + game_id);
             return null;
         }
         if (ret == -1)

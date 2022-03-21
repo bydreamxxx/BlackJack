@@ -1,6 +1,7 @@
 var chat_duanyu_item = require('chat_duanyu_item');
 var QuickMusicPath =require('jlmj_ChatCfg').QuickMusicPath;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
+const RummyData = require("RummyData").RummyData.Instance();
 
 let ChatEd = require('jlmj_chat_data').ChatEd;
 let ChatEvent = require('jlmj_chat_data').ChatEvent;
@@ -119,7 +120,7 @@ cc.Class({
 
     changeCoin(coin){
         if(this.viewIdx === 0) {
-            this.coin.string = cc.dd.Utils.getNumToWordTransform(coin);
+            this.coin.string = cc.dd.Utils.getNumToWordTransform(coin, true);
         }else{
             this.coin.string = coin;
         }
@@ -131,7 +132,7 @@ cc.Class({
 
         this.nameLabel.string = cc.dd.Utils.subChineseStr(data.playerName, 0, 12);
         if(this.viewIdx === 0){
-            this.coin.string = cc.dd.Utils.getNumToWordTransform(data.score);
+            this.coin.string = cc.dd.Utils.getNumToWordTransform(data.score, true);
         }else{
             this.coin.string = data.score;
         }
@@ -394,7 +395,7 @@ cc.Class({
 
         if(cc.dd._.isNumber(time)){
             cc.tween(this.duanyu_node)
-                .delay(time)
+                .delay(time * RummyData.PLAY_SPEED)
                 .call(()=>{
                     this.duanyu_node.active = false;
                     this.duanyu_arrow.active = false;

@@ -262,7 +262,9 @@ cc.Class({
     // 打开搜索
     onOpenSearch() {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_ADD_FRIEND);
+        cc.dd.UIMgr.openUI(hall_prefab.BJ_HALL_ADD_FRIEND, (prefab)=>{
+            prefab.getComponent('AddFriend').requestSimilarFriend();
+        });
     },
     // 打开请求列表
     onOpenReqestList() {

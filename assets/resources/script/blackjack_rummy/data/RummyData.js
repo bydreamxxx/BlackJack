@@ -53,6 +53,8 @@ let RummyData = cc.Class({
     },
 
     ctor() {
+        this.PLAY_SPEED = 1;
+
         this.state = -1;
         this.lastState = -1;
         this.lastTime = 0;
@@ -115,10 +117,10 @@ let RummyData = cc.Class({
             return item.key == this.roomConfigId;
         }.bind(this))
         if(betConfig){
-            this.perPoint = 80;
+            this.perPoint = betConfig.bet;
             this.maxWin = betConfig.bet * 80;
         }else{
-            this.perPoint = 80;
+            this.perPoint = 1000;
             this.maxWin = 8000;
         }
     },

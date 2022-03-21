@@ -122,12 +122,18 @@ cc.Class({
     loadTrophy(champsList) {
         this.trophyListContent.removeAllChildren()
         for(let i=0; i<champsList.length; i++){
+            let item = champsList[i]
             let node = cc.instantiate(this.trophyItem);
             node.active =  true
             node.parent = this.trophyListContent
+            let gameCfg = game_type.getItem((_item) => {
+                return _item.key === item.gameType;
+            })
+            if(gameCfg){
+                cc.find('name', node).getComponent('LanguageLabel').setText(gameCfg.name)
+            }
             // cc.find('icon', node).getComponent(cc.Sprite)
-            cc.find('name', node).getComponent('LanguageLabel').setText(champsList[i].name)
-            cc.find('name', node).getComponent(cc.Label).setText(champsList[i].winCoin)
+            cc.find('count', node).getComponent(cc.Label).string = `X${item.times}`
         }
     },
 

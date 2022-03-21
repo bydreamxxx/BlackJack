@@ -157,7 +157,7 @@ cc.Class({
                 }
             }
             if (!find) {
-                cc.dd.PromptBoxUtil.show('未找到该玩家');
+                cc.dd.PromptBoxUtil.show('The player was not found');
                 this.watchNode.active = false;
             }
         }

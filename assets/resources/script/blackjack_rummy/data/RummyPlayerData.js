@@ -145,6 +145,7 @@ let RummyPlayerData = cc.Class({
 
     loseGame(){
         this.userState = 2;
+        this.score -= this.dropCoin;
         RummyPlayerED.notifyEvent(RummyPlayerEvent.LOSE_GAME, [this]);
     },
 
