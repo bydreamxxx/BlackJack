@@ -1372,10 +1372,19 @@ cc.Class({
 
     updatePoint(){
         let point = 0;
-        this.groupList.forEach(info=>{
-            if(info.data.isNoGroup() || info.data.isNoCorrect()){
+        this.groupList.forEach((info, index)=>{
+            if(this.first === -1 && this.second === -1){
                 point += info.data.getPoint();
+            }else if(this.first !== -1 && this.second === -1){
+                if(index != this.first){
+                    point += info.data.getPoint();
+                }
+            }else{
+                if(info.data.isNoGroup() || info.data.isNoCorrect()){
+                    point += info.data.getPoint();
+                }
             }
+
         })
         if(point >= 80){
             point = 80;

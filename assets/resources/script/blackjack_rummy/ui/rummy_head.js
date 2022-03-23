@@ -125,6 +125,7 @@ cc.Class({
             this.coin.string = coin;
         }
         this.playerData.score = coin;
+        this.playerData.playerData.coin = coin;
     },
 
     init(data){
@@ -159,10 +160,12 @@ cc.Class({
     },
 
     sit(){
+        cc.error(`${this.viewIdx} sit`)
         this.standNode.active = false;
     },
 
     stand(){
+        cc.error(`${this.viewIdx} stand`)
         this.standNode.active = true;
     },
 

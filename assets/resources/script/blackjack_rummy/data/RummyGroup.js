@@ -200,7 +200,7 @@ let RummyGroup = cc.Class({
     },
 
     checkIsSet(){
-        let baseItem = Math.floor(this.cardsList[0] / 10);
+        let baseItem = Math.floor(this.normalList[0] / 10);
 
         return this.cardsList.length >= 3 && this.cardsList.length <= 4 && this.cardsList.every(item => baseItem === Math.floor(item / 10) || RummyData.isBaida(item)) && this.colorList.every(item => item <= 1);//没有重复花色
     },
