@@ -62,7 +62,7 @@ module.exports = {
     //vip
     KLB_HALL_VIP: 'blackjack_hall/prefabs/klb_hall_VIP',
     //vip new
-    KLB_HALL_VIP_NEW: 'blackjack_hall/prefabs/klb_hall_vip_new',
+//    KLB_HALL_VIP_NEW: 'blackjack_hall/prefabs/klb_hall_vip_new',
     //首充
     KLB_HALL_FIRST_BUY: 'blackjack_hall/prefabs/klb_hall_first_buy',
 

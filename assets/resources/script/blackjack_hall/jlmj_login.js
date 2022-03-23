@@ -400,7 +400,7 @@ var loginModle = cc.Class({
         this.registNode.active = false;
 
         if (cc.sys.isNative) {
-            var platform_str = ["", "内网测试版本", "外网测试版本", "版本", "版本"];
+            var platform_str = ["", "Intranet test version", "External network test version", "version", "version"];
             this.version.string = platform_str[AppCfg.PID] + ":" + AppCfg.VERSION;
         }else if(cc.sys.isBrowser){
             this.version.string = cc.angle_game_version;

@@ -7,37 +7,40 @@ let prefab_config = require('klb_friend_group_prefab_cfg');
 
 
 const mapGameReplayScene = {
-    [33]: 'ddz_replay',
-    [34]: 'xyddz_replay',
-    [Define.GameType.JLMJ_FRIEND]: 'jlmj_replay_game',
-    [Define.GameType.CCMJ_FRIEND]: 'ccmj_replay_game',
-    [Define.GameType.NAMJ_FRIEND]: 'namj_replay_game',
-    [35]: 'dsz_game_replay',
-    [Define.GameType.FXMJ_FRIEND]: 'fxmj_replay_game',
-    [50]: 'nn_replay',
-    [40]: 'tdk_replay',
-    [44]: 'tdk_replay',
-    [60]: 'py_game_replay',
-    [Define.GameType.SYMJ_FRIEND]: 'symj_replay_game',
-    [Define.GameType.SYMJ_FRIEND_2]: 'symj_replay_game',
-    [Define.GameType.XZMJ_FRIEND]: 'scmj_replay_game',
-    [Define.GameType.XLMJ_FRIEND]: 'scmj_replay_game',
-    [63]: 'suoha_replay',
-    [43]: 'hbsl_replay',
-    [Define.GameType.SHMJ_FRIEND]: 'shmj_replay_game',
-    [Define.GameType.JZMJ_FRIEND]: 'jzmj_replay_game',
-    [Define.GameType.HSMJ_FRIEND]: 'hsmj_replay_game',
-    [36]: 'new_dsz_replay_scene',
-    [Define.GameType.TDHMJ_FRIEND]: 'tdhmj_replay_game',
-    [Define.GameType.CFMJ_FRIEND]: 'cfmj_replay_game',
-    [Define.GameType.AHMJ_FRIEND]: 'ahmj_replay_game',
-    [Define.GameType.FZMJ_FRIEND]: 'fzmj_replay_game',
-    [Define.GameType.WDMJ_FRIEND]: 'wdmj_replay_game',
-    [Define.GameType.PZMJ_FRIEND]: 'pzmj_replay_game',
-    [Define.GameType.BCMJ_FRIEND]: 'bcmj_replay_game',
-    [Define.GameType.ACMJ_FRIEND]: 'acmj_replay_game',
-    [Define.GameType.HLMJ_FRIEND]: 'hlmj_replay_game',
-    [29]: 'pdk_replay',
+    // [33]: 'ddz_replay',
+    // [34]: 'xyddz_replay',
+    // [Define.GameType.JLMJ_FRIEND]: 'jlmj_replay_game',
+    // [Define.GameType.CCMJ_FRIEND]: 'ccmj_replay_game',
+    // [Define.GameType.NAMJ_FRIEND]: 'namj_replay_game',
+    // [35]: 'dsz_game_replay',
+    // [Define.GameType.FXMJ_FRIEND]: 'fxmj_replay_game',
+    // [50]: 'nn_replay',
+    // [40]: 'tdk_replay',
+    // [44]: 'tdk_replay',
+    // [60]: 'py_game_replay',
+    // [Define.GameType.SYMJ_FRIEND]: 'symj_replay_game',
+    // [Define.GameType.SYMJ_FRIEND_2]: 'symj_replay_game',
+    // [Define.GameType.XZMJ_FRIEND]: 'scmj_replay_game',
+    // [Define.GameType.XLMJ_FRIEND]: 'scmj_replay_game',
+    // [63]: 'suoha_replay',
+    // [43]: 'hbsl_replay',
+    // [Define.GameType.SHMJ_FRIEND]: 'shmj_replay_game',
+    // [Define.GameType.JZMJ_FRIEND]: 'jzmj_replay_game',
+    // [Define.GameType.HSMJ_FRIEND]: 'hsmj_replay_game',
+    // [36]: 'new_dsz_replay_scene',
+    // [Define.GameType.TDHMJ_FRIEND]: 'tdhmj_replay_game',
+    // [Define.GameType.CFMJ_FRIEND]: 'cfmj_replay_game',
+    // [Define.GameType.AHMJ_FRIEND]: 'ahmj_replay_game',
+    // [Define.GameType.FZMJ_FRIEND]: 'fzmj_replay_game',
+    // [Define.GameType.WDMJ_FRIEND]: 'wdmj_replay_game',
+    // [Define.GameType.PZMJ_FRIEND]: 'pzmj_replay_game',
+    // [Define.GameType.BCMJ_FRIEND]: 'bcmj_replay_game',
+    // [Define.GameType.ACMJ_FRIEND]: 'acmj_replay_game',
+    // [Define.GameType.HLMJ_FRIEND]: 'hlmj_replay_game',
+    // [29]: 'pdk_replay',
+    [Define.GameType.RUMMY]: 'rummy',
+    [Define.GameType.BLACKJACK_GOLD]: 'blackjack',
+    [Define.GameType.BLACKJACK_FRIEND]: 'blackjack',
 }
 
 var REPLAY_ED = new cc.dd.EventDispatcher();
@@ -147,131 +150,150 @@ const com_replay = cc.Class({
                 this.gameType = gameType;
                 this.recordId = recordId;
                 if (cc.director.getScene().name != mapGameReplayScene[gameType]) {
-                    if (gameType == cc.dd.Define.GameType.JLMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjJilinRule: msg.deskinfo.createcfg });
-                    }
-                    if (gameType == cc.dd.Define.GameType.CCMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjChangchunRule: msg.deskinfo.createcfg });
-                    }
-                    if (gameType == cc.dd.Define.GameType.NAMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjNonganRule: msg.deskinfo.createcfg });
-                    }
+                    // if (gameType == cc.dd.Define.GameType.JLMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjJilinRule: msg.deskinfo.createcfg });
+                    // }
+                    // if (gameType == cc.dd.Define.GameType.CCMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjChangchunRule: msg.deskinfo.createcfg });
+                    // }
+                    // if (gameType == cc.dd.Define.GameType.NAMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjNonganRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == 35) {
+                    //     var id = this.msg_list[0].id;
+                    //     var msg = this.msg_list[0].content;
+                    //     RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId, null, null);
+                    //     RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                    //     RoomMgr.Instance().setPlayerMgr();
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.FXMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjFuxinRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == Define.GameType.TDK_FRIEND ||
+                    //     gameType == Define.GameType.TDK_FRIEND_LIU) {
+                    //     var id = this.msg_list[0].id;
+                    //     var msg = this.msg_list[0].content;
+                    //     RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
+                    //     RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
+                    //     RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                    //     RoomMgr.Instance().setPlayerMgr();
+                    //     cc.gateNet.Instance().excuteReplayMsg(id, msg);
+                    // }
+                    //
+                    // if (gameType == Define.GameType.PAOYAO_FRIEND) {
+                    //     var id = this.msg_list[0].id;
+                    //     var msg = this.msg_list[0].content;
+                    //     RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
+                    //     RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
+                    //     RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                    //     RoomMgr.Instance().setPlayerMgr();
+                    //     cc.gateNet.Instance().excuteReplayMsg(id, msg);
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.SYMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjSongyuanRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.XZMJ_FRIEND || gameType == cc.dd.Define.GameType.XLMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjXuezhanRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.SHMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjSuihuaRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.JZMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjJinzhouRuleNew: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.HSMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjHeishanRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == Define.GameType.HBSL_JBL) {
+                    //     var id = this.msg_list[0].id;
+                    //     var msg = this.msg_list[0].content;
+                    //     RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
+                    //     RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
+                    //     RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                    //     RoomMgr.Instance().setPlayerMgr();
+                    //     cc.gateNet.Instance().excuteReplayMsg(id, msg);
+                    // }
+                    //
+                    // if (gameType == Define.GameType.NEW_DSZ_FRIEND) {
+                    //     var id = this.msg_list[0].id;
+                    //     var msg = this.msg_list[0].content;
+                    //     RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId, null, null);
+                    //     RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                    //     RoomMgr.Instance().setPlayerMgr();
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.TDHMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjNeimengguRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.CFMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjChifengRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.AHMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjAohanRule: msg.deskinfo.createcfg });
+                    // }
+                    //
+                    // if (gameType == cc.dd.Define.GameType.FZMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjFangzhengRule: msg.deskinfo.createcfg });
+                    // }
+                    // if (gameType == cc.dd.Define.GameType.WDMJ_FRIEND) {
+                    //     var msg = this.msg_list[0].content;
+                    //     this.setMJRoomMgr({ mjWudanRule: msg.deskinfo.createcfg });
+                    // }
+                    // switch (gameType) {
+                    //     case cc.dd.Define.GameType.PZMJ_FRIEND:
+                    //     case cc.dd.Define.GameType.BCMJ_FRIEND:
+                    //     case cc.dd.Define.GameType.ACMJ_FRIEND:
+                    //     case cc.dd.Define.GameType.HLMJ_FRIEND:
+                    //         var msg = this.msg_list[0].content;
+                    //         this.setCommonMJRoomMgr(msg);
+                    //         break;
+                    // }
 
-                    if (gameType == 35) {
+                    if(gameType === Define.GameType.RUMMY){
                         var id = this.msg_list[0].id;
                         var msg = this.msg_list[0].content;
-                        RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId, null, null);
-                        RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
+                        RoomMgr.Instance().setGameCommonInfo(msg.deskinfo.desktype, msg.deskinfo.passwrod, msg.deskinfo.owner);
                         RoomMgr.Instance().setPlayerMgr();
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.FXMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjFuxinRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == Define.GameType.TDK_FRIEND ||
-                        gameType == Define.GameType.TDK_FRIEND_LIU) {
-                        var id = this.msg_list[0].id;
-                        var msg = this.msg_list[0].content;
-                        RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
-                        RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
-                        RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
-                        RoomMgr.Instance().setPlayerMgr();
+                        let RummyData = require("RummyData").RummyData.Instance();
+                        if(RummyData.state === -1){
+                            RoomMgr.Instance().player_mgr.updatePlayerNum();
+                            msg.roleInfosList.forEach(player=>{
+                                RoomMgr.Instance().player_mgr.playerEnter(player);
+                            });
+                        }
                         cc.gateNet.Instance().excuteReplayMsg(id, msg);
-                    }
-
-                    if (gameType == Define.GameType.PAOYAO_FRIEND) {
-                        var id = this.msg_list[0].id;
-                        var msg = this.msg_list[0].content;
-                        RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
-                        RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
-                        RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
-                        RoomMgr.Instance().setPlayerMgr();
-                        cc.gateNet.Instance().excuteReplayMsg(id, msg);
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.SYMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjSongyuanRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.XZMJ_FRIEND || gameType == cc.dd.Define.GameType.XLMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjXuezhanRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.SHMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjSuihuaRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.JZMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjJinzhouRuleNew: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.HSMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjHeishanRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == Define.GameType.HBSL_JBL) {
-                        var id = this.msg_list[0].id;
-                        var msg = this.msg_list[0].content;
-                        RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId);
-                        RoomMgr.Instance().setReplayGameNetHandler(msg.deskInfo.gameType);
-                        RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
-                        RoomMgr.Instance().setPlayerMgr();
-                        cc.gateNet.Instance().excuteReplayMsg(id, msg);
-                    }
-
-                    if (gameType == Define.GameType.NEW_DSZ_FRIEND) {
-                        var id = this.msg_list[0].id;
-                        var msg = this.msg_list[0].content;
-                        RoomMgr.Instance().setGameCommonInfo(msg.deskInfo.gameType, msg.deskInfo.password, msg.deskInfo.ownerId, null, null);
-                        RoomMgr.Instance().setGameRuleByType({ rule: msg.deskInfo.deskRule });
-                        RoomMgr.Instance().setPlayerMgr();
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.TDHMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjNeimengguRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.CFMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjChifengRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.AHMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjAohanRule: msg.deskinfo.createcfg });
-                    }
-
-                    if (gameType == cc.dd.Define.GameType.FZMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjFangzhengRule: msg.deskinfo.createcfg });
-                    }
-                    if (gameType == cc.dd.Define.GameType.WDMJ_FRIEND) {
-                        var msg = this.msg_list[0].content;
-                        this.setMJRoomMgr({ mjWudanRule: msg.deskinfo.createcfg });
-                    }
-                    switch (gameType) {
-                        case cc.dd.Define.GameType.PZMJ_FRIEND:
-                        case cc.dd.Define.GameType.BCMJ_FRIEND:
-                        case cc.dd.Define.GameType.ACMJ_FRIEND:
-                        case cc.dd.Define.GameType.HLMJ_FRIEND:
-                            var msg = this.msg_list[0].content;
-                            this.setCommonMJRoomMgr(msg);
-                            break;
                     }
 
                     this.saveHistoryCache();
-                    cc.dd.SceneManager.replaceScene(mapGameReplayScene[gameType]);
+                    cc.dd.SceneManager.replaceScene(mapGameReplayScene[gameType], [new cc.dd.ResLoadCell("blackjack_common/atlas/cards", cc.SpriteAtlas)], null, ()=>{
+                        if(gameType === Define.GameType.RUMMY){
+                            cc.dd.UIMgr.openUI("blackjack_common/replay/noSlider/replay_ui");
+                        }
+                    });
                 }
                 REPLAY_ED.notifyEvent(REPLAY_EVENT.ON_GET_DATA, null);
             }

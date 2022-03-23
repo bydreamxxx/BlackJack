@@ -138,7 +138,7 @@ cc.Class({
             if (this.init) {
                 this.init = false;
             } else {
-                AudioManager.playMusic('blackjack_hall/audios/hall_bg');
+                AudioManager.playMusic('blackjack_hall/audios/lobby');
             }
         } else {
             AudioManager.offMusic();

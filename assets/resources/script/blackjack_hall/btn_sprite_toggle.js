@@ -1,5 +1,5 @@
 var sprite=cc.Class({
-    name:sprite,
+    name:'sprite1',
     properties:{
         target:cc.Sprite,           
         normalSprite:cc.SpriteFrame,
@@ -7,7 +7,7 @@ var sprite=cc.Class({
     },
 });
 var font=cc.Class({
-    name:font,
+    name:'font1',
     properties:{
         target:cc.Label,
         normalFont:cc.Font,

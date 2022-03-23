@@ -63,7 +63,7 @@ cc.Class({
         chip_splist: [cc.SpriteFrame],      //筹码sp列表
         result_fonts: [cc.Font],            //结算字体
         result_bg: [cc.SpriteFrame],               //结算背景
-        type_splist: [String],      //牌类型
+        type_splist: [cc.String],      //牌类型
         type_splist_gray: [cc.SpriteFrame], //牌类型(灰色)
         tpye_ani_prefab: [cc.Prefab],        //赢家牌类型动画
         win_ani_prefab: cc.Prefab,        //赢家动画(不亮牌)

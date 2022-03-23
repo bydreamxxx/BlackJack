@@ -139,7 +139,7 @@ cc.Class({
         }
         this.headSp.getComponent('klb_hall_Player_Head').initHead(data.openId, data.headUrl);
 
-        if(cc.dd._.isNumber(data.userState) && data.userState !== 3){
+        if(cc.dd._.isNumber(data.userState) && (data.userState === 1 || data.userState === 2)){
             this.sit();
         }else{
             this.stand();
@@ -255,9 +255,9 @@ cc.Class({
             AudioManager.stopSound(AudioManager.getAudioID(this.last_duanyu_audio_id));
         }
         let sex = this.playerData.sex;
-        let audio = QuickMusicPath + (sex?cfg.boy_audio:cfg.girl_audio);
-        this.last_duanyu_audio_id = audio;
-        AudioManager.playSound(audio);
+//        let audio = QuickMusicPath + (sex?cfg.boy_audio:cfg.girl_audio);
+//        this.last_duanyu_audio_id = audio;
+//        AudioManager.playSound(audio);
         setTimeout(function () {
             this.duanyu_node.active = false;
             this.duanyu_arrow.active = false;

@@ -254,9 +254,9 @@ let com_game_head = cc.Class({
             AudioManager.stopSound(AudioManager.getAudioID(this.last_duanyu_audio_id));
         }
         let sex = this.player.sex;
-        let audio = QuickMusicPath + (sex == 1 ? cfg.boy_audio : cfg.girl_audio);
-        this.last_duanyu_audio_id = audio;
-        AudioManager.playSound(audio);
+//        let audio = QuickMusicPath + (sex == 1 ? cfg.boy_audio : cfg.girl_audio);
+//        this.last_duanyu_audio_id = audio;
+//        AudioManager.playSound(audio);
         setTimeout(function () {
             this.duanyu_node.active = false;
             this.duanyu_arrow.active = false;
