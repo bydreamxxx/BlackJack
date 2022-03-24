@@ -3,7 +3,7 @@ var com_replay_ed = require('com_replay_data').REPLAY_ED;
 var com_replay_event = require('com_replay_data').REPLAY_EVENT;
 // var mj_cmd = require('c_msg_mjcommon_cmd');
 
-// var msg_time_cfg = require('jlmj_msg_time_cfg');
+var msg_time_cfg = require('msg_time_cfg');
 var SysED = require("com_sys_data").SysED;
 var SysEvent = require("com_sys_data").SysEvent;
 
@@ -273,7 +273,7 @@ let replay_ui = cc.Class({
         cc.gateNet.Instance().excuteReplayMsg(id, msg);
         this.updateGameUIAfterMsg();
 
-        this.play_dt = 15//msg_time_cfg.getMsgTime(id);
+        this.play_dt = msg_time_cfg.getMsgTime(id);
         this.unschedule(this.playMsg);
         if (!this.playing || this.is_londing) {
             return;
