@@ -1,5 +1,5 @@
 // create by wj 2019/04/22
-const Prefix = 'gameyj_new_dsz/common/audio/';
+const Prefix = 'blackjack_teenpatti/common/audio/';
 var AudioManager = require('AudioManager');
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 var deskData = require('teenpatti_desk').Teenpatti_Desk_Data.Instance();
@@ -147,7 +147,7 @@ cc.Class({
             } else if (!gamedata) {
                 this.sendLeaveRoom();
             } else {
-                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
                         cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", 'text33', 'Cancel', this.sendLeaveRoom, null);
@@ -158,7 +158,7 @@ cc.Class({
     },
 
     popupOKcancel: function (text, callfunc) {
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
             var cpt = prefab.getComponent('new_dsz_dialog_box');
             if (cpt)
                 cpt.show(0, text, 'text33', 'Cancel', callfunc, null);

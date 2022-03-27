@@ -576,7 +576,7 @@ let hall = cc.Class({
                             }
                             break;
                         case 136://新斗三张
-                            dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_hall_Room', function (prefab) {
+                            dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_hall_Room', function (prefab) {
                                 var Component = prefab.getComponent('new_dsz_hall_room');
                                 Component.initRoomUI(data);
                             });

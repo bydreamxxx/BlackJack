@@ -4,6 +4,7 @@ const GAME_STATE = require("RummyData").GAME_STATE;
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 const RummyGameMgr = require("RummyGameMgr");
 const RoomMgr = require('jlmj_room_mgr').RoomMgr;
+var AppCfg = require('AppConfig');
 
 const faPaiPos = [cc.v2(-528, 0), cc.v2(-440, 0), cc.v2(-352, 0), cc.v2(-264, 0), cc.v2(-176, 0), cc.v2(-88, 0), cc.v2(0, 0), cc.v2(88, 0), cc.v2(176, 0), cc.v2(264, 0), cc.v2(352, 0), cc.v2(440, 0), cc.v2(528, 0)];
 cc.Class({
@@ -45,33 +46,35 @@ cc.Class({
 
 
     onLoad(){
+        // if(!AppCfg.IS_DEBUG)
+            this.testLabel.string = '';
         this.regTouchEvent();
         this.clear();
     },
 
     update(dt){
-        if(RoomMgr.Instance().player_mgr){
-            let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
-            if(player) {
-                this.testLabel.string = `手牌数量：${player.handsList.length} 牌组数量:${[].concat(...player.pokersList).length} first ${this.first} second ${this.second} xcard ${RummyData.xcard}
-手牌：${player.handsList.toString()}
-牌组：`;
-                for(let i = 0; i < player.pokersList.length; i++){
-                    this.testLabel.string += `[${player.pokersList[i].toString()}] `
-                }
-
-                this.testLabel.string += `
-`;
-                for(let i = 0; i < this.groupList.length; i++){
-                    this.testLabel.string += `${this.groupList[i].data.toString()}
-`
-                }
-
-                if(this.yidong_pai){
-                    this.testLabel.string += `移动牌：${this.yidong_pai.getCard()}`
-                }
-            }
-        }
+//         if(RoomMgr.Instance().player_mgr && AppCfg.IS_DEBUG){
+//             let player = RoomMgr.Instance().player_mgr.getPlayerById(cc.dd.user.id);
+//             if(player) {
+//                 this.testLabel.string = `手牌数量：${player.handsList.length} 牌组数量:${[].concat(...player.pokersList).length} first ${this.first} second ${this.second} xcard ${RummyData.xcard}
+// 手牌：${player.handsList.toString()}
+// 牌组：`;
+//                 for(let i = 0; i < player.pokersList.length; i++){
+//                     this.testLabel.string += `[${player.pokersList[i].toString()}] `
+//                 }
+//
+//                 this.testLabel.string += `
+// `;
+//                 for(let i = 0; i < this.groupList.length; i++){
+//                     this.testLabel.string += `${this.groupList[i].data.toString()}
+// `
+//                 }
+//
+//                 if(this.yidong_pai){
+//                     this.testLabel.string += `移动牌：${this.yidong_pai.getCard()}`
+//                 }
+//             }
+//         }
 
     },
 

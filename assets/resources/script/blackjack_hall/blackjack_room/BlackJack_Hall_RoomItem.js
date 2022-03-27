@@ -189,7 +189,7 @@ cc.Class({
         scriptData.setData(this.roomItem);
         let data = this.roomItem;
         cc.dd.AppCfg.GAME_ID = gameid;
-        // RoomMgr.Instance().player_mgr = scriptData;
+        RoomMgr.Instance().player_mgr = scriptData;
         // RoomMgr.Instance().player_mgr.PLAYER_NUM = 9
         var func = function () {
             var msg = new cc.pb.room_mgr.msg_enter_coin_game_req();

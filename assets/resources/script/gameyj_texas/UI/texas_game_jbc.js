@@ -532,7 +532,8 @@ cc.Class({
         if (data.msgtype == 3) {//魔法表情
 
         } else {
-            let isChecked = this.msgToggle.getComponent(cc.Toggle).isChecked
+            // let isChecked = this.msgToggle.getComponent(cc.Toggle).isChecked
+            let isChecked = false
             if (isChecked) {
                 let name = texas_Data.Instance().getPlayerById(data.sendUserId).name
                 var canvs = cc.find('Canvas');

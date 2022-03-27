@@ -15,7 +15,7 @@ var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 
 var DingRobot = require('DingRobot');
-const Prefix = 'gameyj_new_dsz/common/audio/';
+const Prefix = 'blackjack_teenpatti/common/audio/';
 var config = require('dsz_config');
 var config_state = require('dsz_config').DSZ_UserState;
 var dsz_chat_cfg = require('dsz_config').New_DSZ_Chat_Config;
@@ -357,7 +357,7 @@ cc.Class({
                 self.showCurOperateBtns();
         }
 
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_compare', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_compare', function (ui) {
             var cpt = ui.getComponent('new_dsz_compare_ui');
             cpt.playerCompareAct(userId, cmpUserId, WinnerId, callBack);
 

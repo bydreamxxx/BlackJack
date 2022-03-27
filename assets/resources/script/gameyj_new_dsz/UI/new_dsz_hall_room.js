@@ -133,7 +133,7 @@ cc.Class({
         if(data.roomListList.length != 0)
             this.m_nRoomIndex = data.index;
 
-        cc.dd.ResLoader.loadPrefab("gameyj_new_dsz/common/prefab/new_dsz_roomItem", function (prefab) {
+        cc.dd.ResLoader.loadPrefab("blackjack_teenpatti/common/prefab/new_dsz_roomItem", function (prefab) {
             //房间列表
             for (var i = 0; i < data.roomListList.length; i++) {
                 var dataInfo = data.roomListList[i];
@@ -185,7 +185,7 @@ cc.Class({
      */
     onCreateCoinRoom: function(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/jbc_create_room', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/jbc_create_room', function (prefab) {
         });
     },
 
@@ -246,7 +246,7 @@ cc.Class({
                 } 
             }
         }
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
             var cpt = prefab.getComponent('new_dsz_dialog_box');
             if(cpt)
                 cpt.show(0, "没有可加入的房间", 'text33', null, function () {

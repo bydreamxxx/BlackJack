@@ -182,7 +182,7 @@ cc.Class({
             })
             var str = '您正在[' + gameItem.name + ']房间中游戏，大约30秒后自动进入新游戏。。。'
 
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
                     cpt.show(0, str, '回到房间', 'Cancel', function () {

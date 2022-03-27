@@ -160,12 +160,10 @@ cc.Class({
     },
 
     sit(){
-        cc.error(`${this.viewIdx} sit`)
         this.standNode.active = false;
     },
 
     stand(){
-        cc.error(`${this.viewIdx} stand`)
         this.standNode.active = true;
     },
 

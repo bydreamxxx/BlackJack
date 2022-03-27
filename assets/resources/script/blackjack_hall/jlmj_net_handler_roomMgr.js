@@ -274,7 +274,9 @@ var handler = {
             case 2: {
                 //退出房间,出错不提示
                 // cc.dd.DialogBoxUtil.show(0, cc.dd.Text.TEXT_KLB_HALL_COMMON_9, "text33", null, function () {
-                cc.dd.SceneManager.enterHall();
+                if(cc.director.getScene().name !== 'rummy'){
+                    cc.dd.SceneManager.enterHall();
+                }
                 // });
                 break;
             }

@@ -378,7 +378,7 @@ cc.Class({
 
     onClickRule: function(event, data){
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_rule_ui', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_rule_ui', function (prefab) {
         });
     },
 

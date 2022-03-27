@@ -7,13 +7,13 @@ cc.Class({
         m_oLable: cc.Label,
     },
     onLoad () {
-        var ruleData = rule_config.getItem(function(item){
-            if(item.gameid == 136)
-                return item;
-        });
+        // var ruleData = rule_config.getItem(function(item){
+        //     if(item.gameid == 136)
+        //         return item;
+        // });
 
-        this.m_oLable.string = ruleData.playlaws;
-        this.m_oLable.node.parent.height = this.m_oLable.node.getContentSize().height+36;
+        // this.m_oLable.string = ruleData.playlaws;
+        // this.m_oLable.node.parent.height = this.m_oLable.node.getContentSize().height+36;
     },
 
     onClose: function(event, data){

@@ -17,6 +17,7 @@ cc.Class({
         m_tPanel: {default: [], type: cc.Node, tooltip: '按钮panel'},
         m_sPath: '',
 
+        m_optionBtns: cc.Node,
         m_addBtn: cc.Button,
         m_SubBtn: cc.Button,
         m_followBtn: cc.Button,
@@ -208,6 +209,12 @@ cc.Class({
                 }
             }
         }
+
+        cc.find(this.m_sPath +'addBtn', this.node).active = false;
+        cc.find(this.m_sPath +'followBtn', this.node).active = false;
+        this.m_optionBtns.active = true
+        this.m_isAdd = false
+        this.updateBet()
     },
 
     //是否剩余两个玩家，进行默认的选中
@@ -269,6 +276,8 @@ cc.Class({
     hideAllBtn: function(){
         for(var i = 0; i < 4; i++)
             cc.find(this.m_sPath +this.btnName[i], this.node).active = false; //先将所有按钮屏蔽
+
+        this.m_optionBtns.active = false
     },
 
     //是否启用按钮
@@ -285,7 +294,10 @@ cc.Class({
 
         for(var i = 1; i < 4; i++){
             var btn = cc.find(this.m_sPath +this.btnName[i], this.node);
-            btn.active = true;
+            // btn.active = true;
+            if( this.btnName[i] !== 'addBtn' && this.btnName[i] !== 'followBtn') {
+                btn.active = true;
+            }
             btn.getComponent(cc.Button).interactable = enabled;
             
             if(enabled == false){
@@ -298,7 +310,7 @@ cc.Class({
 
             var descSp = btn.getChildByName('descSp').getComponent(cc.LabelOutline);
             descSp.enabled = enabled  
-}
+        }
     },
 
     //重置自动
@@ -318,7 +330,7 @@ cc.Class({
     //快速充值接口
     sendQuickRecharge: function(){
         dsz_send_msg.sendQuickRecharge();
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_quick_recharge', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_quick_recharge', function (ui) {
         });
     },
 
@@ -348,7 +360,7 @@ cc.Class({
                     if(betInfo[1] <= ownData.curScore)
                         dsz_send_msg.sendNormalOp(parseInt(betInfo[1]), cc.dd.user.id, 1);
                     else{
-                        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
                                 cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
@@ -388,7 +400,7 @@ cc.Class({
                     if(betInfo[1] - betNowInfo[1] <= ownData.curScore)
                         dsz_send_msg.sendNormalOp(parseInt(betInfo[1] - betNowInfo[1]), cc.dd.user.id, 2);
                     else{
-                        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
                                 cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
@@ -471,7 +483,7 @@ cc.Class({
                     if(compPay <= ownData.curScore)
                         dsz_send_msg.sendCmpOp(1, cc.dd.user.id);
                     else{
-                        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                             var cpt = prefab.getComponent('new_dsz_dialog_box');
                             if(cpt)
                                 cpt.show(0, '您的金币不足，是否立刻充值？', 'text33', 'Cancel', this.sendQuickRecharge, null);
@@ -624,9 +636,43 @@ cc.Class({
         return cc.dd.Utils.getNumToWordTransform(num)
     },
 
+    // 更新下注/加注按钮
     updateBet() {
-        this.m_addBtn.interactable = !this.m_isAdd
+        this.curBetNum = 0
+        this.canAddBet = false
+        this.nextBetNum = 0
+
+        //下注 加注数值
+        var config_data = deskData.getConfigData();
+        if(config_data){
+            var curBetLevel = deskData.getCurBetLevel();
+            //获取自己的游戏数据
+            var player = playerMgr.findPlayerByUserId(cc.dd.user.id);
+            if(player){
+                var ownData = player.getPlayerGameInfo();
+                if(ownData){
+                    //获取下注档次数据
+                    var betLevelList = [];
+                    if(ownData.pokersState == 0){//未看牌
+                        betLevelList = config_data.anzhu.split(';')
+                    }else{
+                        betLevelList = config_data.mingzhu.split(';')
+                    }
+
+                    this.curBetNum = betLevelList[curBetLevel - 1].split(',')[1]
+                    this.canAddBet = curBetLevel < betLevelList.length
+                    this.nextBetNum = curBetLevel < betLevelList.length ? betLevelList[curBetLevel].split(',')[1] : this.curBetNum
+                }
+            }
+        }
+
+        this.m_addBtn.interactable = !this.m_isAdd && this.canAddBet
         this.m_SubBtn.interactable = this.m_isAdd
+        if(this.m_isAdd) {
+            this.m_followLabel.string = cc.dd.Utils.getNumToWordTransform(this.nextBetNum)
+        } else {
+            this.m_followLabel.string = cc.dd.Utils.getNumToWordTransform(this.curBetNum)
+        }
     },
     onAddBet() {
         hall_audio_mgr.com_btn_click();
@@ -640,5 +686,11 @@ cc.Class({
     },
     onFollowBet() {
         hall_audio_mgr.com_btn_click();
+        if(this.m_isAdd) {
+            dsz_send_msg.sendNormalOp(parseInt(this.nextBetNum - this.curBetNum), cc.dd.user.id, 2);
+        } else {
+            dsz_send_msg.sendNormalOp(parseInt(this.curBetNum), cc.dd.user.id, 1);
+        }
+        this.hideAllBtn();
     }
 });

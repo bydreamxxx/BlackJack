@@ -14,7 +14,7 @@ var RoomED = require("jlmj_room_mgr").RoomED;
 var RoomEvent = require("jlmj_room_mgr").RoomEvent;
 
 var DingRobot = require('DingRobot');
-const Prefix = 'gameyj_new_dsz/common/audio/';
+const Prefix = 'blackjack_teenpatti/common/audio/';
 var config = require('dsz_config');
 var config_state = require('dsz_config').DSZ_UserState;
 var dsz_chat_cfg = require('dsz_config').New_DSZ_Chat_Config;
@@ -196,7 +196,7 @@ cc.Class({
             var callfunc = null;
             //已经结束
             if (deskData.isEnd == true) {
-                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
                         cpt.show(0, cc.dd.Text.TEXT_LEAVE_ROOM_3, 'text33', 'Cancel', this.sendLeaveRoom, null);
@@ -223,7 +223,7 @@ cc.Class({
                     callfunc = this.sendLeaveRoom;
                 }
             }
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
                     cpt.show(0, content, 'text33', 'Cancel', callfunc, null);
@@ -239,7 +239,7 @@ cc.Class({
                 text = 'quitthegame';
             }
 
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
                     cpt.show(0, text, 'text33', 'Cancel', this.sendLeaveRoom, null);
@@ -786,7 +786,7 @@ cc.Class({
         var player = playerMgr.findPlayerByUserId(userId); //获取玩家数据
         if (player) {
             if (userId == cc.dd.user.id) {
-                var UI = cc.dd.UIMgr.getUI('gameyj_new_dsz/common/prefab/new_dsz_compare');
+                var UI = cc.dd.UIMgr.getUI('blackjack_teenpatti/common/prefab/new_dsz_compare');
                 if (UI) {
                     UI.getComponent('new_dsz_compare_ui').onClose();
                 }
@@ -1012,7 +1012,7 @@ cc.Class({
             }
         }
 
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_compare', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_compare', function (ui) {
             AudioManager.getInstance().playSound(Prefix + 'yqp3_bipai', false); //比牌音效
 
             var cpt = ui.getComponent('new_dsz_compare_ui');
@@ -1344,7 +1344,7 @@ cc.Class({
             var player = playerMgr.findPlayerByUserId(data.userId)
             if (player && player.isRoomer && deskData.getGameId() == 36) {//房主解散房间
                 this.clear();
-                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
                         cpt.show(0, "房主已解散房间,请重新加入房间", 'text33', null, function () {
@@ -1466,7 +1466,7 @@ cc.Class({
             var curScore = playerData.curScore;
             if (curScore != null && curScore < data.leave_limit) {
 
-                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
                         cpt.show(0, "您的金币不足，不能匹配新的房间，是否前往商城购买！", 'text33', 'Cancel', function () {
@@ -1515,12 +1515,12 @@ cc.Class({
      */
     showDissolve(data) {
         cc.dd.UIMgr.closeUI(jlmj_prefab.JLMJ_TANCHUANG);
-        var UI = cc.dd.UIMgr.getUI('gameyj_new_dsz/common/prefab/ddz_dissolve');
+        var UI = cc.dd.UIMgr.getUI('blackjack_teenpatti/common/prefab/ddz_dissolve');
         if (UI) {
             UI.getComponent('dsz_dissolve').setData(data);
         }
         else {
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/ddz_dissolve', function (ui) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/ddz_dissolve', function (ui) {
                 var timeout = 30;
                 var playerList = playerMgr.playerInfo;
                 ui.getComponent('dsz_dissolve').setStartData(timeout, playerList, data);
@@ -1534,9 +1534,9 @@ cc.Class({
      * @param {*} time 
      */
     showDissolveList(msglist, time) {
-        var UI = cc.dd.UIMgr.getUI('gameyj_new_dsz/common/prefab/ddz_dissolve');
+        var UI = cc.dd.UIMgr.getUI('blackjack_teenpatti/common/prefab/ddz_dissolve');
         if (!UI) {
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/ddz_dissolve', function (ui) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/ddz_dissolve', function (ui) {
                 var playerList = playerMgr.playerInfo;
                 for (var i = 0; i < msglist.length; i++) {
                     if (i == 0) {
@@ -1576,7 +1576,7 @@ cc.Class({
         else {
             cc.dd.PromptBoxUtil.show('房间解散失败!');
         }
-        cc.dd.UIMgr.destroyUI('gameyj_new_dsz/common/prefab/ddz_dissolve');
+        cc.dd.UIMgr.destroyUI('blackjack_teenpatti/common/prefab/ddz_dissolve');
     },
 
     clear: function () {
@@ -1658,7 +1658,7 @@ cc.Class({
                     break;
             }
 
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                 var cpt = prefab.getComponent('new_dsz_dialog_box');
                 if (cpt)
                     cpt.show(0, str, 'text33', 'Cancel', this.sendLeaveRoom, null);
@@ -1937,7 +1937,7 @@ cc.Class({
 
     onClickRule: function (event, data) {
         hall_audio_mgr.com_btn_click();
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_rule_ui', function (prefab) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_rule_ui', function (prefab) {
             prefab.zIndex = 400;
         });
     },
@@ -1945,7 +1945,7 @@ cc.Class({
     //邀请玩家
     onClickInvite: function (event, data) {
         if (roomMgr.isClubRoom()) {
-            cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_inviteBox', function (prefab) {
+            cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_inviteBox', function (prefab) {
             });
             return;
         }
@@ -2095,7 +2095,7 @@ cc.Class({
             } else if (!gamedata) {
                 this.sendLeaveRoom();
             } else {
-                cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/new_dsz_dialogBox', function (prefab) {
+                cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/new_dsz_dialogBox', function (prefab) {
                     var cpt = prefab.getComponent('new_dsz_dialog_box');
                     if (cpt)
                         cpt.show(0, "正在游戏中，退出后系统自动操作，是否退出", 'text33', 'Cancel', this.sendLeaveRoom, null);
@@ -2332,7 +2332,7 @@ cc.Class({
 
     //打开gps检测结果
     onClickGpsWarnUI: function (event, data) {
-        cc.dd.UIMgr.openUI('gameyj_new_dsz/common/prefab/dsz_gps_warn_ui', function (ui) {
+        cc.dd.UIMgr.openUI('blackjack_teenpatti/common/prefab/dsz_gps_warn_ui', function (ui) {
             var cpt = ui.getComponent('new_dsz_gps_warn');
             cpt.setWarnData(this.m_tWarnGroup, this.m_tIpRepeatGroup, this.m_tGpsRepeatGroup);
 
@@ -2427,7 +2427,7 @@ cc.Class({
 
     //断线重连重新刷新玩家信息
     combackInitPlayer: function () {
-        var UI = cc.dd.UIMgr.getUI('gameyj_new_dsz/common/prefab/new_dsz_compare');
+        var UI = cc.dd.UIMgr.getUI('blackjack_teenpatti/common/prefab/new_dsz_compare');
         if (UI) {
             UI.getComponent('new_dsz_compare_ui').onClose();
         }
@@ -2648,10 +2648,10 @@ cc.Class({
                     if (player) {
                         var player_common_data = player.getPlayerCommonInfo();
                         var sex = player_common_data.sex != 1 ? 0 : 1;
-                        if (sex == 1)
-                            AudioManager.getInstance().playSound(Prefix + 'yqp3_Man_kaishi', false);
-                        else
-                            AudioManager.getInstance().playSound(Prefix + 'yqp3_Woman_kaishi', false);
+                        // if (sex == 1)
+                        //     AudioManager.getInstance().playSound(Prefix + 'yqp3_Man_kaishi', false);
+                        // else
+                        //     AudioManager.getInstance().playSound(Prefix + 'yqp3_Woman_kaishi', false);
                     }
                     this.updateDeskCircle(false);
 
