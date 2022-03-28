@@ -157,7 +157,8 @@ let RummyRoomMgr = cc.Class({
         if (this.playerList && this.playerList.length) {
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i] && this.playerList[i].userId) {
-                    this.playerExit(this.playerList[i].userId);
+                    this.playerList[i].playerExit();
+                    this.playerList[i] = null;
                 }
             }
         }

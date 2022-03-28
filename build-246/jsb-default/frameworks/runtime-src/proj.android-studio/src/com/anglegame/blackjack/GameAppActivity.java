@@ -351,8 +351,8 @@ public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUp
     public static String getInnerSDCardPath() {
 
         if(Build.VERSION.SDK_INT >= 24){
-            return org.cocos2dx.lib.Cocos2dxHelper.getWritablePath();
-        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+//            return org.cocos2dx.lib.Cocos2dxHelper.getWritablePath();
+//        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
             return mainActive.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()+"/";
         }else{
             return Environment.getExternalStorageDirectory().getPath();

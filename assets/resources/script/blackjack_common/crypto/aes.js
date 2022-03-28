@@ -23,8 +23,6 @@ var AES = {
         // return crypted;
     },
     Decrypt(encrypted) {
-Z
-
         // const decipher = CryptoJS.algo.AES.createDecryptor(key, {iv: key});
         // var decrypted = decipher.process(encrypted);
         // decrypted += decipher.finalize();

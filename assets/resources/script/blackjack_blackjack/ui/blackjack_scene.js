@@ -117,6 +117,8 @@ cc.Class({
         RoomED.addObserver(this);
         BlackJackED.removeObserver(this);
         HallCommonEd.removeObserver(this);
+        BlackJackData.Destroy();
+        RoomMgr.Instance().player_mgr = null;
     },
 
     onEventMessage: function (event, data) {
