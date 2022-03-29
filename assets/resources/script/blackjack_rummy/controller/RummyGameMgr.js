@@ -196,4 +196,4 @@ let RummyGameMgr = cc.Class({
     }
 });
 
-module.exports = RummyGameMgr.Instance();
+module.exports = RummyGameMgr;

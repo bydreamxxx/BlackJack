@@ -218,10 +218,10 @@ let BlackJackData = cc.Class({
                 i++;
                 if(i === length){
                     this.fapaiList = [];
-                    cc.error(`清空发牌列表`);
+                    // cc.error(`清空发牌列表`);
                 }
                 if(i === length + 1){
-                    cc.error(`发完牌啦`)
+                    // cc.error(`发完牌啦`)
                     cc.gateNet.Instance().startDispatch();
                 }
             }

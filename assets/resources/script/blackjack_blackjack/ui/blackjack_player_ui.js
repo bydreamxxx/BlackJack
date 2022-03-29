@@ -72,7 +72,7 @@ let blackjack_player_ui = cc.Class({
     },
 
     clear() {
-        cc.error(`座位号${this.viewIdx} clear`);
+        // cc.error(`座位号${this.viewIdx} clear`);
         if(!this.isbanker){
             this.head.clear();
 

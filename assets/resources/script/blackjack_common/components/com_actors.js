@@ -25,8 +25,8 @@ cc.Class({
     },
 
     playSpine(anim){
-        this.spine.setMix(this.spine.animation, anim);
-        this.spine.setMix(anim, 'daiji');
+        // this.spine.setMix(this.spine.animation, anim, 1);
+        // this.spine.setMix(anim, 'daiji', 1);
         this.spine.setAnimation(0, anim, false);
         this.spine.setCompleteListener(()=>{
             this.spine.setAnimation(0, 'daiji', true);

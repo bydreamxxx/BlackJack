@@ -166,4 +166,4 @@ let RummyRoomMgr = cc.Class({
     },
 });
 
-module.exports = RummyRoomMgr.Instance();
+module.exports = RummyRoomMgr;

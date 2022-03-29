@@ -1,5 +1,5 @@
 const RummyData = require("RummyData").RummyData.Instance();
-const RummyGameMgr = require("RummyGameMgr");
+const RummyGameMgr = require("RummyGameMgr").Instance();
 const RoomMgr = require('jlmj_room_mgr').RoomMgr;
 
 var handler = {

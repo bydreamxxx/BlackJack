@@ -8,7 +8,7 @@ let RoomMgr = require("jlmj_room_mgr").RoomMgr;
 let HallCommonObj = require('hall_common_data');
 let HallCommonEd = HallCommonObj.HallCommonEd;
 let HallCommonEvent = HallCommonObj.HallCommonEvent;
-const RummyGameMgr = require("RummyGameMgr");
+const RummyGameMgr = require("RummyGameMgr").Instance();
 
 var hall_audio_mgr = require('hall_audio_mgr').Instance();
 
@@ -402,9 +402,9 @@ cc.Class({
         RummyED.removeObserver(this);
         HallCommonEd.removeObserver(this);
 
-        RummyData.Destroy();
-        RummyGameMgr.Destroy();
-        RoomMgr.Instance().player_mgr.Destroy();
+        require("RummyData").RummyData.Destroy();
+        require("RummyGameMgr").Destroy();
+        require("RummyRoomMgr").Destroy();
         RoomMgr.Instance().player_mgr = null;
     },
 

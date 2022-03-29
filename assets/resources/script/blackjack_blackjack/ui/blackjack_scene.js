@@ -117,7 +117,7 @@ cc.Class({
         RoomED.addObserver(this);
         BlackJackED.removeObserver(this);
         HallCommonEd.removeObserver(this);
-        BlackJackData.Destroy();
+        require("BlackJackData").BlackJackData.Destroy();
         RoomMgr.Instance().player_mgr = null;
     },
 
@@ -615,7 +615,7 @@ cc.Class({
                 this.autoToggle = null;
                 break;
             case GAME_STATE.BETTING:
-                cc.error(`下注`)
+                // cc.error(`下注`)
                 // this.sitBtn.active = !BlackJackData.hasUserPlayer;
                 // this.standBtn.active = BlackJackData.hasUserPlayer;
 
@@ -650,7 +650,7 @@ cc.Class({
                 this.autoToggle = null;
                 break;
             case GAME_STATE.PROTECTING:
-                cc.error(`保险`)
+                // cc.error(`保险`)
                 this.startTips.active = false;
                 this.stopTips.active = false;
                 this.loadTips.active = false;
@@ -695,7 +695,7 @@ cc.Class({
                 // this.standBtn.active = BlackJackData.hasUserPlayer;
 
                 if(BlackJackData.lastState === GAME_STATE.PROTECTING){
-                    cc.error(`收走保险`);
+                    // cc.error(`收走保险`);
                     this.playerList.forEach(player=>{
                         player.loseInsure();
                     });
@@ -725,9 +725,9 @@ cc.Class({
 
                 break;
             case GAME_STATE.RESULTING:
-                cc.error(`结算`)
+                // cc.error(`结算`)
                 if(BlackJackData.lastState === GAME_STATE.PROTECTING){
-                    cc.error(`收走保险`);
+                    // cc.error(`收走保险`);
                     this.playerList.forEach(player=>{
                         player.winInsure();
                     });
@@ -759,7 +759,7 @@ cc.Class({
                         player.stop_chupai_ani();
                     })
 
-                    cc.error(`发牌`);
+                    // cc.error(`发牌`);
                     BlackJackData.fapai();
 
                     this.banker.head.play_banker_duanyu("headsup", BlackJackData.fapaiList.length * 2 * 1.4);
