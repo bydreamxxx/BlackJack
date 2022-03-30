@@ -13,5 +13,10 @@
     "jsList" : [
         "src/resource.js",
         "src/app.js"
+    ],
+
+    "serviceClassPath": [
+        "sdk.GoogleSDK",
+        "sdk.FacebookSDK"
     ]
 }
