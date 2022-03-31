@@ -26,25 +26,23 @@ package com.anglegame.blackjack;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import android.content.Context;
-import android.content.Intent;
-
-import android.content.BroadcastReceiver;
-import android.content.ContentUris;
-import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -55,15 +53,21 @@ import android.os.PowerManager.WakeLock;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.anglegame.blackjack.R;
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
+
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 import org.cocos2dx.lib.Utils;
@@ -83,22 +87,14 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static game.FtpUtil.uploadFile;
-
 import game.FtpUtil;
 import game.LoadingAnimation;
 import game.PermissionsUtils;
 import game.Preference;
 import game.SystemTool;
-
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
-import com.tencent.map.geolocation.TencentLocationManager;
-import com.tencent.map.geolocation.TencentLocationRequest;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
-
 import game.UploadUtil;
+
+import static game.FtpUtil.uploadFile;
 
 public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUploadProcessListener {
     public static Cocos2dxActivity mainActive = null;

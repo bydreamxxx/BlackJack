@@ -3,8 +3,9 @@ package sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.anglegame.blackjack.GameAppActivity;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;

@@ -149,6 +149,7 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
 //    implementation 'com.tencent.bugly:crashreport:latest.release'
 //    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-    implementation 'com.facebook.android:facebook-login:latest.release'
+//    implementation 'com.facebook.android:facebook-login:13.1.0'
 }

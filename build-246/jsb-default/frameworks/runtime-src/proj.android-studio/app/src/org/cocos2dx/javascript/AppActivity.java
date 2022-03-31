@@ -24,17 +24,17 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.javascript;
 
-import org.cocos2dx.lib.Cocos2dxActivity;
-import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-
-import android.os.Bundle;
-
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.view.KeyEvent;
 
+import androidx.annotation.NonNull;
+
 import com.anglegame.blackjack.GameAppActivity;
+
+import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 public class AppActivity extends Cocos2dxActivity {
     GameAppActivity app = new GameAppActivity();
