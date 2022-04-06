@@ -279,6 +279,7 @@ const com_replay = cc.Class({
                         RoomMgr.Instance().setGameCommonInfo(msg.deskinfo.desktype, msg.deskinfo.passwrod, msg.deskinfo.owner);
                         RoomMgr.Instance().setPlayerMgr();
                         let RummyData = require("RummyData").RummyData.Instance();
+                        RummyData.isReplay = true;
                         if(RummyData.state === -1){
                             RoomMgr.Instance().player_mgr.updatePlayerNum();
                             msg.roleInfosList.forEach(player=>{

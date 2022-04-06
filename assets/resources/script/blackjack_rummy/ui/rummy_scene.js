@@ -755,7 +755,7 @@ cc.Class({
                     this.bottomNode.active = true;
                 }
 
-                if(RummyData.lastState === GAME_STATE.WAITING && RummyData.state === GAME_STATE.DEALING) {
+                if(RummyData.lastState === GAME_STATE.WAITING && RummyData.state === GAME_STATE.DEALING && !RummyData.isReplay) {
                     this.cardsNode.removeAllChildren();
                     this.discardNode.removeAllChildren();
                     this.showcardNode.removeAllChildren();
@@ -841,7 +841,7 @@ cc.Class({
                     this.bankerHead.play_banker_duanyu("rummy_text27", 5);
                     this.banker.playShuohua();
 
-                }else if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING){
+                }else if(RummyData.lastState === GAME_STATE.PLAYING && RummyData.state === GAME_STATE.GROUPING && !RummyData.isReplay){
                     this.tipsNode.active = true;
                     // this.scheduleOnce(()=>{
                     //     this.tipsNode.active = false;
