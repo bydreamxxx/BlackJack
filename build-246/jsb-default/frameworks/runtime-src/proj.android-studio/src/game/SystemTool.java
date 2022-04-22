@@ -3,16 +3,13 @@ package game;
 //import com.huawei.cloudsecurity.GameShield;
 //import com.crashlytics.android.Crashlytics;
 //import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.map.geolocation.TencentLocationUtils;
-import com.anglegame.blackjack.GameAppActivity;
-
+//import com.tencent.map.geolocation.TencentLocationUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,6 +18,8 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+
+import com.anglegame.blackjack.GameAppActivity;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
@@ -265,14 +264,14 @@ public class SystemTool {
             return locationVal;
         }
 
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location != null) {
-            //è·åå½åä½ç½®: ç»åº¦,çº¬åº¦
-            locationVal = location.getLongitude() + "," + location.getLatitude();
-            Log.v("MainActivity", "æåè·åå°ç»çº¬åº¦ï¼" + locationVal);
-        } else {
-            Log.v("MainActivity", "GPS: getLastKnownLocation()è¿ånull");
-        }
+//        Location location = locationManager.getLastKnownLocation(provider);
+//        if (location != null) {
+//            //è·åå½åä½ç½®: ç»åº¦,çº¬åº¦
+//            locationVal = location.getLongitude() + "," + location.getLatitude();
+//            Log.v("MainActivity", "æåè·åå°ç»çº¬åº¦ï¼" + locationVal);
+//        } else {
+//            Log.v("MainActivity", "GPS: getLastKnownLocation()è¿ånull");
+//        }
 
         return locationVal;
     }
@@ -284,7 +283,8 @@ public class SystemTool {
     }
 
     public static float getDistanceBetwwen(float start_Lat, float end_lat, float start_long, float end_long) {
-        return (float) TencentLocationUtils.distanceBetween((double) start_Lat, (double) start_long, (double) end_lat, (double) end_long);
+        return 0;
+//        return (float) TencentLocationUtils.distanceBetween((double) start_Lat, (double) start_long, (double) end_lat, (double) end_long);
     }
 
     public static String getAdress() {

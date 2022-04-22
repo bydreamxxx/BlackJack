@@ -23,11 +23,12 @@
  ****************************************************************************/
 package com.anglegame.blackjack;
 
+import static game.FtpUtil.uploadFile;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -62,12 +63,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
-import com.tencent.map.geolocation.TencentLocationManager;
-import com.tencent.map.geolocation.TencentLocationRequest;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 import org.cocos2dx.lib.Utils;
@@ -94,13 +89,17 @@ import game.Preference;
 import game.SystemTool;
 import game.UploadUtil;
 
-import static game.FtpUtil.uploadFile;
+//import com.tencent.map.geolocation.TencentLocation;
+//import com.tencent.map.geolocation.TencentLocationListener;
+//import com.tencent.map.geolocation.TencentLocationManager;
+//import com.tencent.map.geolocation.TencentLocationRequest;
+//import com.tencent.mm.opensdk.openapi.IWXAPI;
 
-public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUploadProcessListener {
+public class GameAppActivity implements UploadUtil.OnUploadProcessListener {
     public static Cocos2dxActivity mainActive = null;
     public static GameAppActivity gameApp = null;
     private WakeLock mWakeLock;
-    public static IWXAPI api;
+//    public static IWXAPI api;
     public static String APP_ID;
     public static float batteryLevel = 0.9f; //电量值
 
@@ -128,9 +127,9 @@ public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUp
     private static boolean gameStarted = false;
     public static boolean isAppStartResume = false;
 
-    private TencentLocationRequest mlocationRequest;
-    private TencentLocationManager mlocationManager;
-    private TencentLocation locationInfo;
+//    private TencentLocationRequest mlocationRequest;
+//    private TencentLocationManager mlocationManager;
+//    private TencentLocation locationInfo;
 
     private NetworkChangeRecevier networkChangeRecevier = null;
 
@@ -266,7 +265,9 @@ public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUp
         // android 7.0系统解决拍照的问题
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            builder.detectFileUriExposure();
+        }
     }
 
     public static void closeSplash() {
@@ -752,71 +753,71 @@ public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUp
         mHandler.postDelayed(r, 3000);
     }
 
-    @Override
-    public void onLocationChanged(TencentLocation location, int error, String reason) {
-        if (TencentLocation.ERROR_OK == error) {
-            this.locationInfo = location;
-        }
-        this.destroyLocManager();
-    }
+//    @Override
+//    public void onLocationChanged(TencentLocation location, int error, String reason) {
+//        if (TencentLocation.ERROR_OK == error) {
+//            this.locationInfo = location;
+//        }
+//        this.destroyLocManager();
+//    }
 
-    @Override
-    public void onStatusUpdate(String name, int status, String desc) {
-//        Log.e("name:", name);
-//        Log.e("status:", ""+status);
-//        Log.e("desc:", desc);
-    }
+//    @Override
+//    public void onStatusUpdate(String name, int status, String desc) {
+////        Log.e("name:", name);
+////        Log.e("status:", ""+status);
+////        Log.e("desc:", desc);
+//    }
 
     public void createLocation() {
-        if(this.mlocationRequest == null) {
-            this.mlocationRequest = TencentLocationRequest.create();
-            this.mlocationRequest.setInterval(10000);
-            this.mlocationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_NAME);
-            this.mlocationRequest.setAllowCache(true);
-        }
-        this.mlocationManager = TencentLocationManager.getInstance(mainActive);
-        int error = this.mlocationManager.requestLocationUpdates(this.mlocationRequest, this);
-        if (error == 0) {
-
-            Log.e("监听状态:", "监听成功!");
-
-        } else if (error == 1) {
-
-            Log.e("监听状态:", "设备缺少使用腾讯定位SDK须要的基本条件");
-
-        } else if (error == 2) {
-
-            Log.e("监听状态:", "配置的 key 不对");
-
-        }
+//        if(this.mlocationRequest == null) {
+//            this.mlocationRequest = TencentLocationRequest.create();
+//            this.mlocationRequest.setInterval(10000);
+//            this.mlocationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_NAME);
+//            this.mlocationRequest.setAllowCache(true);
+//        }
+//        this.mlocationManager = TencentLocationManager.getInstance(mainActive);
+//        int error = this.mlocationManager.requestLocationUpdates(this.mlocationRequest, this);
+//        if (error == 0) {
+//
+//            Log.e("监听状态:", "监听成功!");
+//
+//        } else if (error == 1) {
+//
+//            Log.e("监听状态:", "设备缺少使用腾讯定位SDK须要的基本条件");
+//
+//        } else if (error == 2) {
+//
+//            Log.e("监听状态:", "配置的 key 不对");
+//
+//        }
 
     }
 
     public void destroyLocManager() {
-        if (this.mlocationManager != null)
-            this.mlocationManager.removeUpdates(this);
-        this.mlocationManager = null;
+//        if (this.mlocationManager != null)
+//            this.mlocationManager.removeUpdates(this);
+//        this.mlocationManager = null;
     }
 
     public String getAdress() {
-        String adress = this.locationInfo.getAddress();
-        if (adress == null)
+//        String adress = this.locationInfo.getAddress();
+//        if (adress == null)
             return " ";
-        return adress;
+//        return adress;
     }
 
     public float getLatitude() {
-        float latitude = (float) this.locationInfo.getLatitude();
-        Log.e("定位信息:", "纬度==============================" + latitude);
+//        float latitude = (float) this.locationInfo.getLatitude();
+//        Log.e("定位信息:", "纬度==============================" + latitude);
 
-        return latitude;
+        return 0;
     }
 
     public float getLongitude() {
-        float longitude = (float) this.locationInfo.getLongitude();
-        Log.e("定位信息:", "经度==============================" + longitude);
+//        float longitude = (float) this.locationInfo.getLongitude();
+//        Log.e("定位信息:", "经度==============================" + longitude);
 
-        return longitude;
+        return 0;
     }
 
     public static void getWXRoomID() {
@@ -832,16 +833,16 @@ public class GameAppActivity implements TencentLocationListener, UploadUtil.OnUp
     }
 
     public static void callWX() {
-        if (api.isWXAppInstalled()) {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setComponent(cmp);
-            mainActive.startActivity(intent);
-        } else {
-            Toast.makeText(mainActive, "微信未安装", Toast.LENGTH_SHORT).show();
-        }
+//        if (api.isWXAppInstalled()) {
+//            Intent intent = new Intent(Intent.ACTION_MAIN);
+//            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+//            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.setComponent(cmp);
+//            mainActive.startActivity(intent);
+//        } else {
+//            Toast.makeText(mainActive, "微信未安装", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

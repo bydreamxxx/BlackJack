@@ -122,7 +122,7 @@ let resLoad = cc.Class({
                 if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng || cc._isHuaweiGame)
                     jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
                 else
-                    jsb.reflection.callStaticMethod('com/anglegame/blackjack/AppActivity', 'getWXRoomID', '()V');
+                    jsb.reflection.callStaticMethod('com/anglegame/blackjack/GameAppActivity', 'getWXRoomID', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
                 jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
             }
@@ -775,7 +775,7 @@ let resLoad = cc.Class({
                 cc.log("APK下载更新完成");
                 var sdCardPath = "/mnt/sdcard/";
                 var filePath = "blackjack/res/blackjack-release.apk";
-                jsb.reflection.callStaticMethod("com/anglegame/blackjack/AppActivity", "installApp", "(Ljava/lang/String;)V", sdCardPath + filePath);
+                jsb.reflection.callStaticMethod("com/anglegame/blackjack/GameAppActivity", "installApp", "(Ljava/lang/String;)V", sdCardPath + filePath);
                 break;
             case dd.UpdaterEvent.ERROR_NO_LOCAL_MANIFEST:
                 dd.DialogBoxUtil.show(1, cc.dd.Text.TEXT_POPUP_4, "text33", "Cancel",

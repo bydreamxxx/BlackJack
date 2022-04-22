@@ -314,7 +314,7 @@ var Native = cc.Class({
         var string_ratio = "";
         if (cc.sys.OS_ANDROID == cc.sys.os) {
             string_ratio = jsb.reflection.callStaticMethod("game/SystemTool", "getScreenRatio", "()Ljava/lang/String;");
-             // string_ratio = jsb.reflection.callStaticMethod("com/anglegame/blackjack/AppActivity", "getScreenSize", "()Ljava/lang/String;");
+             // string_ratio = jsb.reflection.callStaticMethod("com/anglegame/blackjack/GameAppActivity", "getScreenSize", "()Ljava/lang/String;");
         } else if (cc.sys.OS_IOS == cc.sys.os) {
             string_ratio = jsb.reflection.callStaticMethod('SystemTool', 'getScreenRatio');
         } else {
@@ -657,7 +657,7 @@ var Native = cc.Class({
                 if (cc.game_pid == 10008 || cc.game_pid == 10009 || cc.game_pid == 10003 || cc._isKuaiLeBaTianDaKeng  || cc._isHuaweiGame)
                     jsb.reflection.callStaticMethod('game/SystemTool', 'getWXRoomID', '()V');
                 else
-                    jsb.reflection.callStaticMethod('com/anglegame/blackjack/AppActivity', 'getWXRoomID', '()V');
+                    jsb.reflection.callStaticMethod('com/anglegame/blackjack/GameAppActivity', 'getWXRoomID', '()V');
             } else if (cc.sys.OS_IOS == cc.sys.os) {
                 jsb.reflection.callStaticMethod('AppController', 'getWXRoomID');
             }

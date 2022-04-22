@@ -567,19 +567,19 @@ var jlmj_login_module = cc.Class({
             cc.log('[游戏登录] ', '微信登录请求');
             cc.dd.NetWaitUtil.smooth_close();
             if (!LoginData.Instance().isRefreshTokenExist()) {
-                if (this.wx_code != null) {
-                    const req = new cc.pb.login.wx_login_by_code_req();
-                    req.setCode(this.wx_code);
-                    req.setChannel(this.loginType);
-                    cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_wx_login_by_code_req, req,
-                        'cmd_wx_login_by_code_req[微信code登录]', true);
-                    this.wx_code = null;
-                } else {
-                    cc.wx_authing = true;
-                    cc.log('[游戏登录] ', '授权码为空,微信授权请求');
-                    this.loginType = emun.Login_Type.NONE;
-                    cc.dd.native_wx.SendWechatAuth();
-                }
+                // if (this.wx_code != null) {
+                //     const req = new cc.pb.login.wx_login_by_code_req();
+                //     req.setCode(this.wx_code);
+                //     req.setChannel(this.loginType);
+                //     cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_wx_login_by_code_req, req,
+                //         'cmd_wx_login_by_code_req[微信code登录]', true);
+                //     this.wx_code = null;
+                // } else {
+                //     cc.wx_authing = true;
+                //     cc.log('[游戏登录] ', '授权码为空,微信授权请求');
+                //     this.loginType = emun.Login_Type.NONE;
+                //     cc.dd.native_wx.SendWechatAuth();
+                // }
             } else {
                 cc.log('[游戏登录] ', "Token存在,登录请求");
                 const req = new cc.pb.login.login_by_refresh_token_req();

@@ -36,14 +36,14 @@
                 <data android:scheme="xlqpwx" android:host="xlqp.wxinvaite.app" android:pathPrefix="/openwith"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.anglegame.blackjack.wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="true"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            tools:ignore="LockedOrientationActivity" />
-        <activity android:name="com.anglegame.blackjack.wxapi.WXPayEntryActivity"
-            android:exported="true" android:launchMode="singleTop"/>
+<!--        <activity android:name="com.anglegame.blackjack.wxapi.WXEntryActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="sensorLandscape"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+<!--            tools:ignore="LockedOrientationActivity" />-->
+<!--        <activity android:name="com.anglegame.blackjack.wxapi.WXPayEntryActivity"-->
+<!--            android:exported="true" android:launchMode="singleTop"/>-->
 
         <meta-data android:name="APP_ID" android:value="${APP_ID}" />
         <meta-data android:name="CHANNEL_ID" android:value="default" />
@@ -55,7 +55,7 @@
             android:value="ce3c2345a13b252eeb525fe5f7fb837edb21247b"
             />
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${PACKAGE_NAME}.provider"
             android:grantUriPermissions="true"
             android:exported="false">

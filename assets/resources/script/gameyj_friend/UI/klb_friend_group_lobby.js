@@ -494,7 +494,7 @@ cc.Class({
         hall_audio_mgr.com_btn_click();
 
         if (cc.sys.OS_ANDROID == cc.sys.os) {
-            jsb.reflection.callStaticMethod('com/anglegame/blackjack/AppActivity', 'callWX', '()V');
+            jsb.reflection.callStaticMethod('com/anglegame/blackjack/GameAppActivity', 'callWX', '()V');
         } else if (cc.sys.OS_IOS == cc.sys.os) {
             jsb.reflection.callStaticMethod( 'AppController', 'callWX');
         }

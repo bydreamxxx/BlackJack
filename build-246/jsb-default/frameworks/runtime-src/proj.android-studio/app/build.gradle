@@ -39,6 +39,11 @@ android {
         flavorDimensions "anglegame"
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     sourceSets.main {
         java.srcDirs "../src", "src"
         res.srcDirs "../res", 'res'
@@ -142,14 +147,14 @@ dependencies {
     implementation fileTree(dir: "../../../cocos2d-x/cocos/platform/android/java/libs", include: ['*.jar'])
     implementation project(':libcocos2dx')
 
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
+//    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
     implementation 'commons-net:commons-net:3.5'
     //GPs
-    implementation files('../libs/TencentLocationSdk_v6.2.5.3_r15b3b3cc_20171103_115903.jar')
-    implementation 'org.jetbrains:annotations-java5:15.0'
+//    implementation files('../libs/TencentLocationSdk_v6.2.5.3_r15b3b3cc_20171103_115903.jar')
+//    implementation 'org.jetbrains:annotations-java5:15.0'
 //    implementation 'com.tencent.bugly:crashreport:latest.release'
 //    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-//    implementation 'com.facebook.android:facebook-login:13.1.0'
+    implementation 'com.facebook.android:facebook-login:13.1.0'
 }

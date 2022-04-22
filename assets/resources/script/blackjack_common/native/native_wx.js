@@ -854,6 +854,18 @@ var Native = cc.Class({
             jsb.reflection.callStaticMethod('game/SystemTool', 'miIAP', '(Ljava/lang/String;)V', msg);
         }
     },
+
+    googleLogin(){
+        if (cc.sys.OS_ANDROID == cc.sys.os) {
+            jsb.reflection.callStaticMethod('sdk/GoogleSDK', 'googleLogin', '()V');
+        }
+    },
+
+    facebookLogin(){
+        if (cc.sys.OS_ANDROID == cc.sys.os) {
+            jsb.reflection.callStaticMethod('sdk/FacebookSDK', 'facebookLogin', '()V');
+        }
+    }
 });
 
 module.exports = Native;

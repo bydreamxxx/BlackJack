@@ -164,7 +164,7 @@ public class AppActivity extends Cocos2dxActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         app.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
