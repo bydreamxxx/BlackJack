@@ -33,7 +33,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="xlqpwx" android:host="xlqp.wxinvaite.app" android:pathPrefix="/openwith"/>
+                <data android:scheme="anglegame" android:host="anglegame.invaite.app" android:pathPrefix="/openwith"/>
             </intent-filter>
         </activity>
 <!--        <activity android:name="com.anglegame.blackjack.wxapi.WXEntryActivity"-->
@@ -45,11 +45,11 @@
 <!--        <activity android:name="com.anglegame.blackjack.wxapi.WXPayEntryActivity"-->
 <!--            android:exported="true" android:launchMode="singleTop"/>-->
 
-        <meta-data android:name="APP_ID" android:value="${APP_ID}" />
+<!--        <meta-data android:name="APP_ID" android:value="${APP_ID}" />-->
         <meta-data android:name="CHANNEL_ID" android:value="default" />
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="PPEBZ-B7B3G-5ZFQO-IJBTI-NQSB7-UJB62" />
+<!--        <meta-data-->
+<!--            android:name="TencentMapSDK"-->
+<!--            android:value="PPEBZ-B7B3G-5ZFQO-IJBTI-NQSB7-UJB62" />-->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ce3c2345a13b252eeb525fe5f7fb837edb21247b"

@@ -34,7 +34,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -100,7 +99,7 @@ public class GameAppActivity implements UploadUtil.OnUploadProcessListener {
     public static GameAppActivity gameApp = null;
     private WakeLock mWakeLock;
 //    public static IWXAPI api;
-    public static String APP_ID;
+//    public static String APP_ID;
     public static float batteryLevel = 0.9f; //电量值
 
     public static ImageView splashImage;
@@ -464,12 +463,12 @@ public class GameAppActivity implements UploadUtil.OnUploadProcessListener {
         //微信SDK初始化
 //        APP_ID = AppActivity.getMetaInfo("APP_ID"); //读取微信AppId
 //        APP_ID = "wx25b71c6d0cb9e6b6";    //巷乐吉林麻将
-        try {
-            ApplicationInfo appInfo = mainActive.getPackageManager().getApplicationInfo(mainActive.getPackageName(), PackageManager.GET_META_DATA);
-            APP_ID = appInfo.metaData.getString("APP_ID");
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ApplicationInfo appInfo = mainActive.getPackageManager().getApplicationInfo(mainActive.getPackageName(), PackageManager.GET_META_DATA);
+//            APP_ID = appInfo.metaData.getString("APP_ID");
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
 //        Log.v("注册到微信APP_ID", APP_ID);
 //        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
 //        api.registerApp(APP_ID);

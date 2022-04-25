@@ -7,7 +7,7 @@ android {
     buildToolsVersion PROP_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "com.anglegame.blackjack"
+        applicationId "no need modify"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
         versionCode 1
@@ -104,7 +104,7 @@ android {
     }
     productFlavors {
         anglegame{
-            manifestPlaceholders = [PACKAGE_NAME: "com.anglegame.blackjack", APP_ID:"wx4da2f343f96e118b", APP_NAME:"@string/app_name", APP_ICON:"@mipmap/ic_launcher", CHANNEL:0]
+            manifestPlaceholders = [PACKAGE_NAME: "com.anglegame.blackjack", APP_NAME:"@string/app_name", APP_ICON:"@mipmap/ic_launcher"]
             applicationId "com.anglegame.blackjack"
             dimension "anglegame"
         }
