@@ -999,18 +999,20 @@ var loginModle = cc.Class({
      * 清理玩家数据
      */
     clearUserInfo: function () {
-        // cc.sys.localStorage.clear();
-        // require('jlmj_login_data').destroy();
-
-        cc.dd.SysTools.keepNetOk(function () {
-            if (!this.agreeBox.isChecked) {
-                cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_SYSTEM_1);
-            } else {
-                login_module.Instance().loginType = cc.dd.jlmj_enum.Login_Type.NONE;
-                cc.log('[游戏登录] ', 'Google请求');
-                cc.dd.native_wx.googleLogin();
-            }
-        }.bind(this));
+        if(cc.sys.isBrowser) {
+            cc.sys.localStorage.clear();
+            require('jlmj_login_data').destroy();
+        }else {
+            cc.dd.SysTools.keepNetOk(function () {
+                if (!this.agreeBox.isChecked) {
+                    cc.dd.PromptBoxUtil.show(cc.dd.Text.TEXT_SYSTEM_1);
+                } else {
+                    login_module.Instance().loginType = cc.dd.jlmj_enum.Login_Type.NONE;
+                    cc.log('[游戏登录] ', 'Google请求');
+                    cc.dd.native_wx.googleLogin();
+                }
+            }.bind(this));
+        }
     },
 
     onClickChangeLanguage(event, data) {

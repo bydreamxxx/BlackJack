@@ -1163,6 +1163,9 @@ cc.Class({
                         this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').setResult(info.score - player.getPlayerGameInfo().betScore, info.luckyScore); //设置单人的结算
 
                     var player_game_data = player.getPlayerGameInfo();
+                    if( !this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').m_tPlayerData) {
+                        console.error('m_tPlayerData is null', this.m_tPlayerList, player_common_data)
+                    }
                     if (deskData.getWatchAll() && deskData.getGameId() == 36) //如果亮底牌
                         this.m_tPlayerList[player_common_data.pos].getComponent('new_dsz_player_ui').showPokerFace(); //开牌
                     else
@@ -1696,6 +1699,7 @@ cc.Class({
     synOtherPlayerOperate: function (userid, state) {
         cc.log('synOtherPlayerOperate');
         var path = '';
+        let text = ''
         switch (state) {
             case config_state.UserStateFollow: //跟注
                 text = config.speakText.GZ;
