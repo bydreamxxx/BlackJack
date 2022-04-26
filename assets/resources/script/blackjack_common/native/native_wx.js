@@ -213,6 +213,38 @@ var Native = cc.Class({
             }
         };
 
+        cc.googleLoginCallBack = function (err_code, idToken) {
+            if (err_code == 0) {
+                var obj = {
+                    idToken: idToken,
+                };
+                var json = JSON.stringify(obj);
+                cc.log('google授权 json=' + json);
+                WxData.google_code = obj;
+                WxED.notifyEvent(WxEvent.XIAOMI_CODE, null);
+            } else {
+                cc.log('googleLogin error. code ' + err_code);
+                cc.dd.DialogBoxUtil.show(1, "Google登陆授权失败,请重试");
+            }
+        };
+
+        cc.facebookLoginCallBack = function (err_code, uid, session, nickname) {
+            if (err_code == 0) {
+                var obj = {
+                    id: uid,
+                    tk: session,
+                    nick: nickname,
+                };
+                var json = JSON.stringify(obj);
+                cc.log('facebook授权 json=' + json);
+                WxData.facebook_code = obj;
+                WxED.notifyEvent(WxEvent.XIAOMI_CODE, null);
+            } else {
+                cc.log('facebookLogin error. code ' + err_code);
+                cc.dd.DialogBoxUtil.show(1, "Facebook登陆授权失败,请重试");
+            }
+        };
+
         //华为内购后通知后台
         cc.hwIAPCallBack = function (data, sign) {
             cc.log('data:' + data + ' | sign:' + sign);

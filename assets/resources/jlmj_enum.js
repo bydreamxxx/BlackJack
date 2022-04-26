@@ -24,6 +24,8 @@ cc.dd.jlmj_enum = {
         VIVO: 7,
         OPPO: 8,
         XIAOMI: 9,
+        GOOGLE: 10,
+        FACEBOOK: 11,
     },
 
     GameType: { PYZ: 0, BSC: 1, JBC: 2 },
@@ -37,3 +39,5 @@ cc.dd.jlmj_enum.Login_Type.HUAWEI = pid * 100 + 6;
 cc.dd.jlmj_enum.Login_Type.VIVO = pid * 100 + 7;
 cc.dd.jlmj_enum.Login_Type.OPPO = pid * 100 + 8;
 cc.dd.jlmj_enum.Login_Type.XIAOMI = pid * 100 + 9;
+cc.dd.jlmj_enum.Login_Type.GOOGLE = pid * 100 + 10;
+cc.dd.jlmj_enum.Login_Type.FACEBOOK = pid * 100 + 11;

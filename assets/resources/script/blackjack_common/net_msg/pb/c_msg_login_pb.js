@@ -48,6 +48,31 @@ let login_by_refresh_token_req = cc.Class({
 
 module.exports.login_by_refresh_token_req = login_by_refresh_token_req;
 
+let googlePlay_login_by_code_req = cc.Class({
+    ctor(){
+    },
+    getContent(){
+        let content = {};
+        content.code = this.code;
+        content.channel = this.channel;
+        content.ip = this.ip;
+
+        return content;
+    },
+    setCode(code){
+        this.code = code;
+    },
+    setChannel(channel){
+        this.channel = channel;
+    },
+    setIp(ip){
+        this.ip = ip;
+    },
+
+});
+
+module.exports.googlePlay_login_by_code_req = googlePlay_login_by_code_req;
+
 let common_login_ack = cc.Class({
     ctor(){
     },

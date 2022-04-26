@@ -115,20 +115,20 @@ let friend_champion_info = cc.Class({
     },
     getContent(){
         let content = {};
-        content.name = this.name;
-        content.time = this.time;
-        content.winCoin = this.winCoin;
+        content.gameType = this.gameType;
+        content.times = this.times;
+        content.firstTime = this.firstTime;
 
         return content;
     },
-    setName(name){
-        this.name = name;
+    setGameType(gameType){
+        this.gameType = gameType;
     },
-    setTime(time){
-        this.time = time;
+    setTimes(times){
+        this.times = times;
     },
-    setWinCoin(winCoin){
-        this.winCoin = winCoin;
+    setFirstTime(firstTime){
+        this.firstTime = firstTime;
     },
 
 });

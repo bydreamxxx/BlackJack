@@ -2192,6 +2192,12 @@ message login_by_refresh_token_req {
 	optional string ip = 3;
 }
 
+message googlePlay_login_by_code_req {
+	optional string code = 1;
+	optional int32 channel = 2;			//渠道id
+	optional string ip = 3;
+}
+
 message common_login_ack {
 	optional int32 code = 1;
 }
@@ -2571,9 +2577,9 @@ message friend_game_info {
 }
 
 message friend_champion_info {
-	required		string			name		= 1;
-	required		int32 			time 		= 2;
-	optional		int32 			win_coin 	= 3;
+	required		int32			game_type		= 1;
+	required		int32 			times 		= 2;
+	optional		int32 			first_time 	= 3;
 }
 
 message friend_detail_info {
@@ -8682,7 +8688,7 @@ message msg_bj_bet_req{
 }
 
 message msg_bj_bet_ret{
-	optional int32      		ret_code    = 1[default=0];   //1:当前不该自己说话， 2:没有这个用户  3：金币不够， 4：超过下注次数,5:错误的参数
+	optional int32      		ret_code    = 1[default=0];   //1:当前不该自己说话， 2:没有这个用户  3：当前不该自己说话， 4：错误的操作,5:钱不够， 其他id直接显示
 	optional uint32      		user_id     = 2;
 	optional int32				type		= 3;
 	repeated bj_bet_info   		bet     	= 4; //这里有可能有分牌的情况，所以可能是两个

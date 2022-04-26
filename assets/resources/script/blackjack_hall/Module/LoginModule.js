@@ -563,6 +563,58 @@ var jlmj_login_module = cc.Class({
                 cc.dd.NetWaitUtil.show('LOADING...');
             }
         }
+        else if (this.loginType === emun.Login_Type.GOOGLE) {
+            cc.log('[游戏登录] ', 'google登录请求');
+            cc.dd.NetWaitUtil.smooth_close();
+            if (!LoginData.Instance().isRefreshTokenExist()) {
+                if (this.google_code != null) {
+                    const req = new cc.pb.login.googlePlay_login_by_code_req();
+                    req.setCode(this.google_code.idToken)
+                    req.setChannel(this.loginType);
+                    cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_googlePlay_login_by_code_req, req,
+                        'googlePlay_login_by_code_req[google登录]', true);
+                    this.google_code = null;
+                } else {
+                    cc.log('[游戏登录] ', '授权码为空,xiaomi授权请求');
+                    this.loginType = emun.Login_Type.NONE;
+                    cc.dd.native_wx.xiaomiLogin();
+                }
+            } else {
+                cc.log('[游戏登录] ', "Token存在,登录请求");
+                const req = new cc.pb.login.login_by_refresh_token_req();
+                req.setRefreshToken(LoginData.Instance().refreshToken);
+                req.setChannel(this.loginType);
+                cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
+                cc.dd.NetWaitUtil.show('LOADING...');
+            }
+        }
+        else if (this.loginType === emun.Login_Type.FACEBOOK) {
+            cc.log('[游戏登录] ', 'facebook登录请求');
+            cc.dd.NetWaitUtil.smooth_close();
+            if (!LoginData.Instance().isRefreshTokenExist()) {
+                // if (this.xiaomi_code != null) {
+                //     const req = new cc.pb.login.mi_login_req();
+                //     req.setChan(this.loginType);
+                //     req.setUid(this.xiaomi_code.id);
+                //     req.setSessionId(this.xiaomi_code.tk);
+                //     req.setPlayername(this.xiaomi_code.nick)
+                //     cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_mi_login_req, req,
+                //         'mi_login_req[xiaomi登录]', true);
+                //     this.xiaomi_code = null;
+                // } else {
+                //     cc.log('[游戏登录] ', '授权码为空,xiaomi授权请求');
+                //     this.loginType = emun.Login_Type.NONE;
+                //     cc.dd.native_wx.xiaomiLogin();
+                // }
+            } else {
+                cc.log('[游戏登录] ', "Token存在,登录请求");
+                const req = new cc.pb.login.login_by_refresh_token_req();
+                req.setRefreshToken(LoginData.Instance().refreshToken);
+                req.setChannel(this.loginType);
+                cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_login_by_refresh_token_req, req, 'cmd_login_by_refresh_token_req', true);
+                cc.dd.NetWaitUtil.show('LOADING...');
+            }
+        }
         else {
             cc.log('[游戏登录] ', '微信登录请求');
             cc.dd.NetWaitUtil.smooth_close();
@@ -660,6 +712,18 @@ var jlmj_login_module = cc.Class({
         this.xiaomiLogin();
     },
 
+    onGoogleAuth(json) {
+        cc.log('[游戏登录] ', 'google授权结束');
+        this.google_code = json;
+        this.googleLogin();
+    },
+
+    onFacebookAuth(json) {
+        cc.log('[游戏登录] ', 'facebook授权结束');
+        this.facebook_code = json;
+        this.facebookLogin();
+    },
+
     HWLogin() {
         cc.log('[游戏登录] ', '华为登录连接网关');
         this.loginType = emun.Login_Type.HUAWEI;
@@ -692,6 +756,22 @@ var jlmj_login_module = cc.Class({
         this.connectWG(ip, port);
     },
 
+    googleLogin() {
+        cc.log('[游戏登录] ', 'google登录连接网关');
+        this.loginType = emun.Login_Type.GOOGLE;
+        var ip = Platform.Servers[AppCfg.PID].ip;
+        var port = Platform.Servers[AppCfg.PID].port;
+        this.connectWG(ip, port);
+    },
+
+    facebookLogin() {
+        cc.log('[游戏登录] ', 'facebook登录连接网关');
+        this.loginType = emun.Login_Type.FACEBOOK;
+        var ip = Platform.Servers[AppCfg.PID].ip;
+        var port = Platform.Servers[AppCfg.PID].port;
+        this.connectWG(ip, port);
+    },
+
     /**
      * 事件处理
      * @param event
@@ -716,6 +796,12 @@ var jlmj_login_module = cc.Class({
                 break;
             case WxEvent.XIAOMI_CODE:
                 this.onXiaomiAuth(WxData.xiaomi_code);
+                break;
+            case WxEvent.GOOGLE_CODE:
+                this.onGoogleAuth(WxData.google_code);
+                break;
+            case WxEvent.FACEBOOK_CODE:
+                this.onFacebookAuth(WxData.facebook_code);
                 break;
             default:
                 if (data && typeof (data) == 'object' && data.length >= 1) {

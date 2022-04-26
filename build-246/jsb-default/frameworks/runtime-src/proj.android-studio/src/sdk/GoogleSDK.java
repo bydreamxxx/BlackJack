@@ -107,6 +107,7 @@ public class GoogleSDK extends SDKClass {
                 }catch (ApiException e){
                     int code = e.getStatusCode();
                     Log.e("Google Login Error", "status: " + code);
+                    loginResult();
                 }
 
 //                try{
@@ -121,14 +122,32 @@ public class GoogleSDK extends SDKClass {
     }
 
     private void loginResult(GoogleSignInAccount account){
-        String personName = account.getDisplayName();
-        String personGivenName = account.getGivenName();
-        String personFamilyName = account.getFamilyName();
-        String personEmail = account.getEmail();
-        String personId = account.getId();
-        Uri personPhoto = account.getPhotoUrl();
+//         String personName = account.getDisplayName();
+//         String personGivenName = account.getGivenName();
+//         String personFamilyName = account.getFamilyName();
+//         String personEmail = account.getEmail();
+//         String personId = account.getId();
+//         Uri personPhoto = account.getPhotoUrl();
         String idToken = account.getIdToken();
-        Log.d("Google Login success","personName: "+personName+" personGivenName: "+personGivenName+" personFamilyName: "+personFamilyName+" personEmail: "+personEmail+" personId: "+personId+" idToken: "+idToken);
+//         Log.d("Google Login success","personName: "+personName+" personGivenName: "+personGivenName+" personFamilyName: "+personFamilyName+" personEmail: "+personEmail+" personId: "+personId+" idToken: "+idToken);
+        if(account != null){
+            final String jsCallStrError = String.format("cc.googleLoginCallBack(\"%d\", \"%s\");", 0, idToken);
+            mainActive.runOnGLThread(new Runnable() {
+                @Override
+                public void run() {
+                    Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);
+                }
+            });
+        }else{
+            final String jsCallStrError = String.format("cc.googleLoginCallBack(\"%d\");", 1);
+            mainActive.runOnGLThread(new Runnable() {
+                @Override
+                public void run() {
+                    Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);
+                }
+            });
+        }
+
     }
 
 /**
