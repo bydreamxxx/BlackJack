@@ -221,10 +221,10 @@ var Native = cc.Class({
                 var json = JSON.stringify(obj);
                 cc.log('google授权 json=' + json);
                 WxData.google_code = obj;
-                WxED.notifyEvent(WxEvent.XIAOMI_CODE, null);
+                WxED.notifyEvent(WxEvent.GOOGLE_CODE, null);
             } else {
                 cc.log('googleLogin error. code ' + err_code);
-                cc.dd.DialogBoxUtil.show(1, "Google登陆授权失败,请重试");
+                cc.dd.DialogBoxUtil.show(1, "Login authorization failed, please try again");
             }
         };
 
@@ -238,10 +238,10 @@ var Native = cc.Class({
                 var json = JSON.stringify(obj);
                 cc.log('facebook授权 json=' + json);
                 WxData.facebook_code = obj;
-                WxED.notifyEvent(WxEvent.XIAOMI_CODE, null);
+                WxED.notifyEvent(WxEvent.FACEBOOK_CODE, null);
             } else {
                 cc.log('facebookLogin error. code ' + err_code);
-                cc.dd.DialogBoxUtil.show(1, "Facebook登陆授权失败,请重试");
+                cc.dd.DialogBoxUtil.show(1, "Login authorization failed, please try again");
             }
         };
 

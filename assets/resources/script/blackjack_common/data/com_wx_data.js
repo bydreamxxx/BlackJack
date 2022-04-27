@@ -13,6 +13,8 @@ var WxEvent = cc.Enum({
     VIVO_CODE:                          'com_vivo_logincode',                       //vivo
     OPPO_CODE:                          'com_oppo_logincode',                       //oppo登录
     XIAOMI_CODE:                        'com_xiaomi_logincode',                     //xiaomi
+    GOOGLE_CODE:                        'com_google_logincode',                     //google
+    FACEBOOK_CODE:                        'com_facebook_logincode',                     //facebook
     // SHARE_TO_SESSION:                   'com_wx_share2session',                     //分享到会话
     // SHARE_TO_TIMELINE:                  'com_wx_share2timeline',                    //分享到朋友圈
 });

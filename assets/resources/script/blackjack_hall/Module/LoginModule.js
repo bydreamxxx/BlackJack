@@ -575,7 +575,7 @@ var jlmj_login_module = cc.Class({
                         'googlePlay_login_by_code_req[google登录]', true);
                     this.google_code = null;
                 } else {
-                    cc.log('[游戏登录] ', '授权码为空,xiaomi授权请求');
+                    cc.log('[游戏登录] ', '授权码为空,google授权请求');
                     this.loginType = emun.Login_Type.NONE;
                     cc.dd.native_wx.xiaomiLogin();
                 }

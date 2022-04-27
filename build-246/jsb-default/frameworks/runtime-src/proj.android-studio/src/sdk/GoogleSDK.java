@@ -2,7 +2,6 @@ package sdk;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -14,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 
 import org.cocos2dx.javascript.service.SDKClass;
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 
 public class GoogleSDK extends SDKClass {
     /**一键登录
@@ -107,7 +107,7 @@ public class GoogleSDK extends SDKClass {
                 }catch (ApiException e){
                     int code = e.getStatusCode();
                     Log.e("Google Login Error", "status: " + code);
-                    loginResult();
+                    loginResult(null);
                 }
 
 //                try{
@@ -122,25 +122,26 @@ public class GoogleSDK extends SDKClass {
     }
 
     private void loginResult(GoogleSignInAccount account){
-//         String personName = account.getDisplayName();
-//         String personGivenName = account.getGivenName();
-//         String personFamilyName = account.getFamilyName();
-//         String personEmail = account.getEmail();
-//         String personId = account.getId();
-//         Uri personPhoto = account.getPhotoUrl();
-        String idToken = account.getIdToken();
-//         Log.d("Google Login success","personName: "+personName+" personGivenName: "+personGivenName+" personFamilyName: "+personFamilyName+" personEmail: "+personEmail+" personId: "+personId+" idToken: "+idToken);
         if(account != null){
-            final String jsCallStrError = String.format("cc.googleLoginCallBack(\"%d\", \"%s\");", 0, idToken);
-            mainActive.runOnGLThread(new Runnable() {
+//            String personName = account.getDisplayName();
+//            String personGivenName = account.getGivenName();
+//            String personFamilyName = account.getFamilyName();
+//            String personEmail = account.getEmail();
+//            String personId = account.getId();
+//            Uri personPhoto = account.getPhotoUrl();
+            String idToken = account.getIdToken();
+//            Log.d("Google Login success","personName: "+personName+" personGivenName: "+personGivenName+" personFamilyName: "+personFamilyName+" personEmail: "+personEmail+" personId: "+personId+" idToken: "+idToken);
+
+            final String jsCallStrError = String.format("cc.googleLoginCallBack(%d, \"%s\");", 0, idToken);
+            ((Cocos2dxActivity)getContext()).runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);
                 }
             });
         }else{
-            final String jsCallStrError = String.format("cc.googleLoginCallBack(\"%d\");", 1);
-            mainActive.runOnGLThread(new Runnable() {
+            final String jsCallStrError = String.format("cc.googleLoginCallBack(%d, \"\");", 1);
+            ((Cocos2dxActivity)getContext()).runOnGLThread(new Runnable() {
                 @Override
                 public void run() {
                     Cocos2dxJavascriptJavaBridge.evalString(jsCallStrError);

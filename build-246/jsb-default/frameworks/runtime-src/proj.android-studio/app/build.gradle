@@ -104,8 +104,8 @@ android {
     }
     productFlavors {
         anglegame{
-            manifestPlaceholders = [PACKAGE_NAME: "com.anglegame.blackjack", APP_NAME:"@string/app_name", APP_ICON:"@mipmap/ic_launcher"]
             applicationId "com.anglegame.blackjack"
+            manifestPlaceholders = [PACKAGE_NAME: applicationId, APP_NAME:"@string/app_name", APP_ICON:"@mipmap/ic_launcher"]
             dimension "anglegame"
         }
     }
@@ -113,25 +113,18 @@ android {
 
 android.applicationVariants.all { variant ->
     // delete previous files first
-    delete "${buildDir}/intermediates/merged_assets/${variant.dirName}"
+    delete variant.mergeAssets.outputDir
 
     variant.mergeAssets.doLast {
         def sourceDir = "${buildDir}/../../../../.."
 
         copy {
-            from "${sourceDir}/assets"
-            into "${outputDir}/assets"
+            from "${sourceDir}"
+            include "assets/**"
+            include "src/**"
+            include "jsb-adapter/**"
+            into outputDir
         }
-
-        copy {
-            from "${sourceDir}/src"
-            into "${outputDir}/src"
-        }
-
-        copy {
-            from "${sourceDir}/jsb-adapter"
-            into "${outputDir}/jsb-adapter"
-        }	 
 
         copy {
             from "${sourceDir}/main.js"
