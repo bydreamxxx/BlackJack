@@ -148,6 +148,8 @@ dependencies {
 //    implementation 'com.tencent.bugly:crashreport:latest.release'
 //    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 
+    implementation 'androidx.core:core:1.6.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.facebook.android:facebook-login:13.1.0'
 }

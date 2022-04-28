@@ -2,7 +2,7 @@
 # coding=utf-8
 
 # ----------------------------以下需要更改成自己的目录------------------------
-NDK_PATH = '/Users/yons/dev/trunk/client/software/android-ndk-r10e'
+NDK_PATH = '/Users/yons/dev/trunk/client/software/sdk22/ndk/19.2.5345600'
 START_SCENE_UUID = "8719247d-9a91-4249-a3d5-562cad802f11" #jlmj_Loginload
 COCOS_PROJECT_PATH = "/Users/yons/workspace/BlackJack/"
 
@@ -12,7 +12,7 @@ COCOS_PROJECT_PATH = "/Users/yons/workspace/BlackJack/"
 # 1.8.2
 COCOS_CMD = " /Applications/CocosCreatorFiles/Creator/2.4.6/CocosCreator.app/Contents/MacOS/CocosCreator " \
             "--path {0}  --build \"platform=android;packageName=com.anglegame.blackjack;" \
-            "buildPath=./build-246;debug=false;autoCompile=false;encryptJs=true;xxteaKey=bdd7b8ea-7650-43;apiLevel=android-28;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];md5Cache=false;\" ".format(COCOS_PROJECT_PATH)
+            "buildPath=./build-246;debug=false;autoCompile=false;encryptJs=true;xxteaKey=bdd7b8ea-7650-43;apiLevel=android-29;appABIs=['armeabi-v7a','x86','arm64-v8a','x86_64'];md5Cache=false;\" ".format(COCOS_PROJECT_PATH)
 # ----------------------------以上需要更改成自己的目录------------------------
 H5_PATH = COCOS_PROJECT_PATH + "/build-246/"
 #h5临时目录，对比png是否修改过使用

@@ -50,3 +50,5 @@
 #-dontwarn org.eclipse.jdt.annotation.Nullable
 #-keep class org.eclipse.jdt.annotation.NonNull
 #-dontwarn class org.eclipse.jdt.annotation.NonNull
+
+-dontwarn module-info

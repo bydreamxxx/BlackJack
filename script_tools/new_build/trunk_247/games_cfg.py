@@ -12,16 +12,18 @@ class Game:
         self.zip_name = zip_name
 
 # 大厅
-internal = Game('internal', '2021-11-03', '1.0.0.0', '/internal', '/internal', 'internal.zip')
+internal = Game('internal', '2021-11-03', '2.0.0.5', '/internal', '/internal', 'internal.zip')
 # 大厅
-resources = Game('resources', '2021-11-03', '1.0.0.0', '/resources', '/resources', 'resources.zip')
+resources = Game('resources', '2021-11-03', '2.0.0.5', '/resources', '/resources', 'resources.zip')
 # 大厅
-main = Game('main', '2021-11-03', '1.0.0.0', '/main', '/main', 'main.zip')
+main = Game('main', '2021-11-03', '2.0.0.5', '/main', '/main', 'main.zip')
 
 # 游戏配置
 games = [
     # 配置参数: 描述        日期         版本号        游戏目录        资源目录(为空代表内含资源) 压缩文件名
-    Game('blackjack', '2021-11-03', '1.0.0.0', '/blackjack_blackjack', '/blackjack_blackjack', 'blackjack.zip'),
+    Game('blackjack', '2021-11-03', '2.0.0.5', '/blackjack_blackjack', '/blackjack_blackjack', 'blackjack.zip'),
+    Game('rummy', '2021-11-03', '2.0.0.5', '/blackjack_rummy', '/blackjack_rummy', 'rummy.zip'),
+    Game('teenpatti', '2021-11-03', '2.0.0.5', '/blackjack_teenpatti', '/blackjack_teenpatti', 'teenpatti.zip'),
     # Game('快乐吧', '2021-11-03', '1.0.0.0', '/gamedl_majiang', '/gamedl_majiang', 'dlmajiang.zip'),
     # Game('大话西游', '2021-11-03', '1.0.0.0', '/gameyj_big_talk_westward_journey', '/gameyj_big_talk_westward_journey', 'dhxy.zip'),
     # Game('飞禽走兽', '2021-11-03', '1.0.0.0', '/gameyj_birds_and_animals', '/gameyj_birds_and_animals', 'fqzs.zip'),
@@ -38,7 +40,7 @@ games = [
     # Game('牛牛', '2021-11-03', '1.0.0.0', '/gameyj_nn', '/gameyj_nn', 'nn.zip'),
     # Game('PK', '2021-11-03', '1.0.0.0', '/gameyj_one_on_one', '/gameyj_one_on_one', 'pk.zip'),
     # Game('跑得快', '2021-11-03', '1.0.0.0', '/gameyj_pdk', '/gameyj_pdk', 'pdk.zip'),
-    Game('德州', '2021-11-03', '1.0.0.0', '/gameyj_texas', '/gameyj_texas', 'texas.zip'),
+    Game('德州', '2021-11-03', '2.0.0.0', '/gameyj_texas', '/gameyj_texas', 'texas.zip'),
     # Game('水浒', '2021-11-03', '1.0.0.0', '/gameyj_water_margin_slot', '/gameyj_water_margin_slot', 'shuihu.zip'),
     # Game('祥云斗地主', '2021-11-03', '1.0.0.0', '/gameyj_xyddz', '/gameyj_xyddz', 'xyddz.zip'),
     # Game('俱乐部百人牛牛', '2021-11-03', '1.0.0.0', '/jlb_brnn', '/jlb_brnn', 'jlbbrnn.zip'),
