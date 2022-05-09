@@ -117,7 +117,7 @@ public class GoogleSDK extends SDKClass {
 //                    int code = e.getStatusCode();
 //                    Log.e("Google Login Error", "status: " + code);
 //                }
-//                break;
+                break;
         }
     }
 
