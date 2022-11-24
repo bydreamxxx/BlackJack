@@ -17,8 +17,8 @@ var Servers = new Array(4);
 // Servers[2] = { ip: "123.56.150.124", port: "3801" };
 // Servers[3] = { ip: "123.56.150.124", port: "3801" };
 Servers[1] = { ip: "42.193.2.94", port: "3801" };
-Servers[2] = { ip: "42.193.2.94", port: "3801" };
-Servers[3] = { ip: "42.193.2.94", port: "3801" };
+Servers[2] = { ip: "43.128.162.16", port: "3801" };
+Servers[3] = { ip: "43.128.162.16", port: "3801" };
 /**klb_dl_hall_spring_festival_activity
  * 巷乐棋牌 App下载地址
  * @type {Array}

@@ -12,11 +12,11 @@ class Game:
         self.zip_name = zip_name
 
 # 大厅
-internal = Game('internal', '2021-11-03', '2.0.0.5', '/internal', '/internal', 'internal.zip')
+internal = Game('internal', '2021-11-03', '2.0.0.6', '/internal', '/internal', 'internal.zip')
 # 大厅
-resources = Game('resources', '2021-11-03', '2.0.0.5', '/resources', '/resources', 'resources.zip')
+resources = Game('resources', '2021-11-03', '2.0.0.6', '/resources', '/resources', 'resources.zip')
 # 大厅
-main = Game('main', '2021-11-03', '2.0.0.5', '/main', '/main', 'main.zip')
+main = Game('main', '2021-11-03', '2.0.0.6', '/main', '/main', 'main.zip')
 
 # 游戏配置
 games = [

@@ -569,7 +569,8 @@ var jlmj_login_module = cc.Class({
             if (!LoginData.Instance().isRefreshTokenExist()) {
                 if (this.google_code != null) {
                     const req = new cc.pb.login.googlePlay_login_by_code_req();
-                    req.setCode(this.google_code.idToken)
+                    cc.log(`发送${this.google_code}`)
+                    req.setCode(this.google_code)
                     req.setChannel(this.loginType);
                     cc.gateNet.Instance().sendMsg(cc.netCmd.login.cmd_googlePlay_login_by_code_req, req,
                         'googlePlay_login_by_code_req[google登录]', true);
@@ -577,7 +578,7 @@ var jlmj_login_module = cc.Class({
                 } else {
                     cc.log('[游戏登录] ', '授权码为空,google授权请求');
                     this.loginType = emun.Login_Type.NONE;
-                    cc.dd.native_wx.xiaomiLogin();
+                    cc.dd.native_wx.googleLogin();
                 }
             } else {
                 cc.log('[游戏登录] ', "Token存在,登录请求");
@@ -757,10 +758,10 @@ var jlmj_login_module = cc.Class({
     },
 
     googleLogin() {
-        cc.log('[游戏登录] ', 'google登录连接网关');
         this.loginType = emun.Login_Type.GOOGLE;
         var ip = Platform.Servers[AppCfg.PID].ip;
         var port = Platform.Servers[AppCfg.PID].port;
+        cc.log('[游戏登录] ', 'google登录连接网关' + ip);
         this.connectWG(ip, port);
     },
 

@@ -41,13 +41,13 @@ def back_up():
 
 
 if __name__ == "__main__":
-    # builder.clean()
-    # init()
-    # builder.cocos_build()
-    builder.gen_etc2()
-    # remove_download_games()
-    # gen_local_version()
-    # builder.copy_main_code_to_project()
+    builder.clean()
+    init()
+    builder.cocos_build()
+    # builder.gen_etc2()
+    remove_download_games()
+    gen_local_version()
+    builder.copy_main_code_to_project()
     # back_up()
     # builder.generate_apk(buildCfg.COCOS_PROJECT_PATH + '/script_tools/new_build/trunk_247/output/')
     print '本地构建完成'

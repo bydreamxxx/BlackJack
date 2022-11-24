@@ -215,12 +215,8 @@ var Native = cc.Class({
 
         cc.googleLoginCallBack = function (err_code, idToken) {
             if (err_code == 0) {
-                var obj = {
-                    idToken: idToken,
-                };
-                var json = JSON.stringify(obj);
-                cc.log('google授权 json=' + json);
-                WxData.google_code = obj;
+                cc.log('google授权 json=' + idToken.length);
+                WxData.google_code = idToken;
                 WxED.notifyEvent(WxEvent.GOOGLE_CODE, null);
             } else {
                 cc.log('googleLogin error. code ' + err_code);

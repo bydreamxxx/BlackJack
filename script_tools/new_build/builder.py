@@ -247,6 +247,7 @@ def gen_etc2():
             file_path = os.path.join(dir_path, file)
             if path_filter_list.count(file_path) > 0:
                 continue
+            # cmd = """/Users/yons/workspace/pngquant/pngquant -o %s -f -- %s""" % (file_path, file_path)
             pvr_path = file_path.replace('.png', '.pvr.ccz');
             cmd = """%s %s --sheet %s --format "cocos2d" --texture-format "pvr3ccz" --opt "ETC2_RGBA" --max-width 4096 --max-height 4096 --trim-mode "None" --extrude 0 """ % (
             tool, file_path, pvr_path)
